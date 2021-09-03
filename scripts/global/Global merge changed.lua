@@ -8283,7 +8283,7 @@ end
 
 evt.global[753] = function()
 	evt.SetMessage{Str = 945}         -- "Congratulations!  You are the new Lords of Harmondale!  Isn't it thrilling?  You can't imagine how good it feels for me to give this property away to you!  All of the benefits and rewards, and of course, the responsibilities of governing the town of Harmondale are now yours.  (Lord Markham produces a deed and contract) Just sign here...And here... And if I could just get your initials here... Yes!  Well, that's that!  You're all set.  And once again, congratulations!!!"
-	evt.SetNPCTopic{NPC = 1, Index = 2, Event = 4}         -- "Lord Markham" : "Your ship…"
+	evt.SetNPCTopic{NPC = 340, Index = 2, Event = 754}         -- "Lord Markham" : "Your ship…"
 	evt.Subtract{"NPCs", Value = 3}         -- "Big Daddy Jim"
 	evt.Set{"QBits", Value = 17}         -- No more docent babble
 	evt.ForPlayer(-- ERROR: Const not found

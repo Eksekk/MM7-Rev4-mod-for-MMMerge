@@ -1,0 +1,241 @@
+-- this script processes rev4 npc table for copy pasting into mmmerge table after fixing 2d locations
+-- SCRIPT UNTESTED AFTER FIXING SERIOUS BUG
+
+local function tfind(t, what)
+	for k, v in ipairs(t) do
+		if v == what then
+			return k
+		end
+	end
+	return nil
+end
+
+_G.t = LoadBasicTextTable("tab\\NPCData rev4.txt", 0)
+local npcdataRev4Limit = 463
+
+--[[ FINDING PICTURE MAPPINGS ]]--
+local pictureMappings = {}
+
+local rev4pics, mergepics = {}, {}
+
+for i in path.find("rev4pics\\*.bmp") do
+	local file = io.open(i)
+	local content = file:read("*a")
+	
+	local name = path.setext(path.name(i), ""):sub(4)
+	local j = 1
+	while j < #name and name:sub(j, j) == "0" do
+		j = j + 1
+	end
+	j = j - 1
+	name = name:sub(j + 1)
+	rev4pics[content] = rev4pics[content] or {}
+	table.insert(rev4pics[content], name)
+	io.close(file)
+end
+
+for i in path.find("mergepics\\*.bmp") do
+	local file = io.open(i)
+	local content = file:read("*a")
+	mergepics[content] = path.setext(path.name(i), ""):sub(4)
+	io.close(file)
+end
+
+local skips = {}
+skips["116"] = true -- because it has assigned "0" picture in merge, idk why
+
+for i = 3, npcdataRev4Limit do
+	local npcPicContent = nil
+	local rev4name = t[i][3]
+	if rev4name == "0" or skips[rev4name] ~= nil then
+		goto continue
+	end
+	for content, names in pairs(rev4pics) do
+		local index = tfind(names, rev4name)
+		if index ~= nil then
+			npcPicContent = content
+			break
+		end
+	end
+	if npcPicContent == nil then
+		print("Couldn't find picture for name " .. rev4name)
+		break
+	end
+	
+	local mergename = mergepics[npcPicContent]
+	
+	if mergename == nil then
+		print("Couldn't find merge picture for name " .. rev4name)
+		break
+	end
+	
+	--print("Found a pair: ", rev4name, mergename)
+	pictureMappings[rev4name] = mergename
+	::continue::
+end
+
+--[[ PROCESSING THE TABLE ]]--
+
+local counterAdd = 339 -- MM7 entries in Merge start at 340
+local greetingAdd = 115 -- MM7 entries in Merge start at 116
+
+local counterFromThisMovedToEnd = 447
+local firstCounterEntryAfterMM6InMerge = 1225
+
+local newRev4NPCs = 15
+-- need to add additional 15 columns, as there are 15 new npcs in rev4
+for i = 1, newRev4NPCs do
+	t[#t] = t[#t - 1]
+end
+
+-- events
+local eventAdd = 750 -- MM7 entries in global.lua start at 751
+local additionalRev4Events = 3 -- there are so little because most of them replace old ones (for example malwick's code, brent filiant's red potion exchange code)
+local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
+local MM6EventsStart = 1314
+local firstGlobalLuaFreeEntry = 1817
+
+local drev4 = LoadBasicTextTable("tab\\2DEvents rev4.txt", 0)
+local dmerge = LoadBasicTextTable("tab\\2DEvents merge.txt", 0)
+
+local rev4names = {}
+local mergeids = {}
+
+for i = 3, #drev4 do
+	rev4names[drev4[i][1]] = drev4[i][6]
+end
+
+for i = 3, #dmerge do
+	if dmerge[i][6] ~= nil then
+		mergeids[dmerge[i][6]] = dmerge[i][1]
+	end
+end
+
+for i = 3, npcdataRev4Limit do
+	-- index
+	if tonumber(t[i][1]) < counterFromThisMovedToEnd then
+		t[i][1] = tostring(tonumber(t[i][1]) + counterAdd)
+	else
+		local index = tonumber(t[i][1]) - counterFromThisMovedToEnd
+		t[i][1] = tostring(firstCounterEntryAfterMM6InMerge + index)
+	end
+	-- picture
+	t[i][3] = tostring(pictureMappings[t[i][3]])
+	
+	-- 2d location
+	if t[i][7] ~= "0" then
+		local rev4name = rev4names[t[i][7]]
+		if rev4name == nil then
+			print("Couldn't find rev4name for 2d location " .. t[i][7])
+			return
+		end
+		local mergeid = mergeids[rev4name]
+		if mergeid == nil then
+			print("Couldn't find merge ids table for 2d location " .. t[i][7])
+			return
+		end
+		--print("Found a pair: <rev4> " .. t[i][7] .. " - " .. mergeid .. " <merge>")
+		t[i][7] = tostring(mergeid)
+	end
+	
+	-- greeting
+	if t[1][9] ~= "0" then
+		t[i][9] = tostring(tonumber(t[i][9]) + greetingAdd)
+	end
+	-- events
+	local eventBase = 11
+	for j = 0, 5 do
+		local event = tonumber(t[i][eventBase + j])
+		if event == nil then goto continue2 end -- hack for npc entry 448 (450 in lua), which has "Expert Body_Magic (3)" in his event #F field for some reason
+		if event == 0 then goto continue2 end -- skipping unassigned events
+		local isNoMapping = false
+		for _, t in pairs(noMappingEvents) do
+			if event >= t[1] and event <= t[2] then
+				isNoMapping = true
+				break
+			end
+		end
+		if not isNoMapping then
+			if MM6EventsStart - event <= additionalRev4Events then -- is additional Rev4 event
+				t[i][eventBase + j] = tostring(firstGlobalLuaFreeEntry + (MM6EventsStart - event) - 1)
+			elseif event > noMappingEvents[2][2] then
+				t[i][eventBase + j] = tostring(event + 750 - (515 - 513 + 2) - (506 - 501 + 1))
+			elseif event > noMappingEvents[1][2] then
+				t[i][eventBase + j] = tostring(event + 750 - (506 - 501 + 1))
+			-- skill teaching events
+			elseif event >= 200 and event <= 262 then
+				t[i][eventBase + j] = tostring(event + (300 - 200))
+			elseif event >= 263 and event <= 280 then
+				t[i][eventBase + j] = tostring(event + (372 - 263))
+			elseif event >= 287 and event <= 310 then
+				t[i][eventBase + j] = tostring(event + (393 - 287))
+			else
+				t[i][eventBase + j] = tostring(event + eventAdd)
+			end
+		end
+		::continue2::
+	end
+end
+
+-- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
+
+-- Saves a string into a file (overwrites it)
+function io.save(path, s, translate)
+	local f = assert(io.open(path, translate and "wt" or "wb"))
+	f:setvbuf("no")
+	f:write(s)
+	f:close()
+end
+
+local path_noslash = _G.path.noslash
+local path_dir = _G.path.dir
+local CreateDirectoryPtr = internal.CreateDirectory
+
+local function DoCreateDir(dir)
+	-- 183 = already exists
+	return call(CreateDirectoryPtr, 0, dir, 0) ~= 0 or GetLastError() == 183
+end
+
+local function CreateDirectory(dir)
+	dir = path_noslash(dir)
+	if dir == "" or #dir == 2 and string_sub(dir, -1) == ":" or DoCreateDir(dir) then
+		return true
+	end
+	local dir1 = path_dir(dir)
+	if dir1 ~= dir then
+		CreateDirectory(dir1)
+	end
+	return APIReturn(DoCreateDir(dir), dir)
+end
+_G.os.mkdir = CreateDirectory
+--!- backwards compatibility
+_G.os.CreateDirectory = CreateDirectory
+--!- backwards compatibility
+_G.path.CreateDirectory = CreateDirectory
+
+local oldSave = _G.io.save
+--!-
+function _G.io.save(path, ...)
+	CreateDirectory(path_dir(path))
+	return oldSave(path, ...)
+end
+
+local function WriteBasicTextTable(t, fname)
+	if fname then
+		return io.save(fname, WriteBasicTextTable(t))
+	end
+	local q, s = {}, ''
+	for i = 1, #t do
+		s = (type(t[i]) == "table" and table.concat(t[i], "\t") or t[i])
+		q[i] = s
+	end
+	if s ~= '' then
+		q[#q + 1] = ''
+	end
+	return table.concat(q, "\r\n")
+end
+_G.WriteBasicTextTable = WriteBasicTextTable
+
+-- end of functions taken from MMExtension repo
+
+WriteBasicTextTable(t, "NPCDATA 1st revision.txt")

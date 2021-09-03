@@ -1,0 +1,1002 @@
+NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Event	Event	Event			
+#	Name	Pic	A	B	C	2D Location	 1 - 76	#	Y / N	# A	# B	# C	# D	# E	# F	Notes		
+340	Lord Markham	0532	0	0	0	1163	0	116	0	751	752	753	784	937	0			
+341	Thomas the Judge	0534	0	0	0	1163	0	117	0	755	756	0	0	0	0			
+342	Big Daddy Jim	1556	0	0	0	0	0	118	0	757	792	0	0	0	0			
+343	Ailyssa the Bard	0852	0	0	0	0	0	119	0	760	761	762	0	0	0			
+344	Sally	0865	0	0	0	0	0	120	0	764	765	0	0	0	0	Sells seashells by the seashore		
+345	Wren Wilder	0742	0	0	0	0	0	121	0	0	0	0	0	0	0	Courier Quest 4		
+346	Thomas Grey	0902	0	0	0	0	0	123	0	0	0	0	0	0	0	Ambusher leader in Emerald Isle		
+347	Halfgild Wynac	1493	0	0	0	0	0	123	0	0	0	0	0	0	0	Removed events 27,28, and 29		
+348	Carolyn Weathers	0857	0	0	0	1183	0	126	0	0	1152	1154	0	0	0	Elemental Guild Membership		
+349	Roger Tellmar	0956	0	0	0	1184	0	127	0	0	1156	1158	0	0	0	Self Guild Membership		
+350	William Darvees	0889	0	0	0	1168	0	128	0	782	0	0	0	0	0	Boatman to take party to area 2		
+351	Donna Wyrith	0796	0	0	0	1167	0	129	0	786	787	0	0	0	0	Sally's mom in dragon house		
+352	Grant Valandir	0934	0	0	0	0	0	115	0	0	0	0	0	0	0	0	Expert Bow (4)	4
+353	Mia Lucille	0799	0	0	0	1170	0	131	0	788	789	0	0	0	0	Favor for Mark near entrance to town		
+354	William Lasker	1530	0	0	0	1162	0	152	0	794	1037	1052	958	0	0	Good Thief promoter	23	
+355	BDJ the Coding Wizard	1556	0	0	0	0	0	155	0	0	0	0	0	0	0	Evil Thief promoter	5	
+356	Sally	0865	0	0	0	0	0	310	0	0	0	0	0	0	0	Good Paladin promoter	3	
+357	Lord Godwinson	0889	0	0	0	0	0	115	0	0	0	0	0	0	0	Evil Paladin promoter	5	
+358	Resurectra	1559	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 1		
+359	Baron BunGleau	0739	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 2		
+360	Zedd True Shot	0689	0	0	0	1171	0	130	0	965	1195	0	0	0	0	Docent for the tour 3		
+361	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 4		
+362	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 5		
+363	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 6		
+364	Operator	0853	0	0	0	0	0	139	0	0	0	0	0	0	0	Docent for the tour 7		
+365	Count ZERO	0547	0	0	0	0	0	140	0	1248	0	0	0	0	0	Docent for the tour 8		
+366	Messenger	0487	0	0	0	0	0	142	0	0	0	0	0	0	0	Docent for the tour 9		
+367	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 10		
+368	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 11		
+369	Doom Bearer	0737	0	0	0	0	0	144	0	0	0	0	0	0	0	Docent for the tour 12		
+370	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 13		
+371	Myrta Bumblebee	0853	0	0	0	0	0	146	0	0	0	0	0	0	0	Docent for the tour 14		
+372	Alex the Mentor	0853	0	0	0	0	0	115	0	0	0	0	0	0	0	Docent for the tour 15		
+373	Duke Bimbasto	0930	0	0	0	0	0	148	0	0	0	0	0	0	0	Docent for the tour 16		
+374	Sir Vilx of Stone City	0487	0	0	0	0	0	149	0	0	0	0	0	0	0	Docent for the tour 17		
+375	Alex the Mentor	0853	0	0	0	0	0	150	0	0	0	0	0	0	0	Docent for the tour 18		
+376	Pascal the Mad Mage	0515	0	0	0	0	0	151	0	0	0	0	0	0	0	Docent for the tour 19		
+377	Bartholomew Hume	0876	0	0	0	0	0	166	0	0	1276	0	0	0	0	Good Monk promoter	2	
+378	Stephan Sand	0925	0	0	0	1074	0	169	0	0	0	0	0	0	0	Evil Monk promoter	8	
+379	Lawrence Mark	0940	0	0	0	1104	0	171	0	815	0	0	0	0	0	Good Archer promoter	2	
+380	Steagal Snick	nil	0	0	0	0	0	115	0	0	0	0	0	0	0	Evil Archer promoter	14	
+381	Leda Rowan	0824	0	0	0	1117	0	175	0	821	0	0	0	0	0	Good Knight promoter	6	
+382	Frederick Org	0885	0	0	0	942	0	177	0	1276	0	0	0	0	0	Evil Knight promoter	3	
+383	Lysander Sweet	0923	0	0	0	1139	0	179	0	827	0	0	0	0	0	Good Ranger promoter	6	
+384	Ebednezer Sower	0903	0	0	0	968	0	181	0	1276	0	0	0	0	0	Evil Ranger promoter	4	
+385	Kruella de Main	0790	0	0	0	0	0	187	0	0	0	0	0	0	0	Good Cleric promoter	7	
+386	Daedalus Falk	0914	0	0	0	1163	0	189	0	838	0	0	0	0	0	Evil Cleric promoter	5	
+387	Thomas Grey	0902	0	0	0	1157	0	191	0	1276	0	0	0	0	0	Good Sorcerer promoter	6	
+388	Halfgild Wynac	1493	0	0	0	0	0	193	0	0	0	0	0	0	0	Evil Sorcerer promoter	8	
+389	Anthony Green	0921	0	0	0	950	0	195	0	1276	0	0	0	0	0	Good Druid promoter	4	
+390	Tor Anwyn	0959	0	0	0	0	0	197	0	0	0	0	0	0	0	Evil Druid promoter	10	
+391	Faerie King	0678	0	0	0	0	0	183	0	833	939	0	0	0	0	Faerie King (hunter promo end)		
+392	The Oldest Tree	1490	0	0	0	0	0	184	0	834	0	0	0	0	0	The Oldest Tree (Ranger lord end)		
+393	Alice Hargreaves	0848	0	0	0	0	0	162	0	805	0	0	0	0	0	Capture/Rescue girl for Paladin 2nd promotion		
+394	Bartholomew Hume	0876	0	0	0	0	0	168	0	810	0	0	0	0	0	Bartholomew for dungeon promo event		
+395	Golem	1492	0	0	0	0	0	199	0	854	855	0	0	0	0	Golem party gets to construct		
+396	Baby Dragon	1494	0	0	0	0	0	284	0	0	0	0	0	0	0	Baby Dragon familiar for Warlock quest		
+397	Butler	0906	0	0	0	0	0	200	0	871	0	0	0	0	0	Player Castle		
+398	Hothfarr IX	1551	0	0	0	1169	0	202	0	857	0	0	0	0	0	Dwarf King	39	
+399	Drathen Keldin	0764	0	0	0	0	0	204	0	0	0	0	0	0	0			
+400	Jaycen Keldin	0745	0	0	0	0	0	205	0	0	0	0	0	0	0			
+401	Yarrow Keldin	0749	0	0	0	0	0	205	0	0	0	0	0	0	0			
+402	Fausil Keldin	0735	0	0	0	0	0	205	0	0	0	0	0	0	0			
+403	Red Keldin	0754	0	0	0	0	0	205	0	0	0	0	0	0	0			
+404	Thom Keldin	0742	0	0	0	0	0	205	0	0	0	0	0	0	0			
+405	Arvin Keldin	0757	0	0	0	0	0	205	0	0	0	0	0	0	0			
+406	Ellen Rockway	0791	0	0	0	0	0	206	0	866	0	868	0	0	0	Human Ambassador		
+407	Alain Hani	0700	0	0	0	0	0	207	0	870	0	872	0	0	0	Elven Ambassador		
+408	Queen Catherine	1534	0	0	0	1169	0	208	0	874	0	0	0	880	0			
+409	ElfKing	1543	0	0	0	1169	0	210	0	881	0	0	0	887	0			
+410	Loren Steel	0894	0	0	0	0	0	262	0	0	0	0	0	0	0			
+411	Fake Loren	0894	0	0	0	0	0	263	0	0	0	0	0	0	0			
+412	Messenger	0915	0	0	0	0	0	212	0	0	0	0	0	0	0	Artifact Battle		
+413	Judge Grey	1517	0	0	0	1166	0	213	0	888	889	890	0	0	0			
+414	Ambassador Wright	0922	0	0	0	0	0	214	0	0	0	0	0	0	0	Wizard Ambassador		
+415	Ambassador Scale	0892	0	0	0	0	0	215	0	0	0	0	0	0	0	Necro Ambassador		
+416	Judge Fairweather	1536	0	0	0	0	0	219	0	893	0	0	0	0	0	good arbiter (144/139)		
+417	Judge Sleen	1548	0	0	0	0	0	216	0	891	0	0	0	0	0	evil arbiter (142/139)		
+418	Gavin Magnus	1497	0	0	0	1169	0	222	0	895	1009	0	0	0	0	Wizard Boss		
+419	Resurectra	1559	0	0	0	0	0	225	0	897	899	0	0	0	0	Good MM3 Boss	7	
+420	Crag Hack	0455	0	0	0	0	0	229	0	901	0	0	0	0	0	Good MM3	7	
+421	Sir Caneghem	0456	0	0	0	0	0	232	0	903	0	0	0	0	0	Good MM3	7	
+422	Robert the Wise	1556	0	0	0	0	0	235	0	905	0	0	0	0	0	Good MM3	7	
+423	Kastore	1558	0	0	0	0	0	237	0	907	909	0	0	0	0	Evil MM3 Boss	8	
+424	Maximus	0454	0	0	0	0	0	241	0	911	0	0	0	0	0	Evil MM3	8	
+425	Dark Shade	1560	0	0	0	0	0	244	0	913	0	0	0	0	0	Evil MM3	8	
+426	Tolberti	1557	0	0	0	0	0	247	0	915	0	0	0	0	0	Evil MM3	8	
+427	Archibald Ironfist	1508	0	0	0	1169	0	249	0	917	1012	0	0	0	0	Necro Boss		
+428	Temple of Light	1495	0	0	0	316	0	115	0	923	0	0	0	0	0	Dungeon Entrance		
+429	Temple of Dark	1495	0	0	0	317	0	115	0	924	0	0	0	0	0	Dungeon Entrance		
+430	Messenger	0932	0	0	0	0	0	265	0	0	0	0	0	0	0	Arbiter death		
+431	Lady Carmine	0826	0	0	0	0	0	295	0	0	0	0	0	0	0			
+432	Tarin Withern	0933	0	0	0	311	0	266	0	929	768	0	0	0	0	Lantern Quest	2	
+433	Mazim Dusk	0925	0	0	0	1002	0	268	0	931	0	0	0	0	0	Haldar's Remains Quest	10	
+434	Davrik Peladium	0881	0	0	0	945	0	270	0	933	0	0	0	0	0	Davrik's Signet Ring Quest	2	
+435	Norbert Thrush	0915	0	0	0	939	0	272	0	935	0	0	0	0	0	Quill	3	
+436	Johann Kerrid	0677	0	0	0	960	0	274	0	938	0	0	0	0	0	Faerie Pipes Quest	4	
+437	Messenger	0925	0	0	0	0	0	276	0	0	0	0	0	0	0			
+438	Niles Stantley	0929	0	0	0	0	0	277	0	941	942	0	0	0	0			
+439	Spark Burnkindle	0745	0	0	0	1056	0	278	0	944	0	0	0	0	0	Kill Troggie Quest	23	
+440	Ton Withersmythe	0927	0	0	0	1108	0	115	0	950	1065	0	0	0	0	Expert Staff (2)	2	
+441	Elsie Pederton	0809	0	0	0	1111	0	115	0	951	1066	0	0	0	0	Master Staff (6)	6	
+442	Jillian Mithrit	0666	0	0	0	1016	0	115	0	952	0	0	0	0	0	Grand Master Staff (14)	14	
+443	Payge Rivenhill	0821	0	0	0	923	0	115	0	953	0	0	0	0	0	Expert Sword (3)	3	
+444	Tugor Slicer	0630	0	0	0	1184	0	115	0	954	1068	0	0	0	0	Master Sword (5)	6	
+445	Chadric Townsaver	0931	0	0	0	1122	0	115	0	955	1233	0	0	0	0	Grand Master Sword (2)	2	
+446	Mortie Ottin	0947	0	0	0	957	0	115	0	1269	956	1069	0	0	0	Expert Dagger (4)	4	
+447	Aznog Slasher	0622	0	0	0	1145	0	115	0	957	1070	0	0	0	0	Master Dagger (10)	10	
+448	Tonken Fist	0718	0	0	0	1038	0	115	0	958	1194	0	0	0	0	Grand Master Dagger (13)	23	
+449	Turgon Woodsplitter	0747	0	0	0	1122	0	115	0	959	1071	0	0	0	0	Expert Axe (2)	2	
+450	Dalin Keenedge	0736	0	0	0	1051	0	115	0	960	1072	0	0	0	0	Master Axe (39)	39	
+451	Karn Stonecleaver	0739	0	0	0	1032	0	115	0	961	1194	0	0	0	0	Grand Master Axe (13)	13	
+452	Kerin Greydawn	0665	0	0	0	1005	0	115	0	962	1073	0	0	0	0	Expert Spear (13)	13	
+453	Claderin Silverpoint	0701	0	0	0	948	0	115	0	963	1074	0	0	0	0	Master Spear (4)	4	
+454	Seline Falconeye	0664	0	0	0	1052	0	115	0	964	1188	0	0	0	0	Grand Master Spear (39)	39	
+455	Jaycin Suretrail	0693	0	0	0	947	0	115	0	875	1075	0	0	0	0	Expert Bow (4)	4	
+456	Lanshee Ravensight	0664	0	0	0	1147	0	115	0	966	1076	0	0	0	0	Master Bow (10)	10	
+457	Cardric the Steady	0702	0	0	0	1104	0	115	0	967	1230	0	0	0	0	Grand Master Bow (2)	2	
+458	Aldrin Tamloc	0757	0	0	0	1057	0	115	0	968	1077	0	0	0	0	Expert Mace (39)	39	
+459	Brother Rothham	0887	0	0	0	1050	0	115	0	969	1078	0	0	0	0	Master Mace (13)	13	
+460	Patwin Fellbern	0573	0	0	0	982	0	115	0	970	1239	0	0	0	0	Grand Master Mace (5)	5	
+461	Lunius Shador	0954	0	0	0	0	0	309	0	513	514	0	0	0	0	Area 5 Ambusher		
+462	Archibald Ironfist	1508	0	0	0	0	0	115	0	0	0	0	0	0	0	Area 12 Archibald		
+463	Grand Master Blaster	0965	0	0	0	0	0	115	0	973	0	0	0	0	0	Grand Master Blaster		
+464	Poundlin Lotts	0735	0	0	0	929	0	115	0	974	1079	0	0	0	0	Expert Shield (39)	39	
+465	Isram Gallowswell	0575	0	0	0	1031	0	115	0	975	1080	0	0	0	0	Master Shield (13)	13	
+466	Fedwin Smithson	0895	0	0	0	988	0	115	0	976	1199	0	0	0	0	Grand Master Shield (9)	9	
+467	Douglas Iverson	0872	0	0	0	1108	0	115	0	0	977	1081	0	0	0	Exper Leather (2)	2	
+468	Rabisa Nedlon	0847	0	0	0	1148	0	115	0	978	1082	0	0	0	0	Master Leather (10)	10	
+469	Miyon the Quick	0941	0	0	0	949	0	115	0	979	0	0	0	0	0	Grand Master Leather (4)	4	
+470	Gilad Bith	0698	0	0	0	946	0	115	0	980	1083	0	0	0	0	Expert Chain (4)	4	
+471	Medwari Dragontracker	0687	0	0	0	1021	0	115	0	981	1084	0	0	0	0	Master Chain (14)	14	
+472	Halian Nevermore	0916	0	0	0	979	0	115	0	982	0	0	0	0	0	Grand Master Chain (5)	5	
+473	Weldrik Lotts	0738	0	0	0	1040	0	115	0	983	1085	0	0	0	0	Expert Plate (13)	13	
+474	Dekian Forgewright	0953	0	0	0	927	0	115	0	984	1086	0	0	0	0	Master Plate (3)	3	
+475	Brand the Maker	0952	0	0	0	1118	0	115	0	985	1240	0	0	0	0	Grand Master Plate (6)	6	
+476	Kindle Treasurestone	0659	0	0	0	0	0	115	0	0	0	0	0	0	0	Expert Fire_Magic (4)	4	
+477	Ashen Temper	0823	0	0	0	954	0	115	0	780	1088	515	0	0	0	Master Fire_Magic (2)	2	
+478	Blayze 	0810	0	0	0	1163	0	115	0	988	1171	0	0	0	0	Grand Master Fire_Magic (3)	3	
+479	Sethrik Windsong	0683	0	0	0	955	0	115	0	989	1089	0	0	0	0	Expert Air_Magic (4)	4	
+480	Rislyn Greenstorm	0671	0	0	0	1017	0	115	0	990	1090	0	0	0	0	Master Air_Magic (14)	14	
+481	Gayle	0822	0	0	0	1115	0	115	0	991	0	0	0	0	0	Grand Master Air_Magic (6)	6	
+482	Herald Whitecap	0685	0	0	0	956	0	115	0	992	1091	0	0	0	0	Expert Water_Magic (4)	4	
+483	Tobren Rainshield	0789	0	0	0	1168	0	115	0	1324	1092	0	0	0	0	Master Water_Magic (10)	10	
+484	Torrent	0888	0	0	0	1125	0	115	0	994	1234	0	0	0	0	Grand Master Water_Magic (2)	2	
+485	Johanson Kern	0958	0	0	0	1121	0	115	0	995	1093	0	0	0	0	Expert Earth_Magic (2)	2	
+486	Lara Stonewright	0670	0	0	0	966	0	115	0	996	1094	0	0	0	0	Master Earth_Magic (4)	4	
+487	Avalanche	0638	0	0	0	980	0	115	0	781	0	0	0	0	0	Grand Master Earth_Magic (5)	5	
+488	Bertram Stillwater	0937	0	0	0	1103	0	115	0	998	1095	0	0	0	0	Expert Spirit_Magic (2)	2	
+489	Heather Dreamwright	0851	0	0	0	1131	0	115	0	999	1096	0	0	0	0	Master Spirit_Magic (3)	3	
+490	Benjamin the Balanced	0901	0	0	0	965	0	115	0	1000	1190	0	0	0	0	Grand Master Spirit_Magic (4)	4	
+491	Julian the Delver	0905	0	0	0	931	0	115	0	1001	1097	0	0	0	0	Expert Mind_Magic (3)	3	
+492	Myles Featherwind	0683	0	0	0	1014	0	115	0	1002	1098	0	0	0	0	Master Mind_Magic (14)	14	
+493	Xavier Bremen	0869	0	0	0	1007	0	115	0	1003	1196	0	0	0	0	Grand Master Mind_Magic (13)	13	
+494	Straton Hillsman	0884	0	0	0	1102	0	115	0	1004	1099	0	0	0	0	Expert Body_Magic (2)	2	
+495	Brother Bombah	0883	0	0	0	1035	0	115	0	1005	1100	0	0	0	0	Master Body_Magic (13)	13	
+496	Tempus	0918	0	0	0	1140	0	115	0	1006	1180	0	0	0	0	Grand Master Body_Magic (14)	14	
+497	Ethan Lightsworn	0924	0	0	0	1113	0	115	0	1007	1129	0	0	0	0	Expert Light_Magic (6)	6	
+498	Helena Morningstar	0860	0	0	0	1060	0	115	0	1008	1130	0	0	0	0	Master Light_Magic (7)	7	
+499	Shamus Dawnbringer	0852	0	0	0	0	0	115	0	1009	0	0	0	0	0	Hint NPC		
+500	Jasp the Nightcrawler	0781	0	0	0	981	0	115	0	1010	1131	0	0	0	0	Expert Dark_Magic (5)	5	
+501	Seth Darkenmore	0826	0	0	0	1073	0	115	0	1011	0	1204	0	0	0	Master Dark_Magic (8)	8	
+502	Karlin Arachnia	0917	0	0	0	0	0	115	0	1012	1182	0	0	0	0	Hint NPC		
+503	Fenton Krewlen	0910	0	0	0	1107	0	115	0	1013	1101	0	0	0	0	Expert Identify_Item (2)	2	
+504	Samuel Benson	0891	0	0	0	1119	0	115	0	1014	1102	0	0	0	0	Master Identify_Item (6)	6	
+505	Payge Blueswan	0668	0	0	0	953	0	115	0	1015	1193	0	0	0	0	Grand Master Identify_Item (4)	4	
+506	Matric Weatherson	0936	0	0	0	967	0	115	0	1016	1103	0	0	0	0	Expert Merchant (4)	4	
+507	Bethold Caverhill	0881	0	0	0	986	0	115	0	1017	1104	0	0	0	0	Master Merchant (9)	9	
+508	Brigham the Frugal	0948	0	0	0	1116	0	115	0	1018	1184	0	0	0	0	Grand Master Merchant (6)	6	
+509	Shane Thomas	0964	0	0	0	1107	0	115	0	1019	1105	0	0	0	0	Expert Repair_Item (2)	2	
+510	Thomas Moore	0868	0	0	0	1049	0	115	0	1020	1106	0	0	0	0	Master Reapir_Item (13)	13	
+511	Gareth the Fixer	0951	0	0	0	926	0	115	0	1021	1168	0	0	0	0	Grand Master Repair_Item (3)	3	
+512	Kelli Hollyfield	0725	0	0	0	1138	0	115	0	1022	1107	0	0	0	0	Expert Body_building (6)	6	
+513	Wanda Foestryke	0704	0	0	0	971	0	115	0	1023	1108	0	0	0	0	Master Body_Building (5)	5	
+514	Evandar Thomas	0624	0	0	0	995	0	115	0	1024	1210	0	0	0	0	Grand Master Body_Building (10)	10	
+515	Barbara Wiseman	0854	0	0	0	1135	0	115	0	1025	1109	0	0	0	0	Expert Meditation (5)	5	
+516	Tessa Greensward	0863	0	0	0	1113	0	115	0	1026	1110	0	0	0	0	Master Meditation (6)	6	
+517	Kaine	0684	0	0	0	1141	0	115	0	1027	1181	0	0	0	0	Grand Master Meditation (14)	14	
+518	Gregory Weider	0909	0	0	0	1123	0	115	0	1028	1111	0	0	0	0	Expert Perception (2)	2	
+519	Garret Dotes	0686	0	0	0	952	0	115	0	1029	1112	0	0	0	0	Master Perception (4)	4	
+520	Petra Cleareye	0583	0	0	0	970	0	115	0	1030	1239	0	0	0	0	Grand Master Perception (5)	5	
+521	Qillain Laraselle	0702	0	0	0	916	0	306	0	501	0	0	0	0	0	Ore for weapon		
+522	Robert Sourbrow	0744	0	0	0	917	0	307	0	502	0	0	0	0	0	Ore for armor		
+523	Cloud Agraynel	0846	0	0	0	919	0	308	0	503	0	0	0	0	0	Ore for misc		
+524	Expert Thievery	0965	0	0	0	0	0	115	0	1034	0	0	0	0	0	Expert Thievery		
+525	Master Thievery	0965	0	0	0	0	0	115	0	1035	0	0	0	0	0	Master Thievery		
+526	Grand Master Thievery	0965	0	0	0	0	0	115	0	1036	0	0	0	0	0	Grand Master Thievery		
+527	Gretchin Fiddlebone	0652	0	0	0	0	0	115	0	1267	0	0	0	0	0	Expert Lock_Pick (4)	4	
+528	Lenord Skinner	0935	0	0	0	1162	0	115	0	1038	1114	0	0	0	0	Master Lock_Pick (2)	2	
+529	Silk Quicktoungue	0576	0	0	0	997	0	115	0	1039	1246	0	0	0	0	Grand Master Lock_Pick (10)	10	
+530	Sheldon Mist	0773	0	0	0	1101	0	115	0	1040	1115	0	0	0	0	Expert Dodging (2)	2	
+531	Oberic Crane	0870	0	0	0	987	0	115	0	1041	1116	0	0	0	0	Master Dodging (9)	9	
+532	Kenneth Wain	0929	0	0	0	1132	0	115	0	1042	1169	0	0	0	0	Grand Master Dodging (3)	3	
+533	Kira Steeleye	0858	0	0	0	1101	0	115	0	1043	1117	0	0	0	0	Expert Unarmed (2)	2	
+534	Ulbrecht the Brawler	0571	0	0	0	987	0	115	0	1044	1118	0	0	0	0	Master Unarmed (9)	9	
+535	Norris 	0942	0	0	0	1130	0	115	0	1045	1232	0	0	0	0	Grand Master Unarmed (3)	3	
+536	Alton Black	0696	0	0	0	958	0	115	0	1046	1119	0	0	0	0	Expert Identify_Monster (4)	4	
+537	Jeni Swiftfoot	0663	0	0	0	1023	0	115	0	1047	1120	0	0	0	0	Master Identify_Monster (14)	14	
+538	Raven the Hunter	0919	0	0	0	1123	0	115	0	1048	1231	0	0	0	0	Grand Master Identify_Monster (2)	2	
+539	Edgar Botham	0626	0	0	0	975	0	115	0	1049	1121	0	0	0	0	Expert Armsmaster (5)	5	
+540	Paula Brightspear	0689	0	0	0	1008	0	115	0	1050	1122	0	0	0	0	Master Armsmaster (14)	14	
+541	Lasiter the Slayer	0958	0	0	0	1150	0	115	0	1051	1194	0	0	0	0	Grand Master Armsmaster (12)	12	
+542	Peryn Lightfingers	0938	0	0	0	1124	0	115	0	1052	1123	0	0	0	0	Expert Stealing (2)	2	
+543	Leane Shadowrunner	0849	0	0	0	973	0	115	0	1053	1124	0	0	0	0	Master Stealing (5)	5	
+544	Everil Nightwalker	0699	0	0	0	1027	0	115	0	1054	1196	0	0	0	0	Grand Master Stealing (13)	13	
+545	Edgar Willowbark	0694	0	0	0	961	0	115	0	1055	1125	0	0	0	0	Expert Alchemy (4)	4	
+546	Elzbet Winterspoon	0808	0	0	0	1144	0	115	0	1056	1126	0	0	0	0	Master Alchemy (10)	10	
+547	Lucid Apple	0558	0	0	0	1142	0	115	0	1057	1185	0	0	0	0	Grand Master Alchemy (14)	14	
+548	Agatha Putnam	0812	0	0	0	1133	0	115	0	0	1058	1127	0	0	0	Expert Learning (5)	5	
+549	Dorothy Senjac	0811	0	0	0	996	0	115	0	1059	1128	0	0	0	0	Master Learning (10)	10	
+550	William Smithson	0572	0	0	0	988	0	115	0	1060	1199	0	0	0	0	Grand Master Learning (9)	9	
+551	Garic Hawthorne	0904	0	0	0	1149	0	115	0	950	1065	0	0	0	0	Expert Staff (10)	10	
+552	Flynn Arin	0950	0	0	0	1043	0	115	0	953	0	0	0	0	0	Expert Sword (13)	13	
+553	Smiling Jack	0908	0	0	0	1110	0	115	0	956	1069	0	0	0	0	Expert Dagger (6)	6	
+554	Wort Goblinreaver	0565	0	0	0	1022	0	115	0	959	1071	0	0	0	0	Expert Axe (14)	14	
+555	Cassandra Holden	0688	0	0	0	1009	0	115	0	962	1073	0	0	0	0	Expert Spear (14)	14	
+556	Wil Rudyman	0873	0	0	0	1110	0	115	0	875	1075	0	0	0	0	Expert Bow (6)	6	
+557	Norbert Havest	0877	0	0	0	945	0	115	0	968	1077	0	0	0	0	Expert Mace (3)	3	
+558	Expert Blaster	0965	0	0	0	0	0	115	0	971	0	0	0	0	0	Expert Blaster		
+559	Randal Wolverton	0880	0	0	0	911	0	115	0	974	1079	0	0	0	0	Expert Shield (3)	3	
+560	Mikel Deerhunter	0567	0	0	0	1022	0	115	0	977	1081	0	0	0	0	Expert Leather (14)	14	
+561	Tricia Steelcoif	0775	0	0	0	1030	0	115	0	980	1083	0	0	0	0	Expert Chain (13)	13	
+562	Critias Burnkindle	0739	0	0	0	1056	0	115	0	983	0	0	0	0	0	Expert Plate (13)	13	
+563	Lisha Redding	0861	0	0	0	0	0	115	0	986	1087	0	0	0	0	Expert Fire_Magic (13)	13	
+564	Kyra Stormeye	0859	0	0	0	1006	0	115	0	989	1089	0	0	0	0	Expert Air_Magic (13)	13	
+565	Karla Ravenhair	0651	0	0	0	1015	0	115	0	992	1091	0	0	0	0	Expert Water_Magic (14)	14	
+566	Jasper Welman	0744	0	0	0	1053	0	115	0	995	1093	1225	0	0	0	Expert Earth_Magic (39)	39	
+567	Solomon Riverstone	0866	0	0	0	989	0	115	0	998	1095	0	0	0	0	Expert Spirit_Magic (13)	13	
+568	Helga Whitesky	0808	0	0	0	990	0	115	0	1001	1097	0	0	0	0	Expert Mind_Magic (10)	10	
+569	Tristen Hearthsworn	0902	0	0	0	936	0	115	0	1004	1099	0	0	0	0	Expert Body_Magic (3)	3	
+570	Celia Sparkmen	0965	0	0	0	0	0	115	0	1007	1129	0	0	0	0	Expert Light_Magic		
+571	Blacken Reaverston	0965	0	0	0	0	0	115	0	1010	1131	0	0	0	0	Expert Dark_Magic		
+572	Hollis the True	0794	0	0	0	1146	0	115	0	1013	1101	0	0	0	0	Expert Identify_Item (10)	10	
+573	Jobber Thain	0760	0	0	0	1054	0	115	0	1016	1103	0	0	0	0	Expert Merchant (39)	39	
+574	Balan Gizmo	0742	0	0	0	1055	0	115	0	1019	1105	0	0	0	0	Expert Repair_Item (39)	39	
+575	Trip Thorinson	0761	0	0	0	1057	0	115	0	1022	1107	0	0	0	0	Expert Body_Building (39)	39	
+576	Stewart Whitesky	0900	0	0	0	990	0	115	0	1025	1109	0	0	0	0	Expert Meditation (10)	10	
+577	Kethric Otterton	0695	0	0	0	1009	0	115	0	1028	1111	0	0	0	0	Expert Perception (14)	14	
+578	Expert Diplomacy	0965	0	0	0	0	0	115	0	1031	0	0	0	0	0	Expert Diplomacy		
+579	Expert Thievery	0965	0	0	0	0	0	115	0	1034	0	0	0	0	0	Expert Thievery		
+580	Taren the Lifter	0943	0	0	0	1048	0	115	0	1268	1267	0	0	0	0	Expert Lock_Pick (13)	13	
+581	Spyder 	0591	0	0	0	1136	0	115	0	1040	1115	0	0	0	0	Expert Dodging (6)	6	
+582	Puddle Stone	0875	0	0	0	1136	0	115	0	1043	1117	0	0	0	0	Expert Unarmed (6)	6	
+583	Christie Nosewort	0802	0	0	0	1146	0	115	0	1046	1119	0	0	0	0	Expert Identify_Monster (10)	10	
+584	Trent Steele	0574	0	0	0	1025	0	115	0	1049	1121	0	0	0	0	Expert Armsmaster (13)	13	
+585	Elmo the Pincher	0815	0	0	0	991	0	115	0	1052	1123	0	0	0	0	Expert Stealing (10)	10	
+586	Bryce Watershed	0911	0	0	0	1137	0	115	0	1055	1125	0	0	0	0	Expert Alchemy (6)	6	
+587	Issac Applebee	0898	0	0	0	1112	0	115	0	1058	1127	0	0	0	0	Expert Learning (6)	6	
+588	Matric Bowes	0957	0	0	0	1105	0	115	0	1154	1220	0	0	0	0	Fire Guild Membership (2)	2	
+589	Kethry Dawnsglow	0564	0	0	0	954	0	115	0	1154	1206	0	0	0	0	Fire Guild Membership (4)	4	
+590	Lita Roggen	0709	0	0	0	1143	0	115	0	1154	1243	0	0	0	0	Fire Guild Membership (10)	10	
+591	Carla Tarent	0585	0	0	0	1105	0	115	0	1152	1236	0	0	0	0	Air Guild Membership (2)	2	
+592	Patrice Vespers	0560	0	0	0	955	0	115	0	1152	1194	0	0	0	0	Air Guild Membership (4)	4	
+593	Lori Winterbright	0587	0	0	0	1061	0	115	0	1152	1237	0	0	0	0	Air Guild Membership (7)	7	
+594	Illene Farswell	0581	0	0	0	1127	0	115	0	1155	1236	1279	0	0	0	Water Guild Membership (2)	2	
+595	Tabitha Mistspring	0561	0	0	0	956	0	115	0	1155	1194	0	0	0	0	Water Guild Membership (4)	4	
+596	Janet Thomas	0792	0	0	0	1137	0	115	0	1155	1240	0	0	0	0	Water Guild Membership (6)	6	
+597	Dennis Caverhill	0779	0	0	0	986	0	115	0	1155	1199	0	0	0	0	Water Guild Membership (9)	9	
+598	Pedron Sablewood	0963	0	0	0	1127	0	115	0	1153	1218	0	0	0	0	Earth Guild Membership (2)	2	
+599	Devon Ivers	0697	0	0	0	966	0	115	0	1153	1206	0	0	0	0	Earth Guild Membership (4)	4	
+600	Therese Umberpool	0602	0	0	0	1072	0	115	0	1153	1182	1205	0	0	0	Earth Guild Membership (8)	8	
+601	Feldin Urthsmite	0750	0	0	0	1058	0	115	0	1153	1224	0	0	0	0	Earth Guild Membership (39)	39	
+602	Alise Nightwood	0766	0	0	0	1103	0	115	0	1158	1220	0	0	0	0	Spirit Guild Membership (2)	2	
+603	Wilbur Eversmyle	0882	0	0	0	932	0	115	0	1158	1169	0	0	0	0	Spirit Guild Membership (3)	3	
+604	Malisha Karrand	0803	0	0	0	969	0	115	0	1158	1239	0	0	0	0	Spirit Guild Membership (5)	5	
+605	Yarrow Elmsmire	0886	0	0	0	1102	0	115	0	1156	1178	0	0	0	0	Body Guild Membership (2)	2	
+606	Tilgar Dirthmoore	0928	0	0	0	933	0	115	0	1156	1232	0	0	0	0	Body Guild Membership (3)	3	
+607	Ashandra Snowtree	0669	0	0	0	1015	0	115	0	1156	1191	0	0	0	0	Body Guild Membership (14)	14	
+608	Ronald Kinney	0893	0	0	0	1126	0	115	0	1157	1194	0	0	0	0	Mind Guild Membership (2)	2	
+609	Heather Cardron	0857	0	0	0	937	0	115	0	1157	1168	0	0	0	0	Mind Guild Membership (3)	3	
+610	Halain Sampson	0878	0	0	0	1046	0	115	0	1157	1196	0	0	0	0	Mind Guild Membership (13)	13	
+611	Rawn Dervish	0566	0	0	0	1014	0	115	0	1157	1191	0	0	0	0	Mind Guild Membership (14)	14	
+612	Guard	0931	0	0	0	0	0	253	0	0	0	0	0	0	0	Fort Riverstride Guard		
+613	Guard	0953	0	0	0	0	0	254	0	0	0	0	0	0	0	Watchtower 6 Guard		
+614	Guard	0940	0	0	0	0	0	255	0	0	0	0	0	0	0	Temple of Light Guard		
+615	Guard	0914	0	0	0	0	0	256	0	0	0	0	0	0	0	Temple of Dark Guard		
+616	Castle Guard	0931	0	0	0	0	0	257	0	0	0	0	0	0	0	Castle Gryphonheart Guard		
+617	Castle Guard	0689	0	0	0	0	0	258	0	0	0	0	0	0	0	Castle Navan Guard		
+618	Castle Guard	0952	0	0	0	0	0	259	0	0	0	0	0	0	0	Castle Lambent Guard		
+619	Castle Guard	0637	0	0	0	0	0	260	0	0	0	0	0	0	0	Castle Gloaming Guard		
+620	Eric Swarrel	0913	0	0	0	0	0	261	0	925	926	0	0	0	0	School of Sorcery Receptionist		
+621	Guard	0902	0	0	0	0	0	132	0	0	0	0	0	0	0	School of Sorcery Guard		
+622	Guard	0875	0	0	0	0	0	264	0	0	0	0	0	0	0	Markham's House Guard		
+623	Seth Drakkson	0872	0	0	0	0	0	115	0	0	0	0	0	0	0	Kill Griffin Quest	5	
+624	Darron Temper	0955	0	0	0	0	0	285	0	948	0	0	0	0	0	Arcomage Cards Quest	2	
+625	Gary Zimm	0900	0	0	0	1120	0	286	0	1063	0	0	0	0	0	Scarf Quest	6	
+626	Roland Ironfist	1491	0	0	0	0	0	287	0	0	0	0	0	0	0	Roland for the Hive	40	
+627	Thom Lumbra	0892	0	0	0	957	0	288	0	1212	0	0	0	0	0	Statuette Quest	4	
+628	Ferdinand Visconti	0897	0	0	0	1042	0	290	0	1214	0	0	0	0	0	Painting Quest	13	
+629	Gina Barnes	0822	0	0	0	0	0	292	0	1216	0	0	0	0	0	Arcomage Quest	3	
+630	Tiricia Lambert	0838	0	0	0	0	0	294	0	1200	0	0	0	0	0	Hint NPC In Bracada (6)		
+631	Timothy Hawk	0594	0	0	0	0	0	294	0	1201	0	0	0	0	0	Hint NPC In Bracada (6)		
+632	Heather Hughes	0843	0	0	0	0	0	295	0	1238	1194	0	0	0	0	Hint NPC In Celeste (7)		
+633	Geofery Hamic	0934	0	0	0	0	0	295	0	1244	1249	0	0	0	0	Hint NPC In Celeste (7)		
+634	Irving Kull	0935	0	0	0	0	0	296	0	1182	1205	0	0	0	0	Hint NPC In The Pit (8)		
+635	Polera Skulk	0845	0	0	0	0	0	296	0	1204	1182	0	0	0	0	Hint NPC In The Pit (8)		
+636	Agatha Noble	0707	0	0	0	0	0	297	0	1210	1211	0	0	0	0	Hint NPC in Nighon (10)		
+637	Vincent Albers	0781	0	0	0	0	0	297	0	1246	1211	0	0	0	0	Hint NPC in Nighon (10)		
+638	Dallia Sparks	0714	0	0	0	1151	0	298	0	1209	1187	0	0	0	0	Hint NPC in Barrow Downs (11)		
+639	Arena Master	0734	0	0	0	0	0	115	0	0	0	1149	0	0	0			
+640	Adam McCarthy	0779	0	0	0	0	0	115	0	0	0	0	0	0	0			
+641	Alex Sherman	0879	0	0	0	0	0	115	0	0	0	0	0	0	0			
+642	Andrew Grumm	0929	0	0	0	0	0	115	0	0	0	0	0	0	0			
+643	April Lee	0560	0	0	0	0	0	115	0	0	0	0	0	0	0			
+644	Benjamin Bent	0949	0	0	0	0	0	115	0	0	0	0	0	0	0			
+645	Bill Nesemeier	0956	0	0	0	0	0	115	0	0	0	0	0	0	0			
+646	Bob Young	0923	0	0	0	0	0	115	0	0	0	0	0	0	0			
+647	Bonnie Long-Hemssath	0791	0	0	0	0	0	115	0	0	0	0	0	0	0			
+648	Brian DeMetz	0573	0	0	0	0	0	115	0	0	0	0	0	0	0			
+649	Brian Kemper	0598	0	0	0	0	0	115	0	0	0	0	0	0	0			
+650	Bryan Farina	1494	0	0	0	0	0	115	0	0	0	0	0	0	0			
+651	Carl Pinder	0592	0	0	0	0	0	115	0	0	0	0	0	0	0			
+652	Charles Zilm	0962	0	0	0	0	0	115	0	0	0	0	0	0	0			
+653	Chris Bates	0950	0	0	0	0	0	115	0	0	0	0	0	0	0			
+654	Chris Rock	0574	0	0	0	0	0	115	0	0	0	0	0	0	0			
+655	Christian Vanover	1554	0	0	0	0	0	115	0	0	0	0	0	0	0			
+656	Chuck Russom	0950	0	0	0	0	0	115	0	0	0	0	0	0	0			
+657	Dave Botan	0960	0	0	0	0	0	115	0	0	0	0	0	0	0			
+658	David Mullich	0955	0	0	0	0	0	115	0	0	0	0	0	0	0			
+659	David Richey	0957	0	0	0	0	0	115	0	0	0	0	0	0	0			
+660	David Vela	0576	0	0	0	0	0	115	0	0	0	0	0	0	0			
+661	Dean Gibson	0961	0	0	0	0	0	115	0	0	0	0	0	0	0			
+662	Edward Hudson	0565	0	0	0	0	0	115	0	0	0	0	0	0	0			
+663	George Almond	0740	0	0	0	0	0	115	0	0	0	0	0	0	0			
+664	George Ruof	0735	0	0	0	0	0	115	0	0	0	0	0	0	0			
+665	Greg Fulton	0757	0	0	0	0	0	115	0	0	0	0	0	0	0			
+666	Gus Smedstad 	0694	0	0	0	0	0	115	0	0	0	0	0	0	0			
+667	Ian Bullard	0693	0	0	0	0	0	115	0	0	0	0	0	0	0			
+668	Jack Russell	0872	0	0	0	0	0	115	0	0	0	0	0	0	0			
+669	James Dickinson	0527	0	0	0	0	0	115	0	0	0	0	0	0	0			
+670	Jeff Bigman	0937	0	0	0	0	0	115	0	0	0	0	0	0	0			
+671	Jeff Blattner	0938	0	0	0	0	0	115	0	0	0	0	0	0	0			
+672	Jeff Leggett	0940	0	0	0	0	0	115	0	0	0	0	0	0	0			
+673	Jennifer Bullard	0670	0	0	0	0	0	115	0	0	0	0	0	0	0			
+674	Joel Kelly 	0692	0	0	0	0	0	115	0	0	0	0	0	0	0			
+675	John Bolton	0869	0	0	0	0	0	115	0	0	0	0	0	0	0			
+676	John Gibson	0904	0	0	0	0	0	115	0	0	0	0	0	0	0			
+677	John Krause	0906	0	0	0	0	0	115	0	0	0	0	0	0	0			
+678	John Machin	0914	0	0	0	0	0	115	0	0	0	0	0	0	0			
+679	John Slowsky	0888	0	0	0	0	0	115	0	0	0	0	0	0	0			
+680	Jon Van Caneghem	0456	0	0	0	0	0	115	0	0	0	0	0	0	0			
+681	Julia Ulano	0664	0	0	0	0	0	115	0	0	0	0	0	0	0			
+682	Keith Francart	1539	0	0	0	0	0	115	0	0	0	0	0	0	0			
+683	Keith Talanay	1540	0	0	0	0	0	115	0	0	0	0	0	0	0			
+684	Ken Spencer	1548	0	0	0	0	0	115	0	0	0	0	0	0	0			
+685	Ken Thomson	0951	0	0	0	0	0	115	0	0	0	0	0	0	0			
+686	Kurt McKeever	0954	0	0	0	0	0	115	0	0	0	0	0	0	0			
+687	Lisa Whitman	nil	0	0	0	0	0	115	0	0	0	0	0	0	0			
+688	Lou Henderson	0891	0	0	0	0	0	115	0	0	0	0	0	0	0			
+689	Marcus Pregent	0887	0	0	0	0	0	115	0	0	0	0	0	0	0			
+690	Mark Caldwell	1546	0	0	0	0	0	115	0	0	0	0	0	0	0			
+691	Michael Wolf 	0878	0	0	0	0	0	115	0	0	0	0	0	0	0			
+692	Nicco Wargon 	0900	0	0	0	0	0	115	0	0	0	0	0	0	0			
+693	Paul Rattner	1516	0	0	0	0	0	115	0	0	0	0	0	0	0			
+694	"Peter ""Zoop"" Ryu"	1530	0	0	0	0	0	115	0	0	0	0	0	0	0			
+695	Phelan Sykes	0656	0	0	0	0	0	115	0	0	0	0	0	0	0			
+696	Rebecca Christel	0657	0	0	0	0	0	115	0	0	0	0	0	0	0			
+697	Riki Corredera 	1518	0	0	0	0	0	115	0	0	0	0	0	0	0			
+698	Robert King	0781	0	0	0	0	0	115	0	0	0	0	0	0	0			
+699	Ryan Den	0699	0	0	0	0	0	115	0	0	0	0	0	0	0			
+700	Scott White	0675	0	0	0	0	0	115	0	0	0	0	0	0	0			
+701	Steve Baca	0695	0	0	0	0	0	115	0	0	0	0	0	0	0			
+702	Steve Jasper	0698	0	0	0	0	0	115	0	0	0	0	0	0	0			
+703	Steve Wasaff	0702	0	0	0	0	0	115	0	0	0	0	0	0	0			
+704	Tim Lang	0700	0	0	0	0	0	115	0	0	0	0	0	0	0			
+705	Tracy Iwata	0660	0	0	0	0	0	115	0	0	0	0	0	0	0			
+706	Walter Johnson	0873	0	0	0	0	0	115	0	0	0	0	0	0	0			
+707	Devin Chapman	0877	0	0	0	0	0	115	0	0	0	0	0	0	0			
+708	Derek Chester	0893	0	0	0	0	0	115	0	0	0	0	0	0	0			
+709	Eric Williamson	0871	0	0	0	0	0	115	0	0	0	0	0	0	0			
+710	Tom Zeliff	0876	0	0	0	0	0	115	0	0	0	0	0	0	0			
+711	Lord Roberts	0959	0	0	0	0	0	115	0	0	0	0	0	0	0			
+712	Amethyst Gemstone	0666	0	0	0	0	0	115	0	0	0	0	0	0	0			
+713	Wacko the Ninja	0935	0	0	0	0	0	115	0	0	0	0	0	0	0			
+714	Andrew YC Pupedis	0926	0	0	0	0	0	115	0	0	0	0	0	0	0			
+715	Just_A_Brain	0898	0	0	0	0	0	115	0	0	0	0	0	0	0			
+716	"Mephisto, Ancient Sorcerer"	0914	0	0	0	0	0	115	0	0	0	0	0	0	0			
+717	Contest Winner 7	0963	0	0	0	0	0	115	0	0	0	0	0	0	0			
+718	King Louis	1537	0	0	0	0	0	115	0	0	0	0	0	0	0			
+719	Tony Tunes	0926	0	0	0	0	0	115	0	779	0	0	0	0	0	Trade NPC Arrowheads/Wood		
+720	Guthwulf	0889	0	0	0	910	0	304	0	1170	1179	0	0	0	0	Hint NPC in Steadwick/Pete (3)		
+721	Aaron Castro	0869	0	0	0	915	0	304	0	1168	1170	0	0	0	0	Hint NPC in Steadwick/Pete (3)		
+722	Pip Hillier	0942	0	0	0	0	0	115	0	0	0	0	0	0	0	Trade NPC Feathers/Arrowheads		
+723	Robert Belknap	0694	0	0	0	0	0	115	0	0	0	0	0	0	0	Trade NPC Wood/Feathers		
+724	Sir Carneghem	0456	0	0	0	0	0	315	0	0	0	0	0	0	0	Trade NPC Wine/Bottles		
+725	Wacko	0935	0	0	0	1039	0	299	0	1277	0	0	0	0	0	Hint NPC in Tatalia (13) wharf area		
+726	Your Conscience	0929	0	0	0	1026	0	299	0	0	1277	0	0	0	0	Hint NPC in Tatalia (13) wharf area		
+727	Amethyst Gemstone	0719	0	0	0	1152	0	298	0	1209	1249	0	0	0	0	Hint NPC in Barrow Downs/Pete (11)		
+728	Matthias Bearheart	0923	0	0	0	0	0	304	0	1322	1170	0	0	0	0	Hint NPC in Steadwick/Pete (3)		
+729	Tanya Kirklynn	0844	0	0	0	1121	0	302	0	1245	1228	0	0	0	0	Hint NPC in Harmondale (2)		
+730	Brahein Kadarr	0934	0	0	0	1125	0	302	0	1222	1227	0	0	0	0	Hint NPC in Harmondale (2)		
+731	Karlin Talion	0802	0	0	0	922	0	304	0	1249	0	0	0	0	0	Hint NPC in Steadwick (3)		
+732	Peggy Tish	0835	0	0	0	921	0	304	0	0	1170	0	0	0	0	Hint NPC in Steadwick (3)		
+733	Kira Cardrin	0824	0	0	0	924	0	304	0	0	1168	0	0	0	0	Hint NPC in Steadwick (3)		
+734	Inja Yew	0662	0	0	0	946	0	299	0	1197	1250	0	0	0	0	Hint NPC in Tularean Forest (4)		
+735	Alik Whitemoon	0682	0	0	0	961	0	299	0	1198	1194	0	0	0	0	Hint NPC in Tularean Forest (4)		
+736	Damon Hawker	0929	0	0	0	1134	0	305	0	0	1249	0	0	0	0	Hint NPC in Deyja (5)		
+737	Claes Mogren	0596	0	0	0	976	0	305	0	0	1194	0	0	0	0	Hint NPC in Deyja (5)		
+738	Licia Rivenrock	0717	0	0	0	1156	0	298	0	0	1207	1179	0	0	0	Hint NPC in Barrow Downs (11)		
+739	Feldspar Toolmen	0740	0	0	0	1153	0	298	0	1179	1189	0	0	0	0	Hint NPC in Barrow Downs (11)		
+740	Jasper Fissure	0746	0	0	0	1154	0	298	0	1278	1179	0	0	0	0	Hint NPC in Barrow Downs (11)		
+741	Kelly Garnet	0709	0	0	0	1155	0	298	0	0	1194	0	0	0	0	Hint NPC in Barrow Downs (11)		
+742	Regina Fern	0828	0	0	0	0	0	299	0	1197	1250	0	0	0	0	Hint NPC in Tatalia (13) wharf area		
+743	Thed Robynson	0868	0	0	0	0	0	299	0	1198	1250	0	0	0	0	Hint NPC in Tatalia (13) wharf area		
+744	Tasha Vale	0670	0	0	0	0	0	300	0	0	1191	0	0	0	0	Hint NPC in Avlee (14)		
+745	Relburn Ditch	0764	0	0	0	0	0	301	0	1208	1223	0	0	0	0	Hint NPC in Stone City (39)		
+746	Auric Goldsmith	0746	0	0	0	0	0	301	0	0	1226	0	0	0	0	Hint NPC in Stone City (39)		
+747	Darek Halover	0740	0	0	0	0	0	301	0	1242	1247	0	0	0	0	Hint NPC in Stone City (39)		
+748	Diana Dedrick	0842	0	0	0	0	0	302	0	1221	1228	0	0	0	0	Hint NPC in Harmondale (2)		
+749	Tommy Warsen	0860	0	0	0	0	0	302	0	0	1229	0	0	0	0	Hint NPC in Harmondale (2)		
+750	Deedra Brewer	0822	0	0	0	0	0	302	0	1227	1245	0	0	0	0	Hint NPC in Harmondale (2)		
+751	Solitare Bainful	0666	0	0	0	0	0	303	0	1194	1193	0	0	0	0	Hint NPC in Tularean Forest (4)		
+752	Tiana Withern	0660	0	0	0	0	0	303	0	1190	1192	0	0	0	0	Hint NPC in Tularean Forest (4)		
+753	Therenda Evermorn	0849	0	0	0	0	0	304	0	1168	0	0	0	0	0	Hint NPC in Steadwick (3)		
+754	Tamara Anders	0844	0	0	0	0	0	304	0	1169	1170	0	0	0	0	Hint NPC in Steadwick (3)		
+755	Roberta Theben	0592	0	0	0	0	0	304	0	0	1249	0	0	0	0	Hint NPC in Steadwick (3)		
+756	Samantha Kilvers	0590	0	0	0	0	0	304	0	0	1194	0	0	0	0	Hint NPC in Steadwick (3)		
+757	Tabitha Yerin	0816	0	0	0	0	0	305	0	0	1249	0	0	0	0	Hint NPC in Deyja (5)		
+758	Jasmine Jeavers	0609	0	0	0	0	0	305	0	0	1322	0	0	0	0	Hint NPC in Deyja (5)		
+759	Mattric Bowes	0595	0	0	0	1120	0	294	0	1183	0	0	0	0	0	Hint NPC In Bracada (6)		
+760	Alashandra Reese	0586	0	0	0	0	0	294	0	0	0	0	0	0	0	Hint NPC In Bracada (6)		
+761	Rena Putnum Kedrin	0865	0	0	0	0	0	115	0	0	0	0	0	0	0	Courier Quest 4		
+762	Maximus	0454	0	0	0	0	0	314	0	0	0	0	0	0	0	Trade NPC Bottles/Sand		
+763	Nivek Arlond	0934	0	0	0	933	0	304	0	1194	0	0	0	0	0	Hint NPC in Steadwick (3)		
+764	Mireille Warlin	0664	0	0	0	951	0	303	0	1190	1193	0	0	0	0	Hint NPC in Tularean Forest (4)		
+765	Shiara FireOpal	0798	0	0	0	1161	0	305	0	1194	1249	0	0	0	0	Hint NPC in Deyja (5)		
+766	Linda Draken	0806	0	0	0	0	0	305	0	0	0	0	0	0	0	Hint NPC in Deyja (5)		
+767	Ferris Oxhide	0756	0	0	0	972	0	305	0	1194	506	0	0	0	0	Hint NPC in Deyja (5)		
+768	Jayce Kedrin	0745	0	0	0	974	0	305	0	1249	506	0	0	0	0	Hint NPC in Stone City (39)		
+769	Giliyan Redfern	0660	0	0	0	947	0	303	0	1194	1192	0	0	0	0	Hint NPC in Tularean Forest/Pete (4)		
+770	Karzon Skyefyre	0684	0	0	0	959	0	303	0	1190	1193	0	0	0	0	Hint NPC in Tularean Forest (4)		
+771	Rainyn Rivencrest	0651	0	0	0	951	0	303	0	506	1322	0	0	0	0	Hint NPC in Tularean Forest (4)		
+772	Tom Ono	1506	0	0	0	0	0	115	0	0	0	0	0	0	0			
+773	Karl Drown	1504	0	0	0	0	0	115	0	0	0	0	0	0	0			
+774	Tony Evans	0948	0	0	0	0	0	115	0	0	0	0	0	0	0			
+775	Chris Miller	0686	0	0	0	0	0	115	0	0	0	0	0	0	0			
+776	Carl Pindor	0690	0	0	0	0	0	115	0	0	0	0	0	0	0			
+777	Eric Heffron	0694	0	0	0	0	0	115	0	0	0	0	0	0	0			
+778	Hairbaugh	0936	0	0	0	0	0	319	0	1262	1320	0	0	0	0	Goblin Spy in Harmondale		
+779	Rawn Talreisch	0568	0	0	0	943	0	304	0	0	1249	0	0	0	0	Hint NPC in Steadwick (3)		
+780	Guard	0738	0	0	0	0	0	318	0	0	0	0	0	0	0	Guard in Stone City		
+781	Peni Pretty	0839	0	0	0	928	0	304	0	0	1259	1322	0	0	0	Hint NPC in Erathia (3)		
+782	Tallia Ravenswood	0850	0	0	0	1128	0	304	0	0	1322	0	0	0	0	Hint NPC in Erathia (3)		
+783	Harli Quinn	0613	0	0	0	978	0	305	0	1322	0	0	0	0	0	Hint NPC in Deyja (5)		
+784	Madigan Tarent	0849	0	0	0	1066	0	295	0	0	0	0	0	0	0	Hint NPC in Celeste (7)		
+785	Garion Ramiez	0949	0	0	0	1067	0	295	0	1322	1194	0	0	0	0	Hint NPC in Celeste (7)		
+1184	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	953	0	0	0	0	Expert Sword (3)	3	
+1185	James Weathers	0917	0	0	0	1183	0	163	0	1004	1099	0	0	0	Expert Body_Magic (3)	3		
+1186	Sarah	0851	0	0	0	941	0	115	0	1270	0	0	0	0	0	 Courier Guild Matron		
+1187	Messenger of the Saints	1556	0	0	0	0	0	125	0	1325	0	0	0	0	0			
+1188	Alice the Chef	0591	0	0	0	1021	0	115	0	0	1274	0	0	0	0			
+1189	Rena Putnum Kedrin	0812	0	0	0	0	0	115	0	0	0	0	0	0	0			
+1190	Rena Putnum Kedrin	0865	0	0	0	0	0	115	0	1275	0	0	0	0	0			
+1191	Map Giver	1556	0	0	0	0	0	312	0	882	0	0	0	0	0			
+1192	Map Giver 1	1556	0	0	0	0	0	115	0	0	0	0	0	0	0			
+1193	The Coding Wizard	1556	0	0	0	0	0	313	0	798	0	0	0	0	0			
+1194	Lady K	0841	0	0	0	0	0	115	0	0	0	0	0	0	0			
+1195	EAO the Lector	0846	0	0	0	0	0	115	0	0	0	0	0	0	0			
+1196	Duchess of Deja	1534	0	0	0	0	0	115	0	0	0	0	0	0	0			
+1197	Lord Godwinson	0889	0	0	0	1106	0	115	0	846	0	0	0	0	0			
+1198	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
+462	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+463	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+464	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+465	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+466	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+467	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+468	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+469	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+470	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+471	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+472	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+473	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+474	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+475	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+476	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+477	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+478	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+479	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+480	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+481	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+482	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+483	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+484	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+485	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+486	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+487	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+488	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+489	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+490	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+491	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+492	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+493	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+494	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+495	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+496	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+497	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+498	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+499	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+500	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+501	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+502	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+503	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+504	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+505	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+506	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+507	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+508	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+509	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+510	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+511	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+512	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+513	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+514	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+515	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+516	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+517	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+518	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+519	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+520	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+521	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+522	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+523	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+524	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+525	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+526	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+527	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+528	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+529	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+530	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+531	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+532	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+533	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+534	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+535	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+536	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+537	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+538	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+539	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+540	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+541	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+542	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+543	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+544	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+545	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+546	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+547	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+548	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+549	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+550	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+551	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+552	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+553	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+554	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+555	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+556	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+557	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+558	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+559	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+560	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+561	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+562	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+563	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+564	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+565	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+566	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+567	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+568	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+569	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+570	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+571	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+572	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+573	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+574	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+575	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+576	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+577	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+578	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+579	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+580	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+581	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+582	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+583	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+584	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+585	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+586	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+587	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+588	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+589	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+590	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+591	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+592	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+593	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+594	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+595	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+596	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+597	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+598	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+599	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+600	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+601	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+602	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+603	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+604	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+605	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+606	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+607	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+608	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+609	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+610	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+611	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+612	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+613	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+614	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+615	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+616	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+617	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+618	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+619	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+620	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+621	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+622	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+623	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+624	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+625	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+626	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+627	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+628	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+629	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+630	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+631	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+632	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+633	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+634	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+635	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+636	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+637	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+638	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+639	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+640	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+641	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+642	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+643	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+644	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+645	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+646	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+647	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+648	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+649	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+650	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+651	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+652	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+653	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+654	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+655	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+656	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+657	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+658	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+659	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+660	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+661	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+662	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+663	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+664	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+665	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+666	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+667	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+668	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+669	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+670	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+671	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+672	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+673	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+674	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+675	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+676	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+677	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+678	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+679	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+680	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+681	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+682	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+683	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+684	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+685	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+686	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+687	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+688	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+689	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+690	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+691	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+692	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+693	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+694	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+695	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+696	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+697	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+698	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+699	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+700	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+701	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+702	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+703	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+704	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+705	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+706	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+707	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+708	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+709	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+710	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+711	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+712	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+713	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+714	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+715	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+716	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+717	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+718	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+719	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+720	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+721	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+722	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+723	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+724	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+725	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+726	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+727	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+728	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+729	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+730	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+731	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+732	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+733	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+734	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+735	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+736	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+737	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+738	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+739	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+740	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+741	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+742	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+743	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+744	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+745	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+746	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+747	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+748	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+749	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+750	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+751	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+752	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+753	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+754	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+755	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+756	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+757	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+758	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+759	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+760	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+761	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+762	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+763	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+764	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+765	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+766	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+767	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+768	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+769	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+770	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+771	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+772	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+773	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+774	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+775	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+776	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+777	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+778	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+779	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+780	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+781	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+782	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+783	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+784	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+785	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+786	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+787	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+788	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+789	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+790	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+791	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+792	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+793	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+794	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+795	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+796	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+797	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+798	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+799	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+800	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+801	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+802	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+803	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+804	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+805	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+806	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+807	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+808	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+809	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+810	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+811	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+812	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+813	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+814	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+815	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+816	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+817	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+818	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+819	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+820	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+821	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+822	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+823	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+824	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+825	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+826	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+827	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+828	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+829	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+830	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+831	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+832	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+833	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+834	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+835	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+836	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+837	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+838	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+839	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+840	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+841	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+842	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+843	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+844	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+845	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+846	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+847	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+848	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+849	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+850	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+851	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+852	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+853	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+854	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+855	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+856	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+857	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+858	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+859	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+860	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+861	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+862	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+863	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+864	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+865	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+866	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+867	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+868	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+869	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+870	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+871	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+872	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+873	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+874	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+875	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+876	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+877	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+878	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+879	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+880	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+881	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+882	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+883	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+884	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+885	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+886	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+887	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+888	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+889	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+890	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+891	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+892	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+893	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+894	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+895	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+896	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+897	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+898	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+899	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+900	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+901	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+902	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+903	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+904	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+905	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+906	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+907	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+908	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+909	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+910	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+911	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+912	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+913	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+914	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+915	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+916	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+917	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+918	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+919	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+920	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+921	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+922	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+923	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+924	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+925	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+926	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+927	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+928	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+929	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+930	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+931	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+932	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+933	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+934	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+935	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+936	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+937	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+938	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+939	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+940	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+941	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+942	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+943	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+944	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+945	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+946	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+947	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+948	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+949	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+950	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+951	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+952	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+953	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+954	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+955	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+956	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+957	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+958	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+959	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+960	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+961	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+962	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+963	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+964	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+965	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+966	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+967	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+968	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+969	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+970	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+971	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+972	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+973	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+974	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+975	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+976	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+977	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+978	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+979	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+980	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+981	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+982	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+983	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+984	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+985	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+986	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+987	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+988	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+989	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+990	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+991	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+992	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+993	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+994	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+995	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+996	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+997	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+998	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+999	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1000	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			

@@ -1,7 +1,7 @@
 A Bit	Awards	Sort	Notes
 1	Won the Scavenger Hunt on Emerald Island	2	
 2	Found the missing contestants on Emerald Island	3	
-3	Cleared out Castle Harmondale	2	
+3	Removed goblins from Castle Harmondale	2	
 4	Rescued the dwarves from the Red Dwarf Mine	2	
 5	Found a witness to the cataclysm in the Ironsand Desert.	1	
 6	Completed Wizard Proving Grounds	2	
@@ -111,12 +111,9 @@ A Bit	Awards	Sort	Notes
 110	Inducted into the Erathian Hall of Shame!	1	
 111	Proclaimed Friend of Hothfarr, King of Dwarves and Savior of Stone City	1	
 112	Hall of Shame Award ‘Unfaithful Friends’	1	
-113	Recovered the Lost Scroll of  Wonka	1
-114	Recovered the Lost Scroll of  Wonka	3	
-115	Found Paradise!!	2	
-116	Completed Courier Quest	3	
-117	Inducted into the Erathian Hall of Shame!	3	
-118	Completed MM7Rev4mod Game!!	1	
-119	Re-opened the Harmondale Stables	1	
-
-
+113	Recovered the Lost Scroll of  Wonka	1	
+114	Found Paradise!!	2	
+115	Completed Courier Quest	3	
+116	Inducted into the Erathian Hall of Shame!	3	
+117	Completed MM7Rev4mod Game!!	1	
+118	Re-opened the Harmondale Stables	1	

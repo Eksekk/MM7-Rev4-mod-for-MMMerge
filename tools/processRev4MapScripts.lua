@@ -1,31 +1,65 @@
-local file = io.open("GLOBAL rev4.lua")
-local content = file:read("*a")
-io.close(file)
+-- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
+
+-- Saves a string into a file (overwrites it)
+function io.save(path, s, translate)
+	local f = assert(io.open(path, translate and "wt" or "wb"))
+	f:setvbuf("no")
+	f:write(s)
+	f:close()
+end
+
+local path_noslash = _G.path.noslash
+local path_dir = _G.path.dir
+local CreateDirectoryPtr = internal.CreateDirectory
+
+local function DoCreateDir(dir)
+	-- 183 = already exists
+	return mem.call(CreateDirectoryPtr, 0, dir, 0) ~= 0
+end
+
+local function CreateDirectory(dir)
+	dir = path_noslash(dir)
+	if dir == "" or #dir == 2 and string_sub(dir, -1) == ":" or DoCreateDir(dir) then
+		return true
+	end
+	local dir1 = path_dir(dir)
+	if dir1 ~= dir then
+		CreateDirectory(dir1)
+	end
+	return true
+end
+_G.os.mkdir = CreateDirectory
+--!- backwards compatibility
+_G.os.CreateDirectory = CreateDirectory
+--!- backwards compatibility
+_G.path.CreateDirectory = CreateDirectory
+
+local oldSave = _G.io.save
+--!-
+function _G.io.save(path, ...)
+	CreateDirectory(path_dir(path))
+	return oldSave(path, ...)
+end
+
+local function WriteBasicTextTable(t, fname)
+	if fname then
+		return io.save(fname, WriteBasicTextTable(t))
+	end
+	local q, s = {}, ''
+	for i = 1, #t do
+		s = (type(t[i]) == "table" and table.concat(t[i], "\t") or t[i])
+		q[i] = s
+	end
+	if s ~= '' then
+		q[#q + 1] = ''
+	end
+	return table.concat(q, "\r\n")
+end
+_G.WriteBasicTextTable = WriteBasicTextTable
+
+-- end of functions taken from MMExtension repo
 
 local firstGlobalLuaFreeEntry = 1817 -- that we will use
-local eventNumberReplacements = function(str)
-	local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
-	local lastOriginalMM7Event = 572
-	return function(num)
-		num = tonumber(num)
-		local add
-		if (num >= noMappingEvents[1][1] and num <= noMappingEvents[1][2]) or (num >= noMappingEvents[2][1] and num <= noMappingEvents[2][2]) then
-			add = 0
-		else
-			if num > lastOriginalMM7Event then -- new rev4 event, moved to end
-				add = firstGlobalLuaFreeEntry - (lastOriginalMM7Event + 1)
-			elseif num > noMappingEvents[2][2] then
-				add = 750 - (515 - 513 + 2) - (506 - 501 + 1) + 1
-			elseif num > noMappingEvents[1][2] then
-				add = 750 - (506 - 501 + 1)
-			else
-				add = 750
-			end
-		end
-		return str:format(num + add)
-	end
-end
--- note: there is event skip at event 511 in rev4
 
 local function getQuestBit(questBit)
 	return questBit + 512
@@ -132,13 +166,22 @@ local function getHouseID(houseid)
 		return -1
 	end
 	local mergeid = mergeids[rev4name]
+	if rev4name:lower():find("guild") ~= nil and type(mergeid) == "table" and #mergeid > 1 then
+		-- magic guilds, look by proprieter name in addition to name
+		for _, id in ipairs(mergeid) do
+			local proprieterName = dmerge[id + 2][7]
+			if proprieterName == drev4[houseid + 2][7] then
+				return id
+			end
+		end
+	end
 	if mergeid == nil then
 		print(("Couldn't find merge ids table for 2d location %d (name: %s)"):format(houseid, rev4name))
 		return -1
 	elseif #mergeid > 1 then
 		print(("Found multiple merge locations for 2d location %d (name: %s)"):format(houseid, rev4name))
 		print("The locations:")
-		for k, v in pairs(mergeid) do
+		for k, v in ipairs(mergeid) do
 			print(v)
 		end
 		if rev4name == "" then return mergeid[1] end -- shouldn't cause any problems, as empty houses are not used
@@ -159,14 +202,35 @@ local function getAutonote(autonote)
 	return autonote + autonoteAdd
 end
 
+local function getFileName(name)
+	local name2 = name
+	local name = name:lower()
+	if name:sub(1, 1) == "d" then -- dungeon
+		local m = tonumber(name:match("%d+"), 10)
+		if m >= 5 then
+			name2 = "7" .. name2
+		end
+	elseif name == "nwc.blv" then
+		name2 = "7nwc.blv"
+	elseif name:sub(1, 3) == "out" then
+		local m = tonumber(name:match("%d+"), 10)
+		if m <= 6 or m == 13 or m == 15 then
+			name2 = "7" .. name2
+		end
+	end
+	return name2
+end
+
 local replacements =
 {
-	["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
-	["evt%.global%[(%d+)%]"] = eventNumberReplacements("evt.global[%d]"),
 	["evt%.Cmp%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Cmp(\"QBits\", %d)"):format(getQuestBit(num)) end,
 	["evt%.Set%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Set(\"QBits\", %d)"):format(getQuestBit(num)) end,
 	["evt%.Add%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Add(\"QBits\", %d)"):format(getQuestBit(num)) end,
 	["evt%.Subtract%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Subtract(\"QBits\", %d)"):format(getQuestBit(num)) end,
+	["evt%.Subtract%{\"QBits\", Value = (%d+)%}"] = function(num) return ("evt.Subtract{\"QBits\", Value = %d}"):format(getQuestBit(num)) end,
+	["evt%.Add%{\"QBits\", Value = (%d+)%}"] = function(num) return ("evt.Add{\"QBits\", Value = %d}"):format(getQuestBit(num)) end,
+	["evt%.Cmp%{\"QBits\", Value = (%d+)%}"] = function(num) return ("evt.Cmp{\"QBits\", Value = %d}"):format(getQuestBit(num)) end,
+	["evt%.Set%{\"QBits\", Value = (%d+)%}"] = function(num) return ("evt.Set{\"QBits\", Value = %d}"):format(getQuestBit(num)) end,
 	["evt%.SetMessage%((%d+)%)"] =
 	function(message)
 		message = tonumber(message)
@@ -341,68 +405,116 @@ local replacements =
 		return ("evt.ChangeEvent(%d)"):format(getEvent(event))
 	end
 }
---[[ THINGS TO FIX MANUALLY (or create a script to fix them)
-* blayze's quest change to work with 5 players
-* BDJ's class change code to work with 5 players
-* erathian town portal pedestals small fix
-* fix event 833, line 1231 - probably this line is not required
-* event 858, line 1827 - fix npc number
-* event 869 - fix the returns
---]]
 
---[[ TODO
-* <del>fix getHouseID (create table of overriding mappings from rev4 to merge in case of for example hostels) - both here and in parseNpcData.lua</del>
-* check awards missing mappings
-* <del>promoted awards checks are changed into qbits in merge</del>
-* check other qbits past 512 * 3, for things that might break with conversion
-* check if after arriving in harmondale death map is set as harmondale
-* <del>check if class consts (const.Class.Thief for example) is good for merge</del>
-* check if setMonGroupBit works correctly
-* check search for "ERROR: Not found" and check if everything is ok near it
-* check if blayze's quest and saving erathia quest give correct mastery
-* check evt.ShowMovie file names
-* check wtf at line 2595
-* check strange avlee teachers greetings ("Help me!")
-* resolve docent talking in emerald island
-* BDJ goodbye topic giving wrong message
-* sort entries in mapstats
---]]
-
-for regex, fun in pairs(replacements) do
-	content = content:gsub(regex, fun)
-end
-
-local genericEvtRegex = "evt%.%w-[%(%{].-[%)%}]"
-
-local exclusions =
+local replacements2 = -- replacements specific to map scripts
 {
-	"evt%.Add%(\"Experience\", %d+%)"
+	["evt%.house%[(%d+)%] = (%d+)"] =
+	function(idx, house)
+		idx = tonumber(idx)
+		house = tonumber(house)
+		return ("evt.house[%d] = %d"):format(idx, getHouseID(house))
+	end,
+	["evt%.EnterHouse%((%d+)%)"] =
+	function(house)
+		house = tonumber(house)
+		return ("evt.EnterHouse(%d)"):format(getHouseID(house))
+	end,
+	["evt%.EnterHouse%{Id = (%d+)%}"] =
+	function(house)
+		house = tonumber(house)
+		return ("evt.EnterHouse{Id = %d}"):format(getHouseID(house))
+	end,
+	["evt%.MoveToMap%{X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), Direction = (%-?%d+), LookAngle = (%-?%d+), SpeedZ = (%-?%d+), HouseId = (%-?%d+), Icon = (%-?%d+), Name = \"([%w%.]+)\"%}"]
+	= function(x, y, z, direction, lookangle, speedz, houseid, icon, name)
+		x = tonumber(x)
+		y = tonumber(y)
+		z = tonumber(z)
+		direction = tonumber(direction)
+		lookangle = tonumber(lookangle)
+		speedz = tonumber(speedz)
+		houseid = tonumber(houseid)
+		icon = tonumber(icon)
+			
+		return ("evt.MoveToMap{X = %d, Y = %d, Z = %d, Direction = %d, LookAngle = %d, SpeedZ = %d, HouseId = %d, Icon = %d, Name = \"%s\"}")
+		:format(x, y, z, direction, lookangle, speedz, getHouseID(houseid), icon, getFileName(name))
+	end,
+	["evt%.SpeakNPC%{NPC = (%d+)%}"] =
+	function(npc)
+		npc = tonumber(npc)
+		return ("evt.SpeakNPC{NPC = %d}"):format(getNPC(npc))
+	end
 }
 
-local i, j = content:find(genericEvtRegex, 1)
-repeat
-	local text = content:sub(i, j)
-	local matched = false
+-- WARNING: decompiled scripts downloaded from GrayFace's website are bugged, need to decompile them by yourself from Rev4 installation
+
+local replacementsafter =
+{
+	--[["evt%.HouseDoor%((%d+), (%d+)%)([^\"]-\"[^\"]-\")"] =
+	function(event, house, comment)
+		event = tonumber(event)
+		house = tonumber(house)
+		-- apparently this is not working, need to replace with different function
+		return (
+
+evt.map[%d] = function()
+	evt.EnterHouse(%d)%s
+end		):format(event, getHouseID(house), comment)
+	end,--]]
+}
+
+--[[ TODO
+* out01.lua - house226?
+--]]
+
+for i in path.find("rev4 map scripts\\*.lua") do
+	print("Current file: " .. path.name(i))
+	local file = io.open(i)
+	local content = file:read("*a")
+	file:close()
 	for regex, fun in pairs(replacements) do
-		if text:match("(" .. regex .. ")") == text then -- need full capture group, as match returns only first capture group
-			matched = true
-			break
-		end
+		content = content:gsub(regex, fun)
 	end
-	if not matched then
-		for k, regex in ipairs(exclusions) do
-			if text:match("(" .. regex .. ")") == text then
-				matched = true
-				break
+	for regex, fun in pairs(replacements2) do
+		content = content:gsub(regex, fun)
+	end
+	for regex, fun in pairs(replacementsafter) do
+		content = content:gsub(regex, fun)
+	end
+	-- preserve MMMerge script additions
+	local file = io.open("merge map scripts\\" .. getFileName(path.name(i)), "r")
+	if file then
+		local content2 = file:read("*a")
+		content = content .. "\n\n--[[ MMMerge additions --]]\n\n" .. content2
+		file:close()
+	end
+	if path.name(i):lower() == "out01.lua" then
+	content = content .. [[
+
+evt.map[100] = function()  -- function events.LoadMap()
+	if not evt.Cmp{"QBits", Value = 519} then         -- Finished Scavenger Hunt
+		if not evt.Cmp{"QBits", Value = 518} then         -- "Return a wealthy hat to the Judge on Emerald Island."
+			if not evt.Cmp{"QBits", Value = 517} then         -- "Return a musical instrument to the Judge on Emerald Island."
+				if not evt.Cmp{"QBits", Value = 516} then         -- "Return a floor tile to the Judge on Emerald Island."
+					if not evt.Cmp{"QBits", Value = 515} then         -- "Return a longbow to the Judge on Emerald Island."
+						if not evt.Cmp{"QBits", Value = 514} then         -- "Return a seashell to the Judge on Emerald Island."
+							if not evt.Cmp{"QBits", Value = 513} then         -- "Return a red potion to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 518}         -- "Return a wealthy hat to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 517}         -- "Return a musical instrument to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 516}         -- "Return a floor tile to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 515}         -- "Return a longbow to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 514}         -- "Return a seashell to the Judge on Emerald Island."
+								evt.Add{"QBits", Value = 513}         -- "Return a red potion to the Judge on Emerald Island."
+								evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
+							end
+						end
+					end
+				end
 			end
 		end
 	end
-	if not matched then
-		--print("Found unfixed evt command: " .. text)
-	end
-	i, j = content:find(genericEvtRegex, i + 1)
-until i == nil
+end
 
-local file2 = io.open("GLOBAL rev4 processed.lua", "w")
-file2:write(content)
-io.close(file2)
+events.LoadMap = evt.map[100].last]]
+`	end
+	io.save("rev4 map scripts\\processed\\" .. getFileName(path.name(i)), content)
+end

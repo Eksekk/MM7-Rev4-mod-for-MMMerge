@@ -307,23 +307,23 @@ Note bit	Autonote Text	Category
 306	0	Stat		
 307	0	misc		
 308	0	Stat		
-309	Obelisk message #1: pohuwwba	Obelisk	Area 2	
-310	Obelisk message #2: ininhil_	Obelisk	Area 3	
-311	Obelisk message #3: redditoh	Obelisk	Area 4	
-312	Obelisk message #4: a_eetcoa	Obelisk	Area 5	
-313	Obelisk message #5: ts_rehmu	Obelisk	Area 6	
-314	Obelisk message #6: eut__i_n	Obelisk	Area 7	
-315	Obelisk message #7: srhtfnut	Obelisk	Area 8	
-316	Obelisk message #8: _vehlgpe	Obelisk	Area 9	
-317	Obelisk message #9: fi_eo_od	Obelisk	Area 10	
-318	Obelisk message #10: ivg_whn_	Obelisk	Area 11	
-319	Obelisk message #11: veoseo_l	Obelisk	Area 12	
-320	Obelisk message #12: e_laru_a	Obelisk	Area 13	
-321	Obelisk message #13: __dn_r_n	Obelisk	Area 14	
-322	Obelisk message #14: ___d___d	Obelisk	Area 39	
+309	Obelisk message #1: pohuwwba	Obelisk		
+310	Obelisk message #2: ininhil_	Obelisk		
+311	Obelisk message #3: redditoh	Obelisk		
+312	Obelisk message #4: a_eetcoa	Obelisk		
+313	Obelisk message #5: ts_rehmu	Obelisk		
+314	Obelisk message #6: eut__i_n	Obelisk		
+315	Obelisk message #7: srhtfnut	Obelisk		
+316	Obelisk message #8: _vehlgpe	Obelisk		
+317	Obelisk message #9: fi_eo_od	Obelisk		
+318	Obelisk message #10: ivg_whn_	Obelisk		
+319	Obelisk message #11: veoseo_l	Obelisk		
+320	Obelisk message #12: e_laru_a	Obelisk		
+321	Obelisk message #13: __dn_r_n	Obelisk		
+322	Obelisk message #14: ___d___d	Obelisk		
 323	"The Master instructor of the Staff, Elsie Pederton, can be found in the Bracada Desert, on a ridge in the southwest region."	teacher		
 324	"The ultimate teacher in the ways of the Staff, Jillian Mithrit, can be found in the elven territory of Avlee.  Her home is in the city in the northeast."	teacher		
-325	"The Master instructor of the Sword, Tugor Slicer, lives with the Telmar brothers on Emerald Island."	teacher		
+325	"The Master instructor of the Sword, Tugor Slicer, maintains his residence in a small village in the western region of Deyja."	teacher		
 326	"The Grandmaster of the Sword, Chadric Townsaver, can be found in a small village in Welnin, just south of the city of Harmondale."	teacher		
 327	"The Master tutor of the Dagger, Aznog Slasher, can be found in the northern region of Nighon."	teacher		
 328	"The Grandmaster of the Dagger, Token Fist, can be found in city of Tidewater in Tatalia.  Rumor has it that the Master Thief in the depths of the Erathian Sewers beneath the capitol city of Steadwick can also instruct at this level."	teacher		
@@ -343,11 +343,11 @@ Note bit	Autonote Text	Category
 342	"The Grandmaster instructor of Chain Armor, Halian Nevermore, maintains his residence in a large city in the northwest region of Deyja."	teacher		
 343	"My Master, Dekian Forgewright, makes his home in Erathia in the capitol city of Steadwick. He can provide further instruction in the uses of Plate Armor."	teacher		
 344	"The Grandmaster of Plate Armor, Brand the Maker, can be found in the Bracada desert, on a ridge in the central region."	teacher		
-345	"The Master tutor of Fire Magic, Ashen Temper, can be found in her home in the Tularean Forest .	teacher		
-346	"The Grandmaster of Fire Magic, Blayze, makes his home in Emerald Island."	teacher		
+345	"The Master tutor of Fire Magic, Ashen Temper, can be found in the city of Harmondale near the stables."	teacher		
+346	"The Grandmaster of Fire Magic, Blayze, makes his home in Erathia in the capitol city of Steadwick."	teacher		
 347	"The Master tutor of Air Magic, Rislyn Greenstorm, lives in the elven territory of Avlee.  His home is in the city in the northeast."	teacher		
 348	"The Grandmaster of Air Magic, Gayle, can be found in a tower in the Bracada desert, on a ridge in the northern region."	teacher		
-349	"The Master tutor of the uses of Water Magic, Tobren Rainshield, travels with the Lady Margaret.  The fine Lady docks in Emerald Island."	teacher		
+349	"The Master tutor of the uses of Water Magic, Tobren Rainshield, lives in the southwest region of Nighon."	teacher		
 350	"The Grandmaster of Water Magic, Torrent, lives on a ridge, south of Harmondale, overlooking the city."	teacher		
 351	"The Master tutor of Earth Magic, Lara Stonewright, makes her home in the elven territory of the Tularean Forest.  Her residence is in the city of Pierpont."	teacher		
 352	"The Grandmaster instructor of Earth Magic, Avalanche, maintains his residence in the western region of the Deyja."	teacher		

@@ -107,16 +107,21 @@ A Bit	Awards	Sort	Notes
 106	Declared Heroes of Erathia	2	
 107	Completed Coding Wizard Quest	2	
 108	Declared the Queen’s Champions	2	
-109	Completed the MM7Rev4mod Game!!	1	
-110	Inducted into the Erathian Hall of Shame!	1	
-111	Proclaimed Friend of Hothfarr, King of Dwarves and Savior of Stone City	1	
-112	Hall of Shame Award ‘Unfaithful Friends’	1	
-113	Recovered the Lost Scroll of  Wonka	1
-114	Recovered the Lost Scroll of  Wonka	3	
-115	Found Paradise!!	2	
-116	Completed Courier Quest	3	
-117	Inducted into the Erathian Hall of Shame!	3	
-118	Completed MM7Rev4mod Game!!	1	
-119	Re-opened the Harmondale Stables	1	
+109	Retrieved Control Cube	2	
+110	Completed the MM7Rev4mod Game!!	1	
+111	Inducted into the Erathian Hall of Shame!	1	
+112	Proclaimed Friend of Hothfarr, King of Dwarves and Savior of Stone City	1	
+113	Declared Friends of ‘The Game’	1	
+114	Hall of Shame Award ‘Unfaithful Friends’	1	
+115	Recovered the Lost Scroll of  Wonka	1	
+116	Recovered the Lost Scroll of  Wonka	3	
+117	Found Paradise!!	2	
+118	Completed Courier Quest	3	
+119	Inducted into the Erathian Hall of Shame!	3	
+120	Completed MM7Rev4mod Game!!	1	
+121	Re-opened the Harmondale Stables	1	
+
+
+
 
 

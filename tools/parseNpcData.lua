@@ -102,13 +102,47 @@ local rev4names = {}
 local mergeids = {}
 
 for i = 3, #drev4 do
-	rev4names[drev4[i][1]] = drev4[i][6]
+	rev4names[tonumber(drev4[i][1]) or -1] = drev4[i][6]
 end
 
 for i = 3, #dmerge do
 	if dmerge[i][6] ~= nil then
-		mergeids[dmerge[i][6]] = dmerge[i][1]
+		mergeids[dmerge[i][6]] = mergeids[dmerge[i][6]] or {}
+		table.insert(mergeids[dmerge[i][6]], tonumber(dmerge[i][1]))
 	end
+end
+
+local function getHouseID(houseid)
+	if houseid == 0 then return 0 end
+	if houseid == nil or houseid == "" then return "" end
+	local overrideMappings =
+	{
+		[428] = 1065, [427] = 1064, [426] = 1063, [425] = 1062, [423] = 1060, [432] = 1069, [431] = 1068, [434] = 1071, [433] = 1070, [444] = 1081 , [442] = 1079, [441] = 1078, [439] = 1076, [438] = 1075, [174] = 1169, [176] = 217, [178] = 218, [421] = 216, [184] = 221, [180] = 219, [182] = 220, -- 423 = morningstar residence
+		[189] = 1165, [79] = 315, [80] = 316, [78] = 314, [81] = 317, [413] = 1051, [367] = 1005, [485] = 1121, [495] = 1131, [504] = 1140, [477] = 1113, [480] = 1116, [333] = 971,
+		[405] = 1043, [368] = 1006, [469] = 1105, [435] = 1072, [408] = 1046, [453] = 1089
+	}
+	if overrideMappings[houseid] ~= nil then
+		return overrideMappings[houseid]
+	end
+	local rev4name = rev4names[houseid]
+	if rev4name == nil then
+		print("Couldn't find rev4name for 2d location " .. houseid)
+		return -1
+	end
+	local mergeid = mergeids[rev4name]
+	if mergeid == nil then
+		print(("Couldn't find merge ids table for 2d location %d (name: %s)"):format(houseid, rev4name))
+		return -1
+	elseif #mergeid > 1 then
+		print(("Found multiple merge locations for 2d location %d (name: %s)"):format(houseid, rev4name))
+		print("The locations:")
+		for k, v in pairs(mergeid) do
+			print(v)
+		end
+		if rev4name == "" then return mergeid[1] end -- shouldn't cause any problems, as empty houses are not used
+		return -1
+	end
+	return mergeid[1]
 end
 
 for i = 3, npcdataRev4Limit do
@@ -123,19 +157,8 @@ for i = 3, npcdataRev4Limit do
 	t[i][3] = tostring(pictureMappings[t[i][3]])
 	
 	-- 2d location
-	if t[i][7] ~= "0" then
-		local rev4name = rev4names[t[i][7]]
-		if rev4name == nil then
-			print("Couldn't find rev4name for 2d location " .. t[i][7])
-			return
-		end
-		local mergeid = mergeids[rev4name]
-		if mergeid == nil then
-			print("Couldn't find merge ids table for 2d location " .. t[i][7])
-			return
-		end
-		--print("Found a pair: <rev4> " .. t[i][7] .. " - " .. mergeid .. " <merge>")
-		t[i][7] = tostring(mergeid)
+	if t[i][7] ~= "0" and t[i][7] ~= "" then
+		t[i][7] = tostring(getHouseID(tonumber(t[i][7]) or ""))
 	end
 	
 	-- greeting

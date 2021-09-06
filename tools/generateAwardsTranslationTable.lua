@@ -23,6 +23,8 @@ for i = 2, #awardsrev4 do
 	end
 end
 
+mappingTable[102] = 41 -- arcomage champion
+
 local content = ""
 for r4, merge in pairs(mappingTable) do
 	if r4 == "" or merge == "" then goto continue end

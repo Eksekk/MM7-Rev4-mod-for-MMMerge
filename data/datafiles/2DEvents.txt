@@ -1607,3 +1607,4 @@
 1605	11	Circus	142	484	Tent				0	0	0	0	1							0	0		
 1606	12	Circus	142	484	Tent				0	0	0	0	1							0	0		
 1607	1	The Adventurer's Inn	2	106	The Adventurer's Inn	Placeholder		1082	0	0	0	1.5				1		  	  	0	0	0	0
+1608	4	House	1	73	House 227			0	0	0	0	1.5																																																					

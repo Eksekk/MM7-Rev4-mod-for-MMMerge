@@ -924,7 +924,7 @@
 922	415	House	64	248	Talion House				0	0	0	1.5				73				0	0		
 923	416	House	64	246	Ravenhill Residence				0	0	0	1.5				73				0	0		
 924	417	House	64	247	Cardrin Residence				0	0	0	1.5				73				0	0		
-925	418	Teleportal	2	1	Harmondale Teleportal Hub	Placeholder		0	0	0	0	1.5				73		1	24	3																																													
+925	418	Teleportal	2	279	Harmondale Teleportal Hub	Placeholder		0	0	0	0	1.5				73		1	24	3																																													
 926	419	House	64	248	Gareth's Home				0	0	0	1.5				73				0	0		
 927	420	House	64	246	Forgewright Residence				0	0	0	1.5				73				0	0		
 928	421	House	64	247	Pretty House				0	0	0	1.5				73				0	0		
@@ -1171,7 +1171,7 @@
 1169	662	House	62	341	Throne Room	Placeholder			0	0	0	1.5				168				0	0	0	0
 1170	663	House	62	247	Mia Lucille' Home				0	0	0	1.5								0	0		
 1171	664	House	62	248	Zedd's Place				0	0	0	1.5								0	0		
-1172		Teleportal	2	122	Harmondale Teleportal Hub	Placeholder		0	0	0	0	1.5						1	24	3																																													
+1172		Teleportal	2	295	Harmondale Teleportal Hub	Placeholder		0	0	0	0	1.5						1	24	3																																													
 1173	666	House	62	247	House 228				0	0	0	1.5								0	0		
 1174	667	House	62	248	House 229				0	0	0	1.5								0	0		
 1175	668	House	62	246	House 230				0	0	0	1.5								0	0		

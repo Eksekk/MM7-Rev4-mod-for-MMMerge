@@ -848,7 +848,7 @@ Q Bit	Quest Note Text	Notes	Owner
 847		BDJ 1	0	0
 848		BDJ 2	0	0
 849		BDJ 3	0	0
-850		BDJ Final	0	0
+850		BDJ 4	0	0
 851		Sorcerer	0	0
 852		Cleric	0	0
 853		Fighter	0	0
@@ -864,10 +864,10 @@ Q Bit	Quest Note Text	Notes	Owner
 863		Three Use	0	0
 864		Four Use	0	0
 865	"Bring proof of the Coding Wizard's existence to Lord Godwinson."	0	0	0
-866		0	0	0
+866			0	0
 867	"Bring a Red Delicious Apple to the Duchess of Deja."	0	0	0
 868		0	0	0
-869		0	0	0
+869		BDJ Final	0	0
 870		0	0	0
 871		0	0	0
 872		0	0	0

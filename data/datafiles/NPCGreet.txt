@@ -584,7 +584,30 @@ How are you doing, by the way? Any sudden pains? Feeling strangely empty inside?
 Hey! My lords! Great competition going to happen very soon!
 
 (Putting paper in your hands, he runs away)		Placeholder	Boy messenger
-333	"Thank the Fates you’ve returned!  And just in time!  We need your help Lords of Harmondale! [Sally appears frightened and somewhat incoherent.  You attempt to calm her and ask her what she is talking about.]
+333	Placeholder	Placeholder			
+334	Placeholder	Placeholder			
+335	Placeholder	Placeholder			
+336	Placeholder	Placeholder			
+337	Placeholder	Placeholder			
+338	Placeholder	Placeholder			
+339	Placeholder	Placeholder			
+340	Placeholder	Placeholder			
+341	Placeholder	Placeholder			
+342	Placeholder	Placeholder			
+343	Placeholder	Placeholder			
+344	Placeholder	Placeholder			
+345	Placeholder	Placeholder		
+346	Placeholder	Placeholder		
+347	Placeholder	Placeholder		
+348	Placeholder	Placeholder		
+349	Placeholder	Placeholder		
+350	Placeholder	Placeholder		
+351	Placeholder	Placeholder		
+352	Placeholder	Placeholder		
+353	Placeholder	Placeholder		
+354	Placeholder	Placeholder		
+355	Placeholder	Placeholder		
+356	"Thank the Fates you’ve returned!  And just in time!  We need your help Lords of Harmondale! [Sally appears frightened and somewhat incoherent.  You attempt to calm her and ask her what she is talking about.]
 
 They started to appear about a week ago.  Small groups swooping down from the sky.  Nothing more than a nuisance, at first.  The guards were able to repel them with little effort.  But they kept on returning in greater numbers; wreaking havoc and death on our island village.
 
@@ -592,13 +615,13 @@ They started to appear about a week ago.  Small groups swooping down from the sk
 
 On no!  They’re back!  Please stop them before they destroy us all! 
 
-Help us!  Please help us!"				
-334	"Welcome Heroes of Erathia!  It's good to have allies such as you!  What can I do for you?"	"Welcome back  Heroes!   What can I do for you?"			
-335	Greetings Seekers.  I'm the Map Giver.	Greetings Seekers.  I'm the Map Giver.  	Trading Triangle 1 3		
-336	"Greetings Adventurers!  BDJ's the name, Coding Wizard's the Game.  And I do trust you are enjoying the game!"	"Greetings Adventurers!  BDJ's the name, Coding Wizard's the Game.  And I do trust you are enjoying the game!"	Trading Triangle 2 1		
-337	"The enemy is on the move and the invasion has started!  My Liches should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	"The enemy is on the move and the invasion has started!  My Liches should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	Trading Triangle 2 2		
-338	"The enemy is on the move and the invasion has started!  My Light Elementals should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	"The enemy is on the move and the invasion has started!  My Light Elementals should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	Trading Triangle 2 3		
-339	"::You receive a telepathic message:: My…Lords.  My name is Archibald Ironfist.  You've probably heard of me--it is I who, up until recently, was the ruler of the Pit.  With my retirement, I find myself no longer concerned with the affairs of state.  I know that we were adversaries, but I am forced to ask for your help.  In return, I think I can help you.
+Help us!  Please help us!"			
+357	"Welcome Heroes of Erathia!  It's good to have allies such as you!  What can I do for you?"	"Welcome back  Heroes!   What can I do for you?"		
+358	Greetings Seekers.  I'm the Map Giver.	Greetings Seekers.  I'm the Map Giver.  	Trading Triangle 1 3	
+359	"Greetings Adventurers!  BDJ's the name, Coding Wizard's the Game.  And I do trust you are enjoying the game!"	"Greetings Adventurers!  BDJ's the name, Coding Wizard's the Game.  And I do trust you are enjoying the game!"	Trading Triangle 2 1	
+360	"The enemy is on the move and the invasion has started!  My Liches should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	"The enemy is on the move and the invasion has started!  My Liches should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	Trading Triangle 2 2	
+361	"The enemy is on the move and the invasion has started!  My Light Elementals should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	"The enemy is on the move and the invasion has started!  My Light Elementals should be able to hold off these advanced forces until our reinforcements arrive.  You must find the teleport and complete your mission in the Strange Temple.  The teleport is somewhere on the second floor.  Take the stairs to your left.  Hurry!  If you can stop The Corruption in the temple, we have a chance of victory."	Trading Triangle 2 3	
+362	"::You receive a telepathic message:: My…Lords.  My name is Archibald Ironfist.  You've probably heard of me--it is I who, up until recently, was the ruler of the Pit.  With my retirement, I find myself no longer concerned with the affairs of state.  I know that we were adversaries, but I am forced to ask for your help.  In return, I think I can help you.
 
 I see that you're on your way to do battle with the devils, and I want to make sure it goes well.  With the aid of equipment I have found in my new laboratory, I have discovered that my brother Roland, husband to Queen Catherine of Erathia, remains imprisoned by the devils in their foul, ah, dwelling.
 
@@ -606,8 +629,8 @@ Please rescue him!  Not even I can bear to think of my brother in those conditio
 
 I see that you're on your way to do battle with the devils, and I want to make sure it goes well.  With the aid of equipment I have found in my new laboratory, I have discovered that my brother Roland, husband to Queen Catherine of Erathia, remains imprisoned by the devils in their foul, ah, dwelling.
 
-Please rescue him!  Not even I can bear to think of my brother in those conditions!  To help you along, I offer this weapon.  It was...found by my loyal servant sergeant Piridak, amongst my advisor's personal belongings.  I hope it helps."	"Archibald contacts party, and party is good (Roland quest)"		
-340	"::You receive a telepathic message:: My friends.  I know you are working with my old advisors, but I must ask for your help one more time.
+Please rescue him!  Not even I can bear to think of my brother in those conditions!  To help you along, I offer this weapon.  It was...found by my loyal servant sergeant Piridak, amongst my advisor's personal belongings.  I hope it helps."	"Archibald contacts party, and party is good (Roland quest)"	
+363	"::You receive a telepathic message:: My friends.  I know you are working with my old advisors, but I must ask for your help one more time.
 
 With the aid of equipment I have found in my new laboratory, I have discovered that my brother Roland, husband to Queen Catherine of Erathia, remains imprisoned by the devils in their foul, ah, dwelling.  I overheard that you're on your way to do battle with them (this equipment really is wonderful), and I want to make sure it goes well.  My brother has stolen the key to their leader's chambers, and has hidden it in the beastly cage they're keeping him in.  
 
@@ -615,8 +638,10 @@ Please rescue him!  Not even I can bear to think of my brother in those conditio
 
 With the aid of equipment I have found in my new laboratory, I have discovered that my brother Roland, husband to Queen Catherine of Erathia, remains imprisoned by the devils in their foul, ah, dwelling.  I overheard that you're on your way to do battle with them (this equipment really is wonderful), and I want to make sure it goes well.  My brother has stolen the key to their leader's chambers, and has hidden it in the beastly cage they're keeping him in.  
 
-Please rescue him!  Not even I can bear to think of my brother in those conditions!  To help you along, I offer this weapon.  It was...found by my loyal servant sergeant Piridak, amongst my advisor's personal belongings.  I hope it helps."	"Archibald contacts party, and party is evil (Roland quest)"		
-341	"Halt!  Visitors aren't permitted in this section of Stone City.  If you are looking for King Hothfarr's throne room, it is to the east of here."	"Halt!  You have already been warned once!  Visitors aren't permitted in this section of Stone City.  If you are looking for King Hothfarr's throne room, it is to the east of here."	Guard Stone City		
-342	"Good day, my lords.  How do you fare?"	"Good day, my lords.  How do you fare?"	Goblin spy		
-343	"Ah, the contestants!  I hope you haven't come to try to give Harmondale back to me!  If you look at the contract you signed, it explicitly states that our deal is irrevocable on page nine, subparagraph iii, section c.  The deal really is cut and dried.  Buy the ticket--take the ride! ::Yawns:: Now, is there anything else you wished to speak about?  "	"Hmmph.  You don't actually expect me to act as though you really were a noble, do you?  Once a peasant, always a peasant, that's what my mother used to say.  Really, could you use the servant's entrance next time you stop by?  It really is embarrassing to have you dusty, mud spattered peasants coming in through the front door.  What will the neighbors think?"			
-344	"All hail, oh Blessed Ones, from the Saints of Selinas!"				
+Please rescue him!  Not even I can bear to think of my brother in those conditions!  To help you along, I offer this weapon.  It was...found by my loyal servant sergeant Piridak, amongst my advisor's personal belongings.  I hope it helps."	"Archibald contacts party, and party is evil (Roland quest)"	
+364	"Halt!  Visitors aren't permitted in this section of Stone City.  If you are looking for King Hothfarr's throne room, it is to the east of here."	"Halt!  You have already been warned once!  Visitors aren't permitted in this section of Stone City.  If you are looking for King Hothfarr's throne room, it is to the east of here."	Guard Stone City	
+365	"Good day, my lords.  How do you fare?"	"Good day, my lords.  How do you fare?"	Goblin spy	
+366	"Ah, the contestants!  I hope you haven't come to try to give Harmondale back to me!  If you look at the contract you signed, it explicitly states that our deal is irrevocable on page nine, subparagraph iii, section c.  The deal really is cut and dried.  Buy the ticket--take the ride! ::Yawns:: Now, is there anything else you wished to speak about?  "	"Hmmph.  You don't actually expect me to act as though you really were a noble, do you?  Once a peasant, always a peasant, that's what my mother used to say.  Really, could you use the servant's entrance next time you stop by?  It really is embarrassing to have you dusty, mud spattered peasants coming in through the front door.  What will the neighbors think?"		
+367	"All hail, oh Blessed Ones, from the Saints of Selinas!"			
+368	You step into the teleportal.   A strange,  almost mechanical voice speaks.  'Confirm your destination, please.'   A low-pitched humming sound emerges and begins to encompass you.	You step into the teleportal.   A strange,  almost mechanical voice speaks.  'Confirm your destination, please.'   A low-pitched humming sound emerges and begins to encompass you.	Harmondale teleportal hub	
+369				

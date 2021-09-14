@@ -1,5 +1,4 @@
 -- this script processes rev4 npc table for copy pasting into mmmerge table after fixing 2d locations
--- SCRIPT UNTESTED AFTER FIXING SERIOUS BUG
 
 local function tfind(t, what)
 	for k, v in ipairs(t) do
@@ -80,7 +79,7 @@ local counterAdd = 339 -- MM7 entries in Merge start at 340
 local greetingAdd = 115 -- MM7 entries in Merge start at 116
 
 local counterFromThisMovedToEnd = 447
-local firstCounterEntryAfterMM6InMerge = 1225
+local firstCounterEntryAfterMM6InMerge = 1240
 
 local newRev4NPCs = 15
 -- need to add additional 15 columns, as there are 15 new npcs in rev4
@@ -93,7 +92,7 @@ local eventAdd = 750 -- MM7 entries in global.lua start at 751
 local additionalRev4Events = 3 -- there are so little because most of them replace old ones (for example malwick's code, brent filiant's red potion exchange code)
 local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
 local MM6EventsStart = 1314
-local firstGlobalLuaFreeEntry = 1817
+local firstGlobalLuaFreeEntry = 2000
 
 local drev4 = LoadBasicTextTable("tab\\2DEvents rev4.txt", 0)
 local dmerge = LoadBasicTextTable("tab\\2DEvents merge.txt", 0)
@@ -145,6 +144,20 @@ local function getHouseID(houseid)
 	return mergeid[1]
 end
 
+local function getGreeting(greeting)
+	if greeting == 0 then return 0 end
+	local greetingAdd = 115
+	if greeting >= 195 then
+		greetingAdd = 333 - 195
+	end
+	return greeting + greetingAdd
+end
+
+local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
+local lastOriginalMM7Event = 572
+local lastOriginalMM8Event = 750
+local firstOriginalMM6Event = 1314
+
 for i = 3, npcdataRev4Limit do
 	-- index
 	if tonumber(t[i][1]) < counterFromThisMovedToEnd then
@@ -163,7 +176,7 @@ for i = 3, npcdataRev4Limit do
 	
 	-- greeting
 	if t[1][9] ~= "0" then
-		t[i][9] = tostring(tonumber(t[i][9]) + greetingAdd)
+		t[i][9] = tostring(getGreeting(tonumber(t[i][9])))
 	end
 	-- events
 	local eventBase = 11
@@ -179,8 +192,8 @@ for i = 3, npcdataRev4Limit do
 			end
 		end
 		if not isNoMapping then
-			if MM6EventsStart - event <= additionalRev4Events then -- is additional Rev4 event
-				t[i][eventBase + j] = tostring(firstGlobalLuaFreeEntry + (MM6EventsStart - event) - 1)
+			if event >= 573 then -- is additional Rev4 event
+				t[i][eventBase + j] = tostring(firstGlobalLuaFreeEntry + (event - 573))
 			elseif event > noMappingEvents[2][2] then
 				t[i][eventBase + j] = tostring(event + 750 - (515 - 513 + 2) - (506 - 501 + 1))
 			elseif event > noMappingEvents[1][2] then
@@ -199,6 +212,19 @@ for i = 3, npcdataRev4Limit do
 		::continue2::
 	end
 end
+
+-- Harmondale Teleportal Hub
+local newNpcLocation = 464
+local row = t[newNpcLocation]
+local index = tonumber(row[1]) - counterFromThisMovedToEnd
+row[1] = tostring(firstCounterEntryAfterMM6InMerge + index) -- counter
+row[2] = "Harmondale Teleportal Hub" -- name
+row[3] = "1561" -- pic
+row[9] = 368 -- greeting
+for i = 0, 2 do
+	row[11 + i] = 1995 + i -- events
+end	
+row[14] = 1994
 
 -- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
 
@@ -262,3 +288,16 @@ _G.WriteBasicTextTable = WriteBasicTextTable
 -- end of functions taken from MMExtension repo
 
 WriteBasicTextTable(t, "NPCDATA 1st revision.txt")
+
+--[[local revamp = LoadBasicTextTable("tab\\NPCData revamp.txt", 0)
+local merge = LoadBasicTextTable("tab\\NPCData merge.txt", 0)
+
+local changedEntries = {17, 19, 42, 44, 45, 61, 63}
+
+for i, entry in ipairs(changedEntries) do
+	for i2, v2 in ipairs(revamp[entry]) do
+		merge[entry][i2] = revamp[entry][i2]
+	end
+end
+
+WriteBasicTextTable(merge, "NPCDATA merge.txt")--]]

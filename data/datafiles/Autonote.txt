@@ -694,4 +694,5 @@ Note bit	Autonote Text	Category
 693	Protection from Magic = Remove Fear + Preservation	potion		
 694	Protection from Magic = Remove Curse + Water Breathing	potion		
 695	Protection from Magic = Cure Insanity + Bless	potion		
-696	0	Misc		
+696	Killed all of the Basilisks in the Ancient Troll Home.	Misc		
+697	0	Misc		

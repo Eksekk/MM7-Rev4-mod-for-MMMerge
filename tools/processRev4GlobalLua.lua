@@ -2,7 +2,7 @@ local file = io.open("GLOBAL rev4.lua")
 local content = file:read("*a")
 io.close(file)
 
-local firstGlobalLuaFreeEntry = 1817 -- that we will use
+local firstGlobalLuaFreeEntry = 2000 -- that we will use
 local eventNumberReplacements = function(str)
 	local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
 	local lastOriginalMM7Event = 572
@@ -21,6 +21,10 @@ local eventNumberReplacements = function(str)
 			else
 				add = 750
 			end
+		end
+		-- make it disable standard events, so generated lua file can be used without copy pasting into decompiled global.lua
+		if str:find("global") ~= nil and num <= lastOriginalMM7Event then
+			return ("Game.GlobalEvtLines:RemoveEvent(%d)\n"):format(num + add) .. str:format(num + add)
 		end
 		return str:format(num + add)
 	end
@@ -41,13 +45,31 @@ local function getNPC(npc)
 end
 
 local function getMessage(message)
+	local noMappingTexts = {{200, 201}, {205, 205}, {270, 299}, {549, 549}}
+	local isNoMapping = false
+	for _, t in ipairs(noMappingTexts) do
+		if message >= t[1] and message <= t[2] then
+			isNoMapping = true
+			break
+		end
+	end
+	if isNoMapping then
+		return message
+	end
+	if message >= 768 then -- new rev4 message
+		return message + (2732 - 768)
+	end
 	local add = 938
-	-- entries from 768 onwards are added at the end due to lack of space
-	if message >= 768 then
-		add = 2714 - 768
+	local i = 1
+	while i <= #noMappingTexts and message > noMappingTexts[i][2] do
+		add = add - (noMappingTexts[i][2] - noMappingTexts[i][1] + 1)
+		i = i + 1
 	end
 	return message + add
 end
+
+local lastOriginalMM8Event = 750
+local firstOriginalMM6Event = 1314
 
 local function getEvent(event)
 	if event == 0 then return 0 end
@@ -69,7 +91,7 @@ local function getAward(award)
 	local translationTableFromRev4ToMerge = -- generated with generateAwardsTranslationTable
 	-- awards.txt in merge is a shitshow (interspersed MM7/MM8 awards), that's why I'm using a translation table
 	{
-		[4] = 3, [101] = 55, [5] = 4, [80] = 24, [32] = 113, [110] = 121, [81] = 25, [7] = 106, [33] = 114, [100] = 53, [14] = 109, [82] = 26, [92] = 30, [83] = 27, [9] = 108, [6] = 105, [93] = 32, [94] = 34, [46] = 6, [84] = 28, [47] = 19, [95] = 38, [96] = 39, [107] = 118, [97] = 40, [98] = 51, [87] = 115, [99] = 52, [48] = 21, [106] = 117, [49] = 22, [109] = 120, [102] = 41, [108] = 119, [105] = 116, [21] = 112, [3] = 2, [15] = 110, [2] = 1, [8] = 107, [61] = 23, [20] = 111
+		[4] = 3, [101] = 55, [5] = 4, [80] = 24, [32] = 127, [110] = 135, [81] = 25, [7] = 119, [33] = 128, [100] = 53, [14] = 122, [82] = 26, [92] = 30, [111] = 105, [83] = 27, [9] = 121, [15] = 123, [93] = 32, [94] = 34, [46] = 6, [84] = 28, [26] = 126, [47] = 19, [95] = 38, [96] = 39, [107] = 132, [97] = 40, [98] = 51, [87] = 129, [99] = 52, [48] = 21, [106] = 131, [49] = 22, [109] = 134, [113] = 105, [115] = 105, [114] = 105, [112] = 105, [102] = 41, [108] = 133, [105] = 130, [21] = 125, [3] = 2, [6] = 118, [2] = 1, [61] = 23, [8] = 120, [20] = 124
 	}
 	if translationTableFromRev4ToMerge[award] ~= nil then
 		return translationTableFromRev4ToMerge[award]
@@ -83,17 +105,24 @@ local function getGreeting(greeting)
 	if greeting == 0 then return 0 end
 	local greetingAdd = 115
 	if greeting >= 195 then
-		greetingAdd = 333 - 195
+		greetingAdd = 356 - 195
 	end
 	return greeting + greetingAdd
 end
 
 local function getItem(item)
+	if item >= 220 and item <= 271 then -- potions
+		return item
+	end
 	return item + 802
 end
 
 local function getNpcGroup(npcgroup)
 	return npcgroup + 51
+end
+
+local function getMonster(monster)
+	return monster + 198
 end
 
 local drev4 = LoadBasicTextTable("tab\\2DEvents rev4.txt", 0)
@@ -177,7 +206,9 @@ local replacements =
 		npc = tonumber(npc)
 		index = tonumber(index)
 		event = tonumber(event)
+		local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
 		return ("evt.SetNPCTopic{NPC = %d, Index = %d, Event = %d}"):format(getNPC(npc), index, getEvent(event))
+		--return ("Game.NPC[%d].Event%s = %d"):format(getNPC(npc), indexes[index], getEvent(event))
 	end,
 	["evt%.Subtract%(\"NPCs\", (%d+)%)"] =
 	function(npc)
@@ -305,7 +336,8 @@ local replacements =
 	["evt%.Set%(\"Inventory\", (%d+)%)"] =
 	function(item)
 		item = tonumber(item)
-		return ("evt.Set(\"Inventory\", %d)"):format(getItem(item))
+		-- apparently evt.Set("Inventory", num) makes character diseased...
+		return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
 	end,
 	["evt%.MoveNPC%{NPC = (%d+), HouseId = (%d+)%}"] =
 	function(npc, houseid)
@@ -339,15 +371,38 @@ local replacements =
 	function(event)
 		event = tonumber(event)
 		return ("evt.ChangeEvent(%d)"):format(getEvent(event))
+	end,
+	["evt%.StatusText%((%d+)%)"] = 
+	function(message)
+		message = tonumber(message)
+		return ("evt.StatusText(%d)"):format(getMessage(message))
+	end,
+	["evt%.CheckMonstersKilled%{CheckType = (%d+), Id = (%d+), Count = (%d+)%}"] =
+	function(checktype, id, count)
+		checktype = tonumber(checktype)
+		id = tonumber(id)
+		count = tonumber(count)
+		if checktype == 1 then
+			return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id + 51, count)
+		elseif checktype == 2 then
+			return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, getMonster(id), count)
+		elseif checktype == 4 then
+			print("While processing scripts encountered evt.CheckMonstersKilled with CheckType of 4, need to take care of that")
+		end
+		return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id, count)
 	end
 }
 --[[ THINGS TO FIX MANUALLY (or create a script to fix them)
 * blayze's quest change to work with 5 players
 * BDJ's class change code to work with 5 players
 * erathian town portal pedestals small fix
+* GLOBAL
 * fix event 833, line 1231 - probably this line is not required
 * event 858, line 1827 - fix npc number
 * event 869 - fix the returns
+* GLOBAL END
+* 7d08 - event 376
+* 7out02 - event 221
 --]]
 
 --[[ TODO
@@ -362,14 +417,90 @@ local replacements =
 * check if blayze's quest and saving erathia quest give correct mastery
 * check evt.ShowMovie file names
 * check wtf at line 2595
-* check strange avlee teachers greetings ("Help me!")
-* resolve docent talking in emerald island
-* BDJ goodbye topic giving wrong message
+* <del>check strange avlee teachers greetings ("Help me!")</del>
+* resolve docent talking in emerald island - workaround is to walk into BDJ radius again, second time it sets the QBit
+* <del>BDJ goodbye topic giving wrong message</del>
 * sort entries in mapstats
+* check icons for evt.MoveToMap
+* integrate changes from revamp.T.lod ( incl. scripts)
+* check unfixed evt commands in each script file
+* move entries from processRev4GlobalLua into proper Merge decompiled global.lua
+* check Elgar Fellmoon
+* <del>process npctext</del>
+* <del>fix adventurers in temple of the moon not dropping items: iterate through monsters after loading map, find adventurer index and give item to him</del>
+* <del>fix skill barrels code</del>
+* different sparkles for skill barrels: https://discord.com/channels/296507109997019137/296508593744773120/885066444071645245
+* <del>fix mm7 barrels to give +5</del>
+* fix the gauntlet scripts to subtract MM8/MM6 scrolls/potions as well and remove SPs from all party members
+* <del>the gauntlet: lord godwinson, the coding fortress: BDJ the coding wizard, fix him (move to correct location)</del>
+* inspect map d16.blv for what's changed (couldn't find anything in the first pass)
+* <del>stone city check chests</del>
+* trees in tularean looked strange - possible not changed file name in evt.CheckSeason checks
+* <del>check chests in 7d12.blv</del>
+* <del>five rings in chests in stone city</del>
+* quest giving dark magic fix skills given
+* duplicated items - remove them from rnditems.txt?
+* <del>getItem() fixes (potions etc.)</del>
+* check celeste&the pit
+* d29.blv - angel messenger
+* 7d28.lua - map editor stuff
+* check ancient weapons in items.txt
+--]]
+
+--[[ USEFUL STUFF
+shows event id when event is triggered on the map
+function events.EvtMap(evtId, seq)
+	Message(tostring(evtId))
+end
+
+for m, id in pairs(Editor.State.Monsters) do if id == 1 then XYZ(m, XYZ(Party)) end end
 --]]
 
 for regex, fun in pairs(replacements) do
 	content = content:gsub(regex, fun)
+end
+
+content = content:replace([[Game.GlobalEvtLines.Count = 0  -- Deactivate all standard events
+
+]], "")
+
+local patches =
+{[ [[evt.ForPlayer("All")
+	if evt.Cmp("QBits", 850) then         -- BDJ Final
+		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
+		evt.ForPlayer(3)
+	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
+		evt.SetMessage(1023)         -- "Adventurer 3, select your new profession."
+		evt.ForPlayer(2)
+	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
+		evt.SetMessage(1022)         -- "Adventurer 2, select your new profession."
+		evt.ForPlayer(1)
+	else
+		evt.SetMessage(1021)         -- "Adventurer 1, select your new profession."
+		evt.ForPlayer(0)
+	end]] ]
+	=
+	[[evt.ForPlayer("All")
+	if evt.Cmp("QBits", 869) then         -- BDJ Final
+		evt.SetMessage(2754)         -- "Adventurer 5, select your new profession."
+		evt.ForPlayer(4)
+	elseif evt.Cmp("QBits", 850) then         -- BDJ 4
+		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
+		evt.ForPlayer(3)
+	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
+		evt.SetMessage(1023)         -- "Adventurer 3, select your new profession."
+		evt.ForPlayer(2)
+	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
+		evt.SetMessage(1022)         -- "Adventurer 2, select your new profession."
+		evt.ForPlayer(1)
+	else
+		evt.SetMessage(1021)         -- "Adventurer 1, select your new profession."
+		evt.ForPlayer(0)
+	end]]
+}
+
+for from, to in pairs(patches) do
+	content = content:replace(from, to)
 end
 
 local genericEvtRegex = "evt%.%w-[%(%{].-[%)%}]"
@@ -402,6 +533,82 @@ repeat
 	end
 	i, j = content:find(genericEvtRegex, i + 1)
 until i == nil
+
+-- Harmondale teleportal hub
+content = content:replace([[-- "Challenges"
+Game.GlobalEvtLines:RemoveEvent(1313)
+evt.global[1313] = function()
+	evt.SetMessage(1671)         -- "Scattered around the land are the Challenges.  If your ability is great enough, and you best the challenge, you will be award skill points to do with as you wish!"
+end]], [[-- "Challenges"
+Game.GlobalEvtLines:RemoveEvent(1313)
+evt.global[1313] = function()
+	evt.SetMessage(1671)         -- "Scattered around the land are the Challenges.  If your ability is great enough, and you best the challenge, you will be award skill points to do with as you wish!"
+end
+
+-- HARMONDALE TELEPORTAL HUB --
+
+local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
+-- "Go back"
+evt.global[1993] = function()
+	for i = 0, 2 do
+		Game.NPC[1255]["Event" .. indexes[i] ] = 1995 + i
+	end
+	Game.NPC[1255]["Event" .. indexes[3] ] = 1994
+end
+
+-- "More destinations"
+evt.global[1994] = function()
+	for i = 0, 1 do
+		Game.NPC[1255]["Event" .. indexes[i] ] = 1998 + i
+	end
+	Game.NPC[1255]["Event" .. indexes[2] ] = 1993
+	Game.NPC[1255]["Event" .. indexes[3] ] = 0
+end
+
+evt.CanShowTopic[1995] = function()
+	return evt.All.Cmp("Inventory", 1467)
+end
+
+-- "Tatalia"
+evt.global[1995] = function()
+	evt.MoveToMap{X = 6604, Y = -8941, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out13.odm"}
+end
+
+evt.CanShowTopic[1996] = function()
+	return evt.All.Cmp("Inventory", 1469)
+end
+
+-- "Avlee"
+evt.global[1996] = function()
+	evt.MoveToMap{X = 14414, Y = 12615, Z = 0, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out14.odm"}
+end
+
+evt.CanShowTopic[1997] = function()
+	return evt.All.Cmp("Inventory", 1468)
+end
+
+-- "Deyja"
+evt.global[1997] = function()
+	evt.MoveToMap{X = 4586, Y = -12681, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out05.odm"}
+end
+
+evt.CanShowTopic[1998] = function()
+	return evt.All.Cmp("Inventory", 1471)
+end
+
+-- "Bracada Desert"
+evt.global[1998] = function()
+	evt.MoveToMap{X = 8832, Y = 18267, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out06.odm"}
+end
+
+evt.CanShowTopic[1999] = function()
+	return evt.All.Cmp("Inventory", 1470)
+end
+
+-- "Evenmorn Island"
+evt.global[1999] = function()
+	evt.MoveToMap{X = 17161, Y = -10827, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out09.odm"}
+end]])
 
 local file2 = io.open("GLOBAL rev4 processed.lua", "w")
 file2:write(content)

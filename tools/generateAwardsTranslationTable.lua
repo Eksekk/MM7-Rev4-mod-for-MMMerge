@@ -17,7 +17,7 @@ for i = 2, #awardsrev4 do
 		end
 	end
 	if entrymerge == nil then
-		print("Couldn't find merge award for award title \"" .. entryrev4[2] .. "\".")
+		print("Couldn't find merge award for award title \"" .. (entryrev4[2] or "") .. "\".")
 	else
 		mappingTable[entryrev4[1]] = entrymerge[1]
 	end

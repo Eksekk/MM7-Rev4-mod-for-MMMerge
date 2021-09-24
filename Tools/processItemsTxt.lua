@@ -66,24 +66,28 @@ local merge = LoadBasicTextTable("tab\\Items merge.txt", 0)
 local spriteIndexMappings = {}
 
 for i = 3, #rev4 - 1 do
-	if merge[i + 803][3]:match("^%_") then -- dummy item in merge
+	local iid = getItem(i - 2) + 3
+	if merge[iid][3]:match("^%_") then -- dummy item in merge
+		goto continue
+	end
+	if rev4[i][3]:match("^%_") then -- dummy item in rev4
 		goto continue
 	end
 	local sirev4 = tonumber(rev4[i][12])
 	
-	local simerge = tonumber(merge[i + 803][12])
-	if spriteIndexMappings[sirev4] ~= nil and spriteIndexMappings[sirev4] ~= simerge then
-		print(("Found conflicting SpriteIndex mappings, old item: %d, new item: %d"):format(spriteIndexMappings[sirev4][2], i - 2))
-		print(sirev4, simerge)
+	local simerge = tonumber(merge[iid][12])
+	if spriteIndexMappings[sirev4] ~= nil and spriteIndexMappings[sirev4][1] ~= simerge then
+		--print(("Found conflicting SpriteIndex mappings, old item: %d (%s), new item: %d (%s)"):format(spriteIndexMappings[sirev4][2], Game.ItemsTxt[getItem(spriteIndexMappings[sirev4][2])].Name, i - 2, Game.ItemsTxt[getItem(i - 2)].Name))
+		--print(sirev4, simerge)
 		goto continue
 	end
-	spriteIndexMappings[sirev4] = simerge
+	spriteIndexMappings[sirev4] = spriteIndexMappings[sirev4] or {simerge, i - 2}
 	::continue::
 end
 
 --[[ FINDING PICTURE MAPPINGS ]]--
 
-local function tfind(t, what)
+--[[local function tfind(t, what)
 	for k, v in ipairs(t) do
 		if v == what then
 			return k
@@ -146,7 +150,8 @@ end
 pictureMappings["item070"] = "7item070" -- for some reason it is changed in merge
 
 for i = 3, #rev4 - 1 do
-	local row = merge[i + 803]
+	
+	local row = merge[getItem(i - 2) + 3]
 	local roworig = table.copy(row)
 	local rowrev4 = rev4[i]
 	for j = 2, 17 do
@@ -154,19 +159,42 @@ for i = 3, #rev4 - 1 do
 	end
 	-- image
 	if pictureMappings[rowrev4[2]:lower()] == nil and rowrev4[2] ~= "null" then
-		print("Couldn't find a picture for file name " .. rowrev4[2])
+		--print("Couldn't find a picture for file name " .. rowrev4[2])
 	end
 	row[2] = pictureMappings[rowrev4[2]:lower()] or rowrev4[2]
 	-- spriteIndex
 	local n = tonumber(rowrev4[12])
-	if rowrev4[11]:lower():find("potion") ~= nil then -- 11 = not identified name
-	end
 	if spriteIndexMappings[n] == nil then
-		print("Couldn't find sprite index mapping for spriteIndex " .. n)
+		--print(("Couldn't find sprite index mapping for spriteIndex %d (item id %d, name: %s)"):format(n, getItem(i - 2) + 3, Game.ItemsTxt[getItem(i - 2) + 3].Name))
 	end
 	row[12] = spriteIndexMappings[n] or rowrev4[12]
 	
 	-- equip x, equip y
 	row[15] = roworig[15]
 	row[16] = roworig[16]
+end]]--
+
+-- fixing sprite indexes which are invalid after copypasting new rev4 items
+
+local mergeprocessed = LoadBasicTextTable("tab\\Items merge processed.txt", 0)
+local newitems = {}
+for i = 3, 782 do
+	local mergerowid = i + 803
+	--print(("Merge name: %s, rev4 name: %s"):format(merge[mergerowid][3], rev4[i][3]))
+	if merge[mergerowid][3]:match("^%_") and not mergeprocessed[mergerowid][3]:match("^%_") then -- new item in rev4
+		table.insert(newitems, getItem(tonumber(rev4[i][1])))
+		print(("Item %d (%s) is new in rev4"):format(tonumber(rev4[i][1]), rev4[i][3]))
+		local si = tonumber(mergeprocessed[mergerowid][12])
+		--local mapping = spriteIndexMappings[tonumber(rev4[i][12])]
+		--if mapping == nil then print(i, tonumber(rev4[i][12])) break end
+		print(("Replacing SpriteIndex %d of item %d (%s) to SpriteIndex %d of item %d (%s)"):format(si, mergerowid - 3, Game.ItemsTxt[mergerowid - 3].Name,
+		spriteIndexMappings[tonumber(rev4[i][12])][1],
+		getItem(spriteIndexMappings[tonumber(rev4[i][12])][2]),
+		Game.ItemsTxt[getItem(spriteIndexMappings[tonumber(rev4[i][12])][2])].Name))
+		mergeprocessed[mergerowid][12] = tostring(spriteIndexMappings[tonumber(rev4[i][12])][1])
+	end
 end
+
+WriteBasicTextTable(mergeprocessed, "Items merge fixed.txt")
+
+print(dump(newitems, 10, true))

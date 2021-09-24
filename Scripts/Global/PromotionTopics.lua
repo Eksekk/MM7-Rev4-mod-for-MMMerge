@@ -955,7 +955,7 @@ Quest{
 	Name = "MM6_Promo_Justiciar",
 	Branch = "",
 	Slot = 2,
-	Quest = 1112,
+	Quest = 1113,
 	Exp = 30000,
 	QuestItem = 2075,
 	CanShow = function() return Party.QBits[1269] end,

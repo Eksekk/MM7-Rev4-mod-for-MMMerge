@@ -274,6 +274,7 @@ local replacements =
 * SBG's blessed items have red crossed circle icon when equipped
 * antagarichan gems have changed descriptions in Merge, maybe preserve them?
 * <del>leane shadowrunner in deyja strange message on master stealing</del> - strange in vanilla Merge too
+* restore qbits on leaving the gauntlet only if they were set originally
 --]]
 
 --[[ USEFUL STUFF

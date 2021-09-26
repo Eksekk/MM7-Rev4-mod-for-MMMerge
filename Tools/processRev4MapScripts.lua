@@ -964,7 +964,29 @@ end]]},
 	{
 		[[evt.MoveToMap{X = 17656, Y = -20704, Z = 800, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
 		[[evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]]
-	}
+	},
+	-- Barrow Downs
+	-- repair tea
+	["out11.lua"] = {[[evt.map[10] = function()
+	evt.ForPlayer(-- ERROR: Const not found
+"All")
+	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
+		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
+		evt.Set{"RepairSkill", Value = 71}
+	end
+end]], [[evt.map[10] = function()
+	evt.ForPlayer(-- ERROR: Const not found
+"All")
+	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
+		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Repair])
+			pl.Skills[const.Skills.Repair] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
+		end
+	end
+end]]}
+
 }
 
 local patchesMerge =
@@ -1037,8 +1059,7 @@ function events.AfterLoadMap()
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
 	end
 	vars["make BDJ hostile"] = true
-end]], [[
-]]},
+end]]},
 	-- Castle Harmondale
 	-- fix for a bug where golem and messenger of the saints are visible by default
 	["d29.lua"] = {[[
@@ -1117,6 +1138,19 @@ for i in path.find("rev4 map scripts\\*.lua") do
 		for i = 1, #patchesMerge[name], 2 do
 			content = content:replace(patchesMerge[name][i], patchesMerge[name][i + 1])
 		end
+	end
+	-- convert DDMapBuffs
+	local function getDDMapBuff(buff)
+		local add = 921 - 801 -- 120
+		return buff + add
+	end
+	local done
+	content, done = content:gsub("Party%.QBits%[(%d+)%] = true	%-%- DDMapBuff", function(buff)
+		buff = tonumber(buff)
+		return ("Party.QBits[%d] = true	-- DDMapBuff, changed for rev4 for merge"):format(getDDMapBuff(buff))
+	end)
+	if done ~= 1 and name:find("out") ~= nil then
+		print("Outdoor map " .. name .. ", no DDMapBuff replacement made - check this")
 	end
 	content = content:replace([[
 -- Deactivate all standard events

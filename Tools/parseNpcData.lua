@@ -178,6 +178,7 @@ local index = tonumber(row[1]) - counterFromThisMovedToEnd
 row[1] = tostring(firstCounterEntryAfterMM6InMerge + index) -- counter
 row[2] = "Harmondale Teleportal Hub" -- name
 row[3] = "1561" -- pic
+row[7] = 925 -- 2d location
 row[9] = 368 -- greeting
 for i = 0, 2 do
 	row[11 + i] = 1995 + i -- events

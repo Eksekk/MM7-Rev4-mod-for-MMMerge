@@ -442,7 +442,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 -- Enter Throne Room

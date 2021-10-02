@@ -108,25 +108,25 @@ evt.map[5] = function()  -- function events.LoadMap()
 		if evt.Cmp{"QBits", Value = 881} then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 			evt.Set{"QBits", Value = 884}         -- Barrow Create Monsters Once
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = -22146, Y = 5899, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -16576, Y = 11844, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 10, X = -1783, Y = 3048, Z = 1760, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = -3068, Y = 1129, Z = 1760, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 10, X = -4682, Y = 2962, Z = 1760, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 10, X = -21412, Y = -8748, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = 4213, Y = 17510, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 12751, Y = 17073, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 16651, Y = 12446, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = 17875, Y = 6342, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		else
 			evt.Set{"QBits", Value = 880}         -- Barrow Normal
 		end
@@ -142,7 +142,11 @@ evt.map[10] = function()
 "All")
 	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
 		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
-		evt.Set{"RepairSkill", Value = 71}
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Repair])
+			pl.Skills[const.Skills.Repair] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
+		end
 	end
 end
 
@@ -320,7 +324,7 @@ evt.map[321] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 26} then         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
+	if not evt.Cmp{"AutonotesBits", Value = 282} then         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
 		evt.Add{"AutonotesBits", Value = 282}         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
 	end
 	evt.Add{"FireResBonus", Value = 25}
@@ -375,20 +379,20 @@ evt.hint[250] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(250)
 evt.map[250] = function()  -- function events.LoadMap()
 	if evt.CheckSeason{Season = 2} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree14"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree17"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree14"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree17"}
 		evt.StatusText{Str = 62}         -- ""
 		goto _23
 	end
 	if evt.CheckSeason{Season = 3} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree15"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree18"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree15"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree18"}
 		evt.StatusText{Str = 63}         -- ""
 		goto _23
 	end
-	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree13"}
-	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree16"}
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree22"}
+	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree13"}
+	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree16"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree22"}
 	evt.SetSprite{SpriteId = 10, Visible = 1, Name = "0"}
 	if evt.Cmp{"MapVar50", Value = 1} then
 		evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
@@ -431,14 +435,14 @@ evt.map[250] = function()  -- function events.LoadMap()
 	end
 	do return end
 ::_23::
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree24"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree24"}
 	evt.SetSprite{SpriteId = 10, Visible = 0, Name = "0"}
-	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree30"}
+	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "7tree30"}
 end
 
 events.LoadMap = evt.map[250].last
@@ -573,7 +577,7 @@ evt.map[501] = function()
 	do return end
 ::_18::
 	evt.SpeakNPC{NPC = 369}         -- "Doom Bearer"
-	evt.Set{"Awards", Value = 20}         -- "Inducted into the Erathian Hall of Shame!"
+	evt.Set{"Awards", Value = 124}         -- "Inducted into the Erathian Hall of Shame!"
 end
 
 evt.hint[502] = evt.str[32]  -- "Enter Mansion"
@@ -602,12 +606,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Barrow Downs
 
 function events.AfterLoadMap()
-	Party.QBits[826] = true	-- DDMapBuff
+	Party.QBits[946] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 Game.MapEvtLines:RemoveEvent(501)

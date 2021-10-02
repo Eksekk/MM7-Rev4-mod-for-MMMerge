@@ -488,7 +488,7 @@ evt.map[202] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 29} then         -- "20 points of temporary Armor Class from the well in the northern village in Tatalia."
+	if not evt.Cmp{"AutonotesBits", Value = 285} then         -- "20 points of temporary Armor Class from the well in the northern village in Tatalia."
 		evt.Add{"AutonotesBits", Value = 285}         -- "20 points of temporary Armor Class from the well in the northern village in Tatalia."
 	end
 	evt.Add{"ArmorClassBonus", Value = 20}
@@ -509,7 +509,7 @@ evt.map[203] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 28} then         -- "20 points of temporary Air resistance from the well in the eastern section of Tidewater in Tatalia."
+	if not evt.Cmp{"AutonotesBits", Value = 284} then         -- "20 points of temporary Air resistance from the well in the eastern section of Tidewater in Tatalia."
 		evt.Add{"AutonotesBits", Value = 284}         -- "20 points of temporary Air resistance from the well in the eastern section of Tidewater in Tatalia."
 	end
 	evt.Add{"AirResBonus", Value = 20}
@@ -530,7 +530,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 27} then         -- "2 points of permanent Speed from the well in the western section of Tidewater in Tatalia."
+	if not evt.Cmp{"AutonotesBits", Value = 283} then         -- "2 points of permanent Speed from the well in the western section of Tidewater in Tatalia."
 		evt.Add{"AutonotesBits", Value = 283}         -- "2 points of permanent Speed from the well in the western section of Tidewater in Tatalia."
 	end
 	evt.Add{"BaseSpeed", Value = 2}
@@ -744,12 +744,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Tatalia
 
 function events.AfterLoadMap()
-	Party.QBits[828] = true	-- DDMapBuff
+	Party.QBits[948] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 ----------------------------------------

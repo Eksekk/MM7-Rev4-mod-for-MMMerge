@@ -45,11 +45,13 @@ events.LoadMap = evt.map[1].last
 evt.hint[10] = evt.str[15]  -- "Professor Dumbledore’s Grog "
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
 	if not evt.Cmp{"QBits", Value = 847} then         -- BDJ 1
 		evt.Set{"QBits", Value = 847}         -- BDJ 1
-		evt.Set{"LearningSkill", Value = 70}
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Learning])
+			pl.Skills[const.Skills.Learning] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 	end
 end
 
@@ -406,7 +408,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 -- Rescue dwarfs quest (mm7)

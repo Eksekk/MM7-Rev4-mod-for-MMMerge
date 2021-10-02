@@ -375,7 +375,7 @@ evt.map[202] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 21} then         -- "2 Skill Points from the well near Offerings and Blessings in Damocles in Mount Nighon. "
+	if not evt.Cmp{"AutonotesBits", Value = 277} then         -- "2 Skill Points from the well near Offerings and Blessings in Damocles in Mount Nighon. "
 		evt.Add{"AutonotesBits", Value = 277}         -- "2 Skill Points from the well near Offerings and Blessings in Damocles in Mount Nighon. "
 	end
 	evt.Add{"SkillPoints", Value = 2}
@@ -390,7 +390,7 @@ evt.map[203] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 22} then         -- "2 points of permanent Personality from the well near Fortune's Folly in Damocles in Mount Nighon."
+	if not evt.Cmp{"AutonotesBits", Value = 278} then         -- "2 points of permanent Personality from the well near Fortune's Folly in Damocles in Mount Nighon."
 		evt.Add{"AutonotesBits", Value = 278}         -- "2 points of permanent Personality from the well near Fortune's Folly in Damocles in Mount Nighon."
 	end
 	evt.Add{"BasePersonality", Value = 2}
@@ -405,7 +405,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 23} then         -- "20 points of temporary Air, Earth, Fire, Water, Body, and Mind resistances from the well near the Fire Guild in Damocles in Mount Nighon."
+	if not evt.Cmp{"AutonotesBits", Value = 279} then         -- "20 points of temporary Air, Earth, Fire, Water, Body, and Mind resistances from the well near the Fire Guild in Damocles in Mount Nighon."
 		evt.Add{"AutonotesBits", Value = 279}         -- "20 points of temporary Air, Earth, Fire, Water, Body, and Mind resistances from the well near the Fire Guild in Damocles in Mount Nighon."
 	end
 	evt.Add{"FireResBonus", Value = 20}
@@ -432,7 +432,7 @@ evt.map[206] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 20} then         -- "50 points of temporary Intellect and Personality from the central fountain in Damocles in Mount Nighon."
+	if not evt.Cmp{"AutonotesBits", Value = 276} then         -- "50 points of temporary Intellect and Personality from the central fountain in Damocles in Mount Nighon."
 		evt.Add{"AutonotesBits", Value = 276}         -- "50 points of temporary Intellect and Personality from the central fountain in Damocles in Mount Nighon."
 	end
 	evt.Add{"PersonalityBonus", Value = 50}
@@ -551,10 +551,10 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Mount Nighon
 
 function events.AfterLoadMap()
-	Party.QBits[825] = true	-- DDMapBuff
+	Party.QBits[945] = true	-- DDMapBuff, changed for rev4 for merge
 end

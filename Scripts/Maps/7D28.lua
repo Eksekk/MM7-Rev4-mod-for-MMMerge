@@ -27,19 +27,19 @@ Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	if evt.Cmp{"QBits", Value = 876} then         -- 0
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -3290, Y = 2529, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 2, X = -3328, Y = 2529, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 6, X = -3290, Y = 2389, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	else
 		if evt.Cmp{"QBits", Value = 877} then         -- 0
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 10, X = -3290, Y = 2529, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 2, X = -3328, Y = 2529, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 6, X = -3290, Y = 2389, Z = -96, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		else
 			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
 		end
@@ -80,7 +80,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Dragon's Lair
 

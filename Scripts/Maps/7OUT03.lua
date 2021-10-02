@@ -321,8 +321,8 @@ evt.map[35] = function()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"Inventory", Value = 1539} then         -- "Town Portal Pass"
-		evt.Subtract{"Inventory", Value = 1539}         -- "Town Portal Pass"
 		evt.MoveToMap{X = -6731, Y = 14045, Z = -512, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.Odm"}
+		evt.Subtract{"Inventory", Value = 1539}         -- "Town Portal Pass"
 	else
 		evt.StatusText{Str = 22}         -- "You need a town portal pass!"
 	end
@@ -334,8 +334,8 @@ evt.map[36] = function()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"Inventory", Value = 1539} then         -- "Town Portal Pass"
-		evt.Subtract{"Inventory", Value = 1539}         -- "Town Portal Pass"
 		evt.MoveToMap{X = -15148, Y = -10240, Z = 1312, Direction = 40, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out04.odm"}
+		evt.Subtract{"Inventory", Value = 1539}         -- "Town Portal Pass"
 	else
 		evt.StatusText{Str = 22}         -- "You need a town portal pass!"
 	end
@@ -344,11 +344,13 @@ end
 evt.hint[37] = evt.str[16]  -- "Brianna's Brandy"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
 	if not evt.Cmp{"QBits", Value = 843} then         -- 1-time Erathia
 		evt.Set{"QBits", Value = 843}         -- 1-time Erathia
-		evt.Set{"IdentifyItemSkill", Value = 70}
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyItem])
+			pl.Skills[const.Skills.IdentifyItem] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
 end
@@ -740,7 +742,7 @@ evt.map[203] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 8} then         -- "2 points of permanent Might from the well in the northwest section of Steadwick."
+	if not evt.Cmp{"AutonotesBits", Value = 264} then         -- "2 points of permanent Might from the well in the northwest section of Steadwick."
 		evt.Add{"AutonotesBits", Value = 264}         -- "2 points of permanent Might from the well in the northwest section of Steadwick."
 	end
 	evt.Add{"BaseMight", Value = 2}
@@ -755,7 +757,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 10} then         -- "20 points of temporary Body Resistance from the well south of the Steadwick Town Hall."
+	if not evt.Cmp{"AutonotesBits", Value = 266} then         -- "20 points of temporary Body Resistance from the well south of the Steadwick Town Hall."
 		evt.Add{"AutonotesBits", Value = 266}         -- "20 points of temporary Body Resistance from the well south of the Steadwick Town Hall."
 	end
 	evt.Add{"BodyResBonus", Value = 20}
@@ -780,7 +782,7 @@ evt.map[205] = function()
 			end
 		end
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 9} then         -- "Disease cured at the eastern well in Steadwick."
+	if not evt.Cmp{"AutonotesBits", Value = 265} then         -- "Disease cured at the eastern well in Steadwick."
 		evt.Add{"AutonotesBits", Value = 265}         -- "Disease cured at the eastern well in Steadwick."
 	end
 	evt.Set{"MainCondition", Value = const.Condition.Cursed}
@@ -795,7 +797,7 @@ evt.map[208] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 11} then         -- "50 points of temporary Might from the central fountain in Steadwick."
+	if not evt.Cmp{"AutonotesBits", Value = 267} then         -- "50 points of temporary Might from the central fountain in Steadwick."
 		evt.Add{"AutonotesBits", Value = 267}         -- "50 points of temporary Might from the central fountain in Steadwick."
 	end
 	evt.Add{"MightBonus", Value = 50}
@@ -816,7 +818,7 @@ evt.map[209] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 7} then         -- "10 points of temporary Accuracy from the well in the village northeast of Steadwick."
+	if not evt.Cmp{"AutonotesBits", Value = 263} then         -- "10 points of temporary Accuracy from the well in the village northeast of Steadwick."
 		evt.Add{"AutonotesBits", Value = 263}         -- "10 points of temporary Accuracy from the well in the village northeast of Steadwick."
 	end
 	evt.Add{"AccuracyBonus", Value = 10}
@@ -837,7 +839,7 @@ evt.map[210] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 12} then         -- "5 points of temporary Personality from the trough in front of the Steadwick Town Hall."
+	if not evt.Cmp{"AutonotesBits", Value = 268} then         -- "5 points of temporary Personality from the trough in front of the Steadwick Town Hall."
 		evt.Add{"AutonotesBits", Value = 268}         -- "5 points of temporary Personality from the trough in front of the Steadwick Town Hall."
 	end
 	evt.Add{"PersonalityBonus", Value = 5}
@@ -966,20 +968,20 @@ evt.hint[500] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(500)
 evt.map[500] = function()  -- function events.LoadMap()
 	if evt.CheckSeason{Season = 2} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree20"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree26"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree20"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree26"}
 		evt.StatusText{Str = 62}         -- ""
 		goto _23
 	end
 	if evt.CheckSeason{Season = 3} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree21"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree27"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree21"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree27"}
 		evt.StatusText{Str = 63}         -- ""
 		goto _23
 	end
-	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree19"}
-	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree25"}
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree28"}
+	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree19"}
+	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree25"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree28"}
 	evt.SetSprite{SpriteId = 10, Visible = 1, Name = "0"}
 	if evt.Cmp{"MapVar50", Value = 1} then
 		evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
@@ -1032,16 +1034,16 @@ evt.map[500] = function()  -- function events.LoadMap()
 	end
 	do return end
 ::_23::
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree30"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree30"}
 	evt.SetSprite{SpriteId = 10, Visible = 0, Name = "0"}
-	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "tree30"}
+	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "7tree30"}
 end
 
 events.LoadMap = evt.map[500].last
@@ -1243,7 +1245,7 @@ end
 -- ERROR: Invalid command size: 510:5 (Add)
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Erathia
 
@@ -1260,7 +1262,7 @@ end
 local CCTimers = {}
 
 function events.AfterLoadMap()
-	Party.QBits[818] = true	-- DDMapBuff
+	Party.QBits[938] = true	-- DDMapBuff, changed for rev4 for merge
 	if not (mapvars.GotAdvertisment or Party.QBits[519]) then
 
 		CCTimers.Catch = function()

@@ -36,7 +36,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 	if evt.Cmp{"QBits", Value = 892} then         -- "Pass the Test of Friendship"
 		evt.SetNPCGreeting{NPC = 1249, Greeting = 156}         -- "The Coding Wizard" : "Friends do not abandon friends in the midst of a fray!  You have failed the Test of Friendship!"
 		evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"
-		evt.Set{"Awards", Value = 33}         -- "Hall of Shame Award ‘Unfaithful Friends’"
+		evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}
 	else
@@ -48,7 +48,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetNPCTopic{NPC = 360, Index = 0, Event = 0}         -- "Zedd True Shot"
 		evt.SetNPCTopic{NPC = 360, Index = 1, Event = 0}         -- "Zedd True Shot"
 		evt.SetNPCTopic{NPC = 357, Index = 2, Event = 0}         -- "Lord Godwinson"
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 1321}         -- "The Coding Wizard" : "SAVE you Game!"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 1312}         -- "The Coding Wizard" : "SAVE you Game!"
 	end
 end
 
@@ -266,7 +266,7 @@ evt.map[502] = function()
 				if evt.Cmp{"NPCs", Value = 376} then         -- "Pascal the Mad Mage"
 					if evt.Cmp{"NPCs", Value = 359} then         -- "Baron BunGleau"
 						if evt.Cmp{"NPCs", Value = 360} then         -- "Zedd True Shot"
-							evt.Set{"Awards", Value = 32}         -- "Declared Friends of ‘The Game’"
+							evt.Set{"Awards", Value = 127}         -- "Declared Friends of ‘The Game’"
 							evt.Subtract{"QBits", Value = 892}         -- "Pass the Test of Friendship"
 							evt.MoveToMap{X = -6781, Y = 792, Z = 57, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D25.blv"}
 							return
@@ -276,7 +276,7 @@ evt.map[502] = function()
 			end
 		end
 	end
-	evt.Set{"Awards", Value = 33}         -- "Hall of Shame Award ‘Unfaithful Friends’"
+	evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 	evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 	evt.Set{"Eradicated", Value = 0}
 end

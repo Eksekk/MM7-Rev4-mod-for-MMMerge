@@ -208,7 +208,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Arena (Antagarich)
 Game.NPC[639].EventA = 704

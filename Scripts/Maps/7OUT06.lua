@@ -103,7 +103,7 @@ evt.map[30] = function()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"QBits", Value = 559} then         -- "Recover the Book of Unmakings from the Strange Temple and return it to Thomas Grey in the School of Sorcery."
-		evt.MoveToMap{X = 0, Y = 0, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "nwc.blv"}
+		evt.MoveToMap{X = 0, Y = 0, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7nwc.blv"}
 	else
 		if evt.Cmp{"Inventory", Value = 1472} then         -- "Home Key"
 			evt.MoveToMap{X = -9853, Y = 8656, Z = -1024, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out03.Odm"}
@@ -542,7 +542,7 @@ end
 evt.hint[312] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(312)
 evt.map[312] = function()
-	evt.MoveToMap{X = 17656, Y = -20704, Z = 800, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+	evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 end
 
 evt.hint[313] = evt.str[100]  -- ""
@@ -697,7 +697,7 @@ evt.hint[461] = evt.str[6]  -- "Drink from the Fountain"
 Game.MapEvtLines:RemoveEvent(461)
 evt.map[461] = function()
 	evt.MoveToMap{X = 3844, Y = 2906, Z = 0, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7d05.blv"}
-	if not evt.Cmp{"AutonotesBits", Value = 18} then         -- "25 points of temporary Intellect and Personality from the fountain outside the School of Sorcery in the Bracada Desert."
+	if not evt.Cmp{"AutonotesBits", Value = 274} then         -- "25 points of temporary Intellect and Personality from the fountain outside the School of Sorcery in the Bracada Desert."
 		evt.Add{"AutonotesBits", Value = 274}         -- "25 points of temporary Intellect and Personality from the fountain outside the School of Sorcery in the Bracada Desert."
 	end
 	evt.Add{"PersonalityBonus", Value = 25}
@@ -755,12 +755,15 @@ evt.map[503] = function()
 	evt.MoveToMap{X = -6781, Y = 792, Z = 57, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7D25.blv"}
 end
 
+evt.hint[318] = evt.str[100]  -- ""
+evt.map[318] = function()
+	evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+end
 
-
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Bracada Desert
 
 function events.AfterLoadMap()
-	Party.QBits[821] = true	-- DDMapBuff
+	Party.QBits[941] = true	-- DDMapBuff, changed for rev4 for merge
 end

@@ -355,7 +355,7 @@ evt.map[460] = function()  -- function events.LoadMap()
 		evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree38"}
 	end
 	if evt.Cmp{"MapVar55", Value = 1} then
-		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree"}
+		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree38"}
 	end

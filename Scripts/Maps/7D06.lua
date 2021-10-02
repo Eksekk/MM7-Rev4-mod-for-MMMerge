@@ -309,7 +309,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 function events.LoadMap()

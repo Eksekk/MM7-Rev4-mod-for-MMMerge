@@ -29,7 +29,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetDoorState{Id = 25, State = 0}
 		evt.SetDoorState{Id = 26, State = 0}
 	end
-	evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
+	evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
 Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
 end
 

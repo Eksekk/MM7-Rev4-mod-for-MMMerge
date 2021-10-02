@@ -39,7 +39,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetDoorState{Id = 73, State = 1}
 		evt.SetDoorState{Id = 80, State = 1}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 2, X = 2756, Y = 4781, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	end
 end
 
@@ -628,7 +628,7 @@ end
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
 	evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 2, X = 2756, Y = 4781, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 	evt.SetDoorState{Id = 73, State = 1}
 end
@@ -695,7 +695,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 Game.MapEvtLines:RemoveEvent(454)
 evt.map[454] = function()

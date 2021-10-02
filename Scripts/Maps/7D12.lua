@@ -545,3 +545,15 @@ evt.map[501] = function()
 	end
 end
 
+function events.AfterLoadMap()
+	-- make BDJ invisible by default
+	if (not vars["BDJ hidden"]) and Game.Map.Name == "7d12.blv" then
+		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
+		vars["BDJ hidden"] = true
+	end
+	-- make BDJ hostile on save game reload/lloyd back to dungeon
+	if vars["make BDJ hostile"] and Game.Map.Name == "7d12.blv" then
+		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
+	end
+	vars["make BDJ hostile"] = true
+end

@@ -30,37 +30,37 @@ evt.map[1] = function()  -- function events.LoadMap()
 				evt.Set{"QBits", Value = 814}         -- Small House only Once
 				evt.SpeakNPC{NPC = 762}         -- "Maximus"
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 			else
 				if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
 					evt.Set{"QBits", Value = 814}         -- Small House only Once
 					evt.SpeakNPC{NPC = 724}         -- "Sir Carneghem"
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1536, unk = 0}
+NPCGroup = 1587, unk = 0}
 				end
 			end
 		end
@@ -84,7 +84,7 @@ end
 evt.hint[5] = evt.str[12]  -- "Strange Torch"
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()
-	evt.MoveToMap{X = 0, Y = 0, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "nwc.blv"}
+	evt.MoveToMap{X = 0, Y = 0, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7nwc.blv"}
 end
 
 evt.hint[176] = evt.str[3]  -- "Chest"

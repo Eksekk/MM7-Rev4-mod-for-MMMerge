@@ -222,59 +222,72 @@ local replacements =
 --]]
 
 --[[ TODO
-* <del>fix getHouseID (create table of overriding mappings from rev4 to merge in case of for example hostels) - both here and in parseNpcData.lua</del>
 * check awards missing mappings
-* <del>promoted awards checks are changed into qbits in merge</del>
-* check other qbits past 512 * 3, for things that might break with conversion
-* check if after arriving in harmondale death map is set as harmondale
-* <del>check if class consts (const.Class.Thief for example) is good for merge</del>
-* <del>check if setMonGroupBit works correctly</del>
 * check search for "ERROR: Not found" and check if everything is ok near it
 ** do this in map scripts too
-* check if blayze's quest and saving erathia quest give correct mastery - they probably don't, fix them
-* check evt.ShowMovie file names
-* check wtf at line 2595
-* <del>check strange avlee teachers greetings ("Help me!")</del>
-* resolve docent talking in emerald island - workaround is to walk into BDJ radius again, second time it sets the QBit
-* <del>BDJ goodbye topic giving wrong message</del>
-* <del>sort entries in mapstats</del>
 * check icons for evt.MoveToMap
 * integrate changes from revamp.T.lod ( incl. scripts)
 * check unfixed evt commands in each script file
 * check Elgar Fellmoon
+* different sparkles for skill barrels: https://discord.com/channels/296507109997019137/296508593744773120/885066444071645245
+* fix the gauntlet scripts to subtract MM8/MM6 scrolls/potions as well and remove SPs from all party members
+* duplicated items - remove them from rnditems.txt?
+* check celeste&the pit
+* play "humming" sound when entering harmondale teleportal hub (function events.EnterNPC) (maybe looped to be longer)
+* SBG's blessed items have red crossed circle icon when equipped
+* restore qbits on leaving the gauntlet only if they were set originally
+* Zokarr's tomb fix coordinates on teleport to Barrow VI
+* <del>mdt, mdk, mdr test</del> - barrows done
+* check test of friendship - probably need to disable monster pathfinding there/increase HP of NPCs
+* find where judas the geek is in rev4 and put him there in merge
+--]]
+
+--[[ TODOs completed
+* <del>fix getHouseID (create table of overriding mappings from rev4 to merge in case of for example hostels) - both here and in parseNpcData.lua</del>
+* <del>promoted awards checks are changed into qbits in merge</del>
+* <del>check if class consts (const.Class.Thief for example) is good for merge</del>
+* <del>check if setMonGroupBit works correctly</del>
+* <del>check strange avlee teachers greetings ("Help me!")</del>
+* <del>BDJ goodbye topic giving wrong message</del>
+* <del>sort entries in mapstats</del>
 * <del>process npctext</del>
 * <del>fix adventurers in temple of the moon not dropping items: iterate through monsters after loading map, find adventurer index and give item to him</del>
 * <del>fix skill barrels code</del>
-* different sparkles for skill barrels: https://discord.com/channels/296507109997019137/296508593744773120/885066444071645245
 * <del>fix mm7 barrels to give +5</del>
-* fix the gauntlet scripts to subtract MM8/MM6 scrolls/potions as well and remove SPs from all party members
 * <del>the gauntlet: lord godwinson, the coding fortress: BDJ the coding wizard, fix him (move to correct location)</del>
-* <del>inspect map d16.blv for what's changed (couldn't find anything in the first pass)</del>
+* <del>inspect map d16.blv for what's changed (couldn't find anything in the first pass) - vampire cloak</del>
 * <del>stone city check chests</del>
-* trees in tularean looked strange - possible not changed file name in evt.CheckSeason checks
 * <del>check chests in 7d12.blv</del>
 * <del>five rings in chests in stone city</del>
-* quest giving dark magic fix skills given
-* duplicated items - remove them from rnditems.txt?
 * <del>getItem() fixes (potions etc.)</del>
-* check celeste&the pit
 * <del>d29.blv - angel messenger</del>
 * <del>7d28.lua - map editor stuff</del>
 * <del>check ancient weapons in items.txt</del>
 * <del>check d08.blv for crashes relating to Lord Godwinson placemon id</del>
-* play "humming" sound when entering harmondale teleportal hub (function events.EnterNPC) (maybe looped to be longer)
-* check d08.blv Lord Godwinson stats - they get affected by bolster monster
-* https://gitlab.com/cthscr/mmmerge/-/wikis/Cluebook/DimensionDoor
-* phasing cauldron and brazier of succor
 * <del>BDJ should become hostile on game load/move into 7d12 with lloyd's beacon - use vars table</del>, same thing with 7d08.blv (monsters reappearing)
 * <del>castle harmondale locked if not finished scavenger hunt, also messenger about scavenger hunt</del>
 * <del>process summon monsters npcgroup</del>
 * <del>inspect EI event 575 (where is it located) - answer: nowhere</del>
 * <del>castle harmondale respawn -1</del>
-* SBG's blessed items have red crossed circle icon when equipped
-* antagarichan gems have changed descriptions in Merge, maybe preserve them?
 * <del>leane shadowrunner in deyja strange message on master stealing</del> - strange in vanilla Merge too
-* restore qbits on leaving the gauntlet only if they were set originally
+* <del>move npcs in mdt12.blv</del>
+* <del>check if after arriving in harmondale death map is set as harmondale</del>
+* <del>d16 vampire cloak in prison</del - vampire has it
+* <del>check other qbits past 512 * 3, for things that might break with conversion</del>
+* <del>phasing cauldron and brazier of succor</del> - idk how to fix this
+* <del>judas in colony zod?</del> - nope, though make sure to play fully through rev4
+* <del>realign evenmorn island titans</del>
+* <del>check d08.blv Lord Godwinson stats - they get affected by bolster monster</del> - partially fixed
+* <del>trees in tularean looked strange - possible not changed file name in evt.CheckSeason checks</del>
+* <del>the small house entrance text</del>
+* <del>resolve docent talking in emerald island - workaround is to walk into BDJ radius again, second time it sets the QBit</del>
+* <del>antagarichan gems have changed descriptions in Merge, maybe preserve them?</del>
+* <del>consider restoring original behavior of blasters - currently they benefit from bow skill</del>
+* <del>check evt.ShowMovie file names</del>
+* <del>https://gitlab.com/cthscr/mmmerge/-/wikis/Cluebook/DimensionDoor</del>
+* <del>fix other ddmapbuffs in MM6/MM8 maps</del>
+* <del>check wtf at line 2595</del>
+* <del>check if blayze's quest and saving erathia quest give correct mastery - they probably don't, fix them</del>
 --]]
 
 --[[ USEFUL STUFF
@@ -288,6 +301,10 @@ for m, id in pairs(Editor.State.Monsters) do if id == 1 then XYZ(m, XYZ(Party)) 
 t1 = nil
 for v, k in pairs(Editor.State.Monsters) do
 if k == 0 then t1 = v end end
+
+local file = io.open("Monster data.txt", "w")
+for k, v in Map.Monsters do if v.NameId ~= 0 then file:write("Monster " .. k .. "\n\n" .. dump(v, 1):gsub("NameId = (%d+)", function(nameid) return ("NameId = %d (%s)"):format(tonumber(nameid), Game.PlaceMonTxt[tonumber(nameid)]) end) .. "\n\n\n") end end
+file:close()
 --]]
 
 for regex, fun in pairs(replacements) do
@@ -330,7 +347,55 @@ local patches =
 	else
 		evt.SetMessage(1021)         -- "Adventurer 1, select your new profession."
 		evt.ForPlayer(0)
-	end]]
+	end]],
+	[ [[evt.ForPlayer(3)
+	if evt.Cmp("FireSkill", 1) then
+		evt.Set("FireSkill", 49152)
+		evt.Set("FireSkill", 72)
+	end
+	evt.ForPlayer(2)
+	if evt.Cmp("FireSkill", 1) then
+		evt.Set("FireSkill", 49152)
+		evt.Set("FireSkill", 72)
+	end
+	evt.ForPlayer(1)
+	if evt.Cmp("FireSkill", 1) then
+		evt.Set("FireSkill", 49152)
+		evt.Set("FireSkill", 72)
+	end
+	evt.ForPlayer(0)
+	if evt.Cmp("FireSkill", 1) then
+		evt.Set("FireSkill", 49152)
+		evt.Set("FireSkill", 72)
+	end]] ] = [[for _, pl in Party do
+	local s, m = SplitSkill(pl.Skills[const.Skills.Fire])
+	if s ~= 0 then
+		pl.Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
+	end
+end]],
+-- don't need sparkles, as later there's evt.Add("Experience")
+[ [[if not evt.Cmp("QBits", 807) then         -- Water
+		if not evt.Cmp("QBits", 808) then         -- Fire
+			if not evt.Cmp("QBits", 809) then         -- Air
+				if not evt.Cmp("QBits", 810) then         -- Earth
+					return
+				end
+			end
+		end
+	end]] ] = [[if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
+	return
+end]],
+	[ [[evt.Set("DarkSkill", 136)]] ] = [[
+if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end]]
 }
 
 for from, to in pairs(patches) do

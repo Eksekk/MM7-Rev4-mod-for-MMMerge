@@ -49,17 +49,17 @@ evt.map[2] = function()  -- function events.LoadMap()
 "All")
 	if evt.Cmp{"QBits", Value = 863} then         -- Three Use
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -4721, Y = -10652, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -5159, Y = -10152, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 5, X = -4934, Y = -6884, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -4268, Y = -3983, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -5525, Y = -5947, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 5, X = -4606, Y = -1643, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	else
 		evt.SetNPCGreeting{NPC = 355, Greeting = 155}         -- "BDJ the Coding Wizard" : "BDJ’s the name, coding wizard’s the Game! And I do trust that you are enjoying the ‘game’."
 		evt.SetNPCTopic{NPC = 355, Index = 0, Event = 0}         -- "BDJ the Coding Wizard"
@@ -422,21 +422,21 @@ It’s finally time to ‘run the Gauntlet’ all the way back to the beginning!  Good
 	evt.SetNPCTopic{NPC = 355, Index = 2, Event = 0}         -- "BDJ the Coding Wizard"
 	evt.SpeakNPC{NPC = 355}         -- "BDJ the Coding Wizard"
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4176, Y = -10981, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 5, X = -4824, Y = -9884, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 5, X = -4996, Y = -3556, Z = 780, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4992, Y = -2175, Z = 780, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = 12012, Y = 3590, Z = 200, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 8, X = 10588, Y = 2888, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 8, X = 10084, Y = 2258, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = 7932, Y = 2156, Z = 144, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 	evt.ForPlayer(-- ERROR: Const not found
 "Current")
 	evt.Add{"Inventory", Value = 962}         -- "Coding Fortress Key"
@@ -462,19 +462,19 @@ NPCGroup = 512, unk = 0}
 		evt.Set{"SP", Value = 0}
 		evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Hostile, On = true}         -- "Group walkers in the Tularean forest"
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 8, X = -668, Y = 6965, Z = -384, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 5, X = -4721, Y = -10652, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 5, X = -5159, Y = -10152, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4934, Y = -6884, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 5, X = -4268, Y = -3983, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 5, X = -5525, Y = -5947, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4606, Y = -1643, Z = 833, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.Subtract{"QBits", Value = 878}         -- 0
 	end
 end

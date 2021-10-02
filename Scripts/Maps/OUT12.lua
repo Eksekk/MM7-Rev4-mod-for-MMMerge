@@ -348,7 +348,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Land of the Giants
 
@@ -382,5 +382,5 @@ end
 
 function events.AfterLoadMap()
 	coroutine.resume(coroutine.create(event1))
-	Party.QBits[827] = true	-- DDMapBuff
+	Party.QBits[947] = true	-- DDMapBuff, changed for rev4 for merge
 end

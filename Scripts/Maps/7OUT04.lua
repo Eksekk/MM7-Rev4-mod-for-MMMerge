@@ -543,7 +543,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 13} then         -- "50 points of temporary Earth resistance from the central fountain in Pierpont."
+	if not evt.Cmp{"AutonotesBits", Value = 269} then         -- "50 points of temporary Earth resistance from the central fountain in Pierpont."
 		evt.Add{"AutonotesBits", Value = 269}         -- "50 points of temporary Earth resistance from the central fountain in Pierpont."
 	end
 	evt.Add{"EarthResBonus", Value = 50}
@@ -570,12 +570,12 @@ evt.map[401] = function()  -- function events.LoadMap()
 				evt.Set{"QBits", Value = 591}         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
 				evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = false}
 				evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = false}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 3, X = -15752, Y = 21272, Z = 3273, NPCGroup = 0, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 5, X = -14000, Y = 18576, Z = 4250, NPCGroup = 0, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 0, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 30, X = -15752, Y = 21272, Z = 3273, NPCGroup = 0, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 9, X = -14000, Y = 18576, Z = 4250, NPCGroup = 0, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 0, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 3, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 5, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 30, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 9, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
 			end
 		end
 	end
@@ -630,19 +630,19 @@ evt.hint[500] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(500)
 evt.map[500] = function()  -- function events.LoadMap()
 	if evt.CheckSeason{Season = 2} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree08"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree26"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree08"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree26"}
 		evt.StatusText{Str = 62}         -- ""
 		goto _23
 	end
 	if evt.CheckSeason{Season = 3} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree09"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree27"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree09"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree27"}
 		evt.StatusText{Str = 63}         -- ""
 		goto _23
 	end
-	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree07"}
-	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree25"}
+	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree07"}
+	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree25"}
 	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree38"}
 	evt.SetSprite{SpriteId = 10, Visible = 1, Name = "0"}
 	if evt.Cmp{"MapVar50", Value = 1} then
@@ -713,17 +713,17 @@ evt.map[500] = function()  -- function events.LoadMap()
 ::_23::
 	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree40"}
 	evt.SetSprite{SpriteId = 10, Visible = 0, Name = "0"}
-	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 59, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 60, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 61, Visible = 1, Name = "tree30"}
+	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 59, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 60, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 61, Visible = 1, Name = "7tree30"}
 end
 
 events.LoadMap = evt.map[500].last
@@ -913,12 +913,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- The Tularean Forest
 
 function events.AfterLoadMap()
-	Party.QBits[819] = true	-- DDMapBuff
+	Party.QBits[939] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 -- Dimension door
@@ -928,17 +928,3 @@ function events.TileSound(t)
 	end
 end
 
--- Clanker's Laboratory
-Game.MapEvtLines:RemoveEvent(503)
-evt.map[503] = function()
-
-	if Party.QBits[710] then
-		evt.MoveNPC{427, 395}
-		Game.Houses[395].ExitMap = 86
-		Game.Houses[395].ExitPic = 1
-		evt.EnterHouse{395}
-	else
-		evt.MoveToMap{0,-709,1,512,0,0,395,9,"7d12.blv"}
-	end
-
-end

@@ -204,43 +204,43 @@ Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()  -- function events.LoadMap()
 	if evt.Cmp{"QBits", Value = 806} then         -- Return to EI
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 3244, Y = 9265, Z = 900, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 2, X = 4406, Y = 8851, Z = 900, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 8, X = 500, Y = 8191, Z = 700, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 8, X = 5893, Y = 8379, Z = 400, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 6758, Y = 8856, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 2, X = 7738, Y = 7005, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 6, X = 8402, Y = 7527, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 5, X = 9881, Y = 7481, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 4, X = 11039, Y = 7117, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 7, X = 12360, Y = 6764, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 4, X = 13389, Y = 6797, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 2, X = 14777, Y = 6911, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 7, X = 12560, Y = 5717, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 5, X = 12438, Y = 4787, Z = 170, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 2, X = 12481, Y = 3299, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 7, X = 12674, Y = 2105, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 4, X = 11248, Y = 2852, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 6, X = 9585, Y = 5015, Z = 0, -- ERROR: Not found
-NPCGroup = 512, unk = 0}
+NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 3, X = 12205, Y = 4919, Z = 170, -- ERROR: Not found
-NPCGroup = 2047, unk = 0}
+NPCGroup = 2098, unk = 0}
 		evt.SpeakNPC{NPC = 356}         -- "Sally"
 		evt.Subtract{"QBits", Value = 806}         -- Return to EI
 	end
@@ -509,9 +509,9 @@ end
 Game.MapEvtLines:RemoveEvent(200)
 evt.map[200] = function()
 	if not evt.Cmp{"QBits", Value = 529} then         -- No more docent babble
+		evt.Set{"QBits", Value = 529}        -- No more docent babble
 		evt.SpeakNPC{NPC = 342}         -- "Big Daddy Jim"
 	end
-	evt.Set{"QBits", Value = 529}         -- No more docent babble
 end
 
 Game.MapEvtLines:RemoveEvent(201)
@@ -650,9 +650,9 @@ evt.hint[220] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(220)
 evt.map[220] = function()  -- Timer(<function>, const.Day, 1*const.Hour)
 	if evt.CheckMonstersKilled{CheckType = 1, Id = 71, Count = 0} then
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -336, Y = 14512, Z = 0, NPCGroup = 20, unk = 0}         -- "Ridge walkers in Bracada"
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 5, X = 16, Y = 16352, Z = 90, NPCGroup = 20, unk = 0}         -- "Ridge walkers in Bracada"
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 480, Y = 18288, Z = 6, NPCGroup = 20, unk = 0}         -- "Ridge walkers in Bracada"
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -336, Y = 14512, Z = 0, NPCGroup = 71, unk = 0}         -- "Ridge walkers in Bracada"
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 5, X = 16, Y = 16352, Z = 90, NPCGroup = 71, unk = 0}         -- "Ridge walkers in Bracada"
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 480, Y = 18288, Z = 6, NPCGroup = 71, unk = 0}         -- "Ridge walkers in Bracada"
 	end
 end
 
@@ -695,7 +695,7 @@ evt.map[573] = function()
 "All")
 	evt.Subtract{"QBits", Value = 784}         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract{"Inventory", Value = 1540}         -- "Lost Scroll of Wonka"
-	evt.Add{"Awards", Value = 87}         -- "Recovered the Lost Scroll of  Wonka"
+	evt.Add{"Awards", Value = 129}         -- "Recovered the Lost Scroll of  Wonka"
 	evt.SetNPCTopic{NPC = 478, Index = 1, Event = 0}         -- "Blayze "
 	evt.Add{"Experience", Value = 40000}
 end
@@ -765,12 +765,12 @@ end
 
 events.LoadMap = evt.map[100].last
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Emerald Island
 
 function events.AfterLoadMap()
-	Party.QBits[816] = true	-- DDMapBuff
+	Party.QBits[936] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 -- Remove arcomage from Emerald Island's taverns

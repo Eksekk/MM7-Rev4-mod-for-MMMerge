@@ -891,7 +891,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 evt.SetMonGroupBit {56,  const.MonsterBits.Hostile,  false}

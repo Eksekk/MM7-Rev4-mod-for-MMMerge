@@ -866,8 +866,8 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 863	7item061	Journey Staff	400	Weapon2	Staff	2d6	0	3	1	Staff	170	0	0	12	84	Many dangers face the Jadamean traveler.  Even the least battle-minded carry some sort of weapon.  These iron ended walking sticks are a common choice.
 864	7item062	Orb Staff	500	Weapon2	Staff	2d6	3	3	5	Staff	170	0	0	12	93	"This staff is topped with a head of polished turquoise to give it greater striking force."
 865	7item063	Priestly Staff	500	Weapon2	Staff	2d6	7	3	9	Staff	170	0	0	13	101	"This finely decorated staff is the product of Lizardman craft.  Wrapped with exotic leathers, and ended with a bronze footcap and striker, these staves are carried by Lizardman priests as a symbol of station."
-866	7item064	Blaster	0	Weapon	Blaster	3d5	8	10	30	Ancient Weapon	171	0	0	54	24	"A weapon of awesome power, almost certainly created during the Time of Wonders.  "
-867	7item065	Blaster Rifle	0	Missile	Blaster	5d8	14	10	30	Ancient Weapon	172	0	0	13	70	"The finest of personal weapons made during the Time of Wonders, Blaster Rifles can deal death faster than any weapon you have ever seen."
+866	7item064	Blaster	0	Weapon	Blaster	4d6	10	10	30	Ancient Weapon	171	0	0	54	24	"A weapon of awesome power, almost certainly created during the Time of Wonders.  "
+867	7item065	Blaster Rifle	0	Weapon	Blaster	5d8	14	10	30	Ancient Weapon	172	0	0	13	70	"The finest of personal weapons made during the Time of Wonders, Blaster Rifles can deal death faster than any weapon you have ever seen."
 868	7item066	Leather Armor	150	Armor	Leather	4	0	3	1	Leather Armor	173	0	0	0	0	"This armor of thick, supple leather studded with brass offers minimal protection against blows."
 869	7item067	Studded Leather	250	Armor	Leather	4	2	3	4	Leather Armor	173	0	0	0	0	"This suit of leather armor is held together with bronze studs instead of leather straps.  This construction makes it a bit stronger, but also a bit heavier."
 870	7item068	Officer's Leather	450	Armor	Leather	4	6	3	8	Leather Armor	173	0	0	0	0	"An otherwise ordinary suit of leather armor, this suit is imbued with a subtle enchantment that strengthens the material against blows without increasing weight."
@@ -988,17 +988,17 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 985	null	_item183	0	0	0	0	0	0	0	_item183	153	0	0	0	0	Description here.
 986	null	_item184	0	0	0	0	0	0	0	_item184	153	0	0	0	0	Description here.
 987	null	_item185	0	0	0	0	0	0	0	_item185	153	0	0	0	0	Description here.
-988	7item199	Blue Quartz	250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-989	7item198	Topaz	500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-990	7item197	Emerald	2000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-991	7item202	Sapphire	1500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-992	7item195	Green Garnet	1250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-993	7item203	Rose Crystal	750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-994	7item196	Diamond	2500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-995	7item204	Amythest	1750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-996	7item154	Yellow Topaz	750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-997	7item150	Diamond	3000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
-998	7item146	Ruby	2000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"A gemstone.  It has no magial benefit, so you may as well sell it."
+988	7item199	Blue Quartz	250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+989	7item198	Topaz	500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+990	7item197	Emerald	2000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+991	7item202	Sapphire	1500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+992	7item195	Green Garnet	1250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+993	7item203	Rose Crystal	750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+994	7item196	Diamond	2500	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+995	7item204	Amythest	1750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+996	7item154	Yellow Topaz	750	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+997	7item150	Diamond	3000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
+998	7item146	Ruby	2000	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
 999	7item187	Gold	0	gold	misc	0	0	0	0	gold	283	0	0	0	0	A small pile of gold coins.
 1000	7item188	Gold	0	gold	misc	0	0	0	0	gold	284	0	0	0	0	A pile of gold coins.
 1001	7item189	Gold	0	gold	misc	0	0	0	0	gold	285	0	0	0	0	A large pile of gold coins.

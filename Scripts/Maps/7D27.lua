@@ -357,7 +357,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 Game.MapEvtLines:RemoveEvent(376)

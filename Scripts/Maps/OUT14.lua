@@ -450,7 +450,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 31} then         -- "20 points of temporary Water resistance from the well in the northwest section of Spaward in Avlee."
+	if not evt.Cmp{"AutonotesBits", Value = 287} then         -- "20 points of temporary Water resistance from the well in the northwest section of Spaward in Avlee."
 		evt.Add{"AutonotesBits", Value = 287}         -- "20 points of temporary Water resistance from the well in the northwest section of Spaward in Avlee."
 	end
 	evt.Add{"WaterResBonus", Value = 20}
@@ -471,7 +471,7 @@ evt.map[205] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 30} then         -- "2 points of permanent Endurance from the well in the northeast section of Spaward in Avlee."
+	if not evt.Cmp{"AutonotesBits", Value = 286} then         -- "2 points of permanent Endurance from the well in the northeast section of Spaward in Avlee."
 		evt.Add{"AutonotesBits", Value = 286}         -- "2 points of permanent Endurance from the well in the northeast section of Spaward in Avlee."
 	end
 	evt.Add{"BaseEndurance", Value = 2}
@@ -545,20 +545,20 @@ evt.hint[250] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(250)
 evt.map[250] = function()  -- function events.LoadMap()
 	if evt.CheckSeason{Season = 2} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree14"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree17"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree14"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree17"}
 		evt.StatusText{Str = 62}         -- ""
 		goto _23
 	end
 	if evt.CheckSeason{Season = 3} then
-		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree15"}
-		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree18"}
+		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree15"}
+		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree18"}
 		evt.StatusText{Str = 63}         -- ""
 		goto _23
 	end
-	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "tree13"}
-	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "tree16"}
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree22"}
+	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree13"}
+	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree16"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree22"}
 	evt.SetSprite{SpriteId = 10, Visible = 1, Name = "0"}
 	if evt.Cmp{"MapVar50", Value = 1} then
 		evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
@@ -621,18 +621,18 @@ evt.map[250] = function()  -- function events.LoadMap()
 	end
 	do return end
 ::_23::
-	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "tree24"}
+	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree24"}
 	evt.SetSprite{SpriteId = 10, Visible = 0, Name = "0"}
-	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 59, Visible = 1, Name = "tree30"}
-	evt.SetSprite{SpriteId = 60, Visible = 1, Name = "tree30"}
+	evt.SetSprite{SpriteId = 51, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 52, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 53, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 54, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 55, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 56, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 57, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 58, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 59, Visible = 1, Name = "7tree30"}
+	evt.SetSprite{SpriteId = 60, Visible = 1, Name = "7tree30"}
 end
 
 events.LoadMap = evt.map[250].last
@@ -807,12 +807,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Avlee
 
 function events.AfterLoadMap()
-	Party.QBits[829] = true	-- DDMapBuff
+	Party.QBits[949] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 function events.WalkToMap(t)

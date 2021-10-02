@@ -532,7 +532,7 @@ evt.map[39] = function()  -- function events.LoadMap()
 		if evt.Cmp{"QBits", Value = 886} then         -- End Game
 			evt.SetNPCGreeting{NPC = 365, Greeting = 147}         -- "Count ZERO" : "Magic Shop"
 			evt.SpeakNPC{NPC = 365}         -- "Count ZERO"
-			evt.Set{"Awards", Value = 15}         -- "Completed the MM7Rev4mod Game!!"
+			evt.Set{"Awards", Value = 123}         -- "Completed the MM7Rev4mod Game!!"
 			evt.Subtract{"QBits", Value = 642}         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
 		end
 	end
@@ -641,8 +641,8 @@ evt.map[110] = function()
 	evt.SetTexture{Facet = 7, Name = "chbw"}
 	evt.SetFacetBit{Id = 10, Bit = const.FacetBits.Invisible, On = true}
 	evt.SetFacetBit{Id = 15, Bit = const.FacetBits.Invisible, On = false}
-	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "tree07"}
-	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "tree01"}
+	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "7tree07"}
+	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "7tree01"}
 	if not evt.Cmp{"History5", Value = 0} then
 		evt.Add{"History5", Value = 0}
 	end
@@ -670,8 +670,8 @@ function events.LoadMap()
 	evt.SetTexture{Facet = 7, Name = "chbw"}
 	evt.SetFacetBit{Id = 10, Bit = const.FacetBits.Invisible, On = true}
 	evt.SetFacetBit{Id = 15, Bit = const.FacetBits.Invisible, On = false}
-	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "tree07"}
-	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "tree01"}
+	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "7tree07"}
+	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "7tree01"}
 	if not evt.Cmp{"History5", Value = 0} then
 		evt.Add{"History5", Value = 0}
 	end
@@ -1213,10 +1213,10 @@ evt.map[236] = function()
 		evt.Add{"QBits", Value = 760}         -- Took area 2 hill fort
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 6545, FromY = 10984, FromZ = 4000, ToX = 6545, ToY = 5678, ToZ = 111}         -- "Fire Bolt"
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 13458, FromY = 8781, FromZ = 4000, ToX = 8805, ToY = 5257, ToZ = 204}         -- "Fire Bolt"
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 5232, Y = 1424, Z = 0, NPCGroup = 0, unk = 0}
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 10880, Y = 784, Z = 64, NPCGroup = 0, unk = 0}
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 5824, Y = 6400, Z = 12, NPCGroup = 0, unk = 0}
-		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 10832, Y = 6208, Z = 0, NPCGroup = 0, unk = 0}
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 5232, Y = 1424, Z = 0, NPCGroup = 51, unk = 0}
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 10880, Y = 784, Z = 64, NPCGroup = 51, unk = 0}
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 5824, Y = 6400, Z = 12, NPCGroup = 51, unk = 0}
+		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 10832, Y = 6208, Z = 0, NPCGroup = 51, unk = 0}
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 8096, FromY = -3423, FromZ = 4000, ToX = 7952, ToY = 3872, ToZ = 320}         -- "Fire Bolt"
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 12240, FromY = 7312, FromZ = 0, ToX = 8160, ToY = 5136, ToZ = 314}         -- "Fire Bolt"
 	end
@@ -1454,25 +1454,6 @@ evt.map[268] = function()
 	evt.EnterHouse{Id = 1125}         -- "Torrent's"
 end
 
-evt.hint[301] = evt.str[30]  -- "Enter Castle Harmondale"
-Game.MapEvtLines:RemoveEvent(301)
-evt.map[301] = function()
-	if evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.MoveToMap{X = -5073, Y = -2842, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 382, Icon = 9, Name = "7D29.Blv"}         -- "Castle Harmondale"
-	else
-		if evt.Cmp{"QBits", Value = 644} then         -- Butler only shows up once (area 2)
-			evt.MoveToMap{X = -5073, Y = -2842, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 390, Icon = 9, Name = "7D29.Blv"}         -- "Castle Harmondale"
-		else
-			evt.Add{"History3", Value = 0}
-			evt.SpeakNPC{NPC = 397}         -- "Butler"
-			evt.MoveNPC{NPC = 397, HouseId = 240}         -- "Butler" -> "On the House"
-			evt.ForPlayer(-- ERROR: Const not found
-"All")
-			evt.Set{"QBits", Value = 587}         -- "Clean out Castle Harmondale and return to the Butler in the tavern, On the House, in Harmondale."
-			evt.Set{"QBits", Value = 644}         -- Butler only shows up once (area 2)
-		end
-	end
-end
 
 evt.hint[302] = evt.str[31]  -- "Enter the White Cliff Caves"
 Game.MapEvtLines:RemoveEvent(302)
@@ -1486,12 +1467,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Harmondale
 
 function events.AfterLoadMap()
-	Party.QBits[817] = true	-- DDMapBuff
+	Party.QBits[937] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 -- Choose Judge quest

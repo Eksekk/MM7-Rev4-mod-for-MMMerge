@@ -59,8 +59,18 @@ _G.WriteBasicTextTable = WriteBasicTextTable
 
 -- end of functions taken from MMExtension repo
 
+local mapFileNamesToNames = {}
+local fileNames = {}
+
+for _, msi in Game.MapStats do
+	mapFileNamesToNames[msi.Name:lower()] = msi.FileName:lower()
+	table.insert(fileNames, msi.FileName:lower())
+end
+
 function mtm(str)
-	return evt.MoveToMap{Name = str}
+	-- show error instead of crashing game
+	assert(mapFileNamesToNames[str:lower()] or table.find(fileNames, str:lower()), "Invalid map name")
+	return evt.MoveToMap{Name = mapFileNamesToNames[str:lower()] or str}
 end
 
 local firstGlobalLuaFreeEntry = 2000 -- that we will use
@@ -104,7 +114,7 @@ function getNPC(npc)
 	return npc + npcAdd
 end
 
-local function getMessage(message)
+function getMessage(message)
 	local noMappingTexts = {{200, 201}, {205, 205}, {270, 299}, {549, 549}}
 	local isNoMapping = false
 	for _, t in ipairs(noMappingTexts) do
@@ -140,6 +150,13 @@ function getEvent(event)
 		eventAdd = 372 - 263
 	elseif event >= 287 and event <= 310 then
 		eventAdd = 393 - 287
+	else
+		local noMappingEvents = {{501, 506}, {513, 515}}
+		local i = 1
+		while i <= #noMappingEvents and event > noMappingEvents[i][2] do
+			eventAdd = eventAdd - (noMappingEvents[i][2] - noMappingEvents[i][1] + 1)
+			i = i + 1
+		end
 	end
 	return event + eventAdd
 end
@@ -258,7 +275,7 @@ function getFileName(name)
 		if m >= 5 then
 			name2 = "7" .. name2
 		end
-	elseif name == "nwc.lua" then
+	elseif name:sub(1, 3) == "nwc" then
 		name2 = "7" .. name
 	elseif name:sub(1, 3) == "out" then
 		local m = tonumber(name:match("%d+"), 10)
@@ -273,10 +290,173 @@ function getMonster(monster)
 	return monster + 198
 end
 
+local rev4 = LoadBasicTextTable("tab\\Placemon rev4.txt", 0)
+local merge = LoadBasicTextTable("tab\\Placemon merge.txt", 0)
+local placemonMappings = {}
+
+local mapIdsToNamesMerge = {}
+for i = 2, #merge do
+	local row = merge[i]
+	if row[2] == nil then print (row[1]) end
+	mapIdsToNamesMerge[row[2] ] = tonumber(row[1])
+end
+
+for i = 2, #rev4 do
+	local row = rev4[i]
+	local name = row[2]
+	if mapIdsToNamesMerge[name] == nil then
+		print(("Couldn't find placemon entry in Merge for %s (id: %d)"):format(name, i))
+		goto continue
+	end
+	placemonMappings[tonumber(row[1])] = mapIdsToNamesMerge[name]
+	::continue::
+end
+
+--[[for i = 2, #rev4 do
+	local row = rev4[i]
+	local name = row[2]
+	print(name, merge[placemonMappings[tonumber(row[1])] + 1][2])
+end]]--
+
+function getPlacemonId(id)
+	return assert(placemonMappings[id], "Invalid placemon id: " .. id)
+end
+
+function getDDMapBuff(buff)
+	local add = 921 - 801 -- 120
+	return buff + add
+end
+
 function kill()
 	for k, v in Map.Monsters do
 		if v.Hostile then
 			v.HP = 0
 		end
+	end
+end
+
+_G.g = getItem
+
+GameState_Quests = {}
+GameState_NPCs = {}
+--[[tempq = {}
+	for k, v in Party.QBits do
+		if type(v) ~= "function" and type(v) ~= "userdata" then
+			tempq[k] = v
+		end
+	end
+	local file = assert(io.open("GameDataQuests.bin", "wb"))
+	local str = internal.persist(tempq)
+	file:write(str)
+	file:close()
+	
+	tempn = {}
+	local function dumpbasic(t)
+		local temp = {}
+		local meta = getmetatable(t)
+		if meta and meta.__call and type(meta.__call) == "function" then
+			for k, v in t do
+				if type(v) == "table" then
+					temp[k] = dumpbasic(v)
+				elseif type(v) ~= "function" and type(v) ~= "userdata" then
+					temp[k] = v
+				end
+			end
+		else
+			for k, v in pairs(t) do
+				if type(v) == "table" then
+					temp[k] = dumpbasic(v)
+				elseif type(v) ~= "function" and type(v) ~= "userdata" then
+					temp[k] = v
+				end
+			end
+		end
+		if meta.members ~= nil then
+			for k in pairs(meta.members) do
+				local v = t[k]
+				if type(v) == "table" then
+					temp[k] = dumpbasic(v)
+				elseif type(v) ~= "function" and type(v) ~= "userdata" then
+					temp[k] = v
+				end
+			end
+		end
+		return temp
+	end
+	tempn = dumpbasic(Game.NPC)
+	--print(dump(tempn, 3, true))
+	local file = assert(io.open("GameDataNPCs.bin", "wb"))
+	file:write((internal.persist(tempn)))
+	file:close()
+--]]
+
+function loadGameState()
+	local fileq = assert(io.open("GameDataQuests.bin", "rb"))
+	GameState_Quests = internal.unpersist(fileq:read("*a"))
+	local filen = assert(io.open("GameDataNPCs.bin", "rb"))
+	GameState_NPCs = internal.unpersist(filen:read("*a"))
+	--dump(GameState_Quests, 1, true)
+	--dump(GameState_NPCs, 3, true)
+	if #GameState_Quests == 0 or #GameState_NPCs == 0 then
+		print("Can't restore game state, need to fill out the tables first")
+		return
+	end
+	for i, v in ipairs(GameState_Quests) do
+		Party.QBits[getQuestBit(i)] = v
+	end
+	for i, v in ipairs(GameState_NPCs) do
+		if i >= 462 then break end
+		Game.NPC[getNPC(i)].Greet = getGreeting(v.Greet)
+		local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
+		for j = 0, 5 do
+			Game.NPC[getNPC(i)]["Event" .. indexes[j] ] = getEvent(v["Event" .. indexes[j] ])
+		end
+	end
+end
+
+local mapIdsToItemNames = {}
+
+for i, entry in Game.ItemsTxt do
+	mapIdsToItemNames[entry.Name:lower()] = i
+end
+
+function item(id)
+	evt.GiveItem{Id = mapIdsToItemNames[id] or id}
+end
+
+-- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
+function events.CanCastTownPortal(t)
+	if t.CanCast and Merge.Functions.GetContinent() == 2 then -- Antagarich
+		t.Handled = true
+		t.CanCast = evt.All.Cmp("QBits", 718)         -- Harmondale - Town Portal
+	end
+end
+
+-- The Gauntlet
+-- restore town portal QBits upon map leave
+-- need workaround with last map name because QBits aren't set in events.LeaveMap
+
+local lastMapName = nil
+function events.LeaveMap()
+	lastMapName = Game.Map.Name
+	if Game.Map.Name == "7d08.blv" then
+		Party.QBits[718] = true         -- Harmondale - Town Portal
+		Party.QBits[719] = true         -- Erathia - Town Portal
+		Party.QBits[720] = true         -- Tularean Forest - Town Portal
+	end
+end
+
+function events.AfterLoadMap()
+	if lastMapName == "7d08.blv" then
+		Party.QBits[718] = true         -- Harmondale - Town Portal
+		Party.QBits[719] = true         -- Erathia - Town Portal
+		Party.QBits[720] = true         -- Tularean Forest - Town Portal
+	end
+end
+
+-- correct transition text for The Small House
+function events.GetTransitionText(t)
+	if t.EnterMap == "mdt15.blv" then
+		t.TransId = 17
 	end
 end

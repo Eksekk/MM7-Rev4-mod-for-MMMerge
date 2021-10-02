@@ -1,15 +1,18 @@
 -- intended to be run from editor in Rev4
 
-local function getPlacemonId(id)
-	assert(id >= 20 and id <= 22, "Invalid id")
-	return id + 186 - 20
-end
-
 function persistUpdatedRev4()
 	for v, k in pairs(Editor.State.Monsters) do
 		v.Id = getMonster(v.Id)
 		v.Group = v.Group + 51
-		v.NameId = getPlacemonId(v.NameId)
+		if v.NameId ~= 0 and v.NameId ~= nil then
+			v.NameId = getPlacemonId(v.NameId)
+		end
+		if v.Item ~= 0 and v.Item ~= nil then
+			v.Item = getItem(v.Item)
+		end
+		if v.NPC_ID ~= 0 and v.NPC_ID ~= nil then
+			v.NPC_ID = getNPC(v.NPC_ID)
+		end
 		-- thanks to cthscr for spell skill changing code
 		local ConvertMastery = {[0] = 0, [1] = 0, [2] = 0x400, [3] = 0x800, [4] = 0x1000}
 		if v.SpellSkill then
@@ -19,6 +22,11 @@ function persistUpdatedRev4()
 		if v.Spell2Skill then
 			local s, m = SplitSkill(v.Spell2Skill)
 			v.Spell2Skill = s + (ConvertMastery[m] or 0)
+		end
+		for k2 in pairs(const.Damage) do
+			if v[k2 .. "Resistance"] == const.MonsterImmune then
+				v[k2 .. "Resistance"] = 65000
+			end
 		end
 	end
 	local str = internal.persist(Editor.State.Monsters)

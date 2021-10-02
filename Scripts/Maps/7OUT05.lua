@@ -504,7 +504,7 @@ evt.map[203] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 14} then         -- "2 points of permanent Intellect from the southern village well in Deyja."
+	if not evt.Cmp{"AutonotesBits", Value = 270} then         -- "2 points of permanent Intellect from the southern village well in Deyja."
 		evt.Add{"AutonotesBits", Value = 270}         -- "2 points of permanent Intellect from the southern village well in Deyja."
 	end
 	evt.Add{"BaseIntellect", Value = 2}
@@ -519,7 +519,7 @@ evt.map[204] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 16} then         -- "10 points of temporary Personality from the well near the Temple of the Dark in Moulder in Deyja."
+	if not evt.Cmp{"AutonotesBits", Value = 272} then         -- "10 points of temporary Personality from the well near the Temple of the Dark in Moulder in Deyja."
 		evt.Add{"AutonotesBits", Value = 272}         -- "10 points of temporary Personality from the well near the Temple of the Dark in Moulder in Deyja."
 	end
 	evt.Add{"PersonalityBonus", Value = 10}
@@ -540,7 +540,7 @@ evt.map[205] = function()
 		evt.StatusText{Str = 11}         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 17} then         -- "10 points of temporary Fire resistance from the well in the south side of Moulder in Deyja."
+	if not evt.Cmp{"AutonotesBits", Value = 273} then         -- "10 points of temporary Fire resistance from the well in the south side of Moulder in Deyja."
 		evt.Add{"AutonotesBits", Value = 273}         -- "10 points of temporary Fire resistance from the well in the south side of Moulder in Deyja."
 	end
 	evt.Add{"FireResBonus", Value = 10}
@@ -580,7 +580,7 @@ evt.map[207] = function()
 	if evt.Cmp{"PlayerBits", Value = 10} then
 		goto _8
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 15} then         -- "5 points of permanent Fire resistance from the well in the western village in Deyja."
+	if not evt.Cmp{"AutonotesBits", Value = 271} then         -- "5 points of permanent Fire resistance from the well in the western village in Deyja."
 		evt.Add{"AutonotesBits", Value = 271}         -- "5 points of permanent Fire resistance from the well in the western village in Deyja."
 	end
 	evt.Add{"FireResistance", Value = 5}
@@ -641,14 +641,14 @@ evt.map[455] = function()
 			evt.Set{"MapVar29", Value = 5}
 		else
 			evt.Add{"QBits", Value = 761}         -- Don't get ambushed
-			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -2760, Y = -15344, Z = 2464, NPCGroup = 15, unk = 0}         -- "Group walkers in the Tularean forest"
-			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -4560, Y = -16632, Z = 2464, NPCGroup = 15, unk = 0}         -- "Group walkers in the Tularean forest"
+			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -2760, Y = -15344, Z = 2464, NPCGroup = 66, unk = 0}         -- "Group walkers in the Tularean forest"
+			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -4560, Y = -16632, Z = 2464, NPCGroup = 66, unk = 0}         -- "Group walkers in the Tularean forest"
 			evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Hostile, On = true}         -- "Group walkers in the Tularean forest"
 			evt.Set{"MapVar29", Value = 5}
 		end
 	end
-	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1263}         -- "Lunius Shador" : "Pay 1000 Gold"
-	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1264}         -- "Lunius Shador" : "Don't Pay"
+	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1257}         -- "Lunius Shador" : "Pay 1000 Gold"
+	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1258}         -- "Lunius Shador" : "Don't Pay"
 end
 
 evt.hint[456] = evt.str[100]  -- ""
@@ -659,14 +659,14 @@ evt.map[456] = function()
 			evt.Set{"MapVar29", Value = 5}
 		else
 			evt.Add{"QBits", Value = 761}         -- Don't get ambushed
-			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 19336, Y = -13040, Z = 2464, NPCGroup = 15, unk = 0}         -- "Group walkers in the Tularean forest"
-			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 17150, Y = -13555, Z = 2464, NPCGroup = 15, unk = 0}         -- "Group walkers in the Tularean forest"
+			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 19336, Y = -13040, Z = 2464, NPCGroup = 66, unk = 0}         -- "Group walkers in the Tularean forest"
+			evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 17150, Y = -13555, Z = 2464, NPCGroup = 66, unk = 0}         -- "Group walkers in the Tularean forest"
 			evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Hostile, On = true}         -- "Group walkers in the Tularean forest"
 			evt.Set{"MapVar29", Value = 5}
 		end
 	end
-	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1263}         -- "Lunius Shador" : "Pay 1000 Gold"
-	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1264}         -- "Lunius Shador" : "Don't Pay"
+	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1257}         -- "Lunius Shador" : "Pay 1000 Gold"
+	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1258}         -- "Lunius Shador" : "Don't Pay"
 end
 
 evt.hint[500] = evt.str[100]  -- ""
@@ -725,12 +725,12 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Deyja
 
 function events.AfterLoadMap()
-	Party.QBits[820] = true	-- DDMapBuff
+	Party.QBits[940] = true	-- DDMapBuff, changed for rev4 for merge
 
 	LocalHostileTxt()
 	Game.HostileTxt[91][0] = 0

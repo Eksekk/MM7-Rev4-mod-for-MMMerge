@@ -783,9 +783,20 @@ evt.map[501] = function()
 	end
 end
 
+-- fix for a bug where golem and messenger of the saints are visible by default
+function events.AfterLoadMap()
+	if (not vars["Castle Harmondale NPCs hidden"]) and Game.Map.Name == "7d29.blv" then
+		if not (Party.QBits[585] or Party.QBits[586]) then
+			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = true}
+		end
+		if not Party.QBits[647] then
+			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = true}
+		end
+		vars["Castle Harmondale NPCs hidden"] = true
+	end
+end
 
-
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 -- Golem quest (wizard first promotion) (mm7)

@@ -381,7 +381,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 -- Evenmorn Island
 
@@ -414,7 +414,7 @@ end
 evt.map[6] = TownPortalControls.DimDoorEvent
 
 function events.AfterLoadMap()
-	Party.QBits[824] = true	-- DDMapBuff
+	Party.QBits[944] = true	-- DDMapBuff, changed for rev4 for merge
 
 	local function DimDoor()
 		if 1500 > math.sqrt((-5121-Party.X)^2 + (98-Party.Y)^2) then

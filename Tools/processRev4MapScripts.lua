@@ -434,6 +434,8 @@ end		):format(event, getHouseID(house), comment)
 * out01.lua - house226?
 
 for k, v in Map.Monsters do if v.NPC_ID ~= 0 then print(k, Game.NPC[v.NPC_ID].Name) end end
+
+t = {} for v, k in pairs(Editor.State.Monsters) do t[k] = v end
 --]]
 
 --[[evt.Set{"QBits", Value = 868}
@@ -827,6 +829,21 @@ end]], [[evt.map[10] = function()
 		end
 	end
 end]]},
+	-- Emerald Island
+	-- fix for different NPCs talking (QBit wasn't set originally)
+	["out01.lua"] =
+	{
+	[[evt.map[200] = function()
+	if not evt.Cmp{"QBits", Value = 529} then         -- No more docent babble
+		evt.SpeakNPC{NPC = 342}         -- "Big Daddy Jim"
+	end
+	evt.Set{"QBits", Value = 529}         -- No more docent babble
+end]], [[evt.map[200] = function()
+	if not evt.Cmp{"QBits", Value = 529} then         -- No more docent babble
+		evt.Set{"QBits", Value = 529}        -- No more docent babble
+		evt.SpeakNPC{NPC = 342}         -- "Big Daddy Jim"
+	end
+end]]},
 	-- Harmondale teleportal hub
 	["out02.lua"] =
 	{
@@ -895,9 +912,6 @@ evt.map[301] = function()
 			evt.Set{"QBits", Value = 644}         -- Butler only shows up once (area 2)
 		end
 	end
-end]], "",	[[
-function events.AfterLoadMap()
-	Party.QBits[817] = true	-- DDMapBuff
 end]], ""},
 	-- Erathia
 	-- fix small bug in town portal code
@@ -985,8 +999,11 @@ end]], [[evt.map[10] = function()
 			pl.Skills[const.Skills.Repair] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
 		end
 	end
-end]]}
-
+end]]},
+	["mdk02.lua"] = {[[evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
+Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}]],
+[[evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
+Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}]]}
 }
 
 local patchesMerge =

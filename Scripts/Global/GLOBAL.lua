@@ -60,11 +60,11 @@ Game.GlobalEvtLines:RemoveEvent(756)
 evt.global[756] = function()
 	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 520) then         -- Brought red potion
-		if evt.Cmp("Inventory", 1024) then         -- "Cure Wounds"
+		if evt.Cmp("Inventory", 222) then         -- "Cure Wounds"
 			evt.Subtract("QBits", 513)         -- "Return a red potion to the Judge on Emerald Island."
 			evt.Add("Experience", 500)
 			evt.Add("QBits", 520)         -- Brought red potion
-			evt.Subtract("Inventory", 1024)         -- "Cure Wounds"
+			evt.Subtract("Inventory", 222)         -- "Cure Wounds"
 			evt.SetMessage(969)         -- "What took you so long?  Almost every group has turned in a red potion by now.  This is the easiest item in the hunt to manage, but better late than never.  I will mark it off your list."
 			return
 		end
@@ -433,8 +433,8 @@ evt.global[781] = function()
 		evt.SetNPCTopic{NPC = 487, Index = 0, Event = 347}         -- "Avalanche" : "Earth Magic Grandmaster"
 		return
 	end
-	if not evt.Cmp("Inventory", 1055) then         -- "Divine Cure"
-		evt.Add("Inventory", 1055)         -- "Divine Cure"
+	if not evt.Cmp("Inventory", 253) then         -- "Divine Cure"
+		evt.Add("Inventory", 253)         -- "Divine Cure"
 	end
 	evt.Set("QBits", 836)         -- White Cliff Cave Permission
 	evt.SetMessage(2741)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
@@ -648,10 +648,10 @@ I see that you have survived The Gauntlet in good fashion.  Congratulations!  Yo
 
 When you select the new profession, the member will automatically be promoted to the highest rating in that character class; re, a Fighter will immediately become a Champion, a Sorcerer an Arch Mage.  Once you’ve selected your new profession, you will no longer continue to advance in your original profession, although you will retain all or your previous skill and spell abilities." ]]
 	evt.ForPlayer("All")
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 799}         -- "The Coding Wizard" : "How does this work?"
-	evt.MoveNPC{NPC = 1238, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
-	evt.SetNPCTopic{NPC = 1238, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
-	evt.SetNPCGreeting{NPC = 1238, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 799}         -- "The Coding Wizard" : "How does this work?"
+	evt.MoveNPC{NPC = 1253, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+	evt.SetNPCTopic{NPC = 1253, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
+	evt.SetNPCGreeting{NPC = 1253, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
 end
 
 -- "How does this work?"
@@ -661,7 +661,7 @@ evt.global[799] = function()
 
 When the selected party member has chosen a new profession, proceed to the Brazier to acquire the new profession and then return to me.  When all four members have selected their new Profession, return to me one more time and then we’re done.  So let’s get started, ok?" ]]
 	evt.ForPlayer("All")
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 end
 
 -- "New Profession."
@@ -686,48 +686,48 @@ evt.global[800] = function()
 	end
 	evt.Set("QBits", 861)         -- One Use
 	if evt.Cmp("ClassIs", const.Class.ArchMage) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 807}         -- "The Coding Wizard" : "Cleric"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 807}         -- "The Coding Wizard" : "Cleric"
 	elseif evt.Cmp("ClassIs", const.Class.PriestLight) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 825}         -- "The Coding Wizard" : "Druid"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 825}         -- "The Coding Wizard" : "Druid"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.MasterArcher) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 836}         -- "The Coding Wizard" : "Paladin"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 831}         -- "The Coding Wizard" : "Monk"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 825}         -- "The Coding Wizard" : "Druid"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 836}         -- "The Coding Wizard" : "Paladin"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 831}         -- "The Coding Wizard" : "Monk"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 825}         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.ArchDruid) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 831}         -- "The Coding Wizard" : "Monk"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 806}         -- "The Coding Wizard" : "Sorcerer"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 831}         -- "The Coding Wizard" : "Monk"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 806}         -- "The Coding Wizard" : "Sorcerer"
 	elseif evt.Cmp("ClassIs", const.Class.Champion) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 826}         -- "The Coding Wizard" : "Ranger"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 825}         -- "The Coding Wizard" : "Druid"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 826}         -- "The Coding Wizard" : "Ranger"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 825}         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.Master) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 832}         -- "The Coding Wizard" : "Thief"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 825}         -- "The Coding Wizard" : "Druid"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 832}         -- "The Coding Wizard" : "Thief"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 825}         -- "The Coding Wizard" : "Druid"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.Hero) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 825}         -- "The Coding Wizard" : "Druid"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 826}         -- "The Coding Wizard" : "Ranger"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 825}         -- "The Coding Wizard" : "Druid"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 826}         -- "The Coding Wizard" : "Ranger"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 820}         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.RangerLord) then
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 832}         -- "The Coding Wizard" : "Thief"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 836}         -- "The Coding Wizard" : "Paladin"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 832}         -- "The Coding Wizard" : "Thief"
 	else
 		if not evt.Cmp("ClassIs", const.Class.Spy) then
 			evt.Subtract("QBits", 861)         -- One Use
 			evt.SetMessage(978)         -- "You don't Qualify"
 			return
 		end
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
-		evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 819}         -- "The Coding Wizard" : "Fighter"
-		evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 831}         -- "The Coding Wizard" : "Monk"
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 820}         -- "The Coding Wizard" : "Archer"
+		evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 819}         -- "The Coding Wizard" : "Fighter"
+		evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 831}         -- "The Coding Wizard" : "Monk"
 	end
-	evt.SetNPCTopic{NPC = 1234, Index = 3, Event = 873}         -- "The Coding Wizard" : "No Thanks."
+	evt.SetNPCTopic{NPC = 1249, Index = 3, Event = 873}         -- "The Coding Wizard" : "No Thanks."
 end
 
 -- "Crusader"
@@ -737,8 +737,8 @@ evt.global[801] = function()
 	evt.SetMessage(1012)         -- "If you wish to be promoted to Crusader, you must first bring me the map that indicates the location of Sir BunGleau's panoply. Here, take this scroll of the Saints.  It will provide you with a firm foundation as you begin your quest."
 	evt.Set("QBits", 534)         -- "Find the map that shows the location of Sir BunGleau's panoply and return it to the Massenger of the Saints.."
 	evt.Add("Inventory", 1532)         -- "Saints of Selinas Scroll 2"
-	evt.SetNPCGreeting{NPC = 1228, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	evt.SetNPCTopic{NPC = 1228, Index = 0, Event = 802}         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	evt.SetNPCTopic{NPC = 1243, Index = 0, Event = 802}         -- "Messenger of the Saints" : "Crusader"
 end
 
 -- "Crusader"
@@ -771,7 +771,7 @@ evt.global[802] = function()
 	evt.Subtract("Inventory", 1533)         -- "Saints of Selinas Scroll 3"
 	evt.Subtract("Inventory", 1534)         -- "Saints of Selinas Scroll 4"
 	evt.ForPlayer("All")
-	evt.SetNPCTopic{NPC = 1228, Index = 0, Event = 803}         -- "Messenger of the Saints" : "Hero"
+	evt.SetNPCTopic{NPC = 1243, Index = 0, Event = 803}         -- "Messenger of the Saints" : "Hero"
 end
 
 -- "Hero"
@@ -779,9 +779,9 @@ Game.GlobalEvtLines:RemoveEvent(803)
 evt.global[803] = function()
 	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1015)         -- "I am pleased to see you have chosen the path of Light, Crusaders!  It is now time to retrieve the panoply of Sir BunGleau and once again employ it in the fight against the Dark!!  To accomplish this you must return to Emerald Island and drink from the Well of Luck.  This will transport you to the Place of Hiding where you will find the panoply.  Return to me with this panoply to complete your promotion.  ** Oh ... beware of the Blue Guardians!! *"
-		evt.SetNPCTopic{NPC = 1228, Index = 0, Event = 804}         -- "Messenger of the Saints" : "Hero"
+		evt.SetNPCTopic{NPC = 1243, Index = 0, Event = 804}         -- "Messenger of the Saints" : "Hero"
 		evt.Set("QBits", 536)         -- "Find the Blessed Panoply of Sir BunGleau and return to the Angel in Castle Harmondale""
-		evt.SetNPCGreeting{NPC = 1228, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+		evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1016)         -- "I will not have truck with thee further, scoundrel!  I see now thee hath chosen the path of Darkness.  Mayhaps thee should seek a villain like thyself for training."
 	else
@@ -812,9 +812,9 @@ evt.global[804] = function()
 	evt.Subtract("NPCs", 393)         -- "Alice Hargreaves"
 	evt.Subtract("Reputation", 10)
 	evt.ForPlayer("All")
-	evt.SetNPCGreeting{NPC = 1228, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
+	evt.SetNPCGreeting{NPC = 1243, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
-	evt.SetNPCTopic{NPC = 1228, Index = 0, Event = 0}         -- "Messenger of the Saints"
+	evt.SetNPCTopic{NPC = 1243, Index = 0, Event = 0}         -- "Messenger of the Saints"
 	evt.Set("QBits", 885)         -- Harm no respawn
 end
 
@@ -845,9 +845,9 @@ Game.GlobalEvtLines:RemoveEvent(806)
 evt.global[806] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 851)         -- Sorcerer
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -856,9 +856,9 @@ Game.GlobalEvtLines:RemoveEvent(807)
 evt.global[807] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 852)         -- Cleric
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -949,7 +949,7 @@ evt.global[813] = function()
 		evt.Add("Experience", 7500)
 		evt.Add("Gold", 500)
 		evt.Subtract("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
-		evt.SetNPCTopic{NPC = 1239, Index = 0, Event = 0}         -- "Christian the Stablemaster"
+		evt.SetNPCTopic{NPC = 1254, Index = 0, Event = 0}         -- "Christian the Stablemaster"
 	else
 		evt.SetMessage(940)         --[[ "The Stable Guild has discovered that a raiding force of Goblins, lead by the infamous Grognard, is poised to launch an incursion into Harmondale.  Until this threat is ‘neutralized’, the stables will remain closed.
 
@@ -1083,9 +1083,9 @@ Game.GlobalEvtLines:RemoveEvent(819)
 evt.global[819] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 853)         -- Fighter
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1094,9 +1094,9 @@ Game.GlobalEvtLines:RemoveEvent(820)
 evt.global[820] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 858)         -- Archer
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1186,9 +1186,9 @@ Game.GlobalEvtLines:RemoveEvent(825)
 evt.global[825] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 859)         -- Druid
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1197,9 +1197,9 @@ Game.GlobalEvtLines:RemoveEvent(826)
 evt.global[826] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 857)         -- Ranger
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1272,9 +1272,9 @@ Game.GlobalEvtLines:RemoveEvent(831)
 evt.global[831] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 855)         -- Monk
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1283,9 +1283,9 @@ Game.GlobalEvtLines:RemoveEvent(832)
 evt.global[832] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 856)         -- Thief
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1352,9 +1352,9 @@ Game.GlobalEvtLines:RemoveEvent(836)
 evt.global[836] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 854)         -- Paladin
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1363,7 +1363,7 @@ Game.GlobalEvtLines:RemoveEvent(837)
 evt.global[837] = function()
 	evt.ForPlayer("All")
 	evt.SetMessage(1025)         -- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
-	evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 0}         -- "The Coding Wizard"
 	evt.Set("QBits", 718)         -- Harmondale - Town Portal
 	evt.Set("QBits", 719)         -- Erathia - Town Portal
 	evt.Set("QBits", 720)         -- Tularean Forest - Town Portal
@@ -1565,9 +1565,9 @@ Now tell me all about your adventure!" ]]
 		evt.Add("SkillPoints", 50)
 		evt.Subtract("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.Set("Awards", 120)         -- "Completed Coding Wizard Quest"
-		evt.SetNPCTopic{NPC = 1238, Index = 0, Event = 0}         -- "Lord Godwinson"
+		evt.SetNPCTopic{NPC = 1253, Index = 0, Event = 0}         -- "Lord Godwinson"
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-		evt.MoveNPC{NPC = 1238, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+		evt.MoveNPC{NPC = 1253, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
 	elseif evt.Cmp("QBits", 865) then         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.SetMessage(1027)         -- "Bring me proof that the Coding Wizard is more than just a myth."
 	else
@@ -1579,8 +1579,8 @@ I have a dear friend, the Lady Kathryn, who may be able to assist you with this 
 
 Good luck, adventurers!" ]]
 		evt.Set("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
-		evt.MoveNPC{NPC = 1235, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
-		evt.SetNPCTopic{NPC = 1235, Index = 0, Event = 847}         -- "Lady K" : "Lord Godwinson sent us!"
+		evt.MoveNPC{NPC = 1250, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
+		evt.SetNPCTopic{NPC = 1250, Index = 0, Event = 847}         -- "Lady K" : "Lord Godwinson sent us!"
 	end
 end
 
@@ -1593,7 +1593,7 @@ So you’ve decided to take the journey to find BDJ the Coding Wizard?  He’s a str
 
 I do know this.  To reach this wizard you must first run The Gauntlet.  The Lector EAO is the foremost authority on this ‘gauntlet’.  She travels quite a bit, but she does return to her home in Erathia each Summer.  Seek her out.  She may be able to assist you on your journey." ]]
 	evt.Set("QBits", 866)         -- 0
-	evt.SetNPCTopic{NPC = 1235, Index = 0, Event = 0}         -- "Lady K"
+	evt.SetNPCTopic{NPC = 1250, Index = 0, Event = 0}         -- "Lady K"
 end
 
 -- "Great Druid"
@@ -1700,9 +1700,9 @@ evt.global[852] = function()
 To reach this wizard, one must first ‘run The Gauntlet’, which consists of a series of ‘challenges’ in the realms of Earth, Fire, Water, and finally of Air and of Light.  The rewards of the Coding Wizard await those who emerge from these trials.
 
 The Duchess of Deja may have information on the legendary location of The Gauntlet. Seek her out to continue your journey." ]]
-	evt.SetNPCTopic{NPC = 1236, Index = 0, Event = 0}         -- "EAO the Lector"
-	evt.MoveNPC{NPC = 1237, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
-	evt.SetNPCTopic{NPC = 1237, Index = 0, Event = 853}         -- "Duchess of Deja" : "Where is The Gauntlet?"
+	evt.SetNPCTopic{NPC = 1251, Index = 0, Event = 0}         -- "EAO the Lector"
+	evt.MoveNPC{NPC = 1252, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
+	evt.SetNPCTopic{NPC = 1252, Index = 0, Event = 853}         -- "Duchess of Deja" : "Where is The Gauntlet?"
 end
 
 -- "Where is The Gauntlet?"
@@ -1729,7 +1729,7 @@ Good Luck!" ]]
 		evt.Subtract("Inventory", 1432)         -- "Red Delicious Apple"
 		evt.Subtract("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
 		evt.Set("QBits", 868)         -- 0
-		evt.SetNPCTopic{NPC = 1237, Index = 0, Event = 0}         -- "Duchess of Deja"
+		evt.SetNPCTopic{NPC = 1252, Index = 0, Event = 0}         -- "Duchess of Deja"
 	else
 		evt.SetMessage(1028)         --[[ "So you want to know the location of the legendary ‘Gauntlet’ leading to the Coding Wizard?  Perhaps I can help.  But you must first do something for me.
 
@@ -2063,15 +2063,9 @@ end
 Game.GlobalEvtLines:RemoveEvent(869)
 evt.global[869] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 807) then         -- Water
-		if not evt.Cmp("QBits", 808) then         -- Fire
-			if not evt.Cmp("QBits", 809) then         -- Air
-				if not evt.Cmp("QBits", 810) then         -- Earth
-					return
-				end
-			end
-		end
-	end
+	if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
+	return
+end
 	evt.SetMessage(1151)         --[[ "Ok then.  Here’s your briefing.
 
 We have recently discovered that the Strange Temple is being used as a ‘staging area’ for a group known as The Corruption. This group has joined forces with the Devil-King Xenoflex to form an unholy alliance. They are currently raising an army of Golems, Devils, Angels, and other creatures of the land, both Light and Dark.  Once at-strength, they plan on storming Erathia like a plague of locusts and seizing power throughout all lands. To make things worse, The Corruption discovered some ancient weapons and is attempting to reproduce them en-mass in order to equip their army. And at the center of this unseemly coalition is one of The Pit’s own … Judas the Geek! He has betrayed all of Erathia!!
@@ -2130,20 +2124,20 @@ evt.global[873] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 850) then         -- BDJ Final
 		evt.Subtract("QBits", 861)         -- One Use
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
 	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
 		evt.Set("QBits", 850)         -- BDJ Final
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
 		evt.Set("QBits", 849)         -- BDJ 3
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	else
 		evt.Set("QBits", 848)         -- BDJ 2
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	end
-	evt.SetNPCTopic{NPC = 1234, Index = 1, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 2, Event = 0}         -- "The Coding Wizard"
-	evt.SetNPCTopic{NPC = 1234, Index = 3, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 1, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 2, Event = 0}         -- "The Coding Wizard"
+	evt.SetNPCTopic{NPC = 1249, Index = 3, Event = 0}         -- "The Coding Wizard"
 	evt.SetMessage(1202)         -- "Ok then.  Let's move on."
 end
 
@@ -2278,7 +2272,16 @@ After you have rested, return to The Pit for your next assignment." ]]
 	evt.SetNPCGreeting{NPC = 419, Greeting = 357}         -- "Resurectra" : "Welcome back  Heroes!   What can I do for you?"
 	do return end
 ::_15::
-	evt.Set("DarkSkill", 136)
+	if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end
 ::_16::
 	evt.ForPlayer(1)
 	if evt.Cmp("FireSkill", 1) then
@@ -2334,13 +2337,40 @@ After you have rested, return to The Pit for your next assignment." ]]
 	evt.Set("LightSkill", 136)
 	goto _73
 ::_20::
-	evt.Set("DarkSkill", 136)
+	if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end
 	goto _21
 ::_25::
-	evt.Set("DarkSkill", 136)
+	if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end
 	goto _26
 ::_30::
-	evt.Set("DarkSkill", 136)
+	if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end
 	goto _31
 end
 
@@ -2379,7 +2409,7 @@ What?!  You think that all of us have wings and just fly around the countryside 
 But enough about me.  You came in search of The Map, I guess.  Here it is.  Return it to my kin in Castle Harmondale for your promotion and reward.  Adou. " ]]
 	evt.ForPlayer("Current")
 	evt.Add("Inventory", 1541)         -- "Map to Treasure"
-	evt.SetNPCTopic{NPC = 1232, Index = 0, Event = 0}         -- "Map Giver"
+	evt.SetNPCTopic{NPC = 1247, Index = 0, Event = 0}         -- "Map Giver"
 end
 
 -- "Most Excellent!!"
@@ -3408,7 +3438,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(948)
 evt.global[948] = function()
 	evt.SetMessage(1645)         -- "Pardon me, strangers, but I'm not feeling very sociable right now.  My brother Elrond has recently departed this world and my grief is great at his passing."
-	evt.SetNPCTopic{NPC = 624, Index = 0, Event = 1266}         -- "Darron Temper" : "Can we help?"
+	evt.SetNPCTopic{NPC = 624, Index = 0, Event = 1257}         -- "Darron Temper" : "Can we help?"
 end
 
 -- "Quest"
@@ -4283,7 +4313,7 @@ evt.global[1173] = function()
 		evt.SetMessage(1201)         -- "Here's your Potent of Speed Boost.  It's good doing business with you!"
 		evt.ForPlayer("Current")
 		evt.Subtract("Gold", 10000)
-		evt.Add("Inventory", 1046)         -- "Speed Boost"
+		evt.Add("Inventory", 244)         -- "Speed Boost"
 	else
 		evt.SetMessage(1200)         -- "You don't have enough gold!"
 	end
@@ -4539,7 +4569,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1202)
 evt.global[1202] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("Inventory", 1046) then         -- "Speed Boost"
+	if evt.Cmp("Inventory", 244) then         -- "Speed Boost"
 		evt.SetMessage(1194)         --[[ "The Speed Boost potent!  Good!  Give me a minute to complete the elixir.
 
 []
@@ -4549,7 +4579,7 @@ evt.global[1202] = function()
 There you go!  Here’s the Plague Elixir.
 
 Now hurry back to Stone City!" ]]
-		evt.Subtract("Inventory", 1046)         -- "Speed Boost"
+		evt.Subtract("Inventory", 244)         -- "Speed Boost"
 		evt.SetNPCTopic{NPC = 547, Index = 1, Event = 0}         -- "Lucid Apple"
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1075)         -- "Plague Elixir"
@@ -5238,7 +5268,7 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 			evt.Subtract("Inventory", 1576)         -- "Recipe"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			evt.SetNPCTopic{NPC = 1229, Index = 0, Event = 0}         -- "Alice the Chef"
+			evt.SetNPCTopic{NPC = 1244, Index = 0, Event = 0}         -- "Alice the Chef"
 			evt.Set("QBits", 792)         -- Courier Quest 3 complete
 		else
 			evt.SetMessage(2747)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
@@ -5298,15 +5328,15 @@ Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m goi
 			evt.Subtract("Inventory", 1074)         -- "Beauty Creme"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			evt.SetNPCTopic{NPC = 1230, Index = 0, Event = 0}         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1230, HouseId = 0}         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1231, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			evt.SetNPCTopic{NPC = 1245, Index = 0, Event = 0}         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1245, HouseId = 0}         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1246, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 		else
 			evt.SetMessage(2751)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja."" ]]
 			evt.Set("QBits", 794)         -- Rena Quest
-			evt.SetNPCTopic{NPC = 1230, Index = 0, Event = 1269}         -- "Rena Putnum Kedrin" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 1245, Index = 0, Event = 1260}         -- "Rena Putnum Kedrin" : "Courier Delivery"
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1074)         -- "Beauty Creme"
 			evt.Add("Inventory", 1468)         -- "Deja Teleportal Key"
@@ -5347,7 +5377,7 @@ evt.global[1261] = function()
 	evt.SetMessage(1651)         --[[ "Welcome, adventurers!  I'm Sarah, the Founding Matron and Gran Mouma of the Courier Guild.  The Courier Guild consists of an elite company of Master Couriers who enjoy certain travel privileges throughout the remote areas of Erathia.   Membership to the guild is 500 gold, non-refundable.  With your initial membership, you become a Courier Initiate and receive the Home Key, which entitles you to use all Home Portals to return you to Steadwick.
 
 To become a Master Courier, you must complete four courier assignments.  The completion of each assignment will provide you with (1) a 5000 gold delivery fee and (2) a unique teleportal key that activates the Teleportal Hub in Harmondale."" ]]
-	evt.SetNPCTopic{NPC = 1227, Index = 0, Event = 1271}         -- "Sarah" : "Join the Guild"
+	evt.SetNPCTopic{NPC = 1242, Index = 0, Event = 1262}         -- "Sarah" : "Join the Guild"
 end
 
 -- "Join the Guild"
@@ -5360,7 +5390,7 @@ evt.global[1262] = function()
 		evt.Subtract("Gold", 500)
 		evt.Add("Inventory", 1472)         -- "Home Key"
 		evt.SetMessage(1652)         -- "A wise decision on your part!  Here’s your Home Key.  Guard it carefully, because it is irreplaceable."
-		evt.SetNPCTopic{NPC = 1227, Index = 0, Event = 1272}         -- "Sarah" : "Courier Assignment"
+		evt.SetNPCTopic{NPC = 1242, Index = 0, Event = 1263}         -- "Sarah" : "Courier Assignment"
 	else
 		evt.SetMessage(1063)         -- "You don't have enough gold!"
 	end
@@ -5375,24 +5405,24 @@ evt.global[1263] = function()
 			evt.SetMessage(947)         --[[ "Now to your final assignment.  This one’s a bit tricky, I’m afraid, and somewhat dangerous.  In the mid-western region of Deja there is a small, unnamed village of four or five shanties.  Journey to this village and find Agatha Putnam.  She’ll provide details of your final delivery.  After you’ve completed this assignment, use the Deja Home Portal to return to me for your promotion to Master Courier. 
 
 Oh!  And watch out for the hostiles in this area!  Good luck." ]]
-			evt.SetNPCTopic{NPC = 548, Index = 0, Event = 1268}         -- "Agatha Putnam" : "Courier Delivery"
-			evt.SetNPCTopic{NPC = 738, Index = 0, Event = 1269}         -- "Licia Rivenrock" : "Courier Delivery"
-			evt.MoveNPC{NPC = 1230, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			evt.SetNPCTopic{NPC = 548, Index = 0, Event = 1259}         -- "Agatha Putnam" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 738, Index = 0, Event = 1260}         -- "Licia Rivenrock" : "Courier Delivery"
+			evt.MoveNPC{NPC = 1245, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 			evt.Set("QBits", 789)         -- Courier Quest 4
 		elseif evt.Cmp("QBits", 791) then         -- Courier Quest 2 complete
 			evt.SetMessage(1655)         -- "I see you are well on your way to Master Courier.  Good!  Your third delivery takes you to the town of Spaward in Avlee.  You need to locate Alice's Restaurant  (where you can get anything you want) and just ask Alice.  She'll brief you on the details of the delivery."
-			evt.SetNPCTopic{NPC = 1229, Index = 0, Event = 1268}         -- "Alice the Chef" : "Courier Delivery"
-			evt.SetNPCTopic{NPC = 781, Index = 0, Event = 1269}         -- "Peni Pretty" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 1244, Index = 0, Event = 1259}         -- "Alice the Chef" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 781, Index = 0, Event = 1260}         -- "Peni Pretty" : "Courier Delivery"
 			evt.Set("QBits", 788)         -- Courier Quest 3
 		elseif evt.Cmp("QBits", 790) then         -- Courier Quest 1 complete
 			evt.SetMessage(1654)         -- "Good job on your first assignment!  For your next delivery, you must journey to the Bracada Desert and seek out Bartholomew Hume, the Roving Monk. You can normally find him near the Crystal Caravans.  He will provide you with details of the delivery. Bracada does have a Home Portal, in case you need to return here during your assignment.""
-			evt.SetNPCTopic{NPC = 377, Index = 0, Event = 1268}         -- "Bartholomew Hume" : "Courier Delivery"
-			evt.SetNPCTopic{NPC = 467, Index = 0, Event = 1269}         -- "Douglas Iverson" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 377, Index = 0, Event = 1259}         -- "Bartholomew Hume" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 467, Index = 0, Event = 1260}         -- "Douglas Iverson" : "Courier Delivery"
 			evt.Set("QBits", 787)         -- Courier Quest 2
 		else
 			evt.SetMessage(1653)         -- "Your first assignment takes you to Tatalia.  When you arrive, seek out Taren.  He will provide you with details of the delivery.  Tatalia does have a Home Portal, in case you need to return here during your assignment."
 			evt.MoveNPC{NPC = 580, HouseId = 1048}         -- "Taren the Lifter" -> "Taren's House"
-			evt.SetNPCTopic{NPC = 446, Index = 0, Event = 1269}         -- "Mortie Ottin" : "Courier Delivery"
+			evt.SetNPCTopic{NPC = 446, Index = 0, Event = 1260}         -- "Mortie Ottin" : "Courier Delivery"
 			evt.Set("QBits", 786)         -- Courier Quest 1
 		end
 		return
@@ -5422,7 +5452,7 @@ Now just one more thing.  Our couriers used to service the Evenmorn Islands. Unf
 		evt.Add("Experience", 20000)
 		evt.Add("Awards", 118)         -- "Promoted to Master Courier"
 	end
-	evt.SetNPCTopic{NPC = 1227, Index = 0, Event = 1273}         -- "Sarah" : "Lost Key"
+	evt.SetNPCTopic{NPC = 1242, Index = 0, Event = 1264}         -- "Sarah" : "Lost Key"
 end
 
 -- "Lost Key"
@@ -5433,7 +5463,7 @@ evt.global[1264] = function()
 		evt.SetMessage(949)         -- "I see you’ve recovered the Evenmorn key.  Great!  This is indeed a good day for The Guild!  Let me make a copy of the key.  Here’s your reward, as promised."
 		evt.ForPlayer("Current")
 		evt.Add("Gold", 10000)
-		evt.SetNPCTopic{NPC = 1227, Index = 0, Event = 0}         -- "Sarah"
+		evt.SetNPCTopic{NPC = 1242, Index = 0, Event = 0}         -- "Sarah"
 	else
 		evt.SetMessage(2743)         -- "Please continue to search for the Evenmorn Key."
 	end
@@ -6057,26 +6087,12 @@ Blayze retires to a back room.  In a few moments he begins an incantation in slo
 ‘Oooompa … Looompa … Looompidi Dooo, I’ve got some arcane magic for you’.  Blayze repeats this phrase several times, increasing the intoning speed  with each utterance.  Building to a fever pitch, he commands  ‘Come forth ye Everlasting Gobstopper!  Come forth now!!!’
 
 Blaze returns from the back room, chewing gum and popping bubbles, a broad smile on his face.  Yep, that’s it.  Well done adventurers!!  As promised, here’s your reward.”" ]]
-	evt.ForPlayer(3)
-	if evt.Cmp("FireSkill", 1) then
-		evt.Set("FireSkill", 49152)
-		evt.Set("FireSkill", 72)
+	for _, pl in Party do
+	local s, m = SplitSkill(pl.Skills[const.Skills.Fire])
+	if s ~= 0 then
+		pl.Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
 	end
-	evt.ForPlayer(2)
-	if evt.Cmp("FireSkill", 1) then
-		evt.Set("FireSkill", 49152)
-		evt.Set("FireSkill", 72)
-	end
-	evt.ForPlayer(1)
-	if evt.Cmp("FireSkill", 1) then
-		evt.Set("FireSkill", 49152)
-		evt.Set("FireSkill", 72)
-	end
-	evt.ForPlayer(0)
-	if evt.Cmp("FireSkill", 1) then
-		evt.Set("FireSkill", 49152)
-		evt.Set("FireSkill", 72)
-	end
+end
 	evt.ForPlayer("All")
 	evt.Subtract("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract("Inventory", 1540)         -- "Lost Scroll of Wonka"
@@ -6106,7 +6122,7 @@ evt.global[2002] = function()
 	evt.StatusText(985)         --[[ "Sir BunGleau, Baron of Post Lost, was the greatest Hero in Erathia's history.  So great were his deeds and so noble his demeanor that the Saints of Selinas offered him a shiny panoply endowed with boons beyond measure.  But the humble knight refused their offer, remarking that he could not, in good conscience, wear such a flamboyant display of privilege.  So the Saints offered to enchant the armor with invisibility if he would but openly wear the gauntlets to signify their blessing upon him.  To this he agreed. 
 
 When he retired, the Saints hid his armor and placed six scrolls about the countryside.  It is said that if the secret of these scrolls is unlocked, it will reveal the location of a map indicating where this treasure may be found.  " ]]
-	evt.SetNPCGreeting{NPC = 1228, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	evt.SetNPCTopic{NPC = 1228, Index = 0, Event = 801}         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	evt.SetNPCTopic{NPC = 1243, Index = 0, Event = 801}         -- "Messenger of the Saints" : "Crusader"
 end
 

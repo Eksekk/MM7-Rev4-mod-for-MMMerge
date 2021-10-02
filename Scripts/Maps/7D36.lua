@@ -277,7 +277,7 @@ end
 
 
 
---[[ MMMerge additions --]]
+--[[ MMMerge additions ]]--
 
 
 -- Correct coordinates of travel to Land of giants.

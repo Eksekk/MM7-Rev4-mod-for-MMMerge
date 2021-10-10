@@ -144,19 +144,21 @@ function getEvent(event)
 	if event >= 573 then
 		eventAdd = firstGlobalLuaFreeEntry - 573
 	-- skill teaching events
+	-- blaster
+	elseif event >= 221 and event <= 223 then
+		eventAdd = 971 - 221
 	elseif event >= 200 and event <= 262 then
 		eventAdd = 300 - 200
 	elseif event >= 263 and event <= 280 then
 		eventAdd = 372 - 263
 	elseif event >= 287 and event <= 310 then
 		eventAdd = 393 - 287
-	else
-		local noMappingEvents = {{501, 506}, {513, 515}}
-		local i = 1
-		while i <= #noMappingEvents and event > noMappingEvents[i][2] do
-			eventAdd = eventAdd - (noMappingEvents[i][2] - noMappingEvents[i][1] + 1)
-			i = i + 1
-		end
+	end
+	local noMappingEvents = {{501, 506}, {513, 515}}
+	local i = 1
+	while i <= #noMappingEvents and event > noMappingEvents[i][2] do
+		eventAdd = eventAdd - (noMappingEvents[i][2] - noMappingEvents[i][1] + 1)
+		i = i + 1
 	end
 	return event + eventAdd
 end
@@ -439,24 +441,72 @@ end
 local lastMapName = nil
 function events.LeaveMap()
 	lastMapName = Game.Map.Name
-	if Game.Map.Name == "7d08.blv" then
-		Party.QBits[718] = true         -- Harmondale - Town Portal
-		Party.QBits[719] = true         -- Erathia - Town Portal
-		Party.QBits[720] = true         -- Tularean Forest - Town Portal
-	end
 end
 
 function events.AfterLoadMap()
 	if lastMapName == "7d08.blv" then
+		for i = 0, 2 do
+			 Party.QBits[i + 718] = vars.TheGauntletQBits and vars.TheGauntletQBits[i + 718] or false
+		end
+		--[[
 		Party.QBits[718] = true         -- Harmondale - Town Portal
 		Party.QBits[719] = true         -- Erathia - Town Portal
 		Party.QBits[720] = true         -- Tularean Forest - Town Portal
+		--]]
 	end
 end
 
--- correct transition text for The Small House
-function events.GetTransitionText(t)
-	if t.EnterMap == "mdt15.blv" then
-		t.TransId = 17
+-- increase stat breakpoint rewards
+
+local vals = {
+	500, 37,
+	400, 32,
+	350, 27,
+	300, 26,
+	275, 25,
+	250, 24,
+	225, 23,
+	200, 22,
+	180, 21,
+	161, 20,
+	145, 19,
+	130, 18,
+	116, 17,
+	103, 16,
+	91, 15,
+	80, 14,
+	70, 13,
+	61, 12,
+	53, 11,
+	46, 10,
+	40, 9,
+	35, 8,
+	31, 7,
+	27, 6,
+	24, 5,
+	21, 4,
+	19, 3,
+	17, 2,
+	15, 1,
+	13, 0,
+	11, -1,
+	9, -2,
+	7, -3,
+	5, -4,
+	3, -5,
+	0, -6
+}
+
+function events.GetStatisticEffect(t)
+	local handled = false
+	for i = 1, #vals - 2, 2 do
+		if t.Value >= vals[i] then
+			t.Result = vals[i + 1]
+			handled = true
+			break
+		end
+	end
+	if not handled then
+		t.Result = vals[#vals]
 	end
 end

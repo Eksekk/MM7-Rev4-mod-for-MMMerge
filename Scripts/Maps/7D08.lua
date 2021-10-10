@@ -65,12 +65,12 @@ NPCGroup = 563, unk = 0}
 		evt.SetNPCTopic{NPC = 355, Index = 0, Event = 0}         -- "BDJ the Coding Wizard"
 		evt.SetNPCTopic{NPC = 355, Index = 1, Event = 0}         -- "BDJ the Coding Wizard"
 		evt.SetNPCTopic{NPC = 355, Index = 2, Event = 0}         -- "BDJ the Coding Wizard"
-		evt.SpeakNPC{NPC = 355}         -- "BDJ the Coding Wizard"
 		evt.Set{"QBits", Value = 863}         -- Three Use
 		evt.Subtract{"NPCs", Value = 357}         -- "Lord Godwinson"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 1172}         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
 		evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
 		evt.Subtract{"QBits", Value = 868}         -- 0
+		evt.SpeakNPC{NPC = 355}         -- "BDJ the Coding Wizard"
 	end
 end
 
@@ -410,9 +410,11 @@ evt.map[376] = function()
 		goto _3
 	end
 ::_5::
-	evt.Subtract{"Inventory", Value = 1134}         -- "Lloyd's Beacon"
-	if evt.Cmp{"Inventory", Value = 1134} then         -- "Lloyd's Beacon"
-		goto _5
+	local LBscrolls = {332, 1134, 1834}
+	for _, scroll in ipairs(LBscrolls) do
+		while evt.Cmp("Inventory", scroll) do
+			evt.Subtract("Inventory", scroll)
+		end
 	end
 	evt.SetNPCGreeting{NPC = 355, Greeting = 165}         --[[ "BDJ the Coding Wizard" : "I see you’ve found the key to the Coding Fortress. Well done! You’ve probably had a few elemental ‘misunderstandings’ in findings this key, but I assure you that they were minor disputes compared to what you now face.
 
@@ -441,6 +443,11 @@ NPCGroup = 563, unk = 0}
 "Current")
 	evt.Add{"Inventory", Value = 962}         -- "Coding Fortress Key"
 ::_22::
+	evt.ForPlayer(-- ERROR: Const not found
+4)
+	if evt.Cmp{"FireSkill", Value = 1} then
+		evt.Set{"SP", Value = 0}
+	end
 	evt.ForPlayer(-- ERROR: Const not found
 0)
 	if evt.Cmp{"FireSkill", Value = 1} then

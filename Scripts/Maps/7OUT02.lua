@@ -531,9 +531,9 @@ evt.map[39] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"Awards", Value = 123} then         -- "Completed the MM7Rev4mod Game!!"
 		if evt.Cmp{"QBits", Value = 886} then         -- End Game
 			evt.SetNPCGreeting{NPC = 365, Greeting = 147}         -- "Count ZERO" : "Magic Shop"
-			evt.SpeakNPC{NPC = 365}         -- "Count ZERO"
 			evt.Set{"Awards", Value = 123}         -- "Completed the MM7Rev4mod Game!!"
 			evt.Subtract{"QBits", Value = 642}         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
+			evt.SpeakNPC{NPC = 365}         -- "Count ZERO"
 		end
 	end
 end
@@ -557,8 +557,8 @@ evt.map[50] = function()  -- function events.LoadMap()
 			if evt.Cmp{"Counter5", Value = 1008} then
 				evt.Set{"Counter5", Value = 0}
 				evt.Add{"Inventory", Value = 1506}         -- "Message from Mr. Stantley"
-				evt.SpeakNPC{NPC = 437}         -- "Messenger"
 				evt.Add{"QBits", Value = 693}         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+				evt.SpeakNPC{NPC = 437}         -- "Messenger"
 			end
 			return
 		end
@@ -610,11 +610,11 @@ evt.map[52] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"QBits", Value = 888} then         -- LG 1-time
 		if evt.Cmp{"QBits", Value = 868} then         -- 0
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
-			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"
 			evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
 			evt.MoveNPC{NPC = 1253, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time
+			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"
 		end
 	end
 end
@@ -903,7 +903,6 @@ Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"QBits", Value = 646} then         -- Arbiter Messenger only happens once
 		if evt.Cmp{"Counter3", Value = 2272} then
-			evt.SpeakNPC{NPC = 430}         -- "Messenger"
 			evt.Add{"QBits", Value = 665}         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
 			evt.Add{"History6", Value = 0}
 			evt.MoveNPC{NPC = 406, HouseId = 0}         -- "Ellen Rockway"
@@ -911,6 +910,7 @@ evt.map[211] = function()  -- function events.LoadMap()
 			evt.MoveNPC{NPC = 414, HouseId = 1169}         -- "Ambassador Wright" -> "Throne Room"
 			evt.MoveNPC{NPC = 416, HouseId = 244}         -- "Judge Fairweather" -> "Familiar Place"
 			evt.Set{"QBits", Value = 646}         -- Arbiter Messenger only happens once
+			evt.SpeakNPC{NPC = 430}         -- "Messenger"
 		end
 	end
 end
@@ -962,46 +962,39 @@ evt.map[221] = function()
 		evt.StatusText{Str = 54}         -- "You Pray"
 		return
 	end
+	vars.TheGauntletQBits = {}
+	for i = 0, 2 do
+		vars.TheGauntletQBits[i + 718] = Party.QBits[i + 718]
+	end
 	evt.Subtract{"QBits", Value = 718}         -- Harmondale - Town Portal
 	evt.Subtract{"QBits", Value = 719}         -- Erathia - Town Portal
 	evt.Subtract{"QBits", Value = 720}         -- Tularean Forest - Town Portal
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-::_8::
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-	evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
-	evt.Subtract{"Inventory", Value = 1134}         -- "Lloyd's Beacon"
-	if evt.Cmp{"Inventory", Value = 1134} then         -- "Lloyd's Beacon"
-		goto _8
+	while evt.Cmp{"Inventory", Value = 223} do         -- "Magic Potion"
+		evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
 	end
-	if evt.Cmp{"Inventory", Value = 223} then         -- "Magic Potion"
-		goto _8
+	local LBscrolls = {332, 1134, 1834}
+	for _, scroll in ipairs(LBscrolls) do
+		while evt.Cmp("Inventory", scroll) do
+			evt.Subtract("Inventory", scroll)
+		end
 	end
-	evt.ForPlayer(-- ERROR: Const not found
-0)
-	if evt.Cmp{"FireSkill", Value = 1} then
-		evt.Set{"SP", Value = 0}
-	end
-	evt.ForPlayer(-- ERROR: Const not found
-1)
-	if evt.Cmp{"FireSkill", Value = 1} then
-		evt.Set{"SP", Value = 0}
-	end
-	evt.ForPlayer(-- ERROR: Const not found
-2)
-	if evt.Cmp{"FireSkill", Value = 1} then
-		evt.Set{"SP", Value = 0}
-	end
-	evt.ForPlayer(-- ERROR: Const not found
-3)
-	if evt.Cmp{"FireSkill", Value = 1} then
-		evt.Set{"SP", Value = 0}
+	for _, pl in Party do
+		if pl.Skills[const.Skills.Fire] ~= 0 then
+			pl.SP = 0
+		end
 	end
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
-	evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
+	-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
+	-- dispel magic
+	for i, pl in Party do
+		for buffid, buff in pl.SpellBuffs do
+			mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
+		end
+	end
+	for i, buff in Party.SpellBuffs do
+		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
+	end
 	evt.Subtract{"QBits", Value = 718}         -- Harmondale - Town Portal
 	evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D08.blv"}
 end

@@ -561,12 +561,12 @@ evt.map[501] = function()
 		end
 		if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
 			evt.SetNPCGreeting{NPC = 398, Greeting = 143}         -- "Hothfarr IX" : "Have you brought a cure yet?"
-			evt.SpeakNPC{NPC = 398}         -- "Hothfarr IX"
 			evt.Set{"QBits", Value = 882}         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
 			evt.Subtract{"QBits", Value = 881}         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 			evt.ForPlayer(-- ERROR: Const not found
 "All")
 			evt.Set{"Counter2", Value = 0}
+			evt.SpeakNPC{NPC = 398}         -- "Hothfarr IX"
 			return
 		end
 	end
@@ -576,8 +576,8 @@ evt.map[501] = function()
 	evt.MoveToMap{X = 256, Y = -4992, Z = 33, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 408, Icon = 2, Name = "7D24.blv"}         -- "Stone City"
 	do return end
 ::_18::
-	evt.SpeakNPC{NPC = 369}         -- "Doom Bearer"
-	evt.Set{"Awards", Value = 124}         -- "Inducted into the Erathian Hall of Shame!"
+	evt.Set{"Awards", Value = 124}         -- "Inducted into the Erathian Hall of Shame!
+	evt.SpeakNPC{NPC = 369}         -- "Doom Bearer
 end
 
 evt.hint[502] = evt.str[32]  -- "Enter Mansion"

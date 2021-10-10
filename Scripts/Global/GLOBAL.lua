@@ -2193,7 +2193,8 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Lord Archibald, himself, has place a reward for you in the House that once belonged to Judas.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to Celeste for your next assignment."" ]]
-		evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+		evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
+	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 		evt.Set("QBits", 815)         -- Reward
 		evt.Set("BlasterSkill", 1)
 		evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
@@ -2218,6 +2219,7 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Gavin Magnus, himself, has place a reward for you in the House that once belonged to Robert the Wise.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to The Pit for your next assignment." ]]
+	evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
 	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 	evt.Set("QBits", 815)         -- Reward
 	evt.Set("BlasterSkill", 1)

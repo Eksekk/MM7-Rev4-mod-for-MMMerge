@@ -121,11 +121,11 @@ evt.map[35] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"QBits", Value = 883} then         -- Dwarven Messenger Once
 		if evt.Cmp{"Awards", Value = 120} then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
-			evt.SpeakNPC{NPC = 366}         -- "Messenger"
 			evt.Set{"QBits", Value = 881}         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 			evt.Set{"QBits", Value = 883}         -- Dwarven Messenger Once
 			evt.Subtract{"QBits", Value = 880}         -- Barrow Normal
 			evt.Set{"Counter2", Value = 0}
+			evt.SpeakNPC{NPC = 366}         -- "Messenger"
 		end
 	end
 end

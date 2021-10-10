@@ -76,7 +76,7 @@ evt.map[5] = function()  -- function events.LoadMap()
 		end
 	end
 	if not changed then
-		MessageBox("Error: script giving items to monsters in temple of the moon is not working as expected, this should be reported to mod author so he can fix it")
+		MessageBox("Error: script giving items to monsters in temple of the moon is not working as expected, this should be reported to mod author so he can fix it and give you a command to get these items")
 	end
 	evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 end

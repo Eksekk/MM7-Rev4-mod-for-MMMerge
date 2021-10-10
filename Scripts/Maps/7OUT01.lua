@@ -241,8 +241,8 @@ NPCGroup = 563, unk = 0}
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 3, X = 12205, Y = 4919, Z = 170, -- ERROR: Not found
 NPCGroup = 2098, unk = 0}
-		evt.SpeakNPC{NPC = 356}         -- "Sally"
 		evt.Subtract{"QBits", Value = 806}         -- Return to EI
+		evt.SpeakNPC{NPC = 356}         -- "Sally"
 	end
 end
 
@@ -706,7 +706,7 @@ evt.map[574] = function()
 "All")
 	if evt.Cmp{"Inventory", Value = 1361} then         -- "Watcher's Ring of Elemental Water"
 		evt.SetMessage{Str = 772}
-		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 2002}         -- "Tobren Rainshield" : "The Greatest Hero"
+		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 1993}         -- "Tobren Rainshield" : "The Greatest Hero"
 		return
 	end
 	if not evt.Cmp{"Inventory", Value = 1128} then         -- "Water Walk"

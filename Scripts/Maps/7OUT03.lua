@@ -291,11 +291,11 @@ evt.map[33] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"QBits", Value = 883} then         -- Dwarven Messenger Once
 		if evt.Cmp{"Awards", Value = 120} then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
-			evt.SpeakNPC{NPC = 366}         -- "Messenger"
 			evt.Set{"QBits", Value = 881}         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 			evt.Set{"QBits", Value = 883}         -- Dwarven Messenger Once
 			evt.Subtract{"QBits", Value = 880}         -- Barrow Normal
 			evt.Set{"Counter2", Value = 0}
+			evt.SpeakNPC{NPC = 366}         -- "Messenger"
 		end
 	end
 end
@@ -375,10 +375,10 @@ evt.map[39] = function()  -- function events.LoadMap()
 	if not evt.Cmp{"QBits", Value = 873} then         -- mESSENGER ONE-TIME
 		if evt.Cmp{"QBits", Value = 719} then         -- Erathia - Town Portal
 			evt.SetNPCGreeting{NPC = 412, Greeting = 133}         -- "Messenger" : "Welcome to Emerald Island.  I will be your guide during your stay here.  From time to time I will appear to tell you about something you're about to see to help you understand your New World.  If you tire of my messages (I won't be offended if you do), just click on my portrait to talk to me then click on 'Tour Off' to silence me.  "
-			evt.SpeakNPC{NPC = 412}         -- "Messenger"
 			evt.SetNPCTopic{NPC = 408, Index = 0, Event = 946}         -- "Queen Catherine" : "The Kennel"
 			evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
 			evt.Set{"QBits", Value = 873}         -- mESSENGER ONE-TIME
+			evt.SpeakNPC{NPC = 412}         -- "Messenger"
 		end
 	end
 end

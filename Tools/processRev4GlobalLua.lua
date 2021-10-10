@@ -208,38 +208,24 @@ local replacements =
 		return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id, count)
 	end
 }
---[[ THINGS TO FIX MANUALLY (or create a script to fix them)
-* blayze's quest change to work with 5 players
-* BDJ's class change code to work with 5 players
-* erathian town portal pedestals small fix
-* GLOBAL
-* fix event 833, line 1231 - probably this line is not required
-* event 858, line 1827 - fix npc number
-* event 869 - fix the returns
-* GLOBAL END
-* 7d08 - event 376
-* 7out02 - event 221
---]]
 
 --[[ TODO
-* check awards missing mappings
-* check search for "ERROR: Not found" and check if everything is ok near it
-** do this in map scripts too
-* check icons for evt.MoveToMap
-* integrate changes from revamp.T.lod ( incl. scripts)
-* check unfixed evt commands in each script file
-* check Elgar Fellmoon
-* different sparkles for skill barrels: https://discord.com/channels/296507109997019137/296508593744773120/885066444071645245
-* fix the gauntlet scripts to subtract MM8/MM6 scrolls/potions as well and remove SPs from all party members
-* duplicated items - remove them from rnditems.txt?
-* check celeste&the pit
-* play "humming" sound when entering harmondale teleportal hub (function events.EnterNPC) (maybe looped to be longer)
-* SBG's blessed items have red crossed circle icon when equipped
-* restore qbits on leaving the gauntlet only if they were set originally
-* Zokarr's tomb fix coordinates on teleport to Barrow VI
-* <del>mdt, mdk, mdr test</del> - barrows done
-* check test of friendship - probably need to disable monster pathfinding there/increase HP of NPCs
+* SBG's blessed items have red crossed circle icon when equipped - idk how to fix this
 * find where judas the geek is in rev4 and put him there in merge
+* kill all monsters in Fort Riverstride quest, some more monsters (plate fighters, sorcerers)
+* integrate latest cthscr's commits
+--]]
+
+--[[ TODO custom quest
+* texts
+* scripting
+* <del>new item (shards of mana), both in items.txt and icons.lod</del>
+* use events.OpenChest instead of hardcoding items into chests
+* <del>modify the Maze according to texts</del>
+* decide locations for shards of mana and put them on the ground/into chests
+** <del>1 - nighon</del>
+** 2 - barrows
+** 3 - custom chest somewhere
 --]]
 
 --[[ TODOs completed
@@ -288,6 +274,18 @@ local replacements =
 * <del>fix other ddmapbuffs in MM6/MM8 maps</del>
 * <del>check wtf at line 2595</del>
 * <del>check if blayze's quest and saving erathia quest give correct mastery - they probably don't, fix them</del>
+* <del>check awards missing mappings</del>
+* <del>check Elgar Fellmoon</del>
+* <del>Zokarr's tomb fix coordinates on teleport to Barrow VI</del>
+* <del>restore qbits on leaving the gauntlet only if they were set originally</del>
+* <del>fix the gauntlet scripts to subtract MM8/MM6 scrolls/potions as well and remove SPs from all party members</del>
+* <del>restore original pics & descriptions of items taken from MM8/MM6</del>
+* <del>mdt, mdk, mdr test</del>
+* <del>check evt.SpeakNPC commands if they won't break</del>
+* <del>check test of friendship - probably need to disable monster pathfinding there/increase HP of NPCs</del>
+* <del>check search for "ERROR: " and check if everything is ok near it</del>
+** <del>do this in map scripts too</del>
+* <del>integrate changes from revamp.T.lod (incl. scripts)</del>
 --]]
 
 --[[ USEFUL STUFF
@@ -383,8 +381,8 @@ end]],
 			end
 		end
 	end]] ] = [[if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
-	return
-end]],
+		return
+	end]],
 	[ [[evt.Set("DarkSkill", 136)]] ] = [[
 if evt.Player == 5 then
 	for _, pl in Party do
@@ -395,7 +393,26 @@ else
 	local pl = Party[evt.Player]
 	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
 	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-end]]
+end]],
+	--[[ [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
+	[[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
+	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]],
+	--]]
+	
+	[ [[evt.MoveNPC{NPC = 60, -- ERROR: Not found
+HouseId = 999}         -- "Drathen Keldin"]] ] = "",
+
+	[ [[evt.Add(-- ERROR: Not found
+"Awards", 83886128)]] ] = [[evt.Add(-- ERROR: Not found
+"Awards", 21)]],
+	[ [[evt.global[42397] = function()
+	evt.SetSnow{EffectId = 18, On = true}
+end]] ] = "",
+	[ [[evt.Set(-- ERROR: Not found
+"Awards", 108)
+		evt.EnterHouse(600)         -- Win Good]] ] =
+	[[evt.Set(-- ERROR: Not found
+"Awards", 109)]]
 }
 
 for from, to in pairs(patches) do

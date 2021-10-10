@@ -627,8 +627,8 @@ evt.map[454] = function()
 		if i == 1 then
 			evt.Set{"MapVar29", Value = 5}
 		else
-			evt.SpeakNPC{NPC = 461}         -- "Lunius Shador"
 			evt.Set{"MapVar29", Value = 0}
+			evt.SpeakNPC{NPC = 461}         -- "Lunius Shador"
 		end
 	end
 end
@@ -702,13 +702,13 @@ evt.map[503] = function()
 			evt.MoveToMap{X = 442, Y = -1112, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 9, Name = "MDT10.blv"}
 		else
 			if evt.Cmp{"QBits", Value = 889} then         -- Bimbasto
-				evt.SpeakNPC{NPC = 374}         -- "Sir Vilx of Stone City"
 				evt.Set{"QBits", Value = 890}         -- Vilx
 				evt.Set{"NPCs", Value = 374}         -- "Sir Vilx of Stone City"
+				evt.SpeakNPC{NPC = 374}         -- "Sir Vilx of Stone City"
 			else
-				evt.SpeakNPC{NPC = 373}         -- "Duke Bimbasto"
 				evt.Set{"QBits", Value = 889}         -- Bimbasto
 				evt.Set{"NPCs", Value = 373}         -- "Duke Bimbasto"
+				evt.SpeakNPC{NPC = 373}         -- "Duke Bimbasto"
 			end
 		end
 	end

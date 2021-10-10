@@ -84,7 +84,7 @@
 81	Thunderfist Mountain	7d07.blv	0	0	10	672	7	10	10	5	4	10	40	30	30	Warlock	Warlock	4	5-7	AMinotaur	AMinotaur	4	5-7	Beholder	Beholder	4	5-7	31	CAVE	0	Volcano dungeon connecting to Stone city (dungeon 20)	10	x
 82	The Gauntlet	7d08.blv	0	0	0	0	7	10	4	3	1	75	40	30	30	Elemental Earth	Elemental Earth	4	 3-5	Elemental Water	Elemental Water	4	3-5	Elemental Fire	Elemental Fire	4	7-9	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
 83	The Titans' Stronghold	7d09.blv	0	0	16	672	7	10	16	8	5	10	50	50	0	Titan	Titan	3	3-7	ADragon	ADragon	3	3-6	Hydra	Hydra	3	4-7	31	CAVE	0	home of the giants	14	
-84	The Breeding Zone	7d10.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Behemoth	Behemoth	4	5-9	Elemental Fire	Elemental Fire	4	5-7	AGog	AGog	5	 1-3	18	CAVE	0	training ground for the underworld.	8	x
+84	The Breeding Zone	7d10.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Behemoth	Behemoth	4	5-9	Elemental Earth	Elemental Earth	4	5-7	Genie	Genie	5	3-5	18	CAVE	0	training ground for the underworld.	8	x
 85	The Walls of Mist	7d11.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Mage	Mage	3	 1-3	Elemental Air	Elemental Air	3	 1-3	Genie	Genie	3	 1-3	18	CAVE	0	"training ground for the cloud city.  Walls are made of ""mist"""	7	x
 86	The Coding Fortress	7d12.blv	0	0	0	0	7	10	14	7	4	10	40	30	30	Elemental Light	Elemental Light	4	2-5	Elemental Air	Elemental Air	5	4-8	Genie	Genie	3	3-6	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
 87	Zokarr's Tomb	7d13.blv	0	0	5	500	7	10	5	3	2	10	50	25	25	Wight	Wight	1	 1-3	Ghoul	Ghoul	1	 1-3	Ghoul	Ghoul	5	2-5	20	CAVE	0			

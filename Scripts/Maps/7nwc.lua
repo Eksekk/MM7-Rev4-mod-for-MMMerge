@@ -679,7 +679,7 @@ evt.map[501] = function()
 		return
 	end
 	evt.SetNPCTopic{NPC = 387, Index = 0, Event = 845}         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
-	evt.SetNPCTopic{NPC = 388, Index = 0, Event = 847}         -- "Halfgild Wynac" : "Lord Godwinson sent us!"
+
 	if not evt.Cmp{"Inventory", Value = 1301} then         -- "Book of UnMakings"
 		evt.StatusText{Str = 11}         -- "You must have the Book of UnMakings in order to leave"
 		return

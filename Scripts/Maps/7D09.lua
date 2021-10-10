@@ -28,7 +28,16 @@ evt.MazeInfo = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = -1707, FromY = -21848, FromZ = -1007, ToX = -1707, ToY = -21848, ToZ = -1007}         -- "Dispel Magic"
-	evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
+	-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
+	-- dispel magic
+	for i, pl in Party do
+		for buffid, buff in pl.SpellBuffs do
+			mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
+		end
+	end
+	for i, buff in Party.SpellBuffs do
+		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
+	end
 end
 
 events.LoadMap = evt.map[1].last

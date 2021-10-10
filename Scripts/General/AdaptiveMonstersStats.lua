@@ -1,7 +1,7 @@
 local max, min, ceil, floor, random, sqrt = math.max, math.min, math.ceil, math.floor, math.random, math.sqrt
 local ReadyMons = {}
 local MonBolStep = {}
-OriginalMonstersTxt = nil
+local OriginalMonstersTxt = nil
 
 ---- Additional mon properties and bolster tables
 
@@ -360,9 +360,9 @@ local function PrepareMapMon(mon, MapSettings)
 				   "SpecialC", "SpecialD", "Experience", "TreasureItemPercent", "TreasureItemLevel", "Level"}
 	
 	-- quick dirty fix, TODO: replace
-	if mon.NameId > 0 or mon.NPC_ID > 0 then return end
+	--if mon.NameId > 0 or mon.NPC_ID > 0 then return end
 	
-	--[[-- exit if monster has stats different than normal (hand-placed monsters)
+	-- exit if monster has stats different than normal (hand-placed monsters)
 	for _, prop in ipairs(props) do
 		local TxtMon = OriginalMonstersTxt[mon.Id]
 		if TxtMon[prop] == nil then goto continue end
@@ -384,7 +384,7 @@ local function PrepareMapMon(mon, MapSettings)
 			end
 		end
 		::continue::
-	end--]]
+	end
 
 	-- Base stats
 
@@ -897,10 +897,33 @@ local function BolsterMonsters()
 end
 Game.BolsterMonsters = BolsterMonsters
 
+local function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+		local meta = getmetatable(orig)
+		if meta and meta.__call and type(meta.__call) == "function" then
+			for orig_key, orig_value in orig do
+				copy[deepcopy(orig_key)] = deepcopy(orig_value)
+			end
+		else
+			for orig_key, orig_value in pairs(orig) do
+				copy[deepcopy(orig_key)] = deepcopy(orig_value)
+			end
+		end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
 function events.AfterLoadMap()
 	if Editor and Editor.WorkMode then
 		return
 	end
+	
+	OriginalMonstersTxt = deepcopy(Game.MonstersTxt)
 	
 	LocalMonstersTxt()
 	ReadyMons	= {}

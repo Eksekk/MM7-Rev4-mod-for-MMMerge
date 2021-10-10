@@ -511,8 +511,8 @@ if mmver == 8 then
 		if not NPCTablesLoaded then
 
 			NewNPCCount 	= DataTables.ComputeRowCountInPChar(mem.u4[TablesPtrs], 6, 6) - 1
-			--NewGreetsCount 	= DataTables.ComputeRowCountInPChar(mem.u4[TablesPtrs+0x4], 3, 5) - 1
-			NewGreetsCount 	= 369
+			NewGreetsCount 	= DataTables.ComputeRowCountInPChar(mem.u4[TablesPtrs+0x4], 3, 5) - 1
+			NewGreetsCount 	= 372
 			NewGroupsCount 	= DataTables.ComputeRowCountInPChar(mem.u4[TablesPtrs+0x8], 1, 2) - 1
 			NewNewsCount 	= DataTables.ComputeRowCountInPChar(mem.u4[TablesPtrs+0xc], 1) - 1
 

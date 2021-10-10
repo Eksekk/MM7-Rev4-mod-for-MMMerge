@@ -66,7 +66,7 @@ Increased Weapon speed.	Swift	25	25	25	0	0	0	0	0	0	0	0	0	X 2	B	(-20) pts on weap
 +3 ID Item and ID Monster skills.	of Identifying	0	0	0	0	0	0	5	5	0	5	10	15	1500	A	+3 to ID Monster and ID Item skill
 Double Damage vs. Elementals.	Elemental Slaying	20	20	20	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage vs Fire, Earth, Water, and Air elementals"
 Double Damage vs. Undead.	Undead Slaying	20	20	20	0	0	0	0	0	0	0	0	0	x2	B	"x2 damage on Liches, Vampires, Zombies, Skeletons, Ghosts, and Wights"
-Double Damage vs. Titans.	Of David	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	UNUSED x2 damage on all Titans
+Double Damage vs. Titans.	Of David	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	x2 damage on all Titans
 Regenerate Spell points and Hit points over time.	of Plenty	0	0	0	10	0	5	10	10	5	0	10	10	2500	C	"Regenerate 1 hp/x and 1 sp/x while walking, etc."
 Adds 5 points of Body damage and +2 Disarm skill.	Assassins'	20	20	20	0	0	0	0	0	0	0	0	0	1000	B	(5) pois damage and +2 Disarm skill
 Adds 6-8 points of Cold damage and +5 Armor Class.	Barbarians'	20	20	20	0	0	0	0	0	0	0	0	0	1500	C	(6-8) cold damage and +5 AC
@@ -75,6 +75,21 @@ Adds 6-8 points of Cold damage and +5 Armor Class.	Barbarians'	20	20	20	0	0	0	0	
 Prevents damage from drowning.	of Water Walking	0	0	0	5	5	5	5	5	0	15	5	5	1500	C	Character with item takes no damage from drowning
 Prevents damage from falling.	of Feather Falling	0	0	0	5	0	0	5	5	0	5	15	5	1000	B	Character with item takes no damage from falling
 Throws sparks into enemy.	of Sparking	0	0	0	0	0	0	0	0	0	0	0	0	x2	B	Throws sparks into enemy.
+Double damage vs. Demons.	Demon Slaying	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage vs all Demons."
+Double Damage vs. Elves.	Elf Slaying	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage on all Elf Archers, Elf Spearmen, Elf peasants (male and female)."
+Double Damage vs. Goblins.	Goblin Slaying	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage on all Goblins."
+Double Damage vs. Dwarves.	Dwarf Slaying	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage on all Dwarves."
+Double Damage vs. Humans.	Human Slaying	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage on all Humans."
+Double Damage vs. Sea Monsters.	of Sea Hunting	0	0	0	0	0	0	0	0	0	0	0	0	x2	A	"x2 damage on all Swimming monsters."
+Adds 10-20 points of Fire damage.	of Fire Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Fire damage
+Adds 10-20 points of Air damage.	of Air Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Air damage
+Adds 10-20 points of Water damage.	of Water Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Water damage
+Adds 10-20 points of Earth damage.	of Earth Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Earth damage
+Adds 10-20 points of Spirit damage.	of Spirit Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Spirit damage
+Adds 10-20 points of Mind damage.	of Mind Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Mind damage
+Adds 10-20 points of Body damage.	of Body Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Body damage
+Adds 10-20 points of Light damage.	of Light Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Light damage
+Adds 10-20 points of Dark damage.	of Dark Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Dark damage
 
 		505	505	505	345	315	310	245	305	200	185	375	370			
 

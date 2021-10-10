@@ -185,6 +185,18 @@ for i = 0, 2 do
 end	
 row[14] = 1994
 
+-- Halfgild Wynac
+--[[local halfgildId = 49
+local row = t[halfgildId + 2]
+assert(row[2] == "Halfgild Wynac", "Error while parsing NPC data: trying to modify Halfgild Wynac, but used wrong row")
+
+-- 2d location
+row[7] = 1073
+
+-- greeting
+row[9] = 369
+--]]
+
 -- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
 
 -- Saves a string into a file (overwrites it)

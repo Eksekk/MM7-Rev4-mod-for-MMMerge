@@ -122,24 +122,30 @@ evt.map[12] = function()
 		return
 	end
 	evt.Subtract{"QBits", Value = 861}         -- One Use
-	if evt.Cmp{"QBits", Value = 850} then         -- BDJ Final
+	if evt.Cmp{"QBits", Value = 869} then         -- BDJ Final
 		evt.Set{"QBits", Value = 860}         -- Final
 		evt.ForPlayer(-- ERROR: Const not found
-3)
+	4)
 	else
-		if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
-			evt.Set{"QBits", Value = 850}         -- BDJ Final
+		if evt.Cmp{"QBits", Value = 850} then         -- BDJ 4
+			evt.Set{"QBits", Value = 869}         -- BDJ Final
 			evt.ForPlayer(-- ERROR: Const not found
-2)
+	3)
 		else
-			if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
-				evt.Set{"QBits", Value = 849}         -- BDJ 3
+			if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
+				evt.Set{"QBits", Value = 850}         -- BDJ 4
 				evt.ForPlayer(-- ERROR: Const not found
-1)
+	2)
 			else
-				evt.Set{"QBits", Value = 848}         -- BDJ 2
-				evt.ForPlayer(-- ERROR: Const not found
-0)
+				if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
+					evt.Set{"QBits", Value = 849}         -- BDJ 3
+					evt.ForPlayer(-- ERROR: Const not found
+	1)
+				else
+					evt.Set{"QBits", Value = 848}         -- BDJ 2
+					evt.ForPlayer(-- ERROR: Const not found
+	0)
+				end
 			end
 		end
 	end
@@ -202,16 +208,17 @@ evt.map[12] = function()
 		end
 	end
 	if not evt.Cmp{"FireSkill", Value = 8} then
-		evt.Set{"FireSkill", Value = 72}
+		local s, m = SplitSkill(Party[evt.CurrentPlayer].Skills[const.Skills.Fire])
+		Party[evt.CurrentPlayer].Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
 	end
 ::_78::
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"QBits", Value = 860} then         -- Final
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
+		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
 	else
 		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	end
 end
 

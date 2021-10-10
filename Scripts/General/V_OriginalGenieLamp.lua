@@ -38,10 +38,10 @@ local function GenieLamp(Target, Item, PlayerId)
 		evt.Add(resists[res], bonusMul)
 		Game.ShowStatusText(rewardString:format(BonusMul, Game.GlobalTxt[resistTexts[res]]))
 	end
-	evt.PlaySound{Id = 152, X = Party.X, Y = Party.Y}
+	evt.PlaySound(152)
 	if badDays[day] ~= nil then
 		evt.Set(badDays[day], 0)
-		evt.PlaySound{Id = 148, X = Party.X, Y = Party.Y}
+		evt.PlaySound(148)
 	end
 	return 2
 end

@@ -28,7 +28,6 @@ evt.map[1] = function()  -- function events.LoadMap()
 		if not evt.Cmp{"QBits", Value = 814} then         -- Small House only Once
 			if evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
 				evt.Set{"QBits", Value = 814}         -- Small House only Once
-				evt.SpeakNPC{NPC = 762}         -- "Maximus"
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
 NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
@@ -43,10 +42,10 @@ NPCGroup = 1587, unk = 0}
 NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
 NPCGroup = 1587, unk = 0}
+				evt.SpeakNPC{NPC = 762}         -- "Maximus"
 			else
 				if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
 					evt.Set{"QBits", Value = 814}         -- Small House only Once
-					evt.SpeakNPC{NPC = 724}         -- "Sir Carneghem"
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
 NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
@@ -61,6 +60,7 @@ NPCGroup = 1587, unk = 0}
 NPCGroup = 1587, unk = 0}
 					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
 NPCGroup = 1587, unk = 0}
+					evt.SpeakNPC{NPC = 724}         -- "Sir Carneghem"
 				end
 			end
 		end

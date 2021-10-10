@@ -121,9 +121,9 @@ evt.map[2] = function()  -- function events.LoadMap()
 			evt.SetNPCGreeting{NPC = 358, Greeting = 136}         --[[ "Resurectra" : "Ah, our Heroes have returned!  Excellent accomplishment!  Erathia will always be in your debt.
 
 However, we still have work to do in order to triumph in our endeavors.  After you have healed and rested, see Robert the Wise for you next assignment.  He can be found in the Hostel across the way from Sir Caneghem." ]]
-			evt.SpeakNPC{NPC = 358}         -- "Resurectra"
 			evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
 			evt.SetNPCTopic{NPC = 422, Index = 0, Event = 947}         -- "Robert the Wise" : "Control Cube"
+			evt.SpeakNPC{NPC = 358}         -- "Resurectra"
 		end
 	end
 end

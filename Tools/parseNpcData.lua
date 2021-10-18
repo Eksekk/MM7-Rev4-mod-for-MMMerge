@@ -258,7 +258,22 @@ _G.WriteBasicTextTable = WriteBasicTextTable
 
 -- end of functions taken from MMExtension repo
 
-WriteBasicTextTable(t, "NPCDATA 1st revision.txt")
+local merge = LoadBasicTextTable("tab\\NPCData merge.txt", 0)
+
+for i = 3, #t do
+	if t[i][2] == "Boob" then break end
+	local id = tonumber(t[i][1])
+	while #merge < id + 2 do
+		local temp = {}
+		for j = 1, 19 do
+			table.insert(temp, "")
+		end
+		temp[1] = tostring(#merge - 2 + 1)
+		table.insert(merge, temp)
+	end
+	merge[id + 2] = table.copy(t[i])
+end
+WriteBasicTextTable(merge, "NPCDATA processed.txt")
 
 --[[local revamp = LoadBasicTextTable("tab\\NPCData revamp.txt", 0)
 local merge = LoadBasicTextTable("tab\\NPCData merge.txt", 0)

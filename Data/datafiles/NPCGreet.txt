@@ -584,8 +584,12 @@ How are you doing, by the way? Any sudden pains? Feeling strangely empty inside?
 Hey! My lords! Great competition going to happen very soon!
 
 (Putting paper in your hands, he runs away)		Placeholder	Boy messenger
-333	Placeholder	Placeholder			
-334	Placeholder	Placeholder			
+333	"Hail, Templars!
+Your courage and skill has all the tongues in the Kingdom wagging!
+I am very proud of you!"	"Hail, Templars!
+Your courage and skill has all the tongues in the Kingdom wagging!
+I am very proud of you!"	Templar	Leda Rowan	
+334	Last Line Placeholder	Placeholer			
 335	Placeholder	Placeholder			
 336	Placeholder	Placeholder			
 337	Placeholder	Placeholder			

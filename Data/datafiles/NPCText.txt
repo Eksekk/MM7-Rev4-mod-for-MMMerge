@@ -5506,64 +5506,211 @@ I will not be bribed.
 2712	Chan Os Wy	See Scripts/Global/Quest_CrossContinents.lua	
 2713	R.C. Wosch	See Scripts/Global/Quest_CrossContinents.lua	
 2714	I didn't expect to meet another willing to explore this unfriendly region. I trust you made it here safely?		Dartin Dunewalker
-2715			
-2716			
-2717			
-2718			
-2719			
-2720			
-2721			
-2722			
-2723			
-2724			
-2725			
-2726			
-2727			
-2728			
-2729			
-2730			
-2731			
-2732	"You must bring the Lost Scroll of Wonka to me to collect your reward."		
-2733	“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
+2715	"Perhaps if you could locate our previous homeland, and check to see if the Curse of the Stone still exists.
+If it does perhaps there is a way to remove it.
+Any Barbarian in your party who completes this task would be promoted to Berserker of our Clan. Many honors are bestowed with this title, and you would be forever known to us as a legendary hero.One of our warriors, Dartin Dunewalker, set out to find this place.
+He left thinking he would find clues among the stone fields of Ravage Roaming.
+Perhaps you can find him there and work together--or at the least, find clues that will lead you to our goal."	Berserker Promo	Volog Sandwind
+2716	"You have found our Ancient Home?
+Its located in the western area of the Murmurwoods?
+This is wonderful news.
+Perhaps there is still time to move my people.
+Unfortunately the Elemental threat must be dealt with first, or no people will be safe! All Barbarians among you have been promoted to Berserker, and their names will be forever remembered in our songs.
+I will teach the rest of you what skills I can, perhaps it will be enough to help you save all of Jadame."	Berserker Promo	Volog Sandwind
+2717	"Before Volog left, he instructed me to promote any Barbarians that travel with you to Berserker.
+The village of Rust will be forever thankful to you!"	Berserker Promo	Hobb Sandwind
+2718	Promotion to Warmonger	Warmonger Promo	Hobb Sandwind
+2719	"Can you please clear Ancient Troll Home from these nasty Basilisks? All Berserkers in your party will be promoted to Warmonger."	Warmonger Promo	Hobb Sandwind
+2720	"If you ever want to be considered Warmonger candidate you should have no problem with ordinary Basilisks. Come back after you finish them."	Warmonger Promo	Hobb Sandwind
+2721	"So those Basilisks are no longer a threat? Great news! All Berserkers among you have been promoted to Warmonger."	Warmonger Promo	Hobb Sandwind
+2722	"So you're looking to become a Cavalier? I hear you, but you need to prove your worth to me first. There will come a time for combat and glory, but it would be unwise to rush your enemies without a proper blade. There is a rock somewhere in the Ravage Roaming, in which a sword is stuck - a nod to a tradition of old. Partake in the old custom and try to take the sword out. If you succeed, bring it back to me as proof and you shall be granted the title of a Cavalier."	MM8 Cavalier Promo	Garret Deverro
+2723	"Having trouble finding the rock in that pile of rocks to the south? Or was the rock stronger than you? Consider drinking some good brew. There are no rules. There's only victory. Or defeat, I suppose."	MM8 Cavalier Promo	Garret Deverro
+2724	"Well, well, well! Look who strolls in wielding the beautiful blade! I can see from your bulging muscles you deserve both the blade, and the promotion. Be well, Cavalier, and may the blade serve you in the battles to come."	MM8 Cavalier Promo	Garret Deverro
+2725	"So you want to be Templars, do you?
+Well, you should prove yourself worthy. I think I have a test for you.
+Those Champions think they are topmost Knights, proud of their trophies.
+""How can you be a champion if you don't win any tournaments?"" they say.
+The best way to give 'em a lesson would be to steal Arena champion title from them.
+Go and win five championship tournaments in the Arena at Knight level, and come back to me.
+I'll call you Templars then, if you want."	MM7 Templar First time	Leda Rowan
+2726	"I can see you very much want to be called Templars, but I'm not so sure I should help you.
+Prove to me that you follow the Path of Light, and then we'll talk about promotion."	MM7 Templar No arbiter	Leda Rowan
+2727	"Call you Templars?
+Never!
+The only reason I'm not hacking you evil doers to bits is that you came here peacefully.
+Leave now, before I change my mind and rid the world of another problem."	MM7 Templar Party evil	Leda Rowan
+2728	"I am the person to talk to if you want to be called Templars.
+First, though, you must practice.
+Return to me when you've become Cavaliers.
+Then, if you have the right outlook, I will tell you what you must do to become Templars."	MM7 Templar No cavalier	Leda Rowan
+2729	"Congratulations for you recent tourney victories, my friends!
+I gladly name the Cavaliers among you Templars, and the Honorary Cavaliers I name Honorary Templars!
+Always fight for the Light, Templars!"	MM7 Templar Success	Leda Rowan
+2730	"You have not yet won 5 championship tournaments in the Arena.
+Return to me when you have won five, and I will promote you.
+Remember, these battles MUST be at the Knight difficulty level."	MM7 Templar Fail	Leda Rowan
+2731	Power Lich	MM7/MM8 PowerLich Promo	
+2732	"Ah, you seek to achieve the ultimate in the darker arts.
+The necromancer’s among you seek to turn themselves into Liches, the most potent of necromancers.
+Very well, I can perform this transformation for you, but you must do something for me...and get something for yourselves.
+I require the Lost Book of Khel.
+It contains secrets of necromancy that had been hidden since Khel’s tower sank beneath the waves.
+The Lizardmen of Dagger Wound celebrated when the sea took Khel and his knowledge from us.
+With the volcanic upheaval in that region, I believe the Tower of Khel can be found.
+Retrieve the book from the library and bring it to me!
+Now, for yourselves, you will need a Lich Jar for every necromancer that wishes to become a Lich.
+Zanthora, the Mad Necromancer keeps a large supply of these jars, perhaps she will sell you one!
+If not you must take them from her!"	MM8 PowerLich Promo	Vetrinus Taleshire
+2733	"You have found the Lost Book of Khel, however you lack the Lich Jars needed to complete the transformation!
+Return here when you have one for each necromancer in your party!"	MM8 PowerLich Promo	Vetrinus Taleshire
+2734	"You do not have the Lost Book of Khel!
+I cannot help you, if you do not help me!
+Return here with the Book and a Lich Jar for each necromancer in your party that wishes to become a Lich!"	MM8 PowerLich Promo	Vetrinus Taleshire
+2735	"You have brought everything needed to perform the transformation!
+All Necromancers and Wizards in your party can now be transformed into Power Liches!
+May the dark energies flow through them for all eternity!
+The rest of you will gain what knowledge I can teach them as reward for their assistance!
+Lets begin! After we have completed, good friend Lathean can handle any future promotions for your party."	MM8 PowerLich Promo	Vetrinus Taleshire
+2736	"You have brought everything needed to perform the transformation!
+So be it!
+May the dark energies flow through you for all eternity!
+Lets begin!"	MM8 Conversion to PowerLich	Vetrinus Taleshire
+2737	"Ah, you return seeking promotion for others in your party?
+I have not forgotten your help in recovering the Lost Book of Kehl!
+All Necromancers in your party will be promoted to Power Lich.
+Be sure each Necromancer has a Lich Jar in his possession."	MM8 PowerLich Promo	Lathean
+2738	"Fear not death?
+I can perform the Ritual on any Wizard or Necromancer.
+You need a Soul Jar.
+Years ago the Wizards stole a shipment of Jars en route from Nighon to Deyja.
+The jars are very hard to destroy, so they hid them, thinking we would never be able to find them.Fortunately for us, dead men do indeed tell tales.
+Better, in fact, than living ones--dead men never forget, never refuse to talk, and never lie.
+So, we found the one who buried the Jars, and made him die.
+He was very cooperative after his death, and said he hid them somewhere in the Walls of Mist for the Wizards in Celeste. Retrieve these jars and I will perform the Ritual on all Wizards amongst you.
+The rest may become Honorary Power Liches, for what that's worth, in thanks for finding the extra Jars for us."	MM7 PowerLich First time	Halfgild Wynac
+2739	"If you haven't even become Wizards yet, you aren't ready to become Power Liches.
+Trouble me not 'til you're qualified."	MM7 PowerLich No wizard	Halfgild Wynac
+2740	Only followers of the Dark Path can become Liches.
+You have not yet chosen the path.
+Return when you choose Darkness.	MM7 PowerLich No arbiter	Halfgild Wynac
+2741	"Having chosen the path of Light, you are not suited to become Liches.
+The Ritual would reject you, and you would die a real death.
+If that is what you want, you certainly don't need my help…"	MM7 PowerLich Party good	Halfgild Wynac
+2742	"Jars.
+Yessss.
+You have helped us greatly.
+Those among you who are Wizards or Necromancers can now become Power Liches.
+Those who are not, have my gratitude for returning the jars, and I will call you ""Honorary Power Liches""."	MM7 PowerLich Success	Halfgild Wynac
+2743	"I have no spare Jars with which to perform the Ritual.
+It is impossible for me to promote you until you return with the Jars.
+Remember, each one of you must have a Jar to be Promoted."	MM7 PowerLich Fail	Halfgild Wynac
+2744	"Jars.
+Yessss.
+You have helped us greatly.
+Now for the Ritual.
+[The Lich draws a knife, and approaches you]
+This won't hurt a bit!
+[The ritual actually hurts quite a bit, and takes several hours to complete.
+When it is over, the Lich speaks again]
+So, now it is done.
+Remember, Liches must keep their Soul Jars with them at all times while they travel.
+You cannot be separated from your Jar for long, or you will die a real death."	MM7 Conversion to PowerLich	Halfgild Wynac
+2745	Flight Leader	MM8 FlightLeader Promo	Bazalath
+2746	"I am aware that happened to Jadame was horrid, I am not blind to the ruin lain to the many beautiful places, leaving folks homeless, or dead. So don't misunderstand me when I say that there is some good to be found in the ashes. Good and evil are rarely mutually exclusive. If you wish to earn your right to be called the Flight Leader, take this egg to the Plane of Fire. The energy of that place is incredible, and I believe it can bestow my descendant with fire unseen yet in the history of our race. It is too big of a risk for one of us to go there, not with the hunters tracking our moves. You, though, you can bring her to that incredible source of power. Be warned though, should anything happen to the egg, you will never be truly welcome among us again."	MM8 FlightLeader Promo	Bazalath
+2747	"You haven't yet taken my descendant to meet the flames of the fire plane. Don't try to trick me, I can tell the truth."	MM8 FlightLeader Promo	Bazalath
+2748	"Ah, so it is done, then? Long will be these years, as I wait for her to arrive and astonish us with her marvelous fire. You've done well, and for that I promote you to the Flight Leader. Fare thee well, and never bow your head down to those, who demand it."	MM8 FlightLeader Promo	Bazalath
+2749			
+2750			
+2751			
+2752			
+2753			
+2754			
+2755			
+2756			
+2757			
+2758			
+2759			
+2760			
+2761			
+2762			
+2763			
+2764			
+2765			
+2766			
+2767			
+2768			
+2769			
+2770			
+2771			
+2772			
+2773			
+2774			
+2775			
+2776			
+2777			
+2778			
+2779			
+2780			
+2781			
+2782			
+2783			
+2784			
+2785			
+2786			
+2787			
+2788			
+2789			
+2790			
+2791			
+2792			
+2793			
+2794			
+2795			
+2796			
+2797			
+2798			
+2799			
+2800	"You must bring the Lost Scroll of Wonka to me to collect your reward."		
+2801	“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
 
 Blayze retires to a back room.  In a few moments he begins an incantation in slow, guttural tones.
 
 ‘Oooompa … Looompa … Looompidi Dooo, I’ve got some arcane magic for you’.  Blayze repeats this phrase several times, increasing the intoning speed  with each utterance.  Building to a fever pitch, he commands  ‘Come forth ye Everlasting Gobstopper!  Come forth now!!!’
 
 Blaze returns from the back room, chewing gum and popping bubbles, a broad smile on his face.  Yep, that’s it.  Well done adventurers!!  As promised, here’s your reward.”		
-2734	“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”		
-2735	"Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"		
-2736	"I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."		
-2737	"Teleportal Hub.  Destinations; Emerald Island, Tatalia,  Deja, Avlee, Evenmorn Islands, Bracada.  Your party leader must have the proper key to use this teleportal hub."		
-2738	"I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."		
-2739	"Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."		
-2740	"I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."		
-2741	"Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
+2802	“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”		
+2803	"Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"		
+2804	"I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."		
+2805	"Teleportal Hub.  Destinations; Emerald Island, Tatalia,  Deja, Avlee, Evenmorn Islands, Bracada.  Your party leader must have the proper key to use this teleportal hub."		
+2806	"I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."		
+2807	"Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."		
+2808	"I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."		
+2809	"Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
 
 Be extremely cautious when you enter this cave, children.  The Mad Mage Pascal, Diviner of Strange Flesh has sent his army of Trolls to take this ring by force, and a battle rages between Greckaw’s minions and these invaders.  You would do well to let them fight it out and then kill the survivors.  But make no mistake, young ones, either side will turn on you in a heartbeat! 
 
 Make sure you have some healing potents with you.  You’ll need them!"		
-2742	"I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."		
-2743	"Please continue to search for the Evenmorn Key."		
-2744	"Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."		
-2745	"The talisman, good as new!  Thanks.  Here’s your payment."		
-2746	"What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."		
-2747	"Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."		
-2748	"Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."		
-2749	"The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."		
-2750	"My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
+2810	"I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."		
+2811	"Please continue to search for the Evenmorn Key."		
+2812	"Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."		
+2813	"The talisman, good as new!  Thanks.  Here’s your payment."		
+2814	"What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."		
+2815	"Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."		
+2816	"Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."		
+2817	"The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."		
+2818	"My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
 
 Now, onto the task at-hand.  My twin sister Rena lives here in Deja with her husband, Jayce Kedrin.  Rena and I are not identical twins and she was not ‘blessed’ with the ‘looks’ in our family as was I.  She’s, well, kind of plain.  Some might call her a real ‘Bow Wow’, if you know what I mean.  She’s the proverbial ‘two-bag date’.  Anywise, her birthday is upon us and I have purchased a special concoction called ‘Beauty Cream’ from Licia Rivenrock.  She’s indeed a Master Herbalist and her ‘cream’ is reported to do wonders with even the most ‘ordinary’ of subjects. I need you to pick up the order from Licia and deliver it to my sister.  Licia runs a business called ‘The House of Remedies’ in the Barrow Downs.
 
 Oh! And my sister will provide you with the customary fee upon delivery. "		
-2751	"Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
+2819	"Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja." 		
-2752	"A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
+2820	"A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
 
 Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m going to take a little nap.  Visit me later to see the results of the ‘miracle treatment’.  By for now …. "		
-2753	"I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
+2821	"I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
 
 I feel stunning,oh so stunning.  Feel like running and jumping for joy!  ....."		
-2754	Adventurer 5, select your new profession.		
-2755	Placeholder	Last entry in NPCText.txt is a placeholder and must not be used	
+2822	Adventurer 5, select your new profession.		
+2823	Placeholder	Last entry in NPCText.txt is a placeholder and must not be used	

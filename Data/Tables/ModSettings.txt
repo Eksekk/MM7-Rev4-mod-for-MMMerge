@@ -13,6 +13,12 @@ MM6ConvertCleric	1
 MM6ConvertPriest	1
 MM6ConvertSorcerer	1
 MM6ConvertWizard	1
+MM7MagePromo	1
+MM7NecromancerPromo	1
+MM7ClericLightPromo	1
+MM7ClericDarkPromo	1
+MM7ArchDruidPromoBothSides	1
+MM7WarlockPromoBothSides	1
 MM8EnableTier1Promo	1
 MM8Promo1ExpReward	10000
 ConversionToUndeadRestriction	1
@@ -50,3 +56,4 @@ Placeholder
 Placeholder
 Placeholder
 Rev4ForMergeActivateExtraQuests	1
+UseOriginalGenieLamps	1

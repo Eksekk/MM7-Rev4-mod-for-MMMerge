@@ -50,7 +50,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 48	Zanthora	1240	0	0	0	0	0	0	0	0	0	0	0	0	0	"(6) Mad Necromancer's Lair, Mad Necromancer"
 49	Leane Stormlance	1295	0	0	0	538	0	0	0	52	0	51	0	0	0	"(5) House at Dragon Hunter fort, Knight Promo Start"
 50	Dervish Chevron	1058	0	0	0	908	0	0	0	50	659	0	0	0	0	"(2) Cleric, Rescue Blazen Stormlance Secondary Quest"
-51	Garret Deverro	1301	0	0	0	0	0	0	0	735	0	0	0	0	0	(5) Quixote's Chamber (179) after Quixote goes to w 175
+51	Garret Deverro	1301	0	0	0	562	0	0	0	0	735	0	0	0	0	(5) Quixote's Chamber (179) after Quixote goes to w 175
 52	Sir Charles Quixote	1089	0	0	0	0	0	23	0	0	0	58	0	0	0	"(2) Merchanthouse, Council Chamber"
 53	Deftclaw Redreaver	1088	0	0	0	0	0	25	0	123	60	62	0	0	0	"(2) Merchanthouse, Council Chamber"
 54	Oskar Tyre	1156	0	0	0	0	0	26	0	130	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
@@ -346,7 +346,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 344	Sally	0865	0	0	0	0	0	120	0	764	765	0	0	0	0	Sells seashells by the seashore		
 345	Wren Wilder	0742	0	0	0	0	0	121	0	0	0	0	0	0	0	Courier Quest 4		
 346	Thomas Grey	0902	0	0	0	0	0	123	0	0	0	0	0	0	0	Ambusher leader in Emerald Isle		
-347	Halfgild Wynac	1493	0	0	0	0	0	0	0	0	0	0	0	0	0	Removed events 27,28, and 29		
+347	Halfgild Wynac	1493	0	0	0	0	0	123	0	0	0	0	0	0	0	Removed events 27,28, and 29		
 348	Carolyn Weathers	0857	0	0	0	1183	0	126	0	0	1152	1154	0	0	0	Elemental Guild Membership		
 349	Roger Tellmar	0956	0	0	0	1184	0	127	0	0	1156	1158	0	0	0	Self Guild Membership		
 350	William Darvees	0889	0	0	0	1168	0	128	0	782	0	0	0	0	0	Boatman to take party to area 2		
@@ -1224,21 +1224,21 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 1222	Random MapNPC 39	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
 1223	Random MapNPC 40	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
 1224	Random MapNPC 41	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
-1225																
-1226																	
-1227																	
-1228																	
-1229																	
-1230																	
-1231																	
-1232																	
-1233																	
-1234																	
-1235																	
-1236																	
-1237																	
-1238																	
-1239																	
+1225																		
+1226																		
+1227																		
+1228																		
+1229																		
+1230																		
+1231																		
+1232																		
+1233																		
+1234																		
+1235																		
+1236																		
+1237																		
+1238																		
+1239																		
 1240	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	303	0	0	0	0	Expert Sword (3)	3	
 1241	James Weathers	0917	0	0	0	1183	0	163	0	354	1099	0	0	0	Expert Body_Magic (3)	3		
 1242	Sarah	0851	0	0	0	941	0	0	0	1261	0	0	0	0	0	 Courier Guild Matron		

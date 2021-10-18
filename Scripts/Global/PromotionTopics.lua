@@ -10,6 +10,7 @@ local TXT = {
 	promotion = "%s promotion",
 	promote_to = "Promote to %s",
 	promote_to_honorary = "Promote to Honorary %s",
+	promote_to_honorary_sell = "Promote to Honorary %s (sell %s for %d gold)",
 	cannot_be_promoted = "%s cannot be promoted to %s.",
 	already_promoted = "You have been promoted already to the rank of %s.",
 	congratulations = "Congratulations, %s!",
@@ -17,11 +18,7 @@ local TXT = {
 	cannot_be_converted_to_undead = "Race %s cannot be converted to Undead.",
 	master_druids = "Master Druids",
 	battle_mages = "Battle Mages",
-	justiciars = "Justiciars",
-	warmongers = "Warmongers",
-	warmongers1 = "Can you please clear Ancient Troll Home from these nasty Basilisks? All Berserkers in your party will be promoted to Warmonger.",
-	warmongers2 = "If you ever want to be considered Warmonger candidate you should have no problem with ordinary Basilisks. Come back after you finish them.",
-	warmongers3 = "So those Basilisks are no longer a threat? Great news! All Berserkers among you have been promoted to Warmonger."
+	justiciars = "Justiciars"
 }
 
 local CC = const.Class
@@ -355,6 +352,12 @@ local function promote_honorary_class(t)
 	end
 end
 
+local promo_award_cont = {
+	[6] = "Enroth",
+	[7] = "Antagarich",
+	[8] = "Jadame"
+}
+
 local function mm6_generate_promo_quests(t)
 	QuestNPC = t.QuestNPC
 	local class = CC[t.Name]
@@ -393,6 +396,55 @@ local function mm6_generate_promo_quests(t)
 			promote_honorary_class({Class = class,
 				Award = CPA["EnrothHonorary" .. t.Name],
 				Race = const.Race.Human, Maturity = t.Maturity})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to_honorary, class_name)
+		}
+	}
+end
+
+local function mm7_generate_promo_quests(t)
+	QuestNPC = t.QuestNPC
+	local class = CC[t.Name]
+	local branch = strlower(t.Name)
+	local class_name = Game.ClassNames[class]
+	local slot2 = t.Slot2 or 0
+	Quest{
+		Name = "MM7_Promo_" .. t.Name .. "_" .. t.Seq .. "_1",
+		Branch = "",
+		Slot = t.Slot,
+		CanShow = function() return Party.QBits[t.QBit] end,
+		Ungive = function()
+			QuestBranch(branch)
+		end,
+		Texts = {
+			Topic = strformat(TXT.promotion, class_name),
+			Greet = t.Greet and Game.NPCGreet[t.Greet][1],
+			Ungive = t.Ungive and Game.NPCText[t.Ungive]
+		}
+	}
+	Quest{
+		Name = "MM7_Promo_" .. t.Name .. "_" .. t.Seq .. "_2",
+		Branch = branch,
+		Slot = slot2,
+		Ungive = function()
+			promote_class({Class = class, Award = CPA["Antagarich" .. t.Name],
+				From = t.From, Race = t.Race, RaceFamily = t.RaceFamily,
+				Maturity = t.Maturity, Exp = t.Exp})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, class_name)
+		}
+	}
+	Quest{
+		Name = "MM7_Promo_" .. t.Name .. "_" .. t.Seq .. "_3",
+		Branch = branch,
+		Slot = slot2 + 1,
+		Ungive = function()
+			promote_honorary_class({Class = class,
+				Award = CPA["AntagarichHonorary" .. t.Name],
+				Race = t.Race, RaceFamily = t.RaceFamily,
+				Maturity = t.Maturity})
 		end,
 		Texts = {
 			Topic = strformat(TXT.promote_to_honorary, class_name)
@@ -445,6 +497,122 @@ local function mm8_generate_promo_quests(t)
 		end,
 		Texts = {
 			Topic = strformat(TXT.promote_to_honorary, class_name)
+		}
+	}
+end
+
+local function mm_generate_promo_quests_undead(t)
+	QuestNPC = t.QuestNPC
+	local class = CC[t.Name]
+	local branch = strlower(t.Name)
+	local class_name = Game.ClassNames[class]
+	local class_name_spc = GetClassName({ClassId = class,
+		RaceId = const.Race.UndeadHuman})
+	local slot2 = t.Slot2 or 0
+	-- t.Exp2 (promo with conversion to undead), t.Exp3 (already undead promo)
+	local exp2, exp3 = t.Exp2 or t.Exp, t.Exp3 or t.Exp
+	Quest{
+		Name = "MM" .. t.Ver .. "_Promo_" .. t.Name .. "_" .. t.Seq .. "_1",
+		Branch = "",
+		Slot = t.Slot,
+		CanShow = function() return Party.QBits[t.QBit] end,
+		Ungive = function()
+			QuestBranch(branch)
+		end,
+		Texts = {
+			Topic = strformat(TXT.promotion, class_name),
+			Greet = t.Greet and Game.NPCGreet[t.Greet][1],
+			Ungive = t.Ungive and Game.NPCText[t.Ungive]
+		}
+	}
+	Quest{
+		Name = "MM" .. t.Ver .. "_Promo_" .. t.Name .. "_" .. t.Seq .. "_2",
+		Branch = branch,
+		Slot = slot2,
+		Ungive = function()
+			local k = MF.GetCurrentPlayer() or 0
+			local player = Party[k]
+			evt.ForPlayer(k)
+			local new_race = can_convert_to_undead(player)
+			if new_race == 0 then
+				promote_class({Class = class,
+					Award = CPA[promo_award_cont[t.Ver] .. t.Name2],
+					Race = player.Attrs.Race, Maturity = t.Maturity, Exp = exp3})
+				return
+			end
+			if new_race > 0 then
+				if not table.find(MT.ClassPromotionsInv[class] or {}, player.Class)
+						and not player.Class == class then
+					Message(strformat(TXT.cannot_be_promoted,
+						class_name, class_name_spc))
+					return
+				end
+				if not evt.Cmp("Inventory", t.Item) then
+					Message(Game.NPCText[t.FailTxt])
+					return
+				end
+				if not promote_class({Class = class,
+						Award = CPA[promo_award_cont[t.Ver] .. t.Name2],
+						Race = new_race, Maturity = t.Maturity, Exp = exp2,
+						SameClass = true}) then
+					return
+				end
+				Message(Game.NPCText[t.SuccessTxt])
+				evt.Subtract("Inventory", t.Item)
+				SetLichAppearance(k, player)
+			else
+				Message(strformat(TXT.cannot_be_converted_to_undead,
+					Game.Races[player.Attrs.Race].Name))
+			end
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, class_name_spc)
+		}
+	}
+
+	Quest{
+		Name = "MM" .. t.Ver .. "_Promo_" .. t.Name .. "_" .. t.Seq .. "_3",
+		Branch = branch,
+		Slot = slot2 + 1,
+		Ungive = function()
+			promote_class({Class = class, Award = CPA[promo_award_cont[t.Ver] .. t.Name],
+				From = t.From, Race = t.Race, RaceFamily = t.RaceFamily,
+				Maturity = t.Maturity, Exp = t.Exp})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, class_name)
+		}
+	}
+	Quest{
+		Name = "MM" .. t.Ver .. "_Promo_" .. t.Name .. "_" .. t.Seq .. "_4",
+		Branch = branch,
+		Slot = slot2 + 2,
+		Ungive = function()
+			if t.Sell then
+				promote_honorary_class({Class = class,
+					Award = CPA[promo_award_cont[t.Ver] .. "Honorary" .. t.Name2],
+					Race = t.Race, RaceFamily = t.RaceFamily,
+					Maturity = t.Maturity})
+				evt.ForPlayer("Current")
+				if evt.Cmp("Inventory", t.Item) then
+					evt.Subtract("Inventory", t.Item)
+					evt.Add("Gold", t.Sell)
+					if t.SellTxt then
+						Message(Game.NPCText[t.SellTxt])
+					end
+				end
+			else
+				promote_honorary_class({Class = class,
+					Award = CPA[promo_award_cont[t.Ver] .. "Honorary" .. t.Name],
+					Race = t.Race, RaceFamily = t.RaceFamily,
+					Maturity = t.Maturity})
+			end
+		end,
+		Texts = {
+			Topic = t.Sell
+				and strformat(TXT.promote_to_honorary_sell, class_name_spc,
+					Game.ItemsTxt[t.Item].Name, t.Sell)
+				or strformat(TXT.promote_to_honorary, class_name)
 		}
 	}
 end
@@ -955,7 +1123,7 @@ Quest{
 	Name = "MM6_Promo_Justiciar",
 	Branch = "",
 	Slot = 2,
-	Quest = 1112,
+	Quest = 1113,
 	Exp = 30000,
 	QuestItem = 2075,
 	CanShow = function() return Party.QBits[1269] end,
@@ -1005,6 +1173,1196 @@ Quest{
 }
 
 --------------------------------------------
+---- 		ANTAGARICH PROMOTIONS		----
+--------------------------------------------
+--[=[
+--------------------------------------------
+---- Antagarich Archer promotion
+-- First
+QuestNPC = 380	-- Steagal Snick
+
+Quest{
+	Name = "MM7_Promo_WarriorMage_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 543,
+	GivenItem = 1451,	-- Worn Belt
+	Exp = 15000,
+	Gold = 7500,
+	Give = function()
+		Party.QBits[728] = true
+	end,
+	CheckDone = function() return Party.QBits[570] end,
+	Done = function()
+		Party.QBits[794] = true
+		Party.QBits[728] = false
+		evt[0].Subtract("Reputation", 5)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[817],	-- "Warrior Mage"
+		Give = Game.NPCText[1087],
+		Undone = Game.NPCText[1089],
+		Done = Game.NPCText[1088]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 380, Name = "WarriorMage", Seq = 1, Slot = 0,
+	QBit = 794, Exp = 15000})
+
+-- Second good
+QuestNPC = 379	-- Lawrence Mark
+
+Quest{
+	Name = "MM7_Promo_MasterArcher_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1083])
+		elseif not Party.QBits[794] then
+			Message(Game.NPCText[1084])
+		else
+			Message(Game.NPCText[1082])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[815]	-- "Master Archer"
+	}
+}
+Quest{
+	Name = "MM7_Promo_MasterArcher_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 542,
+	QuestItem = 1344,	-- The Perfect Bow
+	RewardItem = 1345,	-- The Perfect Bow
+	Exp = 40000,
+	CanShow = function() return Party.QBits[794] and Party.QBits[611] end,
+	Done = function()
+		Party.QBits[795] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[815],	-- "Master Archer"
+		Give = Game.NPCText[1081],
+		Undone = Game.NPCText[1086],
+		Done = Game.NPCText[1085]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 379, Name = "MasterArcher", Seq = 1, Slot = 0,
+	QBit = 795, Greet = 172, Exp = 40000})
+
+-- Second evil
+QuestNPC = 380	-- Steagal Snick
+
+Quest{
+	Name = "MM7_Promo_Sniper_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[794] end,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1092])
+		else
+			Message(Game.NPCText[1091])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[819]	-- "Sniper"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Sniper_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 544,
+	QuestItem = 1344,	-- The Perfect Bow
+	RewardItem = 1345,	-- The Perfect Bow
+	Exp = 40000,
+	CanShow = function() return Party.QBits[794] and Party.QBits[612] end,
+	Done = function()
+		Party.QBits[796] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[819],	-- "Sniper"
+		Give = Game.NPCText[1090],
+		Undone = Game.NPCText[1094],
+		Done = Game.NPCText[1093]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 380, Name = "Sniper", Seq = 1, Slot = 1,
+	QBit = 796, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Cleric promotion
+-- First
+QuestNPC = 386	-- Daedalus Falk
+
+Quest{
+	Name = "MM7_Promo_Priest_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 555,
+	QuestItem = 1485,	-- Map to Evenmorn Island
+	Exp = 15000,
+	Gold = 5000,
+	Done = function()
+		Party.QBits[1004] = true
+		Party.QBits[576] = true
+		Party.QBits[730] = false
+		evt[0].Subtract("Reputation", 5)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[838],	-- "Priest"
+		Give = Game.NPCText[1133],
+		Undone = Game.NPCText[1135],
+		Done = Game.NPCText[1134]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 386, Name = "Priest", Seq = 1, Slot = 0,
+	QBit = 1004, Exp = 15000})
+
+if MF.GtSettingNum(MM.MM7ClericLightPromo, 0) then
+	Quest{
+		Name = "MM7_Promo_Priest_4",
+		Branch = "priest",
+		Slot = 2,
+		Ungive = function()
+			promote_class({Class = const.Class.ClericLight, Award = CPA.AntagarichClericLight})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, Game.ClassNames[const.Class.ClericLight])
+		}
+	}
+end
+if MF.GtSettingNum(MM.MM7ClericDarkPromo, 0) then
+	Quest{
+		Name = "MM7_Promo_Priest_5",
+		Branch = "priest",
+		Slot = 3,
+		Ungive = function()
+			promote_class({Class = const.Class.ClericDark, Award = CPA.AntagarichClericDark})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, Game.ClassNames[const.Class.ClericDark])
+		}
+	}
+end
+
+-- Second good
+QuestNPC = 385	-- Rebecca Devine
+
+Quest{
+	Name = "MM7_Promo_PriestLight_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1130])
+		elseif not Party.QBits[1004] then
+			Message(Game.NPCText[1129])
+		else
+			Message(Game.NPCText[1128])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[836]	-- "Priest of Light"
+	}
+}
+Quest{
+	Name = "MM7_Promo_PriestLight_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 554,
+	Exp = 40000,
+	Gold = 10000,
+	CanShow = function() return Party.QBits[1004] and Party.QBits[611] end,
+	CheckDone = function() return Party.QBits[574] end,
+	Done = function()
+		Party.QBits[1005] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[836],	-- "Priest of Light"
+		Give = Game.NPCText[1127],
+		Undone = Game.NPCText[1132],
+		Done = Game.NPCText[1131]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 385, Name = "PriestLight", Seq = 1, Slot = 0,
+	QBit = 1005, Greet = 188, Exp = 40000})
+
+-- Second evil
+QuestNPC = 386	-- Daedalus Falk
+
+Quest{
+	Name = "MM7_Promo_PriestDark_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[1004] end,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[200])
+		else
+			Message(Game.NPCText[1137])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[840]	-- "Priest of Dark"
+	}
+}
+Quest{
+	Name = "MM7_Promo_PriestDark_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 556,
+	Exp = 40000,
+	Gold = 10000,
+	CanShow = function() return Party.QBits[1004] and Party.QBits[612] end,
+	CheckDone = function() return Party.QBits[575] end,
+	Done = function()
+		Party.QBits[1006] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[840],	-- "Priest of Dark"
+		Give = Game.NPCText[1136],
+		Undone = Game.NPCText[1138],
+		Done = Game.NPCText[201]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 386, Name = "PriestDark", Seq = 1, Slot = 1,
+	QBit = 1006, Greet = 190, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Druid promotion
+-- First
+QuestNPC = 389	-- Anthony Green
+
+Quest{
+	Name = "MM7_Promo_GreatDruid_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 561,
+	Exp = 15000,
+	CheckDone = function() return Party.QBits[562] end,
+	Undone = function()
+		if not (Party.QBits[563] or Party.QBits[564] or Party.QBits[565]) then
+			Message(Game.NPCText[1153])
+		else
+			Message(Game.NPCText[1154])
+		end
+	end,
+	Done = function()
+		Party.QBits[1010] = true
+		evt[0].Subtract("Reputation", 5)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[848],	-- "Great Druid"
+		Give = Game.NPCText[1152],
+		Done = Game.NPCText[1155]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 389, Name = "GreatDruid", Seq = 1, Slot = 0,
+	QBit = 1010, Exp = 15000})
+
+-- Second good
+QuestNPC = 389	-- Anthony Green
+
+Quest{
+	Name = "MM7_Promo_ArchDruid_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[1010] end,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1158])
+		else
+			Message(Game.NPCText[1157])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[850]	-- "Arch Druid"
+	}
+}
+Quest{
+	Name = "MM7_Promo_ArchDruid_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 566,
+	Exp = 40000,
+	CanShow = function()
+		return Party.QBits[1010] and (Party.QBits[611]
+			or Party.QBits[612] and MF.GtSettingNum(MM.MM7ArchDruidPromoBothSides, 0))
+	end,
+	CheckDone = function() return Party.QBits[577] end,
+	Done = function()
+		Party.QBits[1011] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[850],	-- "Arch Druid"
+		Give = Game.NPCText[1156],
+		Undone = Game.NPCText[1160],
+		Done = Game.NPCText[1159]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 389, Name = "ArchDruid", Seq = 1, Slot = 1,
+	QBit = 1011, Greet = 196, Exp = 40000})
+
+-- Second evil
+QuestNPC = 390	-- Tor Anwyn
+
+Quest{
+	Name = "MM7_Promo_Warlock_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1164])
+		elseif not Party.QBits[1010] then
+			Message(Game.NPCText[1162])
+		else
+			Message(Game.NPCText[1163])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[852]	-- "Warlock"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Warlock_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 567,
+	QuestItem = 1449,	-- Dragon Egg
+	Exp = 40000,
+	CanShow = function()
+		return Party.QBits[1010] and (Party.QBits[612]
+			or Party.QBits[611] and MF.GtSettingNum(MM.MM7WarlockPromoBothSides, 0))
+	end,
+	Done = function()
+		Party.QBits[1012] = true
+		Party.QBits[739] = false
+		evt[0].Subtract("Reputation", 10)
+		MF.NPCFollowerAdd(396)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[852],	-- "Warlock"
+		Give = Game.NPCText[1161],
+		Undone = Game.NPCText[1166],
+		Done = Game.NPCText[1165]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 390, Name = "Warlock", Seq = 1, Slot = 0,
+	QBit = 1012, Greet = 198, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Paladin promotion
+-- First
+QuestNPC = 356	-- Sir Charles Quixote
+
+Quest{
+	Name = "MM7_Promo_Crusader_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 534,
+	Exp = 15000,
+	Gold = 5000,
+	CheckDone = function() return Party.QBits[535] end,
+	Give = function()
+		MF.NPCFollowerAdd(356)
+		evt.MoveNPC(356, 0)
+	end,
+	Done = function()
+		Party.QBits[788] = true
+		evt[0].Subtract("Reputation", 5)
+		MF.NPCFollowerRemove(356)
+		evt.MoveNPC(356, 941)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[801],	-- "Crusader"
+		Give = Game.NPCText[1012],
+		Undone = Game.NPCText[1014],
+		Done = Game.NPCText[1013]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 356, Name = "Crusader", Seq = 1, Slot = 0,
+	QBit = 788, Greet = 158, Exp = 15000})
+
+-- Second good
+Quest{
+	Name = "MM7_Promo_Hero_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[788] end,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1016])
+		else
+			Message(Game.NPCText[1017])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[803]	-- "Hero"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Hero_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 536,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[788] and Party.QBits[611] end,
+	CheckDone = function() return MF.NPCInGroup(393) end,
+	Give = function()
+		evt.MoveNPC(393, 1158)
+	end,
+	Done = function()
+		Party.QBits[789] = true
+		evt[0].Subtract("Reputation", 10)
+		MF.NPCFollowerRemove(393)
+		evt.MoveNPC(393, 941)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[803],	-- "Hero"
+		Give = Game.NPCText[1015],
+		Undone = Game.NPCText[1019],
+		Done = Game.NPCText[1018]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 356, Name = "Hero", Seq = 1, Slot = 1,
+	QBit = 789, Greet = 161, Exp = 40000})
+
+-- Second evil
+QuestNPC = 357	-- William Setag
+
+Quest{
+	Name = "MM7_Promo_Villain_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1027])
+		elseif not Party.QBits[788] then
+			Message(Game.NPCText[1037])
+		else
+			Message(Game.NPCText[1028])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[806]	-- "Villain"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Villain_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 538,
+	Exp = 40000,
+	Gold = 10000,
+	CanShow = function() return Party.QBits[788] and Party.QBits[612] end,
+	CheckDone = function() return MF.NPCInGroup(393) end,
+	Give = function()
+		evt.MoveNPC(393, 1158)
+	end,
+	Done = function()
+		Party.QBits[790] = true
+		evt[0].Add("Reputation", 10)
+		MF.NPCFollowerRemove(393)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[806],	-- "Villain"
+		Give = Game.NPCText[1026],
+		Undone = Game.NPCText[1030],
+		Done = Game.NPCText[1029]
+	}
+}
+Quest{
+	Name = "MM7_Promo_Villain_1_4",
+	Branch = "",
+	Slot = 1,
+	Texts = {
+		Topic = " "
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 357, Name = "Villain", Seq = 1, Slot = 0,
+	QBit = 790, Greet = 165, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Monk promotion
+-- First
+QuestNPC = 377	-- Bartholomew Hume
+
+Quest{
+	Name = "MM7_Promo_InitiateMonk_1",
+	Branch = "",
+	Slot = 0,
+	CheckDone = false,
+	Quest = 539,
+	Texts = {
+		Topic = Game.NPCTopic[808],	-- "Initiate Monk"
+		Give = Game.NPCText[1031],
+		Undone = Game.NPCText[1033]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 377, Name = "InitiateMonk", Seq = 1, Slot = 0,
+	QBit = 791, Exp = 15000})
+
+QuestNPC = 394	-- Bartholomew Hume
+
+Quest{
+	Name = "MM7_Promo_InitiateMonk_2",
+	BaseName = "MM7_Promo_InitiateMonk_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 539,
+	Exp = 15000,
+	Done = function()
+		Party.QBits[791] = true
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[808],	-- "Initiate Monk"
+		Done = Game.NPCText[1032]
+	}
+}
+Quest{
+	Name = "MM7_Promo_InitiateMonk_2_0",
+	Branch = "",
+	Slot = 1,
+	Texts = {
+		Topic = " "
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 394, Name = "InitiateMonk", Seq = 2, Slot = 0,
+	QBit = 791, Exp = 15000})
+
+-- Second good
+QuestNPC = 377	-- Bartholomew Hume
+
+Quest{
+	Name = "MM7_Promo_MasterMonk_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[791] end,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1035])
+		else
+			Message(Game.NPCText[1036])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[811]	-- "Master Monk"
+	}
+}
+Quest{
+	Name = "MM7_Promo_MasterMonk_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 540,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[791] and Party.QBits[611] end,
+	CheckDone = function() return Party.QBits[755] end,
+	Done = function()
+		Party.QBits[792] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[811],	-- "Master Monk"
+		Give = Game.NPCText[1034],
+		Undone = Game.NPCText[1073],
+		Done = Game.NPCText[1072]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 377, Name = "MasterMonk", Seq = 1, Slot = 1,
+	QBit = 792, Greet = 167, Exp = 40000})
+
+-- Second evil
+QuestNPC = 378	-- Stephan Sand
+
+Quest{
+	Name = "MM7_Promo_Ninja_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1076])
+		elseif not Party.QBits[791] then
+			Message(Game.NPCText[1075])
+		else
+			Message(Game.NPCText[1077])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[813]	-- "Ninja"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Ninja_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 541,
+	GivenItem = 1503,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[791] and Party.QBits[612] end,
+	CheckDone = function() return Party.QBits[754] end,
+	Give = function()
+		Party.QBits[727] = true
+	end,
+	Undone = function()
+		if Party.QBits[569] then
+			Message(Game.NPCText[1078])
+		else
+			Message(Game.NPCText[1079])
+		end
+	end,
+	Done = function()
+		Party.QBits[793] = true
+		Party.QBits[727] = false
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[813],	-- "Ninja"
+		Give = Game.NPCText[1074],
+		Done = Game.NPCText[1080]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 378, Name = "Ninja", Seq = 1, Slot = 0,
+	QBit = 793, Greet = 170, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Knight promotion
+-- First
+QuestNPC = 382	-- Frederick Org
+
+Quest{
+	Name = "MM7_Promo_Cavalier_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 546,
+	Exp = 15000,
+	CheckDone = function() return Party.QBits[652] end,
+	Done = function()
+		Party.QBits[797] = true
+		evt[0].Subtract("Reputation", 5)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[823],	-- "Cavalier"
+		Give = Game.NPCText[1101],
+		Undone = Game.NPCText[1103],
+		Done = Game.NPCText[1102]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 382, Name = "Cavalier", Seq = 1, Slot = 0,
+	QBit = 797, Exp = 15000})
+
+-- Second evil
+QuestNPC = 382	-- Frederick Org
+
+Quest{
+	Name = "MM7_Promo_BlackKnight_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[797] end,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1106])
+		else
+			Message(Game.NPCText[1105])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[825]	-- "Black Knight"
+	}
+}
+Quest{
+	Name = "MM7_Promo_BlackKnight_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 547,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[797] and Party.QBits[612] end,
+	CheckDone = function() return Party.QBits[572] end,
+	Done = function()
+		Party.QBits[799] = true
+		evt[0].Add("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[825],	-- "Black Knight"
+		Give = Game.NPCText[1104],
+		Undone = Game.NPCText[1108],
+		Done = Game.NPCText[1107]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 382, Name = "BlackKnight", Seq = 1, Slot = 1,
+	QBit = 799, Greet = 178, Exp = 40000})
+
+-- Second good
+QuestNPC = 381	-- Leda Rowan
+
+Quest{
+	Name = "MM7_Promo_Templar_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[2727])
+		elseif not Party.QBits[797] then
+			Message(Game.NPCText[2728])
+		else
+			Message(Game.NPCText[2726])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[1795]	-- "Templar"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Templar_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 545,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[797] and Party.QBits[611] end,
+	CheckDone = function() return Party.ArenaWinsKnight >= 5 end,
+	Done = function()
+		Party.QBits[798] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[1795],	-- "Templar"
+		Give = Game.NPCText[2725],
+		Undone = Game.NPCText[2730],
+		Done = Game.NPCText[2729]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 381, Name = "Templar", Seq = 1, Slot = 0,
+	QBit = 798, Greet = 333, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Ranger promotion
+-- First
+QuestNPC = 384	-- Ebednezer Sower
+
+Quest{
+	Name = "MM7_Promo_Hunter_1",
+	Branch = "",
+	Slot = 0,
+	CheckDone = false,
+	Quest = 549,
+	Texts = {
+		Topic = Game.NPCTopic[829],	-- "Hunter"
+		Give = Game.NPCText[1116],
+		Undone = Game.NPCText[1117]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 384, Name = "Hunter", Seq = 1, Slot = 0,
+	QBit = 1001, Exp = 15000})
+
+QuestNPC = 391	-- Faerie King
+
+Quest{
+	Name = "MM7_Promo_Hunter_2",
+	BaseName = "MM7_Promo_Hunter_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 549,
+	Exp = 15000,
+	CanShow = function() return Party.QBits[549] or Party.QBits[1001] end,
+	Done = function()
+		Party.QBits[1001] = true
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[833],	-- "Hunter?"
+		Done = Game.NPCText[1123]
+	}
+}
+Quest{
+	Name = "MM7_Promo_Hunter_2_0",
+	Branch = "",
+	Slot = 1,
+	-- don't hide "Pipes" topic when it should be shown
+	CanShow = function() return not evt.All.Cmp("Inventory", 1409) end,
+	Texts = {
+		Topic = " "
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 391, Name = "Hunter", Seq = 2, Slot = 0,
+	QBit = 1001, Exp = 15000})
+
+-- Second evil
+QuestNPC = 384	-- Ebednezer Sower
+
+Quest{
+	Name = "MM7_Promo_BountyHunter_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[1001] end,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1120])
+		else
+			Message(Game.NPCText[1119])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[831]	-- "Bounty Hunter"
+	}
+}
+Quest{
+	Name = "MM7_Promo_BountyHunter_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 550,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[1001] and Party.QBits[612] end,
+	CheckDone = function() return evt.Cmp("MontersHunted", 10000) end,
+	Done = function()
+		Party.QBits[1003] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[831],	-- "Bounty Hunter"
+		Give = Game.NPCText[1118],
+		Undone = Game.NPCText[1122],
+		Done = Game.NPCText[1121]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 384, Name = "BountyHunter", Seq = 1, Slot = 1,
+	QBit = 1003, Greet = 182, Exp = 40000})
+
+-- Second good
+QuestNPC = 383	-- Lysander Sweet
+
+Quest{
+	Name = "MM7_Promo_RangerLord_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1112])
+		elseif not Party.QBits[1001] then
+			Message(Game.NPCText[1111])
+		else
+			Message(Game.NPCText[1110])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[827]	-- "Ranger Lord"
+	}
+}
+Quest{
+	Name = "MM7_Promo_RangerLord_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 548,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[1001] and Party.QBits[611] end,
+	CheckDone = function() return Party.QBits[553] end,
+	Undone = function()
+		if Party.QBits[552] then
+			Message(Game.NPCText[1114])
+		else
+			Message(Game.NPCText[1113])
+		end
+	end,
+	Done = function()
+		Party.QBits[1002] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[827],	-- "Ranger Lord"
+		Give = Game.NPCText[1109],
+		Done = Game.NPCText[1115]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 383, Name = "RangerLord", Seq = 1, Slot = 0,
+	QBit = 1002, Greet = 180, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Thief promotion
+-- First
+QuestNPC = 354	-- William Lasker
+
+Quest{
+	Name = "MM7_Promo_Rogue_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 530,
+	QuestItem = 1426,	-- Vase
+	Exp = 15000,
+	Gold = 5000,
+	Done = function()
+		Party.QBits[785] = true
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[794],	-- "Rogue "
+		Give = Game.NPCText[993],
+		Undone = Game.NPCText[994],
+		Done = Game.NPCText[995]
+	}
+}
+Quest{
+	Name = "MM7_Promo_Rogue_1_4",
+	Branch = "",
+	Slot = 2,
+	StdTopic = 393
+}
+Quest{
+	Name = "MM7_Promo_Rogue_1_5",
+	Branch = "",
+	Slot = 3,
+	StdTopic = 308
+}
+mm7_generate_promo_quests({QuestNPC = 354, Name = "Rogue", Seq = 1, Slot = 0,
+	QBit = 785, Exp = 15000})
+
+-- Second good
+Quest{
+	Name = "MM7_Promo_Spy_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[785] end,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[996])
+		else
+			Message(Game.NPCText[997])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[796]	-- "Spy"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Spy_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 531,
+	Exp = 40000,
+	Gold = 15000,
+	CanShow = function() return Party.QBits[785] and Party.QBits[611] end,
+	CheckDone = function() return Party.QBits[532] end,
+	Undone = function()
+		-- FIXME: MM7 had item 999 here
+		--if evt.ForPlayer("All").Cmp("Inventory", ..) then Message(Game.NPCText[999]) else
+		if Party.QBits[568] then
+			Message(Game.NPCText[1000])
+		else
+			Message(Game.NPCText[1001])
+		end
+		--end
+	end,
+	Done = function()
+		Party.QBits[786] = true
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[796],	-- "Spy"
+		Give = Game.NPCText[998],
+		Done = Game.NPCText[1002]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 354, Name = "Spy", Seq = 1, Slot = 1,
+	QBit = 786, Greet = 154, Exp = 40000})
+
+-- Second evil
+QuestNPC = 355	-- Seknit Undershadow
+
+Quest{
+	Name = "MM7_Promo_Assassin_1_0",
+	Branch = "",
+	Slot = 1,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[1006])
+		elseif not Party.QBits[785] then
+			Message(Game.NPCText[1008])
+		else
+			Message(Game.NPCText[1007])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[799]	-- "Assassin"
+	}
+}
+Quest{
+	Name = "MM7_Promo_Assassin_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 533,
+	QuestItem = 1342,	-- Lady Carmine's Dagger
+	KeepQuestItem = true,
+	Exp = 40000,
+	Gold = 15000,
+	CanShow = function() return Party.QBits[785] and Party.QBits[612] end,
+	Done = function()
+		Party.QBits[787] = true
+		Party.QBits[725] = false
+		evt[0].Add("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[799],	-- "Assassin"
+		Give = Game.NPCText[1005],
+		Undone = Game.NPCText[1009],
+		Done = Game.NPCText[1010]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 355, Name = "Assassin", Seq = 1, Slot = 1,
+	QBit = 787, Greet = 157, Exp = 40000})
+
+--------------------------------------------
+---- Antagarich Wizard promotion
+-- First
+QuestNPC = 387	-- Thomas Grey
+
+Quest{
+	Name = "MM7_Promo_Wizard_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 557,
+	Exp = 15000,
+	CheckDone = function() return Party.QBits[585] or Party.QBits[586] end,
+	Give = function()
+		MF.NPCFollowerAdd(395)
+		evt.SetNPCGreeting(395, 0)
+	end,
+	Done = function()
+		Party.QBits[1007] = true
+		Party.QBits[558] = true
+		Party.QBits[731] = false
+		Party.QBits[732] = false
+		evt.SetNPCGreeting(395, 199)
+		--evt[0].Subtract("Reputation", 5)
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[842],	-- "Wizard"
+		Give = Game.NPCText[1139],
+		Undone = Game.NPCText[205],
+		Done = Game.NPCText[1140]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 387, Name = "Wizard", Seq = 1, Slot = 0,
+	QBit = 1007, Exp = 15000})
+
+if MF.GtSettingNum(MM.MM7MagePromo, 0) then
+	Quest{
+		Name = "MM7_Promo_Wizard_4",
+		Branch = "wizard",
+		Slot = 2,
+		Ungive = function()
+			promote_class({Class = const.Class.Mage, Award = CPA.AntagarichMage})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, Game.ClassNames[const.Class.Mage])
+		}
+	}
+end
+if MF.GtSettingNum(MM.MM7NecromancerPromo, 0) then
+	Quest{
+		Name = "MM7_Promo_Wizard_5",
+		Branch = "wizard",
+		Slot = 3,
+		Ungive = function()
+			promote_class({Class = const.Class.Necromancer, Award = CPA.AntagarichNecromancer})
+		end,
+		Texts = {
+			Topic = strformat(TXT.promote_to, Game.ClassNames[const.Class.Necromancer])
+		}
+	}
+end
+
+-- Second good
+QuestNPC = 387	-- Thomas Grey
+
+Quest{
+	Name = "MM7_Promo_ArchMage_1_0",
+	Branch = "",
+	Slot = 1,
+	CanShow = function() return Party.QBits[1007] end,
+	Ungive = function()
+		if Party.QBits[612] then
+			Message(Game.NPCText[1143])
+		else
+			Message(Game.NPCText[1142])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[844]	-- "Archmage"
+	}
+}
+Quest{
+	Name = "MM7_Promo_ArchMage_1",
+	Branch = "",
+	Slot = 1,
+	Quest = 559,
+	QuestItem = 1289,	-- Divine Intervention
+	KeepQuestItem = true,
+	Exp = 40000,
+	Gold = 10000,
+	CanShow = function() return Party.QBits[1007] and Party.QBits[611] end,
+	Done = function()
+		Party.QBits[1008] = true
+		Party.QBits[738] = false
+	end,
+	Texts = {
+		Topic = Game.NPCTopic[844],	-- "Archmage"
+		Give = Game.NPCText[1141],
+		Undone = Game.NPCText[1145],
+		Done = Game.NPCText[1144]
+	}
+}
+mm7_generate_promo_quests({QuestNPC = 387, Name = "ArchMage", Seq = 1, Slot = 1,
+	QBit = 1008, Greet = 192, Exp = 40000})
+
+-- Second evil
+QuestNPC = 388	-- Halfgild Wynac
+
+Quest{
+	Name = "MM7_Promo_MasterNecromancer_1_0",
+	Branch = "",
+	Slot = 0,
+	Ungive = function()
+		if Party.QBits[611] then
+			Message(Game.NPCText[2741])
+		elseif not Party.QBits[1007] then
+			Message(Game.NPCText[2739])
+		else
+			Message(Game.NPCText[2740])
+		end
+	end,
+	Texts = {
+		Topic = Game.NPCText[2731]	-- "Power Lich"
+	}
+}
+Quest{
+	Name = "MM7_Promo_MasterNecromancer_1",
+	Branch = "",
+	Slot = 0,
+	Quest = 560,
+	Exp = 40000,
+	CanShow = function() return Party.QBits[1007] and Party.QBits[612] end,
+	CheckDone = function()
+		return evt.All.Cmp("Inventory", 1417)	-- Lich Jar
+	end,
+	Done = function()
+		Party.QBits[1009] = true
+		evt[0].Subtract("Reputation", 10)
+	end,
+	Texts = {
+		Topic = Game.NPCText[2731],	-- "Power Lich"
+		Give = Game.NPCText[2738],
+		Undone = Game.NPCText[2743],
+		Done = Game.NPCText[2742]
+	}
+}
+mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
+	Name2 = "PowerLich", Ver = 7, Seq = 1, Slot = 0, Slot2 = 0, QBit = 1009,
+	RaceFamily = const.RaceFamily.Undead, Maturity = 2, Greet = 194,
+	Exp = 40000, Item = 1417, Sell = Game.ItemsTxt[1417].Value,
+	SuccessTxt = 2744, FailTxt = 2743, SellTxt = 2698})
+--]=]
+--------------------------------------------
 ---- 		JADAME PROMOTIONS			----
 --------------------------------------------
 
@@ -1053,9 +2411,11 @@ Quest{
 		evt.SetNPCTopic(61, 0, 742)	-- "Vetrinus Taleshire" : "Travel with you!"
 	end,
 	Texts = {
-		Topic = Game.NPCTopic[86],
-		Give = Game.NPCText[113],
-		Undone = Game.NPCText[115]
+		--Topic = Game.NPCTopic[86],
+		Topic = Game.NPCText[2731],	-- "Power Lich"
+		Give = Game.NPCText[2732],
+		Undone = Game.NPCText[2734],
+		Done = Game.NPCText[2735]
 	}
 }
 mm8_generate_promo_quests({QuestNPC = 61, Name = "MasterNecromancer", Seq = 1, Slot = 1,
@@ -1086,7 +2446,7 @@ Quest{
 				return
 			end
 			if not evt.Cmp("Inventory", 628) then	-- "Lich Jar"
-				Message(Game.NPCText[114])
+				Message(Game.NPCText[2733])
 				return
 			end
 			if not promote_class({Class = CC.MasterNecromancer,
@@ -1095,7 +2455,7 @@ Quest{
 					SameClass = true}) then
 				return
 			end
-			Message(Game.NPCText[116])
+			Message(Game.NPCText[2736])
 			evt.Subtract("Inventory", 628)	-- "Lich Jar"
 			SetLichAppearance(k, player)
 		else
@@ -1254,7 +2614,7 @@ Quest{
 	}
 }
 mm8_generate_promo_quests({QuestNPC = 62, Name = "MasterNecromancer", Seq = 2, Slot = 2,
-	Slot2 = 1, QBit = 83, Ungive = 925,
+	Slot2 = 1, QBit = 83, Ungive = 2737,
 	RaceFamily = const.RaceFamily.Undead, Maturity = 2, Exp = 10000})
 Quest{
 	Name = "MM8_Promo_MasterNecromancer_2_4",
@@ -1281,7 +2641,7 @@ Quest{
 				return
 			end
 			if not evt.Cmp("Inventory", 628) then	-- "Lich Jar"
-				Message(Game.NPCText[114])
+				Message(Game.NPCText[2733])
 				return
 			end
 			if not promote_class({Class = CC.MasterNecromancer,
@@ -1290,7 +2650,7 @@ Quest{
 					SameClass = true}) then
 				return
 			end
-			--Message(Game.NPCText[116])
+			Message(Game.NPCText[2736])
 			evt.Subtract("Inventory", 628)	-- "Lich Jar"
 			SetLichAppearance(k, player)
 		else
@@ -1652,16 +3012,44 @@ evt.Global[736] = function()
 end
 ]=]
 
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	QuestNPC = 255	-- Bazalath
+
+	Quest{
+		Name = "MM8_Promo_FlightLeader_1",
+		Branch = "",
+		Slot = 1,
+		Quest = 1720,
+		GivenItem = 667,	-- Bazalath's Egg
+		Exp = 25000,
+		CheckDone = function()
+			return Party.QBits[1721] and evt.All.Cmp("Inventory", 667)
+		end,
+		Done = function()
+			Party.QBits[1722] = true
+			evt.All.Subtract("Inventory", 667)
+		end,
+		Texts = {
+			Topic = Game.NPCText[2745],
+			Give = Game.NPCText[2746],
+			Undone = Game.NPCText[2747],
+			Done = Game.NPCText[2748],
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 255, Name = "FlightLeader", Seq = 1, Slot = 1,
+		QBit = 1722, Race = const.Race.Dragon, Maturity = 1, Exp = 10000})
+end
+
 --------------------------------------------
----- Jadame Knight/Cavalier promotion
-QuestNPC = 15
+---- Jadame Knight promotions
+QuestNPC = 15	-- Sir Charles Quixote
 
 Quest{
 	Name = "MM8_Promo_Champion_1",
 	Branch = "",
 	Slot = 1,
 	Quest = 70,
-	QuestItem = 539,
+	QuestItem = 539,	-- Ebonest
 	Exp = 35000,
 	NeverGiven = true,
 	CanShow = function() return Party.QBits[73] end,
@@ -1669,17 +3057,36 @@ Quest{
 		Party.QBits[71] = true
 		if Party.QBits[22] then
 			Message(Game.NPCText[71])
+			--[[
+			"What is this?  You ally with my mortal enemies and then seek
+			to do me a favor?I wonder what the Dragons think of this. But so
+			be it.  I am in your debt for returning Ebonest to me.  I will
+			promote any Knights in your party to Champion, however they will
+			never be accepted in my service.  The rest I will teach what I can.
+			I do not wish to see you again!"
+			]]
 		else
 			Message(Game.NPCText[70])
+			--[[
+			"You found Blazen Stormlance?  What about MY spear Ebonest?  You
+			have that as well?FANTASTIC!I thank you for this and find myself
+			in your debt!  I will promote all knights in your party to
+			Champion and teach what skills I can to the rest of your party. "
+			]]
 		end
 	end,
 	Texts = {
-		Topic = Game.NPCTopic[58],
+		Topic = Game.NPCTopic[58],	-- "Promotion to Champion"
 		Undone = Game.NPCText[85]
+			--[[
+			"You have found Blazen Stormlance? But where is Ebonest?
+			Return to me when you have the spear and you will be promoted!"
+			]]
 	}
 }
 mm8_generate_promo_quests({QuestNPC = 15, Name = "Champion", Seq = 1, Slot = 1,
-	QBit = 71, Ungive = 919, From = {CC.Knight, CC.Cavalier},
+	QBit = 71, Ungive = 919, From = MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+		and 0 or {CC.Knight, CC.Cavalier},
 	Race = const.Race.Human, Maturity = 2, Exp = 15000})
 Quest{
 	Name = "MM8_Promo_Champion_1_4",
@@ -1687,7 +3094,7 @@ Quest{
 	Slot = 2,
 	CanShow = function() return not Party.QBits[71] end,
 	Texts = {
-		Topic = Game.NPCTopic[56],
+		Topic = Game.NPCTopic[56],	-- "Stormlance"
 		Ungive = Game.NPCText[66]
 	}
 }
@@ -1697,88 +3104,74 @@ Quest{
 	Slot = 3,
 	CanShow = function() return not Party.QBits[71] end,
 	Texts = {
-		Topic = Game.NPCTopic[57],
+		Topic = Game.NPCTopic[57],	-- "Ebonest"
 		Ungive = Game.NPCText[67]
 	}
 }
---[=[
--- "Promotion to Champion"
-Game.GlobalEvtLines:RemoveEvent(58)
-evt.CanShowTopic[58] = function()
-	return Party.QBits[73]	-- Received Cure for Blazen Stormlance
+
+QuestNPC = 51	-- Garret Deverro
+
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	Quest{
+		Name = "MM8_Promo_Cavalier_1",
+		Branch = "",
+		Slot = 0,
+		Quest = 290,
+		QuestItem = 544,	-- Sword-out-of-the-Stone
+		KeepQuestItem = true,
+		Exp = 25000,
+		Done = function()
+			Party.QBits[292] = true
+		end,
+		Texts = {
+			Topic = Game.NPCTopic[735],	-- "Promote Knights"
+			Give = Game.NPCText[2722],
+			--[[
+			"So you're looking to become a Cavalier? I hear you, but you
+			need to prove your worth to me first. There will come a time
+			for combat and glory, but it would be unwise to rush your
+			enemies without a proper blade. There is a rock somewhere in
+			the Ravage Roaming, in which a sword is stuck - a nod to a
+			tradition of old. Partake in the old custom and try to take
+			the sword out. If you succeed, bring it back to me as proof
+			and you shall be granted the title of a Cavalier."
+			]]
+			Undone = Game.NPCText[2723],
+			--[[
+			"Having trouble finding the rock in that pile of rocks to the
+			south? Or was the rock stronger than you? Consider drinking
+			some good brew. There are no rules. There's only victory.
+			Or defeat, I suppose."
+			]]
+			Done = Game.NPCText[2724]
+			--[[
+			"Well, well, well! Look who strolls in wielding the beautiful
+			blade! I can see from your bulging muscles you deserve both
+			the blade, and the promotion. Be well, Cavalier, and may the
+			blade serve you in the battles to come."
+			]]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 51, Name = "Cavalier", Seq = 1, Slot = 0,
+		QBit = 292, Race = const.Race.Human, Maturity = 1, Exp = 10000})
+	Quest{
+		Name = "MM8_Promo_Champion_2",
+		Branch = "",
+		Slot = 1,
+		Texts = {
+			Topic = Game.NPCTopic[58],	-- "Promotion to Champion"
+			Ungive = Game.NPCText[918]
+			--[[
+			"You cannot be promoted to Champion until you have proven yourself worthy!"
+			]]
+		}
+	}
 end
 
-evt.Global[58] = function()
-	evt.ForPlayer("All")
-	if not evt.Cmp{"Inventory", 539} then	-- "Ebonest"
-		evt.SetMessage{85}	--[[
-			"You have found Blazen Stormlance? But where is Ebonest?
-			Return to me when you have the spear and you will be promoted!"
-			]]
-		return
-	end
-	if Party.QBits[22] then	-- Allied with Dragons. Return Dragon Egg to Dragons done.
-		evt.SetMessage{71}	--[[
-			"What is this?  You ally with my mortal enemies and then seek
-			to do me a favor?I wonder what the Dragons think of this. But so
-			be it.  I am in your debt for returning Ebonest to me.  I will
-			promote any Knights in your party to Champion, however they will
-			never be accepted in my service.  The rest I will teach what I can.
-			I do not wish to see you again!"
-			]]
-	else
-		evt.SetMessage{70}	--[[
-			"You found Blazen Stormlance?  What about MY spear Ebonest?  You
-			have that as well?FANTASTIC!I thank you for this and find myself
-			in your debt!  I will promote all knights in your party to
-			Champion and teach what skills I can to the rest of your party. "
-			]]
-	end
-	evt.Add{"Experience", 35000}
-	evt.Subtract{"Inventory", 539}	-- "Ebonest"
-	Party.QBits[71] = true
-	Party.QBits[70] = false	-- "Find Blazen Stormlance and recover the spear Ebonest. Return to Leane Stormlance in Garrote Gorge and deliver Ebonest to Charles Quixote."
-	Game.NPC[15].EventD = 1801	-- Sir Charles Quixote : Promotion to Honorary Champion
-	evt.SetNPCTopic{NPC = 15, Index = 2, Event = 735}	-- "Sir Charles Quixote" : "Promote Knights"
-end
-]=]
-QuestNPC = 51	-- Garret Deverro
-mm8_generate_promo_quests({QuestNPC = 51, Name = "Champion", Seq = 2, Slot = 0,
-	QBit = 71, Ungive = 919, From = {CC.Knight, CC.Cavalier},
+mm8_generate_promo_quests({QuestNPC = 51, Name = "Champion", Seq = 2, Slot = 1,
+	QBit = 71, Ungive = 919, From = MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+		and 0 or {CC.Knight, CC.Cavalier},
 	Race = const.Race.Human, Maturity = 2, Exp = 15000})
---[=[
--- "Promote Knights"
-Game.GlobalEvtLines:RemoveEvent(735)
-evt.Global[735] = function()
-	if not Party.QBits[71] then
-		evt.SetMessage{918}	--[[
-			"You cannot be promoted to Champion until you have proven yourself worthy!  "
-			]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find({const.Class.Knight, const.Class.Cavalier}, player.Class) then
-		-- FIXME: show message
-		return
-	end
-	evt.SetMessage{919}	--[[
-		"Thanks for you help recovering the spear Ebonest!  I can promote
-		any Knights that travel with you to Champion."
-		]]
-	player.Class = const.Class.Champion
-	-- Note: in MM8 - experience award is only on bringing Ebonest
-	evt.Add{"Experience", Value = 15000}
-	player.Attrs.PromoAwards[CPA.JadameChampion] = true
-	if MS.Races.MaxMaturity > 0
-			and player.Attrs.Race == const.Race.Human then
-		-- FIXME
-		player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-	end
-	Party.QBits[1540] = true	-- Promoted to Champion.
-end
-]=]
 
 --------------------------------------------
 ---- Jadame Minotaur promotion
@@ -1931,11 +3324,12 @@ end
 ]=]
 
 --------------------------------------------
----- Jadame Berserker/Troll promotion
+---- Jadame Barbarian/Troll promotions
 QuestNPC = 43	-- Volog Sandwind
 
 Quest{
-	Name = "MM8_Promo_Berserker_1",
+	Name = "MM8_Promo_" .. (MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+			and "Berserker" or "Warmonger") .. "_1",
 	Branch = "",
 	Slot = 1,
 	Quest = 68,
@@ -1946,111 +3340,108 @@ Quest{
 		evt.SetNPCTopic(43, 0, 612)	-- "Volog Sandwind" : "Roster Join Event"
 	end,
 	Texts = {
-		Topic = Game.NPCTopic[35],
-		Give = Game.NPCText[43],
+		Topic = Game.NPCTopic[35],	-- Quest
+		Give = MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+				and Game.NPCText[2715] or Game.NPCText[43],
+			--[[
+			"Perhaps if you could locate our previous homeland, and check
+			to see if the Curse of the Stone still exists.
+			If it does perhaps there is a way to remove it.
+			Any Barbarian in your party who completes this task would be
+			promoted to Berserker of our Clan. Many honors are bestowed
+			with this title, and you would be forever known to us as a
+			legendary hero.One of our warriors, Dartin Dunewalker, set
+			out to find this place.
+			He left thinking he would find clues among the stone fields
+			of Ravage Roaming.
+			Perhaps you can find him there and work together--or at the
+			least, find clues that will lead you to our goal."
+			]]
 		Undone = Game.NPCText[49],
-		Done = Game.NPCText[45]
+			--[[
+			"Have you found the Ancient Home for our Clan?
+			Without its location, my people will surely perish!"
+			]]
+		Done = MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+				and Game.NPCText[2716] or Game.NPCText[45]
+			--[[
+			"You have found our Ancient Home?  Its located in the western area
+			of the Murmurwoods?  This is wonderful news.  Perhaps there is still
+			time to move my people.  Unfortunately the Elemental threat must be
+			dealt with first, or no people will be safe! All Barbarians among you
+			have been promoted to Berserker, and their names will be forever
+			remembered in our songs.  I will teach the rest of you what skills
+			I can, perhaps it will be enough to help you save all of Jadame."
+			]]
 	}
 }
 Quest{
-	Name = "MM8_Promo_Berserker_1_4",
+	Name = "MM8_Promo_" .. (MF.GtSettingNum(MM.MM8EnableTier1Promo, 0)
+			and "Berserker" or "Warmonger") .. "_1_4",
 	Branch = "",
 	Slot = 2,
 	CanShow = function() return Party.QBits[87] end,
 	Texts = {
-		Topic = Game.NPCTopic[39],
+		Topic = Game.NPCTopic[39],	-- Thanks for your help!
 		Ungive = Game.NPCText[48]
+			--[[
+			"Thanks for finding our Ancient Home, once the treat
+			to Jadame has been handled we can begin to move there!"
+			]]
 	}
 }
-mm8_generate_promo_quests({QuestNPC = 43, Name = "Berserker", Seq = 1, Slot = 1,
-	QBit = 87, Race = const.Race.Troll, Maturity = 1, Exp = MM.MM8Promo1ExpReward})
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	mm8_generate_promo_quests({QuestNPC = 43, Name = "Berserker", Seq = 1,
+		Slot = 1, QBit = 87, Race = const.Race.Troll, Maturity = 1,
+		Exp = MM.MM8Promo1ExpReward})
 
-QuestNPC = 67	-- Hobb Sandwind
+	QuestNPC = 67	-- Hobb Sandwind
 
-mm8_generate_promo_quests({QuestNPC = 67, Name = "Berserker", Seq = 2, Slot = 0,
-	QBit = 87, Ungive = 917, Race = const.Race.Troll, Maturity = 1,
-	Exp = MM.MM8Promo1ExpReward})
-Quest{
-	Name = "MM8_Promo_Warmonger_1",
-	Branch = "",
-	Slot = 1,
-	Quest = 287,
-	Exp = 25000,
-	CanShow = function() return Party.QBits[87] end,
-	CheckDone = function() return Party.QBits[288] end,
-	Done = function() Party.QBits[289] = true end,
-	Texts = {
-		Topic = TXT.warmongers,
-		Give = TXT.warmongers1,
-		Undone = TXT.warmongers2,
-		Done = TXT.warmongers3
+	mm8_generate_promo_quests({QuestNPC = 67, Name = "Berserker", Seq = 2,
+		Slot = 0, QBit = 87, Ungive = 2717, Race = const.Race.Troll,
+		Maturity = 1, Exp = MM.MM8Promo1ExpReward})
+	Quest{
+		Name = "MM8_Promo_Warmonger_1",
+		Branch = "",
+		Slot = 1,
+		Quest = 287,
+		Exp = 25000,
+		CanShow = function() return Party.QBits[87] end,
+		CheckDone = function() return Party.QBits[288] end,
+		Done = function() Party.QBits[289] = true end,
+		Texts = {
+			Topic = Game.NPCText[2718],	-- "Warmonger"
+			Give = Game.NPCText[2719],
+				--[[
+				"Can you please clear Ancient Troll Home from these
+				nasty Basilisks? All Berserkers in your party will
+				be promoted to Warmonger.",
+				]]
+			Undone = Game.NPCText[2720],
+				--[[
+				"If you ever want to be considered Warmonger candidate
+				you should have no problem with ordinary Basilisks.
+				Come back after you finish them.",
+				]]
+			Done = Game.NPCText[2721]
+				--[[
+				"So those Basilisks are no longer a threat? Great news!
+				All Berserkers among you have been promoted to Warmonger."
+				]]
+		}
 	}
-}
-mm8_generate_promo_quests({QuestNPC = 67, Name = "Warmonger", Seq = 1, Slot = 1,
-	QBit = 289, Race = const.Race.Troll, Maturity = 2, Exp = 10000})
---[=[
--- "Ancient Home Found!"
-Game.GlobalEvtLines:RemoveEvent(36)
-evt.CanShowTopic[36] = function()
-	return Party.QBits[69]	-- Ancient Troll Homeland Found
+	mm8_generate_promo_quests({QuestNPC = 67, Name = "Warmonger", Seq = 1,
+		Slot = 1, QBit = 289, Race = const.Race.Troll, Maturity = 2,
+		Exp = 10000})
+else
+	mm8_generate_promo_quests({QuestNPC = 43, Name = "Warmonger", Seq = 1,
+		Slot = 1, QBit = 87, Race = const.Race.Troll, Maturity = 2,
+		Exp = 10000})
+	mm8_generate_promo_quests({QuestNPC = 67, Name = "Warmonger", Seq = 2,
+		Slot = 0, QBit = 87, Ungive = 917, Race = const.Race.Troll,
+		Maturity = 2, Exp = 10000})
 end
 
-evt.Global[36] = function()
-	if not Party.QBits[69] then
-		evt.SetMessage{49}	--[[
-			"Have you found the Ancient Home for our Clan?
-			Without its location, my people will surely perish!"
-			]]
-		return
-	end
-	evt.SetMessage{45}	--[[
-		"You have found our Ancient Home?  Its located in the western area
-		of the Murmurwoods?  This is wonderful news.  Perhaps there is still
-		time to move my people.  Unfortunately the Elemental threat must be
-		dealt with first, or no people will be safe! All Trolls among you
-		have been promoted to War Troll, and their names will be forever
-		remembered in our songs.  I will teach the rest of you what skills
-		I can, perhaps it will be enough to help you save all of Jadame."
-		]]
-	evt.ForPlayer("All")
-	evt.Add{"Experience", Value = 25000}
-	Party.QBits[87] = true
-	Party.QBits[68] = false	-- "Find the Ancient Troll Homeland and return to Volog Sandwind in the Ironsand Desert."
-	Game.NPC[43].EventB = 1803	-- Volog Sandwind : Promotion to Warmonger
-	Game.NPC[43].EventC = 1804	-- Volog Sandwind : Promotion to Honorary Warmonger
-	Game.NPC[67].EventB = 1804	-- Hobb Sandwind : Promotion to Honorary Warmonger
-	evt.SetNPCTopic{NPC = 43, Index = 0, Event = 612}	-- "Volog Sandwind" : "Roster Join Event"
-end
-
--- Promotion to Warmonger
-evt.Global[1803] = function()
-	if not Party.QBits[87] then
-		evt.SetMessage{49}	--[[
-			"Have you found the Ancient Home for our Clan?
-			Without its location, my people will surely perish!"
-			]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find(MT.ClassPromotionsInv[const.Class.Warmonger], player.Class) then
-		-- FIXME: show message
-		return
-	end
-	-- FIXME: show message
-	player.Class = const.Class.Warmonger
-	-- Note: in MM8 - experience award is only on first time
-	evt.Add{"Experience", Value = 10000}
-	player.Attrs.PromoAwards[CPA.JadameWarmonger] = true
-	if MS.Races.MaxMaturity > 0
-			and player.Attrs.Race == const.Race.Troll then
-		-- FIXME
-		player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-	end
-	Party.QBits[1538] = true	-- Promoted to War Troll.
-end
-]=]
 --------------------------------------------
 ---- Jadame Vampire promotion
 QuestNPC = 62	-- Lathean

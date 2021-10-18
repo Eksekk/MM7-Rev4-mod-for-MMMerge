@@ -1796,17 +1796,17 @@ its own."		End deliver Fire Resistance Scrolls quest	654. James		James
 1792	Come with me				Runaway Chaos	1092
 1793	Friend!				Breach find friends topic
 1794	Runaway Chaos				Runaway Chaos	1092
-1795	The Lost Book of Khel				Vetrinus Taleshire	61
-1796	Promotion to Master Necromancer				Vetrinus Taleshire	61
-1797	Promotion to Honorary Lich				Vetrinus Taleshire	61
-1798	Promotion to Honorary Priest of the Light				Stephen	59
-1799	Promotion to Honorary Patriarch				Cauri Blackthorne	42
-1800	Promotion to Honorary Great Wyrm				Deftclaw Redreaver	17
-1801	Promotion to Honorary Champion				Sir Charles Quixote	15
-1802	Promotion to Honorary Minotaur Lord				Tessalar	58
-1803	Promotion to Warmonger				Volog Sandwind	43
-1804	Promotion to Honorary Warmonger				Volog Sandwind	43
-1805	Promotion to Honorary Nosferatu				Lathean	62
+1795	Templar				Leda Rowan	381
+1796						
+1797						
+1798						
+1799						
+1800						
+1801						
+1802						
+1803						
+1804						
+1805						
 1806						
 1807						
 1808						

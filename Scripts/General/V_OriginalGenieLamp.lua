@@ -18,7 +18,7 @@ local function GenieLamp(Target, Item, PlayerId)
 	if month <= 6 then
 		local stat = statReorder[month] or month
 		evt.Add(32 + stat, bonusMul)
-		Game.ShowStatusText(rewardString:format(bonusMul, Game.GlobalTxt[statNamesInGlobalTxt[stat]]))
+		Game.ShowStatusText(rewardString:format(bonusMul, Game.GlobalTxt[statNamesInGlobalTxt[stat] ]))
 	elseif month == 7 then
 		evt.Add("Gold", bonusMul * 1000)
 		Game.ShowStatusText(rewardString:format(bonusMul * 1000, Game.GlobalTxt[97]))
@@ -36,7 +36,7 @@ local function GenieLamp(Target, Item, PlayerId)
 		local resistTexts = {[0] = 24, 202, 194, 208, 213, 204}
 		local res = math.random(0, 5)
 		evt.Add(resists[res], bonusMul)
-		Game.ShowStatusText(rewardString:format(BonusMul, Game.GlobalTxt[resistTexts[res]]))
+		Game.ShowStatusText(rewardString:format(BonusMul, Game.GlobalTxt[resistTexts[res] ]))
 	end
 	evt.PlaySound(152)
 	if badDays[day] ~= nil then
@@ -46,5 +46,7 @@ local function GenieLamp(Target, Item, PlayerId)
 	return 2
 end
 
-evt.UseItemEffects[1418] = GenieLamp
-evt.UseItemEffects[2103] = GenieLamp
+if Merge.ModSettings.UseOriginalGenieLamps == 1 then
+	evt.UseItemEffects[1418] = GenieLamp
+	evt.UseItemEffects[2103] = GenieLamp
+end

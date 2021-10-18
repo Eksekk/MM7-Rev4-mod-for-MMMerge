@@ -4,7 +4,86 @@ Log(Merge.Log.Info, "Init started: %s", LogId)
 local MF, MM = Merge.Functions, Merge.ModSettings
 
 local TXT = {
+	npc_follow = "Follow",
+	npc_goodbye = "Good bye!",
 	sharry_home = "It's good to be back home again. Thank you for rescuing me from these horrible ruffians!"
+}
+
+-----------------------------------------
+-- Witness to the lake of fire's formation (MM8)
+Quest{
+	Name = "OverduneFollow1",
+	NPC = 7,
+	Slot = 1,
+	Branch = "",
+	CanShow = function()
+		return Party.QBits[63] and not Party.QBits[59] and not MF.NPCInGroup(7)
+	end,
+	Ungive = function()
+		MF.NPCFollowerAdd(7)
+		ExitCurrentScreen(true)
+	end,
+	Texts = {
+		Topic = TXT.npc_follow
+	}
+}
+Quest{
+	Name = "OverduneFollow2",
+	NPC = 7,
+	Slot = 1,
+	Branch = "",
+	CanShow = function()
+		return Party.QBits[59] and MF.NPCInGroup(7)
+	end,
+	Ungive = function()
+		MF.NPCFollowerRemove(7)
+		Game.NPC[7].House = 752
+		ExitCurrentScreen()
+	end,
+	Texts = {
+		Topic = TXT.npc_goodbye
+	}
+}
+
+-----------------------------------------
+-- Dyson Le[y]land's revenge (MM8)
+Quest{
+	Name = "DysonFollow1",
+	NPC = 11,
+	Slot = 2,
+	Branch = "",
+	CanShow = function()
+		return Party.QBits[89] and Party.QBits[90]
+			and (Party.QBits[26] or Party.QBits[28]) and not MF.NPCInGroup(11)
+	end,
+	Ungive = function()
+		MF.NPCFollowerAdd(11)
+		ExitCurrentScreen(true)
+	end,
+	Texts = {
+		Topic = TXT.npc_follow
+	}
+}
+Quest{
+	Name = "DysonFollow2",
+	NPC = 11,
+	Slot = 2,
+	Branch = "",
+	CanShow = function()
+		return (Party.QBits[19] or Party.QBits[20]) and MF.NPCInGroup(11)
+	end,
+	Ungive = function()
+		MF.NPCFollowerRemove(11)
+		if Party.QBits[20] then
+			Game.NPC[11].House = 754
+		else
+			Party.QBits[433] = true
+		end
+		ExitCurrentScreen()
+	end,
+	Texts = {
+		Topic = TXT.npc_goodbye
+	}
 }
 
 -----------------------------------------

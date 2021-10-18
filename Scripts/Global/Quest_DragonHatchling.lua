@@ -13,40 +13,6 @@ function events.LoadMap(WasInGame)
 	end
 end
 
--- Breaks Rev4 for Merge
---[[
--- Make warlock promotion quest acessblie from both light and dark side.
-evt.Global[852]:clear()
-evt.Global[852] = function()
-	if (Party.QBits[1613] or Party.QBits[1614]) then
-		if Party.QBits[611] or Party.QBits[612] then
-			Message(Game.NPCText[1161])
-			evt.Set{"QBits", 567}
-			evt.SetNPCTopic{390, 0, 853}
-		else
-			Message(Game.NPCText[1163])
-		end
-	else
-		Message(Game.NPCText[1162])
-	end
-end
-
--- Same for Arch Druid promotion quest.
-evt.Global[850]:clear()
-evt.Global[850] = function()
-	if (Party.QBits[1613] or Party.QBits[1614]) then
-		if Party.QBits[611] or Party.QBits[612] then
-			Message(Game.NPCText[1156])
-			evt.Set{"QBits", 566}
-			evt.SetNPCTopic{389, 1, 851}
-		else
-			Message(Game.NPCText[1157])
-		end
-	else
-		Message(Game.NPCText[1157])
-	end
-end--]]
-
 -- Override dismiss behaivor for hatchling - put him into NPCFollowers, don't send to Adventurer's Inn.
 function AfterDismissDragon(PlayerId)
 	local CharId = Party.PlayersIndexes[PlayerId]

@@ -798,6 +798,81 @@ local function convert_21040400_21072000()
 		LogId, vars.SaveGameFormatVersion)
 end
 
+local function convert_21072000_21101000()
+	-- Garret Deverro
+	Game.NPC[51].EventA = 0
+	Game.NPC[51].EventB = 735
+	if Game.NPC[51].House ~= 753 then
+		Game.NPC[51].House = 562
+	end
+	-- Bazalath
+	Game.NPC[255].House = 572
+	-- William Lasker
+	Game.NPC[354].EventC = 0
+	Game.NPC[354].EventD = 0
+
+	--[[
+	-- MM7 Rogue Promo
+	Party.QBits[785] = Party.QBits[1560] or Party.QBits[1561]
+	-- MM7 Spy Promo
+	Party.QBits[786] = Party.QBits[1562] or Party.QBits[1563]
+	-- MM7 Assassin Promo
+	Party.QBits[787] = Party.QBits[1564] or Party.QBits[1565]
+	-- MM7 Crusader Promo
+	Party.QBits[788] = Party.QBits[1590] or Party.QBits[1591]
+	-- MM7 Hero Promo
+	Party.QBits[789] = Party.QBits[1592] or Party.QBits[1593]
+	-- MM7 Villain Promo
+	Party.QBits[790] = Party.QBits[1594] or Party.QBits[1595]
+	-- MM7 Initiate Monk Promo
+	Party.QBits[791] = Party.QBits[1572] or Party.QBits[1573]
+	-- MM7 Master Monk Promo
+	Party.QBits[792] = Party.QBits[1574] or Party.QBits[1575]
+	-- MM7 Ninja Promo
+	Party.QBits[793] = Party.QBits[1576] or Party.QBits[1577]
+	-- MM7 Warrior Mage Promo
+	Party.QBits[794] = Party.QBits[1584] or Party.QBits[1585]
+	-- MM7 Master Archer Promo
+	Party.QBits[795] = Party.QBits[1586] or Party.QBits[1587]
+	-- MM7 Sniper Promo
+	Party.QBits[796] = Party.QBits[1588] or Party.QBits[1589]
+	-- MM7 Cavalier Promo
+	Party.QBits[797] = Party.QBits[1566] or Party.QBits[1567]
+	-- MM7 Templar Promo
+	Party.QBits[798] = Party.QBits[1568] or Party.QBits[1569]
+	-- MM7 Black Knight Promo
+	Party.QBits[799] = Party.QBits[1570] or Party.QBits[1571]
+	-- MM7 Hunter Promo
+	Party.QBits[1001] = Party.QBits[1578] or Party.QBits[1579]
+	-- MM7 Ranger Lord Promo
+	Party.QBits[1002] = Party.QBits[1580] or Party.QBits[1581]
+	-- MM7 Bounty Hunter Promo
+	Party.QBits[1003] = Party.QBits[1582] or Party.QBits[1583]
+	-- MM7 Priest Promo
+	Party.QBits[1004] = Party.QBits[1607] or Party.QBits[1608]
+	-- MM7 Priest of the Light Promo
+	Party.QBits[1005] = Party.QBits[1609] or Party.QBits[1610]
+	-- MM7 Priest of the Dark Promo
+	Party.QBits[1006] = Party.QBits[1611] or Party.QBits[1612]
+	-- MM7 Wizard Promo
+	Party.QBits[1007] = Party.QBits[1619] or Party.QBits[1620]
+	-- MM7 Arch Mage Promo
+	Party.QBits[1008] = Party.QBits[1621] or Party.QBits[1622]
+	-- MM7 Master Necromancer Promo
+	Party.QBits[1009] = Party.QBits[1623] or Party.QBits[1624]
+	-- MM7 Great Druid Promo
+	Party.QBits[1010] = Party.QBits[1613] or Party.QBits[1614]
+	-- MM7 Arch Druid Promo
+	Party.QBits[1011] = Party.QBits[1615] or Party.QBits[1616]
+	-- MM7 Warlock Promo
+	Party.QBits[1012] = Party.QBits[1617] or Party.QBits[1618]
+	--]]
+
+	vars.SaveGameFormatVersion = 21101000
+	Log(Merge.Log.Warning, "%s: savegame converted to SaveGameFormatVersion %d.",
+		LogId, vars.SaveGameFormatVersion)
+end
+
 function events.BeforeLoadMap(WasInGame)
 	if not WasInGame then
 		Log(Merge.Log.Info, "%s: BeforeLoadMap", LogId)
@@ -862,6 +937,13 @@ function events.BeforeLoadMap(WasInGame)
 				LogId, vars.SaveGameFormatVersion)
 			convert_21040400_21072000()
 		end
+		if vars.SaveGameFormatVersion and vars.SaveGameFormatVersion < 21101000 then
+			Log(Merge.Log.Warning,
+				"%s: convert savegame from SaveGameFormatVersion %d.",
+				LogId, vars.SaveGameFormatVersion)
+			convert_21072000_21101000()
+		end
+
 	end
 end
 

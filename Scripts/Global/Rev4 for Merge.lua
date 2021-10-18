@@ -1,6 +1,7 @@
 -- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
 
 -- Saves a string into a file (overwrites it)
+local string_sub = string.sub
 function io.save(path, s, translate)
 	local f = assert(io.open(path, translate and "wt" or "wb"))
 	f:setvbuf("no")
@@ -127,7 +128,7 @@ function getMessage(message)
 		return message
 	end
 	if message >= 768 then -- new rev4 message
-		return message + (2732 - 768)
+		return message + (2800 - 768)
 	end
 	local add = 938
 	local i = 1
@@ -292,6 +293,19 @@ function getMonster(monster)
 	return monster + 198
 end
 
+--[[
+local t = {}
+for i = 1, 67 do
+	local row = {}
+	table.insert(row, 2755 + i)
+	for j = 1, 3 do
+		table.insert(row, "")
+	end
+	table.insert(t, row)
+end
+WriteBasicTextTable(t, "temp.txt")
+--]]
+
 local rev4 = LoadBasicTextTable("tab\\Placemon rev4.txt", 0)
 local merge = LoadBasicTextTable("tab\\Placemon merge.txt", 0)
 local placemonMappings = {}
@@ -424,6 +438,25 @@ end
 
 function item(id)
 	evt.GiveItem{Id = mapIdsToItemNames[id] or id}
+end
+
+function increaseSpawnsInMapstats(infile, outfile, s, e, howMuch)
+	local t = LoadBasicTextTable(infile, 0)
+	for i = s, e do
+		local index = i + 3
+		local row = t[index]
+		for j = 20, 28, 4 do
+			local min, max = row[j]:match("(%d+)%-(%d+)")
+			min = tonumber(min) or 0
+			max = tonumber(max) or 0
+			if max - min <= 0 then goto continue end
+			min = min + howMuch
+			max = max + howMuch
+			row[j] = " " .. min .. "-" .. max
+			::continue::
+		end
+	end
+	WriteBasicTextTable(t, outfile)
 end
 
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet

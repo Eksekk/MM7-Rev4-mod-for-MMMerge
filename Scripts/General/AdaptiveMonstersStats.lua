@@ -360,10 +360,10 @@ local function PrepareMapMon(mon, MapSettings)
 				   "SpecialC", "SpecialD", "Experience", "TreasureItemPercent", "TreasureItemLevel", "Level"}
 	
 	-- quick dirty fix, TODO: replace
-	--if mon.NameId > 0 or mon.NPC_ID > 0 then return end
+	if mon.NameId > 0 or mon.NPC_ID > 0 then return end
 	
 	-- exit if monster has stats different than normal (hand-placed monsters)
-	for _, prop in ipairs(props) do
+	--[[for _, prop in ipairs(props) do
 		local TxtMon = OriginalMonstersTxt[mon.Id]
 		if TxtMon[prop] == nil then goto continue end
 		if prop:find("Attack") ~= nil then
@@ -384,7 +384,7 @@ local function PrepareMapMon(mon, MapSettings)
 			end
 		end
 		::continue::
-	end
+	end--]]
 
 	-- Base stats
 

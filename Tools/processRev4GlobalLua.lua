@@ -211,21 +211,15 @@ local replacements =
 
 --[[ TODO
 * SBG's blessed items have red crossed circle icon when equipped - idk how to fix this
-* find where judas the geek is in rev4 and put him there in merge
-* kill all monsters in Fort Riverstride quest, some more monsters (plate fighters, sorcerers)
-* integrate latest cthscr's commits
+* after windiff newly downloaded revamp's directory with my own directory
 --]]
 
---[[ TODO custom quest
-* texts
-* scripting
-* <del>new item (shards of mana), both in items.txt and icons.lod</del>
-* use events.OpenChest instead of hardcoding items into chests
-* <del>modify the Maze according to texts</del>
-* decide locations for shards of mana and put them on the ground/into chests
-** <del>1 - nighon</del>
-** 2 - barrows
-** 3 - custom chest somewhere
+--[[ Script files to move to github folder
+* Quest_MM7Lich.lua
+* Rev4 for Merge.lua
+* map and global scripts (incl. MM6/MM8 ones - changed ddmapbuffs)
+* Rev4 for Merge change spell damage.lua
+* Quest_FortRiverstride.lua
 --]]
 
 --[[ TODOs completed
@@ -263,7 +257,7 @@ local replacements =
 * <del>phasing cauldron and brazier of succor</del> - idk how to fix this
 * <del>judas in colony zod?</del> - nope, though make sure to play fully through rev4
 * <del>realign evenmorn island titans</del>
-* <del>check d08.blv Lord Godwinson stats - they get affected by bolster monster</del> - partially fixed
+* <del>check d08.blv Lord Godwinson stats - they get affected by bolster monster</del>
 * <del>trees in tularean looked strange - possible not changed file name in evt.CheckSeason checks</del>
 * <del>the small house entrance text</del>
 * <del>resolve docent talking in emerald island - workaround is to walk into BDJ radius again, second time it sets the QBit</del>
@@ -286,6 +280,11 @@ local replacements =
 * <del>check search for "ERROR: " and check if everything is ok near it</del>
 ** <del>do this in map scripts too</del>
 * <del>integrate changes from revamp.T.lod (incl. scripts)</del>
+* <del>integrate latest cthscr's commits</del>
+* <del>boost mapstats spawns</del>
+* <del>boost spells damage</del>
+* <del>find where judas the geek is in rev4 and put him there in merge (maybe he is as spawn)</del>
+* <del>tunnels to eofol changed (deleted) spawns at the end?</del> - no, just monster limit is hit easily in this map
 --]]
 
 --[[ USEFUL STUFF
@@ -331,7 +330,7 @@ local patches =
 	=
 	[[evt.ForPlayer("All")
 	if evt.Cmp("QBits", 869) then         -- BDJ Final
-		evt.SetMessage(2754)         -- "Adventurer 5, select your new profession."
+		evt.SetMessage(2822)         -- "Adventurer 5, select your new profession."
 		evt.ForPlayer(4)
 	elseif evt.Cmp("QBits", 850) then         -- BDJ 4
 		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
@@ -394,10 +393,10 @@ else
 	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
 	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
 end]],
-	--[[ [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
-	[[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
-	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]],
-	--]]
+	-- [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
+	-- [[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
+	-- evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]],
+	--
 	
 	[ [[evt.MoveNPC{NPC = 60, -- ERROR: Not found
 HouseId = 999}         -- "Drathen Keldin"]] ] = "",

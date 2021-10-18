@@ -529,8 +529,7 @@ local patchesAfter =
 	if evt.Cmp{"Inventory", Value = 1134} then         -- "Lloyd's Beacon"
 		goto _5
 	end]],
-	[[local LBscrolls = {332, 1134, 1834}
-	for _, scroll in ipairs(LBscrolls) do
+	[[for _, scroll in ipairs({332, 1134, 1834}) do
 		while evt.Cmp("Inventory", scroll) do
 			evt.Subtract("Inventory", scroll)
 		end
@@ -1072,8 +1071,7 @@ end]],
 	while evt.Cmp{"Inventory", Value = 223} do         -- "Magic Potion"
 		evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
 	end
-	local LBscrolls = {332, 1134, 1834}
-	for _, scroll in ipairs(LBscrolls) do
+	for _, scroll in ipairs({332, 1134, 1834}) do
 		while evt.Cmp("Inventory", scroll) do
 			evt.Subtract("Inventory", scroll)
 		end

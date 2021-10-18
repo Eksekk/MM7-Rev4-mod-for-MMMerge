@@ -411,7 +411,7 @@ Game.GlobalEvtLines:RemoveEvent(780)
 evt.global[780] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1362) then         -- "Watcher's Ring of Elemental Fire"
-		evt.SetMessage(2740)         -- "I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."
+		evt.SetMessage(2808)         -- "I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."
 		evt.Add("Experience", 30000)
 		evt.SetNPCTopic{NPC = 477, Index = 0, Event = 337}         -- "Ashen Temper" : "Fire Magic Master"
 		return
@@ -420,7 +420,7 @@ evt.global[780] = function()
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1364)         -- "Ring of UnWarding"
 	end
-	evt.SetMessage(2739)         -- "Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."
+	evt.SetMessage(2807)         -- "Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."
 end
 
 -- "Earth Magic Grandmaster"
@@ -428,7 +428,7 @@ Game.GlobalEvtLines:RemoveEvent(781)
 evt.global[781] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1355) then         -- "Watcher's Ring of Elemental Earth "
-		evt.SetMessage(2742)         -- "I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."
+		evt.SetMessage(2810)         -- "I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."
 		evt.Add("Experience", 30000)
 		evt.SetNPCTopic{NPC = 487, Index = 0, Event = 347}         -- "Avalanche" : "Earth Magic Grandmaster"
 		return
@@ -437,7 +437,7 @@ evt.global[781] = function()
 		evt.Add("Inventory", 253)         -- "Divine Cure"
 	end
 	evt.Set("QBits", 836)         -- White Cliff Cave Permission
-	evt.SetMessage(2741)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
+	evt.SetMessage(2809)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
 
 Be extremely cautious when you enter this cave, children.  The Mad Mage Pascal, Diviner of Strange Flesh has sent his army of Trolls to take this ring by force, and a battle rages between Greckaw’s minions and these invaders.  You would do well to let them fight it out and then kill the survivors.  But make no mistake, young ones, either side will turn on you in a heartbeat! 
 
@@ -495,7 +495,7 @@ end
 -- "The Coding Wizard"
 Game.GlobalEvtLines:RemoveEvent(786)
 evt.global[786] = function()
-	evt.SetMessage(2734)         -- "“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”"
+	evt.SetMessage(2802)         -- "“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”"
 end
 
 -- "Is the cave behind your house the abandoned temple?"
@@ -669,7 +669,7 @@ Game.GlobalEvtLines:RemoveEvent(800)
 evt.global[800] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 869) then         -- BDJ Final
-		evt.SetMessage(2754)         -- "Adventurer 5, select your new profession."
+		evt.SetMessage(2822)         -- "Adventurer 5, select your new profession."
 		evt.ForPlayer(4)
 	elseif evt.Cmp("QBits", 850) then         -- BDJ 4
 		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
@@ -1933,8 +1933,7 @@ Hmmph.  One more thing.  Your work has interested the other courts.  They will s
 								evt.Subtract("QBits", 742)         -- Elixir - I lost it
 								evt.Set("QBits", 610)         -- Built Castle to Level 2 (rescued dwarf guy)
 								evt.Subtract("NPCs", 399)         -- "Drathen Keldin"
-								evt.MoveNPC{NPC = 60, -- ERROR: Not found
-HouseId = 999}         -- "Drathen Keldin"
+								
 								evt.MoveNPC{NPC = 406, HouseId = 1169}         -- "Ellen Rockway" -> "Throne Room"
 								evt.MoveNPC{NPC = 407, HouseId = 1169}         -- "Alain Hani" -> "Throne Room"
 								evt.Subtract("NPCs", 400)         -- "Jaycen Keldin"
@@ -2064,8 +2063,8 @@ Game.GlobalEvtLines:RemoveEvent(869)
 evt.global[869] = function()
 	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
-	return
-end
+		return
+	end
 	evt.SetMessage(1151)         --[[ "Ok then.  Here’s your briefing.
 
 We have recently discovered that the Strange Temple is being used as a ‘staging area’ for a group known as The Corruption. This group has joined forces with the Devil-King Xenoflex to form an unholy alliance. They are currently raising an army of Golems, Devils, Angels, and other creatures of the land, both Light and Dark.  Once at-strength, they plan on storming Erathia like a plague of locusts and seizing power throughout all lands. To make things worse, The Corruption discovered some ancient weapons and is attempting to reproduce them en-mass in order to equip their army. And at the center of this unseemly coalition is one of The Pit’s own … Judas the Geek! He has betrayed all of Erathia!!
@@ -2193,8 +2192,7 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Lord Archibald, himself, has place a reward for you in the House that once belonged to Judas.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to Celeste for your next assignment."" ]]
-		evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
-	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+		evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 		evt.Set("QBits", 815)         -- Reward
 		evt.Set("BlasterSkill", 1)
 		evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
@@ -2219,7 +2217,6 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Gavin Magnus, himself, has place a reward for you in the House that once belonged to Robert the Wise.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to The Pit for your next assignment." ]]
-	evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
 	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 	evt.Set("QBits", 815)         -- Reward
 	evt.Set("BlasterSkill", 1)
@@ -2263,13 +2260,13 @@ After you have rested, return to The Pit for your next assignment." ]]
 	evt.SetNPCTopic{NPC = 419, Index = 0, Event = 0}         -- "Resurectra"
 	evt.SetNPCTopic{NPC = 419, Index = 1, Event = 0}         -- "Resurectra"
 	evt.SetNPCTopic{NPC = 419, Index = 2, Event = 0}         -- "Resurectra"
-	evt.SetNPCTopic{NPC = 419, Index = 3, Event = 323}         -- "Resurectra" : "Ancient Weapon Grandmaster"
+	evt.SetNPCTopic{NPC = 419, Index = 3, Event = 973}         -- "Resurectra" : "Ancient Weapon Grandmaster"
 	evt.MoveNPC{NPC = 420, HouseId = 1060}         -- "Crag Hack" -> "Morningstar Residence"
 	evt.SetNPCTopic{NPC = 420, Index = 0, Event = 0}         -- "Crag Hack"
 	evt.SetNPCTopic{NPC = 420, Index = 1, Event = 0}         -- "Crag Hack"
 	evt.SetNPCTopic{NPC = 420, Index = 2, Event = 0}         -- "Crag Hack"
-	evt.SetNPCTopic{NPC = 420, Index = 3, Event = 321}         -- "Crag Hack" : "Ancient Weapon Expert"
-	evt.SetNPCTopic{NPC = 421, Index = 1, Event = 322}         -- "Sir Caneghem" : "Ancient Weapon Master"
+	evt.SetNPCTopic{NPC = 420, Index = 3, Event = 971}         -- "Crag Hack" : "Ancient Weapon Expert"
+	evt.SetNPCTopic{NPC = 421, Index = 1, Event = 972}         -- "Sir Caneghem" : "Ancient Weapon Master"
 	evt.SetNPCGreeting{NPC = 420, Greeting = 357}         -- "Crag Hack" : "Welcome back  Heroes!   What can I do for you?"
 	evt.SetNPCGreeting{NPC = 419, Greeting = 357}         -- "Resurectra" : "Welcome back  Heroes!   What can I do for you?"
 	do return end
@@ -2314,13 +2311,13 @@ end
 	evt.SetNPCTopic{NPC = 423, Index = 0, Event = 0}         -- "Kastore"
 	evt.SetNPCTopic{NPC = 423, Index = 1, Event = 0}         -- "Kastore"
 	evt.SetNPCTopic{NPC = 423, Index = 2, Event = 0}         -- "Kastore"
-	evt.SetNPCTopic{NPC = 423, Index = 3, Event = 323}         -- "Kastore" : "Ancient Weapon Grandmaster"
+	evt.SetNPCTopic{NPC = 423, Index = 3, Event = 973}         -- "Kastore" : "Ancient Weapon Grandmaster"
 	evt.MoveNPC{NPC = 425, HouseId = 1078}         -- "Dark Shade" -> "Hostel"
 	evt.SetNPCTopic{NPC = 425, Index = 0, Event = 0}         -- "Dark Shade"
 	evt.SetNPCTopic{NPC = 425, Index = 1, Event = 0}         -- "Dark Shade"
 	evt.SetNPCTopic{NPC = 425, Index = 2, Event = 0}         -- "Dark Shade"
-	evt.SetNPCTopic{NPC = 425, Index = 3, Event = 321}         -- "Dark Shade" : "Ancient Weapon Expert"
-	evt.SetNPCTopic{NPC = 424, Index = 1, Event = 322}         -- "Maximus" : "Ancient Weapon Master"
+	evt.SetNPCTopic{NPC = 425, Index = 3, Event = 971}         -- "Dark Shade" : "Ancient Weapon Expert"
+	evt.SetNPCTopic{NPC = 424, Index = 1, Event = 972}         -- "Maximus" : "Ancient Weapon Master"
 	evt.SetNPCGreeting{NPC = 425, Greeting = 357}         -- "Dark Shade" : "Welcome back  Heroes!   What can I do for you?"
 	evt.SetNPCGreeting{NPC = 423, Greeting = 357}         -- "Kastore" : "Welcome back  Heroes!   What can I do for you?"
 	evt.MoveNPC{NPC = 419, HouseId = 220}         -- "Resurectra" -> "Throne Room"
@@ -2769,7 +2766,7 @@ You are strong, but not strong enough to defeat the devils on your own.  They ar
 		evt.Set("QBits", 632)         -- Got Hive part
 		evt.SetNPCTopic{NPC = 419, Index = 1, Event = 919}         -- "Resurectra" : "Final Task"
 		evt.Add(-- ERROR: Not found
-"Awards", 83886128)
+"Awards", 21)
 	else
 		evt.SetMessage(1221)         -- "I guess there's no hurry getting this job done, but we don't want the Necromancers to grow bored waiting for us to do our part and destroy the blocker.  So, please, as soon as you feel ready you must attack the Devils.  Remember that the Warlocks have dug a tunnel from their volcano to the land of the Devils.  You should be able to use that to get yourselves there."
 	end
@@ -2791,9 +2788,7 @@ end
 -- ERROR: Invalid command size: 40970:0 (SetSnow)
 -- ERROR: Not found
 
-evt.global[42397] = function()
-	evt.SetSnow{EffectId = 18, On = true}
-end
+
 
 -- "Strike the Devils"
 -- "Soul Jars"
@@ -2905,9 +2900,9 @@ So I’ll await your return?  Good.  See you soon." ]]
 			evt.Set("BlasterSkill", 1)
 		end
 	end
-	evt.SetNPCTopic{NPC = 423, Index = 3, Event = 323}         -- "Kastore" : "Ancient Weapon Grandmaster"
-	evt.SetNPCTopic{NPC = 424, Index = 1, Event = 322}         -- "Maximus" : "Ancient Weapon Master"
-	evt.SetNPCTopic{NPC = 425, Index = 1, Event = 321}         -- "Dark Shade" : "Ancient Weapon Expert"
+	evt.SetNPCTopic{NPC = 423, Index = 3, Event = 973}         -- "Kastore" : "Ancient Weapon Grandmaster"
+	evt.SetNPCTopic{NPC = 424, Index = 1, Event = 972}         -- "Maximus" : "Ancient Weapon Master"
+	evt.SetNPCTopic{NPC = 425, Index = 1, Event = 971}         -- "Dark Shade" : "Ancient Weapon Expert"
 	evt.SetNPCGreeting{NPC = 426, Greeting = 0}         -- "Tolberti" : ""
 	evt.Subtract("Reputation", 5)
 	evt.SetNPCTopic{NPC = 426, Index = 0, Event = 0}         -- "Tolberti"
@@ -2998,8 +2993,7 @@ evt.global[920] = function()
 		evt.SetNPCGroupNews{NPCGroup = 82, NPCNews = 84}         -- "Peasents in the village area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.SetNPCGroupNews{NPCGroup = 83, NPCNews = 84}         -- "Peasents in the Dock area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.Set(-- ERROR: Not found
-"Awards", 108)
-		evt.EnterHouse(600)         -- Win Good
+"Awards", 109)
 	else
 		evt.SetMessage(1253)         -- "Don't forget you'll need the wetsuits to get to the Lincoln.  These suits are in the chest outside this throne room and the Lincoln is in the sea west of Avlee.  Return here with the Overthruster as soon as possible."
 	end
@@ -4287,7 +4281,7 @@ Game.GlobalEvtLines:RemoveEvent(1171)
 evt.global[1171] = function()
 	evt.SetMessage(1508)         -- "The sacred relic of the Order of Fire, the Scroll of Mage Wonka, has been lost for many years.  The caravan that was transporting this relic from Harmondale to Bracada never made it out of the Barrow Downs.  Find the Lost Scroll of Wonka and return it to me and I will grant all Elemental Magic users in your party Expert Fire Magic with a Skill of ‘8’."
 	evt.Add("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
-	evt.SetNPCTopic{NPC = 478, Index = 1, Event = 2000}         -- "Blayze " : "We've found the Lost Scroll!"
+	evt.SetNPCTopic{NPC = 478, Index = 1, Event = 1991}         -- "Blayze " : "We've found the Lost Scroll!"
 end
 
 -- "Now that's what I call 'fun'!"
@@ -5256,7 +5250,7 @@ Game.GlobalEvtLines:RemoveEvent(1259)
 evt.global[1259] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
-		evt.SetMessage(2750)         --[[ "My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
+		evt.SetMessage(2818)         --[[ "My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
 
 Now, onto the task at-hand.  My twin sister Rena lives here in Deja with her husband, Jayce Kedrin.  Rena and I are not identical twins and she was not ‘blessed’ with the ‘looks’ in our family as was I.  She’s, well, kind of plain.  Some might call her a real ‘Bow Wow’, if you know what I mean.  She’s the proverbial ‘two-bag date’.  Anywise, her birthday is upon us and I have purchased a special concoction called ‘Beauty Cream’ from Licia Rivenrock.  She’s indeed a Master Herbalist and her ‘cream’ is reported to do wonders with even the most ‘ordinary’ of subjects. I need you to pick up the order from Licia and deliver it to my sister.  Licia runs a business called ‘The House of Remedies’ in the Barrow Downs.
 
@@ -5266,20 +5260,20 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 	end
 	if evt.Cmp("QBits", 788) then         -- Courier Quest 3
 		if evt.Cmp("Inventory", 1576) then         -- "Recipe"
-			evt.SetMessage(2749)         -- "The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."
+			evt.SetMessage(2817)         -- "The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."
 			evt.Subtract("Inventory", 1576)         -- "Recipe"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
 			evt.SetNPCTopic{NPC = 1244, Index = 0, Event = 0}         -- "Alice the Chef"
 			evt.Set("QBits", 792)         -- Courier Quest 3 complete
 		else
-			evt.SetMessage(2747)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
+			evt.SetMessage(2815)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
 		end
 		return
 	end
 	if evt.Cmp("QBits", 787) then         -- Courier Quest 2
 		if evt.Cmp("Inventory", 1366) then         -- "Talisman (repaired)"
-			evt.SetMessage(2745)         -- "The talisman, good as new!  Thanks.  Here’s your payment."
+			evt.SetMessage(2813)         -- "The talisman, good as new!  Thanks.  Here’s your payment."
 			evt.Subtract("Inventory", 1366)         -- "Talisman (repaired)"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
@@ -5291,7 +5285,7 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1365)         -- "Talisman (broken)"
 		end
-		evt.SetMessage(2744)         -- "Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."
+		evt.SetMessage(2812)         -- "Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."
 		return
 	end
 	if not evt.Cmp("QBits", 786) then         -- Courier Quest 1
@@ -5323,7 +5317,7 @@ evt.global[1260] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
 		if evt.Cmp("QBits", 794) then         -- Rena Quest
-			evt.SetMessage(2752)         --[[ "A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
+			evt.SetMessage(2820)         --[[ "A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
 
 Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m going to take a little nap.  Visit me later to see the results of the ‘miracle treatment’.  By for now …. " ]]
 			evt.Set("QBits", 793)         -- Courier Quest 4 complete
@@ -5334,7 +5328,7 @@ Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m goi
 			evt.MoveNPC{NPC = 1245, HouseId = 0}         -- "Rena Putnum Kedrin"
 			evt.MoveNPC{NPC = 1246, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 		else
-			evt.SetMessage(2751)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
+			evt.SetMessage(2819)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja."" ]]
 			evt.Set("QBits", 794)         -- Rena Quest
@@ -5347,14 +5341,14 @@ Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well he
 	elseif evt.Cmp("QBits", 788) then         -- Courier Quest 3
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1576)         -- "Recipe"
-		evt.SetMessage(2748)         -- "Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."
+		evt.SetMessage(2816)         -- "Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."
 		evt.Add("Inventory", 1469)         -- "Avlee Teleportal Key"
 		evt.SetNPCTopic{NPC = 781, Index = 0, Event = 0}         -- "Peni Pretty"
 	elseif evt.Cmp("QBits", 787) then         -- Courier Quest 2
 		evt.Subtract("Inventory", 1365)         -- "Talisman (broken)"
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1366)         -- "Talisman (repaired)"
-		evt.SetMessage(2746)         -- "What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."
+		evt.SetMessage(2814)         -- "What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."
 		evt.Add("Inventory", 1471)         -- "Bracada Teleportal Key"
 		evt.SetNPCTopic{NPC = 467, Index = 0, Event = 0}         -- "Douglas Iverson"
 	elseif evt.Cmp("QBits", 786) then         -- Courier Quest 1
@@ -5467,7 +5461,7 @@ evt.global[1264] = function()
 		evt.Add("Gold", 10000)
 		evt.SetNPCTopic{NPC = 1242, Index = 0, Event = 0}         -- "Sarah"
 	else
-		evt.SetMessage(2743)         -- "Please continue to search for the Evenmorn Key."
+		evt.SetMessage(2811)         -- "Please continue to search for the Evenmorn Key."
 	end
 end
 
@@ -5489,7 +5483,7 @@ end
 -- "I feel Pretty!"
 Game.GlobalEvtLines:RemoveEvent(1266)
 evt.global[1266] = function()
-	evt.SetMessage(2753)         --[[ "I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
+	evt.SetMessage(2821)         --[[ "I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
 
 I feel stunning,oh so stunning.  Feel like running and jumping for joy!  ....." ]]
 end
@@ -5516,7 +5510,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1270)
 evt.global[1270] = function()
 	if evt.Cmp("Inventory", 1466) then         -- "Emerald Is. Teleportal Key"
-		evt.SetMessage(2738)         -- "I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."
+		evt.SetMessage(2806)         -- "I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."
 	else
 		evt.SetMessage(1658)         -- "The well in this area is a Teleportal Hub used by the Courier Guild. The hub can take you to Bracada, Evenmorn Islands, Deja, Tatalia, and Avlee.  The keys required to use the hub are only issued to guild members in good standing.  The guild's main office is in Steadwick (Erathia proper), accross the way from the Griffin's Rest."
 	end
@@ -6079,10 +6073,10 @@ end
 evt.global[2000] = function()
 	evt.ForPlayer("All")
 	if not evt.Cmp("Inventory", 1540) then         -- "Lost Scroll of Wonka"
-		evt.SetMessage(2732)         -- "You must bring the Lost Scroll of Wonka to me to collect your reward."
+		evt.SetMessage(2800)         -- "You must bring the Lost Scroll of Wonka to me to collect your reward."
 		return
 	end
-	evt.SetMessage(2733)         --[[ "“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
+	evt.SetMessage(2801)         --[[ "“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
 
 Blayze retires to a back room.  In a few moments he begins an incantation in slow, guttural tones.
 
@@ -6107,7 +6101,7 @@ end
 evt.global[2001] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1361) then         -- "Watcher's Ring of Elemental Water"
-		evt.SetMessage(2736)         -- "I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."
+		evt.SetMessage(2804)         -- "I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."
 		evt.Add("Experience", 30000)
 		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 343}         -- "Tobren Rainshield" : "Water Magic Master"
 		return
@@ -6116,7 +6110,7 @@ evt.global[2001] = function()
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1128)         -- "Water Walk"
 	end
-	evt.SetMessage(2735)         -- "Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"
+	evt.SetMessage(2803)         -- "Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"
 end
 
 -- "The Greatest Hero"

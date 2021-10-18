@@ -1,32 +1,34 @@
 -- functions from scripts/global/PromotionTopics.lua
 
+local MF, MM, MS, MT = Merge.Functions, Merge.ModSettings, Merge.Settings, Merge.Tables
+local CPA = const.PromoAwards
+local max, min = math.max, math.min
+local strformat, strlower = string.format, string.lower
+
 local LichAppearance = {
 [const.Race.Dwarf]		= {[0] = {Portrait = 65, Voice = 26}, [1] = {Portrait = 66, Voice = 27}},
-[const.Race.Dragon]		= {[0] = {Portrait = 67, Voice = 24}, [1] = {Portrait = 67, Voice = 24}},
-[const.Race.Minotaur]	= {[0] = {Portrait = 69, Voice = 59}, [1] = {Portrait = 69, Voice = 59}},
+[const.Race.Dragon]		= {[0] = {Portrait = 67, Voice = 28}, [1] = {Portrait = 67, Voice = 28}},
+[const.Race.Minotaur]	= {[0] = {Portrait = 69, Voice = 67}, [1] = {Portrait = 69, Voice = 67}},
+[const.Race.Troll]	= {[0] = {Portrait = 75, Voice = 72}, [1] = {Portrait = 75, Voice = 72}},
 default					= {[0] = {Portrait = 26, Voice = 26}, [1] = {Portrait = 27, Voice = 27}}
 }
 
 local function SetLichAppearance(i, v)
-	if v.Class == const.Class.Lich then
+	local player = v
+	if v.Class == const.Class.MasterNecromancer then
 		local Race = GetCharRace(v)
 
-		if Merge.Settings.Conversions.PreserveRaceOnLichPromotion == 1
+		if MS.Conversions.PreserveRaceOnLichPromotion == 1
 				and Game.Races[Race].Kind == const.RaceKind.Undead then
-			if Merge.Settings.Races.MaxMaturity > 0	then
+			if MS.Races.MaxMaturity > 0 then
 				Log(Merge.Log.Info, "Lich promotion: only improve maturity of undead kind race")
-				local new_race = table.filter(Game.Races, 0,
-					"BaseRace", "=", Game.Races[Race].BaseRace,
-					"Family", "=", Game.Races[Race].Family,
-					"Mature", "=", 1
-					)[1].Id
-				if new_race and new_race >= 0 then
-					v.Attrs.Race = new_race
-				end
+				local maturity = player.Attrs.Maturity or 0
+				-- FIXME
+				player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
 			else
 				Log(Merge.Log.Info, "Lich promotion: do not convert undead kind race")
 			end
-		elseif Merge.Settings.Conversions.PreserveRaceOnLichPromotion == 2 then
+		elseif MS.Conversions.PreserveRaceOnLichPromotion == 2 then
 			Log(Merge.Log.Info, "Lich promotion: keep current race")
 		else
 			Log(Merge.Log.Info, "Lich promotion: convert race")
@@ -43,16 +45,19 @@ local function SetLichAppearance(i, v)
 
 				new_race = table.filter(Game.Races, 0,
 					"BaseRace", "=", Game.Races[Race].BaseRace,
-					"Family", "=", const.RaceFamily.Undead,
-					"Mature", "=", 	Merge.Settings.Races.MaxMaturity > 0 and 1 or 0
+					"Family", "=", const.RaceFamily.Undead
 					)[1].Id
 
 				if new_race and new_race >= 0 then
-					v.Attrs.Race = new_race
+					player.Attrs.Race = new_race
+					if MS.Races.MaxMaturity > 0 then
+						-- FIXME
+						player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
+					end
 				end
 
-				v.Face = NewFace.Portrait
-				if Merge.Settings.Conversions.KeepVoiceOnRaceConversion == 1 then
+				player.Face = NewFace.Portrait
+				if MS.Conversions.KeepVoiceOnRaceConversion == 1 then
 					Log(Merge.Log.Info, "Lich Promotion: keep current voice")
 				else
 					v.Voice = NewFace.Voice
@@ -60,11 +65,10 @@ local function SetLichAppearance(i, v)
 				SetCharFace(i, NewFace.Portrait)
 			end
 
-			for i = 0, 3 do
-				v.Resistances[i].Base = math.max(v.Resistances[i].Base, 20)
+			-- Consider not to increase overbuffed lich resistances
+			for j = 0, 3 do
+				v.Resistances[j].Base = max(v.Resistances[j].Base, 20)
 			end
-			--v.Resistances[7].Base = 65000
-			--v.Resistances[8].Base = 65000
 
 			local RepSkill = SplitSkill(v.Skills[26])
 			if RepSkill > 0 then
@@ -81,21 +85,6 @@ end
 
 -- end of functions from scripts/global/PromotionTopics.lua
 
-local TXT = Localize
-{
-	Topic = "Lich",
-	Give = [[So you have decided to seek the path of true darkness. Very well then, you've come to a good person. Unfortunately I teach only the best of students, so you will need to perform 2 tasks for me.
-	
-	First - you need to gather a soul jar for each sorcerer that wants to be lichified. If I recall correctly, warlocks of nighon might have some, and they foolishly hid them in the Maze, thinking we can't get to them. Well, as you'll prove to them, we can.
-	
-	Second - this is a personal favor for me. You need to gather 4 Shards of Mana, which are scattered around the world. I can't give you the locations - if I could, I'd go get them myself. So keep looking.]],
-	Done = "So you managed to do this all? Outstanding. I thought my requirements would deter everyone, well, I was wrong.",
-	Undone = "I know the tasks might seem daunting, but once you set your mind to it and start doing them one-at-a-time, it is much simpler.",
-	After = "Welcome back, my best students. How are you doing with your newfound power?",
-	
-	Quest = "Gather soul jars and shards of mana, and return to Halfgild Wynac in the Pit.",
-	Award = "Became a lich and able to learn grandmaster dark magic"
-}
 local DMGM_QuestNPC = 388 -- Halfgild Wynac
 local ShardOfManaItemId = 980
 local questID = "MM7_LichAndDarkMagicGM"
@@ -113,7 +102,7 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 		Slot = 0,
 		Quest = true, -- gives an error if this is not present
 		NPC = DMGM_QuestNPC,
-		CanShow = function()
+		CheckGive = function()
 			--[[for _, pl in Party do
 				local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
 				if m >= const.Master then
@@ -129,12 +118,12 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 			local sorcNoJar = false
 			for i, pl in Party do
 				evt.ForPlayer(i)
-				if evt.Cmp("ClassIs", const.Class.ArchMage) and not evt.Cmp("Inventory", 1417) then
+				if pl.Class == const.Class.ArchMage and not evt.Cmp("Inventory", 1417) then
 					sorcNoJar = true
 					break
 				end
 				for i, item in pl.Items do
-					if item == ShardOfManaItemId then
+					if item.Number == ShardOfManaItemId then
 						count = count + 1
 					end
 				end
@@ -147,17 +136,43 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 			end
 			Game.NPC[DMGM_QuestNPC].EventB = 362 -- dark magic grandmaster
 			
+			Party.QBits[1623] = true		-- Promoted to Lich
+			Party.QBits[1624] = true		-- Promoted to Honorary Lich
 			for i, pl in Party do
 				evt.ForPlayer(i)
-				if evt.Cmp("ClassIs", const.Class.ArchMage) then
-					evt.Set("ClassIs", const.Class.Lich)
+				if pl.Class == const.Class.ArchMage then
+					pl.Class = const.Class.MasterNecromancer
 					SetLichAppearance(i, pl)
+					evt.Subtract("Inventory", 1417)
 				end
 			end
 			makeGMDarkLearnableIfQuestCompleted()
-			evt.SetNPCGreeting{DMGM_QuestNPC, 371}
-		end
-	}.SetTexts(TXT)
+		end,
+		Texts =
+		{
+			Topic = "Lich",
+			TopicDone = false,
+			Give = [[So you have decided to seek the path of true darkness. Very well then, you've come to a good teacher. Unfortunately I teach only the best of students, so you will need to perform 2 tasks for me.
+			
+For the starters, you'll of course need to gather a soul jar for each sorcerer that wants to be lichified. If I recall correctly, warlocks of nighon might have some, and they foolishly hid them in the Maze, thinking we can't get to them. Well, as you'll prove to them, we can.
+			
+The second task is a personal favor for me. I need to prepare a spell far exceeding my capabilities, and a way to increase these capabilities is with Shards of Mana, which are scattered around the world. I'll need at least 4 of them. I can't give you the locations - if I could, I'd go get them myself. So keep looking.]],
+			Done = "So you managed to do this all? Outstanding. I thought my requirements would deter everyone, well, I was wrong. You can now learn grandmaster dark magic from me (priests of the light can do it too!), and all sorcerers are now liches.",
+			Undone = "I know the tasks might seem daunting, but once you set your mind to it and start doing them one-at-a-time, it is much simpler. Also remember, each sorcerer (ArchMage) must have a jar in his inventory.",
+			
+			FirstGreet = "I can sense you have a lot of magical potential. I can instruct you, but first you need to learn much more, be more prepared, and need to do a favor for me.",
+			Greet = "Welcome. How are you doing?",
+			GreetGiven = "Have you done what I requested?",
+			GreetDone = "Welcome back, my best students. How are you doing with your newfound power?",
+			
+			Ungive = "You are not ready yet.",
+			
+			After = "Welcome back, my best students. How are you doing with your newfound power?",
+			
+			Quest = "Gather soul jars and 4 shards of mana, and return to Halfgild Wynac in the Pit.",
+			Award = "Became a lich and able to learn grandmaster dark magic"
+		}
+	}
 	
 	--[[evt.MoveNPC{DMGM_QuestNPC, 1073} -- Halfgild Wynac
 	evt.SetNPCGreeting{DMGM_QuestNPC, 369}--]]
@@ -167,12 +182,9 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 		if npc.House ~= 1073 then
 			evt.MoveNPC{DMGM_QuestNPC, 1073}
 		end
-		if npc.Greet ~= 369 and npc.Greet ~= 370 and npc.Greet ~= 371 then
-			evt.SetNPCGreeting{DMGM_QuestNPC, 369}
-		elseif Party.QBits[1619]	-- Promoted to Wizard
-		and evt.All.Cmp("Awards", 119)
-		and npc.Greet ~= 370 and npc.Greet ~= 371 then
-			evt.SetNPCGreeting{DMGM_QuestNPC, 370}
+		
+		if vars.Quests[questID] == "Done" and Game.NPC[DMGM_QuestNPC].EventB ~= 362 then
+			Game.NPC[DMGM_QuestNPC].EventB = 362 -- gm dark magic
 		end
 		
 		makeGMDarkLearnableIfQuestCompleted()
@@ -189,6 +201,12 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 			
 		if Map.Name == "out10.odm" and not mapvars.PlacedShardOfMana then -- nighon
 			placeShardOfMana(5)
+		elseif Map.Name == "out11.odm" and not mapvars.PlacedShardOfMana then -- barrow downs
+			placeShardOfMana(3)
+		elseif Map.Name == "7d31.blv" and not mapvars.PlacedShardOfMana then -- fort riverstride
+			placeShardOfMana(18)
+		elseif Map.Name == "7d22.blv" and not mapvars.PlacedShardOfMana then -- hall under the hill
+			placeShardOfMana(2)
 		elseif Map.Name == "d02.blv" and (not mapvars.PlacedJars or mapvars.PlacedJars < 5) then -- the maze
 			mapvars.PlacedJars = mapvars.PlacedJars or 0
 			for i, item in Map.Chests[5].Items do

@@ -410,8 +410,7 @@ evt.map[376] = function()
 		goto _3
 	end
 ::_5::
-	local LBscrolls = {332, 1134, 1834}
-	for _, scroll in ipairs(LBscrolls) do
+	for _, scroll in ipairs({332, 1134, 1834}) do
 		while evt.Cmp("Inventory", scroll) do
 			evt.Subtract("Inventory", scroll)
 		end

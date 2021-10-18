@@ -544,7 +544,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 541	item040	Axe of Balthazar	0	Weapon2	Axe	3d7	19	Special	0	Special Two-Handed Axe	8	of Ice	0	41	110	Quest Item: No Minotaur kings wear a crown. Instead as their badge of office they carry great axes of the finest workmanship. This axe was lost when Balthazar was betrayed by the Vori Frost Giants. That it is strongly enchanted is clear; when used in battle its blows deliver both normal damage and impart a numbing bite of freezing cold.
 542	item060	Noblebone Bow	15000	Missile	Bow	6d4	12	Special	30	Special Bow	12	of Carnage	0	30	100	Bows of Kreegan bone are highly sought after; the material is strong and takes enchantments easily. The most sought after bone comes from Kreegans of the devil race's former ruling class.
 543	item137	Cycle of Life	25000	Ring	Misc	0	0	Special	30	Special Ring	32	0	0	0	0	(Shared life, Endurance + 20) A ring of simple metal (copper or brass?), warm on touch.
-544	null	artifact 544	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 544
+544	item284	Sword-out-of-the-Stone	15000	Weapon	Sword	3d3	15	Special	0	Special Longsword	1	of Earth Strike	0	14	146	"Quest Item: Used in a traditional trial of new candidates for years, this sword has absorbed a bit of stone power."
 545	null	artifact 545	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 545
 546	null	artifact 546	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 546
 547	null	artifact 547	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 547
@@ -667,7 +667,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 664	wytprl	Large Round Crystal	0	N / A	Misc	0	0	0	0	Round crystal	367	0	0	0	0	Large smooth and perfectly round crystal.
 665	wspwrp	Whisp wrappings	0	N / A	Misc	0	0	0	0	Whisp wrappings	415	0	0	0	0	Pieces of rotten cloth.
 666	item155	Telelocator	0	N / A	Misc	0	0	0	0	Telelocator	34	0	0	0	0	Metal stick with smooth gem on top of it.
-667	null	quest item 667	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 667
+667	item285	Bazalath's Egg	0	N / A	Misc	0	0	0	0	Egg	89	0	0	0	0	Quest Item: One day descendant of Bazalath will hatch from this egg.
 668	null	quest item 668	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 668
 669	null	quest item 669	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 669
 670	null	quest item 670	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 670
@@ -1354,7 +1354,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 1351	7item030	Zokarr's Axe	2500	Weapon2	Axe	3d7	13	Special	0	Two-Handed Axe	161	of Earth Magic	0	27	173	The family heirloom of the Zokarr monarchs.  This weapon grants the wielder a greater affinity with earth magic.
 1352	7item350	Vampire's Cape	2500	Cloak	Misc	1	8	Special	0	Cloak	182	of the Moon	0	7	0	"Small wonder such a cloak as this would be found on a vampire.  The cloak prevents sunlight from reaching the body, but is unable to protect the face."
 1353	7item027	Minotaur's Axe	2500	Weapon	Axe	6d8	12	Special	0	Axe	160	of Might	25	38	117	"A fine trophy!  The axe is made for a Minotaur and is very heavy, but the magical strength it imparts makes it easy to use for anyone."
-1354	7item013	Grognard's Cutlass	1000	Weapon	Sword	3d4	6	Special	0	Cutlass	157	Elf Slaying	0	20	119	"A finely crafted and specially enchanted goblin weapon.  Though originally crafted to slay elves, this weapon does a perfectly good job on members of the other races."
+1354	7item013	Grognard's Cutlass	0	Weapon	Sword	3d4	6	Special	0	Cutlass	157	Elf Slaying	0	20	119	"A finely crafted and specially enchanted goblin weapon.  Though originally crafted to slay elves, this weapon does a perfectly good job on members of the other races."
 1355	7item129	Watcher's Ring of Elemental Earth 	10000	Ring	Misc	0	0	Special	0	Ring	185	of Earth Magic	0	0	0	"Forged in The Beginnings by the Watchers, this ring binds the wearer to the plain of Earth, granting enhanced focus while casting earth spells."
 1356	7item236	SBG's Blessed Plate	10000	armor	Plate	20	34	9	0	Plate Armor	175	0	0	0	0	"This is the legendary armor of Sir Big Daddy Jim, blessed by the Saints of Selinas. Special Attribute - Invisible when equipped."
 1357	7item092	SBGs Blessed Helm	100000	Helm	Misc	2	10	6	0	Helm	178	0	0	0	0	"This is the legendary helmet of Sir Big Daddy Jim, blessed by the Saints of Selinas. Special Attribute - Invisible when equipped."

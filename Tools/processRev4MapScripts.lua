@@ -1,7 +1,7 @@
 local currentFile
 local doNotRemoveTheseEvents =
 {
-	["d27.lua"] = {501, 376} -- 376 because MMMerge overwrites this event and it cleans up, 501 to fix a bug where game crashes after killing Xenofex
+	["d27.lua"] = {501, 376} -- 376 because MMMerge overwrites this event and cleans it up, 501 to fix a bug where game crashes after killing Xenofex when exiting, only when using lua script
 }
 
 local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
@@ -566,216 +566,6 @@ local patchesAfter =
 		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
 	end]]
 	},
-	-- Coding Fortress
-	-- promotion brazier support for 5 players
-	["d12.lua"] = {[[evt.map[12] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 861} then         -- One Use
-		evt.StatusText{Str = 20}         -- "Only BDJ can activate this Brazier."
-		return
-	end
-	evt.Subtract{"QBits", Value = 861}         -- One Use
-	if evt.Cmp{"QBits", Value = 850} then         -- BDJ Final
-		evt.Set{"QBits", Value = 860}         -- Final
-		evt.ForPlayer(-- ERROR: Const not found
-3)
-	else
-		if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
-			evt.Set{"QBits", Value = 850}         -- BDJ Final
-			evt.ForPlayer(-- ERROR: Const not found
-2)
-		else
-			if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
-				evt.Set{"QBits", Value = 849}         -- BDJ 3
-				evt.ForPlayer(-- ERROR: Const not found
-1)
-			else
-				evt.Set{"QBits", Value = 848}         -- BDJ 2
-				evt.ForPlayer(-- ERROR: Const not found
-0)
-			end
-		end
-	end
-	if evt.Cmp{"QBits", Value = 851} then         -- Sorcerer
-		evt.Add{"BaseIntellect", Value = 20}
-		evt.Set{"ClassIs", Value = const.Class.ArchMage}
-		evt.Subtract{"QBits", Value = 851}         -- Sorcerer
-	else
-		if evt.Cmp{"QBits", Value = 852} then         -- Cleric
-			evt.Add{"BasePersonality", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.PriestLight}
-			evt.Subtract{"QBits", Value = 852}         -- Cleric
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 853} then         -- Fighter
-			evt.Add{"BaseEndurance", Value = 15}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Champion}
-			evt.Subtract{"QBits", Value = 853}         -- Fighter
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 854} then         -- Paladin
-			evt.Add{"BasePersonality", Value = 5}
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Hero}
-			evt.Subtract{"QBits", Value = 854}         -- Paladin
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 855} then         -- Monk
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.Master}
-			evt.Subtract{"QBits", Value = 855}         -- Monk
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 856} then         -- Thief
-			evt.Add{"BaseLuck", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.Spy}
-			evt.Subtract{"QBits", Value = 856}         -- Thief
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 857} then         -- Ranger
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.RangerLord}
-			evt.Subtract{"QBits", Value = 857}         -- Ranger
-		else
-			if evt.Cmp{"QBits", Value = 858} then         -- Archer
-				evt.Add{"BaseSpeed", Value = 15}
-				evt.Add{"BaseIntellect", Value = 5}
-				evt.Set{"ClassIs", Value = const.Class.MasterArcher}
-				evt.Subtract{"QBits", Value = 858}         -- Archer
-			else
-				evt.Add{"BaseIntellect", Value = 10}
-				evt.Add{"BasePersonality", Value = 10}
-				evt.Set{"ClassIs", Value = const.Class.ArchDruid}
-				evt.Subtract{"QBits", Value = 859}         -- Druid
-			end
-		end
-	end
-	if not evt.Cmp{"FireSkill", Value = 8} then
-		evt.Set{"FireSkill", Value = 72}
-	end
-::_78::
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 860} then         -- Final
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
-	else
-		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
-	end
-end]],
-
-[[evt.map[12] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 861} then         -- One Use
-		evt.StatusText{Str = 20}         -- "Only BDJ can activate this Brazier."
-		return
-	end
-	evt.Subtract{"QBits", Value = 861}         -- One Use
-	if evt.Cmp{"QBits", Value = 869} then         -- BDJ Final
-		evt.Set{"QBits", Value = 860}         -- Final
-		evt.ForPlayer(-- ERROR: Const not found
-	4)
-	else
-		if evt.Cmp{"QBits", Value = 850} then         -- BDJ 4
-			evt.Set{"QBits", Value = 869}         -- BDJ Final
-			evt.ForPlayer(-- ERROR: Const not found
-	3)
-		else
-			if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
-				evt.Set{"QBits", Value = 850}         -- BDJ 4
-				evt.ForPlayer(-- ERROR: Const not found
-	2)
-			else
-				if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
-					evt.Set{"QBits", Value = 849}         -- BDJ 3
-					evt.ForPlayer(-- ERROR: Const not found
-	1)
-				else
-					evt.Set{"QBits", Value = 848}         -- BDJ 2
-					evt.ForPlayer(-- ERROR: Const not found
-	0)
-				end
-			end
-		end
-	end
-	if evt.Cmp{"QBits", Value = 851} then         -- Sorcerer
-		evt.Add{"BaseIntellect", Value = 20}
-		evt.Set{"ClassIs", Value = const.Class.ArchMage}
-		evt.Subtract{"QBits", Value = 851}         -- Sorcerer
-	else
-		if evt.Cmp{"QBits", Value = 852} then         -- Cleric
-			evt.Add{"BasePersonality", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.PriestLight}
-			evt.Subtract{"QBits", Value = 852}         -- Cleric
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 853} then         -- Fighter
-			evt.Add{"BaseEndurance", Value = 15}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Champion}
-			evt.Subtract{"QBits", Value = 853}         -- Fighter
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 854} then         -- Paladin
-			evt.Add{"BasePersonality", Value = 5}
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Hero}
-			evt.Subtract{"QBits", Value = 854}         -- Paladin
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 855} then         -- Monk
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.Master}
-			evt.Subtract{"QBits", Value = 855}         -- Monk
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 856} then         -- Thief
-			evt.Add{"BaseLuck", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.Spy}
-			evt.Subtract{"QBits", Value = 856}         -- Thief
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 857} then         -- Ranger
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.RangerLord}
-			evt.Subtract{"QBits", Value = 857}         -- Ranger
-		else
-			if evt.Cmp{"QBits", Value = 858} then         -- Archer
-				evt.Add{"BaseSpeed", Value = 15}
-				evt.Add{"BaseIntellect", Value = 5}
-				evt.Set{"ClassIs", Value = const.Class.MasterArcher}
-				evt.Subtract{"QBits", Value = 858}         -- Archer
-			else
-				evt.Add{"BaseIntellect", Value = 10}
-				evt.Add{"BasePersonality", Value = 10}
-				evt.Set{"ClassIs", Value = const.Class.ArchDruid}
-				evt.Subtract{"QBits", Value = 859}         -- Druid
-			end
-		end
-	end
-	if not evt.Cmp{"FireSkill", Value = 8} then
-		local s, m = SplitSkill(Party[evt.CurrentPlayer].Skills[const.Skills.Fire])
-		Party[evt.CurrentPlayer].Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
-	end
-::_78::
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 860} then         -- Final
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
-	else
-		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
-	end
-end]]},
 	-- Zokarr's Tomb
 	-- fix barrow IV enter coordinates
 	["d13.lua"] = {[[evt.MoveToMap{X = -426, Y = 281, Z = -15, Direction = 1664, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "MDT02.blv"}]],
@@ -1109,11 +899,11 @@ end]],
 				evt.SpeakNPC{NPC = 437}         -- "Messenger"]],
 	[[evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"
 			evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
-			evt.MoveNPC{NPC = 1253, HouseId = 0}         -- "Lord Godwinson"
+			evt.MoveNPC{NPC = 1263, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time]],
 	[[evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
-			evt.MoveNPC{NPC = 1253, HouseId = 0}         -- "Lord Godwinson"
+			evt.MoveNPC{NPC = 1263, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time
 			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"]],
@@ -1330,7 +1120,7 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 	-- The Vault
 	-- fix MMExtension bugs where script stops executing after evt.SpeakNPC
 	["mdt12.lua"] = 
-	{[[evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"
+	{[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
 			evt.SetNPCGreeting{NPC = 360, Greeting = 151}         -- "Zedd True Shot" : "What a glorious day for victory, my friends!."
 			evt.SetNPCGreeting{NPC = 376, Greeting = 151}         -- "Pascal the Mad Mage" : "What a glorious day for victory, my friends!."
 			evt.SetNPCGreeting{NPC = 373, Greeting = 151}         -- "Duke Bimbasto" : "What a glorious day for victory, my friends!."
@@ -1358,9 +1148,9 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 			evt.Set{"NPCs", Value = 373}         -- "Duke Bimbasto"
 			evt.Set{"NPCs", Value = 376}         -- "Pascal the Mad Mage"
 			evt.Set{"QBits", Value = 891}         -- Exit 1-time Cave 1 Vault
-			evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"]]
+			evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]]
 			,
-			[[evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"
+			[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
 		evt.Set{"QBits", Value = 892}         -- "Pass the Test of Friendship"
 		evt.Subtract{"NPCs", Value = 360}         -- "Zedd True Shot"
 		evt.Subtract{"NPCs", Value = 357}         -- "Lord Godwinson"
@@ -1387,9 +1177,8 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 		evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
-		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]]
-		,
+		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
 		[[evt.Set{"QBits", Value = 892}         -- "Pass the Test of Friendship"
 		evt.Subtract{"NPCs", Value = 360}         -- "Zedd True Shot"
 		evt.Subtract{"NPCs", Value = 357}         -- "Lord Godwinson"
@@ -1416,17 +1205,17 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 		evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
 		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-		evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"]],
-		[[evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"
+		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]],
+		[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
 		evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}]],
 		[[evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}
-		evt.SpeakNPC{NPC = 1249}         -- "The Coding Wizard"]]},
+		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]]},
 		-- The Small House
 		-- fix evt.SpeakNPC
 		["mdt15.lua"] =
@@ -1553,16 +1342,18 @@ events.LoadMap = evt.map[100].last]]},
 	-- make BDJ hostile on save game reload/lloyd back to dungeon
 	["d12.lua"] = {[[
 function events.AfterLoadMap()
-	-- make BDJ invisible by default
-	if (not vars["BDJ hidden"]) and Game.Map.Name == "7d12.blv" then
-		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
-		vars["BDJ hidden"] = true
+	if Map.Name == "7d12.blv" then
+		-- make BDJ invisible by default
+		if not vars["BDJ hidden"] then
+			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
+			vars["BDJ hidden"] = true
+		end
+		-- make BDJ hostile on save game reload/lloyd back to dungeon
+		if vars["make BDJ hostile"] then
+			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
+		end
+		vars["make BDJ hostile"] = true
 	end
-	-- make BDJ hostile on save game reload/lloyd back to dungeon
-	if vars["make BDJ hostile"] and Game.Map.Name == "7d12.blv" then
-		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
-	end
-	vars["make BDJ hostile"] = true
 end]]},
 	-- Castle Harmondale
 	-- fix for a bug where golem and messenger of the saints are visible by default

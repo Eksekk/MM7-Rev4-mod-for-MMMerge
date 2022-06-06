@@ -7,18 +7,18 @@ local max, min = math.max, math.min
 local strformat, strlower = string.format, string.lower
 
 local TXT = {
-	promotion = "%s promotion",
-	promote_to = "Promote to %s",
-	promote_to_honorary = "Promote to Honorary %s",
-	promote_to_honorary_sell = "Promote to Honorary %s (sell %s for %d gold)",
-	cannot_be_promoted = "%s cannot be promoted to %s.",
-	already_promoted = "You have been promoted already to the rank of %s.",
-	congratulations = "Congratulations, %s!",
-	convert_to = "Convert to %s",
-	cannot_be_converted_to_undead = "Race %s cannot be converted to Undead.",
-	master_druids = "Master Druids",
-	battle_mages = "Battle Mages",
-	justiciars = "Justiciars"
+	promotion = Game.NPCText[2782],	-- "%s promotion"
+	promote_to = Game.NPCText[2783],	-- "Promote to %s"
+	promote_to_honorary = Game.NPCText[2784],	-- "Promote to Honorary %s"
+	promote_to_honorary_sell = Game.NPCText[2785],	-- "Promote to Honorary %s (sell %s for %d gold)"
+	cannot_be_promoted = Game.NPCText[2786],	-- "%s cannot be promoted to %s."
+	already_promoted = Game.NPCText[2787],	-- "You have been promoted already to the rank of %s."
+	congratulations = Game.NPCText[1678],	-- "Congratulations, %s!"
+	convert_to = Game.NPCText[2788],	-- "Convert to %s"
+	cannot_be_converted_to_undead = Game.NPCText[2789],	-- "Race %s cannot be converted to Undead."
+	master_druids = Game.NPCText[2790],	-- "Master Druids"
+	battle_mages = Game.NPCText[2791],	-- "Battle Mages"
+	justiciars = Game.NPCText[2792]	-- "Justiciars"
 }
 
 local CC = const.Class
@@ -40,6 +40,32 @@ end
 
 --------------------------------------------
 ---- Base functions
+local function can_convert_to_undead(player)
+	local family = Game.Races[player.Attrs.Race].Family
+	local kind = Game.Races[player.Attrs.Race].Kind
+	local baserace = Game.Races[player.Attrs.Race].BaseRace
+	if family == const.RaceFamily.Undead then
+		return 0
+	end
+	if family == const.RaceFamily.Ghost then
+		return -3
+	end
+	if MM.ConversionToUndeadRestriction == 1 and kind == const.RaceKind.Undead then
+		return -2
+	end
+	if MM.ConversionToUndeadRestriction == 2 then
+		return -1
+	end
+	local race = table.filter(Game.Races, 0,
+		"BaseRace", "=", baserace,
+		"Family", "=", const.RaceFamily.Undead
+		)[1].Id
+	if race and race > 0 then
+		return race
+	end
+end
+MF.CanConvertToUndead = can_convert_to_undead
+
 local LichAppearance = {
 [const.Race.Dwarf]		= {[0] = {Portrait = 65, Voice = 26}, [1] = {Portrait = 66, Voice = 27}},
 [const.Race.Dragon]		= {[0] = {Portrait = 67, Voice = 28}, [1] = {Portrait = 67, Voice = 28}},
@@ -48,73 +74,27 @@ local LichAppearance = {
 default					= {[0] = {Portrait = 26, Voice = 26}, [1] = {Portrait = 27, Voice = 27}}
 }
 
-local function SetLichAppearance(i, v)
-	local player = v
-	if v.Class == const.Class.MasterNecromancer then
-		local Race = GetCharRace(v)
+local function SetLichAppearance(i, player, race)
+	local race = race or GetCharRace(player)
 
-		if MS.Conversions.PreserveRaceOnLichPromotion == 1
-				and Game.Races[Race].Kind == const.RaceKind.Undead then
-			if MS.Races.MaxMaturity > 0 then
-				Log(Merge.Log.Info, "Lich promotion: only improve maturity of undead kind race")
-				local maturity = player.Attrs.Maturity or 0
-				-- FIXME
-				player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-			else
-				Log(Merge.Log.Info, "Lich promotion: do not convert undead kind race")
-			end
-		elseif MS.Conversions.PreserveRaceOnLichPromotion == 2 then
-			Log(Merge.Log.Info, "Lich promotion: keep current race")
-		else
-			Log(Merge.Log.Info, "Lich promotion: convert race")
-			local CurPortrait = Game.CharacterPortraits[v.Face]
-			local CurSex = CurPortrait.DefSex
+	local CurPortrait = Game.CharacterPortraits[player.Face]
+	local CurSex = CurPortrait.DefSex
 
-			if Game.Races[Race].Family ~= const.RaceFamily.Undead
-					and Game.Races[Race].Family ~= const.RaceFamily.Ghost then
-				local NewFace = LichAppearance[Game.Races[Race].BaseRace]
-						or LichAppearance.default
-				NewFace = NewFace[CurSex]
+	local NewFace = LichAppearance[Game.Races[race].BaseRace]
+			or LichAppearance.default
+	NewFace = NewFace[CurSex]
 
-				local new_race
-
-				new_race = table.filter(Game.Races, 0,
-					"BaseRace", "=", Game.Races[Race].BaseRace,
-					"Family", "=", const.RaceFamily.Undead
-					)[1].Id
-
-				if new_race and new_race >= 0 then
-					player.Attrs.Race = new_race
-					if MS.Races.MaxMaturity > 0 then
-						-- FIXME
-						player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-					end
-				end
-
-				player.Face = NewFace.Portrait
-				if MS.Conversions.KeepVoiceOnRaceConversion == 1 then
-					Log(Merge.Log.Info, "Lich Promotion: keep current voice")
-				else
-					v.Voice = NewFace.Voice
-				end
-				SetCharFace(i, NewFace.Portrait)
-			end
-
-			-- Consider not to increase overbuffed lich resistances
-			for j = 0, 3 do
-				v.Resistances[j].Base = max(v.Resistances[j].Base, 20)
-			end
-
-			local RepSkill = SplitSkill(v.Skills[26])
-			if RepSkill > 0 then
-				local CR = 0
-				for i = 1, RepSkill do
-					CR = CR + i
-				end
-				v.SkillPoints = v.SkillPoints + CR - 1
-				v.Skills[26] = 0
-			end
-		end
+	if MS.Conversions.PreservePicOnLichPromotion == 1 then
+		Log(Merge.Log.Info, "Lich promotion: do not change char pic")
+	else
+		Log(Merge.Log.Info, "Lich promotion: convert face")
+		player.Face = NewFace.Portrait
+		SetCharFace(i, NewFace.Portrait)
+	end
+	if MS.Conversions.KeepVoiceOnRaceConversion == 1 then
+		Log(Merge.Log.Info, "Lich Promotion: keep current voice")
+	else
+		player.Voice = NewFace.Voice
 	end
 end
 
@@ -269,31 +249,6 @@ local function CheckPromotionSide(ThisSideBit, OppSideBit, ThisText, OppText, El
 	return false
 end
 
-local function can_convert_to_undead(player)
-	local family = Game.Races[player.Attrs.Race].Family
-	local kind = Game.Races[player.Attrs.Race].Kind
-	local baserace = Game.Races[player.Attrs.Race].BaseRace
-	if family == const.RaceFamily.Undead then
-		return 0
-	end
-	if family == const.RaceFamily.Ghost then
-		return -1
-	end
-	if MM.ConversionToUndeadRestriction == 1 and kind == const.RaceKind.Undead then
-		return -1
-	end
-	if MM.ConversionToUndeadRestriction == 2 then
-		return -1
-	end
-	local race = table.filter(Game.Races, 0,
-		"BaseRace", "=", baserace,
-		"Family", "=", const.RaceFamily.Undead
-		)[1].Id
-	if race and race > 0 then
-		return race
-	end
-end
-
 local function promote_class(t)
 	local k = MF.GetCurrentPlayer() or 0
 	local player = Party[k]
@@ -314,7 +269,7 @@ local function promote_class(t)
 				Game.ClassNames[player.Class], Game.ClassNames[t.Class]))
 			return false
 		end
-		if (player.Attrs.Race == t.Race or Game.Races[player.Attrs.Race].Family == t.RaceFamily)
+		if (player.Attrs.Race == t.Race or table.find(t.RaceFamily or {}, Game.Races[player.Attrs.Race].Family))
 				and t.Maturity and (not player.Attrs.Maturity
 				or player.Attrs.Maturity < t.Maturity) then
 			MF.ConvertCharacter({Player = player, ToClass = t.Class, ToMaturity = t.Maturity})
@@ -337,7 +292,7 @@ local function promote_honorary_class(t)
 	local k = MF.GetCurrentPlayer() or 0
 	local player = Party[k]
 	local show_anim = false
-	if (player.Attrs.Race == t.Race or Game.Races[player.Attrs.Race].Family == t.RaceFamily)
+	if (player.Attrs.Race == t.Race or table.find(t.RaceFamily or {}, Game.Races[player.Attrs.Race].Family))
 			and t.Maturity and (not player.Attrs.Maturity
 			or player.Attrs.Maturity < t.Maturity) then
 		MF.ConvertCharacter({Player = player, ToMaturity = t.Maturity})
@@ -349,6 +304,39 @@ local function promote_honorary_class(t)
 	end
 	if show_anim then
 		MF.ShowAwardAnimation()
+	end
+end
+
+local function convert_class_race(t)
+	local k = MF.GetCurrentPlayer() or 0
+	local player = Party[k]
+	local orig_class = player.Class
+	if player.Class == t.Class and not t.SameClass then
+		Message(strformat(TXT.already_promoted, Game.ClassNames[t.Class]))
+		return false
+	else
+		if type(t.From) == "table" then
+			if not table.find(t.From, player.Class) then
+				Message(strformat(TXT.cannot_be_promoted,
+					Game.ClassNames[player.Class], Game.ClassNames[t.Class]))
+				return false
+			end
+		elseif not table.find(MT.ClassPromotionsInv[t.Class] or {}, player.Class)
+				and (not t.SameClass or player.Class ~= t.Class) then
+			Message(strformat(TXT.cannot_be_promoted,
+				Game.ClassNames[player.Class], Game.ClassNames[t.Class]))
+			return false
+		end
+		MF.ConvertCharacter({Player = player, ToClass = t.Class, ToRace = t.ToRace, ToMaturity = t.Maturity})
+		if t.Exp and t.Exp ~= 0 and orig_class ~= t.Class then
+			evt[k].Add("Experience", t.Exp)
+		end
+		if t.Award then
+			player.Attrs.PromoAwards[t.Award] = true
+		end
+		Message(strformat(TXT.congratulations, Game.ClassNames[t.Class]))
+		MF.ShowAwardAnimation()
+		return true
 	end
 end
 
@@ -541,6 +529,7 @@ local function mm_generate_promo_quests_undead(t)
 				return
 			end
 			if new_race > 0 then
+				local orig_race = player.Attrs.Race
 				if not table.find(MT.ClassPromotionsInv[class] or {}, player.Class)
 						and not player.Class == class then
 					Message(strformat(TXT.cannot_be_promoted,
@@ -551,15 +540,19 @@ local function mm_generate_promo_quests_undead(t)
 					Message(Game.NPCText[t.FailTxt])
 					return
 				end
-				if not promote_class({Class = class,
+				if not convert_class_race({Class = class,
 						Award = CPA[promo_award_cont[t.Ver] .. t.Name2],
-						Race = new_race, Maturity = t.Maturity, Exp = exp2,
+						ToRace = new_race, Maturity = t.Maturity, Exp = exp2,
 						SameClass = true}) then
 					return
 				end
 				Message(Game.NPCText[t.SuccessTxt])
 				evt.Subtract("Inventory", t.Item)
-				SetLichAppearance(k, player)
+				SetLichAppearance(k, player, orig_race)
+				-- Consider not to increase overbuffed lich resistances
+				for j = 0, 3 do
+					player.Resistances[j].Base = max(player.Resistances[j].Base, 20)
+				end
 			else
 				Message(strformat(TXT.cannot_be_converted_to_undead,
 					Game.Races[player.Attrs.Race].Name))
@@ -795,6 +788,15 @@ mm6_generate_promo_quests({QuestNPC = 800, Name = "WarriorMage", Slot = 1,
 	QBit = 1279, Maturity = 1, Exp = MM.MM6Promo1ExpReward})
 
 -- Second
+local TowerHints = {
+	[1180] = Game.MapStats[151].Name,
+	[1181] = Game.MapStats[150].Name,
+	[1182] = Game.MapStats[146].Name,
+	[1183] = Game.MapStats[144].Name,
+	[1184] = Game.MapStats[141].Name,
+	[1185] = Game.MapStats[143].Name
+}
+
 Quest{
 	Name = "MM6_Promo_BattleMage",
 	Branch = "",
@@ -806,6 +808,16 @@ Quest{
 		return Party.QBits[1180] and Party.QBits[1181] and Party.QBits[1182]
 			 and Party.QBits[1183] and Party.QBits[1184] and Party.QBits[1185]
 	end,
+	Undone = function()
+		local HintLine, Hints = "", {}
+		for Qbit, Line in pairs(TowerHints) do
+			if not Party.QBits[Qbit] then
+				table.insert(Hints, Line)
+			end
+			HintLine = Game.NPCText[2705] .. table.concat(Hints, Game.NPCText[2704]) .. Game.NPCText[2706] -- "(" .. ", " .. ")"
+		end
+		Message(Game.NPCText[1805] .. HintLine)
+	end,
 	Done = function()
 		evt[0].Add("Reputation", -100)
 		Party.QBits[1213] = false
@@ -815,7 +827,7 @@ Quest{
 	Texts = {
 		Topic = TXT.battle_mages,
 		Give = Game.NPCText[1804],
-		Undone = Game.NPCText[1805],
+		--Undone = Game.NPCText[1805],
 		Done = Game.NPCText[1807]
 	}
 }
@@ -826,7 +838,12 @@ mm6_generate_promo_quests({QuestNPC = 800, Name = "BattleMage", Slot = 2,
 -- "Ankh"
 Game.GlobalEvtLines:RemoveEvent(1613)
 evt.Global[1613] = function()
-	evt.SetMessage{Str = 2003}	-- "Gerrard has an ankh inscribed with his name given to him by the priests of Baa.  I’m not sure exactly what the ankh is used for, but he may use it to identify himself as a friend of Baa."
+	evt.SetMessage{Str = 2003}	--[[
+		"Gerrard has an ankh inscribed with his name given to him
+		by the priests of Baa.  I’m not sure exactly what the ankh
+		is used for, but he may use it to identify himself as a
+		friend of Baa."
+		]]
 	--evt.SetNPCTopic{NPC = 799, Index = 2, Event = 1675}	-- "Loretta Fleise" : "Ankh"
 	--evt.SetNPCTopic{NPC = 801, Index = 2, Event = 1676}	-- "Anthony Stone" : "Ankh"
 	Party.QBits[1281] = true
@@ -2358,7 +2375,7 @@ Quest{
 }
 mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
 	Name2 = "PowerLich", Ver = 7, Seq = 1, Slot = 0, Slot2 = 0, QBit = 1009,
-	RaceFamily = const.RaceFamily.Undead, Maturity = 2, Greet = 194,
+	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2, Greet = 194,
 	Exp = 40000, Item = 1417, Sell = Game.ItemsTxt[1417].Value,
 	SuccessTxt = 2744, FailTxt = 2743, SellTxt = 2698})
 --]=]
@@ -2408,6 +2425,9 @@ Quest{
 	Done = function()
 		Party.QBits[83] = true
 		evt.All.Add("Awards", 35)	-- "Found the Lost Book of Khel."
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 0) then
+			Party.QBits[210] = false	-- Lost Book of Kehl - I lost it
+		end
 		evt.SetNPCTopic(61, 0, 742)	-- "Vetrinus Taleshire" : "Travel with you!"
 	end,
 	Texts = {
@@ -2418,8 +2438,9 @@ Quest{
 		Done = Game.NPCText[2735]
 	}
 }
+--[=[
 mm8_generate_promo_quests({QuestNPC = 61, Name = "MasterNecromancer", Seq = 1, Slot = 1,
-	Slot2 = 1, QBit = 83, RaceFamily = const.RaceFamily.Undead, Maturity = 2,
+	Slot2 = 1, QBit = 83, RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2,
 	Exp = 10000})
 Quest{
 	Name = "MM8_Promo_MasterNecromancer_1_4",
@@ -2449,9 +2470,9 @@ Quest{
 				Message(Game.NPCText[2733])
 				return
 			end
-			if not promote_class({Class = CC.MasterNecromancer,
+			if not convert_class_race({Class = CC.MasterNecromancer,
 					Award = CPA["JadamePowerLich"],
-					Race = new_race, Maturity = 2, Exp = 10000,
+					ToRace = new_race, Maturity = 2, Exp = 10000,
 					SameClass = true}) then
 				return
 			end
@@ -2469,138 +2490,12 @@ Quest{
 				RaceId = const.Race.UndeadHuman}))
 	}
 }
---[=[
--- Promotion to Lich
-Game.GlobalEvtLines:RemoveEvent(89)
--- FIXME: not updated on-the-fly
---[[
-evt.CanShowTopic[89] = function()
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	return table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class) and true or false
-end
-]]
-evt.Global[89] = function()
-	if not Party.QBits[83] then
-		evt.SetMessage{Str = 115}	--[[
-				"You do not have the Lost Book of Khel!  I cannot help you, if you
-				do not help me!  Return here with the Book and a Lich Jar for each
-				necromancer in your party that wishes to become a Lich!"
-				]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not (table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class)
-			or player.Class == const.Class.MasterNecromancer) then
-		-- FIXME: show message
-		return
-	end
-	if table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class)
-			and not evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-		evt.SetMessage{Str = 114}	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-		return
-	end
-	if table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class) then
-		evt.SetMessage{116}	--[[
-			"You have brought everything needed to perform the transformation!
-			So be it!  All necromancer’s in your party will be transformed into
-			Liches!  May the dark energies flow through them for all eternity!
-			The rest of you will gain what knowledge I can teach them as reward
-			for their assistance!  Lets begin!After we have completed, good
-			friend Lathean can handle any future promotions for your party."
-			]]
-		player.Class = const.Class.MasterNecromancer
-		evt.Add{"Experience", 10000}
-		Party.QBits[1548] = true	-- Promoted to Lich.
-		evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-		SetLichAppearance(k, player)
-		player.Attrs.PromoAwards[CPA.JadameLich] = true
-	elseif player.Class == const.Class.MasterNecromancer
-			and Game.Races[player.Attrs.Race].Family ~= const.RaceFamily.Undead
-			and Game.Races[player.Attrs.Race].Family ~= const.RaceFamily.Ghost then
-		if evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-			-- FIXME: show proper text
-			evt.Add{"Experience", 5000}
-			Party.QBits[1548] = true	-- Promoted to Lich.
-			evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-			SetLichAppearance(k, player)
-			player.Attrs.PromoAwards[CPA.JadameLich] = true
-		else
-			-- FIXME: use proper text
-			evt.SetMessage{114}	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-		end
-	end
-end
-
--- Promotion to Master Necromancer
--- FIXME: not updated on-the-fly
---[[
-evt.CanShowTopic[1796] = function()
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	return table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class) and true or false
-end
-]]
-evt.Global[1796] = function()
-	if not Party.QBits[83] then
-		evt.SetMessage{Str = 115}	--[[
-				"You do not have the Lost Book of Khel!  I cannot help you, if you
-				do not help me!  Return here with the Book and a Lich Jar for each
-				necromancer in your party that wishes to become a Lich!"
-				]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class) then
-		-- FIXME: show message
-		return
-	end
-	if MS.Promotions.LichJarForMasterNecromancer == 2 then
-		if not evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-			-- FIXME: use proper text
-			evt.SetMessage{Str = 114}	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-			return
-		else
-			Party.QBits[1548] = true	-- Promoted to Lich.
-			evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-		end
-	elseif MS.Promotions.LichJarForMasterNecromancer == 1
-			and not Party.QBits[1548] then
-		if not evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-			-- FIXME: use proper text
-			evt.SetMessage{Str = 114}	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-			return
-		else
-			Party.QBits[1548] = true	-- Promoted to Lich.
-			evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-		end
-	end
-	player.Class = const.Class.MasterNecromancer
-	evt.Add{"Experience", 5000}
-	player.Attrs.PromoAwards[CPA.JadameMasterNecromancer] = true
-	-- TODO: update undead races
-end
 ]=]
+mm_generate_promo_quests_undead({QuestNPC = 61, Name = "MasterNecromancer",
+	Name2 = "PowerLich", Ver = 8, Seq = 1, Slot = 1, Slot2 = 0, QBit = 83,
+	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2,
+	Exp = 10000, Item = 628,
+	SuccessTxt = 2736, FailTxt = 2733})
 
 QuestNPC = 62	-- Lathean
 
@@ -2610,12 +2505,16 @@ Quest{
 	Slot = 2,
 	Texts = {
 		Topic = Game.NPCTopic[738],
-		Ungive = Game.NPCText[924]
+		Ungive = Game.NPCText[924]	--[[
+			"You have not recovered the Lost Book of Kehl!  There will be no promotions
+			until you return with the book!  Speak with Vetrinus Taleshire."
+			]]
 	}
 }
+--[=[
 mm8_generate_promo_quests({QuestNPC = 62, Name = "MasterNecromancer", Seq = 2, Slot = 2,
 	Slot2 = 1, QBit = 83, Ungive = 2737,
-	RaceFamily = const.RaceFamily.Undead, Maturity = 2, Exp = 10000})
+	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2, Exp = 10000})
 Quest{
 	Name = "MM8_Promo_MasterNecromancer_2_4",
 	Branch = "masternecromancer",
@@ -2664,67 +2563,65 @@ Quest{
 				RaceId = const.Race.UndeadHuman}))
 	}
 }
-
---[=[
-evt.Global[738] = function()
-	if not Party.QBits[83] then
-		evt.SetMessage{Str = 924}]]	--[[
-				"You have not recovered the Lost Book of Kehl!  There will be no promotions
-				until you return with the book!  Speak with Vetrinus Taleshire."
-				]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not (table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class)
-			or player.Class == const.Class.MasterNecromancer) then
-		-- FIXME: show message
-		return
-	end
-	if table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class)
-			and not evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-		evt.SetMessage{Str = 114}]]	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-		return
-	end
-	if table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], player.Class) then
-		evt.SetMessage{925}]]	--[[
-			"Ah, you return seeking promotion for others in your party?
-			I have not forgotten your help in recovering the Lost Book of Kehl!
-			All Necromancers in your party will be promoted to Lich.  Be sure
-			each Necromancer has a Lich Jar in his possession."
-			]]
-		player.Class = const.Class.MasterNecromancer
-		evt.Add{"Experience", 10000}
-		Party.QBits[1548] = true	-- Promoted to Lich.
-		evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-		SetLichAppearance(k, player)
-		player.Attrs.PromoAwards[CPA.JadameLich] = true
-	elseif player.Class == const.Class.MasterNecromancer
-			and Game.Races[player.Attrs.Race].Family ~= const.RaceFamily.Undead
-			and Game.Races[player.Attrs.Race].Family ~= const.RaceFamily.Ghost then
-		if evt.Cmp{"Inventory", Value = 628} then	-- "Lich Jar"
-			-- FIXME: show proper text
-			evt.Add{"Experience", 5000}
-			Party.QBits[1548] = true	-- Promoted to Lich.
-			evt.Subtract{"Inventory", Value = 628}	-- "Lich Jar"
-			SetLichAppearance(k, player)
-			player.Attrs.PromoAwards[CPA.JadameLich] = true
-		else
-			-- FIXME: use proper text
-			evt.SetMessage{114}]]	--[[
-				"You have the Lost Book of Khel, however you lack the Lich Jars
-				needed to complete the transformation!  Return here when you have
-				one for each necromancer in your party!"
-				]]
-		end
-	end
-end
 ]=]
+mm_generate_promo_quests_undead({QuestNPC = 62, Name = "MasterNecromancer",
+	Name2 = "PowerLich", Ver = 8, Seq = 2, Slot = 2, Slot2 = 0, QBit = 83,
+	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2,
+	Exp = 10000, Item = 628, Ungive = 2737,
+	SuccessTxt = 2736, FailTxt = 2733})
+
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	Quest{
+		Name = "MM8_Promo_Necromancer_1",
+		NPC = 56,	-- Avershara
+		Branch = "",
+		Slot = 0,
+		Quest = 296,
+		Exp = 25000,
+		CheckDone = function()
+			return MF.NPCInGroup(53)
+		end,
+		Done = function()
+			Party.QBits[298] = true
+			MF.NPCFollowerRemove(53)
+			evt.MoveNPC(53, 589)
+		end,
+		Texts = {
+			Topic = Game.NPCText[2760],
+			Give = Game.NPCText[2761],
+			Undone = Game.NPCText[2762],
+			Done = Game.NPCText[2763]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 56, Name = "Necromancer", Seq = 1, Slot = 0,
+		QBit = 298, Exp = 10000})
+	Quest{
+		Name = "DeadProphetessFollow",
+		NPC = 53,	-- Dead Prophetess
+		Slot = 0,
+		Branch = "",
+		CanShow = function()
+			return Party.QBits[296] and not MF.NPCInGroup(53)
+		end,
+		Ungive = function()
+			local id = 0
+			for k, v in Map.Monsters do
+				if v.NPC_ID == 53 then
+					id = k
+					break
+				end
+			end
+			if id > 0 then
+				Map.Monsters[id].AIState = 19
+			end
+			MF.NPCFollowerAdd(53)
+			ExitCurrentScreen(true)
+		end,
+		Texts = {
+			Topic = Game.NPCText[2793]	-- "Follow"
+		}
+	}
+end
 
 --------------------------------------------
 ---- Jadame Cleric/Priest promotion
@@ -2735,22 +2632,33 @@ Quest{
 	Branch = "",
 	Slot = 1,
 	Quest = 78,
-	QuestItem = 626,
+	QuestItem = 626,	-- Prophecies of the Sun
 	Exp = 25000,
 	Done = function()
 		Party.QBits[79] = true
 		evt.All.Add("Awards", 31)
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 0) then
+			Party.QBits[218] = false	-- Prophesies of the Sun - I lost it
+		end
 	end,
 	Texts = {
 		Topic = Game.NPCTopic[78],
 		Give = Game.NPCText[105],
-		Undone = Game.NPCText[106],
-		Done = Game.NPCText[107]
+		Undone = Game.NPCText[106],	--[[
+		"Have you found this Lair of the Feathered Serpent and the
+		Prophecies of the Sun?  Do not waste my time!  The world is
+		ending and you waste time with useless conversation!  Return
+		to me when you have found the Prophecies and have taken them
+		to the Temple of the Sun."
+		]]
+		Done = Game.NPCText[107]	--[[
+		"You have found the lost Prophecies of the Sun?  May the Light
+		forever shine upon you and may the Prophet guide your steps.
+		With these we may be able to find the answer to what has befallen
+		Jadame! "
+		]]
 	}
 }
-mm8_generate_promo_quests({QuestNPC = 59, Name = "PriestLight", Seq = 1, Slot = 1,
-	QBit = 79, From = {CC.Cleric, CC.Priest, CC.ClericLight},
-	Ungive = 923, Race = const.Race.Human, Maturity = 2, Exp = 10000})
 Quest{
 	Name = "MM8_Promo_PriestLight_1_4",
 	Branch = "",
@@ -2781,58 +2689,39 @@ Quest{
 		Ungive = Game.NPCText[118]
 	}
 }
---[=[
--- "Quest"
-Game.GlobalEvtLines:RemoveEvent(81)
---evt.CanShowTopic[81] = function()
---	return evt.Cmp{"Inventory", Value = 626}	-- "Prophecies of the Sun"
---end
-
-evt.Global[81] = function()
-	evt.ForPlayer("All")
-	if not evt.Cmp{"Inventory", Value = 626} then	-- "Prophecies of the Sun"
-		evt.SetMessage{106}	-- "Have you found this Lair of the Feathered Serpent and the Prophecies of the Sun?  Do not waste my time!  The world is ending and you waste time with useless conversation!  Return to me when you have found the Prophecies and have taken them to the Temple of the Sun."
-		return
-	end
-	evt.SetMessage{107}	-- "You have found the lost Prophecies of the Sun?  May the Light forever shine upon you and may the Prophet guide your steps.  With these we may be able to find the answer to what has befallen Jadame! "
-	evt.Add{"Experience", 25000}
-	evt.Add{"Awards", 31}	-- "Found the lost Prophecies of the Sun and returned them to the Temple of the Sun."
-	evt.Subtract{"Inventory", 626}	-- "Prophecies of the Sun"
-	Party.QBits[79] = true
-	Party.QBits[78] = false	-- "Find the Prophecies of the Sun in the Abandoned Temple  and take them to Stephen."
-	Game.NPC[59].EventB = 1798	-- Stephen : Promotion to Honorary Priest of the Light
-	Game.NPC[59].EventC = 0	-- remove "Quest" topic
-	Game.NPC[59].EventD = 0	-- remove "Prophecies of the Sun" topic
-	Game.NPC[59].EventE = 0	-- remove "Clues" topic
-	evt.SetNPCTopic{NPC = 59, Index = 0, Event = 737}	-- "Stephen" : "Promote Clerics"
+if not MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	mm8_generate_promo_quests({QuestNPC = 59, Name = "PriestLight", Seq = 1,
+		Slot = 1, QBit = 79, From = {CC.Cleric, CC.Priest, CC.ClericLight},
+		Ungive = 923, Race = const.Race.Human, Maturity = 2, Exp = 10000})
+else
+	mm8_generate_promo_quests({QuestNPC = 59, Name = "PriestLight", Seq = 1,
+		Slot = 1, QBit = 79,
+		Ungive = 923, Race = const.Race.Human, Maturity = 2, Exp = 10000})
+	Quest{
+		Name = "MM8_Promo_ClericLight_1",
+		NPC = 54,	-- Alycon Brinn
+		Branch = "",
+		Slot = 0,
+		Quest = 293,
+		Exp = 25000,
+		GivenItem = 668,
+		CheckDone = function()
+			return Party.QBits[294]
+		end,
+		Done = function()
+			Party.QBits[295] = true
+			evt.All.Subtract("Inventory", 668)
+		end,
+		Texts = {
+			Topic = Game.NPCText[2756],
+			Give = Game.NPCText[2757],
+			Undone = Game.NPCText[2758],
+			Done = Game.NPCText[2759]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 54, Name = "ClericLight", Seq = 1, Slot = 0,
+		QBit = 295, Race = const.Race.Human, Maturity = 1, Exp = 10000})
 end
-
--- FIXME: change NPCTopic
--- "Promote Clerics"
-Game.GlobalEvtLines:RemoveEvent(737)
-evt.Global[737] = function()
-	if not Party.QBits[79] then
-		evt.SetMessage{922}	-- "You cannot be promoted to Priest of the Sun until you have recovered the Prophecies of the Sun!"
-		return
-	end
-	evt.SetMessage{923}	-- "You are always welcome here!  Of course I will promote any Clerics that travel with you to Priest of the Sun!  "
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	-- FIXME: use MT.ClassPromotionsInv
-	if table.find({const.Class.Cleric, const.Class.Priest, const.Class.ClericLight}, player.Class) then
-		player.Class = const.Class.PriestLight
-		evt.Add{"Experience", 10000}
-		player.Attrs.PromoAwards[CPA.JadamePriestLight] = true
-		Party.QBits[1546] = true	-- Promoted to Cleric of the Sun. // Actually Priest of the Light
-		if MS.Races.MaxMaturity > 0
-				and player.Attrs.Race == const.Race.Human then
-			-- FIXME
-			player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-		end
-	end
-end
-]=]
 
 --------------------------------------------
 ---- Jadame Dark Elf promotion
@@ -2866,13 +2755,13 @@ evt.Global[24] = function()
 	evt.SetNPCTopic{NPC = 42, Index = 0, Event = 38}	-- "Cauri Blackthorne" : "Thanks for your help!"
 end
 
-mm8_generate_promo_quests({QuestNPC = 42, Name = "Patriarch", Seq = 1, Slot = 1,
+mm8_generate_promo_quests({QuestNPC = 42, Name = "Pathfinder", Seq = 1, Slot = 1,
 	QBit = 40, Ungive = 27, Race = const.Race.DarkElf, Maturity = 2, Exp = 10000})
 
 QuestNPC = 39	-- Relburn Jeebes
 
 Quest{
-	Name = "MM8_Promo_Patriarch_2",
+	Name = "MM8_Promo_Pathfinder_2",
 	Branch = "",
 	Slot = 2,
 	CanShow = function() return Party.QBits[39] end,
@@ -2881,14 +2770,38 @@ Quest{
 		Ungive = Game.NPCText[914]
 	}
 }
-mm8_generate_promo_quests({QuestNPC = 39, Name = "Patriarch", Seq = 2, Slot = 2,
+mm8_generate_promo_quests({QuestNPC = 39, Name = "Pathfinder", Seq = 2, Slot = 2,
 	QBit = 40, Ungive = 915, Race = const.Race.DarkElf, Maturity = 2, Exp = 10000})
 -- Hide EventC
 Quest{
-	Name = "MM8_Promo_Patriarch_2_4",
-	Branch = "patriarch",
+	Name = "MM8_Promo_Pathfinder_2_4",
+	Branch = "pathfinder",
 	Slot = 2,
 }
+
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	QuestNPC = 52	-- Jallije Leafcatcher
+	Quest{
+		Name = "MM8_Promo_Pioneer_1",
+		Branch = "",
+		Slot = 0,
+		Quest = 1723,
+		QuestItem = 670,	-- Blue Wasp Jelly
+		Exp = 25000,
+		Done = function()
+			Party.QBits[1725] = true
+		end,
+		Texts = {
+			Topic = Game.NPCText[2764],	-- ""
+			Give = Game.NPCText[2765],
+			Undone = Game.NPCText[2766],
+			Done = Game.NPCText[2767]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 52, Name = "Pioneer", Seq = 1,
+		Slot = 0, QBit = 1725, Race = const.Race.DarkElf,
+		Maturity = 1, Exp = 10000})
+end
 
 --------------------------------------------
 ---- Jadame Dragon promotion
@@ -2899,7 +2812,7 @@ Quest{
 	Branch = "",
 	Slot = 1,
 	Quest = 74,
-	QuestItem = 540,
+	QuestItem = 540,	-- Sword of Whistlebone
 	Exp = 25000,
 	Give = function()
 		if Party.QBits[21] then
@@ -2910,7 +2823,10 @@ Quest{
 	end,
 	Undone = function()
 		if Party.QBits[75] then
-			Message(Game.NPCText[81])
+			Message(Game.NPCText[81])	--[[
+			"You have killed the Dragon Slayers, but where is the Sword
+			of Whistlebone?  Return to me when you have it!"
+			]]
 		elseif Party.QBits[22] then
 			Message(Game.NPCText[77])
 		elseif Party.QBits[21] then
@@ -2922,9 +2838,25 @@ Quest{
 	Done = function()
 		Party.QBits[86] = true
 		if Party.QBits[21] then
-			Message(Game.NPCText[80])
+			Message(Game.NPCText[80])	--[[
+			"You return to me with the sword of the Slayer, Whistlebone!
+			Is there no end to the treachery that you will commit? Is there
+			no one that you owe allegiance to?  I will promote those Dragons
+			who travel with you to Great Wyrm, however they will never fly
+			underneath me!  There rest of your traitorous group will be
+			instructed in those skills which can be taught to them!  Go now!
+			Never show your face here again, unless you want it eaten!"
+			]]
 		else
-			Message(Game.NPCText[79])
+			Message(Game.NPCText[79])	--[[
+			"You return to me with the sword of the Slayer, Whistlebone!
+			You are indeed worthy of my notice!  The Dragons in your group are
+			promoted to Great Wyrm!  I will teach the others of your group what
+			skills I can as a reward for their assistance!"
+			]]
+		end
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 2) then
+			Party.QBits[200] = false	-- Sword of Whistlebone - I lost it
 		end
 	end,
 	Texts = {
@@ -2934,83 +2866,6 @@ Quest{
 }
 mm8_generate_promo_quests({QuestNPC = 17, Name = "GreatWyrm", Seq = 1, Slot = 1,
 	QBit = 86, Ungive = 921, Race = const.Race.Dragon, Maturity = 2, Exp = 10000})
---[=[
--- "Sword of the Slayer"
-Game.GlobalEvtLines:RemoveEvent(62)
-evt.CanShowTopic[62] = function()
-	return Party.QBits[75]	-- Killed all Dragon Slayers in southwest encampment in Area 5
-end
-
-evt.Global[62] = function()
-	evt.ForPlayer("All")
-	if not evt.Cmp{"Inventory", 540} then	-- "Sword of Whistlebone"
-		evt.SetMessage{81}	--[[
-			"You have killed the Dragon Slayers, but where is the Sword
-			of Whistlebone?  Return to me when you have it!"
-			]]
-		return
-	end
-	if Party.QBits[22]	-- Allied with Dragons. Return Dragon Egg to Dragons done.
-			or not Party.QBits[21] then	-- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
-		evt.SetMessage{79}	--[[
-			"You return to me with the sword of the Slayer, Whistlebone!
-			You are indeed worthy of my notice!  The Dragons in your group are
-			promoted to Great Wyrm!  I will teach the others of your group what
-			skills I can as a reward for their assistance!"
-			]]
-	else
-		evt.SetMessage{80}	--[[
-			"You return to me with the sword of the Slayer, Whistlebone!
-			Is there no end to the treachery that you will commit? Is there
-			no one that you owe allegiance to?  I will promote those Dragons
-			who travel with you to Great Wyrm, however they will never fly
-			underneath me!  There rest of your traitorous group will be
-			instructed in those skills which can be taught to them!  Go now!
-			Never show your face here again, unless you want it eaten!"
-			]]
-	end
-	evt.Add{"Experience", 25000}
-	evt.Subtract{"Inventory", 540}	-- "Sword of Whistlebone"
-
-	Party.QBits[86] = true
-	Party.QBits[74] = false	-- "Kill all Dragon Slayers and return the Sword of Whistlebone the Slayer to Deftclaw Redreaver in Garrote Gorge."
-	Game.NPC[17].EventD = 1800	-- Deftclaw Redreaver : Promotion to Honorary Great Wyrm
-	evt.SetNPCTopic{NPC = 17, Index = 2, Event = 736}	-- "Deftclaw Redreaver" : "Promote Dragons"
-end
-
--- "Promote Dragons"
-Game.GlobalEvtLines:RemoveEvent(736)
-evt.Global[736] = function()
-	if not Party.QBits[86] then
-		evt.SetMessage{920}	--[[
-			"You have not proven yourself worthy!  Until you strike a blow against
-			the Dragon Hunters, none of you will be promoted!"
-			]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find(MT.ClassPromotionsInv[const.Class.GreatWyrm], player.Class) then
-		-- FIXME: show message
-		return
-	end
-	evt.SetMessage{921}	--[[
-		"You have proven yourself and I will promote any Dragons that travel
-		with you to Great Wyrm."
-		]]
-	player.Class = const.Class.GreatWyrm
-	-- Note: in MM8 - experience award is only on bringing Sword of Whistlebone
-	evt.Add{"Experience", Value = 10000}
-	player.Attrs.PromoAwards[CPA.JadameGreatWyrm] = true
-	if MS.Races.MaxMaturity > 0
-			and player.Attrs.Race == const.Race.Dragon then
-		-- FIXME
-		player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-	end
-	Party.QBits[1543] = true	-- Promoted to Great Wyrm.
-end
-]=]
 
 if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
 	QuestNPC = 255	-- Bazalath
@@ -3073,6 +2928,9 @@ Quest{
 			in your debt!  I will promote all knights in your party to
 			Champion and teach what skills I can to the rest of your party. "
 			]]
+		end
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 2) then
+			Party.QBits[199] = false	-- Ebonest - I lost it
 		end
 	end,
 	Texts = {
@@ -3182,19 +3040,37 @@ Quest{
 	Branch = "",
 	Slot = 0,
 	Quest = 76,
-	QuestItem = {541, 732},
+	QuestItem = {541, 732},	-- Axe of Balthazar, Certificate of Authentication
 	Exp = 25000,
 	Undone = function()
 		if not evt.Cmp("Inventory", 541) then
-			Message(Game.NPCText[98])
+			Message(Game.NPCText[98])	--[[
+			"Where is Balthazar's Axe?  You waste my time!
+			Find the axe, find Dadeross and return to me!"
+			]]
 		else
-			Message(Game.NPCText[94])
+			Message(Game.NPCText[94])	--[[
+			"You have found the Axe of Balthazar!  Have you presented it
+			to Dadeross?  Without his authentication, we can not proceed
+			with the Rite’s of Purity!  Find him and return to us once
+			you have presented him with the axe!"
+			]]
 		end
 	end,
 	Done = function()
 		Party.QBits[77] = true	-- Found the Axe of Balthazar.
-		Message(Game.NPCText[95])
+		Message(Game.NPCText[95])	--[[
+			"You have found the Axe of Balthazar!  Have you presented it to
+			Dadeross? Ah, you have authentication from Dadeross!  The Rite’s
+			of Purity will begin immediately! You proven yourselves worthy, and
+			our now members of our herd!  The Minotaurs who travel with you are
+			promoted to Minotaur Lord.  The others in your group will be taught
+			what skills we have that maybe useful to them."
+			]]
 		evt.All.Add("Awards", 29)	-- "Recovered Axe of Balthazar."
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 2) then
+			Party.QBits[201] = false	-- Axe of Baltahzar - I lost it
+		end
 	end,
 	Texts = {
 		Topic = Game.NPCTopic[69],
@@ -3204,124 +3080,44 @@ Quest{
 }
 mm8_generate_promo_quests({QuestNPC = 58, Name = "MinotaurLord", Seq = 1, Slot = 0,
 	QBit = 77, Ungive = 929, Race = const.Race.Minotaur, Maturity = 2, Exp = 10000})
---[=[
--- "Quest"
-Game.GlobalEvtLines:RemoveEvent(71)
--- Don't hide Quest topic
---[[
-evt.CanShowTopic[71] = function()
-	return evt.Cmp{"Inventory", 732}	-- "Certificate of Authentication"
-end
-]]
 
-evt.Global[71] = function()
-	evt.ForPlayer("All")
-	if not evt.Cmp{"Inventory", 541} then	-- "Axe of Balthazar"
-		evt.SetMessage{98}	--[[
-			"Where is Balthazar's Axe?  You waste my time!
-			Find the axe, find Dadeross and return to me!"
-			]]
-		return
-	end
-	if not evt.Cmp{"Inventory", 732} then	-- "Certificate of Authentication"
-		evt.SetMessage{94}	--[[
-			"You have found the Axe of Balthazar!  Have you presented it
-			to Dadeross?  Without his authentication, we can not proceed
-			with the Rite’s of Purity!  Find him and return to us once
-			you have presented him with the axe!"
-			]]
-		return
-	end
-	evt.SetMessage{95}	--[[
-		"You have found the Axe of Balthazar!  Have you presented it to
-		Dadeross? Ah, you have authentication from Dadeross!  The Rite’s
-		of Purity will begin immediately! You proven yourselves worthy, and
-		our now members of our herd!  The Minotaurs who travel with you are
-		promoted to Minotaur Lord.  The others in your group will be taught
-		what skills we have that maybe useful to them."
-		]]
-	evt.Add{"Experience", 25000}
-	evt.Add{"Awards", 29}	-- "Recovered Axe of Balthazar."
-	Party.QBits[76] = false	-- "Find the Axe of Balthazar, in the Dark Dwarf Mines.  Have the Axe authenticated by Dadeross.  Return the axe to Tessalar, heir to the leadership of the Minotaur Herd."
-	Party.QBits[77] = true	-- Found the Axe of Balthazar.
-	evt.Subtract{"Inventory", 541}	-- "Axe of Balthazar"
-	evt.Subtract{"Inventory", 732}	-- "Certificate of Authentication"
-	Game.NPC[58].EventB = 1802	-- Tessalar : Promotion to Honorary Minotaur Lord
-	Game.NPC[58].EventC = 70	-- Tessalar : Dark Dwarves
-	evt.SetNPCTopic{NPC = 58, Index = 0, Event = 740}         -- "Tessalar" : "Promote Minotuars"
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	-- Note: QBit 1730 isn't used but preserved for possible variant
+	--   where you have to return to Ferris to complete the quest
+	Quest{
+		Name = "MM8_Promo_MinotaurHeadsman_1",
+		NPC = 322,	-- Ferris
+		Branch = "",
+		Slot = 1,
+		Quest = 1729,
+		CanShow = function() return not Party.QBits[1731] end,
+		GivenItem = 669,	-- Letter to Ninegos
+		CheckDone = false,
+		Texts = {
+			Topic = Game.NPCText[2772],	-- "Minotaur Headsman"
+			Give = Game.NPCText[2773],
+			Undone = Game.NPCText[2774]
+		}
+	}
+	Quest{
+		Name = "MM8_Promo_MinotaurHeadsman_2",
+		BaseName = "MM8_Promo_MinotaurHeadsman_1",
+		NPC = 55,	-- Ninegos
+		CanShow = function() return Party.QBits[1729] end,
+		QuestItem = 669,	-- Letter to Ninegos
+		Exp = 25000,
+		Done = function()
+			Party.QBits[1731] = true
+			Game.NPC[55].House = 625
+		end,
+		Texts = {
+			Topic = Game.NPCText[2796],	-- "Letter from Ferris"
+			Done = Game.NPCText[2775]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 55, Name = "MinotaurHeadsman", Seq = 1, Slot = 0,
+		QBit = 1731, Race = const.Race.Minotaur, Maturity = 1, Exp = 10000})
 end
-
--- "Hurry!"
-Game.GlobalEvtLines:RemoveEvent(75)
-evt.Global[75] = function()
-	if Party.QBits[77] then	-- Found the Axe of Balthazar.
-		evt.SetMessage{102}	--[[
-			"Ah, you returned Balthazar's Axe with my certificate to
-			Tessalar!  The Rites of Purity have begun.  Soon Lord Masul
-			will wield his father's axe as his own!  Greatness will
-			return to my herd!"
-			]]
-	else
-		evt.SetMessage{101}	--[[
-			"You have found Balthazar's Axe and I have authenticated it!
-			Hurry back to Tessalar so that the Rites of Purity may begin!"
-			]]
-	end
-end
-
--- "Promote Minotuars"
-Game.GlobalEvtLines:RemoveEvent(740)
-evt.Global[740] = function()
-	if not Party.QBits[77] then	-- Found the Axe of Balthazar.
-		evt.SetMessage{928}	--[[
-			"You have not found the Axe of Balthazar!
-			You are not worthy of promotion!"
-			]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find(MT.ClassPromotionsInv[const.Class.MinotaurLord], player.Class) then
-		-- FIXME: show message
-		return
-	end
-	evt.SetMessage{929}	--[[
-		"The Herd of Masul is in debt to you.  Any Minotaurs
-		in your party are promoted to Minotaur Lord!"
-		]]
-	player.Class = const.Class.MinotaurLord
-	-- Note: in MM8 - experience award is only on bringing Axe of Balthazar
-	evt.Add{"Experience", Value = 10000}
-	player.Attrs.PromoAwards[CPA.JadameMinotaurLord] = true
-	if MS.Races.MaxMaturity > 0
-			and player.Attrs.Race == const.Race.Minotaur then
-		-- FIXME
-		player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-	end
-	Party.QBits[1545] = true	-- Promoted to Minotaur Lord.
-end
-
--- Promotion to Honorary Minotaur Lord
-evt.Global[1802] = function()
-	if not Party.QBits[77] then	-- Found the Axe of Balthazar.
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not (player.Attrs.PromoAwards[CPA.JadameMinotaurLord]
-			or player.Attrs.PromoAwards[CPA.JadameHonoraryMinotaurLord]) then
-		evt.Add{"Experience", 0}
-		player.Attrs.PromoAwards[CPA.JadameHonoraryMinotaurLord] = true
-	end
-	if MS.Races.MaxMaturity > 0
-			and player.Attrs.Race == const.Race.Minotaur then
-		-- FIXME
-		player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-	end
-end
-]=]
 
 --------------------------------------------
 ---- Jadame Barbarian/Troll promotions
@@ -3465,6 +3261,10 @@ Quest{
 	Done = function()
 		Party.QBits[88] = true
 		evt.All.Add("Awards", 33)	-- "Found the Sarcophagus and Remains of Korbu."
+		if MF.GtSettingNum(MM.MM8ClearLostItBits, 0) then
+			Party.QBits[211] = false	-- Sarcophagus of Korbu - I lost it
+			Party.QBits[219] = false	-- Remains of Korbu - I lost it
+		end
 	end,
 	Texts = {
 		Topic = Game.NPCTopic[83],
@@ -3475,7 +3275,7 @@ Quest{
 }
 mm8_generate_promo_quests({QuestNPC = 62, Name = "Nosferatu", Seq = 1, Slot = 1,
 	QBit = 88, 
-	RaceFamily = const.RaceFamily.Vampire, Maturity = 2,
+	RaceFamily = {const.RaceFamily.Vampire}, Maturity = 2,
 	Exp = MM.MM8Promo1ExpReward})
 -- Hide EventC
 Quest{
@@ -3484,35 +3284,30 @@ Quest{
 	Slot = 2,
 }
 
---[=[
--- "Promote Vampires"
-Game.GlobalEvtLines:RemoveEvent(739)
-evt.Global[739] = function()
-	if not Party.QBits[88] then
-		evt.SetMessage{926}	--[[
-			"You have not found Korbu and until you have I refuse to promote any of you!  Begone!"
-			]]
-		return
-	end
-	local k = max(Game.CurrentPlayer, 0)
-	local player = Party[k]
-	evt.ForPlayer(k)
-	if not table.find(MT.ClassPromotionsInv[const.Class.Nosferatu], player.Class) then
-		-- FIXME: show message
-		return
-	end
-	evt.SetMessage{927}	--[[
-		"Any Vampires among you will be promoted to Nosferatu!  I remember
-		those who helped in the recovery of the Remains of Korbu."
-		]]
-	player.Class = const.Class.Nosferatu
-	-- Note: in MM8 - experience award is only on bringing Korbu
-	evt.Add{"Experience", Value = 10000}
-	player.Attrs.PromoAwards[CPA.JadameNosferatu] = true
-	-- TODO: update vampire races
-	Party.QBits[1547] = true	-- Promoted to Nosferatu.
+if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
+	QuestNPC = 1226
+	Quest{
+		Name = "MM8_Promo_ElderVampire_1",
+		Branch = "",
+		Slot = 0,
+		Quest = 1726,
+		QuestItem = 671,	-- Vial of Hermit Troll Blood
+		Exp = 25000,
+		Done = function()
+			Party.QBits[1728] = true
+		end,
+		Texts = {
+			Topic = Game.NPCText[2768],	-- "Elder Vampire"
+			Give = Game.NPCText[2769],
+			Undone = Game.NPCText[2770],
+			Done = Game.NPCText[2771]
+		}
+	}
+	mm8_generate_promo_quests({QuestNPC = 1226, Name = "ElderVampire", Seq = 1,
+		Slot = 0, QBit = 1728, RaceFamily = {const.RaceFamily.Vampire},
+		Maturity = 1, Exp = 10000})
 end
-]=]
+
 --------------------------------------------
 ---- 		PEASANT PROMOTIONS			----
 --------------------------------------------
@@ -3583,7 +3378,7 @@ local function PromotePeasant(To)
 		cChar.Face = NewFace
 		SetCharFace(Game.CurrentPlayer, NewFace)
 		cChar.Skills[const.Skills.VampireAbility] = 1
-		cChar.Spells[110] = true
+		cChar.Spells[111] = true
 
 		local new_race = table.filter(Game.Races, 0,
 			"BaseRace", "=", Game.Races[cChar.Attrs.Race].BaseRace,
@@ -3597,7 +3392,7 @@ local function PromotePeasant(To)
 	elseif To == CC.DarkElf then
 		local cChar = Party[Game.CurrentPlayer]
 		cChar.Skills[const.Skills.DarkElfAbility] = 1
-		cChar.Spells[99] = true
+		cChar.Spells[100] = true
 
 	end
 
@@ -3742,7 +3537,7 @@ evt.Global[LearnSkillTopic] = function()
 
 		for i = 9, 11 do
 			local CurS, CurM = SplitSkill(Player.Skills[i+12])
-			for iL = 0 + i*11, CurM + i*11 - 1 do
+			for iL = 1 + i*11, CurM + i*11 do
 				Player.Spells[iL] = true
 			end
 		end

@@ -4,9 +4,9 @@ Log(Merge.Log.Info, "Init started: %s", LogId)
 local MF, MM = Merge.Functions, Merge.ModSettings
 
 local TXT = {
-	npc_follow = "Follow",
-	npc_goodbye = "Good bye!",
-	sharry_home = "It's good to be back home again. Thank you for rescuing me from these horrible ruffians!"
+	npc_follow = Game.NPCText[2793],	-- "Follow"
+	npc_goodbye = Game.NPCText[2794],	-- "Good bye!"
+	sharry_home = Game.NPCText[2795]	-- "It's good to be back home again. Thank you for rescuing me from these horrible ruffians!"
 }
 
 -----------------------------------------
@@ -74,11 +74,7 @@ Quest{
 	end,
 	Ungive = function()
 		MF.NPCFollowerRemove(11)
-		if Party.QBits[20] then
-			Game.NPC[11].House = 754
-		else
-			Party.QBits[433] = true
-		end
+		Party.QBits[433] = true
 		ExitCurrentScreen()
 	end,
 	Texts = {

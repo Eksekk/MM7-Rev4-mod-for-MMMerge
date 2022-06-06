@@ -90,6 +90,56 @@ Adds 10-20 points of Mind damage.	of Mind Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	
 Adds 10-20 points of Body damage.	of Body Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Body damage
 Adds 10-20 points of Light damage.	of Light Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Light damage
 Adds 10-20 points of Dark damage.	of Dark Strike	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(10-20) Dark damage
+Slightly increases weapon speed	of Alacrity	0	0	0	0	0	0	0	0	0	0	0	0	1000	B	(-10) pts on weapon speed
+Adds 4-10 points of Earth damage.	of Earth Bite	0	0	0	0	0	0	0	0	0	0	0	0	1000	C	(4-10) Earth damage
+Adds 4-10 points of Spirit damage.	of Spirit Bite	0	0	0	0	0	0	0	0	0	0	0	0	1000	C	(4-10) Spirit damage
+Adds 4-10 points of Mind damage.	of Mind Bite	0	0	0	0	0	0	0	0	0	0	0	0	1000	C	(4-10) Mind damage
+Adds 4-10 points of Light damage.	of Light Bite	0	0	0	0	0	0	0	0	0	0	0	0	1000	C	(4-10) Light damage
+Adds 4-10 points of Dark damage.	of Dark Bite	0	0	0	0	0	0	0	0	0	0	0	0	1000	C	(4-10) Dark damage
+Adds 6-15 points of Earth damage.	of Earth Blow	0	0	0	0	0	0	0	0	0	0	0	0	2000	D	(6-15) Earth damage
+Adds 6-15 points of Spirit damage.	of Spirit Blow	0	0	0	0	0	0	0	0	0	0	0	0	2000	D	(6-15) Spirit damage
+Adds 6-15 points of Mind damage.	of Mind Blow	0	0	0	0	0	0	0	0	0	0	0	0	2000	D	(6-15) Mind damage
+Adds 6-15 points of Light damage.	of Light Blow	0	0	0	0	0	0	0	0	0	0	0	0	2000	D	(6-15) Light damage
+Adds 6-15 points of Dark damage.	of Dark Blow	0	0	0	0	0	0	0	0	0	0	0	0	2000	D	(6-15) Dark damage
+Increases Staff Mastery	of Staff Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Staff Mastery
+Increases Sword Mastery	of Sword Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Sword Mastery
+Increases Dagger Mastery	of Dagger Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Dagger Mastery
+Increases Axe Mastery	of Axe Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Axe Mastery
+Increases Spear Mastery	of Spear Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Spear Mastery
+Increases Bow Mastery	of Bow Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Bow Mastery
+Increases Mace Mastery	of Mace Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Mace Mastery
+Increases Blaster Mastery	of Blaster Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Blaster Mastery
+Increases Shield Mastery	of Shield Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Shield Mastery
+Increases Leather Mastery	of Leather Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Leather Mastery
+Increases Chain Mastery	of Chain Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Chain Mastery
+Increases Plate Mastery	of Plate Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Plate Mastery
+Increases Fire Mastery	of Fire Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Fire Mastery
+Increases Air Mastery	of Air Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Air Mastery
+Increases Water Mastery	of Water Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Water Mastery
+Increases Earth Mastery	of Earth Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Earth Mastery
+Increases Spirit Mastery	of Spirit Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Spirit Mastery
+Increases Mind Mastery	of Mind Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Mind Mastery
+Increases Body Mastery	of Body Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Body Mastery
+Increases Light Mastery	of Light Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Light Mastery
+Increases Dark Mastery	of Dark Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Dark Mastery
+Increases Dark Elf Ability Mastery	of Dark Elf Ability	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Dark Elf Ability Mastery
+Increases Vampire Ability Mastery	of Vampire Ability	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Vampire Ability Mastery
+Increases Dragon Ability Mastery	of Dragon Ability	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Dragon Ability Mastery
+Increases Identify Item Mastery	of Identify Item Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Identify Item Mastery
+Increases Merchant Mastery	of Merchant Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Merchant Mastery
+Increases Repair Mastery	of Repair Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Repair Mastery
+Increases Bodybuilding Mastery	of Bodybuilding Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Bodybuilding Mastery
+Increases Meditation Mastery	of Meditation Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Meditation Mastery
+Increases Perception Mastery	of Perception Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Perception Mastery
+Increases Regeneration Mastery	of Regeneration Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Regeneration Mastery
+Increases Disarm Traps Mastery	of Disarm Traps Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Disarm Traps Mastery
+Increases Dodging Mastery	of Dodging Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Dodging Mastery
+Increases Unarmed Mastery	of Unarmed Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Unarmed Mastery
+Increases Identify Monster Mastery	of Identify Monster Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Identify Monster Mastery
+Increases Armsmaster Mastery	of Armsmaster Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Armsmaster Mastery
+Increases Stealing Mastery	of Stealing Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Stealing Mastery
+Increases Alchemy Mastery	of Alchemy Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Alchemy Mastery
+Increases Learning Mastery	of Learning Mastery	0	0	0	0	0	0	0	0	0	0	0	0	3000	D	Increases Learning Mastery
 
 		505	505	505	345	315	310	245	305	200	185	375	370			
 

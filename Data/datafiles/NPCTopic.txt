@@ -734,7 +734,7 @@ its own."		End deliver Fire Resistance Scrolls quest	654. James		James
 730	Sunfish				Rhetta Mercer NPC 515	
 731	The Warehouse				Elgar Fellmoon NPC 53	
 732	Hint				Oracle	
-733	Promote Dark Elves				Jeebes	
+733	Promote Pioneers				Jeebes	
 734	Promote Barbarians					
 735	Promote Knights					
 736	Promote Dragons					

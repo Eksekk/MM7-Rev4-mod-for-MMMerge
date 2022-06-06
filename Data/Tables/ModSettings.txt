@@ -1,9 +1,12 @@
 Name	Revamp
 Directory	Extra/Revamp
-#InitialSkillPoints	5
+InitialSkillPoints	0
+InitialExperience	0
 Races.MaxMaturity	2
 MM6Promo1ExpReward	10000
 MM6Promo2ExpReward	20000
+MM6GreatDruidPromoSundayNoon	1
+MM6MasterDruidPromoMondayMidnight	1
 MM6MagePromo	1
 MM6NecromancerPromo	1
 MM6ClericLightPromo	1
@@ -24,6 +27,14 @@ MM8Promo1ExpReward	10000
 ConversionToUndeadRestriction	1
 ExpFromKillByReanimated	1
 MM6MultibyteReputationBug	1
+MM6FixLinkedFountains	1
+MM8ClearLostItBits	1
+ReputationMaxTradeEffect	50
+PermitSellSpecials	1
+MaxHirelings	4
+HirelingCutFromBaseGold	1
+LearningIncreaseEvtExperience	1
+LearningReduceTrainingTime	1
 ScrollChanceNormal	100
 ScrollChanceCursedNormal	50
 ScrollChanceExpert	100
@@ -44,16 +55,7 @@ Placeholder
 Placeholder
 Placeholder
 Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
 Rev4ForMergeActivateExtraQuests	1
 UseOriginalGenieLamps	1
+Rev4ForMergeDuplicateModdedDungeons	1
+Rev4ForMergeDifficulty	0

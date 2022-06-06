@@ -408,7 +408,7 @@ end
 -------------------------------------------------------
 -- Cauldron
 
-local Cauldrons			= {"dec26", "7dec03", "cauld00"}
+local Cauldrons			= {"dec26", "cauld00", "7dec03"}
 local CauldronEvents 	= {[0] = 276, 279, 278, 280, 277}
 local CauldronTexts  	= {[0] = 1494, 1497, 1496, 1498, 1495}
 local CauldronResists	= {1,2,3,0}

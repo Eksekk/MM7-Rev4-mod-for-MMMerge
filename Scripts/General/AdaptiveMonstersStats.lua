@@ -545,7 +545,7 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 		BoostedHP		= mon.FullHP
 		AC 				= mon.ArmorClass
 		MonSettings		= MonsSettings[monId]
-		MonsterHeight 	= Game.MonListBin[monId-1].Height
+		MonsterHeight 	= Game.MonListBin[monId].Height
 		MonsterPower	= monId - MonKind*3 + 3
 		MonsterLevel	= GetAvgLevel(monId)
 		BolStep 		= min(floor(PartyLevel/MonsterLevel), 4)
@@ -885,13 +885,20 @@ local function BolsterMonsters()
 	end
 
 	for i,v in Map.Monsters do
-		table.insert(t, v.Id)
+		if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
+			table.insert(t, v.Id)
+		else
+			Log(Merge.Log.Error, "%s: Monster with incorrect Id (%s) at %s %s %s", Map.Name, v.Id, v.X, v.Y, v.Z)
+			v.AIState = const.AIState.Removed
+		end
 	end
 
 	PrepareTxtMon(t, PartyLevel, MapSettings, false)
 
 	for i,v in Map.Monsters do
-		PrepareMapMon(v, MapSettings)
+		if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
+			PrepareMapMon(v, MapSettings)
+		end
 	end
 
 end

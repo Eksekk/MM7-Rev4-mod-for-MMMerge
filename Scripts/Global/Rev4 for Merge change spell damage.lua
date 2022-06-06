@@ -32,8 +32,8 @@ local spellsDamage =
 	},
 	[15] = -- Sparks
 	{
-		DamageBase = 5,
-		DamagePerSkill = "1-1"
+		DamageBase = 2,
+		DamagePerSkill = "1-2"
 	},
 	[18] = -- Lightning Bolt
 	{

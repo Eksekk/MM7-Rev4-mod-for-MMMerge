@@ -1,7 +1,7 @@
 local LogId = "StdQuestsFunctions"
 local Log = Log
 Log(Merge.Log.Info, "Init started: %s", LogId)
-local MF, MM = Merge.Functions, Merge.ModSettings
+local MF, MM, MT = Merge.Functions, Merge.ModSettings, Merge.Tables
 local strformat = string.format
 ----------------------------------------
 -- Loretta Fleise's fix prices quest
@@ -20,6 +20,28 @@ local function IsWorkTime(House)
 	end
 end
 
+local function VisitedStablesHint()
+	local HintLines = {
+		[1515] = Game.MapStats[140].Name,
+		[1516] = Game.MapStats[141].Name,
+		[1517] = Game.MapStats[143].Name,
+		[1518] = Game.MapStats[144].Name,
+		[1519] = Game.MapStats[144].Name,
+		[1520] = Game.MapStats[145].Name,
+		[1521] = Game.MapStats[146].Name,
+		[1522] = Game.MapStats[148].Name,
+		[1523] = Game.MapStats[151].Name
+	}
+	
+	local Hints = {}
+	for k,v in pairs(HintLines) do
+		if not Party.QBits[k] then
+			table.insert(Hints, v)
+		end
+	end
+	return Game.NPCText[2705] .. table.concat(Hints, Game.NPCText[2704]) .. Game.NPCText[2706] -- "(" .. ", " .. ")"
+end
+
 local function CheckPrices(House, Bit)
 	if Party.QBits[1140] and not Party.QBits[Bit] and IsWorkTime(House) then
 		Message(Game.NPCText[1828])
@@ -36,6 +58,12 @@ local function CheckPrices(House, Bit)
 	end
 end
 StdQuestsFunctions.CheckPrices = CheckPrices
+
+evt.Global[1393] = function()
+	if not Party.QBits[1141] then
+		Message(Game.NPCText[1787] .. VisitedStablesHint())
+	end
+end
 
 ----------------------------------------
 -- Silvertongue's quest
@@ -73,17 +101,6 @@ evt.Global[1343] = function()
 end
 
 ----------------------------------------
--- Subtract reputation in Temples of Baa
---
-
-function events.ClickShopTopic(t)
-	local valC = Game.Houses[GetCurrentHouse()].C
-	if t.Topic == const.ShopTopics.Donate and (valC == 1 or valC == 3) and NPCFollowers.GetPartyReputation() < 9 then
-		evt.Add{"Reputation", 2}
-	end
-end
-
-----------------------------------------
 -- Dragon towers
 --
 
@@ -97,8 +114,7 @@ end
 StdQuestsFunctions.DragonTower = DragonTower
 
 local function SetTextureOutdoors(Model, Facet, Texture)
-	CurBitmap = "t1swbu"
-	CurBitmap = Game.BitmapsLod:LoadBitmap(CurBitmap)
+	CurBitmap = Game.BitmapsLod:LoadBitmap(Texture)
 	Game.BitmapsLod.Bitmaps[CurBitmap]:LoadBitmapPalette()
 	Map.Models[Model].Facets[Facet].BitmapId = CurBitmap
 end
@@ -750,6 +766,13 @@ local function IsQuestItem(i)
 	if Game.ItemsTxt[i].Value > 0 then
 		return false
 	end
+	if MT.ItemsExtra[i] then
+		if MT.ItemsExtra[i].QuestItem then
+			return MT.ItemsExtra[i].Continent
+		else
+			return false
+		end
+	end
 	if (i > 600 and i < 635) or i == 663 then
 		return 1
 	elseif (i > 1401 and i < 1488) or i == 664 then
@@ -770,12 +793,49 @@ end
 
 local function LostItTopic()
 	local CurCont = TownPortalControls.GetCurrentSwitch()
-	for k,v in pairs(vars.LostItems) do
-		if CurCont == v and not (LastGivenItems[k] or Mouse.Item.Number == k or evt.ForPlayer("All").Cmp{"Inventory", k}) then
-			LastGivenItems[k] = true
-			evt.ForPlayer(0).Add{"Inventory", k}
-			Message(Game.NPCText[847])
-			return
+	for k, v in pairs(vars.LostItems) do
+		if (v == CurCont or v == 0) and not (LastGivenItems[k] or Mouse.Item.Number == k or evt.ForPlayer("All").Cmp{"Inventory", k}) then
+			local item_extra = MT.ItemsExtra[k]
+			local do_return = true
+			if item_extra then
+				if item_extra.QuestItem then
+					if item_extra.LostQBit then
+						if Party.QBits[item_extra.LostQBit] then
+							do_return = true
+						else
+							do_return = false
+						end
+					end
+					if item_extra.EndQBit then
+						if not Party.QBits[item_extra.EndQBit] then
+							if not do_return == false then
+								do_return = true
+							end
+						else
+							if do_return then
+								if not item_extra.PostEnd then
+									do_return = false
+								end
+								-- FIXME: check for continent mod setting
+								if item_extra.LostQBit then
+									Party.QBits[item_extra.LostQBit] = false
+								end
+							else
+								do_return = false
+							end
+						end
+					end
+				else
+					do_return = false
+					vars.LostItems[k] = nil
+				end
+			end
+			if do_return then
+				LastGivenItems[k] = true
+				evt.ForPlayer(0).Add{"Inventory", k}
+				Message(Game.NPCText[847])
+				return
+			end
 		end
 	end
 	Message(Game.NPCText[846])

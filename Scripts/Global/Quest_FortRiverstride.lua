@@ -40,7 +40,7 @@ Oh, one more warning. We've heard gossips that necromancers tried to take over t
 	
 	local random = math.random
 	local summoned = {}
-	local function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius)
+	local function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group)
 		count = count or "1-3"
 		assert(type(count) == "string")
 		powerChances = powerChances or {34, 33, 33}
@@ -77,6 +77,9 @@ Oh, one more warning. We've heard gossips that necromancers tried to take over t
 			end
 			
 			table.insert(summoned, (SummonMonster(class * 3 - 2 + power, x + xadd, y + yadd, z, true)))
+			if group then
+				summoned[#summoned].Group = group
+			end
 		end
 	end
 	

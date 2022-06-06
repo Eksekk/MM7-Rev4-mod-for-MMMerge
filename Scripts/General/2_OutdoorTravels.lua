@@ -155,6 +155,7 @@ end
 -- New game map
 
 function events.NewGameMap()
+	Log(Merge.Log.Info, "%s: NewGameMap", LogId)
 
 	local ContMap = Game.DeathMaps[TownPortalControls.GetCurrentSwitch()][1]
 	Party.X = ContMap.X
@@ -291,7 +292,7 @@ function TownPortalControls.DimDoorEvent()
 	end
 
 	TownPortalControls.SwitchTo(4)
-	Timer(TownPortalControls.RevertTPSwitch, const.Minute*8, false)
+	Timer(TownPortalControls.RevertTPSwitch, const.Minute*8, Game.Time+const.Minute*8, false, false)
 
 	Game.GlobalTxt[10] = " "
 

@@ -31,7 +31,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 29	Rohtnax	1466	0	0	0	776	0	6	0	14	15	16	17	0	0	"(1) Peasant House, Find Brother Secondary Quest"
 30	Pascella Tisk	1463	0	0	0	784	0	7	0	18	19	584	0	0	0	"(1) Peasant House, Prophecies of the Snake Secondary Quest"
 31	Brekish Onefang	0	0	0	0	0	0	0	0	0	0	0	0	0	0	STILL USED?
-32	Dadeross	1325	0	0	0	0	0	0	0	0	0	0	0	0	0	"(3) Drk Elf Medium House, After Qbit 6 set"
+32	Wamhog Guthirc	1368	0	0	0	698	0	0	0	0	0	0	0	0	0	(4) Troll Racial Promo
 33	Oskar Tyre	1156	0	0	0	214	0	37	0	102	0	0	0	0	0	(7) w 182 - door inside the Sun Temple
 34	Guard	1213	0	0	0	0	0	107	0	0	0	0	0	0	0	Necromancer Guard
 35	Guard	1039	0	0	0	0	0	108	0	0	0	0	0	0	0	Dragon Guard
@@ -51,11 +51,11 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 49	Leane Stormlance	1295	0	0	0	538	0	0	0	52	0	51	0	0	0	"(5) House at Dragon Hunter fort, Knight Promo Start"
 50	Dervish Chevron	1058	0	0	0	908	0	0	0	50	659	0	0	0	0	"(2) Cleric, Rescue Blazen Stormlance Secondary Quest"
 51	Garret Deverro	1301	0	0	0	562	0	0	0	0	735	0	0	0	0	(5) Quixote's Chamber (179) after Quixote goes to w 175
-52	Sir Charles Quixote	1089	0	0	0	0	0	23	0	0	0	58	0	0	0	"(2) Merchanthouse, Council Chamber"
-53	Deftclaw Redreaver	1088	0	0	0	0	0	25	0	123	60	62	0	0	0	"(2) Merchanthouse, Council Chamber"
-54	Oskar Tyre	1156	0	0	0	0	0	26	0	130	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
-55	Masul	1043	0	0	0	0	0	27	0	137	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
-56	Sandro	1038	0	0	0	0	0	28	0	144	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
+52	Jallije Leafcatcher	1409	0	0	0	531	0	0	0	0	0	0	0	0	0	(3) Sentinel Promo
+53	Dead Prophetess	1235	0	0	0	0	0	0	0	0	0	0	0	0	0	(1) Necromancer Promo
+54	Alycon Brinn	1155	0	0	0	701	0	0	0	0	0	0	0	0	0	(7) Cleric of the Light Promo
+55	Ninegos	1338	0	0	0	231	0	0	0	0	0	0	0	0	0	(4) Minotaur Guide Promo
+56	Avershara	1255	0	0	0	589	0	0	0	0	0	0	0	0	0	(6) Necromancer Promo
 57	Thanys	1044	0	0	0	624	0	30	0	66	172	0	0	0	0	"(8) Minotaur Lair, house near entrance"
 58	Tessalar	1340	0	0	0	640	0	0	0	69	70	0	0	0	0	"(8) Minotaur Lair, house near entrance, Promo dude"
 59	Stephen	1064	0	0	0	612	0	0	0	76	0	0	0	0	0	(2) Cleric Promo dude
@@ -1224,34 +1224,44 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 1222	Random MapNPC 39	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
 1223	Random MapNPC 40	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
 1224	Random MapNPC 41	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
-1225																		
-1226																		
-1227																		
-1228																		
-1229																		
-1230																		
-1231																		
-1232																		
-1233																		
-1234																		
-1235																		
-1236																		
-1237																		
-1238																		
-1239																		
-1240	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	303	0	0	0	0	Expert Sword (3)	3	
-1241	James Weathers	0917	0	0	0	1183	0	163	0	354	1099	0	0	0	Expert Body_Magic (3)	3		
-1242	Sarah	0851	0	0	0	941	0	0	0	1261	0	0	0	0	0	 Courier Guild Matron		
-1243	Messenger of the Saints	1556	0	0	0	0	0	125	0	2002	0	0	0	0	0			
-1244	Alice the Chef	0591	0	0	0	1021	0	0	0	0	1265	0	0	0	0			
-1245	Rena Putnum Kedrin	0812	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1246	Rena Putnum Kedrin	0865	0	0	0	0	0	0	0	1266	0	0	0	0	0			
-1247	Map Giver	1556	0	0	0	0	0	358	0	882	0	0	0	0	0			
-1248	Map Giver 1	1556	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1249	The Coding Wizard	1556	0	0	0	0	0	359	0	798	0	0	0	0	0			
-1250	Lady K	0841	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1251	EAO the Lector	0846	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1252	Duchess of Deja	1534	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1253	Lord Godwinson	0889	0	0	0	1106	0	0	0	846	0	0	0	0	0			
-1254	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
-1255	Harmondale Teleportal Hub	1561	0	0	0	925	0	368	0	1995	1996	1997	1994	0	0			
+1225	Arena Master	0980	0	0	0	0	0	0	0	704	0	0	0	0	0	MM6 Arena Master
+1226	Tithone Vamaranti	1217	0	0	0	902	0	0	0	0	0	0	0	0	0	(2) Elder Vampire Promo
+1227	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1228	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1229	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1230	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1231	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1232	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1233	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1234	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1235	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1236	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1237	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1238	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1239	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1240	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1241	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1242	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1243	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1244	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1245	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1246	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1247	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1248	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1249	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1250	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	303	0	0	0	0	Expert Sword (3)	3	
+1251	James Weathers	0917	0	0	0	1183	0	163	0	354	1099	0	0	0	Expert Body_Magic (3)	3		
+1252	Sarah	0851	0	0	0	941	0	0	0	1261	0	0	0	0	0	 Courier Guild Matron		
+1253	Messenger of the Saints	1556	0	0	0	0	0	125	0	2002	0	0	0	0	0			
+1254	Alice the Chef	0591	0	0	0	1021	0	0	0	0	1265	0	0	0	0			
+1255	Rena Putnum Kedrin	0812	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1256	Rena Putnum Kedrin	0865	0	0	0	0	0	0	0	1266	0	0	0	0	0			
+1257	Map Giver	1556	0	0	0	0	0	358	0	882	0	0	0	0	0			
+1258	Map Giver 1	1556	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1259	The Coding Wizard	1556	0	0	0	0	0	359	0	798	0	0	0	0	0			
+1260	Lady K	0841	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1261	EAO the Lector	0846	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1262	Duchess of Deja	1534	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1263	Lord Godwinson	0889	0	0	0	1106	0	0	0	846	0	0	0	0	0			
+1264	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
+1265	Harmondale Teleportal Hub	1561	0	0	0	925	0	368	0	0	0	0	0	0	0			

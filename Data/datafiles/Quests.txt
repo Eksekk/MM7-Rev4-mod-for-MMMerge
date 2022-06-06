@@ -285,26 +285,26 @@ Q Bit	Quest Note Text	Notes	Owner
 284	"Return to Fellmoon in Ravenshore and report your success in blackmailing the wererat smuggler, Arion Hunter."		TomO
 285		Got the Tele scroll in area 13	Riki
 286		Did the conflux key quest	Riki
-287	"Clear Ancient Troll Home of Basilisks."	0	0
-288		All Basilisks in Ancient Troll Home killed	0
-289		Ancient Troll Home cleared. Warmonger promo complete.	0
-290	"Pull out a sword from a stone in Ravage Roaming and bring it to Selzed Stormsage in Garrote Gorge."	0	0
-291		Sword is pulled out	0
-292		Cavalier promo complete	0
-293	0	0	0
-294	0	0	0
-295	0	0	0
-296	0	0	0
-297	0	0	0
-298	0	0	0
-299	0	0	0
-300		TP Switch Jadam	
+287	"Clear Ancient Troll Home of Basilisks."		MM8 Warmonger Promotion Quest
+288		All Basilisks in Ancient Troll Home killed	MM8 Warmonger Promotion Quest
+289		Ancient Troll Home cleared. Warmonger promo complete.	MM8 Warmonger Promotion Quest
+290	"Pull out a sword from a stone in Ravage Roaming and bring it to Selzed Stormsage in Garrote Gorge."		MM8 Cavalier Promotion Quest
+291		Sword is pulled out	MM8 Cavalier Promotion Quest
+292		Cavalier promo complete	MM8 Cavalier Promotion Quest
+293	"Place a focusing beacon on the tallest hill in Shadowspire and return to Alycon Brinn in Murmurwoods."	0	0
+294		0	0
+295		0	0
+296	"Reanimate the resting prophetess buried on one of the Dagger Wound Islands and lead (what remains of) her to Avershara in Shadowspire."	0	0
+297		0	0
+298		0	0
+299		0	0
+300		TP Switch Jadame	
 301		TP Buff Alvar	
 302		TP Buff Ravenshore	
 303		TP Buff Baltazar's Lair	
 304		TP Buff Regna	
 305		TP Buff Shadowspire	
-306		TP Buff Daggerwound islands	
+306		TP Buff Daggerwound Islands	
 307		TP Switch Antagrich	
 308		TP Switch Enroth	
 309		TP Switch Global	
@@ -716,12 +716,12 @@ Q Bit	Quest Note Text	Notes	Owner
 715		Place item 619 in out06(statue)	0	0
 716	Retrieve the three paintings and return them to Ferdinand Visconti in Tatalia.	0	0	0
 717	"Honor Elrond's memory by winning the Arcomage Championship, then return to Darron Temper in Pierpont."	0	0	0
-718		Harmondale - Town Portal	0	0
-719		Erathia - Town Portal	0	0
-720		Tularean Forest - Town Portal	0	0
-721		Celeste - Town Portal	0	0
-722		The Pit - Town Portal	0	0
-723		Nighon - Town Portal	0	0
+718		TP Buff Harmondale	0	0
+719		TP Buff Tularean Forest	0	0
+720		TP Buff Erathia	0	0
+721		TP Buff Nighon	0	0
+722		TP Buff Celeste	0	0
+723		TP Buff The Pit	0	0
 724		Vase - I lost it	0	0
 725		Dagger - I lost it	0	0
 726		Scroll of Waves - I lost it	0	0
@@ -1169,21 +1169,21 @@ Q Bit	Quest Note Text	Notes	Owner
 1168	Retrieve the jewelled egg from Castle Kriegspire and return it to Emil Lime in Kriegspire village.	NPC	give egg quest
 1169	"Unward the doors in the Hall of the Fire Lord and return to the Lord of Fire, also in the Hall of the Fire Lord."	NPC	unward the doors quest
 1170		NPC	unwarded the doors for fire lord
-1171		NPC	visited stable 1
-1172		NPC	visited stable 2
-1173		NPC	visited stable 3
-1174		NPC	visited stable 4
-1175		NPC	visited stable 5
-1176		NPC	visited stable 6
-1177		NPC	visited stable 7
-1178		NPC	visited stable 8
-1179		NPC	visited stable 9
-1180		NPC	dragon tower 1
-1181		NPC	dragon tower 2
-1182		NPC	dragon tower 3
-1183		NPC	dragon tower 4
-1184		NPC	dragon tower 5
-1185		NPC	dragon tower 6
+1171		visited stable 1	
+1172		visited stable 2	
+1173		visited stable 3	
+1174		visited stable 4	
+1175		visited stable 5	
+1176		visited stable 6	
+1177		visited stable 7	
+1178		visited stable 8	
+1179		visited stable 9	
+1180		dragon tower 1	
+1181		dragon tower 2	
+1182		dragon tower 3	
+1183		dragon tower 4	
+1184		dragon tower 5	
+1185		dragon tower 6	
 1186	Find Memory Crystal Alpha in the Supreme Temple of Baa and restore it to a module altar at the Oracle beneath the High Council..	NPC	Restore Memory Crystal Alpha
 1187	Find Memory Crystal Beta in Castle Alamos and restore it to a module altar at the Oracle beneath the High Council.	NPC	Restore Memory Crystal Beta
 1188	Find Memory Crystal Delta in Castle Darkmoor and restore it to a module altar at the Oracle beneath the High Council.	NPC	Restore Memory Crystal Delta
@@ -1224,23 +1224,23 @@ Q Bit	Quest Note Text	Notes	Owner
 1223		Quest item bits for seer	Key to Gharik's Laboratory
 1224	Find a cure for Slicker Silvertongue in the Superior Temple of Baa east of Castle Kriegspire and return to Wilbur Humphrey with the good news.	Wilbur Humphrey	Expose the Traitor Quest
 1225	Bring the the letter detailing Silvertongue's treason to the High Council in Free Haven.	NPC	
-1226		NPC	Killed Demon Queen
-1227		NPC	Once Emmanuel is found.
-1228	Find and destroy the Book of Liches in Castle Darkmoor and return to Terry Ros in Darkmoor village.	NPC	Lich Quest
-1229		NPC	Seer quest - On the quest for this month
-1230		NPC	Seer quest - Completed the quest this month
-1231		NPC	Seer quest - Finished January at least once
-1232		NPC	Seer quest - Finished February at least once
-1233		NPC	Seer quest - Finished March at least once
-1234		NPC	Seer quest - Finished April at least once
-1235		NPC	Seer quest - Finished May at least once
-1236		NPC	Seer quest - Finished June at least once
-1237		NPC	Seer quest - Finished July at least once
-1238		NPC	Seer quest - Finished August at least once
-1239		NPC	Seer quest - Finished September at least once
-1240		NPC	Seer quest - Finished October at least once
-1241		NPC	Seer quest - Finished November at least once
-1242		NPC	Seer quest - Finished December at least once
+1226		Killed Demon Queen	
+1227		Once Emmanuel is found.	
+1228	Find and destroy the Book of Liches in Castle Darkmoor and return to Terry Ros in Darkmoor village.	Lich Quest	
+1229		Seer quest - On the quest for this month	
+1230		Seer quest - Completed the quest this month	
+1231		Seer quest - Finished January at least once	
+1232		Seer quest - Finished February at least once	
+1233		Seer quest - Finished March at least once	
+1234		Seer quest - Finished April at least once	
+1235		Seer quest - Finished May at least once	
+1236		Seer quest - Finished June at least once	
+1237		Seer quest - Finished July at least once	
+1238		Seer quest - Finished August at least once	
+1239		Seer quest - Finished September at least once	
+1240		Seer quest - Finished October at least once	
+1241		Seer quest - Finished November at least once	
+1242		Seer quest - Finished December at least once	
 1243	"Place the statuettes in Sweet Water, Kriegspire, Dragonsand, Mire of the Damned, and Bootleg Bay and return to Twillen in Blackshire."	NPC	Statuette Quest
 1244		NPC	Give statuette chest
 1245		NPC	Give reward chest
@@ -1257,9 +1257,9 @@ Q Bit	Quest Note Text	Notes	Owner
 1256		Quest item bits for seer	Navigator's Scroll
 1257		Quest item bits for seer	Engineer's Scroll
 1258		Quest item bits for seer	Communication Officer's Scroll
-1259	Obtain Arcane Magic from Archibald in the Royal Library in Castle Ironfist	NPC	Archibald bit for Oracle Quest
-1260		NPC	Sparkle for Wizard Quest
-1261		NPC	No more Hive after you win
+1259	Obtain Arcane Magic from Archibald in the Royal Library in Castle Ironfist	Archibald bit for Oracle Quest	
+1260		Sparkle for Wizard Quest	
+1261		No more Hive after you win	
 1262		NPC	
 1263		NPC	
 1264		NPC	
@@ -1267,24 +1267,24 @@ Q Bit	Quest Note Text	Notes	Owner
 1266		NPC	
 1267		NPC	
 1268		NPC	
-1269		NPC	
-1270		NPC	
-1271		NPC	
-1272		NPC	
-1273		NPC	
-1274		NPC	
-1275		NPC	
-1276		NPC	
-1277		NPC	
-1278		NPC	
-1279		NPC	
-1280		NPC	
-1281		NPC	
-1282		NPC	
-1283		NPC	
-1284		NPC	
-1285		NPC	
-1286		NPC	
+1269		MM6 Crusader Promotion Quest completed	
+1270		MM6 Hero Promotion Quest completed	
+1271		MM6 Wizard Promotion Quest completed	
+1272		MM6 Master Wizard Promotion Quest completed	
+1273		MM6 Cavalier Promotion Quest completed	
+1274		MM6 Champion Promotion Quest completed	
+1275		MM6 Priest Promotion Quest completed	
+1276		MM6 High Priest Promotion Quest completed	
+1277		MM6 Great Druid Promotion Quest completed	
+1278		MM6 Master Druid Promotion Quest completed	
+1279		MM6 Warrior Mage Promotion Quest completed	
+1280		MM6 Battle Mage Promotion Quest completed	
+1281		MM6 Ankh obtained	
+1282		MM6 Ankh given to Loretta	
+1283		MM6 Got Cavalier nomination	
+1284		MM6 Rescued Sharry	
+1285		MM6 Ring of Dark Mastery obtained	
+1286		MM6 Ring of Light Mastery obtained	
 1287		NPC	
 1288		NPC	
 1289		NPC	
@@ -1321,29 +1321,29 @@ Q Bit	Quest Note Text	Notes	Owner
 1320		NPC	
 1321		NPC	
 1322		NPC	
-1323		NPC	No more Jewelled Egg Chest
-1324		Peter	Used Key to Open Goblin Watch
-1325		NPC	Pad activation in Mist.
-1326		NPC	Sword in the Stone (New Sorpigal)
-1327		NPC	Sword in the Stone (IronFist)
-1328		NPC	Kilburn's Shield
-1329		NPC	IronFist Well
-1330		NPC	+10 Luck permanent.
+1323		No more Jewelled Egg Chest	
+1324		Used Key to Open Goblin Watch	Peter
+1325		Pad activation in Mist.	
+1326		Sword in the Stone (New Sorpigal)	
+1327		Sword in the Stone (IronFist)	
+1328		Kilburn's Shield	
+1329		IronFist Well	
+1330		+10 Luck permanent.	
 1331		NPC	
 1332		NPC	
 1333		NPC	
-1334		NPC	Sword in the Stone (OutD1)
-1335		NPC	Sword in the Stone (OutD1)
-1336		NPC	Sword in the Stone (OutD1)
-1337		NPC	Sword in the Stone (OutE1) Druid
-1338		NPC	Sewer teleporter to T6 will not work till this is set from T6
-1339		NPC	T6 Alter of Fire
-1340		NPC	T6 Alter of Cold
-1341		NPC	T6 Alter of Pain
-1342		NPC	T6 Shrine of Fire
-1343		NPC	T6 Shrine of Air
-1344		NPC	T6 Shrine of Water
-1345		NPC	T6 Shrine of Earth
+1334		Sword in the Stone (OutD1)	
+1335		Sword in the Stone (OutD1)	
+1336		Sword in the Stone (OutD1)	
+1337		Sword in the Stone (OutE1) Druid	
+1338		Sewer teleporter to T6 will not work till this is set from T6	
+1339		T6 Alter of Fire	
+1340		T6 Alter of Cold	
+1341		T6 Alter of Pain	
+1342		T6 Shrine of Fire	
+1343		T6 Shrine of Air	
+1344		T6 Shrine of Water	
+1345		T6 Shrine of Earth	
 1346		NPC	
 1347		NPC	
 1348		NPC	
@@ -1382,24 +1382,24 @@ Q Bit	Quest Note Text	Notes	Owner
 1381		NPC	
 1382		NPC	
 1383		NPC	
-1384		NPC	Obelisk OutA1
-1385		NPC	Obelisk OutA2
-1386		NPC	Obelisk OutA3
-1387		NPC	Obelisk OutB1
-1388		NPC	Obelisk OutB2
-1389		NPC	Obelisk OutB3
-1390		NPC	Obelisk OutC1
-1391		NPC	Obelisk OutC2
-1392		NPC	Obelisk OutC3
-1393		NPC	Obelisk OutD1
-1394		NPC	Obelisk OutD2
-1395		NPC	Obelisk OutD3
-1396		NPC	Obelisk OutE1
-1397		NPC	Obelisk OutE2
-1398		NPC	Obelisk OutE3
-1399		NPC	Obelisk Rock
-1400		NPC	d18 Door
-1401		NPC	Fire Lord gives XP and treasure only once
+1384		Obelisk OutA1	
+1385		Obelisk OutA2	
+1386		Obelisk OutA3	
+1387		Obelisk OutB1	
+1388		Obelisk OutB2	
+1389		Obelisk OutB3	
+1390		Obelisk OutC1	
+1391		Obelisk OutC2	
+1392		Obelisk OutC3	
+1393		Obelisk OutD1	
+1394		Obelisk OutD2	
+1395		Obelisk OutD3	
+1396		Obelisk OutE1	
+1397		Obelisk OutE2	
+1398		Obelisk OutE3	
+1399		Obelisk Rock	
+1400		d18 Door	
+1401		Fire Lord gives XP and treasure only once	
 1402		NPC	
 1403		NPC	
 1404		NPC	
@@ -1718,6 +1718,18 @@ Q Bit	Quest Note Text	Notes	Owner
 1717		Cross Continent Q
 1718		Cross Continent Q
 1719		Cross Continent Q
-1720	"Take Bazalath's descendant to the Plane of Fire and infuse the egg with the flames' unnatural power."		
-1721		Bazalath's Egg was on Plane of Fire	
-1722		MM8 Flight Leader Promo Complete	
+1720	"Take Bazalath's descendant to the Plane of Fire and infuse the egg with the flames' unnatural power."		MM8 Flight Leader Promotion Quest
+1721		Bazalath's Egg was on Plane of Fire	MM8 Flight Leader Promotion Quest
+1722		MM8 Flight Leader Promotion Quest completed	MM8 Flight Leader Promotion Quest
+1723	"Acquire a jar of Blue Wasp Jelly from the Alvarian hive and deliver it to Jallije Leafcatcher in Alvar."		MM8 Sentinel Promotion Quest
+1724		Jar of Blue Jelly obtained	MM8 Sentinel Promotion Quest
+1725		MM8 Sentinel Promotion Quest completed	MM8 Sentinel Promotion Quest
+1726	"Obtain a vial of blood from the hermit troll often found in the river bed in Garrote Gorge, and bring it to Tithone Vamaranti in Ravenshore."		MM8 Elder Vampire Promotion Quest
+1727		Vial of hermit troll blood obtained	MM8 Elder Vampire Promotion Quest
+1728		MM8 Elder Vampire Promotion Quest completed	MM8 Elder Vampire Promotion Quest
+1729	"Find the lost minotaur Ninegos and give him the letter from his community."		MM8 Minotaur Headsman Promotion Quest
+1730		Delivered letter to Ninegos	MM8 Minotaur Headsman Promotion Quest
+1731		MM8 Minotaur Headsman Promotion Quest completed	MM8 Minotaur Headsman Promotion Quest
+1732	"Bring the hoof of a Centaur Chieftain to Wamhog Guthirc in Ironsand Desert."	
+1733		Hoof of the Centaur Chieftain obtained
+1734		Q 1732 completed

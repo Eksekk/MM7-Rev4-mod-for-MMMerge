@@ -2,7 +2,7 @@
 local LogId = "SavegameConverter"
 local Log = Log
 Log(Merge.Log.Info, "Init started: %s", LogId)
-local MF, MM = Merge.Functions, Merge.ModSettings
+local MF, MM, MV = Merge.Functions, Merge.ModSettings, Merge.Vars
 local floor = math.floor
 
 local function convert_0_20040100()
@@ -195,17 +195,17 @@ local function convert_0_20040100()
 			[73] = 76 -- ZombieDwarf
 		}
 
-		Game.PlayersAttrs = Game.PlayersAttrs or {}
+		MV.PlayersAttrs = MV.PlayersAttrs or {}
 
 		for idx = 0, Party.PlayersArray.count - 1 do
 			local pl = Party.PlayersArray[idx]
-			Game.PlayersAttrs[idx] = Game.PlayersAttrs[idx] or {}
-			--pl.Attrs = Game.PlayersAttrs[idx]
+			MV.PlayersAttrs[idx] = MV.PlayersAttrs[idx] or {}
+			--pl.Attrs = MV.PlayersAttrs[idx]
 			if pl.Class < 0 or pl.Class > 51 then
 				Log(Merge.Log.Error, "Invalid player character %d class: %d", idx, pl.Class)
 			else
 				-- set alignment
-				Game.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
+				MV.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
 
 				-- convert class
 				pl.Class = class_table[pl.Class]
@@ -214,9 +214,9 @@ local function convert_0_20040100()
 				-- check for original face of zombified character
 				if (face_races[pl.Face] % 10 == 6) and vars.PlayerFaces
 						and vars.PlayerFaces[idx] then
-					Game.PlayersAttrs[idx].Race = face_races[vars.PlayerFaces[idx].Face]
+					MV.PlayersAttrs[idx].Race = face_races[vars.PlayerFaces[idx].Face]
 				else
-					Game.PlayersAttrs[idx].Race = face_races[pl.Face]
+					MV.PlayersAttrs[idx].Race = face_races[pl.Face]
 				end
 			end
 		end
@@ -301,23 +301,23 @@ local function convert_8_20040100()
 			[27] = 2, -- UndeadHuman
 		}
 
-		Game.PlayersAttrs = Game.PlayersAttrs or {}
+		MV.PlayersAttrs = MV.PlayersAttrs or {}
 
 		for idx = 0, Party.PlayersArray.count - 1 do
 			local pl = Party.PlayersArray[idx]
-			Game.PlayersAttrs[idx] = Game.PlayersAttrs[idx] or {}
-			--pl.Attrs = Game.PlayersAttrs[idx]
+			MV.PlayersAttrs[idx] = MV.PlayersAttrs[idx] or {}
+			--pl.Attrs = MV.PlayersAttrs[idx]
 			if pl.Class < 0 or pl.Class > 15 then
 				Log(Merge.Log.Error, "Invalid player character %d class: %d", idx, pl.Class)
 			else
 				-- set alignment
-				Game.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
+				MV.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
 
 				-- convert class
 				pl.Class = class_table[pl.Class]
 
 				-- convert/set race
-				Game.PlayersAttrs[idx].Race = face_races[pl.Face]
+				MV.PlayersAttrs[idx].Race = face_races[pl.Face]
 			end
 		end
 
@@ -631,25 +631,25 @@ end
 local function convert_20113000_21040400()
 	for idx = 0, Party.PlayersArray.count - 1 do
 		local pl = Party.PlayersArray[idx]
-		Game.PlayersAttrs[idx] = Game.PlayersAttrs[idx] or {}
+		MV.PlayersAttrs[idx] = MV.PlayersAttrs[idx] or {}
 
 		-- set alignment
-		if Game.PlayersAttrs[idx].Alignment then
-			if Game.PlayersAttrs[idx].Alignment == 4 then
-				Game.PlayersAttrs[idx].Alignment = 5
-			elseif Game.PlayersAttrs[idx].Alignment == 8 then
-				Game.PlayersAttrs[idx].Alignment = 10
+		if MV.PlayersAttrs[idx].Alignment then
+			if MV.PlayersAttrs[idx].Alignment == 4 then
+				MV.PlayersAttrs[idx].Alignment = 5
+			elseif MV.PlayersAttrs[idx].Alignment == 8 then
+				MV.PlayersAttrs[idx].Alignment = 10
 			end
 		else
-			--Game.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
+			--MV.PlayersAttrs[idx].Alignment = class_alignments[pl.Class]
 		end
 
 		-- convert race
-		if Game.PlayersAttrs[idx].Race then
-			local race = floor(Game.PlayersAttrs[idx].Race / 2)
-			local maturity = Game.PlayersAttrs[idx].Race % 2
-			Game.PlayersAttrs[idx].Race = race
-			Game.PlayersAttrs[idx].Maturity = maturity
+		if MV.PlayersAttrs[idx].Race then
+			local race = floor(MV.PlayersAttrs[idx].Race / 2)
+			local maturity = MV.PlayersAttrs[idx].Race % 2
+			MV.PlayersAttrs[idx].Race = race
+			MV.PlayersAttrs[idx].Maturity = maturity
 		end
 	end
 
@@ -811,7 +811,6 @@ local function convert_21072000_21101000()
 	Game.NPC[354].EventC = 0
 	Game.NPC[354].EventD = 0
 
-	--[[
 	-- MM7 Rogue Promo
 	Party.QBits[785] = Party.QBits[1560] or Party.QBits[1561]
 	-- MM7 Spy Promo
@@ -866,9 +865,66 @@ local function convert_21072000_21101000()
 	Party.QBits[1011] = Party.QBits[1615] or Party.QBits[1616]
 	-- MM7 Warlock Promo
 	Party.QBits[1012] = Party.QBits[1617] or Party.QBits[1618]
-	--]]
 
 	vars.SaveGameFormatVersion = 21101000
+	Log(Merge.Log.Warning, "%s: savegame converted to SaveGameFormatVersion %d.",
+		LogId, vars.SaveGameFormatVersion)
+end
+
+local function convert_21101000_21121800()
+	vars.GlobalReputation.Maps = vars.GlobalReputation.Maps or {}
+	-- MM6 Arena Master
+	MF.NPCRestore(1225)
+	-- TPBuff
+	if MV.Continent == 1 then
+		Party.QBits[301] = Party.QBits[181]
+		Party.QBits[302] = Party.QBits[180]
+		Party.QBits[303] = Party.QBits[184]
+		Party.QBits[304] = Party.QBits[183]
+		Party.QBits[305] = Party.QBits[182]
+		Party.QBits[306] = Party.QBits[185]
+	elseif MV.Continent == 2 then
+		Party.QBits[718] = Party.QBits[181]
+		Party.QBits[719] = Party.QBits[180]
+		Party.QBits[720] = Party.QBits[184]
+		Party.QBits[721] = Party.QBits[183]
+		Party.QBits[722] = Party.QBits[182]
+		Party.QBits[723] = Party.QBits[185]
+	elseif MV.Continent == 3 then
+		Party.QBits[310] = Party.QBits[181]
+		Party.QBits[311] = Party.QBits[180]
+		Party.QBits[312] = Party.QBits[184]
+		Party.QBits[313] = Party.QBits[183]
+		Party.QBits[314] = Party.QBits[182]
+		Party.QBits[315] = Party.QBits[185]
+	end
+	-- Hired NPCs
+	vars.HiredNPC = {}
+	for k, v in pairs(vars.NPCFollowers) do
+		local npc = Game.NPC[v]
+		for i = 0, 5 do
+			if npc.Events[i] == 1512 or npc.Events[i] == 1511 then
+				table.insert(vars.HiredNPC, v)
+				vars.NPCFollowers[k] = nil
+				break
+			end
+		end
+	end
+	for i = #vars.NPCFollowers, 1, -1 do
+		if vars.NPCFollowers[i] == nil then
+			table.remove(vars.NPCFollowers, i)
+		end
+	end
+	-- Quest NPCs
+	MF.NPCRestore(32)
+	MF.NPCRestore(52)
+	MF.NPCRestore(53)
+	MF.NPCRestore(54)
+	MF.NPCRestore(55)
+	MF.NPCRestore(56)
+	MF.NPCRestore(1226)
+
+	vars.SaveGameFormatVersion = 21121800
 	Log(Merge.Log.Warning, "%s: savegame converted to SaveGameFormatVersion %d.",
 		LogId, vars.SaveGameFormatVersion)
 end
@@ -896,10 +952,18 @@ function events.BeforeLoadMap(WasInGame)
 					"%s: maximum class is %d, convert savegame.",
 					LogId, max_class_id)
 				convert_0_20040100()
+			else
+				-- Looks like new game start time can be bigger than 138240
+				if Game.Time <= 138245 then
+					Log(Merge.Log.Warning,
+						"%s: New game autosave, maximum class is %d, don't convert.",
+						LogId, max_class_id)
+					return
+				end
 			end
 		elseif vars.SaveGameFormatVersion == 20050900 then
 			Log(Merge.Log.Warning,
-				"%s: SaveGameFormatVersion is %d, don't convert savegame.",
+				"%s: SaveGameFormatVersion is %d.",
 				LogId, vars.SaveGameFormatVersion)
 		elseif vars.SaveGameFormatVersion < 20040100 then
 			Log(Merge.Log.Warning,
@@ -943,7 +1007,12 @@ function events.BeforeLoadMap(WasInGame)
 				LogId, vars.SaveGameFormatVersion)
 			convert_21072000_21101000()
 		end
-
+		if vars.SaveGameFormatVersion and vars.SaveGameFormatVersion < 21121800 then
+			Log(Merge.Log.Warning,
+				"%s: convert savegame from SaveGameFormatVersion %d.",
+				LogId, vars.SaveGameFormatVersion)
+			convert_21101000_21121800()
+		end
 	end
 end
 

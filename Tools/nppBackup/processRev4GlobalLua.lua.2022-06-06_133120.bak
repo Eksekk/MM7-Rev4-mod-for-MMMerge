@@ -377,7 +377,7 @@ local patches =
 	end]] ] = [[if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
 		return
 	end]],
-	[ [[evt.Set("DarkSkill", 136)]] ] = [[-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file]],
+	[ [[evt.Set("DarkSkill", 136)]] ] = [[-- evt.Set("DarkSkill", 136)]],
 	[ [[evt.Set("LightSkill", 136)]] ] = [[-- evt.Set("LightSkill", 136)]],
 	-- [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
 	-- [[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac

@@ -236,10 +236,10 @@
 233	placeholder	placeh26.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
 234	placeholder	placeh27.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
 235	placeholder	placeh28.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-236	The Tularean Caves	7d08orig.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 1-3	Elf Spearman	Elf Spearman	2	 1-3	AWyvern	AWyvern	1	 1-3	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
-237	Clanker's Laboratory	7d12orig.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 1-3	AGog	AGog	5	 1-3	Golem	Golem	3	 1-3	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
-238	Wromthrax's Cave	mdt09orig.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
-239	The Dragon Caves	mdt12orig.blv	0	0	20	672	7	15	20	10	6	10	100	0	0	ADragon	ADragon	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	31	CAVE	0	Repeatable map (needs special coding)		-
+236	The Tularean Caves	7d08orig.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 5-8	Elf Spearman	Elf Spearman	2	 3-5	AWyvern	AWyvern	1	 2-4	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
+237	Clanker's Laboratory	7d12orig.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 3-5	AGog	AGog	5	 4-6	Golem	Golem	3	 2-4	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
+238	Wromthrax's Cave	mdt09orig.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 3-5	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
+239	The Dragon Caves	mdt12orig.blv	0	0	20	672	7	15	20	10	6	10	100	0	0	ADragon	ADragon	5	 3-5	0	0	1	 1-3	0	0	1	 1-3	31	CAVE	0	Repeatable map (needs special coding)		-
 240	The Strange Temple	7nwcorig.blv	0	0	1	672	7	10	1	1	1	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
 	
 	

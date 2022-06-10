@@ -69,14 +69,16 @@ local vals = {
 	0, -6
 }
 
-if Merge.ModSettings.Rev4ForMergeChangeStatisticBreakpoints == 1 then
-	function events.GetStatisticEffect(t)
-		for i = 1, #vals - 2, 2 do
-			if t.Value >= vals[i] then
-				t.Result = vals[i + 1]
-				return
-			end
+function events.GetStatisticEffect(t)
+	local handled = false
+	for i = 1, #vals - 2, 2 do
+		if t.Value >= vals[i] then
+			t.Result = vals[i + 1]
+			handled = true
+			break
 		end
+	end
+	if not handled then
 		t.Result = vals[#vals]
 	end
 end
@@ -343,7 +345,7 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			evt.MoveToMap(t)
 		end
 	end
-	local oldPlacemonWromthrax, oldPlacemonMegaDragon
+	local oldPlacemon
 	function events.AfterLoadMap()
 		if Map.Name == "7out04.odm" then -- Tularean Forest
 			-- Tularean Caves
@@ -366,7 +368,7 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			evt.map[1] = function()
 				evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
 			end
-			oldPlacemonWromthrax = Game.PlaceMonTxt[117]
+			oldPlacemon = Game.PlaceMonTxt[117]
 			Game.PlaceMonTxt[117] = "Wromthrax"
 			
 			-- shut up Quixote
@@ -376,9 +378,6 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			-- Dragon Caves (Eofol) entrances
 			replaceEnterEvent(503, {X = -54, Y = 3470, Z = 1, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
 			replaceEnterEvent(504, {X = 19341, Y = 21323, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
-		elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-			oldPlacemonMegaDragon = Game.PlaceMonTxt[118]
-			Game.PlaceMonTxt[118] = "Mega-Dragon"
 		elseif Map.Name == "7d28.blv" then -- The Dragon's Lair (on Emerald Island)
 			-- remove monster spawning
 			Game.MapEvtLines:RemoveEvent(1)
@@ -397,9 +396,18 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 		end
 		function events.LeaveMap()
 			if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
-				Game.PlaceMonTxt[117] = oldPlacemonWromthrax
-			elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-				Game.PlaceMonTxt[118] = oldPlacemonMegaDragon
+				-- always make Wromthrax visible
+				Game.MapEvtLines:RemoveEvent(1)
+				evt.map[1].clear()
+				evt.map[1] = function()
+					evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
+				end
+				oldPlacemon = Game.PlaceMonTxt[117]
+				Game.PlaceMonTxt[117] = "Wromthrax"
+				
+				-- shut up Quixote
+				Game.MapEvtLines:RemoveEvent(376)
+				evt.map[376].clear()
 			end
 		end
 	end
@@ -433,36 +441,6 @@ isEasy = function() return difficulty == const.Difficulty.Easy end
 isMedium = function() return difficulty == const.Difficulty.Medium end
 isHard = function() return difficulty == const.Difficulty.Hard end
 
-if not isEasy() then
-	if Merge.ModSettings.Rev4ForMergeNerfDamage == 1 then
-		function events.CalcDamageToMonster(t)
-			-- TODO: WhoHitMonster, if monster then don't reduce damage
-			-- TODO: <del>anything can hit oozes for 1 now</del> (same probably applies with medusas and spells)
-			local m = 1
-			-- handle monsters immune to t.DamageKind
-			if t.Monster.Resistances[t.DamageKind] and t.Monster.Resistances[t.DamageKind] == const.MonsterImmune then
-				m = 0
-			end
-			t.Result = math.max(m, isMedium() and math.round(t.Result * 0.85) or math.round(t.Result * 0.70))
-		end
-	end
-	
-	-- reduce gold gains from monsters and gold piles
-	if Merge.ModSettings.Rev4ForMergeNerfGoldGains == 1 then
-		function events.BeforeGotGold(t)
-			t.Amount = isMedium() and math.round(t.Amount * 0.75) or math.round(t.Amount * 0.50)
-		end
-	end
-end
-
--- double the gold gains from monsters, they're not enough IMO, now killing monsters will be worth it
--- (larger values used used because previous difficulty restriction reduces gold from monsters too, and I'm not skilled enough to make it work only with gold piles)
-if Merge.ModSettings.Rev4ForMergeBoostCorpseGold == 1 then
-	function events.PickCorpse(t)
-		t.Monster.TreasureDiceCount = math.round(t.Monster.TreasureDiceCount * (isEasy() and 2 or (isMedium() and (8 / 3) or 4)))
-	end
-end
-
 function refundSkillpoints(skill, freeSkillLevel)
 	for _, pl in Party do
 		local s, m = SplitSkill(pl.Skills[skill])
@@ -476,25 +454,21 @@ end
 
 local reqSkill = {1, 4, 7, 10}
 function giveFreeSkill(skill, level, mastery, check)
-	if Merge.ModSettings.Rev4ForMergeNerfSkillBoosts == 1 then
-		if isMedium then
-			level = math.max(reqSkill[mastery], level - 1)
-			--level = math.max(1, level - 1)
-		elseif isHard then
-			level = math.max(reqSkill[mastery], level - 3)
-			--level = math.max(1, level - 3)
-		end
+	if isMedium then
+		level = math.max(reqSkill[mastery], level - 1)
+		--level = math.max(1, level - 1)
+	elseif isHard then
+		level = math.max(reqSkill[mastery], level - 3)
+		--level = math.max(1, level - 3)
 	end
 	local benefit = false
-	if Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1 then
-		refundSkillpoints(skill, level)
-	end
+	refundSkillpoints(skill, level)
 	for i, pl in Party do
 		if check and type(check) == "function" and not check(pl) then
 			goto continue
 		end
 		local s, m = SplitSkill(pl.Skills[skill])
-		if level > s or mastery > m or s >= 2 then
+		if level > s or mastery > m then
 			benefit = true
 			evt[i].Add("Experience", 0) -- make sparkle sound and animation
 			pl.Skills[skill] = JoinSkill(math.max(level, s), math.max(m, mastery))
@@ -534,7 +508,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group)
 		t.Z, t.z = z, z
 		t.Count, t.count = count, count
 		t.PowerChances, t.powerChances = powerChances, powerChances
-		t.Radius, t.radius = radius, radius
+		r.Radius, t.radius = radius, radius
 		t.Group, t.group = group, group
 	end
 	t.count = t.count or "1-3"
@@ -549,14 +523,14 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group)
 	assert(t.monster and t.x and t.y and t.z and true or nil)
 	local class = (t.monster + 2):div(3)
 	
-	local min, max = getRange(t.count)
+	local min, max = getRange(count)
 	local toCreate = random(min, max)
 	
 	for i = 1, toCreate do
 		-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
 		local angle = random() * math.pi * 2
-		local xadd = math.cos(angle) * random(1, t.radius)
-		local yadd = math.sin(angle) * random(1, t.radius)
+		local xadd = math.cos(angle) * random(1, radius)
+		local yadd = math.sin(angle) * random(1, radius)
 		
 		local power = nil
 		local rand = random(1, 100)
@@ -572,99 +546,18 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group)
 			power = 0
 		end
 		
-		table.insert(summoned, (SummonMonster(class * 3 - 2 + power, t.x + xadd, t.y + yadd, t.z, true)))
-		summoned[#summoned].Group = t.group or 255
+		table.insert(summoned, (SummonMonster(class * 3 - 2 + power, x + xadd, y + yadd, z, true)))
+		if t.group then
+			summoned[#summoned].Group = t.group
+		end
 	end
 end
-
-function pseudoSpawnpointItem(item, x, y, z, count, radius)
-	local t = {}
-	if type(item) == "table" then
-		t = item -- user passed table with arguments instead of item
-	else
-		t.Item, t.item = item, item
-		t.X, t.x = x, x
-		t.Y, t.y = y, y
-		t.Z, t.z = z, z
-		t.Count, t.count = count, count
-		r.Radius, t.radius = radius, radius
-	end
-	t.count = t.count or 1
-	t.radius = t.radius or 64
-	assert(t.item and t.x and t.y and t.z and true or nil)
-	
-	local min, max
-	if type(t.count) == "number" then
-		min, max = t.count, t.count
-	else
-		min, max = getRange(t.count)
-	end
-	local toCreate = random(min, max)
-	
-	for i = 1, toCreate do
-		-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
-		local angle = random() * math.pi * 2
-		local xadd = math.cos(angle) * random(1, t.radius)
-		local yadd = math.sin(angle) * random(1, t.radius)
-		
-		SummonItem(item, t.x + xadd, t.y + yadd, t.z, nil)
-	end
-end
-
 function events.LeaveMap()
-	--mapvars.Summoned = summoned
+	mapvars.Summoned = summoned
 	summoned = {}
 end
---[[function events.LoadMap()
+function events.LoadMap()
 	if mapvars.Summoned then
 		summoned = mapvars.Summoned
 	end
-end]]
-
-function pseudoSpawnpointPrint()
-	print(("pseudoSpawnpoint{monster = 1, x = %d, y = %d, z = %d, count = isMedium() and \"1-3\" or \"3-5\", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 64}"):format(Party.X, Party.Y, Party.Z))
-end
-
-function pseudoSpawnpointItemPrint()
-	print(("pseudoSpawnpointItem{item = 1, x = %d, y = %d, z = %d, count = 1, radius = 64}"):format(Party.X, Party.Y, Party.Z))
-end
-
--- spawn monsters
-function events.LoadMap()
-	if difficulty == const.Difficulty.Easy or Merge.ModSettings.Rev4ForMergeExtraMonsterSpawns ~= 1 then
-		mapvars.Rev4ForMergeMonstersSpawned = true
-		return
-	end
-	if not mapvars.Rev4ForMergeMonstersSpawned then
-		if Map.Name == "7out03.odm" then -- Erathia
-			-- soldiers, idea from MM7 Refilled
-			pseudoSpawnpoint{monster = 253, x = 7187, y = -836, z = 865, count = isMedium() and "10-15" or "20-30", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
-		elseif Map.Name == "7out04.odm" then -- Tularean Forest
-			-- dragonflies near contest
-			pseudoSpawnpoint{monster = 226, x = 10912, y = 1462, z = 2813, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
-			
-			-- dragonflies near power chest
-			pseudoSpawnpoint{monster = 226, x = 5679, y = 4262, z = 1407, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
-			
-			-- water elementals near high magic presence place
-			pseudoSpawnpoint{monster = 244, x = 15743, y = -10792, z = 60, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
-			
-			-- water elementals near shoreline with good reagents
-			pseudoSpawnpoint{monster = 244, x = -15629, y = 11100, z = 1151, count = isMedium() and "3-5" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 4096}
-			
-			-- wyverns near resistance altar
-			pseudoSpawnpoint{monster = 424, x = -20489, y = -19134, z = 2982, count = isMedium() and "3-6" or "6-10", powerChances = isMedium() and {60, 40, 0} or {30, 70, 0}, radius = 2048}
-			
-			-- rocs near obelisk with ores
-			pseudoSpawnpoint{monster = 391, x = -9229, y = 3108, z = 2289, count = isMedium() and "2-4" or "4-7", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
-			
-			-- griffins near Clanker's Lab
-			pseudoSpawnpoint{monster = 280, x = 12851, y = 12879, z = 274, count = isMedium() and "5-7" or "8-10", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
-		elseif Map.Name == "7out13.odm" then -- Tatalia
-		-- Hydras near obelisk
-			pseudoSpawnpoint{monster = 286, x = -19083, y = 17025, z = 337, count = isMedium() and "2-3" or "3-5", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
-		end
-		evt.SetMonGroupBit{NPCGroup = 255, Bit = const.MonsterBits.Hostile, On = true}
-	end
-	mapvars.Rev4ForMergeMonstersSpawned = true
 end

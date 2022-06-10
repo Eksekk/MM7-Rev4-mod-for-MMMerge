@@ -495,7 +495,11 @@ end]],
 "All")
 	if not evt.Cmp{"QBits", Value = 330} then         -- 1-time EI temple
 		evt.Set{"QBits", Value = 330}         -- 1-time EI temple
-		giveFreeSkill(const.Skills.Merchant, 6, const.Expert)
+		evt.ForPlayer("All").Add("Experience", 0) -- make sparkle sound and animation
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Merchant])
+			pl.Skills[const.Skills.Merchant] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
 end]]}
@@ -610,7 +614,10 @@ end]], ""},
 end]], [[evt.map[10] = function()
 	if not evt.Cmp{"QBits", Value = 846} then         -- 1-time stone city
 		evt.Set{"QBits", Value = 846}         -- 1-time stone city
-		giveFreeSkill(const.Skills.Perception, 6, const.Expert)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Perception])
+			pl.Skills[const.Skills.Perception] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 	end
 end]]},
 	-- Celeste
@@ -653,7 +660,11 @@ end
 end]], [[evt.map[37] = function()
 	if not evt.Cmp{"QBits", Value = 829} then         -- 1-time Castle Harm
 		evt.Set{"QBits", Value = 829}         -- 1-time Castle Harm
-		giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Bodybuilding])
+			pl.Skills[const.Skills.Bodybuilding] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
+		end
 	end
 end]],
 	-- script processing fix
@@ -685,7 +696,11 @@ Bit = 0x0, On = false}]],
 end]], [[evt.map[10] = function()
 	if not evt.Cmp{"QBits", Value = 847} then         -- BDJ 1
 		evt.Set{"QBits", Value = 847}         -- BDJ 1
-		giveFreeSkill(const.Skills.Learning, 6, const.Expert)
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Learning])
+			pl.Skills[const.Skills.Learning] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 	end
 end]]},
 	-- Emerald Island
@@ -958,7 +973,11 @@ end]],
 end]], [[evt.map[37] = function()
 	if not evt.Cmp{"QBits", Value = 843} then         -- 1-time Erathia
 		evt.Set{"QBits", Value = 843}         -- 1-time Erathia
-		giveFreeSkill(const.Skills.IdentifyItem, 6, const.Expert)
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyItem])
+			pl.Skills[const.Skills.IdentifyItem] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
+		end
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
 end]],
@@ -1060,7 +1079,11 @@ end]], [[evt.map[10] = function()
 "All")
 	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
 		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
-		giveFreeSkill(const.Skills.Repair, 7, const.Expert)
+		evt.All.Add("Experience", 0)
+		for _, pl in Party do
+			local s, m = SplitSkill(pl.Skills[const.Skills.Repair])
+			pl.Skills[const.Skills.Repair] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
+		end
 	end
 end]],
 	-- fix evt.SpeakNPC

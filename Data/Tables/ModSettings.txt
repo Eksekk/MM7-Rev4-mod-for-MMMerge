@@ -45,17 +45,11 @@ ScrollChanceGM	100
 ScrollChanceCursedGM	50
 Scripts.EnableVisibleGauntlets	0
 Scripts.EnableDruidSummoner	0
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
-Placeholder
 Rev4ForMergeActivateExtraQuests	1
 UseOriginalGenieLamps	1
 Rev4ForMergeDuplicateModdedDungeons	1
-Rev4ForMergeDifficulty	0
+Rev4ForMergeDifficulty	2
+Rev4ForMergeRefundSkillpoints	1
+Rev4ForMergeNerfMeditationSPRegen	1
+Rev4ForMergeNerfDamage	1
+Rev4ForMergeNerfGoldGains	1

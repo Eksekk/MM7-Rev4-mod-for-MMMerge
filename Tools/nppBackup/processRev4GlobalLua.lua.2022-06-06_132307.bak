@@ -364,7 +364,8 @@ local patches =
 	if evt.Cmp("FireSkill", 1) then
 		evt.Set("FireSkill", 49152)
 		evt.Set("FireSkill", 72)
-	end]] ] = [[giveFreeSkill(const.Skills.Fire, 8, const.Expert, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 end)]],
+	end]] ] = [[giveFreeSkill(const.Skills.Fire, 8, const.Expert, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 end)
+end]],
 -- don't need sparkles, as later there's evt.Add("Experience")
 [ [[if not evt.Cmp("QBits", 807) then         -- Water
 		if not evt.Cmp("QBits", 808) then         -- Fire
@@ -377,8 +378,17 @@ local patches =
 	end]] ] = [[if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
 		return
 	end]],
-	[ [[evt.Set("DarkSkill", 136)]] ] = [[-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file]],
-	[ [[evt.Set("LightSkill", 136)]] ] = [[-- evt.Set("LightSkill", 136)]],
+	[ [[evt.Set("DarkSkill", 136)]] ] = [[
+if evt.Player == 5 then
+	for _, pl in Party do
+		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+	end
+else
+	local pl = Party[evt.Player]
+	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
+	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
+end]],
 	-- [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
 	-- [[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
 	-- evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]],

@@ -404,8 +404,7 @@ for from, to in pairs(patches) do
 	local done = 0
 	content, done = content:replace(from, to)
 	if done == 0 then
-		error("Replacement not performed! Part of what to replace:\n" . from:sub(1, math.min(from:len(), 100)))
-	end
+		error("Replacement not performed! Part of what to replace:\n" . from:sub(1, math.min(from:len(), 100
 end
 
 local genericEvtRegex = "evt%.%w-[%(%{].-[%)%}]"

@@ -1,3 +1,5 @@
+local MS = Merge.ModSettings
+
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
 function events.CanCastTownPortal(t)
 	if t.CanCast and Merge.Functions.GetContinent() == 2 then -- Antagarich
@@ -414,24 +416,10 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 
 	-- fort riverstride delete plans item
 
-	-- difficulty monster damage, skill barrels skill level, selling prices, deleting strong items (randomize items in removed chest's contents), new spawns, max npcs hired in the same time
+	-- difficulty monster damage, skill barrels skill level, selling prices, deleting strong items (randomize items in removed chest's contents), new spawns, max npcs hired at the same time
 	-- DARK AND LIGHT RESISTANCE! sources which I can probably program into the game: altars in Tularean Forest and Deyja (one light, other dark), cauldrons, day of protection, elemental totems, cleric totems, harmondale prison phasing cauldron
 	-- GM shield reduce damage by 25% (elemental mod)
 end
-
--- difficulty
-const.Difficulty =
-{
-	Easy = 0,
-	Medium = 1,
-	Hard = 2
-}
-
-modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
-difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
-isEasy = function() return difficulty == const.Difficulty.Easy end
-isMedium = function() return difficulty == const.Difficulty.Medium end
-isHard = function() return difficulty == const.Difficulty.Hard end
 
 if not isEasy() then
 	if Merge.ModSettings.Rev4ForMergeNerfDamage == 1 then
@@ -455,13 +443,13 @@ if not isEasy() then
 	end
 end
 
--- double the gold gains from monsters, they're not enough IMO, now killing monsters will be worth it
--- (larger values used used because previous difficulty restriction reduces gold from monsters too, and I'm not skilled enough to make it work only with gold piles)
+--[[ double the gold gains from monsters, they're not enough IMO, now killing monsters will be worth it
+-- (larger values used because previous difficulty restriction reduces gold from monsters too, and I'm not skilled enough to make it work only with gold piles)
 if Merge.ModSettings.Rev4ForMergeBoostCorpseGold == 1 then
 	function events.PickCorpse(t)
 		t.Monster.TreasureDiceCount = math.round(t.Monster.TreasureDiceCount * (isEasy() and 2 or (isMedium() and (8 / 3) or 4)))
 	end
-end
+end]]
 
 function refundSkillpoints(skill, freeSkillLevel)
 	for _, pl in Party do
@@ -477,10 +465,10 @@ end
 local reqSkill = {1, 4, 7, 10}
 function giveFreeSkill(skill, level, mastery, check)
 	if Merge.ModSettings.Rev4ForMergeNerfSkillBoosts == 1 then
-		if isMedium then
+		if isMedium() then
 			level = math.max(reqSkill[mastery], level - 1)
 			--level = math.max(1, level - 1)
-		elseif isHard then
+		elseif isHard() then
 			level = math.max(reqSkill[mastery], level - 3)
 			--level = math.max(1, level - 3)
 		end
@@ -494,7 +482,7 @@ function giveFreeSkill(skill, level, mastery, check)
 			goto continue
 		end
 		local s, m = SplitSkill(pl.Skills[skill])
-		if level > s or mastery > m or s >= 2 then
+		if level > s or mastery > m or (s >= 2 and Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1) then
 			benefit = true
 			evt[i].Add("Experience", 0) -- make sparkle sound and animation
 			pl.Skills[skill] = JoinSkill(math.max(level, s), math.max(m, mastery))
@@ -506,127 +494,8 @@ function giveFreeSkill(skill, level, mastery, check)
 	end
 end
 
-evt.global[128] = function()
+evt.global[878] = function()
 	giveFreeSkill(const.Skills.Dark, 8, const.Master, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 or pl.Skills[const.Skills.Body] ~= 0 end)
-end
-
-local lookupTable = {}
-local function getRange(str)
-	if lookupTable[str] then return lookupTable[str][1], lookupTable[str][2] end
-	local min, max = str:match("(%d+)%-(%d+)")
-	min = tonumber(min)
-	max = tonumber(max)
-	assert(min ~= nil and max ~= nil)
-	lookupTable[str] = {min, max}
-	return min, max
-end
-
-local random = math.random
-local summoned = {}
-function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group)
-	local t = {}
-	if type(monster) == "table" then
-		t = monster -- user passed table with arguments instead of monster
-	else
-		t.Monster, t.monster = monster, monster
-		t.X, t.x = x, x
-		t.Y, t.y = y, y
-		t.Z, t.z = z, z
-		t.Count, t.count = count, count
-		t.PowerChances, t.powerChances = powerChances, powerChances
-		t.Radius, t.radius = radius, radius
-		t.Group, t.group = group, group
-	end
-	t.count = t.count or "1-3"
-	assert(type(t.count) == "string")
-	t.powerChances = t.powerChances or {34, 33, 33}
-	for i, v in ipairs(t.powerChances) do
-		if v == 0 then
-			t.powerChances[i] = nil
-		end
-	end
-	t.radius = t.radius or 64
-	assert(t.monster and t.x and t.y and t.z and true or nil)
-	local class = (t.monster + 2):div(3)
-	
-	local min, max = getRange(t.count)
-	local toCreate = random(min, max)
-	
-	for i = 1, toCreate do
-		-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
-		local angle = random() * math.pi * 2
-		local xadd = math.cos(angle) * random(1, t.radius)
-		local yadd = math.sin(angle) * random(1, t.radius)
-		
-		local power = nil
-		local rand = random(1, 100)
-		if rand < t.powerChances[1] or (not t.powerChances[2] and not t.powerChances[3]) then
-			power = 0
-		elseif t.powerChances[2] and rand < t.powerChances[2] + t.powerChances[1] or (not t.powerChances[1] and not t.powerChances[3]) then
-			power = 1
-		elseif t.powerChances[3] then
-			power = 2
-		elseif t.powerChances[2] then
-			power = 1
-		else
-			power = 0
-		end
-		
-		table.insert(summoned, (SummonMonster(class * 3 - 2 + power, t.x + xadd, t.y + yadd, t.z, true)))
-		summoned[#summoned].Group = t.group or 255
-	end
-end
-
-function pseudoSpawnpointItem(item, x, y, z, count, radius)
-	local t = {}
-	if type(item) == "table" then
-		t = item -- user passed table with arguments instead of item
-	else
-		t.Item, t.item = item, item
-		t.X, t.x = x, x
-		t.Y, t.y = y, y
-		t.Z, t.z = z, z
-		t.Count, t.count = count, count
-		r.Radius, t.radius = radius, radius
-	end
-	t.count = t.count or 1
-	t.radius = t.radius or 64
-	assert(t.item and t.x and t.y and t.z and true or nil)
-	
-	local min, max
-	if type(t.count) == "number" then
-		min, max = t.count, t.count
-	else
-		min, max = getRange(t.count)
-	end
-	local toCreate = random(min, max)
-	
-	for i = 1, toCreate do
-		-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
-		local angle = random() * math.pi * 2
-		local xadd = math.cos(angle) * random(1, t.radius)
-		local yadd = math.sin(angle) * random(1, t.radius)
-		
-		SummonItem(item, t.x + xadd, t.y + yadd, t.z, nil)
-	end
-end
-
-function events.LeaveMap()
-	--mapvars.Summoned = summoned
-	summoned = {}
-end
---[[function events.LoadMap()
-	if mapvars.Summoned then
-		summoned = mapvars.Summoned
-	end
-end]]
-
-function pseudoSpawnpointPrint()
-	print(("pseudoSpawnpoint{monster = 1, x = %d, y = %d, z = %d, count = isMedium() and \"1-3\" or \"3-5\", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 64}"):format(Party.X, Party.Y, Party.Z))
-end
-
-function pseudoSpawnpointItemPrint()
-	print(("pseudoSpawnpointItem{item = 1, x = %d, y = %d, z = %d, count = 1, radius = 64}"):format(Party.X, Party.Y, Party.Z))
 end
 
 -- spawn monsters
@@ -638,12 +507,38 @@ function events.LoadMap()
 	if not mapvars.Rev4ForMergeMonstersSpawned then
 		if Map.Name == "7out03.odm" then -- Erathia
 			-- soldiers, idea from MM7 Refilled
-			pseudoSpawnpoint{monster = 253, x = 7187, y = -836, z = 865, count = isMedium() and "10-15" or "20-30", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
+			pseudoSpawnpoint{monster = 253, x = 7187, y = -836, z = 865, count = isMedium() and "10-15" or "20-30", powerChances = isMedium() and {70, 20, 10} or {50, 25, 25}, radius = 1024, group = 57}
+			
+			-- leather fighters, idea once again from MM7 Refilled
+			pseudoSpawnpoint{monster = 256, x = 5756, y = -7091, z = 928, count = isMedium() and "5-8" or "10-15", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
+			
+			-- plate fighters
+			pseudoSpawnpoint{monster = 259, x = 3687, y = -16928, z = 1006, count = isMedium() and "2-3" or "4-6", powerChances = isMedium() and {70, 30, 0} or {60, 30, 10}, radius = 4096, group = 57}
+			
+			-- gogs near luck altar
+			pseudoSpawnpoint{monster = 274, x = 14529, y = -16490, z = 968, count = isMedium() and "5-9" or "8-12", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
+			
+			-- griffins near contest
+			pseudoSpawnpoint{monster = 280, x = 21997, y = -10825, z = 3104, count = isMedium() and "3-5" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
+			
+			-- goblins near harmondale road (idea from MM7 Refilled)
+			pseudoSpawnpoint{monster = 271, x = 19654, y = 6288, z = 3936, count = isMedium() and "8-12" or "11-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
+			
+			-- thieves near bandits' caverns (idea from MM7 Refilled)
+			pseudoSpawnpoint{monster = 406, x = 18162, y = 6898, z = 2901, count = isMedium() and "6-9" or "8-13", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
+			
+			-- monks aiding robbers (idea also from MM7 Refilled)
+			pseudoSpawnpoint{monster = 304, x = 19412, y = 13127, z = 3994, count = isMedium() and "5-8" or "9-13", powerChances = isMedium() and {70, 25, 5} or {55, 35, 10}, radius = 2048, group = 57}
+			
+			-- powerful plate fighter guarding fort riverstride, idea as usual from MM7 Refilled
+			-- pseudoSpawnpoint{monster = 259, x = 10391, y = -1963, z = 1571, count = isMedium() and "1-1" or "2-2", powerChances = {0, 0, 100}, radius = 64, group = 57}
+			
+			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = true}
 		elseif Map.Name == "7out04.odm" then -- Tularean Forest
 			-- dragonflies near contest
 			pseudoSpawnpoint{monster = 226, x = 10912, y = 1462, z = 2813, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
 			
-			-- dragonflies near power chest
+			-- dragonflies near chest with very good items
 			pseudoSpawnpoint{monster = 226, x = 5679, y = 4262, z = 1407, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
 			
 			-- water elementals near high magic presence place
@@ -653,18 +548,258 @@ function events.LoadMap()
 			pseudoSpawnpoint{monster = 244, x = -15629, y = 11100, z = 1151, count = isMedium() and "3-5" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 4096}
 			
 			-- wyverns near resistance altar
-			pseudoSpawnpoint{monster = 424, x = -20489, y = -19134, z = 2982, count = isMedium() and "3-6" or "6-10", powerChances = isMedium() and {60, 40, 0} or {30, 70, 0}, radius = 2048}
+			pseudoSpawnpoint{monster = 424, x = -20489, y = -19134, z = 2982, count = isMedium() and "2-5" or "3-6", powerChances = isMedium() and {60, 40, 0} or {30, 70, 0}, radius = 2048}
 			
 			-- rocs near obelisk with ores
 			pseudoSpawnpoint{monster = 391, x = -9229, y = 3108, z = 2289, count = isMedium() and "2-4" or "4-7", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
 			
 			-- griffins near Clanker's Lab
-			pseudoSpawnpoint{monster = 280, x = 12851, y = 12879, z = 274, count = isMedium() and "5-7" or "8-10", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
+			pseudoSpawnpoint{monster = 280, x = 12851, y = 12879, z = 274, count = isMedium() and "10-15" or "16-21", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
+		elseif Map.Name == "7out05.odm" then -- Deyja
+			-- wights near town and chest
+			pseudoSpawnpoint{monster = 421, x = -8863, y = 19828, z = 3073, count = isMedium() and "3-5" or "4-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512}
+			
+			-- same, but near golem chest
+			pseudoSpawnpoint{monster = 421, x = 22048, y = 8490, z = 3165, count = isMedium() and "3-5" or "4-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512}
+			
+			-- necros
+			pseudoSpawnpoint{monster = 307, x = -6041, y = -12719, z = 2326, count = isMedium() and "3-5" or "5-7", powerChances = isMedium() and {70, 30, 0} or {50, 50, 0}, radius = 4096}
+		elseif Map.Name == "7out06.odm" then -- Bracada Desert
+			if isHard() then
+				-- Titans near lamps, idea from MM7 Reimagined
+				pseudoSpawnpoint{monster = 409, x = -20563, y = -11665, z = 969, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
+				pseudoSpawnpoint{monster = 409, x = -6940, y = -21192, z = 1, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
+				pseudoSpawnpoint{monster = 409, x = 19043, y = -9014, z = 148, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
+			end
+			-- oozes near dwarf mines, idea from MM7 Refilled
+			pseudoSpawnpoint{monster = 310, x = 21484, y = 13715, z = 0, count = isMedium() and "5-8" or "8-12", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 61}
+		elseif Map.Name == "out09.odm" then -- Evenmorn Island
+			-- acolytes of the moon near dark temple entrance
+			pseudoSpawnpoint{monster = 214, x = 8077, y = -4231, z = 21, count = isMedium() and "3-4" or "4-6", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 128, group = 56}
+			-- and near druid circle (idea from MM7 Reimagined)
+			pseudoSpawnpoint{monster = 214, x = -13659, y = 3835, z = 172, count = isMedium() and "3-4" or "4-6", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 128, group = 56}
+			-- fire elementals near high magic point
+			-- yes, fire elementals are guarding a body of water, what's so strange about it? :D
+			pseudoSpawnpoint{monster = 238, x = -5341, y = -344, z = 917, count = isMedium() and "3-5" or "5-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 128, group = 56, exactZ = true}
+			
+			-- clerics near sun temple (they fight with undead intentionally)
+			pseudoSpawnpoint{monster = 217, x = -5241, y = 9495, z = 289, count = isMedium() and "5-7" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
+			
+			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}
+		elseif Map.Name == "out10.odm" then -- Nighon
+			-- dragons near... something
+			pseudoSpawnpoint{monster = 223, x = 19587, y = 4873, z = 1793, count = "2-3", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
+			
+			-- dragons on the sandy area
+			pseudoSpawnpoint{monster = 223, x = 18166, y = 18614, z = 1087, count = "2-3", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 56}
+			pseudoSpawnpoint{monster = 223, x = 11002, y = 15729, z = 1034, count = "2-3", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 56}
+			
+			-- dragons near three chests
+			pseudoSpawnpoint{monster = 223, x = 20279, y = 9351, z = 4724, count = "2-3", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 56}
+			
+			-- air elementals near int/per altar
+			pseudoSpawnpoint{monster = 232, x = -18517, y = -17545, z = 1527, count = isMedium() and "4-8" or "7-11", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
+			
+			-- minos near labyrinth entrance
+			pseudoSpawnpoint{monster = 301, x = -10800, y = 20376, z = 3054, count = isMedium() and "4-8" or "7-11", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 56}
+		elseif Map.Name == "out11.odm" then -- Barrow Downs
+			-- wights near might/endurance altar
+			pseudoSpawnpoint{monster = 421, x = -18478, y = -19643, z = 864, count = isMedium() and "2-4" or "5-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
+			
 		elseif Map.Name == "7out13.odm" then -- Tatalia
-		-- Hydras near obelisk
+			-- Hydras near obelisk, idea from MM7 Reimagined
 			pseudoSpawnpoint{monster = 286, x = -19083, y = 17025, z = 337, count = isMedium() and "2-3" or "3-5", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
+			pseudoSpawnpoint{monster = 286, x = -11426, y = 16821, z = 2206, count = isMedium() and "2-3" or "3-5", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048}
+			
+			-- ghosts and skellies near tidewater caverns
+			pseudoSpawnpoint{monster = 268, x = -17438, y = 2611, z = 369, count = isMedium() and "5-8" or "7-13", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 4096}
+			pseudoSpawnpoint{monster = 397, x = -17438, y = 2611, z = 369, count = isMedium() and "5-8" or "7-13", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 4096}
+			
+			-- earth elementals near meteorite crater, though those with rock blast won't spawn, because it's OP when used by monsters
+			pseudoSpawnpoint{monster = 235, x = 7309, y = 6416, z = 2426, count = isMedium() and "2-4" or "5-7", powerChances = isMedium() and {60, 0, 40} or {40, 0, 60}, radius = 1024}
+			
+			-- light elementals near other reagent area
+			pseudoSpawnpoint{monster = 241, x = 10437, y = 19770, z = 2617, count = isMedium() and "2-4" or "4-6", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 1024}
+			
+			-- vampires on the shore
+			pseudoSpawnpoint{monster = 415, x = -6591, y = 5825, z = 54, count = isMedium() and "2-4" or "3-5", powerChances = isMedium() and {70, 25, 5} or {50, 30, 20}, radius = 64}
+			
+			-- warlocks near statuette shrine, idea from MM7 Reimagined
+			pseudoSpawnpoint{monster = 418, x = -12430, y = -20934, z = 224, count = isMedium() and "5-9" or "8-12", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024}
+		elseif Map.Name == "out14.odm" then -- Avlee
+			-- earth elementals near good items
+			pseudoSpawnpoint{monster = 235, x = -8683, y = -11027, z = 151, count = isMedium() and "2-4" or "5-7", powerChances = isMedium() and {60, 0, 40} or {40, 0, 60}, radius = 1024}
 		end
+		
 		evt.SetMonGroupBit{NPCGroup = 255, Bit = const.MonsterBits.Hostile, On = true}
 	end
 	mapvars.Rev4ForMergeMonstersSpawned = true
 end
+
+-- remove most free endgame items
+if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 then
+	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
+	local function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves item look on map unchanged
+		if Merge.ModSettings.Rev4ForMergeRandomizeRemovedItems == 1 then
+			local obj = Map.Objects[id]
+			obj.Item:Randomize(level, typ)
+			obj.Type = Game.ItemsTxt[obj.Item.Number].SpriteIndex
+			obj.TypeIndex = Game.ItemsTxt[obj.Item.Number].SpriteIndex
+		else
+			Map.RemoveObject(id)
+		end
+	end
+	
+	function events.AfterLoadMap()
+		if not mapvars.Rev4ForMergeEndgameItemsRemoved then
+			if Map.Name == "7out01.odm" then -- Emerald Island
+			--[[0	1448	Horseshoe
+				1	856	Supreme Flail
+				2	1001	Gold
+				3	807	Duelist Blade
+				4	1012	Poppysnaps
+				5	845	Longbow
+				6	1012	Poppysnaps
+				7	1007	Phirna Root
+				8	872	Royal Leather
+				9	1448	Horseshoe
+				10	848	Griffin Bow
+				11	253	Divine Cure
+				12	1448	Horseshoe--]]
+				for i, v in ipairs({{id = 3, level = 2, itemType = const.ItemType.Sword}, {id = 10, level = 2, itemType = const.ItemType.Bow}}) do
+					randomizeAndSetCorrectType(v.id, v.level, v.itemType)
+				end
+				if isHard() then
+					for i, v in ipairs({{id = 1, level = 2, itemType = const.ItemType.Mace}}) do
+						randomizeAndSetCorrectType(v.id, v.level, v.itemType)
+					end
+					--Map.Objects[2].Item.Bonus2 = 700 -- down from 1700
+				end
+			elseif Map.Name == "7out05.odm" then -- Deyja
+			--[[36	267	Pure Endurance
+				37	268	Pure Personality]]
+				for i, v in ipairs({{id = 37, level = 3, itemType = const.ItemType.Potion}}) do
+					randomizeAndSetCorrectType(v.id, v.level, v.itemType)
+				end
+				if isHard() then
+					for i, v in ipairs({{id = 36, level = 3, itemType = const.ItemType.Potion}}) do
+						randomizeAndSetCorrectType(v.id, v.level, v.itemType)
+					end
+				end
+			end
+			-- tatalia has no rev4 items (except required quest item)
+		end
+		mapvars.Rev4ForMergeEndgameItemsRemoved = true
+	end
+else
+	function events.AfterLoadMap()
+		mapvars.Rev4ForMergeEndgameItemsRemoved = true
+	end
+end
+
+-- make mana and health-restoring items stack
+function events.RegenTick()
+	local manaSpcItems = {}
+end
+
+function events.GetShopSellPriceMul(t)
+	if isEasy() then return end
+	t.Multiplier = isMedium() and 0.75 or 0.5
+end
+
+-- boost ID Monster
+-- always show full info, even on novice (if you have required skill level)
+--[[if MS.Rev4ForMergeBuffIdentifyMonster == 1 then
+	function events.GetSkill(t)
+		if t.Skill == const.Skills.IdentifyMonster then
+			local s, m = SplitSkill(t.Player.Skills[const.Skills.IdentifyMonster])
+			t.Result = s > 0 and JoinSkill(s, const.GM) or 0
+		end
+	end
+end]]
+
+-- boost 
+
+-- HookData
+--[[
+AC = false,
+	AF = false,
+	AH = 0,
+	AL = 1,
+	AX = 1,
+	BH = 29,
+	BL = 216,
+	BX = 7640,
+	CF = false,
+	CH = 0,
+	CL = 100,
+	CX = 100,
+	DF = false,
+	DH = 0,
+	DI = 37,
+	DL = 0,
+	DX = 0,
+	EAX = 1,
+	EBP = 1698124,
+	EBX = 11673048,
+	ECX = 100,
+	EDI = 37,
+	EDX = 0,
+	EFLAGS = 518,
+	ESI = 7,
+	ESP = 1698120,
+	FLAGS = 518,
+	ID = false,
+	IF = true,
+	NT = false,
+	OF = false,
+	PF = true,
+	RF = false,
+	SF = false,
+	SI = 7,
+	TF = false,
+	VIF = false,
+	VIP = false,
+	VM = false,
+	ZF = false,
+	ac = false,
+	af = false,
+	ah = 0,
+	al = 1,
+	ax = 1,
+	bh = 29,
+	bl = 216,
+	bx = 7640,
+	cf = false,
+	ch = 0,
+	cl = 100,
+	cx = 100,
+	df = false,
+	dh = 0,
+	di = 37,
+	dl = 0,
+	dx = 0,
+	eax = 1,
+	ebp = 1698124,
+	ebx = 11673048,
+	ecx = 100,
+	edi = 37,
+	edx = 0,
+	eflags = 518,
+	esi = 7,
+	esp = 1698120,
+	flags = 518,
+	id = false,
+	if = true,
+	nt = false,
+	of = false,
+	pf = true,
+	rf = false,
+	sf = false,
+	si = 7,
+	tf = false,
+	vif = false,
+	vip = false,
+	vm = false,
+	zf = false
+--]]

@@ -2,12 +2,12 @@ local spellsDamage =
 {
 	[2] = -- Fire Bolt
 	{
-		DamageBase = 4,
+		DamageBase = 6,
 		DamagePerSkill = "1-4"
 	},
 	[6] = -- Fireball
 	{
-		DamagePerSkill = "1-7"
+		DamagePerSkill = "1-8"
 	},
 	[7] = -- Fire Spike
 	{
@@ -28,7 +28,7 @@ local spellsDamage =
 	[11] = -- Incinerate
 	{
 		DamageBase = 25,
-		DamagePerSkill = "1-18"
+		DamagePerSkill = "5-20"
 	},
 	[15] = -- Sparks
 	{
@@ -37,13 +37,12 @@ local spellsDamage =
 	},
 	[18] = -- Lightning Bolt
 	{
-		DamageBase = 9,
-		DamagePerSkill = "1-9"
+		DamagePerSkill = "1-10"
 	},
 	[20] = -- Implosion
 	{
 		DamageBase = 20,
-		DamagePerSkill = "1-12"
+		DamagePerSkill = "1-13"
 	},
 	[24] = -- Poison Spray
 	{
@@ -52,27 +51,37 @@ local spellsDamage =
 	},
 	[26] = -- Ice Bolt
 	{
-		DamageBase = 5,
+		DamageBase = 10,
 		DamagePerSkill = "1-5"
 	},
 	[29] = -- Acid Burst
 	{
 		DamageBase = 12,
-		DamagePerSkill = "1-10"
+		DamagePerSkill = "1-11"
 	},
 	[32] = -- Ice Blast
 	{
 		DamageBase = 15,
 		DamagePerSkill = "1-7"
 	},
-	[37] = -- Insect Swarm
+	[37] = -- Deadly Swarm
 	{
-		DamageBase = 15,
-		DamagePerSkill = "1-4"
+		DamageBase = 10,
+		DamagePerSkill = "1-5"
 	},
 	[39] = -- Blades
 	{
 		DamagePerSkill = "1-10"
+	},
+	[41] = -- Rock Blast
+	{
+		DamageBase = 20,
+		DamagePerSkill = "1-10"
+	},
+	[43] = -- Death Blossom
+	{
+		DamageBase = 20,
+		DamagePerSkill = "2-5"
 	},
 	[52] = -- Spirit Lash
 	{
@@ -81,7 +90,7 @@ local spellsDamage =
 	},
 	[59] = -- Mind Blast
 	{
-		DamageBase = 10,
+		DamageBase = 6,
 		DamagePerSkill = "1-4"
 	},
 	[65] = -- Psychic Shock
@@ -91,7 +100,7 @@ local spellsDamage =
 	},
 	[70] = -- Harm
 	{
-		DamageBase = 20,
+		DamageBase = 15,
 		DamagePerSkill = "1-3"
 	},
 	[76] = -- Flying Fist
@@ -105,8 +114,8 @@ local spellsDamage =
 	},
 	[79] = -- Destroy Undead
 	{
-		DamageBase = 17,
-		DamagePerSkill = "1-17"
+		DamageBase = 20,
+		DamagePerSkill = "1-20"
 	},
 	[84] = -- Prismatic Light
 	{
@@ -121,7 +130,7 @@ local spellsDamage =
 	[90] = -- Toxic Cloud
 	{
 		DamageBase = 35,
-		DamagePerSkill = "1-11"
+		DamagePerSkill = "1-12"
 	},
 	[93] = -- Shrapmetal
 	{

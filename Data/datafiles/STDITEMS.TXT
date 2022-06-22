@@ -31,8 +31,47 @@ Scroll skill B	(Beginner)	0	0	0	0	0	0	0	0	0
 Scroll skill E	(Expert)	0	0	0	0	0	0	0	0	0
 Scroll skill M	(Master)	0	0	0	0	0	0	0	0	0
 Scroll skill GM	(Grandmaster)	0	0	0	0	0	0	0	0	0
-
-		115	70	115	70	140	155	110	140	140					
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Placeholder skill	of Placeholding	0	0	0	0	0	0	0	0	0
+Fire resistance penetration	of Fire Penetration	0	0	0	0	0	0	0	0	0
+Air resistance penetration	of Air Penetration	0	0	0	0	0	0	0	0	0
+Water resistance penetration	of Water Penetration	0	0	0	0	0	0	0	0	0
+Earth resistance penetration	of Earth Penetration	0	0	0	0	0	0	0	0	0
+Spirit resistance penetration	of Spirit Penetration	0	0	0	0	0	0	0	0	0
+Mind resistance penetration	of Mind Penetration	0	0	0	0	0	0	0	0	0
+Body resistance penetration	of Body Penetration	0	0	0	0	0	0	0	0	0
+Light resistance penetration	of Light Penetration	0	0	0	0	0	0	0	0	0
+Dark resistance penetration	of Dark Penetration	0	0	0	0	0	0	0	0	0
+										
+		120	70	115	70	140	155	110	140	140					
 
 	Bonus range for Standard by Level					Value Mod= (+100 / Plus of Item)									
 	lvl	min	max

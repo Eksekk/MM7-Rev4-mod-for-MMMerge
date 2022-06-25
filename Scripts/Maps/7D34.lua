@@ -47,11 +47,7 @@ Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	if not evt.Cmp{"QBits", Value = 847} then         -- BDJ 1
 		evt.Set{"QBits", Value = 847}         -- BDJ 1
-		evt.All.Add("Experience", 0)
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.Learning])
-			pl.Skills[const.Skills.Learning] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.Learning, 6, const.Expert)
 	end
 end
 

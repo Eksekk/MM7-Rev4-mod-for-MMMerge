@@ -304,11 +304,7 @@ Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
 	if not evt.Cmp{"QBits", Value = 829} then         -- 1-time Castle Harm
 		evt.Set{"QBits", Value = 829}         -- 1-time Castle Harm
-		evt.All.Add("Experience", 0)
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.Bodybuilding])
-			pl.Skills[const.Skills.Bodybuilding] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
 	end
 end
 
@@ -798,9 +794,9 @@ end
 
 --[[ MMMerge additions ]]--
 
+-- Castle Harmondale
 
 -- Golem quest (wizard first promotion) (mm7)
-
 evt.Map[376] = function()
 	if Party.QBits[585] or Party.QBits[586] then
 		NPCFollowers.Remove(395)
@@ -827,6 +823,7 @@ end
 
 Game.MapEvtLines:RemoveEvent(377)
 function events.LoadMap()
+	Party.QBits[718] = true	-- TP Buff Harmondale
 	if Party.QBits[526] and Party.QBits[695] and not (Party.QBits[696] or Party.QBits[702]) then
 		evt.SetMonGroupBit{60, const.MonsterBits.Hostile, true}
 		evt.SetMonGroupBit{60, const.MonsterBits.Invisible, false}

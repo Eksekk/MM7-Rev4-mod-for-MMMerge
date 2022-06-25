@@ -30,7 +30,7 @@ function events.GetSkill(t)
 		end
 		
 		local maxBonus = 0
-		for item, slot in player:EnumActiveItems() do
+		for item, slot in player:EnumActiveItems(false) do
 			if item.Bonus == 20 then -- 20 = identify item
 				maxBonus = math.max(maxBonus, item.BonusStrength)
 			end

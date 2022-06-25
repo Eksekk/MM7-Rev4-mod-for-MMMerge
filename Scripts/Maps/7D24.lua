@@ -111,11 +111,7 @@ Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	if not evt.Cmp{"QBits", Value = 846} then         -- 1-time stone city
 		evt.Set{"QBits", Value = 846}         -- 1-time stone city
-		evt.ForPlayer("All").Add("Experience", 0) -- make sparkle sound and animation
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.Perception])
-			pl.Skills[const.Skills.Perception] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.Perception, 6, const.Expert)
 	end
 end
 

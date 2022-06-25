@@ -918,6 +918,7 @@ end
 -- The Tularean Forest
 
 function events.AfterLoadMap()
+	Party.QBits[719] = true	-- TP Buff Tularean Forest
 	Party.QBits[939] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
@@ -925,6 +926,25 @@ end
 function events.TileSound(t)
 	if t.X == 84 and t.Y == 94 then
 		TownPortalControls.DimDoorEvent()
+	end
+end
+
+evt.map[504] = function()
+	TownPortalControls.DimDoorEvent()
+end
+
+function events.AfterLoadMap()
+	local model
+	for i,v in Map.Models do
+		if v.Name == "ClL1_W" then
+			model = v
+		end
+	end
+	
+	if model then
+		for i,v in model.Facets do
+			v.Event = 504
+		end
 	end
 end
 

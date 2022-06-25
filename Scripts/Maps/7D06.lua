@@ -90,11 +90,7 @@ evt.map[10] = function()
 "All")
 	if not evt.Cmp{"QBits", Value = 842} then         -- 1-time EI temple
 		evt.Set{"QBits", Value = 842}         -- 1-time EI temple
-		evt.ForPlayer("All").Add("Experience", 0) -- make sparkle sound and animation
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.Merchant])
-			pl.Skills[const.Skills.Merchant] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.Merchant, 6, const.Expert)
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
 end

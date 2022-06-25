@@ -142,11 +142,7 @@ evt.map[10] = function()
 "All")
 	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
 		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
-		evt.All.Add("Experience", 0)
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.Repair])
-			pl.Skills[const.Skills.Repair] = JoinSkill(math.max(s, 7), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.Repair, 7, const.Expert)
 	end
 end
 

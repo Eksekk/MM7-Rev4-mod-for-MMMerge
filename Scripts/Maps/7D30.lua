@@ -459,3 +459,9 @@ evt.Map[416] = function()
 		evt.EnterHouse{220}
 	end
 end
+
+function events.BeforeLoadMap()
+	if vars.Quest_CrossContinents and Party.QBits[633] then
+		vars.Quest_CrossContinents.ContinentFinished[2] = true
+	end
+end

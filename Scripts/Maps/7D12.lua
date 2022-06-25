@@ -122,30 +122,24 @@ evt.map[12] = function()
 		return
 	end
 	evt.Subtract{"QBits", Value = 861}         -- One Use
-	if evt.Cmp{"QBits", Value = 869} then         -- BDJ Final
+	if evt.Cmp{"QBits", Value = 850} then         -- BDJ Final
 		evt.Set{"QBits", Value = 860}         -- Final
 		evt.ForPlayer(-- ERROR: Const not found
-	4)
+3)
 	else
-		if evt.Cmp{"QBits", Value = 850} then         -- BDJ 4
-			evt.Set{"QBits", Value = 869}         -- BDJ Final
+		if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
+			evt.Set{"QBits", Value = 850}         -- BDJ Final
 			evt.ForPlayer(-- ERROR: Const not found
-	3)
+2)
 		else
-			if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
-				evt.Set{"QBits", Value = 850}         -- BDJ 4
+			if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
+				evt.Set{"QBits", Value = 849}         -- BDJ 3
 				evt.ForPlayer(-- ERROR: Const not found
-	2)
+1)
 			else
-				if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
-					evt.Set{"QBits", Value = 849}         -- BDJ 3
-					evt.ForPlayer(-- ERROR: Const not found
-	1)
-				else
-					evt.Set{"QBits", Value = 848}         -- BDJ 2
-					evt.ForPlayer(-- ERROR: Const not found
-	0)
-				end
+				evt.Set{"QBits", Value = 848}         -- BDJ 2
+				evt.ForPlayer(-- ERROR: Const not found
+0)
 			end
 		end
 	end
@@ -208,17 +202,16 @@ evt.map[12] = function()
 		end
 	end
 	if not evt.Cmp{"FireSkill", Value = 8} then
-		local s, m = SplitSkill(Party[evt.CurrentPlayer].Skills[const.Skills.Fire])
-		Party[evt.CurrentPlayer].Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
+		evt.Set{"FireSkill", Value = 72}
 	end
 ::_78::
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"QBits", Value = 860} then         -- Final
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
+		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
 	else
 		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
-		evt.SetNPCTopic{NPC = 1234, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	end
 end
 
@@ -511,8 +504,8 @@ evt.map[376] = function()
 		evt.SetTexture{Facet = 1, Name = "solid01"}
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
-		evt.SetNPCTopic{NPC = 1249, Index = 0, Event = 798}         -- "The Coding Wizard" : "Greetings from BDJ!"
-		evt.SetNPCGreeting{NPC = 1249, Greeting = 138}         --[[ "The Coding Wizard" : "BDJ's the name, Coding Wizard's The Game
+		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 798}         -- "The Coding Wizard" : "Greetings from BDJ!"
+		evt.SetNPCGreeting{NPC = 1259, Greeting = 138}         --[[ "The Coding Wizard" : "BDJ's the name, Coding Wizard's The Game
 
 Now what can I do for you?" ]]
 	end
@@ -553,14 +546,16 @@ evt.map[501] = function()
 end
 
 function events.AfterLoadMap()
-	-- make BDJ invisible by default
-	if (not vars["BDJ hidden"]) and Game.Map.Name == "7d12.blv" then
-		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
-		vars["BDJ hidden"] = true
+	if Map.Name == "7d12.blv" then
+		-- make BDJ invisible by default
+		if not vars["BDJ hidden"] then
+			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
+			vars["BDJ hidden"] = true
+		end
+		-- make BDJ hostile on save game reload/lloyd back to dungeon
+		if vars["make BDJ hostile"] then
+			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
+		end
+		vars["make BDJ hostile"] = true
 	end
-	-- make BDJ hostile on save game reload/lloyd back to dungeon
-	if vars["make BDJ hostile"] and Game.Map.Name == "7d12.blv" then
-		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
-	end
-	vars["make BDJ hostile"] = true
 end

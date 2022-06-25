@@ -272,11 +272,11 @@ evt.map[32] = function()  -- function events.LoadMap()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if not evt.CheckSeason{Season = 1} then
-		evt.MoveNPC{NPC = 1251, HouseId = 0}         -- "EAO the Lector"
+		evt.MoveNPC{NPC = 1261, HouseId = 0}         -- "EAO the Lector"
 	else
 		if evt.Cmp{"QBits", Value = 866} then         -- 0
-			evt.MoveNPC{NPC = 1251, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
-			evt.SetNPCTopic{NPC = 1251, Index = 0, Event = 852}         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
+			evt.MoveNPC{NPC = 1261, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
+			evt.SetNPCTopic{NPC = 1261, Index = 0, Event = 852}         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
 		end
 	end
 end
@@ -346,11 +346,7 @@ Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
 	if not evt.Cmp{"QBits", Value = 843} then         -- 1-time Erathia
 		evt.Set{"QBits", Value = 843}         -- 1-time Erathia
-		evt.All.Add("Experience", 0)
-		for _, pl in Party do
-			local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyItem])
-			pl.Skills[const.Skills.IdentifyItem] = JoinSkill(math.max(s, 6), math.max(m, const.Expert))
-		end
+		giveFreeSkill(const.Skills.IdentifyItem, 6, const.Expert)
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
 end
@@ -1262,6 +1258,7 @@ end
 local CCTimers = {}
 
 function events.AfterLoadMap()
+	Party.QBits[720] = true	-- TP Buff Erathia
 	Party.QBits[938] = true	-- DDMapBuff, changed for rev4 for merge
 	if not (mapvars.GotAdvertisment or Party.QBits[519]) then
 

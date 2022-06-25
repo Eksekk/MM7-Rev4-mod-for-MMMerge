@@ -589,7 +589,7 @@ Your courage and skill has all the tongues in the Kingdom wagging!
 I am very proud of you!"	"Hail, Templars!
 Your courage and skill has all the tongues in the Kingdom wagging!
 I am very proud of you!"	Templar	Leda Rowan	
-334	Last Line Placeholder	Placeholer			
+334	Placeholder	Placeholder			
 335	Placeholder	Placeholder			
 336	Placeholder	Placeholder			
 337	Placeholder	Placeholder			
@@ -651,4 +651,4 @@ Please rescue him!  Not even I can bear to think of my brother in those conditio
 369	I can sense you have a lot of magical potential. I can instruct you, but first you need to learn much more, be more prepared, and need to do a favor for me.	Back already? You are not ready yet.	Halfgild Wynac starting greet	Halfgild Wynac
 370	Well, you have returned, and you are now ready for my teachings. Let's get to it, shall we?	Well, you have returned, and you are now ready for my teachings. Let's get to it, shall we?	Halfgild Wynac greet after getting master Dark	Halfgild Wynac
 371	Welcome back, my students. What can I do for you?	Welcome back, my students. What can I do for you?		
-372				
+372	Last Line Placeholder	Placeholer		

@@ -39,3 +39,9 @@ luac.out
 *.x86_64
 *.hex
 
+"rev4 mm7 icons lod/"
+"rev4.mm7.games.lod Backup/"
+"rev4.mm7.icons.lod Backup/"
+"Srev4.mmmerge.T.lod Backup/"
+"Zrev4.mm7orig.games.lod Backup/"
+**/nppBackup/*

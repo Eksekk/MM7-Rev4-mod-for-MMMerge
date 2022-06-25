@@ -404,7 +404,7 @@ for from, to in pairs(patches) do
 	local done = 0
 	content, done = content:replace(from, to)
 	if done == 0 then
-		error("Replacement not performed! Part of what to replace:\n" . from:sub(1, math.min(from:len(), 100)))
+		error("Replacement not performed! Part of what to replace:\n" .. from:sub(1, math.min(from:len(), 100)))
 	end
 end
 
@@ -440,7 +440,7 @@ repeat
 until i == nil
 
 -- Harmondale teleportal hub
---[[content = content:replace([[-- "Challenges"
+--[=[content = content:replace([[-- "Challenges"
 Game.GlobalEvtLines:RemoveEvent(1313)
 evt.global[1313] = function()
 	evt.SetMessage(1671)         -- "Scattered around the land are the Challenges.  If your ability is great enough, and you best the challenge, you will be award skill points to do with as you wish!"
@@ -513,7 +513,7 @@ end
 -- "Evenmorn Island"
 evt.global[1999] = function()
 	evt.MoveToMap{X = 17161, Y = -10827, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out09.odm"}
-end]])--]]
+end]])--]=]
 
 local file2 = io.open("GLOBAL rev4 processed.lua", "w")
 file2:write(content)

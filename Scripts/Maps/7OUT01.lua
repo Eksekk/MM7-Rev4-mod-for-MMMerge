@@ -706,7 +706,7 @@ evt.map[574] = function()
 "All")
 	if evt.Cmp{"Inventory", Value = 1361} then         -- "Watcher's Ring of Elemental Water"
 		evt.SetMessage{Str = 772}
-		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 1993}         -- "Tobren Rainshield" : "The Greatest Hero"
+		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 2002}         -- "Tobren Rainshield" : "The Greatest Hero"
 		return
 	end
 	if not evt.Cmp{"Inventory", Value = 1128} then         -- "Water Walk"

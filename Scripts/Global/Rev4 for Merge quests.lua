@@ -144,7 +144,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 					vars.WromthraxCaveQuest.OldBitmapIds[v.FacetIndex] = f.BitmapId
 				end
 			end
-			local WromthraxId -- could be assumed 0, but just in case I'll do a loop
+			local WromthraxId -- could be assumed 0 because he is the only monster on the map, but just in case I'll do a loop
 			for k, v in Map.Monsters do
 				if v.NameId == 117 then
 					WromthraxId = k
@@ -159,7 +159,9 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			wrom.Group = 255
 			wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
 			wrom.Spell2, wrom.SpellChance2, wrom.SpellSkill2 = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 10, const.GM)
-			boostResistances(wrom, diffsel(40, 60, 80))
+			boostResistances(wrom, diffsel(20, 40, 60))
+			wrom.Attack1.DamageDiceSides, wrom.Attack1.DamageAdd = math.round(wrom.Attack1.DamageDiceSides * diffsel(1.2, 1.4, 1.7), diffsel(10, 15, 20)
+			wrom.TreasureDiceCount = wrom.TreasureDiceCount * 3
 		end
 		local spawnedMapMonsterIds = {}
 		local spawnFunction = function()

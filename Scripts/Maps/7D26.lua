@@ -488,3 +488,12 @@ evt.map[505] = function()
 	evt.MoveToMap{X = 874, Y = -261, Z = -377, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 385, Icon = 9, Name = "d03.blv"}         -- "Castle Gloaming"
 end
 
+
+
+--[[ MMMerge additions ]]--
+
+-- The Pit
+
+function events.AfterLoadMap()
+	Party.QBits[723] = true	-- TP Buff The Pit
+end

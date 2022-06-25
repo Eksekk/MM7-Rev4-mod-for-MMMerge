@@ -556,5 +556,6 @@ end
 -- Mount Nighon
 
 function events.AfterLoadMap()
+	Party.QBits[721] = true	-- TP Buff Nighon
 	Party.QBits[945] = true	-- DDMapBuff, changed for rev4 for merge
 end

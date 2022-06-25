@@ -31,11 +31,11 @@ evt.global[753] = function()
 	evt.SetMessage(945)         -- "Congratulations!  You are the new Lords of Harmondale!  Isn't it thrilling?  You can't imagine how good it feels for me to give this property away to you!  All of the benefits and rewards, and of course, the responsibilities of governing the town of Harmondale are now yours.  (Lord Markham produces a deed and contract) Just sign here...And here... And if I could just get your initials here... Yes!  Well, that's that!  You're all set.  And once again, congratulations!!!"
 	Game.NPC[340].Events[2] = 754         -- "Lord Markham" : "Your ship…"
 	evt.Subtract("NPCs", 342)         -- "Big Daddy Jim"
-	evt.Add("QBits", 529)         -- No more docent babble
+	evt.Set("QBits", 529)         -- No more docent babble
 	evt.ForPlayer("All")
 	evt.Add("Experience", 1000)
 	evt.Add("Awards", 1)         -- "Won the Scavenger Hunt on Emerald Island"
-	evt.Add("QBits", 796)         -- Beginning of Festival
+	evt.Set("QBits", 796)         -- Beginning of Festival
 	evt.SetNPCGroupNews{NPCGroup = 52, NPCNews = 56}         -- "" : "Congratulations!"
 end
 
@@ -282,7 +282,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(769)
 evt.global[769] = function()
 	evt.SetMessage(959)         -- "We have discovered a corruption so powerful that it threatens to engulf all of Erathia. Due to this peril, we have formed a temporary truce with Lord Archibald until we can ‘neutralize’ this threat. Since the danger was spawned in The Pit, you need to travel there and seek out Maximus.  He will brief you on the situation.  Obey him as if his words were spoken by Gavin Magnus, himself."
-	evt.Add("QBits", 805)         -- Return to NWC
+	evt.Set("QBits", 805)         -- Return to NWC
 	Game.NPC[421].Events[0] = 0         -- "Sir Caneghem"
 	evt.MoveNPC{NPC = 424, HouseId = 1071}         -- "Maximus" -> "Hostel"
 	Game.NPC[424].Events[0] = 772         -- "Maximus" : "Dangerous Mission"
@@ -292,7 +292,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(770)
 evt.global[770] = function()
 	evt.SetMessage(1141)         -- "We have discovered a corruption so powerful that it threatens to engulf all of Erathia. Due to this peril, we have formed a temporary truce with Gavin Magnus until we can ‘neutralize’ this threat. Since the danger was spawned in Celeste, you need to travel there and seek out Sir Caneghem.  He will brief you on the situation.  Obey him as if his words were spoken by Lord Archibald, himself."
-	evt.Add("QBits", 805)         -- Return to NWC
+	evt.Set("QBits", 805)         -- Return to NWC
 	Game.NPC[424].Events[0] = 0         -- "Maximus"
 	evt.MoveNPC{NPC = 421, HouseId = 1064}         -- "Sir Caneghem" -> "Hostel"
 	Game.NPC[421].Events[0] = 771         -- "Sir Caneghem" : "Dangerous Mission"
@@ -326,7 +326,7 @@ evt.global[773] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Add("QBits", 807)         -- Water
+	evt.Set("QBits", 807)         -- Water
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("WaterResistance", 50)
@@ -340,7 +340,7 @@ evt.global[774] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Add("QBits", 808)         -- Fire
+	evt.Set("QBits", 808)         -- Fire
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("FireResistance", 50)
@@ -354,7 +354,7 @@ evt.global[775] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Add("QBits", 809)         -- Air
+	evt.Set("QBits", 809)         -- Air
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("AirResistance", 50)
@@ -368,7 +368,7 @@ evt.global[776] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Add("QBits", 810)         -- Earth
+	evt.Set("QBits", 810)         -- Earth
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("EarthResistance", 50)
@@ -411,7 +411,7 @@ Game.GlobalEvtLines:RemoveEvent(780)
 evt.global[780] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1362) then         -- "Watcher's Ring of Elemental Fire"
-		evt.SetMessage(2808)         -- "I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."
+		evt.SetMessage(2858)         -- "I see that you've returned with the Watcher's Ring of Elemental Fire. Excellent!   Now we can discuss your promotion to Master of Fire Magic."
 		evt.Add("Experience", 30000)
 		Game.NPC[477].Events[0] = 337         -- "Ashen Temper" : "Fire Magic Master"
 		return
@@ -420,7 +420,7 @@ evt.global[780] = function()
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1364)         -- "Ring of UnWarding"
 	end
-	evt.SetMessage(2807)         -- "Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."
+	evt.SetMessage(2857)         -- "Before I can promote you to Master of Fire Magic, you must first retrieve the Watcher's Ring of Elemental Fire and return it to me.  The Ring is guarded by powerful Dragons who live in a cave on Emerald Island.  Make sure you keep the Ring of UnWarding with you to enter the cave."
 end
 
 -- "Earth Magic Grandmaster"
@@ -428,7 +428,7 @@ Game.GlobalEvtLines:RemoveEvent(781)
 evt.global[781] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1355) then         -- "Watcher's Ring of Elemental Earth "
-		evt.SetMessage(2810)         -- "I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."
+		evt.SetMessage(2860)         -- "I see that you've defeated Greckaw and returned with the Watcher's Ring of Elemental Earth. An impressive accomplishment, indeed!!   Now we can discuss your promotion to Master of Earth Magic."
 		evt.Add("Experience", 30000)
 		Game.NPC[487].Events[0] = 347         -- "Avalanche" : "Earth Magic Grandmaster"
 		return
@@ -436,8 +436,8 @@ evt.global[781] = function()
 	if not evt.Cmp("Inventory", 253) then         -- "Divine Cure"
 		evt.Add("Inventory", 253)         -- "Divine Cure"
 	end
-	evt.Add("QBits", 836)         -- White Cliff Cave Permission
-	evt.SetMessage(2809)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
+	evt.Set("QBits", 836)         -- White Cliff Cave Permission
+	evt.SetMessage(2859)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
 
 Be extremely cautious when you enter this cave, children.  The Mad Mage Pascal, Diviner of Strange Flesh has sent his army of Trolls to take this ring by force, and a battle rages between Greckaw’s minions and these invaders.  You would do well to let them fight it out and then kill the survivors.  But make no mistake, young ones, either side will turn on you in a heartbeat! 
 
@@ -470,7 +470,7 @@ Game.GlobalEvtLines:RemoveEvent(784)
 evt.global[784] = function()
 	evt.SetMessage(982)         -- "Keep in mind I have a 1000 gold reward for the group to bring back information on the contestants that have disappeared."
 	Game.NPC[340].Events[3] = 785         -- "Lord Markham" : "About the missing contestants..."
-	evt.Add("QBits", 528)         -- "Find the missing contestants on Emerald Island and bring back proof to Lord Markham."
+	evt.Set("QBits", 528)         -- "Find the missing contestants on Emerald Island and bring back proof to Lord Markham."
 end
 
 -- "About the missing contestants..."
@@ -495,7 +495,7 @@ end
 -- "The Coding Wizard"
 Game.GlobalEvtLines:RemoveEvent(786)
 evt.global[786] = function()
-	evt.SetMessage(2802)         -- "“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”"
+	evt.SetMessage(2852)         -- "“BDJ the Coding Wizard, lives on the mainland. All those who have gained Grandmaster status in their chosen profession should seek out this wizard.  It is reported that he offers to ‘cross-train’ them into a second profession, thereby granting dual-character classes to all who meet his requirements.”"
 end
 
 -- "Is the cave behind your house the abandoned temple?"
@@ -596,7 +596,7 @@ evt.global[796] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(998)         -- "Your next task is somewhat more difficult…more suited for Spies than Rogues.  I have been asked to ensure that Watchtower 6, the only tower to survive the recent wars against the Necromancers, be unable to defend itself the next time it is attacked.  Killing the guards inside won’t help—the Necromancers will just fill it again with more troops.  The tower is on the southern edge of the Necromancers’ land.  I want you to slip inside and move the counterweight in the gatehouse at the top of the tower to the gatehouse at the bottom of the tower.  It is a heavy weight that can be found in a slot against the wall with a rope tied to it.  When the time comes for an attack, the misplaced weights will be noticed too late, and the gate will not close.  If you can do this, you will have proven your status as a Spy."
-		evt.Add("QBits", 531)         -- "Go to Watchtower 6 in the Deyja Moors, and move the weight from the top of the tower to the bottom of the tower.  Then return to William Lasker in the Erathian Sewers."
+		evt.Set("QBits", 531)         -- "Go to Watchtower 6 in the Deyja Moors, and move the weight from the top of the tower to the bottom of the tower.  Then return to William Lasker in the Erathian Sewers."
 		Game.NPC[354].Events[0] = 797         -- "William Lasker" : "Spy"
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(996)         -- "You have chosen the path of Darkness, and I will promote you no further.  Perhaps an Assassin would have something to teach you.  I hear there is one in Deyja."
@@ -648,10 +648,10 @@ I see that you have survived The Gauntlet in good fashion.  Congratulations!  Yo
 
 When you select the new profession, the member will automatically be promoted to the highest rating in that character class; re, a Fighter will immediately become a Champion, a Sorcerer an Arch Mage.  Once you’ve selected your new profession, you will no longer continue to advance in your original profession, although you will retain all or your previous skill and spell abilities." ]]
 	evt.ForPlayer("All")
-	Game.NPC[1249].Events[0] = 799         -- "The Coding Wizard" : "How does this work?"
-	evt.MoveNPC{NPC = 1253, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
-	Game.NPC[1253].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
-	evt.SetNPCGreeting{NPC = 1253, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
+	Game.NPC[1259].Events[0] = 799         -- "The Coding Wizard" : "How does this work?"
+	evt.MoveNPC{NPC = 1263, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+	Game.NPC[1263].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
+	evt.SetNPCGreeting{NPC = 1263, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
 end
 
 -- "How does this work?"
@@ -661,7 +661,7 @@ evt.global[799] = function()
 
 When the selected party member has chosen a new profession, proceed to the Brazier to acquire the new profession and then return to me.  When all four members have selected their new Profession, return to me one more time and then we’re done.  So let’s get started, ok?" ]]
 	evt.ForPlayer("All")
-	Game.NPC[1249].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+	Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 end
 
 -- "New Profession."
@@ -684,50 +684,50 @@ evt.global[800] = function()
 		evt.SetMessage(1021)         -- "Adventurer 1, select your new profession."
 		evt.ForPlayer(0)
 	end
-	evt.Add("QBits", 861)         -- One Use
+	evt.Set("QBits", 861)         -- One Use
 	if evt.Cmp("ClassIs", const.Class.ArchMage) then
-		Game.NPC[1249].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1249].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1249].Events[2] = 807         -- "The Coding Wizard" : "Cleric"
+		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1259].Events[2] = 807         -- "The Coding Wizard" : "Cleric"
 	elseif evt.Cmp("ClassIs", const.Class.PriestLight) then
-		Game.NPC[1249].Events[0] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1249].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1249].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[0] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.MasterArcher) then
-		Game.NPC[1249].Events[0] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1249].Events[1] = 831         -- "The Coding Wizard" : "Monk"
-		Game.NPC[1249].Events[2] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1259].Events[0] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1259].Events[1] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1259].Events[2] = 825         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.ArchDruid) then
-		Game.NPC[1249].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1249].Events[1] = 831         -- "The Coding Wizard" : "Monk"
-		Game.NPC[1249].Events[2] = 806         -- "The Coding Wizard" : "Sorcerer"
+		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[1] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1259].Events[2] = 806         -- "The Coding Wizard" : "Sorcerer"
 	elseif evt.Cmp("ClassIs", const.Class.Champion) then
-		Game.NPC[1249].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1249].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
-		Game.NPC[1249].Events[2] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
+		Game.NPC[1259].Events[2] = 825         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.Master) then
-		Game.NPC[1249].Events[0] = 832         -- "The Coding Wizard" : "Thief"
-		Game.NPC[1249].Events[1] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1249].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[0] = 832         -- "The Coding Wizard" : "Thief"
+		Game.NPC[1259].Events[1] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.Hero) then
-		Game.NPC[1249].Events[0] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1249].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
-		Game.NPC[1249].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[0] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1259].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
+		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.RangerLord) then
-		Game.NPC[1249].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1249].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1249].Events[2] = 832         -- "The Coding Wizard" : "Thief"
+		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1259].Events[2] = 832         -- "The Coding Wizard" : "Thief"
 	else
 		if not evt.Cmp("ClassIs", const.Class.Spy) then
 			evt.Subtract("QBits", 861)         -- One Use
 			evt.SetMessage(978)         -- "You don't Qualify"
 			return
 		end
-		Game.NPC[1249].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1249].Events[1] = 819         -- "The Coding Wizard" : "Fighter"
-		Game.NPC[1249].Events[2] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1259].Events[1] = 819         -- "The Coding Wizard" : "Fighter"
+		Game.NPC[1259].Events[2] = 831         -- "The Coding Wizard" : "Monk"
 	end
-	Game.NPC[1249].Events[3] = 873         -- "The Coding Wizard" : "No Thanks."
+	Game.NPC[1259].Events[3] = 873         -- "The Coding Wizard" : "No Thanks."
 end
 
 -- "Crusader"
@@ -735,10 +735,10 @@ Game.GlobalEvtLines:RemoveEvent(801)
 evt.global[801] = function()
 	evt.ForPlayer("Current")
 	evt.SetMessage(1012)         -- "If you wish to be promoted to Crusader, you must first bring me the map that indicates the location of Sir BunGleau's panoply. Here, take this scroll of the Saints.  It will provide you with a firm foundation as you begin your quest."
-	evt.Add("QBits", 534)         -- "Find the map that shows the location of Sir BunGleau's panoply and return it to the Massenger of the Saints.."
+	evt.Set("QBits", 534)         -- "Find the map that shows the location of Sir BunGleau's panoply and return it to the Massenger of the Saints.."
 	evt.Add("Inventory", 1532)         -- "Saints of Selinas Scroll 2"
-	evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	Game.NPC[1243].Events[0] = 802         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	Game.NPC[1253].Events[0] = 802         -- "Messenger of the Saints" : "Crusader"
 end
 
 -- "Crusader"
@@ -771,7 +771,7 @@ evt.global[802] = function()
 	evt.Subtract("Inventory", 1533)         -- "Saints of Selinas Scroll 3"
 	evt.Subtract("Inventory", 1534)         -- "Saints of Selinas Scroll 4"
 	evt.ForPlayer("All")
-	Game.NPC[1243].Events[0] = 803         -- "Messenger of the Saints" : "Hero"
+	Game.NPC[1253].Events[0] = 803         -- "Messenger of the Saints" : "Hero"
 end
 
 -- "Hero"
@@ -779,9 +779,9 @@ Game.GlobalEvtLines:RemoveEvent(803)
 evt.global[803] = function()
 	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1015)         -- "I am pleased to see you have chosen the path of Light, Crusaders!  It is now time to retrieve the panoply of Sir BunGleau and once again employ it in the fight against the Dark!!  To accomplish this you must return to Emerald Island and drink from the Well of Luck.  This will transport you to the Place of Hiding where you will find the panoply.  Return to me with this panoply to complete your promotion.  ** Oh ... beware of the Blue Guardians!! *"
-		Game.NPC[1243].Events[0] = 804         -- "Messenger of the Saints" : "Hero"
-		evt.Add("QBits", 536)         -- "Find the Blessed Panoply of Sir BunGleau and return to the Angel in Castle Harmondale""
-		evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+		Game.NPC[1253].Events[0] = 804         -- "Messenger of the Saints" : "Hero"
+		evt.Set("QBits", 536)         -- "Find the Blessed Panoply of Sir BunGleau and return to the Angel in Castle Harmondale""
+		evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1016)         -- "I will not have truck with thee further, scoundrel!  I see now thee hath chosen the path of Darkness.  Mayhaps thee should seek a villain like thyself for training."
 	else
@@ -812,10 +812,10 @@ evt.global[804] = function()
 	evt.Subtract("NPCs", 393)         -- "Alice Hargreaves"
 	evt.Subtract("Reputation", 10)
 	evt.ForPlayer("All")
-	evt.SetNPCGreeting{NPC = 1243, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
+	evt.SetNPCGreeting{NPC = 1253, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
-	Game.NPC[1243].Events[0] = 0         -- "Messenger of the Saints"
-	evt.Add("QBits", 885)         -- Harm no respawn
+	Game.NPC[1253].Events[0] = 0         -- "Messenger of the Saints"
+	evt.Set("QBits", 885)         -- Harm no respawn
 end
 
 -- "Hello?"
@@ -826,7 +826,7 @@ evt.global[805] = function()
 			evt.SetMessage(1023)         -- "Adventurer 3, select your new profession."
 		else
 			evt.SetMessage(1022)         -- "Adventurer 2, select your new profession."
-			evt.Add("QBits", 537)         -- Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.
+			evt.Set("QBits", 537)         -- Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.
 			evt.Set("NPCs", 393)         -- "Alice Hargreaves"
 		end
 	elseif not evt.Cmp("QBits", 612) then         -- Chose the path of Dark
@@ -835,7 +835,7 @@ evt.global[805] = function()
 		evt.SetMessage(1025)         -- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
 	else
 		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
-		evt.Add("QBits", 537)         -- Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.
+		evt.Set("QBits", 537)         -- Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.
 		evt.Set("NPCs", 393)         -- "Alice Hargreaves"
 	end
 end
@@ -844,10 +844,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(806)
 evt.global[806] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 851)         -- Sorcerer
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 851)         -- Sorcerer
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -855,10 +855,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(807)
 evt.global[807] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 852)         -- Cleric
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 852)         -- Cleric
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -866,7 +866,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(808)
 evt.global[808] = function()
 	evt.SetMessage(1031)         -- "Ah, it is normal for novice Monks to ask for the path of enlightenment.  I shall tell you of the path, though the journey is yours to make.  In the Barrow Downs is a series of tombs-- one of which was constructed on a site of great natural power.  You will know the right barrow because it is different from the rest.  Reach this barrow and meditate by the water, and your promotion to Initiate will be complete."
-	evt.Add("QBits", 539)         -- "Find the lost meditation spot in the Dwarven Barrows."
+	evt.Set("QBits", 539)         -- "Find the lost meditation spot in the Dwarven Barrows."
 	Game.NPC[377].Events[1] = 809         -- "Bartholomew Hume" : "Initiate"
 end
 
@@ -904,7 +904,7 @@ evt.global[811] = function()
 		evt.SetMessage(1035)         -- "I am sorry, but I am permitted to train you no longer.  You will need to find a new Master to learn from."
 	elseif evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1034)         -- "I see you wish to continue your journey.  Excellent!  Have no fear, for you are prepared for your next step.  You must extinguish the remnants of an evil order- the Order of Baa.  Defeat their High Priest and return to me and I shall complete your training and promote you to Master."
-		evt.Add("QBits", 540)         -- "Go to the Temple of Baa in Avlee and kill the High Priest of Baa, then return to Bartholomew Hume in Harmondale."
+		evt.Set("QBits", 540)         -- "Go to the Temple of Baa in Avlee and kill the High Priest of Baa, then return to Bartholomew Hume in Harmondale."
 		Game.NPC[377].Events[1] = 812         -- "Bartholomew Hume" : "Master"
 	else
 		evt.SetMessage(1036)         -- "A fork approaches in your path.  I will only train you after you've chosen to walk the lighter path."
@@ -949,14 +949,14 @@ evt.global[813] = function()
 		evt.Add("Experience", 7500)
 		evt.Add("Gold", 500)
 		evt.Subtract("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
-		Game.NPC[1254].Events[0] = 0         -- "Christian the Stablemaster"
+		Game.NPC[1264].Events[0] = 0         -- "Christian the Stablemaster"
 	else
 		evt.SetMessage(940)         --[[ "The Stable Guild has discovered that a raiding force of Goblins, lead by the infamous Grognard, is poised to launch an incursion into Harmondale.  Until this threat is ‘neutralized’, the stables will remain closed.
 
 The Guild has intercepted and ‘detained’ a Goblin courier who has revealed that the Goblin force will launch their attack shortly after ‘signal fires’ are lighted.  Don’t know about these ‘signal fires’, but if you can find them, light them, and then ambush the invasion force, perhaps you could deal with this threat decisively.
 
 If you will ‘neutralize’ this threat and bring me proof that it is safe once again to renew our services, I will re-open the stables.  The proof I will need is the Grognard’s Cutlass carried by the Goblin leader." ]]
-		evt.Add("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
+		evt.Set("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
 	end
 end
 
@@ -1082,10 +1082,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(819)
 evt.global[819] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 853)         -- Fighter
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 853)         -- Fighter
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1093,10 +1093,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(820)
 evt.global[820] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 858)         -- Archer
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 858)         -- Archer
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1113,7 +1113,7 @@ evt.global[821] = function()
 		evt.SetMessage(1097)         -- "Call you Champions?  Never!  The only reason I'm not hacking you evil doers to bits is that you came here peacefully.  Leave now, before I change my mind and rid the world of another problem."
 	elseif evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1095)         -- "So you want to be champions, do you?  Ha!  How can you be a champion if you don't win any tournaments?  You know, I can't really promote you to Champion status--you have to do it yourself, just like everything else.  Go and win five championship tournaments in the Arena at Knight level, and come back to me.  I'll call you Champions then, if you want."
-		evt.Add("QBits", 545)         -- "Win five arena challenges then return to Leda Rowan in the Bracada Desert."
+		evt.Set("QBits", 545)         -- "Win five arena challenges then return to Leda Rowan in the Bracada Desert."
 		Game.NPC[381].Events[0] = 822         -- "Leda Rowan" : "Champion"
 	else
 		evt.SetMessage(1096)         -- "I can see you very much want to be called Champions, but I'm not so sure I should help you.  Prove to me that you follow the Path of Light, and then we'll talk about promotion."
@@ -1150,7 +1150,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(823)
 evt.global[823] = function()
 	evt.SetMessage(1101)         -- "The hallmark of the Cavalier is courage.  I can promote you to Cavalier status, but before I'll do that, you'll have to prove to me your bravery in battle.  Since most people are yellow bellied cowards at heart, I doubt you'll succeed.  But if you want to try, here is what you must do: Destroy all the undead in the haunted mansion in the Barrow Downs."
-	evt.Add("QBits", 546)         -- "Destroy all the undead in the Haunted House in the Barrow Downs and return to Frederick Org in Erathia."
+	evt.Set("QBits", 546)         -- "Destroy all the undead in the Haunted House in the Barrow Downs and return to Frederick Org in Erathia."
 	Game.NPC[382].Events[0] = 824         -- "Frederick Org" : "Cavalier"
 end
 
@@ -1185,10 +1185,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(825)
 evt.global[825] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 859)         -- Druid
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 859)         -- Druid
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1196,10 +1196,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(826)
 evt.global[826] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 857)         -- Ranger
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 857)         -- Ranger
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1214,7 +1214,7 @@ evt.global[827] = function()
 	end
 	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1109)         -- "Well, it looks like you might be able to do the job I have in mind.  The fundamental task a Ranger Lord faces is caring for the land.  Recently, poachers removed a magical gemstone called the ""heart of the forest"" from the Tularean Forest.  The forest has become restless, and attacks travelers who come too close.  The forest blames all 'Walkers' for the theft, and won't calm down until the stone is returned.  Find the stone and return it to the oldest tree in the Forest.  Come back to me when you've done this."
-		evt.Add("QBits", 548)         -- "Calm the trees in the Tularean Forest by speaking to the Oldest Tree then return to Lysander Sweet in the Bracada Desert."
+		evt.Set("QBits", 548)         -- "Calm the trees in the Tularean Forest by speaking to the Oldest Tree then return to Lysander Sweet in the Bracada Desert."
 		Game.NPC[383].Events[0] = 828         -- "Lysander Sweet" : "Ranger Lord"
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1112)         -- "[Lysander frowns] You've chosen the path of darkness.  I refuse to teach such as you--you would only use my lessons to further your selfish goals.  May Heaven have mercy on your souls."
@@ -1257,7 +1257,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(829)
 evt.global[829] = function()
 	evt.SetMessage(1116)         -- "Think you can improve?  I have a test for you.  A hunter needs to understand the woods, and a hunter needs to be as skilled with magic as with a blade.  The best teachers for that are the faeries.  There's a faerie mound in Northern Avlee.  Figure out how to get in, and the Faeries will grant magic to the genuine rangers among you, meaning that they will be promoted to Hunter status.  The rest of you will be honorary hunters. "
-	evt.Add("QBits", 549)         -- "Solve the secret to the entrance of the Faerie Mound in Avlee and speak to the Faerie King."
+	evt.Set("QBits", 549)         -- "Solve the secret to the entrance of the Faerie Mound in Avlee and speak to the Faerie King."
 	Game.NPC[384].Events[0] = 830         -- "Ebednezer Sower" : "Hunter"
 end
 
@@ -1271,10 +1271,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(831)
 evt.global[831] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 855)         -- Monk
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 855)         -- Monk
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1282,10 +1282,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(832)
 evt.global[832] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 856)         -- Thief
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 856)         -- Thief
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1323,7 +1323,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(834)
 evt.global[834] = function()
 	evt.SetMessage(1124)         -- "The thieves reached deep inside me to take my Heart.  The grapevines say they are hiding in the Mercenary Guild in Tatalia.  We would squeeze them, but they aren't close enough to reach.  Walkers are needed to catch walkers.  Catch the thieves for us.  Ok?"
-	evt.Add("QBits", 551)         -- "Find the Heart of the Forest in the Mercenary Guild in Tatalia and return it to the Oldest Tree in the Tularean Forest."
+	evt.Set("QBits", 551)         -- "Find the Heart of the Forest in the Mercenary Guild in Tatalia and return it to the Oldest Tree in the Tularean Forest."
 	Game.NPC[392].Events[0] = 835         -- "The Oldest Tree" : "Heart of the Wood"
 end
 
@@ -1337,7 +1337,7 @@ evt.global[835] = function()
 		evt.Subtract("QBits", 729)         -- Heart of Wood - I lost it
 		evt.Add("Experience", 5000)
 		evt.Subtract("QBits", 551)         -- "Find the Heart of the Forest in the Mercenary Guild in Tatalia and return it to the Oldest Tree in the Tularean Forest."
-		evt.Add("QBits", 553)         -- Solved Tree quest
+		evt.Set("QBits", 553)         -- Solved Tree quest
 		Game.NPC[392].Events[0] = 0         -- "The Oldest Tree"
 		evt.SetNPCGreeting{NPC = 392, Greeting = 186}         -- "The Oldest Tree" : "Ohhhhh…It's the Walkers from the South.  I remember you!  You returned the Heart.  The trees are very happy, and promise not to kill any more walkers.  Come and talk to me any time."
 		evt.Set("Awards", 23)         -- "Retrieved the Heart of the Wood"
@@ -1351,10 +1351,10 @@ end
 Game.GlobalEvtLines:RemoveEvent(836)
 evt.global[836] = function()
 	evt.ForPlayer("All")
-	evt.Add("QBits", 854)         -- Paladin
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 854)         -- Paladin
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1363,10 +1363,10 @@ Game.GlobalEvtLines:RemoveEvent(837)
 evt.global[837] = function()
 	evt.ForPlayer("All")
 	evt.SetMessage(1025)         -- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
-	Game.NPC[1249].Events[0] = 0         -- "The Coding Wizard"
-	evt.Add("QBits", 718)         -- Harmondale - Town Portal
-	evt.Add("QBits", 719)         -- Erathia - Town Portal
-	evt.Add("QBits", 720)         -- Tularean Forest - Town Portal
+	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	evt.Set("QBits", 718)         -- Harmondale - Town Portal
+	evt.Set("QBits", 719)         -- Erathia - Town Portal
+	evt.Set("QBits", 720)         -- Tularean Forest - Town Portal
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}         -- "Group for Malwick's Assc."
 	evt.ForPlayer("Current")
 	evt.Add("Inventory", 1577)         -- "LG's Proof"
@@ -1376,7 +1376,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(838)
 evt.global[838] = function()
 	evt.SetMessage(1133)         -- "[Falk gives you a grandfatherly smile] You have, perhaps, an ambition to be priests?  I can help you, if you'll help me.  There is an island south of Bracada where stands an old temple that I need to find again.  I think the pirates west of Erathia must know where the island is.  The Erathian navy is rather feeble, and hasn't been able to root them out of their hiding places amongst the Tidewater Caverns.  Perhaps the pirates have a map.  If you can bring me that map, I would promote you to Priest status immediately."
-	evt.Add("QBits", 555)         -- "Find the lost pirate map in the Tidewater Caverns in Tatalia and return to Daedalus Falk on Emerald Island."
+	evt.Set("QBits", 555)         -- "Find the lost pirate map in the Tidewater Caverns in Tatalia and return to Daedalus Falk on Emerald Island."
 	Game.NPC[386].Events[0] = 839         -- "Daedalus Falk" : "Priest"
 end
 
@@ -1407,7 +1407,7 @@ evt.global[839] = function()
 	evt.Subtract("Inventory", 1485)         -- "Map to Evenmorn Island"
 	evt.Subtract("QBits", 730)         -- Map to Evenmorn - I lost it
 	Game.NPC[386].Events[0] = 840         -- "Daedalus Falk" : "Priest of Light"
-	evt.Add("QBits", 576)         -- Activate boat to area 9.  Priest promo quest
+	evt.Set("QBits", 576)         -- Activate boat to area 9.  Priest promo quest
 end
 
 -- "Priest of Light"
@@ -1417,7 +1417,7 @@ evt.global[840] = function()
 		evt.SetMessage(200)         -- "How dare you insult me with your presence?  You have chosen the Path of Darkness, and have forever renounced me as your teacher.  Go now, and be consumed by your own selfish desires.  Get out of my sight!"
 	elseif evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1136)         -- "Priests.  [Falk gazes warmly at you] Well it is that you have come to see the purity of the Path of Light.  Never regret your decision, and never look back.  South of Bracada is an island called Evenmorn, and upon that island are the old temples of the Sun and the Moon.  Both are inhabited by the remnants of the two religions, their once proud churches reduced to two old temples fighting for a small island.  The Church of the Sun was the founding religion for our current faith, the Path of Lights.  I propose we help them out and tip the balance in favor of the Church of the Sun.  Using the map that I sent you to find, convince a sea captain to bring you to the island.  There, bring aid and comfort to the Church of the Sun by purifying the altar in the Church of the Moon.  This will so weaken theMoon cult that the Church of the Sun will be able to overcome them in battle.  Return to me when you have done this.   "
-		evt.Add("QBits", 554)         -- "Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Daedalus Falk on Emerald Island."
+		evt.Set("QBits", 554)         -- "Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Daedalus Falk on Emerald Island."
 		Game.NPC[386].Events[0] = 841         -- "Daedalus Falk" : "Priest of Light"
 	else
 		evt.SetMessage(1137)         -- "If you wish to follow the Path of Light, first you must formally choose it.  Soon you will be asked to make the choice, and the way will be clear.  Until then, I cannot be your guide."
@@ -1457,7 +1457,7 @@ evt.global[842] = function()
 	evt.SetMessage(1139)         --[[ "I am indeed the one to speak to if you wish to become Wizards.  Every student of mine must complete a project before I name them Wizards.  This year's project is to build a golem.  There are spare parts scattered about the lands from here to Avlee.  You'll need all four limbs plus the torso and the head.  Pay special attention to where you get the head--one of my students made a mistake while making a head last summer and gave the defective head away as a joke.  
 
 When you have all the parts, come talk to me.  I'll promote you to Wizards then, and I'll animate your Golem.  Well, on your way, and have fun!" ]]
-	evt.Add("QBits", 557)         -- "Collect the six golem pieces and construct a complete golem, then return to Thomas Grey in the School of Sorcery."
+	evt.Set("QBits", 557)         -- "Collect the six golem pieces and construct a complete golem, then return to Thomas Grey in the School of Sorcery."
 	evt.Set("NPCs", 395)         -- "Golem"
 	Game.NPC[387].Events[0] = 843         -- "Thomas Grey" : "Wizard"
 end
@@ -1487,7 +1487,7 @@ evt.global[843] = function()
 	evt.ForPlayer("All")
 	Game.NPC[387].Events[0] = 844         -- "Thomas Grey" : "Archmage"
 	evt.SetNPCGreeting{NPC = 395, Greeting = 199}         -- "Golem" : "I am yours to command, master."
-	evt.Add("QBits", 558)         -- Player Castle.  Golem should appear in castle bit.
+	evt.Set("QBits", 558)         -- Player Castle.  Golem should appear in castle bit.
 	evt.Subtract("QBits", 731)         -- Golem Head - I lost it
 	evt.Subtract("QBits", 732)         -- Abby normal head - I lost it
 end
@@ -1501,7 +1501,7 @@ evt.global[844] = function()
 However, after consulting with Torrent, the Grandmaster of Water Migicks, we have been able to open an astral tunnel into the temple and link it to the Home Portal here in Bracada.  The tunnel is not too stable, and we aren’t sure how long we can keep it open.
 
 If you desire this promotion, you must enter the tunnel, find the Book of UnMakings, and return it to me.  But you must go NOW.  We cannot afford to wait even an hour, lest the tunnel close." ]]
-		evt.Add("QBits", 559)         -- "Recover the Book of Unmakings from the Strange Temple and return it to Thomas Grey in the School of Sorcery."
+		evt.Set("QBits", 559)         -- "Recover the Book of Unmakings from the Strange Temple and return it to Thomas Grey in the School of Sorcery."
 		Game.NPC[387].Events[0] = 845         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1143)         -- "You've chosen Darkness, my students.  I will teach you no more."
@@ -1544,9 +1544,9 @@ I sense that we haven’t unveiled the real source for this unnatural corruption. 
 	evt.ForPlayer("All")
 	Game.NPC[387].Events[0] = 0         -- "Thomas Grey"
 	evt.SetNPCGreeting{NPC = 387, Greeting = 192}         -- "Thomas Grey" : "I am honored to be graced with your presence, my lords."
-	evt.Add("QBits", 718)         -- Harmondale - Town Portal
-	evt.Add("QBits", 719)         -- Erathia - Town Portal
-	evt.Add("QBits", 720)         -- Tularean Forest - Town Portal
+	evt.Set("QBits", 718)         -- Harmondale - Town Portal
+	evt.Set("QBits", 719)         -- Erathia - Town Portal
+	evt.Set("QBits", 720)         -- Tularean Forest - Town Portal
 	evt.Subtract("Inventory", 1301)         -- "Book of UnMakings"
 	Game.NPC[432].Events[1] = 0         -- "Tarin Withern"
 end
@@ -1565,9 +1565,9 @@ Now tell me all about your adventure!" ]]
 		evt.Add("SkillPoints", 50)
 		evt.Subtract("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.Set("Awards", 120)         -- "Completed Coding Wizard Quest"
-		Game.NPC[1253].Events[0] = 0         -- "Lord Godwinson"
+		Game.NPC[1263].Events[0] = 0         -- "Lord Godwinson"
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-		evt.MoveNPC{NPC = 1253, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+		evt.MoveNPC{NPC = 1263, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
 	elseif evt.Cmp("QBits", 865) then         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.SetMessage(1027)         -- "Bring me proof that the Coding Wizard is more than just a myth."
 	else
@@ -1578,9 +1578,9 @@ I spent much of my youth in search of this wizard, but alas, I was never able to
 I have a dear friend, the Lady Kathryn, who may be able to assist you with this quest.  She resides on Evenmorn Island.  Seek her out and heed her advise.
 
 Good luck, adventurers!" ]]
-		evt.Add("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
-		evt.MoveNPC{NPC = 1250, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
-		Game.NPC[1250].Events[0] = 847         -- "Lady K" : "Lord Godwinson sent us!"
+		evt.Set("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
+		evt.MoveNPC{NPC = 1260, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
+		Game.NPC[1260].Events[0] = 847         -- "Lady K" : "Lord Godwinson sent us!"
 	end
 end
 
@@ -1592,15 +1592,15 @@ evt.global[847] = function()
 So you’ve decided to take the journey to find BDJ the Coding Wizard?  He’s a strange one, that Wizard.  A mysterious legend in Erathia who, above all, covets his privacy and guards his secrets closely.  But if you can find him, the rewards are worth the journey!
 
 I do know this.  To reach this wizard you must first run The Gauntlet.  The Lector EAO is the foremost authority on this ‘gauntlet’.  She travels quite a bit, but she does return to her home in Erathia each Summer.  Seek her out.  She may be able to assist you on your journey." ]]
-	evt.Add("QBits", 866)         -- 0
-	Game.NPC[1250].Events[0] = 0         -- "Lady K"
+	evt.Set("QBits", 866)         -- 0
+	Game.NPC[1260].Events[0] = 0         -- "Lady K"
 end
 
 -- "Great Druid"
 Game.GlobalEvtLines:RemoveEvent(848)
 evt.global[848] = function()
 	evt.SetMessage(1152)         -- "Advancement as a Druid is simple.  You must visit the three ancient temples to nature we erected centuries ago and pray at their centers.  They are in Tatalia, Evenmorn Isle, and Avlee, and look like circles of stone with an altar of water in their centers.  Where exactly I will not say, but exploring the land about them is part of the process.  When you have visited all three Circles, return to me to detail your experience."
-	evt.Add("QBits", 561)         -- "Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."
+	evt.Set("QBits", 561)         -- "Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."
 	Game.NPC[389].Events[0] = 849         -- "Anthony Green" : "Great Druid"
 end
 
@@ -1655,7 +1655,7 @@ evt.global[850] = function()
 		evt.SetMessage(1156)         --[[ "To be named an Arch Druid, you must serve the land.  I know of a service you could perform.  In the land above Stone City, where the Dwarves bury their dead, is the barrow of King Zokarr IV.  He died fighting in defense of Stone City during the invasion of Erathia by Nighon.  His remains were never recovered and still lie in those tunnels.    
 
 Retrieve his bones and place them in his coffin in his barrow.  When you have done this, the King will rest, and so will the land.  Return to me when you've performed this service, and I will perform the Ceremony of Ascension and name you Arch Druids." ]]
-		evt.Add("QBits", 566)         -- "Retrieve the bones of the Dwarf King from the tunnels between Stone City and Nighon and place them in their proper resting place in the Barrow Downs, then return to Anthony Green in the Tularean Forest."
+		evt.Set("QBits", 566)         -- "Retrieve the bones of the Dwarf King from the tunnels between Stone City and Nighon and place them in their proper resting place in the Barrow Downs, then return to Anthony Green in the Tularean Forest."
 		Game.NPC[389].Events[0] = 851         -- "Anthony Green" : "Arch Druid"
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1158)         -- "Servants of Darkness, I am sorry I promoted you earlier.  I am ashamed I didn't notice the darkness in your souls until it was too late.  Leave me."
@@ -1700,9 +1700,9 @@ evt.global[852] = function()
 To reach this wizard, one must first ‘run The Gauntlet’, which consists of a series of ‘challenges’ in the realms of Earth, Fire, Water, and finally of Air and of Light.  The rewards of the Coding Wizard await those who emerge from these trials.
 
 The Duchess of Deja may have information on the legendary location of The Gauntlet. Seek her out to continue your journey." ]]
-	Game.NPC[1251].Events[0] = 0         -- "EAO the Lector"
-	evt.MoveNPC{NPC = 1252, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
-	Game.NPC[1252].Events[0] = 853         -- "Duchess of Deja" : "Where is The Gauntlet?"
+	Game.NPC[1261].Events[0] = 0         -- "EAO the Lector"
+	evt.MoveNPC{NPC = 1262, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
+	Game.NPC[1262].Events[0] = 853         -- "Duchess of Deja" : "Where is The Gauntlet?"
 end
 
 -- "Where is The Gauntlet?"
@@ -1728,13 +1728,13 @@ However, I do know **how** you can enter The Gauntlet.  You simply need to pray 
 Good Luck!" ]]
 		evt.Subtract("Inventory", 1432)         -- "Red Delicious Apple"
 		evt.Subtract("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
-		evt.Add("QBits", 868)         -- 0
-		Game.NPC[1252].Events[0] = 0         -- "Duchess of Deja"
+		evt.Set("QBits", 868)         -- 0
+		Game.NPC[1262].Events[0] = 0         -- "Duchess of Deja"
 	else
 		evt.SetMessage(1028)         --[[ "So you want to know the location of the legendary ‘Gauntlet’ leading to the Coding Wizard?  Perhaps I can help.  But you must first do something for me.
 
 As you can see, Deja is not exactly the Land of Milk and Honey.  I have a terrible hunger for a fresh Red Delicious Apple from the forests in Tulerea.  Bring one of these apples to me, and then we’ll talk."" ]]
-		evt.Add("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
+		evt.Set("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
 	end
 end
 
@@ -1900,7 +1900,7 @@ evt.global[857] = function()
 	evt.SetMessage(1181)         --[[ "So…The new lords of Harmondale I have before me.  Not impressed.  Doubt other kings think much of you either.  Hrmph.  Probably get yourselves killed soon.  But maybe there's more than meets the eye here.  Yes.  Maybe you can do something for me, and I for you.  Medusas have taken my mines in eastern Bracada.  Turned a few of my people to stone.  Dangerous monsters, don't want to lose more lives on a rescue.  Ok to lose yours though.  
 
 Take this elixir and pour it on the statues.  Wake them up.  Then I will fix up your castle.  Give you respect.  Go now, and beware the griffins in Bracada.  " ]]
-	evt.Add("QBits", 588)         -- "Rescue the dwarves from the Red Dwarf Mines and return to the Dwarf King in Stone City in the Barrow Downs."
+	evt.Set("QBits", 588)         -- "Rescue the dwarves from the Red Dwarf Mines and return to the Dwarf King in Stone City in the Barrow Downs."
 	evt.Subtract("QBits", 658)         -- "Talk to the Dwarves in Stone City in the Barrow Downs to find a way to repair Castle Harmondale."
 	evt.Add("Inventory", 1431)         -- "Elixir"
 	evt.Add("QBits", 742)         -- Elixir - I lost it
@@ -1931,7 +1931,7 @@ Hmmph.  One more thing.  Your work has interested the other courts.  They will s
 								evt.Add("Experience", 12500)
 								evt.Subtract("Inventory", 1431)         -- "Elixir"
 								evt.Subtract("QBits", 742)         -- Elixir - I lost it
-								evt.Add("QBits", 610)         -- Built Castle to Level 2 (rescued dwarf guy)
+								evt.Set("QBits", 610)         -- Built Castle to Level 2 (rescued dwarf guy)
 								evt.Subtract("NPCs", 399)         -- "Drathen Keldin"
 								
 								evt.MoveNPC{NPC = 406, HouseId = 1169}         -- "Ellen Rockway" -> "Throne Room"
@@ -2054,7 +2054,7 @@ evt.global[868] = function()
 	evt.Add("Experience", 10000)
 	evt.Subtract("Inventory", 1436)         -- "Gryphonheart's Trumpet"
 	evt.Subtract("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-	evt.Add("QBits", 596)         -- Gave artifact to humans
+	evt.Set("QBits", 596)         -- Gave artifact to humans
 	Game.NPC[406].Events[2] = 0         -- "Ellen Rockway"
 end
 
@@ -2071,7 +2071,7 @@ We have recently discovered that the Strange Temple is being used as a ‘staging 
 
 What I need you to do is to proceed to the residence of Judas, find the hidden teleport therein, and enter the Strange Temple. Once in the temple, destroy all creatures within, retrieve the ancient weapons, and return to me. Should you encounter the traitor, terminate him … with extreme prejudice." ]]
 	evt.MoveNPC{NPC = 424, HouseId = 0}         -- "Maximus"
-	evt.Add("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+	evt.Set("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 end
 
 -- "An invitation…"
@@ -2094,7 +2094,7 @@ Oh, by the way … an angel appeared to me a few hours ago.  He said that he needs
 		evt.MoveNPC{NPC = 397, HouseId = 1169}         -- "Butler" -> "Throne Room"
 		Game.NPC[397].Events[0] = 0         -- "Butler"
 		evt.SetNPCGreeting{NPC = 397, Greeting = 201}         -- "Butler" : "You rang, my lords?"
-		evt.Add("QBits", 658)         -- "Talk to the Dwarves in Stone City in the Barrow Downs to find a way to repair Castle Harmondale."
+		evt.Set("QBits", 658)         -- "Talk to the Dwarves in Stone City in the Barrow Downs to find a way to repair Castle Harmondale."
 	else
 		evt.SetMessage(1178)         -- "I fear that talking will fail with these ruffians, my lords.  May I suggest violence?"
 	end
@@ -2113,7 +2113,7 @@ evt.global[872] = function()
 	evt.Add("Experience", 10000)
 	evt.Subtract("Inventory", 1436)         -- "Gryphonheart's Trumpet"
 	evt.Subtract("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-	evt.Add("QBits", 597)         -- Gave artifact to elves
+	evt.Set("QBits", 597)         -- Gave artifact to elves
 	Game.NPC[407].Events[2] = 0         -- "Alain Hani"
 end
 
@@ -2123,20 +2123,20 @@ evt.global[873] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 850) then         -- BDJ Final
 		evt.Subtract("QBits", 861)         -- One Use
-		Game.NPC[1249].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
+		Game.NPC[1259].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
 	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
-		evt.Add("QBits", 850)         -- BDJ Final
-		Game.NPC[1249].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		evt.Set("QBits", 850)         -- BDJ Final
+		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
-		evt.Add("QBits", 849)         -- BDJ 3
-		Game.NPC[1249].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		evt.Set("QBits", 849)         -- BDJ 3
+		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	else
-		evt.Add("QBits", 848)         -- BDJ 2
-		Game.NPC[1249].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		evt.Set("QBits", 848)         -- BDJ 2
+		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	end
-	Game.NPC[1249].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[2] = 0         -- "The Coding Wizard"
-	Game.NPC[1249].Events[3] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1259].Events[3] = 0         -- "The Coding Wizard"
 	evt.SetMessage(1202)         -- "Ok then.  Let's move on."
 end
 
@@ -2193,7 +2193,7 @@ Oh! and Lord Archibald, himself, has place a reward for you in the House that on
 
 After you have rested, return to Celeste for your next assignment."" ]]
 		evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
-		evt.Add("QBits", 815)         -- Reward
+		evt.Set("QBits", 815)         -- Reward
 		evt.Set("BlasterSkill", 1)
 		evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
 		evt.Add("Experience", 200000)
@@ -2218,7 +2218,7 @@ Oh! and Gavin Magnus, himself, has place a reward for you in the House that once
 
 After you have rested, return to The Pit for your next assignment." ]]
 	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
-	evt.Add("QBits", 815)         -- Reward
+	evt.Set("QBits", 815)         -- Reward
 	evt.Set("BlasterSkill", 1)
 	evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
 	evt.Add("Experience", 200000)
@@ -2388,7 +2388,7 @@ evt.global[880] = function()
 	evt.Add("Experience", 10000)
 	evt.Subtract("Inventory", 1436)         -- "Gryphonheart's Trumpet"
 	evt.Subtract("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-	evt.Add("QBits", 596)         -- Gave artifact to humans
+	evt.Set("QBits", 596)         -- Gave artifact to humans
 	Game.NPC[408].Events[4] = 0         -- "Queen Catherine"
 end
 
@@ -2408,7 +2408,7 @@ What?!  You think that all of us have wings and just fly around the countryside 
 But enough about me.  You came in search of The Map, I guess.  Here it is.  Return it to my kin in Castle Harmondale for your promotion and reward.  Adou. " ]]
 	evt.ForPlayer("Current")
 	evt.Add("Inventory", 1541)         -- "Map to Treasure"
-	Game.NPC[1247].Events[0] = 0         -- "Map Giver"
+	Game.NPC[1257].Events[0] = 0         -- "Map Giver"
 end
 
 -- "Most Excellent!!"
@@ -2420,7 +2420,7 @@ evt.global[883] = function()
 	evt.ForPlayer("All")
 	evt.Add("Experience", 500000)
 	evt.Subtract("QBits", 616)         -- "Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste."
-	evt.Add("QBits", 632)         -- Got Hive part
+	evt.Set("QBits", 632)         -- Got Hive part
 	Game.NPC[419].Events[1] = 919         -- "Resurectra" : "Final Task"
 	evt.Add("Awards", 21)         -- "Slayed Xenofex"
 	evt.Subtract("QBits", 617)         -- Slayed Xenofex
@@ -2483,7 +2483,7 @@ evt.global[887] = function()
 	evt.Add("Experience", 10000)
 	evt.Subtract("Inventory", 1436)         -- "Gryphonheart's Trumpet"
 	evt.Subtract("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-	evt.Add("QBits", 597)         -- Gave artifact to elves
+	evt.Set("QBits", 597)         -- Gave artifact to elves
 	Game.NPC[409].Events[4] = 0         -- "ElfKing"
 end
 
@@ -2517,7 +2517,7 @@ evt.global[890] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1436) then         -- "Gryphonheart's Trumpet"
 		evt.SetMessage(291)         -- "You were wise to return the Trumpet to me.  Now I can use it to help shore up the weak side in this conflict and promote peace.  Thank you.  "
-		evt.Add("QBits", 659)         -- Gave artifact to arbiter
+		evt.Set("QBits", 659)         -- Gave artifact to arbiter
 		evt.Add("Experience", 12500)
 		evt.Subtract("Inventory", 1436)         -- "Gryphonheart's Trumpet"
 		evt.Subtract("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
@@ -2601,7 +2601,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(895)
 evt.global[895] = function()
 	evt.SetMessage(1211)         -- "The Test involves entering the 'front door' of the Walls of Mist, and exiting through the 'back door'.  I use the word 'door' loosely--you'll see when you get there.  You will not need your weapons.  You will fail the test if you kill any creature in the Walls of Mist.  If you can complete this task, you will be given membership in the Guild of Light. Good luck."
-	evt.Add("QBits", 613)         -- "Complete the Walls of Mist without killing a single opponent and return to Gavin Magnus in Castle Lambent in Celeste."
+	evt.Set("QBits", 613)         -- "Complete the Walls of Mist without killing a single opponent and return to Gavin Magnus in Castle Lambent in Celeste."
 	evt.Subtract("QBits", 664)         -- "Enter Celeste from the grand teleporter in the Bracada Desert, then talk to Gavin Magnus in Castle Lambent in Celeste."
 	Game.NPC[418].Events[0] = 896         -- "Gavin Magnus" : "Proving Grounds"
 end
@@ -2641,7 +2641,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(897)
 evt.global[897] = function()
 	evt.SetMessage(1214)         -- "We need your help retrieving half of a key to a very important place from our enemies, the Necromancers.  Like us, they have enshrined their half of the key in their highest temple--The Temple of the Dark.  I'm under no illusions this will be easy.  Take your time and act when you're prepared.  Also, bring our half of the key to us, as well.  It is enshrined in the Temple of the Light.  Since you're our ally, no one should trouble you when you go there to fetch the key.  By the same token, please don't harm any of them, either."
-	evt.Add("QBits", 615)         -- "Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste."
+	evt.Set("QBits", 615)         -- "Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste."
 	Game.NPC[419].Events[0] = 898         -- "Resurectra" : "Temple of the Dark"
 end
 
@@ -2660,7 +2660,7 @@ evt.global[898] = function()
 			evt.Add("Experience", 50000)
 			Game.NPC[419].Events[0] = 0         -- "Resurectra"
 			evt.Subtract("QBits", 615)         -- "Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste."
-			evt.Add("QBits", 627)         -- Finished Wizard Task 2 - Temple of Dark
+			evt.Set("QBits", 627)         -- Finished Wizard Task 2 - Temple of Dark
 			evt.Set("Awards", 19)         -- "Retrieved Both Temple Pieces"
 			evt.SetNPCGreeting{NPC = 419, Greeting = 227}         -- "Resurectra" : "Always a pleasure to see you, Lords."
 			evt.ForPlayer("Current")
@@ -2685,7 +2685,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(901)
 evt.global[901] = function()
 	evt.SetMessage(1222)         -- "Our allies in Tatalia have been complaining for some time of a mysterious presence.  There have been numerous deaths and disappearances for the last few months, and they've asked us if we knew anything about it.  I think I do.  I suspect a vampire is preying on Tatalia.  I don't have time to pursue the question myself, but to keep our allies happy, I'm asking you to please look into it.  It's possible the monster's presence has deeper implications than just bad luck for Tatalia."
-	evt.Add("QBits", 618)         -- "Investigate the Wine Cellar in Tatalia and return to Crag Hack in Castle Lambent in Celeste."
+	evt.Set("QBits", 618)         -- "Investigate the Wine Cellar in Tatalia and return to Crag Hack in Castle Lambent in Celeste."
 	Game.NPC[420].Events[0] = 902         -- "Crag Hack" : "Vampires"
 end
 
@@ -2717,7 +2717,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(903)
 evt.global[903] = function()
 	evt.SetMessage(1225)         -- "The plan involves stealing the soul jars the Necromancers rely on to prolong their miserable lives.  They have them hidden somewhere in their Guild Castle, and are probably not prepared for the kind of small scale assault you people are so good at.  A quick strike--in and out--should do the trick.  Don't hang around the castle too long, or reinforcements will arrive, and try to get it right the first time, or they will permanently double their patrols.  Once you have the soul jars, bring them back here so we can dispose of them properly."
-	evt.Add("QBits", 620)         -- "Retrieve the Case of Soul Jars from Castle Gloaming in the Pit and return to Sir Caneghem in Celeste."
+	evt.Set("QBits", 620)         -- "Retrieve the Case of Soul Jars from Castle Gloaming in the Pit and return to Sir Caneghem in Celeste."
 	Game.NPC[421].Events[0] = 904         -- "Sir Caneghem" : "Soul Jars"
 end
 
@@ -2754,8 +2754,8 @@ evt.global[905] = function()
 		evt.SetMessage(1219)         --[[ "Our plans rapidly approach their conclusion, but there is a hitch.  You have defeated the unholy alliance of The Corruption, but the traitor Judas has escaped and taken refuge with Xenofex and his Devil minions. They still represent a terrible threat, and though they are licking their wounds from our recent victory, will one day regain their strength and devastate the world.  If anything we do is to have lasting effect, we must first destroy these monsters for once and for all.
 
 You are strong, but not strong enough to defeat the devils on your own.  They are vulnerable to the brand of magic most commonly wielded by the Necromancers, and less so by our own Wizards.  It is imperative that you infiltrate the Devil's base and kill their leader Xenofex and the traitor, Judas.  That should end their threat to this world for some time.  The Warlocks have dug a tunnel from their volcano to the Land of the Giants-- the land the Devils claim as their own.  Perhaps you can use that." ]]
-		evt.Add("QBits", 616)         -- "Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste."
-		evt.Add("QBits", 838)         -- Resurectra
+		evt.Set("QBits", 616)         -- "Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste."
+		evt.Set("QBits", 838)         -- Resurectra
 	elseif evt.Cmp("QBits", 617) then         -- Slayed Xenofex
 		evt.SetMessage(1220)         -- "YOU ARE HEROES!!!  Your work against the devils was masterful!  And the rescue of King Roland was as delightful as it was unexpected.  History will never forget your names for doing what you just did!  I, for one, am very proud to know you.  "
 		evt.Add("Gold", 50000)
@@ -2763,7 +2763,7 @@ You are strong, but not strong enough to defeat the devils on your own.  They ar
 		evt.ForPlayer("All")
 		evt.Add("Experience", 500000)
 		evt.Subtract("QBits", 616)         -- "Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste."
-		evt.Add("QBits", 632)         -- Got Hive part
+		evt.Set("QBits", 632)         -- Got Hive part
 		Game.NPC[419].Events[1] = 919         -- "Resurectra" : "Final Task"
 		evt.Add(-- ERROR: Not found
 "Awards", 21)
@@ -2799,7 +2799,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(911)
 evt.global[911] = function()
 	evt.SetMessage(1239)         -- "Archibald has asked us to find a source of soul jars for his necromancers.  These are the jars that are needed to complete the Ritual that gives them eternal life, and we're almost out.  There are far more candidates for Lichdom than we have jars, so some of our necromancers are facing the grim possibility of real death.  The makers of the jars are the Warlocks.  Go to them and convince them to give us the jars.  If they won't hand them over, take the jars by force-- I'm done negotiating prices with them."
-	evt.Add("QBits", 636)         -- "Retrieve the Case of Soul Jars from the Warlocks in Thunderfist Mountain and bring them to Maximus in the Pit."
+	evt.Set("QBits", 636)         -- "Retrieve the Case of Soul Jars from the Warlocks in Thunderfist Mountain and bring them to Maximus in the Pit."
 	Game.NPC[424].Events[0] = 912         -- "Maximus" : "Soul Jars"
 end
 
@@ -2834,7 +2834,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(913)
 evt.global[913] = function()
 	evt.SetMessage(1242)         -- "Lord Archibald has another request--the creatures that have inhabited Clanker's laboratory must be evicted--and the teleport shield brought down.  The laboratory is on an island east of Pierpont in the Tularean Forest.  Be careful--the monsters in that lab were created by Clanker himself, and some of them are much more powerful than their more common fellows elsewhere in the world.  Take whatever you like from the place.  Lord Archibald is only interested in the real estate and the laboratory equipment.  Once the shield is down, Lord Archibald will be able to begin moving necromancers and equipment inside via Lloyd's Beacon. "
-	evt.Add("QBits", 637)         -- "Destroy the magical defenses inside Clanker's Laboratory and return to Dark Shade in the Pit."
+	evt.Set("QBits", 637)         -- "Destroy the magical defenses inside Clanker's Laboratory and return to Dark Shade in the Pit."
 	Game.NPC[425].Events[0] = 914         -- "Dark Shade" : "Clanker's Laboratory"
 end
 
@@ -2873,7 +2873,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(915)
 evt.global[915] = function()
 	evt.SetMessage(1245)         -- "We cannot leave until we have the Control Cube."
-	evt.Add("QBits", 639)         -- "Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit."
+	evt.Set("QBits", 639)         -- "Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit."
 	Game.NPC[426].Events[0] = 916         -- "Tolberti" : "Robert the Wise"
 end
 
@@ -2916,7 +2916,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(917)
 evt.global[917] = function()
 	evt.SetMessage(1248)         -- "Yes, the test.  It's simple.  Near the center of the city is a place we call the Breeding Zone.  There's a lot of foul monsters in the pit, and they regenerate constantly.  It makes for a good source of slaves, spare parts, and target practice.  All of our necromancers are tested there when they want to rise above the level of initiate.  I'm sure you'll pass the test.  Just jump in the pit and find a way out.  Kill anything you want down there.  Show no mercy.  When you escape, crawl out of the pit and come see me again.  If you complete this, I will give you membership in the Guild of Dark. *If* you complete this..."
-	evt.Add("QBits", 640)         -- "Complete the Breeding Zone and return to Archibald in the Pit."
+	evt.Set("QBits", 640)         -- "Complete the Breeding Zone and return to Archibald in the Pit."
 	evt.Subtract("QBits", 663)         -- "Enter the Pit from the Hall of the Pit in the Deyja Moors, then talk to Archibald in Castle Gloaming in the Pit."
 	Game.NPC[427].Events[0] = 918         -- "Archibald Ironfist" : "Breeding Pit"
 end
@@ -2955,7 +2955,7 @@ evt.global[919] = function()
 
 Except for one thing.  We have been unable to find the Oscillation Overthruster on your world.  All would be lost, but there is one such device aboard the Lincoln--the vehicle that brought us to your world.  It is in the sea west of Avlee and secured against entry, even from ourselves.  Now you must wear our environment suits, enter the ship, and return with the Overthruster; you will find these suits in the chest outside this throne room.  For the suit to function properly you must not be wearing any equipment.  As for us, we must stand watch at the gate, and battle our former comrades.  " ]]
 	evt.Add("History26", 0)
-	evt.Add("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
+	evt.Set("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
 	Game.NPC[419].Events[1] = 920         -- "Resurectra" : "Final Task"
 end
 
@@ -2966,7 +2966,7 @@ evt.global[920] = function()
 	if evt.Cmp("Inventory", 1407) then         -- "Oscillation Overthruster"
 		evt.Subtract("Inventory", 1407)         -- "Oscillation Overthruster"
 		evt.Subtract("QBits", 747)         -- Wetsuit - I lost it
-		evt.Add("QBits", 886)         -- End Game
+		evt.Set("QBits", 886)         -- End Game
 		Game.NPC[419].Events[1] = 0         -- "Resurectra"
 		evt.ShowMovie{DoubleSize = 1, ExitCurrentScreen = true, Name = "\"Endgame 1 Good\" "}
 		evt.SetNPCGroupNews{NPCGroup = 61, NPCNews = 84}         -- "Southern Village Group in Harmondy" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
@@ -3006,7 +3006,7 @@ evt.global[921] = function()
 
 Only one task remains--we need the Oscillation Overthruster from our old vehicle, the Lincoln.  We have been unable to find one on your world.  The ship is in the sea west of Avlee and secured against entry, even from ourselves.  Now you must wear our environment suits, enter the ship, and return with the Overthruster.  Our old environments suits have been prepared for you in the chest outside this throne room.  For the suit to function properly you must not be wearing any equipment.We will stand watch over the Forge, and defend it against our enemies.  Bring us the Overthruster, my friends, and together, we shall rule the world!" ]]
 	evt.Add("History27", 0)
-	evt.Add("QBits", 643)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
+	evt.Set("QBits", 643)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
 	Game.NPC[423].Events[1] = 922         -- "Kastore" : "Final Task"
 end
 
@@ -3083,7 +3083,7 @@ Game.GlobalEvtLines:RemoveEvent(927)
 evt.global[927] = function()
 	if evt.Cmp("Gold", 5000) then
 		evt.SetMessage(1387)         -- "Here's the membership, remember it only lasts for six months.  Check the shelves in the front rooms here to see what is available."
-		evt.Add("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
+		evt.Set("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
 		evt.Subtract("Gold", 5000)
 		Game.NPC[620].Events[1] = 0         -- "Eric Swarrel"
 	else
@@ -3109,7 +3109,7 @@ Game.GlobalEvtLines:RemoveEvent(929)
 evt.global[929] = function()
 	evt.SetMessage(1390)         -- "We have no one to turn to but you, the new Lords of Harmondale. The Lantern of Light is a treasured holy relic, used by the temples of Erathia.  Its value is more symbolic than of power-- without it the temples servants lose faith.  This Lantern disappeared while being brought to this temple from the temple in Stone City.  We believe it was lost somewhere in the maze-like Barrows.  Please find it and return it to us."
 	Game.NPC[432].Events[0] = 930         -- "Tarin Withern" : "Quest"
-	evt.Add("QBits", 667)         -- "Retrieve the Lantern of Light from the Barrow Downs and return it to Tarin Withern in Harmondale."
+	evt.Set("QBits", 667)         -- "Retrieve the Lantern of Light from the Barrow Downs and return it to Tarin Withern in Harmondale."
 end
 
 -- "Quest"
@@ -3137,7 +3137,7 @@ Game.GlobalEvtLines:RemoveEvent(931)
 evt.global[931] = function()
 	evt.SetMessage(1393)         -- "My, brother, Haldar passed away last month.  The family was sending his remains to me to be put to final rest.  Something happened to those delivering these remains to me; they disappeared in Nighon and not been heard from since. I fear my brothers soul will never rest unless they are found!  Please return Haldar to me if you find him? I will reward you well for this!"
 	Game.NPC[433].Events[0] = 932         -- "Mazim Dusk" : "Quest"
-	evt.Add("QBits", 668)         -- "Retrieve Haldar's Remains from the Maze in Nighon and return them to Mazim Dusk in Nighon."
+	evt.Set("QBits", 668)         -- "Retrieve Haldar's Remains from the Maze in Nighon and return them to Mazim Dusk in Nighon."
 end
 
 -- "Quest"
@@ -3165,7 +3165,7 @@ Game.GlobalEvtLines:RemoveEvent(933)
 evt.global[933] = function()
 	evt.SetMessage(1396)         -- "My lords, I was beset by foul bandits when I returned from Avlee and they took everything I had brought with me from the Elves.  They even took my signet ring!  Without it I cannot continue my business because I cannot seal contracts between myself and other merchants.  I've heard the bandits base themselves out of a camp in Erathia, but I'm no warrior-- I'd not last a minute against them.  Please go to Erathia and see this justice done!"
 	Game.NPC[434].Events[0] = 934         -- "Davrik Peladium" : "Quest"
-	evt.Add("QBits", 669)         -- "Retrieve Davrik's Signet ring from the Bandit Caves in the northeast of Erathia and return it to Davrik Peladium in Erathia."
+	evt.Set("QBits", 669)         -- "Retrieve Davrik's Signet ring from the Bandit Caves in the northeast of Erathia and return it to Davrik Peladium in Erathia."
 end
 
 -- "Quest"
@@ -3196,7 +3196,7 @@ Game.GlobalEvtLines:RemoveEvent(935)
 evt.global[935] = function()
 	evt.SetMessage(1399)         -- "So you are the Lords of Harmondale, eh?  You don’t look like much; we shall see how history judges you!  I myself am a historian and collector of rare historical items.  Lord Markham also collects such items of interest and there is one item in particular that would complete my collection, Parson's Quill-- the Quill used to sign the Treaty of Pierpont ending the first Timber War.  I know you have dealt with Lord Markham before, it's how you became Lords of this land after all, and if you would take this letter to Lord Markham in Tatalia, I'm sure he would respond favorably.  I would be even more in your debt if Lord Markham sends this item back with you!  I would be sure to favorably record your heroic acts and deeds!"
 	Game.NPC[435].Events[0] = 936         -- "Norbert Thrush" : "Thrush's Letter"
-	evt.Add("QBits", 670)         -- "Take Sealed Letter to Lord Markham in Lord Markham's Manor in Tatalia for collector Norbert Thrush."
+	evt.Set("QBits", 670)         -- "Take Sealed Letter to Lord Markham in Lord Markham's Manor in Tatalia for collector Norbert Thrush."
 	evt.Add("Inventory", 1416)         -- "Letter from Norbert Thrush to Lord Markham"
 end
 
@@ -3229,7 +3229,7 @@ evt.global[937] = function()
 	evt.ForPlayer("Current")
 	evt.Add("Inventory", 1405)         -- "Parson's Quill"
 	evt.Subtract("QBits", 670)         -- "Take Sealed Letter to Lord Markham in Lord Markham's Manor in Tatalia for collector Norbert Thrush."
-	evt.Add("QBits", 671)         -- "Return Parson's Quill to Norbert Thrush in Erathia."
+	evt.Set("QBits", 671)         -- "Return Parson's Quill to Norbert Thrush in Erathia."
 	Game.NPC[340].Events[4] = 0         -- "Lord Markham"
 end
 
@@ -3296,7 +3296,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(941)
 evt.global[941] = function()
 	evt.SetMessage(1406)         -- "We request your services for only one small task.  In Castle Lambent rests a valuable tapestry taken from an attack on Watchtower 3 years ago.  I would like you to get the tapestry for me, as you must have *some* access to the Castle-- my normal associates can't even come near the place.  I hear a large band of goblins and renegade swordsmen are about... it would be a shame if they happened to find a way to Harmondale.  You have one month to get the tapestry.  Don't be late."
-	evt.Add("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+	evt.Set("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
 	evt.Set("Counter5", 0)
 	Game.NPC[438].Events[0] = 943         -- "Niles Stantley" : "Quest"
 end
@@ -3312,7 +3312,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(942)
 evt.global[942] = function()
 	evt.SetMessage(1407)         -- "We request your services for one task.  A rare and valuable tapestry rests in Castle Gloaming, an antique from near the Silence stolen from the wizards some time ago.  I would like you to get the tapestry for me, as my normal associates don't have access to Castle Gloaming.  In return, I'll make sure that the large band of renegade swordsmen and goblins near Harmondale don't accidentally stumble upon your quiet, little village.  You have one month; don't be late."
-	evt.Add("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+	evt.Set("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
 	evt.Set("Counter5", 0)
 	Game.NPC[438].Events[1] = 943         -- "Niles Stantley" : "Quest"
 end
@@ -3342,7 +3342,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(944)
 evt.global[944] = function()
 	evt.SetMessage(1410)         -- "A few years back, while mining underneath Stone City, we came upon quite a shock.  It seems that the Warlocks from Nighon had burrowed under the sea to make a sneak attack upon the shores of Erathia.  Their careless tunneling has sunken the earth around here until now the areas around the old dwarven barrows and, of course, Stone City, rest far above the terrain.  We discovered a force of troglodytes in our mining areas, with a tunnel leading back to Nighon.  If you could help us by ridding the tunnels of the troglodytes, we could get back to mining.  Can you help us?"
-	evt.Add("QBits", 698)         -- "Kill all the Troglodytes underneath Stone City and return to Spark Burnkindle in Stone City."
+	evt.Set("QBits", 698)         -- "Kill all the Troglodytes underneath Stone City and return to Spark Burnkindle in Stone City."
 	Game.NPC[439].Events[0] = 945         -- "Spark Burnkindle" : "Quest"
 end
 
@@ -3388,7 +3388,7 @@ Well, our experiments were far too successful and the creatures turned on their 
 I need you to proceed to the Kennel, eliminate all creatures, obtain the Journal of Experiments, and return to me.  The reward will be commensurate with your efforts.
 
 Oh! before I forget.  The entrance to the Kennel is secured by a cipher lock.  The combination is Top, Right, Bottom, Left, Center.  Good luck!" ]]
-		evt.Add("QBits", 541)         -- "Kill the creatures in the Kennel and return to Queen Catherine with the Journal of Experiments.."
+		evt.Set("QBits", 541)         -- "Kill the creatures in the Kennel and return to Queen Catherine with the Journal of Experiments.."
 	end
 end
 
@@ -3425,7 +3425,7 @@ We need your party to break into the Treasury, find the key, enter the Vault, sl
 Duke Bimbasto and Sir Vilx.., Erathia's Greatest Champions, have offered their assistance.  They will meet you at the entrance to the Treasury.
 
 Be careful on this quest.  The dangers are many, and the foes are plenty." ]]
-		evt.Add("QBits", 874)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
+		evt.Set("QBits", 874)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
 		evt.SetNPCGreeting{NPC = 422, Greeting = 137}         -- "Robert the Wise" : "You must bring the Control Cube to me."
 	end
 end
@@ -4615,7 +4615,7 @@ Oh. Be careful.  The chests are ‘trapped’." ]]
 		evt.Add("Gold", 5000)
 		evt.Set("Awards", 125)         -- "Proclaimed Friend of Hothfarr, King of Dwarves and Savior of Stone City"
 		evt.Subtract("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		evt.Add("QBits", 880)         -- Barrow Normal
+		evt.Set("QBits", 880)         -- Barrow Normal
 		evt.Subtract("Inventory", 1075)         -- "Plague Elixir"
 		Game.NPC[398].Events[0] = 0         -- "Hothfarr IX"
 		evt.SetNPCGreeting{NPC = 398, Greeting = 145}         -- "Hothfarr IX" : "Welcome back Friends of Hothfarr and Saviors of Stone City!  The city is at your disposal."
@@ -4680,7 +4680,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1212)
 evt.global[1212] = function()
 	evt.SetMessage(1561)         -- "During the wars between the Temples of the Sun and Moon, three statuettes were stolen from the shrines in the Bracada Desert, Tatalia, and Avlee.  I represent a group of Druids that want these shrines back to their original form-- it is critical for their worship.  To this end, I am offering a substantial reward for anyone that will find the statuettes and place them on the shrines."
-	evt.Add("QBits", 712)         -- "Retrieve the three statuettes and place them on the shrines in the Bracada Desert, Tatalia, and Avlee, then return to Thom Lumbra in the Tularean Forest."
+	evt.Set("QBits", 712)         -- "Retrieve the three statuettes and place them on the shrines in the Bracada Desert, Tatalia, and Avlee, then return to Thom Lumbra in the Tularean Forest."
 	Game.NPC[627].Events[0] = 1213         -- "Thom Lumbra" : "Quest"
 end
 
@@ -4710,7 +4710,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1214)
 evt.global[1214] = function()
 	evt.SetMessage(1564)         -- "As you may have already guessed, I'm a collector of fine art.  Currently, I am looking for a set of paintings, one of King Roland, one of his brother Archibald, and one of the angel statue in the courtyard of Castle Ironfist.  This set is of great value, and, as a collector, I'm willing to pay quite handsomely for it.  If you should gather the entire set of paintings bring them back to me and I'll be sure to compensate you well for your effort."
-	evt.Add("QBits", 716)         -- "Retrieve the three paintings and return them to Ferdinand Visconti in Tatalia."
+	evt.Set("QBits", 716)         -- "Retrieve the three paintings and return them to Ferdinand Visconti in Tatalia."
 	Game.NPC[628].Events[0] = 1215         -- "Ferdinand Visconti" : "Quest"
 end
 
@@ -4745,7 +4745,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1216)
 evt.global[1216] = function()
 	evt.SetMessage(1568)         -- "To be declared ArcoMage Champion, you must win a game of ArcoMage in every tavern on, in, and under the continent of Erathia.  There are 13 such taverns sponsoring ArcoMage events.  When you have accomplished this in Elrond's name, return to me and I shall bestow upon you great rewards."
-	evt.Add("QBits", 717)         -- "Honor Elrond's memory by winning the Arcomage Championship, then return to Darron Temper in Pierpont."
+	evt.Set("QBits", 717)         -- "Honor Elrond's memory by winning the Arcomage Championship, then return to Darron Temper in Pierpont."
 	Game.NPC[624].Events[0] = 1217         -- "Darron Temper" : "Quest"
 end
 
@@ -5208,7 +5208,7 @@ evt.global[513] = function()
 	if evt.Cmp("Gold", 1000) then
 		evt.SetMessage(1642)         -- "This 1000 gold will go a long way to keeping zombies off the roads.  Thank you for your contribution."
 		evt.Subtract("Gold", 1000)
-		evt.Add("QBits", 761)         -- Don't get ambushed
+		evt.Set("QBits", 761)         -- Don't get ambushed
 	else
 		evt.SetMessage(1659)         -- "I can see your heart is in the right place, but your purse obviously isn't.  If you don't have the money, just say so.  In any event, good luck dealing with the zombies.  Ta-ta!"
 	end
@@ -5250,7 +5250,7 @@ Game.GlobalEvtLines:RemoveEvent(1259)
 evt.global[1259] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
-		evt.SetMessage(2818)         --[[ "My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
+		evt.SetMessage(2868)         --[[ "My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
 
 Now, onto the task at-hand.  My twin sister Rena lives here in Deja with her husband, Jayce Kedrin.  Rena and I are not identical twins and she was not ‘blessed’ with the ‘looks’ in our family as was I.  She’s, well, kind of plain.  Some might call her a real ‘Bow Wow’, if you know what I mean.  She’s the proverbial ‘two-bag date’.  Anywise, her birthday is upon us and I have purchased a special concoction called ‘Beauty Cream’ from Licia Rivenrock.  She’s indeed a Master Herbalist and her ‘cream’ is reported to do wonders with even the most ‘ordinary’ of subjects. I need you to pick up the order from Licia and deliver it to my sister.  Licia runs a business called ‘The House of Remedies’ in the Barrow Downs.
 
@@ -5260,32 +5260,32 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 	end
 	if evt.Cmp("QBits", 788) then         -- Courier Quest 3
 		if evt.Cmp("Inventory", 1576) then         -- "Recipe"
-			evt.SetMessage(2817)         -- "The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."
+			evt.SetMessage(2867)         -- "The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."
 			evt.Subtract("Inventory", 1576)         -- "Recipe"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			Game.NPC[1244].Events[0] = 0         -- "Alice the Chef"
-			evt.Add("QBits", 792)         -- Courier Quest 3 complete
+			Game.NPC[1254].Events[0] = 0         -- "Alice the Chef"
+			evt.Set("QBits", 792)         -- Courier Quest 3 complete
 		else
-			evt.SetMessage(2815)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
+			evt.SetMessage(2865)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
 		end
 		return
 	end
 	if evt.Cmp("QBits", 787) then         -- Courier Quest 2
 		if evt.Cmp("Inventory", 1366) then         -- "Talisman (repaired)"
-			evt.SetMessage(2813)         -- "The talisman, good as new!  Thanks.  Here’s your payment."
+			evt.SetMessage(2863)         -- "The talisman, good as new!  Thanks.  Here’s your payment."
 			evt.Subtract("Inventory", 1366)         -- "Talisman (repaired)"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
 			Game.NPC[377].Events[0] = 0         -- "Bartholomew Hume"
-			evt.Add("QBits", 791)         -- Courier Quest 2 complete
+			evt.Set("QBits", 791)         -- Courier Quest 2 complete
 			return
 		end
 		if not evt.Cmp("Inventory", 1365) then         -- "Talisman (broken)"
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1365)         -- "Talisman (broken)"
 		end
-		evt.SetMessage(2812)         -- "Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."
+		evt.SetMessage(2862)         -- "Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."
 		return
 	end
 	if not evt.Cmp("QBits", 786) then         -- Courier Quest 1
@@ -5299,7 +5299,7 @@ Oh! and I found the crossword puzzle answer.  Freddie the Freeloader was a Red S
 		evt.ForPlayer("Current")
 		evt.Add("Gold", 5000)
 		Game.NPC[580].Events[0] = 0         -- "Taren the Lifter"
-		evt.Add("QBits", 790)         -- Courier Quest 1 complete
+		evt.Set("QBits", 790)         -- Courier Quest 1 complete
 		return
 	end
 	if not evt.Cmp("Inventory", 1574) then         -- "Unsigned Contract"
@@ -5317,22 +5317,22 @@ evt.global[1260] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
 		if evt.Cmp("QBits", 794) then         -- Rena Quest
-			evt.SetMessage(2820)         --[[ "A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
+			evt.SetMessage(2870)         --[[ "A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
 
 Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m going to take a little nap.  Visit me later to see the results of the ‘miracle treatment’.  By for now …. " ]]
-			evt.Add("QBits", 793)         -- Courier Quest 4 complete
+			evt.Set("QBits", 793)         -- Courier Quest 4 complete
 			evt.Subtract("Inventory", 1074)         -- "Beauty Creme"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			Game.NPC[1245].Events[0] = 0         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1245, HouseId = 0}         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1246, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			Game.NPC[1255].Events[0] = 0         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1255, HouseId = 0}         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1256, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 		else
-			evt.SetMessage(2819)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
+			evt.SetMessage(2869)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja."" ]]
-			evt.Add("QBits", 794)         -- Rena Quest
-			Game.NPC[1245].Events[0] = 1260         -- "Rena Putnum Kedrin" : "Courier Delivery"
+			evt.Set("QBits", 794)         -- Rena Quest
+			Game.NPC[1255].Events[0] = 1260         -- "Rena Putnum Kedrin" : "Courier Delivery"
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1074)         -- "Beauty Creme"
 			evt.Add("Inventory", 1468)         -- "Deja Teleportal Key"
@@ -5341,14 +5341,14 @@ Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well he
 	elseif evt.Cmp("QBits", 788) then         -- Courier Quest 3
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1576)         -- "Recipe"
-		evt.SetMessage(2816)         -- "Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."
+		evt.SetMessage(2866)         -- "Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."
 		evt.Add("Inventory", 1469)         -- "Avlee Teleportal Key"
 		Game.NPC[781].Events[0] = 0         -- "Peni Pretty"
 	elseif evt.Cmp("QBits", 787) then         -- Courier Quest 2
 		evt.Subtract("Inventory", 1365)         -- "Talisman (broken)"
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1366)         -- "Talisman (repaired)"
-		evt.SetMessage(2814)         -- "What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."
+		evt.SetMessage(2864)         -- "What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."
 		evt.Add("Inventory", 1471)         -- "Bracada Teleportal Key"
 		Game.NPC[467].Events[0] = 0         -- "Douglas Iverson"
 	elseif evt.Cmp("QBits", 786) then         -- Courier Quest 1
@@ -5373,7 +5373,7 @@ evt.global[1261] = function()
 	evt.SetMessage(1651)         --[[ "Welcome, adventurers!  I'm Sarah, the Founding Matron and Gran Mouma of the Courier Guild.  The Courier Guild consists of an elite company of Master Couriers who enjoy certain travel privileges throughout the remote areas of Erathia.   Membership to the guild is 500 gold, non-refundable.  With your initial membership, you become a Courier Initiate and receive the Home Key, which entitles you to use all Home Portals to return you to Steadwick.
 
 To become a Master Courier, you must complete four courier assignments.  The completion of each assignment will provide you with (1) a 5000 gold delivery fee and (2) a unique teleportal key that activates the Teleportal Hub in Harmondale."" ]]
-	Game.NPC[1242].Events[0] = 1262         -- "Sarah" : "Join the Guild"
+	Game.NPC[1252].Events[0] = 1262         -- "Sarah" : "Join the Guild"
 end
 
 -- "Join the Guild"
@@ -5381,12 +5381,12 @@ Game.GlobalEvtLines:RemoveEvent(1262)
 evt.global[1262] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Gold", 500) then
-		evt.Add("QBits", 785)         -- "Complete four Courier Guild missions."
+		evt.Set("QBits", 785)         -- "Complete four Courier Guild missions."
 		evt.ForPlayer("Current")
 		evt.Subtract("Gold", 500)
 		evt.Add("Inventory", 1472)         -- "Home Key"
 		evt.SetMessage(1652)         -- "A wise decision on your part!  Here’s your Home Key.  Guard it carefully, because it is irreplaceable."
-		Game.NPC[1242].Events[0] = 1263         -- "Sarah" : "Courier Assignment"
+		Game.NPC[1252].Events[0] = 1263         -- "Sarah" : "Courier Assignment"
 	else
 		evt.SetMessage(1063)         -- "You don't have enough gold!"
 	end
@@ -5403,23 +5403,23 @@ evt.global[1263] = function()
 Oh!  And watch out for the hostiles in this area!  Good luck." ]]
 			Game.NPC[548].Events[0] = 1259         -- "Agatha Putnam" : "Courier Delivery"
 			Game.NPC[738].Events[0] = 1260         -- "Licia Rivenrock" : "Courier Delivery"
-			evt.MoveNPC{NPC = 1245, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
-			evt.Add("QBits", 789)         -- Courier Quest 4
+			evt.MoveNPC{NPC = 1255, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			evt.Set("QBits", 789)         -- Courier Quest 4
 		elseif evt.Cmp("QBits", 791) then         -- Courier Quest 2 complete
 			evt.SetMessage(1655)         -- "I see you are well on your way to Master Courier.  Good!  Your third delivery takes you to the town of Spaward in Avlee.  You need to locate Alice's Restaurant  (where you can get anything you want) and just ask Alice.  She'll brief you on the details of the delivery."
-			Game.NPC[1244].Events[0] = 1259         -- "Alice the Chef" : "Courier Delivery"
+			Game.NPC[1254].Events[0] = 1259         -- "Alice the Chef" : "Courier Delivery"
 			Game.NPC[781].Events[0] = 1260         -- "Peni Pretty" : "Courier Delivery"
-			evt.Add("QBits", 788)         -- Courier Quest 3
+			evt.Set("QBits", 788)         -- Courier Quest 3
 		elseif evt.Cmp("QBits", 790) then         -- Courier Quest 1 complete
 			evt.SetMessage(1654)         -- "Good job on your first assignment!  For your next delivery, you must journey to the Bracada Desert and seek out Bartholomew Hume, the Roving Monk. You can normally find him near the Crystal Caravans.  He will provide you with details of the delivery. Bracada does have a Home Portal, in case you need to return here during your assignment.""
 			Game.NPC[377].Events[0] = 1259         -- "Bartholomew Hume" : "Courier Delivery"
 			Game.NPC[467].Events[0] = 1260         -- "Douglas Iverson" : "Courier Delivery"
-			evt.Add("QBits", 787)         -- Courier Quest 2
+			evt.Set("QBits", 787)         -- Courier Quest 2
 		else
 			evt.SetMessage(1653)         -- "Your first assignment takes you to Tatalia.  When you arrive, seek out Taren.  He will provide you with details of the delivery.  Tatalia does have a Home Portal, in case you need to return here during your assignment."
 			evt.MoveNPC{NPC = 580, HouseId = 1048}         -- "Taren the Lifter" -> "Taren's House"
 			Game.NPC[446].Events[0] = 1260         -- "Mortie Ottin" : "Courier Delivery"
-			evt.Add("QBits", 786)         -- Courier Quest 1
+			evt.Set("QBits", 786)         -- Courier Quest 1
 		end
 		return
 	end
@@ -5442,13 +5442,13 @@ Now just one more thing.  Our couriers used to service the Evenmorn Islands. Unf
 	Game.NPC[382].Events[0] = 823         -- "Frederick Org" : "Cavalier"
 	Game.NPC[384].Events[0] = 829         -- "Ebednezer Sower" : "Hunter"
 	Game.NPC[377].Events[1] = 808         -- "Bartholomew Hume" : "Initiate"
-	evt.Add("QBits", 795)         -- End of Festival
+	evt.Set("QBits", 795)         -- End of Festival
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("Experience", 20000)
 		evt.Add("Awards", 118)         -- "Promoted to Master Courier"
 	end
-	Game.NPC[1242].Events[0] = 1264         -- "Sarah" : "Lost Key"
+	Game.NPC[1252].Events[0] = 1264         -- "Sarah" : "Lost Key"
 end
 
 -- "Lost Key"
@@ -5459,9 +5459,9 @@ evt.global[1264] = function()
 		evt.SetMessage(949)         -- "I see you’ve recovered the Evenmorn key.  Great!  This is indeed a good day for The Guild!  Let me make a copy of the key.  Here’s your reward, as promised."
 		evt.ForPlayer("Current")
 		evt.Add("Gold", 10000)
-		Game.NPC[1242].Events[0] = 0         -- "Sarah"
+		Game.NPC[1252].Events[0] = 0         -- "Sarah"
 	else
-		evt.SetMessage(2811)         -- "Please continue to search for the Evenmorn Key."
+		evt.SetMessage(2861)         -- "Please continue to search for the Evenmorn Key."
 	end
 end
 
@@ -5483,7 +5483,7 @@ end
 -- "I feel Pretty!"
 Game.GlobalEvtLines:RemoveEvent(1266)
 evt.global[1266] = function()
-	evt.SetMessage(2821)         --[[ "I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
+	evt.SetMessage(2871)         --[[ "I feel pretty, oh so pretty.  I feel pretty .. and witty .. and gay!  And I pity any girl that's in need today. Tra-la-la-la-la-la-lala!! 
 
 I feel stunning,oh so stunning.  Feel like running and jumping for joy!  ....." ]]
 end
@@ -5510,7 +5510,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1270)
 evt.global[1270] = function()
 	if evt.Cmp("Inventory", 1466) then         -- "Emerald Is. Teleportal Key"
-		evt.SetMessage(2806)         -- "I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."
+		evt.SetMessage(2856)         -- "I see you have the Emerald Island teleportal key.  You cannot use this key in the Harmondale Hub.  It only works at the teleport platform north of the Crystal Caravan."
 	else
 		evt.SetMessage(1658)         -- "The well in this area is a Teleportal Hub used by the Courier Guild. The hub can take you to Bracada, Evenmorn Islands, Deja, Tatalia, and Avlee.  The keys required to use the hub are only issued to guild members in good standing.  The guild's main office is in Steadwick (Erathia proper), accross the way from the Griffin's Rest."
 	end
@@ -6073,10 +6073,10 @@ end
 evt.global[2000] = function()
 	evt.ForPlayer("All")
 	if not evt.Cmp("Inventory", 1540) then         -- "Lost Scroll of Wonka"
-		evt.SetMessage(2800)         -- "You must bring the Lost Scroll of Wonka to me to collect your reward."
+		evt.SetMessage(2850)         -- "You must bring the Lost Scroll of Wonka to me to collect your reward."
 		return
 	end
-	evt.SetMessage(2801)         --[[ "“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
+	evt.SetMessage(2851)         --[[ "“Well I’ll be … ya found the Lost Scroll! <he he> I guess it’s not lost anymore, huh!  [smile]  Excuse me for a moment while I verify the authenticity.
 
 Blayze retires to a back room.  In a few moments he begins an incantation in slow, guttural tones.
 
@@ -6101,7 +6101,7 @@ end
 evt.global[2001] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1361) then         -- "Watcher's Ring of Elemental Water"
-		evt.SetMessage(2804)         -- "I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."
+		evt.SetMessage(2854)         -- "I see that you've returned with the Watcher's Ring of Elemental Water. Good!    Use the power of this ring wisely, my students in the pursuit of Truth, Justice, and the Erathian Way!  Now I can promote you to Master level  if  you are already an Expert  with a skill of at least '7'  and have been promoted in your chosen profession..  Oh, and my fee is 4000  gold.  Gotta make a living, you know."
 		evt.Add("Experience", 30000)
 		Game.NPC[483].Events[0] = 343         -- "Tobren Rainshield" : "Water Magic Master"
 		return
@@ -6110,7 +6110,7 @@ evt.global[2001] = function()
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1128)         -- "Water Walk"
 	end
-	evt.SetMessage(2803)         -- "Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"
+	evt.SetMessage(2853)         -- "Before I can promote you to Master of Water Magic, you must prove yourself worthy.  Retrieve the Watcher's Ring of Elemental Water and return it to me.  The Ring is guarded by a powerful Sylph who lives on an island west of Spaward in the Bay of Avlee"
 end
 
 -- "The Greatest Hero"
@@ -6118,7 +6118,7 @@ evt.global[2002] = function()
 	evt.StatusText(985)         --[[ "Sir BunGleau, Baron of Post Lost, was the greatest Hero in Erathia's history.  So great were his deeds and so noble his demeanor that the Saints of Selinas offered him a shiny panoply endowed with boons beyond measure.  But the humble knight refused their offer, remarking that he could not, in good conscience, wear such a flamboyant display of privilege.  So the Saints offered to enchant the armor with invisibility if he would but openly wear the gauntlets to signify their blessing upon him.  To this he agreed. 
 
 When he retired, the Saints hid his armor and placed six scrolls about the countryside.  It is said that if the secret of these scrolls is unlocked, it will reveal the location of a map indicating where this treasure may be found.  " ]]
-	evt.SetNPCGreeting{NPC = 1243, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	Game.NPC[1243].Events[0] = 801         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	Game.NPC[1253].Events[0] = 801         -- "Messenger of the Saints" : "Crusader"
 end
 

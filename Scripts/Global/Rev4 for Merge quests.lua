@@ -116,6 +116,117 @@ end
 -- add chests?
 
 -- SHOW EXACT SPELL INFORMATION ON RIGHT CLICK (reverse engineering)
+-- boost spiders level/experience/hit radius?
+
+sharedSpawnpoint = {}
+vars.SharedSpawnpoints = vars.SharedSpawnpoints or {}
+sharedSpawnpoints = {}
+function sharedSpawnpoint.new(monster, max)
+	local MAX_SPAWNED_AT_ONCE = diffsel(4, 6, 8)
+	local ret = {}
+	local spawns = {}
+	local maxSpawnByType = {}
+	local spawned = {}
+	if max then
+		maxSpawnByType[monster] = max
+	end
+	function ret.add(data)
+		if type(data) ~= "table" then error("Argument passed to sharedSpawnpoint.add() isn't a table") end
+		spawns[data.monster] = spawns[data.monster] or {}
+		table.insert(spawns[data.monster], data)
+	end
+	function ret.setMax(mon, max)
+		maxSpawnByType[mon] = max
+	end
+	function ret.setDefaultMax(max)
+		MAX_SPAWNED_AT_ONCE = max
+	end
+	function ret.spawn(monster, settings)
+		settings = settings or {}
+		local monsterSpawnpoints = spawns[monster]
+		local function spawn2()
+			if #monsterSpawnpoints == 0 then return end
+			local randOrder = {}
+			if settings.RandomSpawnpointOrder then
+				while #randOrder < #monsterSpawnpoints do
+					local i = math.random(1, #monsterSpawnpoints)
+					if not table.find(randOrder, i) then
+						table.insert(randOrder, i)
+					end
+				end
+			else
+				for i = 1, #monsterSpawnpoints do
+					randOrder[i] = i
+				end
+			end
+			for _, index in ipairs(randOrder) do
+				local spawn = monsterSpawnpoints[index]
+				local canSpawn = (maxSpawnByType[monster] or DEFAULT_SPAWN_AMOUNT) - #(spawned[monster] or {})
+				local maxInOneSpawn = canSpawn
+				local minInOneSpawn = 1
+				if settings.ExactSpawnMin then
+					local min, max = getRange(spawn.count)
+					minInOneSpawn = min
+				end
+				if settings.ExactSpawnMax then
+					local min, max = getRange(spawn.count)
+					maxInOneSpawn = max
+				end
+				if settings.DivideAcrossAllSpawnpoints then
+					maxInOneSpawn = math.ceil(canSpawn / #monsterSpawnpoints)
+				end
+				local max = math.min(canSpawn, maxInOneSpawn)
+				if max <= 0 then break end
+				local oldC = spawn.count
+				spawn.count = tostring(minInOneSpawn) .. "-" .. tostring(maxInOneSpawn)
+				local mons = pseudoSpawnpoint(spawn)
+				spawn.count = oldC
+				spawned = table.join(spawned, mons)
+				canSpawn = canSpawn - #mons
+			end
+		end
+		if monster then
+			spawn2()
+		else
+			for k, v in pairs(spawns) do
+				monster = v.monster
+				monsterSpawnpoints = spawns[k]
+				spawn2()
+			end
+		end
+	end
+	function ret.getSpawnedMonsters(monster)
+		return spawned[monster] or spawned
+	end
+	function ret.clear(monster)
+		if monster then
+			spawns[monster] = {}
+		else
+			spawns = {}
+		end
+	end
+	ret.clearAll = ret.clear
+	table.insert(vars.SharedSpawnpoints[Map.Name:lower()], ret)
+	return ret
+end
+
+function events.LoadMap()
+	local n = Map.Name:lower()
+	if Map.Refilled then
+		vars.SharedSpawnpoints[n] = {}
+		return
+	end
+	if vars.SharedSpawnpoints[n] then
+		sharedSpawnpoints = vars.SharedSpawnpoints[n]
+	end
+	for i, v in ipairs(sharedSpawnpoints) do
+		sharedSpawnpoints[i] = Map.Monsters[v]
+	end
+end
+
+function events.LeaveMap()
+	
+end
 
 if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
 	-- chests, ground items?
@@ -158,18 +269,26 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			wrom.HP, wrom.FullHP = math.round(wrom.FullHP * diffsel(1.3, 1.8, 2.5)), math.round(wrom.FullHP * diffsel(1.3, 1.8, 2.5))
 			wrom.Group = 255
 			wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
-			wrom.Spell2, wrom.SpellChance2, wrom.SpellSkill2 = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 10, const.GM)
+			wrom.Spell2, wrom.Spell2Chance, wrom.Spell2Skill = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 10, const.GM)
 			boostResistances(wrom, diffsel(20, 40, 60))
-			wrom.Attack1.DamageDiceSides, wrom.Attack1.DamageAdd = math.round(wrom.Attack1.DamageDiceSides * diffsel(1.2, 1.4, 1.7), diffsel(10, 15, 20)
+			wrom.Attack1.DamageAdd = diffsel(20, 25, 30)
 			wrom.TreasureDiceCount = wrom.TreasureDiceCount * 3
 		end
-		local spawnedMapMonsterIds = {}
-		local spawnFunction = function()
-			local killed = true
-			for k, v in pairs(spawnedMonsterIds) do
+		local spawnKnights = function()
+			local canSpawn = MAX_SPAWNED_AT_ONCE - #spawnedEtherKnightIds[1]
+			local max = math.min(math.floor(MAX_SPAWNED_AT_ONCE / 2), m)
+			if max > 0 then
+				local mons = pseudoSpawnpoint{monster = 154, x = 18285, y = 7348, z = -127, "1-" .. max , powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
+				spawnedEtherKnightIds[1] = table.join(spawnedEtherKnightIds[1] or {}, map(mons))
+				m = m - #mons
 			end
+			max = math.min(math.floor(MAX_SPAWNED_AT_ONCE / 2), m)
+			if max <= 0 then return end
+			mons = pseudoSpawnpoint{monster = 154, x = 15760, y = 3873, z = -127, "1-" .. max , powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
+			spawnedEtherKnightIds[2] = table.join(spawnedEtherKnightIds[2] or {}, map(mons))
 		end
 		if not vars.WromthraxCaveQuest.PortalDeactivated then
+			--Timer(spawnKnights, const.Minute * 15, Game.Time, true)
 			for i, v in Map.FacetData do
 				if v.Id == PORTAL_FACET_INDEX then
 					v.Event = 200
@@ -194,7 +313,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 					evt.All.Subtract("Inventory", ETHER_GEM_ID)
 					evt.map[200].clear()
 					evt.hint[200].clear()
-					-- RemoveTimer(...)
+					RemoveTimer(spawnKnights)
 					Game.ShowStatusText("Portal deactivated!")
 				else
 					Game.ShowStatusText("You need something to close the portal with!")
@@ -226,7 +345,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			Done = "Well done! Now conquering Erathia will be a piece of cake. Take these genie lamps as your reward. I've inherited them from my mother, and we both were too afraid to use them. Maybe you'll be able to somehow overpower the genies' wrath.",
 			
 			Quest = "Deal with the dangerous forces in Wromthrax's Cave in Tatalia and return to [X] in [Y].",
-			Award = "Cleared out Fort Riverstride"
+			Award = "Stopped Wromthrax's evil plans"
 		}
 	}
 end

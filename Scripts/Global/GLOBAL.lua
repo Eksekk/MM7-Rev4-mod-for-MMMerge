@@ -2271,16 +2271,7 @@ After you have rested, return to The Pit for your next assignment." ]]
 	evt.SetNPCGreeting{NPC = 419, Greeting = 357}         -- "Resurectra" : "Welcome back  Heroes!   What can I do for you?"
 	do return end
 ::_15::
-	if evt.Player == 5 then
-	for _, pl in Party do
-		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-	end
-else
-	local pl = Party[evt.Player]
-	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-end
+	-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file
 ::_16::
 	evt.ForPlayer(1)
 	if evt.Cmp("FireSkill", 1) then
@@ -2324,52 +2315,25 @@ end
 	evt.Subtract("QBits", 814)         -- Small House only Once
 	do return end
 ::_57::
-	evt.Set("LightSkill", 136)
+	-- evt.Set("LightSkill", 136)
 	goto _58
 ::_62::
-	evt.Set("LightSkill", 136)
+	-- evt.Set("LightSkill", 136)
 	goto _63
 ::_67::
-	evt.Set("LightSkill", 136)
+	-- evt.Set("LightSkill", 136)
 	goto _68
 ::_72::
-	evt.Set("LightSkill", 136)
+	-- evt.Set("LightSkill", 136)
 	goto _73
 ::_20::
-	if evt.Player == 5 then
-	for _, pl in Party do
-		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-	end
-else
-	local pl = Party[evt.Player]
-	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-end
+	-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file
 	goto _21
 ::_25::
-	if evt.Player == 5 then
-	for _, pl in Party do
-		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-	end
-else
-	local pl = Party[evt.Player]
-	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-end
+	-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file
 	goto _26
 ::_30::
-	if evt.Player == 5 then
-	for _, pl in Party do
-		local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-		pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-	end
-else
-	local pl = Party[evt.Player]
-	local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-	pl.Skills[const.Skills.Dark] = JoinSkill(math.max(s, 8), math.max(m, const.Master))
-end
+	-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file
 	goto _31
 end
 
@@ -6004,71 +5968,6 @@ evt.global[1313] = function()
 	evt.SetMessage(1671)         -- "Scattered around the land are the Challenges.  If your ability is great enough, and you best the challenge, you will be award skill points to do with as you wish!"
 end
 
--- HARMONDALE TELEPORTAL HUB --
-
-local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
--- "Go back"
-evt.global[1993] = function()
-	for i = 0, 2 do
-		Game.NPC[1255]["Event" .. indexes[i] ] = 1995 + i
-	end
-	Game.NPC[1255]["Event" .. indexes[3] ] = 1994
-end
-
--- "More destinations"
-evt.global[1994] = function()
-	for i = 0, 1 do
-		Game.NPC[1255]["Event" .. indexes[i] ] = 1998 + i
-	end
-	Game.NPC[1255]["Event" .. indexes[2] ] = 1993
-	Game.NPC[1255]["Event" .. indexes[3] ] = 0
-end
-
-evt.CanShowTopic[1995] = function()
-	return evt.All.Cmp("Inventory", 1467)
-end
-
--- "Tatalia"
-evt.global[1995] = function()
-	evt.MoveToMap{X = 6604, Y = -8941, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out13.odm"}
-end
-
-evt.CanShowTopic[1996] = function()
-	return evt.All.Cmp("Inventory", 1469)
-end
-
--- "Avlee"
-evt.global[1996] = function()
-	evt.MoveToMap{X = 14414, Y = 12615, Z = 0, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out14.odm"}
-end
-
-evt.CanShowTopic[1997] = function()
-	return evt.All.Cmp("Inventory", 1468)
-end
-
--- "Deyja"
-evt.global[1997] = function()
-	evt.MoveToMap{X = 4586, Y = -12681, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out05.odm"}
-end
-
-evt.CanShowTopic[1998] = function()
-	return evt.All.Cmp("Inventory", 1471)
-end
-
--- "Bracada Desert"
-evt.global[1998] = function()
-	evt.MoveToMap{X = 8832, Y = 18267, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out06.odm"}
-end
-
-evt.CanShowTopic[1999] = function()
-	return evt.All.Cmp("Inventory", 1470)
-end
-
--- "Evenmorn Island"
-evt.global[1999] = function()
-	evt.MoveToMap{X = 17161, Y = -10827, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out09.odm"}
-end
-
 -- "We've found the Lost Scroll!"
 evt.global[2000] = function()
 	evt.ForPlayer("All")
@@ -6083,12 +5982,7 @@ Blayze retires to a back room.  In a few moments he begins an incantation in slo
 ‘Oooompa … Looompa … Looompidi Dooo, I’ve got some arcane magic for you’.  Blayze repeats this phrase several times, increasing the intoning speed  with each utterance.  Building to a fever pitch, he commands  ‘Come forth ye Everlasting Gobstopper!  Come forth now!!!’
 
 Blaze returns from the back room, chewing gum and popping bubbles, a broad smile on his face.  Yep, that’s it.  Well done adventurers!!  As promised, here’s your reward.”" ]]
-	for _, pl in Party do
-	local s, m = SplitSkill(pl.Skills[const.Skills.Fire])
-	if s ~= 0 then
-		pl.Skills[const.Skills.Fire] = JoinSkill(math.max(s, 8), math.max(m, const.Expert))
-	end
-end
+	giveFreeSkill(const.Skills.Fire, 8, const.Expert, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 end)
 	evt.ForPlayer("All")
 	evt.Subtract("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract("Inventory", 1540)         -- "Lost Scroll of Wonka"

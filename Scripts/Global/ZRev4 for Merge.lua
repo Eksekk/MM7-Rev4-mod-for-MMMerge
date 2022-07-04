@@ -419,6 +419,10 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 	-- difficulty monster damage, skill barrels skill level, selling prices, deleting strong items (randomize items in removed chest's contents), new spawns, max npcs hired at the same time
 	-- DARK AND LIGHT RESISTANCE! sources which I can probably program into the game: altars in Tularean Forest and Deyja (one light, other dark), cauldrons, day of protection, elemental totems, cleric totems, harmondale prison phasing cauldron
 	-- GM shield reduce damage by 25% (elemental mod)
+	
+	-- check maps in rev4 and merge: timer with evt.MoveToMap and
+	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
+	-- as debug message (write to file?)
 end
 
 if not isEasy() then

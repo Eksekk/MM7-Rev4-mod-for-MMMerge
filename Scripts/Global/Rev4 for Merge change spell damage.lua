@@ -163,19 +163,19 @@ local function Randoms(min, max, count)
 end
 
 local lookupTable = {}
+local function getRange(str)
+	if lookupTable[str] then return lookupTable[str][1], lookupTable[str][2] end
+	local min, max = str:match("(%d+)%-(%d+)")
+	min = tonumber(min)
+	max = tonumber(max)
+	assert(min ~= nil and max ~= nil)
+	lookupTable[str] = {min, max}
+	return min, max
+end
 
 function events.CalcSpellDamage(t)
 	local entry = spellsDamage[t.Spell]
 	if not entry then return end
-	local function getRange(str)
-		if lookupTable[str] then return lookupTable[str][1], lookupTable[str][2] end
-		local min, max = str:match("(%d+)%-(%d+)")
-		min = tonumber(min)
-		max = tonumber(max)
-		assert(min ~= nil and max ~= nil)
-		lookupTable[str] = {min, max}
-		return min, max
-	end
 	local s, m = SplitSkill(t.Skill)
 	if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
 		local min, max = getRange(entry.DamagePerSkill)

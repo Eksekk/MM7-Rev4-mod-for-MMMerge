@@ -648,10 +648,10 @@ I see that you have survived The Gauntlet in good fashion.  Congratulations!  Yo
 
 When you select the new profession, the member will automatically be promoted to the highest rating in that character class; re, a Fighter will immediately become a Champion, a Sorcerer an Arch Mage.  Once you’ve selected your new profession, you will no longer continue to advance in your original profession, although you will retain all or your previous skill and spell abilities." ]]
 	evt.ForPlayer("All")
-	Game.NPC[1259].Events[0] = 799         -- "The Coding Wizard" : "How does this work?"
-	evt.MoveNPC{NPC = 1263, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
-	Game.NPC[1263].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
-	evt.SetNPCGreeting{NPC = 1263, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
+	Game.NPC[1279].Events[0] = 799         -- "The Coding Wizard" : "How does this work?"
+	evt.MoveNPC{NPC = 1283, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+	Game.NPC[1283].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
+	evt.SetNPCGreeting{NPC = 1283, Greeting = 141}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
 end
 
 -- "How does this work?"
@@ -661,7 +661,7 @@ evt.global[799] = function()
 
 When the selected party member has chosen a new profession, proceed to the Brazier to acquire the new profession and then return to me.  When all four members have selected their new Profession, return to me one more time and then we’re done.  So let’s get started, ok?" ]]
 	evt.ForPlayer("All")
-	Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+	Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 end
 
 -- "New Profession."
@@ -686,48 +686,48 @@ evt.global[800] = function()
 	end
 	evt.Set("QBits", 861)         -- One Use
 	if evt.Cmp("ClassIs", const.Class.ArchMage) then
-		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1259].Events[2] = 807         -- "The Coding Wizard" : "Cleric"
+		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1279].Events[2] = 807         -- "The Coding Wizard" : "Cleric"
 	elseif evt.Cmp("ClassIs", const.Class.PriestLight) then
-		Game.NPC[1259].Events[0] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[0] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1279].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1279].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.MasterArcher) then
-		Game.NPC[1259].Events[0] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1259].Events[1] = 831         -- "The Coding Wizard" : "Monk"
-		Game.NPC[1259].Events[2] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1279].Events[0] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1279].Events[1] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1279].Events[2] = 825         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.ArchDruid) then
-		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1259].Events[1] = 831         -- "The Coding Wizard" : "Monk"
-		Game.NPC[1259].Events[2] = 806         -- "The Coding Wizard" : "Sorcerer"
+		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[1] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1279].Events[2] = 806         -- "The Coding Wizard" : "Sorcerer"
 	elseif evt.Cmp("ClassIs", const.Class.Champion) then
-		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1259].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
-		Game.NPC[1259].Events[2] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
+		Game.NPC[1279].Events[2] = 825         -- "The Coding Wizard" : "Druid"
 	elseif evt.Cmp("ClassIs", const.Class.Master) then
-		Game.NPC[1259].Events[0] = 832         -- "The Coding Wizard" : "Thief"
-		Game.NPC[1259].Events[1] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[0] = 832         -- "The Coding Wizard" : "Thief"
+		Game.NPC[1279].Events[1] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1279].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.Hero) then
-		Game.NPC[1259].Events[0] = 825         -- "The Coding Wizard" : "Druid"
-		Game.NPC[1259].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
-		Game.NPC[1259].Events[2] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[0] = 825         -- "The Coding Wizard" : "Druid"
+		Game.NPC[1279].Events[1] = 826         -- "The Coding Wizard" : "Ranger"
+		Game.NPC[1279].Events[2] = 820         -- "The Coding Wizard" : "Archer"
 	elseif evt.Cmp("ClassIs", const.Class.RangerLord) then
-		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1259].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
-		Game.NPC[1259].Events[2] = 832         -- "The Coding Wizard" : "Thief"
+		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
+		Game.NPC[1279].Events[2] = 832         -- "The Coding Wizard" : "Thief"
 	else
 		if not evt.Cmp("ClassIs", const.Class.Spy) then
 			evt.Subtract("QBits", 861)         -- One Use
 			evt.SetMessage(978)         -- "You don't Qualify"
 			return
 		end
-		Game.NPC[1259].Events[0] = 820         -- "The Coding Wizard" : "Archer"
-		Game.NPC[1259].Events[1] = 819         -- "The Coding Wizard" : "Fighter"
-		Game.NPC[1259].Events[2] = 831         -- "The Coding Wizard" : "Monk"
+		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
+		Game.NPC[1279].Events[1] = 819         -- "The Coding Wizard" : "Fighter"
+		Game.NPC[1279].Events[2] = 831         -- "The Coding Wizard" : "Monk"
 	end
-	Game.NPC[1259].Events[3] = 873         -- "The Coding Wizard" : "No Thanks."
+	Game.NPC[1279].Events[3] = 873         -- "The Coding Wizard" : "No Thanks."
 end
 
 -- "Crusader"
@@ -737,8 +737,8 @@ evt.global[801] = function()
 	evt.SetMessage(1012)         -- "If you wish to be promoted to Crusader, you must first bring me the map that indicates the location of Sir BunGleau's panoply. Here, take this scroll of the Saints.  It will provide you with a firm foundation as you begin your quest."
 	evt.Set("QBits", 534)         -- "Find the map that shows the location of Sir BunGleau's panoply and return it to the Massenger of the Saints.."
 	evt.Add("Inventory", 1532)         -- "Saints of Selinas Scroll 2"
-	evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	Game.NPC[1253].Events[0] = 802         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1273, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	Game.NPC[1273].Events[0] = 802         -- "Messenger of the Saints" : "Crusader"
 end
 
 -- "Crusader"
@@ -771,7 +771,7 @@ evt.global[802] = function()
 	evt.Subtract("Inventory", 1533)         -- "Saints of Selinas Scroll 3"
 	evt.Subtract("Inventory", 1534)         -- "Saints of Selinas Scroll 4"
 	evt.ForPlayer("All")
-	Game.NPC[1253].Events[0] = 803         -- "Messenger of the Saints" : "Hero"
+	Game.NPC[1273].Events[0] = 803         -- "Messenger of the Saints" : "Hero"
 end
 
 -- "Hero"
@@ -779,9 +779,9 @@ Game.GlobalEvtLines:RemoveEvent(803)
 evt.global[803] = function()
 	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMessage(1015)         -- "I am pleased to see you have chosen the path of Light, Crusaders!  It is now time to retrieve the panoply of Sir BunGleau and once again employ it in the fight against the Dark!!  To accomplish this you must return to Emerald Island and drink from the Well of Luck.  This will transport you to the Place of Hiding where you will find the panoply.  Return to me with this panoply to complete your promotion.  ** Oh ... beware of the Blue Guardians!! *"
-		Game.NPC[1253].Events[0] = 804         -- "Messenger of the Saints" : "Hero"
+		Game.NPC[1273].Events[0] = 804         -- "Messenger of the Saints" : "Hero"
 		evt.Set("QBits", 536)         -- "Find the Blessed Panoply of Sir BunGleau and return to the Angel in Castle Harmondale""
-		evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+		evt.SetNPCGreeting{NPC = 1273, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
 	elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMessage(1016)         -- "I will not have truck with thee further, scoundrel!  I see now thee hath chosen the path of Darkness.  Mayhaps thee should seek a villain like thyself for training."
 	else
@@ -812,9 +812,9 @@ evt.global[804] = function()
 	evt.Subtract("NPCs", 393)         -- "Alice Hargreaves"
 	evt.Subtract("Reputation", 10)
 	evt.ForPlayer("All")
-	evt.SetNPCGreeting{NPC = 1253, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
+	evt.SetNPCGreeting{NPC = 1273, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
-	Game.NPC[1253].Events[0] = 0         -- "Messenger of the Saints"
+	Game.NPC[1273].Events[0] = 0         -- "Messenger of the Saints"
 	evt.Set("QBits", 885)         -- Harm no respawn
 end
 
@@ -845,9 +845,9 @@ Game.GlobalEvtLines:RemoveEvent(806)
 evt.global[806] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 851)         -- Sorcerer
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -856,9 +856,9 @@ Game.GlobalEvtLines:RemoveEvent(807)
 evt.global[807] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 852)         -- Cleric
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -949,7 +949,7 @@ evt.global[813] = function()
 		evt.Add("Experience", 7500)
 		evt.Add("Gold", 500)
 		evt.Subtract("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
-		Game.NPC[1264].Events[0] = 0         -- "Christian the Stablemaster"
+		Game.NPC[1284].Events[0] = 0         -- "Christian the Stablemaster"
 	else
 		evt.SetMessage(940)         --[[ "The Stable Guild has discovered that a raiding force of Goblins, lead by the infamous Grognard, is poised to launch an incursion into Harmondale.  Until this threat is ‘neutralized’, the stables will remain closed.
 
@@ -1083,9 +1083,9 @@ Game.GlobalEvtLines:RemoveEvent(819)
 evt.global[819] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 853)         -- Fighter
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1094,9 +1094,9 @@ Game.GlobalEvtLines:RemoveEvent(820)
 evt.global[820] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 858)         -- Archer
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1186,9 +1186,9 @@ Game.GlobalEvtLines:RemoveEvent(825)
 evt.global[825] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 859)         -- Druid
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1197,9 +1197,9 @@ Game.GlobalEvtLines:RemoveEvent(826)
 evt.global[826] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 857)         -- Ranger
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1272,9 +1272,9 @@ Game.GlobalEvtLines:RemoveEvent(831)
 evt.global[831] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 855)         -- Monk
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1283,9 +1283,9 @@ Game.GlobalEvtLines:RemoveEvent(832)
 evt.global[832] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 856)         -- Thief
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1352,9 +1352,9 @@ Game.GlobalEvtLines:RemoveEvent(836)
 evt.global[836] = function()
 	evt.ForPlayer("All")
 	evt.Set("QBits", 854)         -- Paladin
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
 	evt.SetMessage(979)         -- "Proceed to the Brazier to acquire your new profession."
 end
 
@@ -1363,7 +1363,7 @@ Game.GlobalEvtLines:RemoveEvent(837)
 evt.global[837] = function()
 	evt.ForPlayer("All")
 	evt.SetMessage(1025)         -- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
-	Game.NPC[1259].Events[0] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	evt.Set("QBits", 718)         -- Harmondale - Town Portal
 	evt.Set("QBits", 719)         -- Erathia - Town Portal
 	evt.Set("QBits", 720)         -- Tularean Forest - Town Portal
@@ -1565,9 +1565,9 @@ Now tell me all about your adventure!" ]]
 		evt.Add("SkillPoints", 50)
 		evt.Subtract("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.Set("Awards", 120)         -- "Completed Coding Wizard Quest"
-		Game.NPC[1263].Events[0] = 0         -- "Lord Godwinson"
+		Game.NPC[1283].Events[0] = 0         -- "Lord Godwinson"
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-		evt.MoveNPC{NPC = 1263, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
+		evt.MoveNPC{NPC = 1283, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
 	elseif evt.Cmp("QBits", 865) then         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.SetMessage(1027)         -- "Bring me proof that the Coding Wizard is more than just a myth."
 	else
@@ -1579,8 +1579,8 @@ I have a dear friend, the Lady Kathryn, who may be able to assist you with this 
 
 Good luck, adventurers!" ]]
 		evt.Set("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
-		evt.MoveNPC{NPC = 1260, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
-		Game.NPC[1260].Events[0] = 847         -- "Lady K" : "Lord Godwinson sent us!"
+		evt.MoveNPC{NPC = 1280, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
+		Game.NPC[1280].Events[0] = 847         -- "Lady K" : "Lord Godwinson sent us!"
 	end
 end
 
@@ -1593,7 +1593,7 @@ So you’ve decided to take the journey to find BDJ the Coding Wizard?  He’s a str
 
 I do know this.  To reach this wizard you must first run The Gauntlet.  The Lector EAO is the foremost authority on this ‘gauntlet’.  She travels quite a bit, but she does return to her home in Erathia each Summer.  Seek her out.  She may be able to assist you on your journey." ]]
 	evt.Set("QBits", 866)         -- 0
-	Game.NPC[1260].Events[0] = 0         -- "Lady K"
+	Game.NPC[1280].Events[0] = 0         -- "Lady K"
 end
 
 -- "Great Druid"
@@ -1700,9 +1700,9 @@ evt.global[852] = function()
 To reach this wizard, one must first ‘run The Gauntlet’, which consists of a series of ‘challenges’ in the realms of Earth, Fire, Water, and finally of Air and of Light.  The rewards of the Coding Wizard await those who emerge from these trials.
 
 The Duchess of Deja may have information on the legendary location of The Gauntlet. Seek her out to continue your journey." ]]
-	Game.NPC[1261].Events[0] = 0         -- "EAO the Lector"
-	evt.MoveNPC{NPC = 1262, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
-	Game.NPC[1262].Events[0] = 853         -- "Duchess of Deja" : "Where is The Gauntlet?"
+	Game.NPC[1281].Events[0] = 0         -- "EAO the Lector"
+	evt.MoveNPC{NPC = 1282, HouseId = 984}         -- "Duchess of Deja" -> "Duchess of Deja"
+	Game.NPC[1282].Events[0] = 853         -- "Duchess of Deja" : "Where is The Gauntlet?"
 end
 
 -- "Where is The Gauntlet?"
@@ -1729,7 +1729,7 @@ Good Luck!" ]]
 		evt.Subtract("Inventory", 1432)         -- "Red Delicious Apple"
 		evt.Subtract("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
 		evt.Set("QBits", 868)         -- 0
-		Game.NPC[1262].Events[0] = 0         -- "Duchess of Deja"
+		Game.NPC[1282].Events[0] = 0         -- "Duchess of Deja"
 	else
 		evt.SetMessage(1028)         --[[ "So you want to know the location of the legendary ‘Gauntlet’ leading to the Coding Wizard?  Perhaps I can help.  But you must first do something for me.
 
@@ -2123,20 +2123,20 @@ evt.global[873] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 850) then         -- BDJ Final
 		evt.Subtract("QBits", 861)         -- One Use
-		Game.NPC[1259].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
+		Game.NPC[1279].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
 	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
 		evt.Set("QBits", 850)         -- BDJ Final
-		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
 		evt.Set("QBits", 849)         -- BDJ 3
-		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	else
 		evt.Set("QBits", 848)         -- BDJ 2
-		Game.NPC[1259].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
+		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	end
-	Game.NPC[1259].Events[1] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[2] = 0         -- "The Coding Wizard"
-	Game.NPC[1259].Events[3] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
+	Game.NPC[1279].Events[3] = 0         -- "The Coding Wizard"
 	evt.SetMessage(1202)         -- "Ok then.  Let's move on."
 end
 
@@ -2372,7 +2372,7 @@ What?!  You think that all of us have wings and just fly around the countryside 
 But enough about me.  You came in search of The Map, I guess.  Here it is.  Return it to my kin in Castle Harmondale for your promotion and reward.  Adou. " ]]
 	evt.ForPlayer("Current")
 	evt.Add("Inventory", 1541)         -- "Map to Treasure"
-	Game.NPC[1257].Events[0] = 0         -- "Map Giver"
+	Game.NPC[1277].Events[0] = 0         -- "Map Giver"
 end
 
 -- "Most Excellent!!"
@@ -5228,7 +5228,7 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 			evt.Subtract("Inventory", 1576)         -- "Recipe"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			Game.NPC[1254].Events[0] = 0         -- "Alice the Chef"
+			Game.NPC[1274].Events[0] = 0         -- "Alice the Chef"
 			evt.Set("QBits", 792)         -- Courier Quest 3 complete
 		else
 			evt.SetMessage(2865)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
@@ -5288,15 +5288,15 @@ Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m goi
 			evt.Subtract("Inventory", 1074)         -- "Beauty Creme"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
-			Game.NPC[1255].Events[0] = 0         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1255, HouseId = 0}         -- "Rena Putnum Kedrin"
-			evt.MoveNPC{NPC = 1256, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			Game.NPC[1275].Events[0] = 0         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1275, HouseId = 0}         -- "Rena Putnum Kedrin"
+			evt.MoveNPC{NPC = 1276, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 		else
 			evt.SetMessage(2869)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja."" ]]
 			evt.Set("QBits", 794)         -- Rena Quest
-			Game.NPC[1255].Events[0] = 1260         -- "Rena Putnum Kedrin" : "Courier Delivery"
+			Game.NPC[1275].Events[0] = 1260         -- "Rena Putnum Kedrin" : "Courier Delivery"
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1074)         -- "Beauty Creme"
 			evt.Add("Inventory", 1468)         -- "Deja Teleportal Key"
@@ -5337,7 +5337,7 @@ evt.global[1261] = function()
 	evt.SetMessage(1651)         --[[ "Welcome, adventurers!  I'm Sarah, the Founding Matron and Gran Mouma of the Courier Guild.  The Courier Guild consists of an elite company of Master Couriers who enjoy certain travel privileges throughout the remote areas of Erathia.   Membership to the guild is 500 gold, non-refundable.  With your initial membership, you become a Courier Initiate and receive the Home Key, which entitles you to use all Home Portals to return you to Steadwick.
 
 To become a Master Courier, you must complete four courier assignments.  The completion of each assignment will provide you with (1) a 5000 gold delivery fee and (2) a unique teleportal key that activates the Teleportal Hub in Harmondale."" ]]
-	Game.NPC[1252].Events[0] = 1262         -- "Sarah" : "Join the Guild"
+	Game.NPC[1272].Events[0] = 1262         -- "Sarah" : "Join the Guild"
 end
 
 -- "Join the Guild"
@@ -5350,7 +5350,7 @@ evt.global[1262] = function()
 		evt.Subtract("Gold", 500)
 		evt.Add("Inventory", 1472)         -- "Home Key"
 		evt.SetMessage(1652)         -- "A wise decision on your part!  Here’s your Home Key.  Guard it carefully, because it is irreplaceable."
-		Game.NPC[1252].Events[0] = 1263         -- "Sarah" : "Courier Assignment"
+		Game.NPC[1272].Events[0] = 1263         -- "Sarah" : "Courier Assignment"
 	else
 		evt.SetMessage(1063)         -- "You don't have enough gold!"
 	end
@@ -5367,11 +5367,11 @@ evt.global[1263] = function()
 Oh!  And watch out for the hostiles in this area!  Good luck." ]]
 			Game.NPC[548].Events[0] = 1259         -- "Agatha Putnam" : "Courier Delivery"
 			Game.NPC[738].Events[0] = 1260         -- "Licia Rivenrock" : "Courier Delivery"
-			evt.MoveNPC{NPC = 1255, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
+			evt.MoveNPC{NPC = 1275, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
 			evt.Set("QBits", 789)         -- Courier Quest 4
 		elseif evt.Cmp("QBits", 791) then         -- Courier Quest 2 complete
 			evt.SetMessage(1655)         -- "I see you are well on your way to Master Courier.  Good!  Your third delivery takes you to the town of Spaward in Avlee.  You need to locate Alice's Restaurant  (where you can get anything you want) and just ask Alice.  She'll brief you on the details of the delivery."
-			Game.NPC[1254].Events[0] = 1259         -- "Alice the Chef" : "Courier Delivery"
+			Game.NPC[1274].Events[0] = 1259         -- "Alice the Chef" : "Courier Delivery"
 			Game.NPC[781].Events[0] = 1260         -- "Peni Pretty" : "Courier Delivery"
 			evt.Set("QBits", 788)         -- Courier Quest 3
 		elseif evt.Cmp("QBits", 790) then         -- Courier Quest 1 complete
@@ -5412,7 +5412,7 @@ Now just one more thing.  Our couriers used to service the Evenmorn Islands. Unf
 		evt.Add("Experience", 20000)
 		evt.Add("Awards", 118)         -- "Promoted to Master Courier"
 	end
-	Game.NPC[1252].Events[0] = 1264         -- "Sarah" : "Lost Key"
+	Game.NPC[1272].Events[0] = 1264         -- "Sarah" : "Lost Key"
 end
 
 -- "Lost Key"
@@ -5423,7 +5423,7 @@ evt.global[1264] = function()
 		evt.SetMessage(949)         -- "I see you’ve recovered the Evenmorn key.  Great!  This is indeed a good day for The Guild!  Let me make a copy of the key.  Here’s your reward, as promised."
 		evt.ForPlayer("Current")
 		evt.Add("Gold", 10000)
-		Game.NPC[1252].Events[0] = 0         -- "Sarah"
+		Game.NPC[1272].Events[0] = 0         -- "Sarah"
 	else
 		evt.SetMessage(2861)         -- "Please continue to search for the Evenmorn Key."
 	end
@@ -6012,7 +6012,7 @@ evt.global[2002] = function()
 	evt.StatusText(985)         --[[ "Sir BunGleau, Baron of Post Lost, was the greatest Hero in Erathia's history.  So great were his deeds and so noble his demeanor that the Saints of Selinas offered him a shiny panoply endowed with boons beyond measure.  But the humble knight refused their offer, remarking that he could not, in good conscience, wear such a flamboyant display of privilege.  So the Saints offered to enchant the armor with invisibility if he would but openly wear the gauntlets to signify their blessing upon him.  To this he agreed. 
 
 When he retired, the Saints hid his armor and placed six scrolls about the countryside.  It is said that if the secret of these scrolls is unlocked, it will reveal the location of a map indicating where this treasure may be found.  " ]]
-	evt.SetNPCGreeting{NPC = 1253, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
-	Game.NPC[1253].Events[0] = 801         -- "Messenger of the Saints" : "Crusader"
+	evt.SetNPCGreeting{NPC = 1273, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
+	Game.NPC[1273].Events[0] = 801         -- "Messenger of the Saints" : "Crusader"
 end
 

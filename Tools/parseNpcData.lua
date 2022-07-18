@@ -1,14 +1,5 @@
 -- this script processes rev4 npc table for copy pasting into mmmerge table after fixing 2d locations
 
-local function tfind(t, what)
-	for k, v in ipairs(t) do
-		if v == what then
-			return k
-		end
-	end
-	return nil
-end
-
 _G.t = LoadBasicTextTable("tab\\NPCData rev4.txt", 0)
 local npcdataRev4Limit = 463
 
@@ -50,7 +41,7 @@ for i = 3, npcdataRev4Limit do
 		goto continue
 	end
 	for content, names in pairs(rev4pics) do
-		local index = tfind(names, rev4name)
+		local index = table.find(names, rev4name)
 		if index ~= nil then
 			npcPicContent = content
 			break
@@ -79,13 +70,13 @@ local counterAdd = 339 -- MM7 entries in Merge start at 340
 local greetingAdd = 115 -- MM7 entries in Merge start at 116
 
 local counterFromThisMovedToEnd = 447
-local firstCounterEntryAfterMM6InMerge = 1250
+local firstCounterEntryAfterMM6InMerge = 1270 -- that we will use
 
-local newRev4NPCs = 15
+--[[local newRev4NPCs = 15
 -- need to add additional 15 columns, as there are 15 new npcs in rev4
 for i = 1, newRev4NPCs do
 	t[#t] = t[#t - 1]
-end
+end]]
 
 -- events
 local eventAdd = 750 -- MM7 entries in global.lua start at 751
@@ -116,6 +107,11 @@ local lastOriginalMM7Event = 572
 local lastOriginalMM8Event = 750
 local firstOriginalMM6Event = 1314
 
+-- fix string instead of event
+t[450][18] = t[450][17]
+t[450][17] = t[450][16]
+t[450][16] = "0"
+
 for i = 3, npcdataRev4Limit do
 	-- index
 	if tonumber(t[i][1]) < counterFromThisMovedToEnd then
@@ -140,7 +136,7 @@ for i = 3, npcdataRev4Limit do
 	local eventBase = 11
 	for j = 0, 5 do
 		local event = tonumber(t[i][eventBase + j])
-		if event == nil then goto continue2 end -- hack for npc entry 448 (450 in lua), which has "Expert Body_Magic (3)" in his event #F field for some reason
+		if event == nil then goto continue2 end -- for npc entry 448 (450 in lua), which has "Expert Body_Magic (3)" in his event #F field for some reason
 		if event == 0 then goto continue2 end -- skipping unassigned events
 		local isNoMapping = false
 		for _, t in pairs(noMappingEvents) do
@@ -152,10 +148,17 @@ for i = 3, npcdataRev4Limit do
 		if not isNoMapping then
 			if event >= 573 then -- is additional Rev4 event
 				t[i][eventBase + j] = tostring(firstGlobalLuaFreeEntry + (event - 573))
-			elseif event > noMappingEvents[2][2] then
-				t[i][eventBase + j] = tostring(event + 750 - (515 - 513 + 1) - (506 - 501 + 1))
-			elseif event > noMappingEvents[1][2] then
-				t[i][eventBase + j] = tostring(event + 750 - (506 - 501 + 1))
+			elseif event > noMappingEvents[1][1] then
+				local add = 750
+				local k = 1
+				while k <= #noMappingEvents and event > noMappingEvents[k][2] do
+					add = add - (noMappingEvents[k][2] - noMappingEvents[k][1] + 1)
+					k = k + 1
+				end
+				t[i][eventBase + j] = tostring(event + add)
+				--t[i][eventBase + j] = tostring(event + 750 - (515 - 513 + 1) - (506 - 501 + 1))
+			--[[elseif event > noMappingEvents[1][2] then
+				t[i][eventBase + j] = tostring(event + 750 - (506 - 501 + 1))]]
 			-- skill teaching events
 			elseif event >= 200 and event <= 262 then
 				t[i][eventBase + j] = tostring(event + (300 - 200))
@@ -180,9 +183,12 @@ row[2] = "Harmondale Teleportal Hub" -- name
 row[3] = "1561" -- pic
 row[7] = 925 -- 2d location
 row[9] = 368 -- greeting
-for i = 0, 5 do
-	row[11 + i] = 0
-end	
+local newNpcLocation = 465
+local row = t[newNpcLocation]
+local index = tonumber(row[1]) - counterFromThisMovedToEnd
+row[1] = tostring(firstCounterEntryAfterMM6InMerge + index) -- counter
+row[2] = "Bradley Clark" -- name
+row[3] = "0595" -- pic
 
 -- Halfgild Wynac
 --[[local halfgildId = 49
@@ -196,77 +202,14 @@ row[7] = 1073
 row[9] = 369
 --]]
 
--- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
-
--- Saves a string into a file (overwrites it)
-function io.save(path, s, translate)
-	local f = assert(io.open(path, translate and "wt" or "wb"))
-	f:setvbuf("no")
-	f:write(s)
-	f:close()
-end
-
-local path_noslash = _G.path.noslash
-local path_dir = _G.path.dir
-local CreateDirectoryPtr = internal.CreateDirectory
-
-local function DoCreateDir(dir)
-	-- 183 = already exists
-	return call(CreateDirectoryPtr, 0, dir, 0) ~= 0 or GetLastError() == 183
-end
-
-local function CreateDirectory(dir)
-	dir = path_noslash(dir)
-	if dir == "" or #dir == 2 and string_sub(dir, -1) == ":" or DoCreateDir(dir) then
-		return true
-	end
-	local dir1 = path_dir(dir)
-	if dir1 ~= dir then
-		CreateDirectory(dir1)
-	end
-	return APIReturn(DoCreateDir(dir), dir)
-end
-_G.os.mkdir = CreateDirectory
---!- backwards compatibility
-_G.os.CreateDirectory = CreateDirectory
---!- backwards compatibility
-_G.path.CreateDirectory = CreateDirectory
-
-local oldSave = _G.io.save
---!-
-function _G.io.save(path, ...)
-	CreateDirectory(path_dir(path))
-	return oldSave(path, ...)
-end
-
-local function WriteBasicTextTable(t, fname)
-	if fname then
-		return io.save(fname, WriteBasicTextTable(t))
-	end
-	local q, s = {}, ''
-	for i = 1, #t do
-		s = (type(t[i]) == "table" and table.concat(t[i], "\t") or t[i])
-		q[i] = s
-	end
-	if s ~= '' then
-		q[#q + 1] = ''
-	end
-	return table.concat(q, "\r\n")
-end
-_G.WriteBasicTextTable = WriteBasicTextTable
-
--- end of functions taken from MMExtension repo
-
 local merge = LoadBasicTextTable("tab\\NPCData merge.txt", 0)
 
+local Boob = table.copy(t[500])
 for i = 3, #t do
 	if t[i][2] == "Boob" then break end
 	local id = tonumber(t[i][1])
 	while #merge < id + 2 do
-		local temp = {}
-		for j = 1, 19 do
-			table.insert(temp, "")
-		end
+		local temp = table.copy(Boob)
 		temp[1] = tostring(#merge - 2 + 1)
 		table.insert(merge, temp)
 	end

@@ -268,7 +268,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 264	Obsidian Gargoyle	Gargoyle C	33	207	26	1419	20%25D10+L3Amulet	0	Y	Med	Suicidal	3	350	70	0	Paralyze	Phys	2D12+8	0	0	0	0	0	0	0	0	0	50	50	50	70	Imm	Imm	Imm	0	0	Imm	0																						
 265	Djinni	Genie A	33	207	35	1419	30%L4	0	Y	Free	Aggress	3	200	60	M	0	Water	8D4+8	Water	0	0	0	0	25	"Acid Burst,M,8"	0	0	30	30	Imm	30	50	0	50	10	10	30	0																						
 266	Genie	Genie B	44	325	45	2376	30%L5	0	Y	Free	Aggress	3	220	50	M	Asleep	Fire	10D4+10	Fire	0	0	0	0	25	"Fireball,M,8"	0	0	Imm	30	30	30	50	0	50	10	10	30	0																						
-267	Efreet	Genie C	55	467	55	3575	30%L6	0	Y	Free	Aggress	3	250	40	M	Afraid	Air	12D4+12	Air	0	0	0	0	25	"Lightning Bolt,M10"	0	0	50	Imm	50	50	50	0	50	10	10	50	0																						
+267	Efreet	Genie C	55	467	55	3575	30%L6	0	Y	Free	Aggress	3	250	40	M	Afraid	Air	12D4+12	Air	0	0	0	0	25	"Lightning Bolt,M,10"	0	0	50	Imm	50	50	50	0	50	10	10	50	0																						
 268	Shade	Ghost A	9	35	25	171	5%L2	0	Y	Free	Normal	3	240	100	CP	Afraid	Phys	1D6+6	0	0	0	0	0	0	0	0	0	10	10	Imm	10	Imm	10	Imm	0	30	10	0																						
 269	Specter	Ghost B	13	55	30	299	10%L3	0	Y	Long	Normal	3	260	90	CP	Agex2	Phys	2D6+6	0	0	0	0	0	0	0	0	0	15	15	Imm	15	Imm	15	Imm	0	30	15	0																						
 270	Ghost	Ghost C	19	93	35	551	20%L4	0	Y	Med	Suicidal	3	300	90	CP	Uncon	Phys	3D6+6	0	0	0	0	0	0	0	0	0	20	20	Imm	20	Imm	20	Imm	0	30	20	0																						

@@ -208,34 +208,34 @@
 205	The Breach	BrAlvar.odm	0	0	2	-1	0	0	2	7	6	80	10	10	80	Fire Elemental	Fire Elemental	5	 1-3	ATroll	ATroll	5	 1-3	Cactus	Cactus	1	 1-3	3	PSYCHOTIC		0	0	-
 206	Basement of the Breach	BrBase.blv	0	0	0	1	0	0	0	1	1	50	100	0	0	Cactus	Cactus	1	 1-3	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
 207	The Strange Temple	7nwc.blv	0	0	1	672	7	10	1	1	1	0	0	0	0	Golem	Golem	5	 5-8	Angel	Angel	3	 4-6	Devil	Devil	3	 4-6	34	STONEROOM	0			
-208	placeholder	placeh01.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-209	placeholder	placeh02.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-210	placeholder	placeh03.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-211	placeholder	placeh04.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-212	placeholder	placeh05.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-213	placeholder	placeh06.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-214	placeholder	placeh07.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-215	placeholder	placeh08.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-216	placeholder	placeh09.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-217	placeholder	placeh10.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-218	placeholder	placeh11.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-219	placeholder	placeh12.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-220	placeholder	placeh13.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-221	placeholder	placeh14.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-222	placeholder	placeh15.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-223	placeholder	placeh16.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-224	placeholder	placeh17.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-225	placeholder	placeh18.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-226	placeholder	placeh19.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-227	placeholder	placeh20.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-228	placeholder	placeh21.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-229	placeholder	placeh22.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-230	placeholder	placeh23.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-231	placeholder	placeh24.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-232	placeholder	placeh25.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-233	placeholder	placeh26.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-234	placeholder	placeh27.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
-235	placeholder	placeh28.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		0	0	-
+208	placeholder	placeh01.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb02.blv	0	-
+209	placeholder	placeh02.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb03.blv	0	-
+210	placeholder	placeh03.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb04.blv	0	-
+211	placeholder	placeh04.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb05.blv (no file) -> renamed zdwj01.blv	0	-
+212	placeholder	placeh05.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb06.blv	0	-
+213	placeholder	placeh06.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb07.blv	0	-
+214	placeholder	placeh07.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb08.blv	0	-
+215	placeholder	placeh08.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb09.blv	0	-
+216	placeholder	placeh09.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb10.blv	0	-
+217	placeholder	placeh10.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdtl01.blv	0	-
+218	placeholder	placeh11.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdtl02.blv	0	-
+219	placeholder	placeh12.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdwj01.blv	0	-
+220	placeholder	placeh13.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb02.blv	0	-
+221	placeholder	placeh14.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb03.blv	0	-
+222	placeholder	placeh15.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb04.blv	0	-
+223	placeholder	placeh16.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb05.blv (no file) -> renamed zdwj01.blv	0	-
+224	placeholder	placeh17.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb06.blv	0	-
+225	placeholder	placeh18.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb07.blv	0	-
+226	placeholder	placeh19.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb08.blv	0	-
+227	placeholder	placeh20.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb09.blv	0	-
+228	placeholder	placeh21.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb10.blv	0	-
+229	placeholder	placeh22.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdtl01.blv	0	-
+230	placeholder	placeh23.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdtl02.blv	0	-
+231	placeholder	placeh24.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zdwj01.blv	0	-
+232	placeholder	placeh25.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb02.blv	0	-
+233	placeholder	placeh26.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb03.blv	0	-
+234	placeholder	placeh27.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb04.blv	0	-
+235	placeholder	placeh28.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 4-7	0	0	1	 4-7	42	0		zddb05.blv (no file) -> renamed zdwj01.blv	0	-
 236	The Tularean Caves	7d08orig.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 5-8	Elf Spearman	Elf Spearman	2	 3-5	AWyvern	AWyvern	1	 2-4	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
 237	Clanker's Laboratory	7d12orig.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 3-5	AGog	AGog	5	 4-6	Golem	Golem	3	 2-4	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
 238	Wromthrax's Cave	mdt09orig.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 3-5	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-

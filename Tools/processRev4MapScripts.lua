@@ -883,11 +883,11 @@ end]],
 				evt.SpeakNPC{NPC = 437}         -- "Messenger"]],
 	[[evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"
 			evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
-			evt.MoveNPC{NPC = 1263, HouseId = 0}         -- "Lord Godwinson"
+			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time]],
 	[[evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
-			evt.MoveNPC{NPC = 1263, HouseId = 0}         -- "Lord Godwinson"
+			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time
 			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"]],
@@ -1096,7 +1096,7 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 	-- The Vault
 	-- fix MMExtension bugs where script stops executing after evt.SpeakNPC
 	["mdt12.lua"] = 
-	{[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+	{[[evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 			evt.SetNPCGreeting{NPC = 360, Greeting = 151}         -- "Zedd True Shot" : "What a glorious day for victory, my friends!."
 			evt.SetNPCGreeting{NPC = 376, Greeting = 151}         -- "Pascal the Mad Mage" : "What a glorious day for victory, my friends!."
 			evt.SetNPCGreeting{NPC = 373, Greeting = 151}         -- "Duke Bimbasto" : "What a glorious day for victory, my friends!."
@@ -1124,9 +1124,9 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 			evt.Set{"NPCs", Value = 373}         -- "Duke Bimbasto"
 			evt.Set{"NPCs", Value = 376}         -- "Pascal the Mad Mage"
 			evt.Set{"QBits", Value = 891}         -- Exit 1-time Cave 1 Vault
-			evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]]
+			evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"]]
 			,
-			[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+			[[evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 		evt.Set{"QBits", Value = 892}         -- "Pass the Test of Friendship"
 		evt.Subtract{"NPCs", Value = 360}         -- "Zedd True Shot"
 		evt.Subtract{"NPCs", Value = 357}         -- "Lord Godwinson"
@@ -1153,7 +1153,7 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 		evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
 		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
 		[[evt.Set{"QBits", Value = 892}         -- "Pass the Test of Friendship"
 		evt.Subtract{"NPCs", Value = 360}         -- "Zedd True Shot"
@@ -1181,17 +1181,17 @@ Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.Mon
 		evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
 		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]],
-		[[evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+		evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"]],
+		[[evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 		evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}]],
 		[[evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}
-		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"]]},
+		evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"]]},
 		-- The Small House
 		-- fix evt.SpeakNPC
 		["mdt15.lua"] =
@@ -1359,6 +1359,7 @@ end]]
 	["mdt12.lua"] = {[[
 -- fix so that friends will fight with dragons & hydras
 function events.AfterLoadMap()
+	LocalHostileTxt()
 	local nameids = {}
 	for k, v in Map.Monsters do
 		if v.NameId ~= 0 then
@@ -1415,12 +1416,12 @@ for i in path.find("rev4 map scripts\\*.lua") do
 			content, done = content:replace(patchesAfter[name][i], patchesAfter[name][i + 1])
 			if done == 0 then
 				local content2 = patchesAfter[name][i]
-				local i = 0
+				--[[local j = 0
 				for j = 1, 3 do
-					i = content:find("\n", i + 1)
+					j = content:find("\r\n", j + 1)
 				end
-				i = i or content2:len()
-				print("Error: replacement not made: " .. content2:sub(1, i))
+				j = j or content2:len()]]
+				print("Error: replacement not made: " .. content2:sub(1, math.min(300, content2:len())))
 			end
 		end
 	end

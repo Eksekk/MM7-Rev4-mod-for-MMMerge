@@ -1,5 +1,7 @@
 -- functions from scripts/global/PromotionTopics.lua
 
+do return end
+
 local MF, MM, MS, MT = Merge.Functions, Merge.ModSettings, Merge.Settings, Merge.Tables
 local CPA = const.PromoAwards
 local max, min = math.max, math.min
@@ -93,14 +95,15 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 		if vars.Quests[questID] == "Done" then
 			Game.Classes.Skills[const.Class.PriestLight][const.Skills.Dark] = const.GM
 			--Game.Classes.Skills[const.Class.Lich][const.Skills.Dark] = const.GM
+		else
+			Game.Classes.Skills[const.Class.PriestLight][const.Skills.Dark] = 0
 		end
 	end
 	Quest{
 		questID,
-		Gold = 15000,
-		Exp = 75000,
+		Gold = 25000,
+		Exp = 125000,
 		Slot = 0,
-		Quest = true, -- gives an error if this is not present
 		NPC = DMGM_QuestNPC,
 		CheckGive = function()
 			--[[for _, pl in Party do
@@ -152,13 +155,13 @@ if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
 		{
 			Topic = "Lich",
 			TopicDone = false,
-			Give = [[So you have decided to seek the path of true darkness. Very well then, you've come to a good teacher. Unfortunately I teach only the best of students, so you will need to perform 2 tasks for me.
+			Give = [[So you have decided to seek the path of true darkness. Very well then, you've come to a good teacher. Unfortunately I teach only the best of students, so you will first need to show your worth.
 			
 For the starters, you'll of course need to gather a soul jar for each sorcerer that wants to be lichified. If I recall correctly, warlocks of nighon might have some, and they foolishly hid them in the Maze, thinking we can't get to them. Well, as you'll prove to them, we can.
 			
 The second task is a personal favor for me. I need to prepare a spell far exceeding my capabilities, and a way to increase these capabilities is with Shards of Mana, which are scattered around the world. I'll need at least 4 of them. I can't give you the locations - if I could, I'd go get them myself. So keep looking.]],
 			Done = "So you managed to do this all? Outstanding. I thought my requirements would deter everyone, well, I was wrong. You can now learn grandmaster dark magic from me (priests of the light can do it too!), and all sorcerers are now liches.",
-			Undone = "I know the tasks might seem daunting, but once you set your mind to it and start doing them one-at-a-time, it is much simpler. Also remember, each sorcerer (ArchMage) must have a jar in his inventory.",
+			Undone = "I know the tasks might seem daunting, but once you set your mind to it they are possible. Also remember, each sorcerer (ArchMage) must have a jar in his inventory.",
 			
 			FirstGreet = "I can sense you have a lot of magical potential. I can instruct you, but first you need to learn much more, be more prepared, and need to do a favor for me.",
 			Greet = "Welcome. How are you doing?",
@@ -231,7 +234,7 @@ The second task is a personal favor for me. I need to prepare a spell far exceed
 		end
 	end--]]
 
-	-- remove dark magic grandmaster from all NPCs except our quest npc
+	--[[-- remove dark magic grandmaster from all NPCs except our quest npc
 	for i, npc in Game.NPC do
 		if npc ~= DMGM_QuestNPC then
 			for eid, event in npc.Events do
@@ -240,5 +243,5 @@ The second task is a personal favor for me. I need to prepare a spell far exceed
 				end
 			end
 		end
-	end
+	end]]
 end

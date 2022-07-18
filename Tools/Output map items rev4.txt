@@ -1,0 +1,1760 @@
+Map name	Object id	Item number	Item name	X	Y	Z
+out01.odm	0	646	Horseshoe	12495	1738	1
+out01.odm	1	646	Horseshoe	12309	1769	1
+out01.odm	2	0		10938	-138	0
+out01.odm	3	253	Divine Cure	16116	9215	97
+out01.odm	4	646	Horseshoe	12525	1769	1
+out01.odm	5	46	Devilbone Bow	16406	15987	92
+out01.odm	6	54	Supreme Flail	15504	15440	97
+out01.odm	7	199	Gold	14880	15024	149
+out01.odm	8	5	Duelist Blade	16432	8080	88
+out01.odm	9	200	Widowsweep Berries	-2016	14800	10
+out01.odm	10	43	Recurve Bow	4096	18928	1
+out01.odm	11	200	Widowsweep Berries	8144	19008	1
+out01.odm	12	205	Phirna Root	9152	20000	1
+out01.odm	13	70	Royal Leather	12336	19984	1
+out01.odm	14	0		11052	-109	0
+out02.odm	0	729	Saints of Selinas Scroll 1	0	0	1
+out02.odm	1	199	Gold	5984	-7744	21
+out02.odm	2	45	Composite Bow	9696	-7264	1
+out02.odm	3	134	Sun Amulet	12128	-6368	1
+out02.odm	4	199	Gold	-38	20105	2785
+out02.odm	5	205	Phirna Root	19488	-7808	417
+out02.odm	6	205	Phirna Root	14848	-12992	1
+out02.odm	7	205	Phirna Root	5760	-21088	1
+out02.odm	8	205	Phirna Root	3840	-24960	1
+out02.odm	9	205	Phirna Root	20512	-10272	431
+out02.odm	10	205	Phirna Root	13856	-8768	417
+out02.odm	11	210	Poppysnaps	-9888	-20832	2205
+out02.odm	12	210	Poppysnaps	-12576	-21696	2783
+out02.odm	13	210	Poppysnaps	-13664	-20064	3143
+out02.odm	14	210	Poppysnaps	-18592	-21024	2737
+out02.odm	15	210	Poppysnaps	-13696	-17472	2909
+out02.odm	16	210	Poppysnaps	-11424	-15424	1917
+out02.odm	17	210	Poppysnaps	-14624	-14880	2143
+out02.odm	18	210	Poppysnaps	-11488	-12768	1237
+out02.odm	19	210	Poppysnaps	-12160	-13760	1537
+out02.odm	20	210	Poppysnaps	-15360	-11552	1143
+out02.odm	21	210	Poppysnaps	-18880	-12384	1965
+out02.odm	22	210	Poppysnaps	-21920	-17760	3203
+out02.odm	23	210	Poppysnaps	-21952	-13888	3325
+out02.odm	24	210	Poppysnaps	-18400	-1024	1179
+out02.odm	25	210	Poppysnaps	-14624	-1536	911
+out02.odm	26	210	Poppysnaps	-19776	5248	2641
+out02.odm	27	210	Poppysnaps	-21696	8256	2421
+out02.odm	28	210	Poppysnaps	-23392	7456	2735
+out02.odm	29	210	Poppysnaps	-20384	18112	2363
+out02.odm	30	210	Poppysnaps	-15584	20704	2367
+out02.odm	31	210	Poppysnaps	-5408	21888	2175
+out02.odm	32	210	Poppysnaps	10144	18112	1449
+out02.odm	33	210	Poppysnaps	17504	17536	1805
+out02.odm	34	210	Poppysnaps	4032	-19936	641
+out02.odm	35	210	Poppysnaps	-6080	-15520	863
+out02.odm	36	215	Mushroom	-20800	-20960	2255
+out02.odm	37	215	Mushroom	-21024	-15584	3303
+out02.odm	38	215	Mushroom	-15520	-13856	1845
+out02.odm	39	215	Mushroom	-10880	-17536	2289
+out02.odm	40	215	Mushroom	-7680	-21568	1533
+out02.odm	41	215	Mushroom	-13792	-11712	1137
+out02.odm	42	215	Mushroom	-5536	-16256	813
+out02.odm	43	215	Mushroom	-4704	-16064	685
+out02.odm	44	215	Mushroom	-4800	-7840	651
+out02.odm	45	215	Mushroom	-19936	-2016	1249
+out02.odm	46	215	Mushroom	-16448	-1280	913
+out02.odm	47	215	Mushroom	-12160	-2816	873
+out02.odm	48	215	Mushroom	-20320	6688	2447
+out02.odm	49	215	Mushroom	-13408	2848	2515
+out02.odm	50	215	Mushroom	-9952	4992	2007
+out02.odm	51	215	Mushroom	-22848	12096	2405
+out02.odm	52	215	Mushroom	-23072	20832	2683
+out02.odm	53	215	Mushroom	-19392	20128	2265
+out02.odm	54	215	Mushroom	-16384	20800	2093
+out02.odm	55	215	Mushroom	-4800	20768	2079
+out02.odm	56	215	Mushroom	-3296	21984	2425
+out02.odm	57	215	Mushroom	18112	16768	1709
+out02.odm	58	215	Mushroom	18432	20000	1427
+out02.odm	59	197	Gold	22048	10080	641
+out02.odm	60	215	Mushroom	22080	6048	641
+out02.odm	61	215	Mushroom	21024	5664	641
+out02.odm	62	216	Obsidian	15936	-12480	1
+out02.odm	63	216	Obsidian	16576	-6848	417
+out02.odm	64	216	Obsidian	7136	-22656	1
+out02.odm	65	216	Obsidian	-22368	2304	2223
+out02.odm	66	216	Obsidian	7008	16224	1
+out02.odm	67	646	Horseshoe	4224	4992	1
+out02.odm	68	646	Horseshoe	16320	-1312	65
+out02.odm	69	646	Horseshoe	3808	-5184	65
+out02.odm	70	646	Horseshoe	-5432	11624	1
+out02.odm	71	646	Horseshoe	-6053	11606	1
+out02.odm	72	646	Horseshoe	-5822	11538	1
+out02.odm	73	197	Gold	-992	19488	2695
+out02.odm	74	66	Leather Armor	1312	19840	2635
+out02.odm	75	110	Gauntlets	-96	19712	2737
+out02.odm	76	71	Chain Mail	16896	-17376	2143
+out02.odm	77	106	Huntsman's Cloak	18176	-17920	2001
+out03.odm	0	731	Saints of Selinas Scroll 3	0	0	545
+out03.odm	1	646	Horseshoe	-17392	4480	833
+out03.odm	2	646	Horseshoe	-17968	4392	833
+out03.odm	3	646	Horseshoe	-16888	3520	836
+out03.odm	4	687	Siertal-laced ore	-18976	-17920	1
+out03.odm	5	687	Siertal-laced ore	-16240	-18576	1
+out03.odm	6	687	Siertal-laced ore	-18512	-13968	1
+out03.odm	7	687	Siertal-laced ore	-13696	-14208	1
+out03.odm	8	687	Siertal-laced ore	-10816	-17616	1
+out03.odm	9	687	Siertal-laced ore	-13936	-12096	1249
+out03.odm	10	687	Siertal-laced ore	-5040	-17184	1
+out03.odm	11	687	Siertal-laced ore	-6320	-11488	1
+out03.odm	12	687	Siertal-laced ore	-13360	-8272	1
+out03.odm	13	10	Archangel Broadsword	2928	-20016	908
+out03.odm	14	48	Blood Drop Crossbow	5760	-14912	933
+out03.odm	15	6	Barrow Leafblade	22128	17136	3455
+out03.odm	16	17	Steel Dagger	20576	13728	3759
+out03.odm	17	198	Gold	6560	-15328	983
+out03.odm	18	201	Crushed Rose Petals	8544	-17504	933
+out03.odm	19	115	Walking Boots	5536	-18272	935
+out03.odm	20	61	Journey Staff	5696	-19104	925
+out03.odm	21	198	Gold	19776	16480	2369
+out03.odm	22	198	Gold	19136	17120	2355
+out03.odm	23	84	Wooden Buckler	19008	12032	3829
+out03.odm	24	198	Gold	-19840	-16960	1
+out03.odm	25	116	Steel Plated Boots	-20064	-18016	1
+out03.odm	26	61	Journey Staff	-16160	-9664	1
+out03.odm	27	198	Gold	-12608	-10816	1
+out04.odm	0	11	Champion Sword	-15705	-16762	1025
+out04.odm	1	733	Saints of Selinas Scroll 5	0	0	2465
+out04.odm	2	209	Elvish Toadstool	-7488	-4064	1025
+out04.odm	3	209	Elvish Toadstool	-14336	-2256	1077
+out04.odm	4	209	Elvish Toadstool	-8432	-15488	1281
+out04.odm	5	209	Elvish Toadstool	3248	-1472	3109
+out04.odm	6	209	Elvish Toadstool	3376	-1504	3107
+out04.odm	7	209	Elvish Toadstool	3216	-1568	3101
+out04.odm	8	209	Elvish Toadstool	3360	-1648	3091
+out04.odm	9	209	Elvish Toadstool	3232	-1760	3081
+out04.odm	10	205	Phirna Root	-5536	21488	1
+out04.odm	11	205	Phirna Root	-432	15152	1
+out04.odm	12	205	Phirna Root	6176	6640	1
+out04.odm	13	205	Phirna Root	13328	1952	1
+out04.odm	14	205	Phirna Root	10096	-3184	1
+out04.odm	15	205	Phirna Root	3184	-10016	1
+out04.odm	16	205	Phirna Root	2160	-20496	1
+out04.odm	17	205	Phirna Root	12064	-20432	1
+out04.odm	18	205	Phirna Root	17440	-20000	1
+out04.odm	19	205	Phirna Root	19952	-16272	1
+out04.odm	20	205	Phirna Root	18976	-10816	1
+out04.odm	21	205	Phirna Root	16960	-9216	1
+out04.odm	22	205	Phirna Root	13344	-10304	5
+out04.odm	23	205	Phirna Root	18864	11280	1
+out04.odm	24	205	Phirna Root	13920	10128	1
+out04.odm	25	205	Phirna Root	5152	20976	4
+out04.odm	26	205	Phirna Root	11264	20912	1
+out04.odm	27	205	Phirna Root	16960	20464	4
+out04.odm	28	200	Widowsweep Berries	10560	17184	367
+out04.odm	29	200	Widowsweep Berries	10544	13216	366
+out04.odm	30	200	Widowsweep Berries	7104	19888	226
+out04.odm	31	200	Widowsweep Berries	17792	16272	385
+out04.odm	32	200	Widowsweep Berries	17680	13472	196
+out04.odm	33	200	Widowsweep Berries	-19296	17376	2895
+out04.odm	34	200	Widowsweep Berries	-18272	18112	3055
+out04.odm	35	200	Widowsweep Berries	-19648	19136	3493
+out04.odm	36	200	Widowsweep Berries	-18080	19632	3391
+out04.odm	37	200	Widowsweep Berries	-18848	21168	3674
+out04.odm	38	200	Widowsweep Berries	-17504	21840	3417
+out04.odm	39	201	Crushed Rose Petals	-20640	19424	3475
+out04.odm	40	201	Crushed Rose Petals	-17168	19472	3220
+out04.odm	41	201	Crushed Rose Petals	-20240	18368	3324
+out04.odm	42	201	Crushed Rose Petals	-17472	20752	3392
+out04.odm	43	201	Crushed Rose Petals	4608	-1264	3060
+out04.odm	44	201	Crushed Rose Petals	5840	-1216	2918
+out04.odm	45	201	Crushed Rose Petals	2880	-800	3097
+out04.odm	46	201	Crushed Rose Petals	-1024	-5920	1181
+out04.odm	47	201	Crushed Rose Petals	1152	-6064	1150
+out04.odm	48	201	Crushed Rose Petals	-240	-4976	1215
+out04.odm	49	201	Crushed Rose Petals	2608	-5776	1281
+out04.odm	50	201	Crushed Rose Petals	-5408	-6896	1081
+out04.odm	51	201	Crushed Rose Petals	-4656	-7712	1187
+out04.odm	52	201	Crushed Rose Petals	-5184	-8912	1180
+out04.odm	53	201	Crushed Rose Petals	-5776	-11040	1075
+out04.odm	54	201	Crushed Rose Petals	-6240	-12368	1025
+out04.odm	55	201	Crushed Rose Petals	-4000	-15360	841
+out04.odm	56	201	Crushed Rose Petals	-4784	-16160	1007
+out04.odm	57	201	Crushed Rose Petals	-9008	-14640	1204
+out04.odm	58	201	Crushed Rose Petals	-11264	-15440	1045
+out04.odm	59	201	Crushed Rose Petals	-13168	-15536	1091
+out04.odm	60	201	Crushed Rose Petals	-14256	-13920	1025
+out04.odm	61	201	Crushed Rose Petals	-13568	-12992	1025
+out04.odm	62	201	Crushed Rose Petals	-18832	-14560	1053
+out04.odm	63	201	Crushed Rose Petals	-17984	-13440	1121
+out04.odm	64	201	Crushed Rose Petals	-20592	-12240	1031
+out04.odm	65	201	Crushed Rose Petals	-17296	-11488	1097
+out04.odm	66	201	Crushed Rose Petals	-18448	-7312	1025
+out04.odm	67	201	Crushed Rose Petals	-16432	-6208	1025
+out04.odm	68	201	Crushed Rose Petals	-17824	-3392	1025
+out04.odm	69	201	Crushed Rose Petals	-22256	10400	3286
+out04.odm	70	201	Crushed Rose Petals	-7040	12672	1337
+out04.odm	71	201	Crushed Rose Petals	-7904	14320	1511
+out04.odm	72	201	Crushed Rose Petals	-3824	16688	1115
+out04.odm	73	201	Crushed Rose Petals	-2912	12944	1109
+out04.odm	74	201	Crushed Rose Petals	-992	10400	1231
+out04.odm	75	201	Crushed Rose Petals	-624	8736	1336
+out04.odm	76	201	Crushed Rose Petals	-9248	12448	1535
+out04.odm	77	200	Widowsweep Berries	-6896	14512	1251
+out04.odm	78	200	Widowsweep Berries	-1264	12464	1390
+out04.odm	79	200	Widowsweep Berries	-2432	9824	1267
+out04.odm	80	200	Widowsweep Berries	368	9424	1452
+out04.odm	81	200	Widowsweep Berries	-5024	12768	1025
+out04.odm	82	646	Horseshoe	-1752	-7176	1153
+out04.odm	83	646	Horseshoe	-968	-7800	1074
+out04.odm	84	646	Horseshoe	-1848	-5032	1229
+out04.odm	85	198	Gold	-2704	13472	1134
+out04.odm	86	198	Gold	-7344	14480	1357
+out04.odm	87	198	Gold	-7072	15712	1261
+out04.odm	88	198	Gold	-864	9840	1252
+out04.odm	89	44	Snakewood Bow	-7504	13184	1408
+out04.odm	90	44	Snakewood Bow	-1824	11888	1306
+out04.odm	91	44	Snakewood Bow	-2560	14720	1145
+out04.odm	92	208	Moonstone	-19984	7552	1025
+out04.odm	93	208	Moonstone	-19952	9152	1025
+out04.odm	94	208	Moonstone	-12768	12768	1025
+out04.odm	95	209	Elvish Toadstool	-14784	8672	1107
+out04.odm	96	209	Elvish Toadstool	-13808	9200	1051
+out04.odm	97	209	Elvish Toadstool	-17472	14256	1025
+out04.odm	98	209	Elvish Toadstool	-19856	11152	1025
+out04.odm	99	218	Mercury	-15760	7728	1025
+out04.odm	100	218	Mercury	-17600	7216	1025
+out04.odm	101	218	Mercury	-20752	11600	2552
+out04.odm	102	218	Mercury	-19856	12640	1025
+out04.odm	103	689	Kergar-laced ore	-9632	2688	1839
+out04.odm	104	689	Kergar-laced ore	-9616	896	193
+out04.odm	105	689	Kergar-laced ore	-7888	208	1257
+out04.odm	106	688	Phylt-laced ore	-8544	336	672
+out04.odm	107	688	Phylt-laced ore	-9184	1520	193
+out04.odm	108	688	Phylt-laced ore	-8576	2704	1961
+out04.odm	109	688	Phylt-laced ore	-7104	2400	1939
+out04.odm	110	688	Phylt-laced ore	-10240	1760	999
+out04.odm	111	198	Gold	-1888	11424	1291
+out04.odm	112	67	Studded Leather	-7072	13408	1321
+out04.odm	113	198	Gold	-8864	11104	1441
+out04.odm	114	198	Gold	-8992	3328	2011
+out04.odm	115	198	Gold	-7488	320	961
+out04.odm	116	72	Steel Chain Mail	-13216	9632	1121
+out04.odm	117	211	Fae Dust	-12704	10592	1097
+out04.odm	118	0		-16832	12512	964
+out05.odm	0	267	Pure Endurance	-3175	13534	3073
+out05.odm	1	268	Pure Personality	-3168	13465	3073
+out05.odm	2	646	Horseshoe	7840	-16240	2625
+out05.odm	3	646	Horseshoe	8576	-16240	2625
+out05.odm	4	646	Horseshoe	7600	-15544	2625
+out05.odm	5	207	Harpy Feather	64	-8640	2109
+out05.odm	6	207	Harpy Feather	-7872	1472	1373
+out05.odm	7	207	Harpy Feather	-3648	5120	2249
+out05.odm	8	207	Harpy Feather	6272	-4928	1837
+out05.odm	9	207	Harpy Feather	7744	-8000	2721
+out05.odm	10	207	Harpy Feather	-64	-3136	1681
+out05.odm	11	207	Harpy Feather	-2240	-2304	1637
+out05.odm	12	207	Harpy Feather	-6272	-10368	3041
+out05.odm	13	202	Vial of Troll Blood	-1216	-5184	973
+out05.odm	14	202	Vial of Troll Blood	12160	-10560	2461
+out05.odm	15	202	Vial of Troll Blood	-1344	-11904	1957
+out05.odm	16	202	Vial of Troll Blood	-8000	-4928	1737
+out05.odm	17	202	Vial of Troll Blood	2816	768	1681
+out05.odm	18	222	Cure Wounds	6464	3328	129
+out05.odm	19	222	Cure Wounds	8896	3392	253
+out05.odm	20	222	Cure Wounds	13952	-2880	657
+out05.odm	21	222	Cure Wounds	15744	-3584	401
+out05.odm	22	222	Cure Wounds	-2752	-384	1565
+out05.odm	23	616	Genie Lamp	21504	7488	3073
+out05.odm	24	616	Genie Lamp	15168	5248	2761
+out05.odm	25	616	Genie Lamp	-704	13888	3065
+out05.odm	26	616	Genie Lamp	-8512	19904	3065
+out05.odm	27	690	Erudine-laced ore	-11648	7424	1073
+out05.odm	28	690	Erudine-laced ore	448	-960	1297
+out05.odm	29	690	Erudine-laced ore	5184	-8896	1557
+out05.odm	30	690	Erudine-laced ore	16704	-1408	1025
+out05.odm	31	690	Erudine-laced ore	-17600	5120	2089
+out05.odm	32	689	Kergar-laced ore	-2240	9600	605
+out05.odm	33	689	Kergar-laced ore	-1216	2688	1537
+out05.odm	34	689	Kergar-laced ore	-13120	-2432	1977
+out05.odm	35	689	Kergar-laced ore	2880	-2112	1513
+out05.odm	36	689	Kergar-laced ore	-21248	9536	3113
+out05.odm	37	689	Kergar-laced ore	-13312	5888	1425
+out05.odm	38	102	Strong Belt	-7584	-7584	1925
+out05.odm	39	67	Studded Leather	5120	-6720	2525
+out05.odm	40	198	Gold	-8992	-1792	1225
+out05.odm	41	95	Traveller's Hat	-4768	-5248	1801
+out05.odm	42	199	Gold	-6688	21760	1
+out05.odm	43	199	Gold	-640	16640	1
+out06.odm	0	646	Horseshoe	0	0	801
+out06.odm	1	646	Horseshoe	8872	17720	1
+out06.odm	2	646	Horseshoe	9928	17640	1
+out06.odm	3	646	Horseshoe	9032	16424	1
+out06.odm	4	616	Genie Lamp	-20608	-11776	1025
+out06.odm	5	616	Genie Lamp	-7136	-21344	1
+out06.odm	6	616	Genie Lamp	18848	-9024	155
+out06.odm	7	690	Erudine-laced ore	-20992	19328	801
+out06.odm	8	690	Erudine-laced ore	-2816	20608	801
+out06.odm	9	690	Erudine-laced ore	1984	9664	1
+out06.odm	10	690	Erudine-laced ore	64	-3328	801
+out06.odm	11	690	Erudine-laced ore	-8704	-3136	801
+out06.odm	12	690	Erudine-laced ore	-21888	1536	673
+out06.odm	13	690	Erudine-laced ore	768	-18433	800
+out06.odm	14	689	Kergar-laced ore	13120	-21760	849
+out06.odm	15	689	Kergar-laced ore	2752	64	801
+out06.odm	16	689	Kergar-laced ore	-11648	9088	801
+out06.odm	17	689	Kergar-laced ore	-14208	19776	100
+out06.odm	18	689	Kergar-laced ore	2816	15232	1
+out06.odm	19	103	Silver Belt	5760	-20192	1377
+out06.odm	20	198	Gold	13984	-17728	801
+out06.odm	21	73	Fine Chain Mail	8000	15168	801
+out06.odm	22	107	Ranger's Cloak	-21376	-4736	801
+out06.odm	23	40	Lizardman Trident	-17600	-3201	600
+out06.odm	24	228	Haste	-15584	3328	801
+out06.odm	25	68	Officer's Leather	-3776	6464	801
+out06.odm	26	198	Gold	-3744	10528	801
+out06.odm	27	67	Studded Leather	-12448	10528	801
+out09.odm	0	616	Genie Lamp	16744	-10000	86
+out09.odm	1	199	Gold	5192	-8312	385
+out09.odm	2	199	Gold	2760	-8688	353
+out09.odm	3	49	Caravaner's Crossbow	-11688	-5768	225
+out09.odm	4	54	Supreme Flail	-13920	-3240	193
+out09.odm	5	76	Plate Armor	-12768	-7296	209
+out09.odm	6	198	Gold	-12192	-5568	225
+out09.odm	7	7	Dark Elven Sword	-13280	-3168	193
+out09.odm	8	67	Studded Leather	3072	-8992	353
+out09.odm	9	112	Silver Mesh Gauntlets	4096	-10848	391
+out09.odm	10	198	Gold	4672	-8160	385
+out09.odm	11	198	Gold	5408	-10752	417
+out10.odm	0	197	Gold	19240	-6336	1340
+out10.odm	1	197	Gold	16856	-8160	543
+out10.odm	2	197	Gold	19872	-9232	736
+out10.odm	3	21	Exquisite Long Dagger	-4160	20768	1
+out10.odm	4	37	Weighted Halberd	16704	21696	261
+out10.odm	5	208	Moonstone	-8432	-13008	7001
+out10.odm	6	208	Moonstone	-10240	-11232	8001
+out10.odm	7	208	Moonstone	-9648	-13520	8001
+out10.odm	8	208	Moonstone	-6384	-13648	8001
+out10.odm	9	208	Moonstone	-5600	-11568	8001
+out10.odm	10	213	Garnet	-6864	-10592	8001
+out10.odm	11	213	Garnet	-9088	-9632	8001
+out10.odm	12	213	Garnet	-10464	-12112	8001
+out10.odm	13	213	Garnet	-8944	-14112	8001
+out10.odm	14	616	Genie Lamp	-8976	16576	1025
+out10.odm	15	616	Genie Lamp	19328	20240	1000
+out10.odm	16	199	Gold	19840	18272	1025
+out10.odm	17	199	Gold	12048	16672	797
+out10.odm	18	199	Gold	7200	15920	929
+out10.odm	19	199	Gold	-4288	17232	929
+out10.odm	20	11	Champion Sword	-7696	15856	1025
+out10.odm	21	63	Priestly Staff	18320	13824	1025
+out10.odm	22	75	Golden Chain Mail	10736	-12128	3841
+out10.odm	23	691	Stalt-laced ore	-9952	-10176	8001
+out10.odm	24	691	Stalt-laced ore	-10272	-12512	8001
+out10.odm	25	691	Stalt-laced ore	-7488	-14016	8001
+out10.odm	26	691	Stalt-laced ore	-6240	-10720	8001
+out10.odm	27	690	Erudine-laced ore	-7296	-9920	8001
+out10.odm	28	690	Erudine-laced ore	-8192	-9440	8001
+out10.odm	29	690	Erudine-laced ore	-9568	-11296	8001
+out10.odm	30	690	Erudine-laced ore	-9888	-12480	8001
+out10.odm	31	82	Regnan Tournament Shield	8096	20256	1
+out10.odm	32	199	Gold	1536	19328	105
+out11.odm	0	735	Saints of Selinas Scroll 6	0	0	2238
+out11.odm	1	216	Obsidian	9216	-3040	1
+out11.odm	2	216	Obsidian	9568	-5408	1
+out11.odm	3	216	Obsidian	18496	-7584	1
+out11.odm	4	216	Obsidian	20224	-12224	1
+out11.odm	5	216	Obsidian	21696	-17760	1
+out11.odm	6	216	Obsidian	15072	-21728	1
+out11.odm	7	216	Obsidian	12352	-20960	1
+out11.odm	8	216	Obsidian	7168	-14560	1
+out11.odm	9	216	Obsidian	-6976	-19904	1
+out11.odm	10	216	Obsidian	-13216	-19552	1
+out11.odm	11	216	Obsidian	-20576	-16416	1
+out11.odm	12	216	Obsidian	-21216	8064	1
+out11.odm	13	216	Obsidian	-15776	10368	1
+out11.odm	14	216	Obsidian	-19840	19072	1
+out11.odm	15	216	Obsidian	-9664	13504	1
+out11.odm	16	216	Obsidian	-6912	21024	1
+out11.odm	17	216	Obsidian	10496	12384	1
+out11.odm	18	216	Obsidian	11904	19744	1
+out11.odm	19	216	Obsidian	5536	16064	1
+out11.odm	20	216	Obsidian	19776	8096	1
+out11.odm	21	216	Obsidian	17888	4544	1
+out11.odm	22	216	Obsidian	-5664	-10848	97
+out11.odm	23	216	Obsidian	-8064	-4352	97
+out11.odm	24	216	Obsidian	6688	-21728	1
+out11.odm	25	216	Obsidian	7648	-18624	1
+out11.odm	26	216	Obsidian	9920	-15104	1
+out11.odm	27	141	Fairy Wand of Ice	5200	18016	1
+out11.odm	28	119	Paladin Boots	13408	16240	1
+out11.odm	29	206	Meteorite Fragment	11856	16032	1
+out11.odm	30	206	Meteorite Fragment	14960	-5520	1
+out11.odm	31	206	Meteorite Fragment	10400	-3712	1
+out11.odm	32	206	Meteorite Fragment	-16448	-12048	1
+out11.odm	33	206	Meteorite Fragment	-16096	-14480	1
+out11.odm	34	206	Meteorite Fragment	-17600	-9824	1
+out11.odm	35	206	Meteorite Fragment	12240	-19552	1
+out11.odm	36	206	Meteorite Fragment	8032	-15232	1
+out11.odm	37	206	Meteorite Fragment	-1088	4176	2241
+out11.odm	38	206	Meteorite Fragment	-6864	5040	2488
+out11.odm	39	198	Gold	-18912	-7488	1
+out11.odm	40	198	Gold	-17104	-6240	1
+out11.odm	41	198	Gold	12032	-16752	1
+out11.odm	42	199	Gold	21168	11936	1
+out11.odm	43	198	Gold	12464	19040	1
+out11.odm	44	198	Gold	-10144	21744	1
+out11.odm	45	6	Barrow Leafblade	-10352	20848	1
+out11.odm	46	25	 Battleaxe of Wings	-4832	21584	1
+out11.odm	47	25	 Battleaxe of Wings	-20672	-6576	1
+out11.odm	48	689	Kergar-laced ore	-19648	-12576	1
+out11.odm	49	689	Kergar-laced ore	-4896	-9984	97
+out11.odm	50	689	Kergar-laced ore	-10496	-16160	1
+out11.odm	51	689	Kergar-laced ore	-864	-22080	97
+out11.odm	52	689	Kergar-laced ore	9056	-17056	1
+out11.odm	53	689	Kergar-laced ore	18880	-9856	1
+out11.odm	54	689	Kergar-laced ore	16288	5952	1
+out11.odm	55	689	Kergar-laced ore	7008	12288	1
+out11.odm	56	689	Kergar-laced ore	-10304	12704	1
+out11.odm	57	689	Kergar-laced ore	-16576	20992	1
+out11.odm	58	689	Kergar-laced ore	-17024	7232	705
+out11.odm	59	689	Kergar-laced ore	-12256	11648	257
+out11.odm	60	689	Kergar-laced ore	-9600	4608	97
+out11.odm	61	689	Kergar-laced ore	-14112	352	97
+out11.odm	62	689	Kergar-laced ore	-6720	-6816	1601
+out11.odm	63	450	Heroism	2784	-992	1
+out11.odm	64	71	Chain Mail	2176	-3040	1
+out11.odm	65	198	Gold	8736	-3264	1
+out11.odm	66	211	Fae Dust	9376	-13888	1
+out11.odm	67	24	Battle Hatchet	7392	-22016	1
+out11.odm	68	198	Gold	3968	-19424	1
+out11.odm	69	198	Gold	-5952	-7648	1601
+out11.odm	70	90	Conscript's Helm	-21152	-21152	1
+out11.odm	71	113	Minotaur Gauntlets	-20704	-17600	1
+out11.odm	72	198	Gold	-10400	15840	1
+out11.odm	73	4	Elven Sword	18912	8832	1
+out12.odm	0	616	Genie Lamp	12752	11616	1
+out12.odm	1	616	Genie Lamp	11728	13552	1
+out12.odm	2	616	Genie Lamp	1952	19280	1
+out12.odm	3	616	Genie Lamp	-3472	22272	1
+out12.odm	4	616	Genie Lamp	13856	-13904	1
+out12.odm	5	616	Genie Lamp	-20928	-21728	1
+out12.odm	6	199	Gold	-14448	15024	6401
+out12.odm	7	199	Gold	-13648	14848	6401
+out12.odm	8	199	Gold	-13632	14288	6401
+out12.odm	9	199	Gold	-15360	14384	6401
+out12.odm	10	199	Gold	-14624	14544	6401
+out12.odm	11	199	Gold	-14512	13744	6401
+out12.odm	12	199	Gold	-13040	14864	6401
+out12.odm	13	199	Gold	-15392	15552	6405
+out12.odm	14	158	Mystic Wand of Shrinking	-22272	4896	4251
+out12.odm	15	158	Mystic Wand of Shrinking	-20688	-6944	3378
+out12.odm	16	19	Twilight Kris	-11056	-11760	1204
+out12.odm	17	19	Twilight Kris	14208	4448	979
+out12.odm	18	46	Devilbone Bow	6560	15936	857
+out12.odm	19	70	Royal Leather	-15440	15104	6406
+out12.odm	20	269	Pure Accuracy	-10992	14736	7235
+out12.odm	21	269	Pure Accuracy	4960	8576	1193
+out12.odm	22	214	Vial of Devil Ichor	15344	6000	830
+out12.odm	23	214	Vial of Devil Ichor	-19184	-10560	3201
+out12.odm	24	214	Vial of Devil Ichor	-19152	-13040	3201
+out12.odm	25	214	Vial of Devil Ichor	-11760	-11600	1217
+out12.odm	26	214	Vial of Devil Ichor	-11200	7488	7573
+out12.odm	27	214	Vial of Devil Ichor	-10016	4960	6897
+out12.odm	28	209	Elvish Toadstool	-12304	7376	7502
+out12.odm	29	209	Elvish Toadstool	-12080	18160	7981
+out12.odm	30	209	Elvish Toadstool	-8464	17600	7173
+out12.odm	31	209	Elvish Toadstool	6352	-2736	1087
+out12.odm	32	209	Elvish Toadstool	5600	-4960	1217
+out12.odm	33	219	Philosopher's Stone	4944	-5488	1217
+out12.odm	34	219	Philosopher's Stone	-3504	-3152	1067
+out12.odm	35	219	Philosopher's Stone	-20032	-6816	4019
+out12.odm	36	219	Philosopher's Stone	-18192	-12560	3201
+out12.odm	37	219	Philosopher's Stone	-15616	-18608	790
+out12.odm	38	204	Dragon's Eye	-14288	15488	6401
+out12.odm	39	204	Dragon's Eye	6976	6416	1269
+out12.odm	40	204	Dragon's Eye	5664	5504	1215
+out12.odm	41	45	Composite Bow	-14168	14160	6401
+out12.odm	42	19	Twilight Kris	-13184	13688	6401
+out12.odm	43	206	Meteorite Fragment	-15328	11472	7784
+out12.odm	44	206	Meteorite Fragment	-11760	12192	7613
+out12.odm	45	206	Meteorite Fragment	-18816	14272	8001
+out12.odm	46	387	Divine Intervention	-3168	21968	1
+out12.odm	47	691	Stalt-laced ore	-17664	-21568	1
+out12.odm	48	691	Stalt-laced ore	-9280	-19328	1
+out12.odm	49	691	Stalt-laced ore	11328	-15488	1
+out12.odm	50	691	Stalt-laced ore	-14816	15744	6401
+out12.odm	51	691	Stalt-laced ore	-13760	13760	6401
+out12.odm	52	691	Stalt-laced ore	-12672	15264	6409
+out12.odm	53	691	Stalt-laced ore	-96	19808	1
+out12.odm	54	691	Stalt-laced ore	15232	7968	1
+out12.odm	55	119	Paladin Boots	8224	-15360	577
+out12.odm	56	116	Steel Plated Boots	6992	-8992	1157
+out12.odm	57	52	Zealot Mace	-14544	-18448	767
+out12.odm	58	58	Club	-15456	13600	6425
+out12.odm	59	63	Priestly Staff	-15104	-17888	821
+out12.odm	60	58	Club	15712	-5408	991
+out12.odm	61	199	Gold	-928	16416	1141
+out12.odm	62	22	Blade of Mercy	7328	15648	879
+out12.odm	63	199	Gold	6272	17440	599
+out12.odm	64	8	Heroic Sword	-21760	12896	5547
+out12.odm	65	49	Caravaner's Crossbow	-4000	-3136	1035
+out13.odm	0	732	Saints of Selinas Scroll 4	-1	0	3583
+out13.odm	1	206	Meteorite Fragment	5920	5760	2779
+out13.odm	2	646	Horseshoe	4608	-10440	321
+out13.odm	3	646	Horseshoe	4184	-11392	321
+out13.odm	4	646	Horseshoe	5288	-10272	321
+out13.odm	5	145	Alacorn Wand of Fireballs	4448	9664	3073
+out13.odm	6	202	Vial of Troll Blood	-640	6944	3073
+out13.odm	7	202	Vial of Troll Blood	960	3744	3073
+out13.odm	8	202	Vial of Troll Blood	11840	896	3073
+out13.odm	9	204	Dragon's Eye	-800	20000	2591
+out13.odm	10	199	Gold	13568	-1792	4673
+out13.odm	11	199	Gold	4928	-3328	4309
+out13.odm	12	208	Moonstone	5856	4800	2923
+out13.odm	13	208	Moonstone	8640	3680	2999
+out13.odm	14	236	Harden Item	2720	6816	3073
+out13.odm	15	236	Harden Item	-416	3552	3073
+out13.odm	16	236	Harden Item	-7904	-16640	97
+out13.odm	17	17	Steel Dagger	-5888	-15520	51
+out13.odm	18	48	Blood Drop Crossbow	11040	-16736	209
+out13.odm	19	78	Noble Plate Armor	18208	-17696	143
+out13.odm	20	87	Death Head Shield	18272	-22048	45
+out13.odm	21	103	Silver Belt	9824	-22112	117
+out13.odm	22	147	Alacorn Wand of Lightning	14336	-21760	257
+out13.odm	23	689	Kergar-laced ore	6112	-19296	39
+out13.odm	24	689	Kergar-laced ore	21824	-20800	25
+out13.odm	25	689	Kergar-laced ore	20832	-15168	19
+out13.odm	26	689	Kergar-laced ore	17440	-9632	513
+out13.odm	27	689	Kergar-laced ore	13728	-9120	399
+out13.odm	28	202	Vial of Troll Blood	10080	16224	2605
+out13.odm	29	206	Meteorite Fragment	7584	6944	2533
+out13.odm	30	206	Meteorite Fragment	8800	17088	2471
+out13.odm	31	206	Meteorite Fragment	7680	15808	2733
+out13.odm	32	206	Meteorite Fragment	10080	13856	3005
+out13.odm	33	206	Meteorite Fragment	7200	7616	2729
+out13.odm	34	206	Meteorite Fragment	7040	4960	2721
+out13.odm	35	206	Meteorite Fragment	8544	14464	2881
+out13.odm	36	206	Meteorite Fragment	6016	6752	2719
+out13.odm	37	690	Erudine-laced ore	7184	5904	2495
+out13.odm	38	690	Erudine-laced ore	8480	15984	2486
+out13.odm	39	689	Kergar-laced ore	9520	16400	2447
+out13.odm	40	689	Kergar-laced ore	7888	5232	2693
+out13.odm	41	198	Gold	21808	-19856	97
+out13.odm	42	58	Club	800	4608	3073
+out13.odm	43	72	Steel Chain Mail	1248	3200	3073
+out13.odm	44	187	Topaz	-1536	6784	3073
+out13.odm	45	61	Journey Staff	12288	1184	3093
+out13.odm	46	67	Studded Leather	10208	10496	3073
+out13.odm	47	66	Leather Armor	1696	13472	3073
+out13.odm	48	372	Hammerhands	4960	11552	3073
+out13.odm	49	97	Crown	-2016	15040	3073
+out13.odm	50	198	Gold	-6848	17344	2685
+out13.odm	51	198	Gold	-19712	18880	449
+out13.odm	52	36	Improvised Voulge	-18688	17216	377
+out13.odm	53	100	Leather Belt	-7680	7520	1
+out13.odm	54	47	Light Crossbow	-7136	6592	1
+out13.odm	55	61	Journey Staff	-17472	1632	525
+out13.odm	56	198	Gold	-15712	4672	247
+out13.odm	57	198	Gold	-18592	6400	289
+out13.odm	58	198	Gold	-4032	352	1
+out13.odm	59	59	Spiked Club	-5120	2400	1
+out13.odm	60	198	Gold	-13376	-19648	1
+out13.odm	61	2	Steel Longsword	-12320	-17984	1
+out14.odm	0	646	Horseshoe	17336	13008	513
+out14.odm	1	646	Horseshoe	17784	13408	513
+out14.odm	2	646	Horseshoe	16928	12752	513
+out14.odm	3	559	Watcher's Ring of Elemental Water	-16760	-4707	161
+out14.odm	4	202	Vial of Troll Blood	6976	-7552	993
+out14.odm	5	202	Vial of Troll Blood	-3392	-6688	1537
+out14.odm	6	208	Moonstone	8608	-9824	1025
+out14.odm	7	208	Moonstone	-2464	-5184	1537
+out14.odm	8	208	Moonstone	5856	-6560	1025
+out14.odm	9	213	Garnet	7840	-10080	1025
+out14.odm	10	213	Garnet	1344	-7392	1343
+out14.odm	11	213	Garnet	-2880	-7264	1537
+out14.odm	12	198	Gold	18272	-20416	609
+out14.odm	13	198	Gold	19680	-20768	609
+out14.odm	14	198	Gold	21216	-18592	609
+out14.odm	15	198	Gold	-5472	-5120	1537
+out14.odm	16	198	Gold	8096	-5504	933
+out14.odm	17	198	Gold	14560	-12032	385
+out14.odm	18	151	Arcane Wand of The Fist	21664	-8896	2779
+out14.odm	19	35	Sublime Spear	5376	-11872	1
+out14.odm	20	27	Dwarven Battleaxe	-5568	-11552	99
+out14.odm	21	30	Headsman's Poleaxe	-9568	-11616	43
+out14.odm	22	40	Lizardman Trident	-7392	-9536	73
+out14.odm	23	52	Zealot Mace	-15520	-4320	161
+out14.odm	24	62	Orb Staff	-18016	6336	301
+out14.odm	25	68	Officer's Leather	-9312	17376	35
+out14.odm	26	74	Resplendent Chain Mail	-4576	10016	113
+out14.odm	27	198	Gold	-6304	12032	123
+out14.odm	28	198	Gold	-18944	6400	289
+out14.odm	29	198	Gold	-16704	-3904	137
+out14.odm	30	198	Gold	3296	-8448	1061
+out14.odm	31	107	Ranger's Cloak	18592	-20736	609
+out14.odm	32	76	Plate Armor	-9088	-11744	25
+out14.odm	33	198	Gold	-5888	-12000	99
+out14.odm	34	206	Meteorite Fragment	-7840	-8960	97
+out14.odm	35	198	Gold	-16416	-5376	177
+out14.odm	36	233	Recharge Item	-19392	6656	265
+out14.odm	37	198	Gold	-6528	11296	129
+out14.odm	38	112	Silver Mesh Gauntlets	-5504	12832	99
+out14.odm	39	21	Exquisite Long Dagger	-7328	13792	109
+out15.odm	0	199	Gold	18272	-4384	1253
+out15.odm	1	199	Gold	17536	-2464	1113
+out15.odm	2	199	Gold	18880	-1248	1505
+out15.odm	3	199	Gold	19328	-3136	1729
+out15.odm	4	199	Gold	16864	-4800	1303
+out15.odm	5	199	Gold	15808	-2112	1385
+out15.odm	6	130	Eyeball Amulet	17568	-1216	1127
+out15.odm	7	199	Gold	19200	-512	1665
+out15.odm	8	194	Yellow Topaz	18912	-4576	1493
+out15.odm	9	80	Thornbark Shield	19744	-2112	1937
+out15.odm	10	199	Gold	19616	-3424	1883
+out15.odm	11	199	Gold	21696	-22016	2561
+out15.odm	12	199	Gold	20000	-19392	2555
+out15.odm	13	94	Peasant Hat	14336	-21248	2625
+out15.odm	14	76	Plate Armor	-19328	-18560	2521
+out15.odm	15	199	Gold	-18432	-21088	2471
+out15.odm	16	199	Gold	-21312	-19040	2503
+out15.odm	17	199	Gold	-9088	4192	301
+out15.odm	18	50	Mace	-6624	9120	173
+out15.odm	19	61	Journey Staff	-10176	9600	257
+out15.odm	20	135	Wand of Fire	-12160	8064	225
+out15.odm	21	199	Gold	-7232	-14784	2525
+out15.odm	22	199	Gold	5408	-3872	1247
+out15.odm	23	61	Journey Staff	15616	-5984	1425
+out15.odm	24	199	Gold	20000	7488	1713
+out15.odm	25	199	Gold	4608	9440	1455
+out15.odm	26	199	Gold	5344	13216	621
+d01.blv	0	717	Letter from Mr. Stantley	512	14368	1
+d01.blv	1	197	Gold	608	2096	1
+d01.blv	2	197	Gold	-320	2880	1
+d01.blv	3	197	Gold	-528	4080	1
+d01.blv	4	197	Gold	-1408	12320	385
+d01.blv	5	197	Gold	1808	12320	385
+d01.blv	6	197	Gold	800	14256	1
+d01.blv	7	100	Leather Belt	-368	15072	1
+d01.blv	8	200	Widowsweep Berries	80	15056	1
+d01.blv	9	197	Gold	-816	4768	-543
+d01.blv	10	15	Common Dagger	432	6464	-543
+d01.blv	11	197	Gold	-384	10448	-543
+d01.blv	12	79	Trollish Shield	-1456	13232	-543
+d01.blv	13	120	Brass Ring	1328	13200	-543
+d01.blv	14	197	Gold	3328	2496	-511
+d01.blv	15	197	Gold	-976	816	-511
+d01.blv	16	199	Gold	-112	14816	1
+d01.blv	17	100	Leather Belt	560	14704	1
+d02.blv	0	37	Weighted Halberd	2400	7136	1
+d02.blv	1	198	Gold	2112	7584	1
+d02.blv	2	198	Gold	-640	6080	1
+d02.blv	3	198	Gold	-2528	6080	1
+d02.blv	4	81	Kite Shield	-2528	5664	1
+d02.blv	5	198	Gold	-3200	9888	1
+d02.blv	6	198	Gold	-2816	9152	1
+d02.blv	7	198	Gold	-2752	9376	1
+d02.blv	8	66	Leather Armor	2560	10304	1
+d02.blv	9	71	Chain Mail	-1984	-672	1
+d02.blv	10	224	Cure Weakness	-2016	-2048	1
+d02.blv	11	31	Ogre Fighting Stick	32	-960	1
+d02.blv	12	50	Mace	3808	-3648	1
+d02.blv	13	197	Gold	1184	-7360	1
+d02.blv	14	197	Gold	2048	-7360	1
+d02.blv	15	121	Pearl Ring	3200	2304	-191
+d02.blv	16	197	Gold	4480	4224	1
+d02.blv	17	58	Club	5600	10048	1
+d02.blv	18	197	Gold	5504	9568	1
+d02.blv	19	197	Gold	3008	10112	1
+d02.blv	20	197	Gold	6816	2784	1
+d02.blv	21	62	Orb Staff	6976	3200	1
+d02.blv	22	43	Recurve Bow	7584	3232	1
+d02.blv	23	10	Archangel Broadsword	5728	2784	1
+d02.blv	24	198	Gold	9248	2208	1
+d02.blv	25	198	Gold	10752	6144	1
+d02.blv	26	100	Leather Belt	11008	9120	1
+d02.blv	27	68	Officer's Leather	10816	9920	1
+d02.blv	28	198	Gold	11104	10720	1
+d02.blv	29	76	Plate Armor	9312	11616	1
+d02.blv	30	198	Gold	7872	14336	1
+d02.blv	31	198	Gold	7360	13984	1
+d02.blv	32	198	Gold	9984	13696	1
+d02.blv	33	198	Gold	6688	12672	1
+d02.blv	34	72	Steel Chain Mail	5600	12544	1
+d02.blv	35	36	Improvised Voulge	4576	14496	1
+d02.blv	36	28	Two-Handed Stoneaxe	4192	14880	1
+d02.blv	37	72	Steel Chain Mail	1824	12256	1
+d02.blv	38	198	Gold	1856	13312	1
+d02.blv	39	67	Studded Leather	1920	7168	1
+d02.blv	40	198	Gold	2688	6912	1
+d02.blv	41	237	Remove Fear	-256	8320	1
+d02.blv	42	232	Shield	-640	8448	1
+d02.blv	43	198	Gold	-1152	9216	1
+d02.blv	44	198	Gold	-1152	9984	1
+d02.blv	45	198	Gold	4608	4608	1
+d02.blv	46	72	Steel Chain Mail	4608	4224	1
+d02.blv	47	198	Gold	5760	12544	1
+d02.blv	48	131	Bronze Amulet	8320	13696	1
+d02.blv	49	198	Gold	7936	13952	1
+d02.blv	50	198	Gold	8448	14336	1
+d02.blv	51	40	Lizardman Trident	2816	10624	1
+d02.blv	52	48	Blood Drop Crossbow	10880	6272	1
+d02.blv	53	198	Gold	10880	6784	1
+d02.blv	54	50	Mace	10880	5888	1
+d02.blv	55	198	Gold	11392	6016	1
+d02.blv	56	112	Silver Mesh Gauntlets	2432	2432	-191
+d02.blv	57	199	Gold	3840	2944	-191
+d02.blv	58	237	Remove Fear	1952	1568	1
+d03.blv	0	116	Steel Plated Boots	-11104	4684	-1847
+d03.blv	1	135	Wand of Fire	-7624	6276	-95
+d03.blv	2	238	Remove Curse	-6236	8380	-95
+d03.blv	3	207	Harpy Feather	-4224	10268	529
+d03.blv	4	198	Gold	-6360	4220	529
+d03.blv	5	110	Gauntlets	-5280	-14700	-2375
+d03.blv	6	199	Gold	-8140	-14824	-2375
+d03.blv	7	199	Gold	-13516	-13124	-2375
+d03.blv	8	132	Witch's Amulet	-13396	-13432	-2375
+d03.blv	9	199	Gold	-13408	-12800	-2375
+d03.blv	10	199	Gold	-9624	-15164	-2375
+d03.blv	11	79	Trollish Shield	-9824	-16924	-2231
+d03.blv	12	130	Eyeball Amulet	-9620	-18672	-2676
+d04.blv	0	734	Letter from Xenofex	256	6016	-1407
+d04.blv	1	197	Gold	384	4608	-1663
+d04.blv	2	312	Feather Fall	384	4160	-1663
+d04.blv	3	197	Gold	-640	2176	-1663
+d04.blv	4	197	Gold	128	9344	-2175
+d04.blv	5	120	Brass Ring	256	9344	-2175
+d04.blv	6	197	Gold	576	9280	-2175
+d04.blv	7	66	Leather Armor	-256	8896	-2175
+d04.blv	8	197	Gold	-192	8960	-2175
+d04.blv	9	197	Gold	-384	8512	-2095
+d04.blv	10	197	Gold	896	8448	-2175
+d04.blv	11	197	Gold	960	8896	-2175
+d04.blv	12	71	Chain Mail	832	8896	-2175
+d04.blv	13	66	Leather Armor	640	8768	-2175
+d04.blv	14	110	Gauntlets	3776	7616	-1535
+d04.blv	15	197	Gold	3776	7296	-1535
+d04.blv	16	197	Gold	3456	6784	-1535
+d04.blv	17	197	Gold	3520	7424	-1535
+d04.blv	18	76	Plate Armor	3392	7360	-1535
+d04.blv	19	197	Gold	2752	6528	-1535
+d04.blv	20	197	Gold	192	6016	-1407
+d04.blv	21	76	Plate Armor	192	6272	-1407
+d04.blv	22	186	Blue Quartz	640	2240	-1119
+d04.blv	23	334	Slow	640	2624	-1119
+d04.blv	24	197	Gold	-256	-1024	-3071
+d04.blv	25	105	Leather Cloak	2880	7808	-1535
+d04.blv	26	186	Blue Quartz	3200	8064	-1535
+d04.blv	27	197	Gold	3200	6272	-1535
+d06.blv	0	63	Priestly Staff	-4160	6336	0
+d06.blv	1	31	Ogre Fighting Stick	4432	2336	321
+d06.blv	2	90	Conscript's Helm	4400	2848	321
+d06.blv	3	198	Gold	3536	-1696	769
+d06.blv	4	186	Blue Quartz	4144	2400	321
+d06.blv	5	197	Gold	4560	2688	321
+d06.blv	6	76	Plate Armor	3648	-1600	769
+d07.blv	0	198	Gold	-3584	-6912	1473
+d07.blv	1	198	Gold	-3456	-7552	1473
+d07.blv	2	198	Gold	-2688	-7168	1857
+d07.blv	3	103	Silver Belt	-2944	-7680	1473
+d07.blv	4	198	Gold	-3072	-8320	1857
+d07.blv	5	199	Gold	-4096	-7168	1857
+d07.blv	6	199	Gold	-3840	-7552	1857
+d07.blv	7	11	Champion Sword	-3968	-7808	1857
+d07.blv	8	199	Gold	-2816	-7552	1473
+d07.blv	9	44	Snakewood Bow	-2560	-7424	1857
+d07.blv	10	199	Gold	-2944	-8192	1857
+d07.blv	11	199	Gold	-3968	-7168	1857
+d07.blv	12	198	Gold	768	-1024	4097
+d07.blv	13	198	Gold	1280	-1664	4097
+d07.blv	14	198	Gold	768	-2304	4097
+d07.blv	15	103	Silver Belt	-6432	-1184	3329
+d07.blv	16	43	Recurve Bow	-6208	-992	3329
+d07.blv	17	198	Gold	-6304	-1184	3329
+d07.blv	18	198	Gold	-6304	-1376	3329
+d07.blv	19	131	Bronze Amulet	5600	-3392	2817
+d07.blv	20	198	Gold	6080	-3520	2817
+d07.blv	21	198	Gold	6016	-2784	2817
+d07.blv	22	198	Gold	8576	-1024	2561
+d07.blv	23	198	Gold	7424	-3584	2561
+d07.blv	24	198	Gold	2560	-2816	2583
+d07.blv	25	199	Gold	4992	-9600	2209
+d07.blv	26	7	Dark Elven Sword	128	5504	1537
+d07.blv	27	198	Gold	5376	2176	1537
+d07.blv	28	198	Gold	256	1792	1537
+d07.blv	29	198	Gold	-3712	2176	3905
+d07.blv	30	198	Gold	-2432	2048	3905
+d07.blv	31	198	Gold	-4736	3456	3902
+d07.blv	32	198	Gold	-4864	1280	3905
+d07.blv	33	60	Steel club	-3712	-1280	3265
+d07.blv	34	62	Orb Staff	-5760	-128	3265
+d08.blv	0	222	Cure Wounds	-4570	2190	256
+d08.blv	1	222	Cure Wounds	-4570	2284	256
+d08.blv	2	222	Cure Wounds	-4570	2406	256
+d08.blv	3	222	Cure Wounds	-4570	2536	256
+d08.blv	4	222	Cure Wounds	-4570	2680	256
+d08.blv	5	222	Cure Wounds	-4570	2824	256
+d09.blv	0	199	Gold	-16624	8804	1153
+d09.blv	1	199	Gold	-15876	9116	1153
+d09.blv	2	199	Gold	-21488	-4356	-191
+d09.blv	3	145	Alacorn Wand of Fireballs	-21488	-5664	-191
+d09.blv	4	78	Noble Plate Armor	-21488	-7288	-191
+d09.blv	5	253	Divine Cure	-14940	-6104	1
+d09.blv	6	74	Resplendent Chain Mail	-15000	884	1
+d09.blv	7	21	Exquisite Long Dagger	-11260	260	1
+d09.blv	8	5	Duelist Blade	1092	-1800	164
+d09.blv	9	199	Gold	1216	-2796	193
+d09.blv	10	199	Gold	5708	-1048	529
+d09.blv	11	199	Gold	5520	-3048	1
+d09.blv	12	199	Gold	-4148	-5480	1
+d09.blv	13	199	Gold	-4148	-7164	1
+d09.blv	14	48	Blood Drop Crossbow	-4024	-11716	-47
+d09.blv	15	4	Elven Sword	-3148	-10096	-47
+d09.blv	16	199	Gold	-652	-10096	-47
+d09.blv	17	26	Steel Axe	-14004	9180	1153
+d09.blv	18	199	Gold	-3212	11424	1
+d09.blv	19	199	Gold	592	8868	1
+d09.blv	20	202	Vial of Troll Blood	2588	8680	1
+d09.blv	21	123	Emerald Ring	1280	5936	1
+d09.blv	22	28	Two-Handed Stoneaxe	2028	3816	1
+d09.blv	23	103	Silver Belt	-5580	4004	1
+d09.blv	24	199	Gold	-18680	-364	1
+d09.blv	25	199	Gold	-17872	384	1
+d09.blv	26	199	Gold	-14064	636	1
+d09.blv	27	199	Gold	-8328	2192	1
+d09.blv	28	62	Orb Staff	-17372	9116	1153
+d09.blv	29	199	Gold	7892	508	1
+d09.blv	30	199	Gold	9016	572	1
+d09.blv	31	199	Gold	5960	-3732	1
+d09.blv	32	199	Gold	9140	-13776	1
+d09.blv	33	41	War Trident	9512	-13776	1
+d09.blv	34	21	Exquisite Long Dagger	10700	-12340	1
+d09.blv	35	199	Gold	-3460	-10844	-47
+d11.blv	0	211	Fae Dust	7828	-17252	-703
+d11.blv	1	199	Gold	8092	-17784	-703
+d11.blv	2	55	Rusty Hammer	12124	-20436	-703
+d11.blv	3	199	Gold	12764	-20596	-703
+d11.blv	4	47	Light Crossbow	9100	-23620	-703
+d11.blv	5	199	Gold	8728	-24360	-703
+d11.blv	6	199	Gold	6768	-24256	513
+d11.blv	7	199	Gold	4168	-21708	-703
+d11.blv	8	199	Gold	5176	-21604	-703
+d11.blv	9	199	Gold	8288	-20716	-1055
+d11.blv	10	199	Gold	8496	-20708	-1055
+d11.blv	11	72	Steel Chain Mail	8588	-20800	-1055
+d11.blv	12	199	Gold	8412	-20784	-1055
+d12.blv	0	204	Dragon's Eye	-2432	2176	481
+d12.blv	1	202	Vial of Troll Blood	-2176	2496	481
+d12.blv	2	202	Vial of Troll Blood	-2176	2176	609
+d12.blv	3	202	Vial of Troll Blood	-2176	2048	609
+d12.blv	4	202	Vial of Troll Blood	-2240	1856	481
+d12.blv	5	212	Sulfur	-2176	2304	481
+d12.blv	6	219	Philosopher's Stone	-2176	1856	481
+d12.blv	7	218	Mercury	-2176	2176	545
+d12.blv	8	266	Pure Intellect	-2160	2448	481
+d12.blv	9	253	Divine Cure	-2512	2208	481
+d12.blv	10	239	Cure Insanity	-2336	2144	481
+d12.blv	11	239	Cure Insanity	-2272	2192	481
+d12.blv	12	239	Cure Insanity	-2208	2000	609
+d12.blv	13	239	Cure Insanity	-2144	1904	481
+d12.blv	14	213	Garnet	-2208	2528	481
+d12.blv	15	206	Meteorite Fragment	-2144	2480	481
+d12.blv	16	208	Moonstone	-2352	2208	481
+d12.blv	17	220	Potion Bottle	-2512	2144	481
+d12.blv	18	220	Potion Bottle	-2288	2144	481
+d12.blv	19	220	Potion Bottle	-2352	1568	513
+d12.blv	20	220	Potion Bottle	-2304	1568	513
+d12.blv	21	220	Potion Bottle	-2048	1568	513
+d12.blv	22	220	Potion Bottle	-2112	2784	513
+d12.blv	23	220	Potion Bottle	-2368	2784	513
+d12.blv	24	220	Potion Bottle	-2544	2176	481
+d12.blv	25	220	Potion Bottle	-2176	2384	481
+d12.blv	26	220	Potion Bottle	-2160	1984	609
+d12.blv	27	220	Potion Bottle	-2224	2384	481
+d12.blv	28	207	Harpy Feather	-2320	2784	513
+d12.blv	29	193	Amythest	-2240	1568	513
+d12.blv	30	202	Vial of Troll Blood	-2128	1568	513
+d12.blv	31	228	Haste	-2016	2784	513
+d12.blv	32	228	Haste	-2192	1568	513
+d12.blv	33	228	Haste	-2000	1568	513
+d12.blv	34	228	Haste	-2352	1808	481
+d12.blv	35	215	Mushroom	-2528	2720	385
+d12.blv	36	203	Ruby	-2208	2784	513
+d12.blv	37	190	Green Garnet	-2288	1968	385
+d12.blv	38	200	Widowsweep Berries	-2160	2064	545
+d12.blv	39	192	Diamond	-2064	2784	513
+d12.blv	40	264	Pure Luck	-2096	1552	513
+d12.blv	41	265	Pure Speed	-2224	1824	481
+d12.blv	42	263	Slaying Potion	-2208	2368	545
+d12.blv	43	244	Speed Boost	-2160	2336	545
+d12.blv	44	246	Flaming Potion	-2208	2304	545
+d12.blv	45	247	Freezing Potion	-2176	2288	545
+d12.blv	46	236	Harden Item	-2208	2208	545
+d12.blv	47	254	Divine Power	-2160	2144	545
+d12.blv	48	219	Philosopher's Stone	-2208	2080	545
+d12.blv	49	219	Philosopher's Stone	-2160	2032	545
+d12.blv	50	219	Philosopher's Stone	-2176	2016	545
+d12.blv	51	204	Dragon's Eye	-2160	2208	545
+d12.blv	52	204	Dragon's Eye	1904	-144	289
+d12.blv	53	204	Dragon's Eye	2048	-528	289
+d12.blv	54	204	Dragon's Eye	2640	-832	289
+d12.blv	55	204	Dragon's Eye	2032	-848	289
+d12.blv	56	204	Dragon's Eye	3056	-512	353
+d12.blv	57	204	Dragon's Eye	3072	-160	289
+d12.blv	58	204	Dragon's Eye	2592	-64	289
+d12.blv	59	204	Dragon's Eye	1920	-688	353
+d12.blv	60	214	Vial of Devil Ichor	1920	-352	353
+d12.blv	61	214	Vial of Devil Ichor	2048	-192	289
+d12.blv	62	214	Vial of Devil Ichor	2944	-192	289
+d12.blv	63	214	Vial of Devil Ichor	2608	-144	289
+d12.blv	64	214	Vial of Devil Ichor	3056	-656	353
+d12.blv	65	214	Vial of Devil Ichor	3072	-352	353
+d12.blv	66	214	Vial of Devil Ichor	2912	-832	289
+d12.blv	67	214	Vial of Devil Ichor	2816	-816	289
+d12.blv	68	214	Vial of Devil Ichor	1904	-848	289
+d12.blv	69	214	Vial of Devil Ichor	1920	-496	353
+d12.blv	70	218	Mercury	1968	-192	289
+d12.blv	71	218	Mercury	2096	-496	289
+d12.blv	72	218	Mercury	2896	-480	289
+d12.blv	73	218	Mercury	3088	-864	289
+d12.blv	74	203	Ruby	3008	-224	289
+d12.blv	75	187	Topaz	3088	-464	353
+d12.blv	76	202	Vial of Troll Blood	1904	-608	353
+d12.blv	77	191	Rose Crystal	1952	-608	353
+d12.blv	78	209	Elvish Toadstool	1968	-816	289
+d12.blv	79	207	Harpy Feather	2128	-816	289
+d12.blv	80	205	Phirna Root	2464	-864	193
+d12.blv	81	210	Poppysnaps	2416	-816	193
+d12.blv	82	208	Moonstone	2544	-800	289
+d12.blv	83	211	Fae Dust	2736	-864	289
+d12.blv	84	216	Obsidian	2768	-832	289
+d12.blv	85	219	Philosopher's Stone	2576	-848	289
+d12.blv	86	220	Potion Bottle	2688	-816	289
+d12.blv	87	220	Potion Bottle	2976	-800	289
+d12.blv	88	220	Potion Bottle	3072	-784	289
+d12.blv	89	220	Potion Bottle	2992	-880	289
+d12.blv	90	220	Potion Bottle	3072	-688	353
+d12.blv	91	220	Potion Bottle	3040	-464	353
+d12.blv	92	220	Potion Bottle	3088	-320	353
+d12.blv	93	220	Potion Bottle	2992	-176	289
+d12.blv	94	220	Potion Bottle	2016	-208	289
+d12.blv	95	220	Potion Bottle	1904	-208	289
+d12.blv	96	220	Potion Bottle	1952	-320	353
+d12.blv	97	220	Potion Bottle	1904	-320	353
+d12.blv	98	220	Potion Bottle	1904	-400	353
+d12.blv	99	220	Potion Bottle	1936	-528	353
+d12.blv	100	220	Potion Bottle	1904	-656	353
+d12.blv	101	220	Potion Bottle	1904	-800	289
+d12.blv	102	220	Potion Bottle	1888	-832	289
+d12.blv	103	220	Potion Bottle	2688	-32	193
+d12.blv	104	220	Potion Bottle	2704	-16	193
+d12.blv	105	220	Potion Bottle	2240	-528	289
+d12.blv	106	220	Potion Bottle	2288	-464	289
+d12.blv	107	206	Meteorite Fragment	2192	-480	289
+d12.blv	108	206	Meteorite Fragment	2144	-496	289
+d12.blv	109	206	Meteorite Fragment	2944	-480	289
+d12.blv	110	206	Meteorite Fragment	3104	-32	193
+d12.blv	111	203	Ruby	2080	-144	289
+d12.blv	112	203	Ruby	2560	-112	289
+d12.blv	113	202	Vial of Troll Blood	1904	-320	417
+d12.blv	114	202	Vial of Troll Blood	1936	-480	417
+d12.blv	115	202	Vial of Troll Blood	1952	-688	417
+d12.blv	116	202	Vial of Troll Blood	3056	-672	417
+d12.blv	117	216	Obsidian	1936	-368	417
+d12.blv	118	216	Obsidian	1920	-512	417
+d12.blv	119	216	Obsidian	3072	-640	417
+d12.blv	120	216	Obsidian	3056	-512	417
+d12.blv	121	201	Crushed Rose Petals	1904	-352	417
+d12.blv	122	201	Crushed Rose Petals	1936	-640	417
+d12.blv	123	201	Crushed Rose Petals	3088	-544	417
+d12.blv	124	217	Vial of Ooze Endoplasm	1952	-400	417
+d12.blv	125	218	Mercury	1904	-496	417
+d12.blv	126	220	Potion Bottle	1904	-704	417
+d12.blv	127	220	Potion Bottle	3072	-704	417
+d12.blv	128	220	Potion Bottle	3072	-400	417
+d12.blv	129	212	Sulfur	3040	-336	417
+d12.blv	130	212	Sulfur	3040	-352	417
+d12.blv	131	205	Phirna Root	3088	-416	417
+d12.blv	132	195	Diamond	3072	-640	417
+d12.blv	133	193	Amythest	3040	-640	417
+d13.blv	0	199	Gold	-1824	-736	1
+d13.blv	1	197	Gold	-928	-704	1
+d13.blv	2	197	Gold	320	160	-607
+d13.blv	3	2	Steel Longsword	1376	1568	-599
+d13.blv	4	197	Gold	1600	1856	-607
+d13.blv	5	197	Gold	352	3008	-607
+d13.blv	6	197	Gold	-32	2944	-607
+d13.blv	7	76	Plate Armor	-1184	1376	-607
+d14.blv	0	369	Harm	2368	448	-127
+d14.blv	1	135	Wand of Fire	2368	1344	-127
+d14.blv	2	76	Plate Armor	-2432	1472	-127
+d14.blv	3	197	Gold	-1856	448	-127
+d14.blv	4	115	Walking Boots	-1728	-512	-127
+d14.blv	5	191	Rose Crystal	-832	3776	193
+d14.blv	6	199	Gold	-704	4032	193
+d14.blv	7	137	Wand of Poison	-768	4224	193
+d14.blv	8	108	Elegant Cloak	-1664	-320	-127
+d14.blv	9	199	Gold	-1536	-192	-127
+d14.blv	10	199	Gold	-1600	-64	-127
+d14.blv	11	199	Gold	-1728	2304	1
+d14.blv	12	199	Gold	-1536	2112	1
+d15.blv	0	198	Gold	-352	1792	2001
+d15.blv	1	198	Gold	-544	2304	2001
+d15.blv	2	220	Potion Bottle	-704	1408	2001
+d15.blv	3	199	Gold	-6176	6880	2001
+d15.blv	4	74	Resplendent Chain Mail	-6464	7392	2001
+d15.blv	5	113	Minotaur Gauntlets	4960	7136	2001
+d15.blv	6	123	Emerald Ring	5696	6944	2001
+d15.blv	7	197	Gold	-640	12768	2001
+d15.blv	8	201	Crushed Rose Petals	-640	13120	2001
+d15.blv	9	97	Crown	5184	7168	2001
+d15.blv	10	199	Gold	1280	10592	1537
+d15.blv	11	102	Strong Belt	2496	9216	1537
+d15.blv	12	108	Elegant Cloak	1696	4288	1537
+d15.blv	13	151	Arcane Wand of The Fist	-3072	4608	1537
+d15.blv	14	41	War Trident	-3488	9184	1537
+d15.blv	15	111	Steel Gauntlets	-288	2240	337
+d15.blv	16	198	Gold	0	3040	337
+d15.blv	17	198	Gold	-992	3392	337
+d15.blv	18	198	Gold	0	4704	-511
+d15.blv	19	371	Cure Poison	-224	5568	-511
+d15.blv	20	107	Ranger's Cloak	-352	5984	-511
+d15.blv	21	198	Gold	-288	7776	-511
+d15.blv	22	2	Steel Longsword	-256	9472	-511
+d15.blv	23	61	Journey Staff	-1312	10656	-479
+d16.blv	0	550	Vampire's Cape	-2556	339	-511
+d16.blv	1	141	Fairy Wand of Ice	544	-448	-191
+d16.blv	2	2	Steel Longsword	-2816	544	-511
+d16.blv	3	198	Gold	-2816	160	-511
+d16.blv	4	198	Gold	-2624	512	-511
+d17.blv	0	198	Gold	-4288	6464	193
+d17.blv	1	372	Hammerhands	-4256	5344	193
+d17.blv	2	198	Gold	-2240	5984	193
+d17.blv	3	216	Obsidian	704	5280	641
+d17.blv	4	197	Gold	864	5248	641
+d17.blv	5	18	Assassin's Dagger	608	5216	641
+d17.blv	6	120	Brass Ring	704	5152	641
+d17.blv	7	199	Gold	896	5344	641
+d17.blv	8	199	Gold	608	5344	641
+d17.blv	9	62	Orb Staff	544	3872	129
+d17.blv	10	56	War Hammer	512	3936	129
+d17.blv	11	76	Plate Armor	224	3168	129
+d17.blv	12	95	Traveller's Hat	32	3488	129
+d17.blv	13	198	Gold	-96	3840	129
+d17.blv	14	198	Gold	672	1632	122
+d17.blv	15	198	Gold	-768	1760	122
+d17.blv	16	67	Studded Leather	-1312	1984	123
+d17.blv	17	31	Ogre Fighting Stick	64	1568	122
+d17.blv	18	111	Steel Gauntlets	3680	2048	129
+d17.blv	19	121	Pearl Ring	4320	2464	129
+d17.blv	20	198	Gold	3488	2432	129
+d17.blv	21	66	Leather Armor	3776	2304	129
+d17.blv	22	127	Dazzling Ring	576	3648	1249
+d17.blv	23	107	Ranger's Cloak	416	4288	1249
+d17.blv	24	72	Steel Chain Mail	-96	3840	1249
+d17.blv	25	105	Leather Cloak	512	4160	1249
+d17.blv	26	198	Gold	768	4000	1249
+d17.blv	27	31	Ogre Fighting Stick	128	5856	993
+d17.blv	28	201	Crushed Rose Petals	768	6176	993
+d17.blv	29	121	Pearl Ring	640	7200	993
+d17.blv	30	76	Plate Armor	96	7552	993
+d19.blv	0	341	Telekinesis	2528	3424	97
+d19.blv	1	242	Personality Boost	256	1816	449
+d19.blv	2	199	Gold	304	1648	449
+d19.blv	3	199	Gold	364	1520	449
+d19.blv	4	199	Gold	3812	1976	449
+d19.blv	5	199	Gold	3756	1976	449
+d19.blv	6	249	Shocking Potion	1848	4668	-127
+d19.blv	7	199	Gold	1748	4776	-127
+d19.blv	8	197	Gold	1308	4608	-127
+d19.blv	9	197	Gold	892	4292	-127
+d19.blv	10	197	Gold	1128	4284	-127
+d19.blv	11	9	Rusty Cutlass	-20	3624	1
+d19.blv	12	197	Gold	-20	3184	1
+d19.blv	13	197	Gold	-20	2720	1
+d19.blv	14	47	Light Crossbow	1916	3212	1
+d19.blv	15	66	Leather Armor	1672	3340	1
+d19.blv	16	9	Rusty Cutlass	1592	1756	449
+d19.blv	17	197	Gold	1248	1756	449
+d19.blv	18	71	Chain Mail	892	1768	449
+d19.blv	19	55	Rusty Hammer	2968	2664	1
+d19.blv	20	76	Plate Armor	3136	2416	1
+d20.blv	0	32	Steel spear	4368	4304	-127
+d20.blv	1	105	Leather Cloak	3064	4224	-127
+d20.blv	2	198	Gold	944	4360	1
+d20.blv	3	67	Studded Leather	-1176	4104	-127
+d20.blv	4	198	Gold	-560	4448	-75
+d20.blv	5	56	War Hammer	432	2752	1
+d20.blv	6	45	Composite Bow	2352	6112	-351
+d20.blv	7	198	Gold	2520	6048	-351
+d20.blv	8	147	Alacorn Wand of Lightning	-512	7192	321
+d21.blv	0	510	Ullyses	192	11776	204
+d21.blv	1	119	Paladin Boots	128	11648	199
+d21.blv	2	197	Gold	-2592	8448	1
+d21.blv	3	198	Gold	-3008	8544	1
+d21.blv	4	197	Gold	-384	8864	1
+d21.blv	5	197	Gold	-64	8256	1
+d21.blv	6	197	Gold	2752	10720	1
+d21.blv	7	211	Fae Dust	-224	4960	1
+d21.blv	8	197	Gold	1472	4768	0
+d21.blv	9	101	Fine Belt	3072	5568	-107
+d21.blv	10	198	Gold	4448	5824	-107
+d21.blv	11	61	Journey Staff	4608	8096	-107
+d21.blv	12	197	Gold	2880	9248	-107
+d21.blv	13	198	Gold	-5280	8256	1
+d21.blv	14	197	Gold	-5152	8064	1
+d21.blv	15	42	Hunting Bow	-3552	10080	1
+d21.blv	16	197	Gold	-2592	9696	1
+d21.blv	17	197	Gold	-3840	9696	1
+d21.blv	18	198	Gold	-3968	3840	1
+d21.blv	19	193	Amythest	-4224	4224	1
+d22.blv	0	198	Gold	-512	-6784	-4095
+d22.blv	1	198	Gold	-896	-11264	-4223
+d22.blv	2	198	Gold	-768	-12544	-4223
+d22.blv	3	84	Wooden Buckler	2496	-15168	-4351
+d22.blv	4	72	Steel Chain Mail	2432	-15168	-4351
+d22.blv	5	198	Gold	2304	-15168	-4351
+d22.blv	6	61	Journey Staff	2304	-14784	-4351
+d22.blv	7	198	Gold	2432	-14784	-4351
+d22.blv	8	198	Gold	2496	-14848	-4351
+d22.blv	9	32	Steel spear	4416	-14848	-4351
+d22.blv	10	71	Chain Mail	4480	-14784	-4351
+d22.blv	11	198	Gold	4480	-15168	-4351
+d22.blv	12	31	Ogre Fighting Stick	4672	-15168	-4351
+d22.blv	13	206	Meteorite Fragment	4608	-14784	-4351
+d22.blv	14	90	Conscript's Helm	2176	-16768	-3967
+d22.blv	15	12	Cutlass	5632	-16320	-4287
+d22.blv	16	24	Battle Hatchet	5952	-16640	-4287
+d22.blv	17	42	Hunting Bow	5632	-16960	-4287
+d22.blv	18	131	Bronze Amulet	2752	-17024	-3967
+d22.blv	19	198	Gold	2944	-16832	-3967
+d22.blv	20	198	Gold	3712	-7808	-4095
+d23.blv	0	65	Blaster Rifle	1312	-7392	1581
+d23.blv	1	64	Blaster	1312	-7776	1581
+d23.blv	2	65	Blaster Rifle	1312	-8160	1581
+d23.blv	3	64	Blaster	1920	-8512	1485
+d23.blv	4	64	Blaster	2240	-8320	1485
+d23.blv	5	199	Gold	7208	-9148	1549
+d23.blv	6	199	Gold	6900	-9176	1549
+d23.blv	7	199	Gold	6584	-8068	1485
+d23.blv	8	68	Officer's Leather	6480	-7892	1485
+d23.blv	9	199	Gold	6864	-7500	1037
+d23.blv	10	199	Gold	7132	-7176	1037
+d23.blv	11	111	Steel Gauntlets	7048	-6592	1037
+d23.blv	12	124	Sapphire Ring	7308	-6380	1037
+d23.blv	13	199	Gold	7372	-5328	1037
+d23.blv	14	199	Gold	7284	-4212	1037
+d23.blv	15	199	Gold	8184	-1416	1037
+d23.blv	16	199	Gold	4848	-2752	1037
+d23.blv	17	117	Ranger Boots	4416	-2604	1037
+d23.blv	18	134	Sun Amulet	404	1028	225
+d24.blv	0	198	Gold	-1344	5408	289
+d24.blv	1	226	Cure Poison	-1328	5936	289
+d24.blv	2	198	Gold	-1560	5600	289
+d24.blv	3	198	Gold	-2288	5440	289
+d24.blv	4	198	Gold	-1120	6112	512
+d24.blv	5	20	Long Dagger	-1568	6144	512
+d24.blv	6	198	Gold	-1536	5280	512
+d24.blv	7	198	Gold	-544	5664	512
+d24.blv	8	197	Gold	-1856	6080	512
+d24.blv	9	197	Gold	-2272	5280	512
+d24.blv	10	61	Journey Staff	-704	5344	512
+d24.blv	11	198	Gold	-2272	6080	512
+d24.blv	12	32	Steel spear	-896	5760	512
+d27.blv	0	110	Gauntlets	-1872	5352	2333
+d27.blv	1	198	Gold	-1784	5024	2573
+d27.blv	2	83	Dragon Hunter's Shield	-664	5184	2333
+d27.blv	3	135	Wand of Fire	-328	5072	2333
+d27.blv	4	198	Gold	-4152	4808	911
+d27.blv	5	32	Steel spear	-4208	5048	911
+d27.blv	6	199	Gold	-4104	4440	911
+d27.blv	7	248	Noxious Potion	608	5328	911
+d27.blv	8	189	Sapphire	-1864	5808	-511
+d27.blv	9	198	Gold	-2256	5056	-511
+d27.blv	10	86	Calvary Shield	-840	6072	-511
+d27.blv	11	198	Gold	-296	5624	-511
+d27.blv	12	145	Alacorn Wand of Fireballs	9000	1512	-63
+d27.blv	13	146	Alacorn Wand of Acid	9144	2200	-47
+d27.blv	14	198	Gold	9360	1608	-63
+d27.blv	15	107	Ranger's Cloak	9336	1040	-63
+d27.blv	16	21	Exquisite Long Dagger	-11224	10296	1409
+d27.blv	17	198	Gold	-11360	10528	1409
+d27.blv	18	198	Gold	-11104	8432	1409
+d27.blv	19	198	Gold	-11032	7920	1409
+d27.blv	20	198	Gold	-11408	8016	1409
+d27.blv	21	118	Knight's Boots	-10256	11760	1313
+d27.blv	22	77	Splendid Plate Armor	-10328	12320	1313
+d27.blv	23	198	Gold	-13528	7728	1409
+d27.blv	24	198	Gold	-13080	8272	1409
+d27.blv	25	110	Gauntlets	-13080	8696	1409
+d28.blv	0	508	The Slayer	-2932	-696	27
+d28.blv	1	71	Chain Mail	-2176	512	135
+d28.blv	2	197	Gold	-1152	1792	-39
+d28.blv	3	111	Steel Gauntlets	-1024	2560	1
+d28.blv	4	197	Gold	-2816	2176	-95
+d28.blv	5	197	Gold	-3712	2944	-23
+d28.blv	6	55	Rusty Hammer	-1792	3328	1
+d28.blv	7	197	Gold	-128	2816	1
+d28.blv	8	197	Gold	-128	1408	1
+d28.blv	9	130	Eyeball Amulet	-1664	256	164
+d28.blv	10	42	Hunting Bow	-3072	-512	34
+d28.blv	11	197	Gold	-3072	1920	-56
+d29.blv	0	711	Journal Excerpt	768	-2176	-1535
+d29.blv	1	79	Trollish Shield	-192	1792	1
+d29.blv	2	197	Gold	0	2112	1
+d29.blv	3	76	Plate Armor	-384	4160	1
+d29.blv	4	111	Steel Gauntlets	-9280	3776	97
+d29.blv	5	197	Gold	-9664	3840	1
+d29.blv	6	197	Gold	3776	-2496	-1760
+d29.blv	7	197	Gold	3840	-2432	-1760
+d29.blv	8	197	Gold	1664	-768	-1535
+d29.blv	9	336	Deadly Swarm	320	-2048	-1535
+d29.blv	10	366	Cure Weakness	-64	-2176	-1535
+d29.blv	11	80	Thornbark Shield	1152	320	-2207
+d29.blv	12	197	Gold	960	256	-2207
+d29.blv	13	50	Mace	1408	1728	-2207
+d29.blv	14	222	Cure Wounds	-4480	4416	897
+d29.blv	15	100	Leather Belt	-4928	4416	897
+d29.blv	16	197	Gold	-6080	4480	897
+d29.blv	17	198	Gold	-4032	448	1153
+d29.blv	18	197	Gold	-4288	1600	1153
+d29.blv	19	71	Chain Mail	-5504	-1088	1345
+d29.blv	20	200	Widowsweep Berries	-4800	-1024	1345
+d29.blv	21	197	Gold	-5120	-1216	1345
+d29.blv	22	100	Leather Belt	-5504	-640	1345
+d29.blv	23	197	Gold	-4992	-640	1345
+d29.blv	24	89	Horned Helm	-4672	-576	1345
+d29.blv	25	210	Poppysnaps	-1120	3136	1153
+d29.blv	26	197	Gold	-2080	3264	1153
+d29.blv	27	51	Spiked Mace	-8800	1440	1153
+d29.blv	28	198	Gold	-8480	3260	1153
+d30.blv	0	72	Steel Chain Mail	-4480	1664	223
+d30.blv	1	99	Regal Crown	-5120	1664	223
+d30.blv	2	199	Gold	-4736	1408	223
+d30.blv	3	199	Gold	4608	1408	-31
+d30.blv	4	69	Regnan Leather	4608	640	-31
+d30.blv	5	49	Caravaner's Crossbow	4608	1792	-31
+d30.blv	6	115	Walking Boots	4608	1152	-31
+d30.blv	7	368	Body Resistance	4352	896	705
+d30.blv	8	197	Gold	-4608	1536	223
+d30.blv	9	135	Wand of Fire	-5120	1408	223
+d30.blv	10	197	Gold	-4864	1408	223
+d30.blv	11	197	Gold	3200	11264	897
+d30.blv	12	135	Wand of Fire	6016	8320	705
+d30.blv	13	71	Chain Mail	6272	8704	705
+d30.blv	14	62	Orb Staff	6528	8448	705
+d30.blv	15	7	Dark Elven Sword	-8704	6272	705
+d31.blv	0	705	Riverstride Plans	-3904	-1152	-757
+d31.blv	1	723	Orders from Steadwick	128	-768	-447
+d32.blv	0	193	Amythest	3440	12896	-2399
+d32.blv	1	111	Steel Gauntlets	2720	12672	-2399
+d32.blv	2	199	Gold	3344	13056	-2399
+d32.blv	3	199	Gold	2768	13056	-2399
+d32.blv	4	199	Gold	2288	12448	-2399
+d32.blv	5	91	Full Helm	2608	12224	-2399
+d32.blv	6	199	Gold	3536	12512	-2399
+d32.blv	7	199	Gold	4016	12688	-2399
+d32.blv	8	199	Gold	3680	13104	-2399
+d32.blv	9	197	Gold	3584	12064	-2399
+d32.blv	10	197	Gold	3520	12288	-2399
+d32.blv	11	197	Gold	2816	12688	-2399
+d32.blv	12	197	Gold	2912	12048	-2399
+d32.blv	13	84	Wooden Buckler	-4416	8736	-1535
+d32.blv	14	198	Gold	-6080	9840	-2447
+d32.blv	15	201	Crushed Rose Petals	-6256	9984	-2447
+d32.blv	16	105	Leather Cloak	-6368	9408	-2447
+d33.blv	0	106	Huntsman's Cloak	-9264	-496	985
+d33.blv	1	102	Strong Belt	-9136	-512	985
+d33.blv	2	115	Walking Boots	-8960	-560	985
+d33.blv	3	199	Gold	-8736	-544	985
+d33.blv	4	256	Fire Resistance	-8624	-544	985
+d33.blv	5	199	Gold	-10928	-1200	985
+d33.blv	6	24	Battle Hatchet	-10864	-2032	985
+d33.blv	7	197	Gold	-2432	5968	1353
+d33.blv	8	197	Gold	-9296	5760	1353
+d33.blv	9	89	Horned Helm	-8928	5808	1353
+d33.blv	10	197	Gold	-8704	5552	1353
+d33.blv	11	197	Gold	-9584	-5696	1353
+d33.blv	12	3	Keen Shortsword	-8960	-5920	1353
+d33.blv	13	36	Improvised Voulge	-2576	-5648	1353
+d33.blv	14	62	Orb Staff	-2352	-5744	1353
+d33.blv	15	199	Gold	-2560	-5728	1353
+d33.blv	16	198	Gold	-5760	-5904	1393
+d33.blv	17	50	Mace	-5088	-5856	1393
+d33.blv	18	12	Cutlass	-5296	-5696	1393
+d33.blv	19	198	Gold	-6144	5552	1393
+d33.blv	20	42	Hunting Bow	-4864	5664	1393
+d33.blv	21	111	Steel Gauntlets	-5120	5808	1393
+d33.blv	22	50	Mace	-10096	-1712	985
+d33.blv	23	211	Fae Dust	-9600	-2000	985
+d33.blv	24	197	Gold	-10016	-3632	985
+d33.blv	25	197	Gold	-10064	-3888	985
+d33.blv	26	197	Gold	-9504	-3984	985
+d33.blv	27	93	Mogred Helm	-9648	2704	985
+d33.blv	28	73	Fine Chain Mail	-9808	3040	937
+d33.blv	29	198	Gold	-9808	2352	937
+d33.blv	30	72	Steel Chain Mail	-9632	2176	889
+d34.blv	0	251	Cure Paralysis	1664	11136	-1023
+d34.blv	1	251	Cure Paralysis	3840	13056	-1023
+d34.blv	2	262	Stone to Flesh	6912	14720	-1023
+d34.blv	3	262	Stone to Flesh	-1920	11520	-1151
+d34.blv	4	262	Stone to Flesh	-2688	17280	-1023
+d34.blv	5	262	Stone to Flesh	18304	10496	-1295
+d34.blv	6	330	Town Portal	11776	11392	-1023
+d34.blv	7	686	Iron-laced ore	11776	11136	-1023
+d34.blv	8	686	Iron-laced ore	7808	11648	-1023
+d34.blv	9	726	Journal Entry	9728	-1920	-191
+d34.blv	10	251	Cure Paralysis	384	3328	-127
+d34.blv	11	251	Cure Paralysis	3712	768	-191
+d34.blv	12	251	Cure Paralysis	-3968	4608	-127
+d34.blv	13	251	Cure Paralysis	-6656	8960	-127
+d34.blv	14	251	Cure Paralysis	5248	7552	-127
+d34.blv	15	197	Gold	18336	11008	-1295
+d34.blv	16	6	Barrow Leafblade	18400	9952	-1295
+d34.blv	17	94	Peasant Hat	11488	11744	-1023
+d34.blv	18	90	Conscript's Helm	10880	14080	-1023
+d34.blv	19	198	Gold	9056	12992	1
+d34.blv	20	198	Gold	3552	11552	-1023
+d34.blv	21	24	Battle Hatchet	-1856	11392	-1151
+d34.blv	22	199	Gold	-2720	17024	-1023
+d34.blv	23	51	Spiked Mace	-2752	18112	-1023
+d34.blv	24	115	Walking Boots	-3648	5088	-127
+d34.blv	25	197	Gold	-8800	11584	-127
+d34.blv	26	43	Recurve Bow	544	2816	-127
+d34.blv	27	198	Gold	0	3168	-127
+d34.blv	28	198	Gold	10112	5824	-127
+d34.blv	29	42	Hunting Bow	11072	5984	-255
+d34.blv	30	61	Journey Staff	3264	-1472	-191
+d34.blv	31	20	Long Dagger	15232	6400	-1023
+d34.blv	32	66	Leather Armor	4800	8992	-127
+d34.blv	33	76	Plate Armor	6976	14656	-1023
+d34.blv	34	199	Gold	8448	17152	-1023
+d34.blv	35	58	Club	13728	11456	-1023
+d34.blv	36	198	Gold	13624	11384	-1023
+d34.blv	37	84	Wooden Buckler	13600	11472	-1023
+d35.blv	0	549	Zokarr's Axe	18816	14592	-1
+d35.blv	1	106	Huntsman's Cloak	-1152	-512	1
+d35.blv	2	198	Gold	-3584	0	-511
+d35.blv	3	198	Gold	-2688	-384	-511
+d35.blv	4	198	Gold	-1664	-2048	-156
+d35.blv	5	82	Regnan Tournament Shield	-1280	-3200	-431
+d35.blv	6	198	Gold	-3584	-3328	-417
+d35.blv	7	42	Hunting Bow	-6272	-1792	1
+d35.blv	8	199	Gold	-10368	1024	-639
+d35.blv	9	58	Club	-10368	1408	-639
+d35.blv	10	197	Gold	-4992	8320	-319
+d35.blv	11	220	Potion Bottle	-6016	8320	-319
+d35.blv	12	197	Gold	-6144	9344	193
+d35.blv	13	59	Spiked Club	4352	11264	-639
+d35.blv	14	76	Plate Armor	5760	11008	-639
+d35.blv	15	120	Brass Ring	3968	2304	1
+d35.blv	16	67	Studded Leather	10112	2560	1
+d35.blv	17	45	Composite Bow	10240	2688	1
+d35.blv	18	91	Full Helm	10496	1920	1
+d35.blv	19	198	Gold	10752	768	1
+d35.blv	20	198	Gold	13824	2688	1
+d35.blv	21	198	Gold	15232	4352	1
+d35.blv	22	62	Orb Staff	16256	4352	1
+d35.blv	23	198	Gold	10112	6912	-63
+d35.blv	24	53	Dwarven Morningstar	11904	7552	-63
+d35.blv	25	202	Vial of Troll Blood	12032	7296	-63
+d35.blv	26	199	Gold	12288	7552	-63
+d35.blv	27	199	Gold	9856	11648	-255
+d35.blv	28	32	Steel spear	14336	13056	-639
+d35.blv	29	116	Steel Plated Boots	14080	13184	-639
+d35.blv	30	106	Huntsman's Cloak	18816	14848	-639
+d35.blv	31	199	Gold	19200	14976	-639
+d35.blv	32	199	Gold	19328	12160	-639
+d35.blv	33	118	Knight's Boots	18560	9600	-639
+d35.blv	34	199	Gold	15616	9600	-639
+d35.blv	35	199	Gold	14336	9600	-639
+d35.blv	36	111	Steel Gauntlets	16512	8960	1
+d35.blv	37	199	Gold	18048	7296	1
+d36.blv	0	11	Champion Sword	9344	15104	-583
+d36.blv	1	198	Gold	9728	15360	-583
+d36.blv	2	37	Weighted Halberd	10240	15232	-583
+d36.blv	3	77	Splendid Plate Armor	10752	15232	-583
+d36.blv	4	94	Peasant Hat	11776	15232	-583
+d36.blv	5	198	Gold	14464	15104	-583
+d36.blv	6	198	Gold	16640	13184	-583
+d36.blv	7	198	Gold	17536	14080	-583
+d36.blv	8	137	Wand of Poison	15744	13952	-583
+d36.blv	9	134	Sun Amulet	16640	10368	-583
+d36.blv	10	198	Gold	14976	2688	-583
+d36.blv	11	198	Gold	14976	3328	-583
+d36.blv	12	198	Gold	14336	3968	-583
+d36.blv	13	198	Gold	8832	-256	-583
+d36.blv	14	199	Gold	4736	2816	-142
+d36.blv	15	104	Gilded Belt	9600	6656	-142
+d36.blv	16	199	Gold	9600	7424	-142
+d36.blv	17	38	Mighty Halberd	9344	8064	-142
+d36.blv	18	92	Phynaxian Helm	2688	8192	-142
+d36.blv	19	199	Gold	2304	8320	-142
+d36.blv	20	199	Gold	2304	8832	-142
+d36.blv	21	199	Gold	4736	14976	-280
+d36.blv	22	19	Twilight Kris	4736	15360	-280
+d36.blv	23	199	Gold	8320	13312	-98
+d36.blv	24	114	Crusader's Gauntlets	-1024	12928	-127
+d36.blv	25	199	Gold	-1408	13056	-127
+d36.blv	26	22	Blade of Mercy	-1408	11520	-127
+d36.blv	27	300	Torch Light	-1024	11520	-127
+d36.blv	28	103	Silver Belt	-1920	10624	-127
+d36.blv	29	199	Gold	-2560	9216	-127
+d36.blv	30	35	Sublime Spear	-2432	8704	-127
+d36.blv	31	268	Pure Personality	-2432	8064	-127
+d36.blv	32	199	Gold	-7552	4992	-191
+d36.blv	33	108	Elegant Cloak	-7552	5120	-191
+d36.blv	34	199	Gold	-6528	4096	-255
+d36.blv	35	199	Gold	-6528	4480	-255
+d36.blv	36	197	Gold	-9344	4992	-191
+d36.blv	37	59	Spiked Club	-8576	6016	-127
+d36.blv	38	197	Gold	-9472	10624	1
+d36.blv	39	197	Gold	-9600	10752	1
+d36.blv	40	197	Gold	-8192	16512	1
+d36.blv	41	114	Crusader's Gauntlets	-15616	17408	1
+d36.blv	42	132	Witch's Amulet	-15488	17152	1
+d36.blv	43	63	Priestly Staff	-15744	17024	1
+d36.blv	44	73	Fine Chain Mail	-16128	17280	1
+d36.blv	45	61	Journey Staff	-16128	16128	1
+d36.blv	46	41	War Trident	-12800	6912	1
+d36.blv	47	198	Gold	-12800	6656	1
+d36.blv	48	198	Gold	-12800	5760	1
+d36.blv	49	95	Traveller's Hat	-12800	5376	1
+d36.blv	50	17	Steel Dagger	-9728	5632	-127
+d36.blv	51	197	Gold	-7680	5248	-191
+d36.blv	52	20	Long Dagger	-7680	4864	-191
+d36.blv	53	39	Hayfork	-6528	4096	-255
+d36.blv	54	197	Gold	-6528	4224	-255
+d36.blv	55	197	Gold	-7040	4096	-255
+d36.blv	56	210	Poppysnaps	-7424	256	-127
+d36.blv	57	197	Gold	-8064	640	-127
+d36.blv	58	197	Gold	-3968	1408	1
+d36.blv	59	194	Yellow Topaz	-3968	1664	1
+d36.blv	60	23	Stone Axe	-4480	1664	1
+d36.blv	61	55	Rusty Hammer	-4992	3968	-127
+d36.blv	62	197	Gold	-2688	4352	1
+d36.blv	63	197	Gold	-2176	5888	1
+d36.blv	64	197	Gold	-1280	3840	1
+d36.blv	65	89	Horned Helm	-1536	-256	1
+d36.blv	66	15	Common Dagger	-1536	-768	1
+mdk01.blv	0	115	Walking Boots	-1728	512	-447
+mdk01.blv	1	197	Gold	-1344	-320	-447
+mdk01.blv	2	197	Gold	1344	704	-447
+mdk01.blv	3	198	Gold	1280	-320	-447
+mdk01.blv	4	197	Gold	1728	-64	-447
+mdk01.blv	5	55	Rusty Hammer	1728	448	-447
+mdk02.blv	0	222	Cure Wounds	-640	-224	1
+mdk02.blv	1	225	Cure Disease	-720	-256	1
+mdk02.blv	2	222	Cure Wounds	448	-64	1
+mdk02.blv	3	225	Cure Disease	368	-96	1
+mdk02.blv	4	222	Cure Wounds	-720	-624	1
+mdk02.blv	5	222	Cure Wounds	624	5296	-511
+mdk02.blv	6	222	Cure Wounds	752	5280	-511
+mdk02.blv	7	222	Cure Wounds	928	5056	-511
+mdk02.blv	8	222	Cure Wounds	800	5072	-511
+mdk02.blv	9	199	Gold	1280	4224	-511
+mdk02.blv	10	197	Gold	1024	1792	-255
+mdk02.blv	11	130	Eyeball Amulet	704	-704	1
+mdk02.blv	12	198	Gold	-832	-704	1
+mdk02.blv	13	198	Gold	-1472	4224	-511
+mdk02.blv	14	197	Gold	-512	3136	-511
+mdk03.blv	0	198	Gold	2688	-1216	-639
+mdk03.blv	1	111	Steel Gauntlets	1536	-640	-639
+mdk03.blv	2	115	Walking Boots	3680	-256	-1375
+mdk03.blv	3	106	Huntsman's Cloak	5024	-640	-1375
+mdk04.blv	0	222	Cure Wounds	-352	-368	1
+mdk04.blv	1	222	Cure Wounds	-480	-352	1
+mdk04.blv	2	222	Cure Wounds	-400	-464	1
+mdk04.blv	3	222	Cure Wounds	-528	-448	1
+mdk04.blv	4	222	Cure Wounds	528	-384	1
+mdk04.blv	5	222	Cure Wounds	400	-368	1
+mdk04.blv	6	225	Cure Disease	384	-448	1
+mdk04.blv	7	225	Cure Disease	48	-592	1
+mdk04.blv	8	191	Rose Crystal	1760	-2016	-95
+mdk04.blv	9	28	Two-Handed Stoneaxe	160	-2048	-95
+mdk04.blv	10	66	Leather Armor	1984	-192	-95
+mdk04.blv	11	197	Gold	1728	-1216	-95
+mdk05.blv	0	197	Gold	-1728	448	-287
+mdk05.blv	1	94	Peasant Hat	1088	448	-287
+mdk05.blv	2	197	Gold	1248	96	-287
+mdt02.blv	0	656	Barrow Key	64	-1911	1
+mdt02.blv	1	222	Cure Wounds	-16	-160	-1
+mdt02.blv	2	222	Cure Wounds	32	-1840	1
+mdt02.blv	3	222	Cure Wounds	-96	-1824	1
+mdt02.blv	4	238	Remove Curse	-128	-1968	1
+mdt02.blv	5	238	Remove Curse	16	-2016	1
+mdt02.blv	6	238	Remove Curse	-64	-2096	1
+mdt02.blv	7	238	Remove Curse	-32	-2208	1
+mdt02.blv	8	225	Cure Disease	48	-2160	1
+mdt02.blv	9	76	Plate Armor	64	-2304	1
+mdt02.blv	10	61	Journey Staff	2048	-3456	-95
+mdt02.blv	11	197	Gold	-2048	-3328	-95
+mdt03.blv	0	225	Cure Disease	-496	2144	1
+mdt03.blv	1	225	Cure Disease	96	2192	1
+mdt03.blv	2	225	Cure Disease	544	2544	1
+mdt03.blv	3	222	Cure Wounds	-2688	3376	1
+mdt03.blv	4	222	Cure Wounds	-2816	3392	1
+mdt03.blv	5	226	Cure Poison	-3136	2752	1
+mdt03.blv	6	198	Gold	-3008	2688	1
+mdt03.blv	7	198	Gold	-2176	3392	1
+mdt03.blv	8	198	Gold	960	3136	1
+mdt03.blv	9	43	Recurve Bow	2176	3328	1
+mdt03.blv	10	67	Studded Leather	-2208	2752	1
+mdt03.blv	11	198	Gold	-3008	3392	33
+mdt03.blv	12	90	Conscript's Helm	-3296	2592	1
+mdt03.blv	13	198	Gold	-192	3488	1
+mdt03.blv	14	105	Leather Cloak	2144	3872	33
+mdt03.blv	15	67	Studded Leather	2880	3008	1
+mdt03.blv	16	198	Gold	2144	2656	33
+mdt03.blv	17	206	Meteorite Fragment	-1568	2976	1
+mdt03.blv	18	58	Club	-3040	2832	1
+mdt03.blv	19	39	Hayfork	-2912	2640	1
+mdt03.blv	20	50	Mace	-2736	2640	1
+mdt03.blv	21	199	Gold	-2736	2768	1
+mdt03.blv	22	199	Gold	-2816	2624	1
+mdt03.blv	23	199	Gold	-3056	2624	1
+mdt03.blv	24	199	Gold	-3168	2720	1
+mdt03.blv	25	216	Obsidian	-3248	2832	1
+mdt03.blv	26	1	Iron Broadsword	-3232	2720	1
+mdt03.blv	27	116	Steel Plated Boots	3204	3298	48
+mdt03.blv	28	80	Thornbark Shield	3264	3216	48
+mdt03.blv	29	199	Gold	3256	3314	48
+mdt04.blv	0	657	Barrow Key	742	-3598	1
+mdt04.blv	1	198	Gold	-160	-96	1
+mdt04.blv	2	201	Crushed Rose Petals	-2432	-1600	1
+mdt04.blv	3	199	Gold	-2432	-1248	1
+mdt04.blv	4	15	Common Dagger	-1792	-2560	17
+mdt04.blv	5	199	Gold	-1696	-2656	17
+mdt04.blv	6	120	Brass Ring	832	-3584	1
+mdt04.blv	7	66	Leather Armor	640	-3552	1
+mdt04.blv	8	15	Common Dagger	-2304	-1232	1
+mdt04.blv	9	84	Wooden Buckler	-2480	-1184	1
+mdt04.blv	10	110	Gauntlets	-2400	-1328	1
+mdt04.blv	11	66	Leather Armor	-2400	-1376	1
+mdt04.blv	12	111	Steel Gauntlets	-2320	-1520	1
+mdt04.blv	13	199	Gold	-2240	-1648	1
+mdt04.blv	14	199	Gold	-2448	-1520	1
+mdt04.blv	15	199	Gold	-1648	-2544	17
+mdt04.blv	16	130	Eyeball Amulet	-1568	-2656	17
+mdt04.blv	17	32	Steel spear	-1776	-2768	17
+mdt04.blv	18	199	Gold	-1792	-2672	17
+mdt04.blv	19	115	Walking Boots	-1728	-2720	17
+mdt04.blv	20	76	Plate Armor	-1584	-2784	17
+mdt04.blv	21	120	Brass Ring	608	-3648	1
+mdt04.blv	22	199	Gold	480	-3504	1
+mdt04.blv	23	199	Gold	960	-3488	1
+mdt04.blv	24	31	Ogre Fighting Stick	880	-3632	1
+mdt04.blv	25	199	Gold	-320	176	1
+mdt05.blv	0	222	Cure Wounds	-640	-144	1
+mdt05.blv	1	222	Cure Wounds	-768	-128	1
+mdt05.blv	2	222	Cure Wounds	816	-96	1
+mdt05.blv	3	222	Cure Wounds	688	-80	1
+mdt05.blv	4	222	Cure Wounds	272	-336	1
+mdt05.blv	5	222	Cure Wounds	144	-320	1
+mdt05.blv	6	205	Phirna Root	-274	-1900	1
+mdt05.blv	7	199	Gold	-300	-1934	1
+mdt05.blv	8	199	Gold	-1030	-1296	1
+mdt05.blv	9	199	Gold	-1028	-1044	1
+mdt05.blv	10	197	Gold	986	-1036	1
+mdt05.blv	11	197	Gold	770	-450	1
+mdt05.blv	12	197	Gold	-224	-464	1
+mdr01.blv	0	120	Brass Ring	-2985	749	1731
+mdr01.blv	1	197	Gold	-2030	1819	1731
+mdr01.blv	2	130	Eyeball Amulet	-2057	1871	1731
+mdr01.blv	3	197	Gold	256	175	1
+mdr01.blv	4	197	Gold	520	45	1
+mdr01.blv	5	197	Gold	-2043	1824	1731
+mdr01.blv	6	198	Gold	2357	720	1281
+mdr02.blv	0	222	Cure Wounds	992	1248	65
+mdr02.blv	1	222	Cure Wounds	864	1264	65
+mdr02.blv	2	222	Cure Wounds	1904	1024	65
+mdr02.blv	3	222	Cure Wounds	1776	1040	65
+mdr02.blv	4	222	Cure Wounds	-576	2528	65
+mdr02.blv	5	222	Cure Wounds	-704	2544	65
+mdr02.blv	6	225	Cure Disease	-1008	2224	1
+mdr02.blv	7	225	Cure Disease	-656	1968	1
+mdr02.blv	8	238	Remove Curse	-928	2128	1
+mdr02.blv	9	238	Remove Curse	-496	2096	1
+mdr02.blv	10	194	Yellow Topaz	-736	2656	65
+mdr02.blv	11	197	Gold	-64	1312	1
+mdr02.blv	12	197	Gold	160	1664	1
+mdr02.blv	13	198	Gold	-1184	-448	1
+mdr02.blv	14	201	Crushed Rose Petals	352	-960	1
+mdr02.blv	15	197	Gold	-1120	-1600	1
+mdr02.blv	16	199	Gold	128	2048	1
+mdr02.blv	17	199	Gold	1664	384	415
+mdr02.blv	18	199	Gold	-1152	-1664	1
+mdr02.blv	19	199	Gold	256	-1664	1
+mdr02.blv	20	72	Steel Chain Mail	-128	-1152	-149
+mdr02.blv	21	199	Gold	-384	-1152	-149
+mdr02.blv	22	199	Gold	-640	-1152	-149
+mdr02.blv	23	130	Eyeball Amulet	-768	896	1
+mdr02.blv	24	199	Gold	-64	576	1
+mdr02.blv	25	58	Club	-64	192	1
+mdr02.blv	26	61	Journey Staff	-128	2688	65
+mdr02.blv	27	61	Journey Staff	-64	2624	65
+mdr02.blv	28	135	Wand of Fire	-1024	1728	1
+mdr03.blv	0	198	Gold	1920	2176	331
+mdr03.blv	1	197	Gold	896	2624	331
+mdr03.blv	2	66	Leather Armor	4032	3840	631
+mdr03.blv	3	42	Hunting Bow	4288	2112	631
+mdr04.blv	0	222	Cure Wounds	-1264	1616	1
+mdr04.blv	1	222	Cure Wounds	-1392	1632	1
+mdr04.blv	2	222	Cure Wounds	-464	1648	1
+mdr04.blv	3	222	Cure Wounds	-592	1664	1
+mdr04.blv	4	238	Remove Curse	-384	1376	1
+mdr04.blv	5	238	Remove Curse	-1232	1296	1
+mdr04.blv	6	225	Cure Disease	-912	1616	1
+mdr04.blv	7	115	Walking Boots	-1984	4832	331
+mdr04.blv	8	42	Hunting Bow	-352	4832	331
+mdr04.blv	9	80	Thornbark Shield	-96	3520	331
+mdr04.blv	10	121	Pearl Ring	-2144	1568	1
+mdr04.blv	11	47	Light Crossbow	-1440	832	1
+mdr04.blv	12	198	Gold	128	864	1
+mdr04.blv	13	197	Gold	1952	1504	-63
+mdr04.blv	14	197	Gold	2144	3360	-63
+mdr05.blv	0	222	Cure Wounds	160	2160	1
+mdr05.blv	1	222	Cure Wounds	32	2176	1
+mdr05.blv	2	222	Cure Wounds	1488	1664	1
+mdr05.blv	3	222	Cure Wounds	1360	1680	1
+mdr05.blv	4	225	Cure Disease	816	2144	1
+mdr05.blv	5	225	Cure Disease	256	1536	1
+mdr05.blv	6	238	Remove Curse	-64	1616	1
+mdr05.blv	7	66	Leather Armor	672	1536	1
+mdr05.blv	8	20	Long Dagger	640	352	105
+mdr05.blv	9	198	Gold	2432	640	385
+mdr05.blv	10	327	Recharge Item	4640	1280	962
+mdt09.blv	0	554	SBG's Blessed Plate	16948	5544	-1
+mdt09.blv	1	555	SBGs Blessed Helm	16928	5544	-1
+mdt09.blv	2	556	SBG's Blessed Belt	16948	5557	-1
+mdt09.blv	3	557	SBG's Blessed Gauntlets	16965	5555	-1
+mdt09.blv	4	558	SBG's Blessed Cloak	16948	5512	-1
+mdt09.blv	5	198	Gold	5480	5448	-65
+mdt09.blv	6	198	Gold	5872	1540	-65
+mdt09.blv	7	22	Blade of Mercy	7936	2400	-65
+mdt11.blv	0	197	Gold	-2820	804	-1223
+mdt11.blv	1	186	Blue Quartz	-2364	956	-1223
+mdt11.blv	2	198	Gold	-3616	2928	-1223
+mdt11.blv	3	52	Zealot Mace	-3488	1568	-1223
+mdt11.blv	4	58	Club	-2752	1808	-1223
+mdt11.blv	5	116	Steel Plated Boots	-2000	1536	-1223
+mdt11.blv	6	26	Steel Axe	-1808	1568	-1223
+mdt11.blv	7	198	Gold	-1840	3024	-1223
+mdt11.blv	8	117	Ranger Boots	-2192	3024	-1223
+mdt11.blv	9	199	Gold	-2160	336	-1223
+mdt11.blv	10	199	Gold	-3280	4192	-1223
+mdt11.blv	11	4	Elven Sword	-2176	3664	-1223
+mdt11.blv	12	15	Common Dagger	-3248	3360	-1223
+mdt11.blv	13	196	Ruby	-2672	240	-1223
+mdt11.blv	14	199	Gold	-3280	816	-1223
+mdt12.blv	0	647	Dragon Egg	18920	10728	1
+mdt12.blv	1	647	Dragon Egg	18536	9704	1
+mdt12.blv	2	197	Gold	-1232	-1984	74
+mdt12.blv	3	226	Cure Poison	19553	10402	1
+mdt14.blv	0	198	Gold	2573	-403	-53
+mdt14.blv	1	71	Chain Mail	1453	717	1
+mdt14.blv	2	197	Gold	877	301	1
+t01.blv	0	709	Torn Page	-3968	4224	481
+t01.blv	1	124	Sapphire Ring	4096	-1344	2049
+t01.blv	2	341	Telekinesis	4096	-1152	2049
+t01.blv	3	198	Gold	-256	4416	449
+t01.blv	4	198	Gold	320	1344	481
+t01.blv	5	196	Ruby	320	576	481
+t01.blv	6	29	Warrior's Poleaxe	-1408	1280	481
+t01.blv	7	198	Gold	-576	7744	-319
+t01.blv	8	130	Eyeball Amulet	-640	11200	-319
+t01.blv	9	195	Diamond	-4928	11200	97
+t01.blv	10	198	Gold	-5312	11328	97
+t01.blv	11	137	Wand of Poison	-4800	13184	1057
+t01.blv	12	198	Gold	-4224	13248	1121
+t01.blv	13	362	Mass Fear	4096	13056	1121
+t01.blv	14	59	Spiked Club	-1024	17600	-319
+t01.blv	15	198	Gold	-832	17856	-319
+t01.blv	16	18	Assassin's Dagger	4864	16064	577
+t01.blv	17	61	Journey Staff	-1152	4672	449
+t01.blv	18	197	Gold	1408	4800	449
+t01.blv	19	197	Gold	3648	5120	1345
+t01.blv	20	115	Walking Boots	-2624	-1024	1
+t01.blv	21	197	Gold	1024	-1408	1
+t01.blv	22	322	Awaken	-1728	640	481
+t01.blv	23	90	Conscript's Helm	-2112	1024	481
+t01.blv	24	197	Gold	-3968	3904	481
+t01.blv	25	197	Gold	-1408	8320	-319
+t01.blv	26	197	Gold	0	8256	-319
+t01.blv	27	84	Wooden Buckler	0	8512	-319
+t01.blv	28	197	Gold	-4992	13824	1057
+t01.blv	29	197	Gold	-5632	13440	1121
+t01.blv	30	61	Journey Staff	-4928	10880	97
+t01.blv	31	89	Horned Helm	3520	13440	1121
+t01.blv	32	115	Walking Boots	0	17728	-319
+t01.blv	33	39	Hayfork	-1088	17728	-319
+t01.blv	34	14	Captain's Cutlass	-1088	17344	-319
+t02.blv	0	198	Gold	3696	3440	-127
+t02.blv	1	7	Dark Elven Sword	3392	3424	-127
+t02.blv	2	97	Crown	3612	2972	-127
+t02.blv	3	198	Gold	3168	2972	-127
+t02.blv	4	198	Gold	912	7912	-767
+t02.blv	5	58	Club	804	8004	-767
+t02.blv	6	198	Gold	12	8588	-767
+t02.blv	7	353	Shared Life	4	8664	-767
+t02.blv	8	198	Gold	-152	8480	-767
+t02.blv	9	243	Endurance Boost	-1036	7872	-767
+t02.blv	10	198	Gold	-1028	7720	-767
+t02.blv	11	198	Gold	-856	7872	-767
+t02.blv	12	32	Steel spear	-904	8068	-767
+t02.blv	13	198	Gold	-2376	6368	-383
+t02.blv	14	156	Mystic Wand of Distortion	-2492	5400	-383
+t02.blv	15	201	Crushed Rose Petals	28	4440	-383
+t02.blv	16	51	Spiked Mace	-116	4360	-383
+t02.blv	17	197	Gold	1292	5456	-383
+t02.blv	18	197	Gold	2200	6176	-383
+t02.blv	19	58	Club	2208	5772	-383
+t02.blv	20	197	Gold	2216	5456	-383
+t02.blv	21	197	Gold	-2716	1948	-127
+t02.blv	22	39	Hayfork	-2856	-732	-511
+t02.blv	23	76	Plate Armor	-2872	-104	-511
+t03.blv	0	130	Eyeball Amulet	-1344	-2432	1
+t03.blv	1	197	Gold	1344	-2432	1
+t03.blv	2	76	Plate Armor	640	-2496	1
+t03.blv	3	84	Wooden Buckler	-640	-2496	1
+t03.blv	4	197	Gold	1984	1024	649
+t03.blv	5	58	Club	1984	3776	105
+t03.blv	6	227	Awaken	1792	3776	105
+t03.blv	7	89	Horned Helm	1664	3776	105
+t03.blv	8	67	Studded Leather	1728	3456	105
+t03.blv	9	197	Gold	-2304	3520	225
+t03.blv	10	356	Mind Blast	-2496	5504	129
+t03.blv	11	197	Gold	-1600	5504	129
+t03.blv	12	9	Rusty Cutlass	-1664	5632	129
+t03.blv	13	66	Leather Armor	-1280	4224	129
+t03.blv	14	197	Gold	-1280	3200	129
+t03.blv	15	6	Barrow Leafblade	64	640	1
+t03.blv	16	197	Gold	320	960	1
+t03.blv	17	24	Battle Hatchet	640	-1664	1
+t03.blv	18	197	Gold	-576	-1664	1
+t03.blv	19	197	Gold	0	896	1
+t03.blv	20	197	Gold	1984	3520	105
+t03.blv	21	194	Yellow Topaz	-1600	3200	129
+t03.blv	22	197	Gold	-1216	1920	649
+t04.blv	0	198	Gold	1920	1600	1
+t04.blv	1	199	Gold	1984	1216	1
+t04.blv	2	310	Incinerate	576	896	1
+t04.blv	3	197	Gold	-1024	1344	1
+t04.blv	4	197	Gold	1664	6784	-2575
+t04.blv	5	198	Gold	1312	7504	-1551
+t04.blv	6	197	Gold	512	15296	353
+t04.blv	7	211	Fae Dust	640	12736	1
+t04.blv	8	199	Gold	1024	11904	1
+t04.blv	9	123	Emerald Ring	256	13312	1
+nwc.blv	0	500	Puck	3493	11369	-991
+nwc.blv	1	501	Iron Feather	3809	11268	-991
+nwc.blv	2	502	Wallace	4144	11223	-991
+nwc.blv	3	504	Governor's Armor	4109	11443	-991
+nwc.blv	4	510	Ullyses	4720	11476	-991
+nwc.blv	5	522	Scholar's Cap	1796	11331	-991
+nwc.blv	6	512	Seven League Boots	1112	11286	-991
+nwc.blv	7	535	Hero's Belt	1019	11618	-991
+nwc.blv	8	65	Blaster Rifle	2752	6592	-103
+nwc.blv	9	65	Blaster Rifle	3280	7920	-485
+nwc.blv	10	65	Blaster Rifle	2736	9776	-617
+nwc.blv	11	65	Blaster Rifle	2208	7936	-487
+nwc.blv	12	547	Sun Cloak	864	9600	-743
+nwc.blv	13	548	Moon Cloak	4640	9600	-743
+nwc.blv	14	499	Book of UnMakings	2752	13537	-1375

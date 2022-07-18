@@ -208,10 +208,10 @@ evt.map[12] = function()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if evt.Cmp{"QBits", Value = 860} then         -- Final
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
 	else
 		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	end
 end
 
@@ -504,8 +504,8 @@ evt.map[376] = function()
 		evt.SetTexture{Facet = 1, Name = "solid01"}
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 798}         -- "The Coding Wizard" : "Greetings from BDJ!"
-		evt.SetNPCGreeting{NPC = 1259, Greeting = 138}         --[[ "The Coding Wizard" : "BDJ's the name, Coding Wizard's The Game
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 798}         -- "The Coding Wizard" : "Greetings from BDJ!"
+		evt.SetNPCGreeting{NPC = 1279, Greeting = 138}         --[[ "The Coding Wizard" : "BDJ's the name, Coding Wizard's The Game
 
 Now what can I do for you?" ]]
 	end

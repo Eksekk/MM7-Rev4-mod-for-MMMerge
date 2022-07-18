@@ -1249,19 +1249,40 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 1247	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
 1248	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
 1249	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1250	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	303	0	0	0	0	Expert Sword (3)	3	
-1251	James Weathers	0917	0	0	0	1183	0	163	0	354	1099	0	0	0	Expert Body_Magic (3)	3		
-1252	Sarah	0851	0	0	0	941	0	0	0	1261	0	0	0	0	0	 Courier Guild Matron		
-1253	Messenger of the Saints	1556	0	0	0	0	0	125	0	2002	0	0	0	0	0			
-1254	Alice the Chef	0591	0	0	0	1021	0	0	0	0	1265	0	0	0	0			
-1255	Rena Putnum Kedrin	0812	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1256	Rena Putnum Kedrin	0865	0	0	0	0	0	0	0	1266	0	0	0	0	0			
-1257	Map Giver	1556	0	0	0	0	0	358	0	882	0	0	0	0	0			
-1258	Map Giver 1	1556	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1259	The Coding Wizard	1556	0	0	0	0	0	359	0	798	0	0	0	0	0			
-1260	Lady K	0841	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1261	EAO the Lector	0846	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1262	Duchess of Deja	1534	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1263	Lord Godwinson	0889	0	0	0	1106	0	0	0	846	0	0	0	0	0			
-1264	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
-1265	Harmondale Teleportal Hub	1561	0	0	0	925	0	368	0	0	0	0	0	0	0			
+1250	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1251	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1252	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1253	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1254	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1255	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1256	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1257	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1258	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1259	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1260	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1261	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1262	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1263	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1264	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1265	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1266	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1267	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1268	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1269	Boob	0	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1270	Jack Tellmar	0933	0	0	0	1184	0	300	0	1067	303	0	0	0	0	Expert Sword (3)	3	
+1271	James Weathers	0917	0	0	0	1183	0	163	0	354	1099	0	0	0	0	Expert Body_Magic (3)	3	
+1272	Sarah	0851	0	0	0	941	0	0	0	1261	0	0	0	0	0	 Courier Guild Matron		
+1273	Messenger of the Saints	1556	0	0	0	0	0	125	0	2002	0	0	0	0	0			
+1274	Alice the Chef	0591	0	0	0	1021	0	0	0	0	1265	0	0	0	0			
+1275	Rena Putnum Kedrin	0812	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1276	Rena Putnum Kedrin	0865	0	0	0	0	0	0	0	1266	0	0	0	0	0			
+1277	Map Giver	1556	0	0	0	0	0	358	0	882	0	0	0	0	0			
+1278	Map Giver 1	1556	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1279	The Coding Wizard	1556	0	0	0	0	0	359	0	798	0	0	0	0	0			
+1280	Lady K	0841	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1281	EAO the Lector	0846	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1282	Duchess of Deja	1534	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1283	Lord Godwinson	0889	0	0	0	1106	0	0	0	846	0	0	0	0	0			
+1284	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
+1285	Harmondale Teleportal Hub	1561	0	0	0	925	0	368	0	0	0	0	0	0	0			
+1286	Bradley Clark	0595	0	0	0	0	0	0	0	0	0	0	0	0	0			

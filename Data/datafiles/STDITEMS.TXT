@@ -70,6 +70,8 @@ Mind resistance penetration	of Mind Penetration	0	0	0	0	0	0	0	0	0
 Body resistance penetration	of Body Penetration	0	0	0	0	0	0	0	0	0
 Light resistance penetration	of Light Penetration	0	0	0	0	0	0	0	0	0
 Dark resistance penetration	of Dark Penetration	0	0	0	0	0	0	0	0	0
+Light Resistance	of Light Resistance	0	0	0	0	0	0	0	0	0
+Dark Resistance	of Dark Resistance	0	0	0	0	0	0	0	0	0
 										
 		120	70	115	70	140	155	110	140	140					
 

@@ -979,13 +979,13 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 976	null	_item174	0	0	0	0	0	0	0	_item174	153	0	0	0	0	Description here.
 977	null	_item175	0	0	0	0	0	0	0	_item175	153	0	0	0	0	Description here.
 978	null	_item176	0	0	0	0	0	0	0	_item176	153	0	0	0	0	Description here.
-979	null	_item177	0	0	0	0	0	0	0	_item177	153	0	0	0	0	Description here.
+979	7item205	Cell Key	0	N / A	Misc	0	0	6	0	Key	233	0	0	0	0	A small key.
 980	7item201	Shard of Mana	0	N / A	Misc	0	0	6	0	Gemstone	151	0	0	0	0	Quest Item: This small gemstone periodically pulses with magical energy.
-981	null	_item179	0	0	0	0	0	0	0	_item179	153	0	0	0	0	Description here.
-982	null	_item180	0	0	0	0	0	0	0	_item180	153	0	0	0	0	Description here.
-983	null	_item181	0	0	0	0	0	0	0	_item181	153	0	0	0	0	Description here.
-984	null	_item182	0	0	0	0	0	0	0	_item182	153	0	0	0	0	Description here.
-985	null	_item183	0	0	0	0	0	0	0	_item183	153	0	0	0	0	Description here.
+981	7item287	Dark Talisman	0	Amulet	Misc	0	0	Special	0	Special Amulet	186	0	0	0	0	Quest Item: The talisman that Wromthrax used to open the portal. Aside from its reality-breaking properties, it doesn't have any other effect.
+982	item164	Pristine Phoenix Feather	0	N / A	Misc	0	0	0	0	Reagent	44	0	0	0	0	Quest Item: A Phoenix Feather of exceptional quality. Finding another one would be next to impossible.
+983	item168	Pristine Dragon Turtle Fang	0	N / A	Misc	0	0	0	0	Reagent	82	0	0	0	0	Quest Item: A very old but potent Dragon Turtle Fang. For each alchemist getting one would be basically his dream.
+984	item172	Pristine Unicorn Horn	0	N / A	Misc	0	0	0	0	Reagent	50	0	0	0	0	Quest Item: Unicorn Horn untouched by any corruption or harmful magic. If used as a reagent, it would produce potions of quality which is normally impossible.
+985	7item123	Enchanter's Ring of Mana Flows	10000	Ring	Misc	0	0	Special	30	Special Ring	185	0	0	0	0	(Rapid mana regeneration) A ring of immense power, one of greatest magic trinkets on Antagarich. Bestows the wearer with a powerful aura, which very quickly restores their spell points.
 986	null	_item184	0	0	0	0	0	0	0	_item184	153	0	0	0	0	Description here.
 987	null	_item185	0	0	0	0	0	0	0	_item185	153	0	0	0	0	Description here.
 988	7item199	Blue Quartz	250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."
@@ -1394,7 +1394,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 1391	null	_artifact589	0	0	0	0	0	0	0	_artifact589	153	0	0	0	0	Description here.
 1392	null	_artifact590	0	0	0	0	0	0	0	_artifact590	153	0	0	0	0	Description here.
 1393	null	_artifact591	0	0	0	0	0	0	0	_artifact591	153	0	0	0	0	Description here.
-1394	null	_artifact592	0	0	0	0	0	0	0	_artifact592	153	0	0	0	0	Description here.
+1394	item151	Mog'draxar, The Furious Revenant	15000	Amulet	Misc	0	0	4	20	Amulet	33	0	0	0	0	(+3 to all magic and weapon skills (incl. armsmaster), +100 max mana and health)  Named after well-known Titan who forged it to assist in the revenge on his formerly best friend, who betrayed him. This amulet's purpose is clear - to assist in destruction, or rather, total and utter annihilation of the owner's enemies. It serves its purpose extraordinarily well.
 1395	null	_artifact593	0	0	0	0	0	0	0	_artifact593	153	0	0	0	0	Description here.
 1396	null	_artifact594	0	0	0	0	0	0	0	_artifact594	153	0	0	0	0	Description here.
 1397	null	_artifact595	0	0	0	0	0	0	0	_artifact595	153	0	0	0	0	Description here.

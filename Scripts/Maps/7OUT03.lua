@@ -272,11 +272,11 @@ evt.map[32] = function()  -- function events.LoadMap()
 	evt.ForPlayer(-- ERROR: Const not found
 "All")
 	if not evt.CheckSeason{Season = 1} then
-		evt.MoveNPC{NPC = 1261, HouseId = 0}         -- "EAO the Lector"
+		evt.MoveNPC{NPC = 1281, HouseId = 0}         -- "EAO the Lector"
 	else
 		if evt.Cmp{"QBits", Value = 866} then         -- 0
-			evt.MoveNPC{NPC = 1261, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
-			evt.SetNPCTopic{NPC = 1261, Index = 0, Event = 852}         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
+			evt.MoveNPC{NPC = 1281, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
+			evt.SetNPCTopic{NPC = 1281, Index = 0, Event = 852}         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
 		end
 	end
 end

@@ -372,7 +372,7 @@ evt.map[35] = function()
 	if evt.Cmp{"Awards", Value = 126} then         -- "Reopened Harmondale Stables"
 		evt.EnterHouse{Id = 461}         -- "The J.V.C Corral"
 	else
-		evt.SpeakNPC{NPC = 1264}         -- "Christian the Stablemaster"
+		evt.SpeakNPC{NPC = 1284}         -- "Christian the Stablemaster"
 	end
 end
 
@@ -611,7 +611,7 @@ evt.map[52] = function()  -- function events.LoadMap()
 		if evt.Cmp{"QBits", Value = 868} then         -- 0
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
 			evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
-			evt.MoveNPC{NPC = 1263, HouseId = 0}         -- "Lord Godwinson"
+			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set{"QBits", Value = 888}         -- LG 1-time
 			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"

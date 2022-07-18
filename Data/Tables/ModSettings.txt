@@ -60,4 +60,4 @@ Rev4ForMergeExtraMonsterSpawns	1
 Rev4ForMergeChangeStatisticBreakpoints	1
 Rev4ForMergeRandomizeRemovedItems	1
 Rev4ForMergeAddResistancePenetration	1
-Rev4ForMergeBuffIdentifyMonster	1
+Rev4ForMergeRemakeIdentifyMonster	1

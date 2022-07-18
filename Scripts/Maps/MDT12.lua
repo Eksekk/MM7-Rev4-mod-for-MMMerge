@@ -34,21 +34,21 @@ evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Hostile, On = false}         -- "Southern Village Group in Harmondy"
 	evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Hostile, On = false}         -- "Main village in Harmondy"
 	if evt.Cmp{"QBits", Value = 892} then         -- "Pass the Test of Friendship"
-		evt.SetNPCGreeting{NPC = 1259, Greeting = 156}         -- "The Coding Wizard" : "Friends do not abandon friends in the midst of a fray!  You have failed the Test of Friendship!"
+		evt.SetNPCGreeting{NPC = 1279, Greeting = 156}         -- "The Coding Wizard" : "Friends do not abandon friends in the midst of a fray!  You have failed the Test of Friendship!"
 		evt.Set{"Awards", Value = 128}         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract{"Inventory", Value = 1477}         -- "Control Cube"
 		evt.Set{"Eradicated", Value = 0}
-		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+		evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 	else
-		evt.SetNPCTopic{NPC = 1259, Index = 1, Event = 0}         -- "The Coding Wizard"
-		evt.SetNPCTopic{NPC = 1259, Index = 2, Event = 0}         -- "The Coding Wizard"
-		evt.SetNPCTopic{NPC = 1259, Index = 3, Event = 0}         -- "The Coding Wizard"
+		evt.SetNPCTopic{NPC = 1279, Index = 1, Event = 0}         -- "The Coding Wizard"
+		evt.SetNPCTopic{NPC = 1279, Index = 2, Event = 0}         -- "The Coding Wizard"
+		evt.SetNPCTopic{NPC = 1279, Index = 3, Event = 0}         -- "The Coding Wizard"
 		evt.SetNPCTopic{NPC = 357, Index = 0, Event = 0}         -- "Lord Godwinson"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 0}         -- "Lord Godwinson"
 		evt.SetNPCTopic{NPC = 360, Index = 0, Event = 0}         -- "Zedd True Shot"
 		evt.SetNPCTopic{NPC = 360, Index = 1, Event = 0}         -- "Zedd True Shot"
 		evt.SetNPCTopic{NPC = 357, Index = 2, Event = 0}         -- "Lord Godwinson"
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1312}         -- "The Coding Wizard" : "SAVE you Game!"
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1312}         -- "The Coding Wizard" : "SAVE you Game!"
 	end
 end
 
@@ -218,13 +218,13 @@ evt.map[501] = function()
 		evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
 		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-		evt.SetNPCTopic{NPC = 1259, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
 		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-		evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+		evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 	else
 		if evt.Cmp{"Inventory", Value = 963} then         -- "Grate Key"
 			evt.Subtract{"Inventory", Value = 963}         -- "Grate Key"
-			evt.SetNPCGreeting{NPC = 1259, Greeting = 150}         --[[ "The Coding Wizard" : "You are finally face-to-face with Jester’s Folly and his minions, adventurers.  It is now time for the Test of Friendship.  Hear me and heed my words.
+			evt.SetNPCGreeting{NPC = 1279, Greeting = 150}         --[[ "The Coding Wizard" : "You are finally face-to-face with Jester’s Folly and his minions, adventurers.  It is now time for the Test of Friendship.  Hear me and heed my words.
 
 I give you a solemn charge, adventurers.  It is your responsibility to ensure that the entire brotherhood survives this encounter.  All must leave this cave together, or you will have failed the Test of Friendship and, hence, The Game!
 
@@ -244,7 +244,7 @@ But be warned, adventurers!  If you let any of the brotherhood fall in battle, y
 			evt.Set{"NPCs", Value = 373}         -- "Duke Bimbasto"
 			evt.Set{"NPCs", Value = 376}         -- "Pascal the Mad Mage"
 			evt.Set{"QBits", Value = 891}         -- Exit 1-time Cave 1 Vault
-			evt.SpeakNPC{NPC = 1259}         -- "The Coding Wizard"
+			evt.SpeakNPC{NPC = 1279}         -- "The Coding Wizard"
 		else
 			evt.StatusText{Str = 9}         -- "The Steel Grate is locked."
 		end
@@ -283,6 +283,7 @@ end
 
 -- fix so that friends will fight with dragons & hydras
 function events.AfterLoadMap()
+	LocalHostileTxt()
 	local nameids = {}
 	for k, v in Map.Monsters do
 		if v.NameId ~= 0 then

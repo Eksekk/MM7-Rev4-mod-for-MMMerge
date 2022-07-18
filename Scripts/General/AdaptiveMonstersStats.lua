@@ -420,15 +420,15 @@ local function PrepareMapMon(mon, MapSettings)
 	local NeedSpells = BolStep and MapSettings.Spells and MonSettings.Spells
 	if mon.Spell == 0 and NeedSpells then
 		mon.Spell = GenMonSpell(MonSettings, BolStep, 0)
+		mon.SpellChance		= TxtMon.SpellChance
+		mon.SpellSkill 		= TxtMon.SpellSkill
 	end
-	mon.SpellChance		= TxtMon.SpellChance
-	mon.SpellSkill 		= TxtMon.SpellSkill
 
 	if mon.Spell2 == 0 and NeedSpells then
 		mon.Spell2 = GenMonSpell(MonSettings, BolStep, 1, mon.Spell)
+		mon.Spell2Chance	= TxtMon.Spell2Chance
+		mon.Spell2Skill 	= TxtMon.Spell2Skill
 	end
-	mon.Spell2Chance	= TxtMon.Spell2Chance
-	mon.Spell2Skill 	= TxtMon.Spell2Skill
 
 	-- Summons
 
@@ -936,7 +936,7 @@ function events.AfterLoadMap()
 	ReadyMons	= {}
 	MonBolStep	= {}
 
-	BolsterMonsters()
+	--BolsterMonsters()
 end
 
 function events.GameInitialized2()

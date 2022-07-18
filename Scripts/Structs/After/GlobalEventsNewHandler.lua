@@ -418,16 +418,32 @@ local function Cauldron(Eid)
 	local SpriteId = Eid - SpriteEventsStart
 	local Sprite = Map.Sprites[SpriteId]
 	local Var = Sprite.EventVariable
-	local Res = Party[Game.CurrentPlayer or 0].Resistances[CauldronResists[Var]]
+	local Res
+	if Var <= 4 then
+		Res = Party[Game.CurrentPlayer or 0].Resistances[CauldronResists[Var]]
+	end
 
 	if mapvars.ActiveSprites[SpriteId] then
 		Game.ShowStatusText(Game.NPCText[CauldronTexts[0]])
 	else
-		Game.ShowStatusText(Game.NPCText[CauldronTexts[Var]])
-		Res.Base = Res.Base + 10
-		evt.Set{"AutonotesBits", CauldronABits[Var]}
-		evt.hint[Eid] = Game.NPCTopic[CauldronEvents[0]]
-		mapvars.ActiveSprites[SpriteId] = true
+		if Var <= 4 then
+			Game.ShowStatusText(Game.NPCText[CauldronTexts[Var]])
+			Res.Base = Res.Base + 10
+			evt.Set{"AutonotesBits", CauldronABits[Var]}
+			evt.hint[Eid] = Game.NPCTopic[CauldronEvents[0]]
+			mapvars.ActiveSprites[SpriteId] = true
+		else
+			Game.ShowStatusText(select(Var - 4, "+10 Light Resistance permanent", "+10 Dark Resistance permanent"))
+			local pl = Party[math.max(Game.CurrentPlayer, 0)]
+			if Var == 5 then
+				addLightRes(pl, 10)
+			elseif Var == 6 then
+				addDarkRes(pl, 10)
+			end
+			evt[math.max(Game.CurrentPlayer, 0)].Add("Experience", 0)
+			evt.hint[Eid] = Game.NPCTopic[CauldronEvents[0]]
+			mapvars.ActiveSprites[SpriteId] = true
+		end
 	end
 end
 
@@ -435,14 +451,18 @@ end
 
 Events[#Events+1] = function(i, DecName, Sprite, ActiveSprites)
 	if table.find(Cauldrons, DecName) then
-		Seed = random(#CauldronEvents)
+		Seed = random(#CauldronEvents + (Merge.ModSettings.Rev4ForMergeAddDarkLightResistances == 1 and 2 or 0))
 		Sprite.EventVariable = Seed
 		Sprite.Event = SpriteEventsStart + i
 		evt.map[SpriteEventsStart + i] = Cauldron
 		if ActiveSprites[i] then
 			evt.hint[SpriteEventsStart + i] = Game.NPCTopic[CauldronEvents[0]]
 		else
-			evt.hint[SpriteEventsStart + i] = Game.NPCTopic[CauldronEvents[Seed]]
+			if Seed <= 4 then
+				evt.hint[SpriteEventsStart + i] = Game.NPCTopic[CauldronEvents[Seed]]
+			else
+				evt.hint[SpriteEventsStart + i] = select(Seed - 4, "Glowing cauldron", "Gloomy cauldron")
+			end
 		end
 		return true
 	end

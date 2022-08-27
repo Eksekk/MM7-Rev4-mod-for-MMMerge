@@ -8,6 +8,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 		Experience = 35000,
 		NPC = 771,
 		Slot = 2,
+		--Quest = REV4_FOR_MERGE_QUEST_INDEX,
 		Done = function()
 			for i = 1, 3 do
 				evt.Add("Inventory", 1418)
@@ -215,7 +216,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 				local max = math.min(canSpawn, maxInOneSpawn)
 				if max <= 0 then return end
 				local oldC = spawn.count
-				spawn.count = tostring(minInOneSpawn) .. "-" .. tostring(max)
+				spawn.count = minInOneSpawn == max and max or (tostring(minInOneSpawn) .. "-" .. tostring(max))
 				local mons = pseudoSpawnpoint(spawn)
 				spawn.count = oldC
 				for i, v in ipairs(mons) do
@@ -312,82 +313,6 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 	-- randomized monster spells, monster bonuses
 	function events.GameInitialized2()
 		Game.MapStats[238].Tres = 7
-	end
-	
-	local function boostResistances(mon, amount)
-		local i = 1
-		for k, v in pairs(const.Damage) do
-			if v ~= 12 and v ~= 50 and v ~= 5 and mon.Resistances[v] < const.MonsterImmune then -- Energy, Dragon, Magic
-				mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
-			end
-			i = i + 1
-		end
-	end
-	
-	local spells =
-	{
-		{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
-		{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
-		{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
-		{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
-		{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
-		{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
-		{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
-		{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
-		{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
-	}
-	
-	local function randomGiveSpell(mon)
-		-- TODO: add more spells
-		local roll = math.random(0, 2)
-		if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
-			return
-		end
-		local i = math.random(1, #spells)
-		local firstSpell = spells[i]
-		local addedFirst = false
-		if not mon.Spell then
-			mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-			addedFirst = true
-		end
-		if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
-			return
-		end
-		if not addedFirst then
-			local j
-			repeat
-				j = math.random(1, #spells)
-			until mon.Spell ~= spells[j].Spell
-			mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-			return
-		end
-		local j
-		repeat
-			j = math.random(1, #spells)
-		until firstSpell.Spell ~= spells[j].Spell
-		local secondSpell = spells[j]
-		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
-	end
-	
-	local function randomGiveElementalAttack(mon)
-		local a1, a2 = mon.Attack1, mon.Attack2
-		if a1 then
-			if a2 then
-				return
-			end
-			a2.Type = math.random(0, 7)
-			if a2.Type > 3 then
-				a2.Type = math.random(9, 10)
-			end
-			a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
-			mon.Attack2Chance = 50
-			return
-		end
-		a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
-	end
-	
-	local function randomBoostResists(mon)
-		boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
 	end
 	
 	local sp = sharedSpawnpoint.new("mdt09orig.blv", "WromthraxCaveQuest")
@@ -549,6 +474,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 		Slot = 3,
 		Experience = 200000,
 		Gold = 30000,
+		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 1,
 		Done = function() for i = 0, 2 do for j = 1, 3 + (2 - i) do evt.Add("Inventory", 1491 + i) end end end, --  5 Kergar, 4 Erudine, 3 Stalt
 		Texts = {
 			Topic = "Quest",
@@ -579,6 +505,7 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 		Slot = 2,
 		Experience = 125000,
 		Gold = 25000,
+		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 2,
 		CheckDone = function()
 			for i = 1, 3 do
 				if not evt.Cmp("Inventory", itemIDs[i]) then
@@ -613,7 +540,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			Undone = "Did you not find them? Please search the lab thoroughly, knowing Clanker he hid them in most obscure locations.",
 			Done = "YOU HAVE DONE IT? Found them? I don't know why he hadn't used them all. But yes, finally some of his character paid off. You will receive your reward as promised. Thanks again for doing the impossible.",
 			
-			Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon",
+			Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon.",
 			Award = "Assisted in creation of the ancient Potion of the Swift Mind."
 		}
 	}
@@ -645,7 +572,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			boostResistances(wiz, diffsel(40, 60, 80))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
-			wiz.NameId = 196
+			wiz.NameId = placemonAdditionalStart
 			wiz.Experience = wiz.Experience * 25
 			wiz.Special = 1 -- shoot
 			wiz.SpecialC = 5 -- x5
@@ -704,7 +631,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 	function events.CalcStatBonusByItems(t)
 		if not t.Player:WearsItem(rewardItem) then return end
 		if t.Stat == const.Stats.HP or t.Stat == const.Stats.SP then
-			t.Result = t.Result + 100
+			t.Result = t.Result + 50
 		end
 	end
 	
@@ -721,7 +648,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 	-- similar to original, rescue a prisoner, but you have to use a key and have to kill custom guards
 	
 	local cellKey = 979
-	local jailerNameId = 197
+	local jailerNameId = placemonAdditionalStart + 1
 	local NpcToRescue = 1286
 	local questGiverHouseId = 1105
 	
@@ -756,6 +683,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		Slot = 2,
 		Experience = 75000,
 		Gold = 10000,
+		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
 		CheckDone = function()
 			return NPCFollowers.NPCInGroup(NpcToRescue)
 		end,
@@ -777,7 +705,7 @@ Can you do it? You'll be greatly rewarded for your services.]],
 			Undone = "",
 			Done = "YOU HAVE DONE IT? Found them? I don't know why he hadn't used them all. But yes, finally some of his character paid off. You will receive your reward as promised. Thanks again for doing the impossible.",
 			
-			Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon",
+			Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon.",
 			Award = "Assisted in creation of the ancient Potion of the Swift Mind."
 		}
 	}

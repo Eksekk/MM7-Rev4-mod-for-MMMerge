@@ -1,7 +1,7 @@
 local TXT = Localize{
 	[0] = " ",
 	[1] = "Door",
-	[2] = "Leave the Vampire Family House",
+	[2] = "Leave the Wine Cellar",
 	[3] = "Chest",
 	[4] = "Button",
 	[5] = "Lever",
@@ -22,6 +22,7 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
@@ -33,7 +34,7 @@ events.LoadMap = evt.map[1].last
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LeaveMap()
 	if evt.CheckMonstersKilled{CheckType = 3, Id = 0, Count = 0} then
-		evt.Set{"QBits", Value = 619}         -- Slayed the vampire
+		evt.Set("QBits", 619)         -- Slayed the vampire
 	end
 end
 
@@ -74,128 +75,128 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[196] = evt.str[10]  -- "Wine Rack"
 Game.MapEvtLines:RemoveEvent(196)
 evt.map[196] = function()
 	local i
-	if evt.Cmp{"MapVar4", Value = 2} then
+	if evt.Cmp("MapVar4", 2) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -208,15 +209,15 @@ evt.map[196] = function()
 	end
 	i = Game.Rand() % 6
 	if i == 1 then
-		evt.Add{"Inventory", Value = 223}         -- "Magic Potion"
+		evt.Add("Inventory", 223)         -- "Magic Potion"
 	elseif i == 2 then
-		evt.Add{"Inventory", Value = 227}         -- "Awaken"
+		evt.Add("Inventory", 227)         -- "Awaken"
 	elseif i == 3 then
-		evt.Add{"Inventory", Value = 228}         -- "Haste"
+		evt.Add("Inventory", 228)         -- "Haste"
 	elseif i == 4 then
-		evt.Add{"Inventory", Value = 222}         -- "Cure Wounds"
+		evt.Add("Inventory", 222)         -- "Cure Wounds"
 	elseif i == 5 then
-		evt.Add{"Inventory", Value = 238}         -- "Remove Curse"
+		evt.Add("Inventory", 238)         -- "Remove Curse"
 	end
 ::_12::
 	i = Game.Rand() % 6
@@ -224,13 +225,12 @@ evt.map[196] = function()
 		return
 	end
 ::_13::
-	evt.Add{"MapVar4", Value = 1}
+	evt.Add("MapVar4", 1)
 end
 
-evt.hint[501] = evt.str[2]  -- "Leave the Vampire Family House"
+evt.hint[501] = evt.str[2]  -- "Leave the Wine Cellar"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.Set{"QBits", Value = 619}         -- Slayed the vampire
 	evt.MoveToMap{X = 8216, Y = -10619, Z = 289, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 1, Name = "7Out13.odm"}
 end
 

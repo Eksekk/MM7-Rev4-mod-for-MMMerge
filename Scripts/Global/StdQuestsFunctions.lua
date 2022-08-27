@@ -849,11 +849,11 @@ Game.NPC[314].EventA = 889
 -- Remove MM7 endgame qbits.
 --
 evt.Global[920] = function()
-	Party.QBits[642] = not Party.QBits[783]
+	Party.QBits[642] = not Party.QBits[980]
 end
 
 evt.Global[922] = function()
-	Party.QBits[783] = true
+	Party.QBits[980] = true
 end
 
 ----------------------------------------

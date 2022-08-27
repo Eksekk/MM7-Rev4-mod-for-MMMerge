@@ -1,7 +1,17 @@
 local max, min, ceil, floor, random, sqrt = math.max, math.min, math.ceil, math.floor, math.random, math.sqrt
 local ReadyMons = {}
 local MonBolStep = {}
-local OriginalMonstersTxt = nil
+OriginalMonstersTxt = nil
+
+modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
+difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
+isEasy = function() return difficulty == const.Difficulty.Easy end
+isMedium = function() return difficulty == const.Difficulty.Medium end
+isHard = function() return difficulty == const.Difficulty.Hard end
+
+function diffsel(...)
+	return assert(select(difficulty + 1, ...))
+end
 
 ---- Additional mon properties and bolster tables
 
@@ -349,168 +359,351 @@ local function GenMonSpell(MonSettings, BolStep, SpellNum, OtherSpell)
 
 end
 
+-- formulas variables
+local PartyLevel,MonsterLevel,TotalEquipCost,HP,BoostedHP,AC,MonsterHeight,MaxDamage,SpellSkill,SpellMastery,BolsterMul,MonsterPower,MonSettings,MoveSpeed
+--
+
+local BolStep, MonTable, MonKind
+local TotalEquipCost
+local MonsSettings
+local BolsterMul
+local Formulas
+
+local function GetMaxDamage(Attack)
+	return Attack.DamageDiceCount*Attack.DamageDiceSides+Attack.DamageAdd
+end
+
+function GetAvgLevel(mi)
+	local mk = ceil(mi/3)
+	local result = 0
+	for p = 0, 2 do
+		result = result + Game.MonstersTxt[mk*3-p].Level + MonsSettings[mk*3-p].LevelShift
+	end
+	return max(ceil(result/3), 3)
+end
+
+local env = {
+	max				= max,
+	min				= min,
+	ceil			= ceil,
+	floor			= floor,
+	sqrt			= sqrt,
+	random			= random
+	}
+
+local function ProcessFormula(Formula, Default)
+	local f = Formula and assert(loadstring(Formula))
+
+	if type(f) == "function" then
+		env.PartyLevel 		= PartyLevel
+		env.MonsterLevel 	= MonsterLevel
+		env.TotalEquipCost 	= TotalEquipCost
+		env.HP				= HP
+		env.BoostedHP 		= BoostedHP
+		env.AC 				= AC
+		env.MonsterHeight 	= MonsterHeight
+		env.MaxDamage 		= MaxDamage
+		env.SpellSkill		= SpellSkill
+		env.SpellMastery 	= SpellMastery
+		env.BolsterMul 		= BolsterMul
+		env.MonsterPower 	= MonsterPower
+		env.MonSettings 	= MonSettings
+		env.MapSettings 	= MapSettings
+		env.MoveSpeed		= MoveSpeed
+
+		setfenv(f, env)
+		return f()
+	else
+		debug.Message(f, Formula, debug.traceback())
+	end
+	return Default
+end
+
+function events.BeforeLoadMap()
+	vars.oldMons = vars.oldMons or {}
+	events.Remove(1)
+end
+
 local SpellReplace = {[81] = 87}
-local function PrepareMapMon(mon, MapSettings)
+local function PrepareMapMon(mon)
 
 	local TxtMon		= Game.MonstersTxt[mon.Id]
-	local MonSettings	= Game.Bolster.Monsters[mon.Id]
+	MonSettings	= Game.Bolster.Monsters[mon.Id]
 	local BolStep		= MonBolStep[mon.Id]
+	vars.oldMons[Map.Name] = vars.oldMons[Map.Name] or {}
+	vars.oldMons[Map.Name][mon:GetIndex()] = vars.oldMons[Map.Name][mon:GetIndex()] or {}
 	
-	local props = {"HP", "FullHP", "ArmorClass", "MoveSpeed", "Attack1", "Attack2", "Attack2Chance", "SpellChance", "SpellSkill", "Spell2Chance", "Spell2Skill", "SpecialA", "SpecialB",
-				   "SpecialC", "SpecialD", "Experience", "TreasureItemPercent", "TreasureItemLevel", "Level"}
-	
-	-- quick dirty fix, TODO: replace
-	if mon.NameId > 0 or mon.NPC_ID > 0 then return end
-	
-	-- exit if monster has stats different than normal (hand-placed monsters)
-	--[[for _, prop in ipairs(props) do
-		local TxtMon = OriginalMonstersTxt[mon.Id]
-		if TxtMon[prop] == nil then goto continue end
-		if prop:find("Attack") ~= nil then
-			local props2 = {"DamageAdd", "DamageDiceSides", "DamageDiceCount", "Missile", "Type"}
-			for _, prop2 in ipairs(props2) do
-				if TxtMon[prop][prop2] == nil then goto continue2 end
-				
-				if (mon[prop][prop2] or nil) ~= (TxtMon[prop][prop2] or nil) then
-					print(prop, prop2, mon[prop][prop2], TxtMon[prop][prop2])
-					return
-				end
-			::continue2::
+	local function scaleParam(param, maxVal, onlyReturn)
+		local parts = string.split(param, "%.")
+		local mon2, orig, txt = mon, OriginalMonstersTxt[mon.Id], TxtMon
+		for i = 1, #parts - 1 do
+			local part = parts[i]
+			mon2, orig, txt = mon2[part], orig[part], txt[part]
+		end
+		vars.oldMons[Map.Name][mon:GetIndex()][param] = mon2[part]
+		local part = parts[#parts]
+		if orig[part] ~= 0 then -- avoid divide by zero
+			local scale = txt[part] / orig[part]
+			if scale ~= scale then -- check for NaN
+				error("scale is Not a Number")
 			end
+			if onlyReturn then
+				return min(maxVal, math.round(mon2[part] * scale))
+			end
+			mon2[part] = min(maxVal, math.round(mon2[part] * scale))
 		else
-			if (mon[prop] or nil) ~= (TxtMon[prop] or nil) then
-				print(prop, mon[prop], TxtMon[prop])
-				return
+			if onlyReturn then
+				return min(maxVal, txt[part])
 			end
+			mon2[part] = min(maxVal, txt[part])
 		end
-		::continue::
-	end--]]
+	end
+	
+	local maxI1, maxI2, maxI4, maxI8, maxU1, maxU2, maxU4, maxU8 = 127, 32767, 2147483647,
+		9223372036854775807, 255, 65535, 4294967295, 18446744073709551615
 
-	-- Base stats
-
-	if mon.NameId ~= 123 then -- Q
-		if mon.HP > 0 then
-			mon.HP = max(floor(TxtMon.FullHP * mon.HP/mon.FullHP), 1)
+	if Game.UseMonsterBolster then
+		-- Base stats
+		
+		-- formulas 1
+		MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+		if MapSettings then
+			PartyLevel = GetOverallPartyLevel() + MapSettings.LevelShift
+		else
+			return
 		end
-		mon.FullHP = TxtMon.FullHP
+		
+		TotalEquipCost = GetOverallItemBonus()
+		MonsSettings = Game.Bolster.Monsters
+		BolsterMul = Game.BolsterAmount/100
+		Formulas = Game.Bolster.Formulas
+		
+		MonKind 		= ceil(mon.Id/3)
+		HP 				= mon.FullHP
+		BoostedHP		= mon.FullHP
+		AC 				= mon.ArmorClass
+		MonSettings		= MonsSettings[mon.Id]
+		MonsterHeight 	= Game.MonListBin[mon.Id].Height
+		MonsterPower	= mon.Id - MonKind*3 + 3
+		MonsterLevel	= GetAvgLevel(mon.Id)
+		BolStep 		= min(floor(PartyLevel/MonsterLevel), 4)
+		
+		-- ~formulas1
+
+		--if mon.NameId ~= 123 then -- Q
+			if mon.HP > 0 then
+				mon.HP = max(min(floor(scaleParam("FullHP", maxI2, true) * (mon.HPPart or (mon.HP/mon.FullHP))), maxI2), 1)
+				mon.HPPart = nil
+			end
+			scaleParam("FullHP", maxI2)
+		--end
+
+		scaleParam("ArmorClass", maxI4)
+		scaleParam("MoveSpeed", maxI4)
+
+		-- Attacks
+
+		scaleParam("Attack1.DamageAdd", maxU1)
+		scaleParam("Attack1.DamageDiceSides", maxU1)
+		scaleParam("Attack1.DamageDiceCount", maxU1)
+
+		scaleParam("Attack2.DamageAdd", maxU1)
+		scaleParam("Attack2.DamageDiceSides", maxU1)
+		scaleParam("Attack2.DamageDiceCount", maxU1)
+
+		scaleParam("Attack2Chance", 80)
+		if (not mon.Attack2.Missile or mon.Attack2.Missile == 0) and mon.Attack2Chance > 0 then
+			vars.oldMons[Map.Name][mon:GetIndex()]["Attack2.Missile"] = mon.Attack2.Missile
+			mon.Attack2.Missile 		= TxtMon.Attack2.Missile
+		end
+		if not mon.Attack2.Type or mon.Attack2.Type == 0 and mon.Attack2Chance > 0 then
+			vars.oldMons[Map.Name][mon:GetIndex()]["Attack2.Type"] = mon.Attack2.Type
+			mon.Attack2.Type 			= TxtMon.Attack2.Type
+		end
+
+		-- Spells
+		-- Monsters can not cast paralyze, replace it:
+		mon.Spell = SpellReplace[mon.Spell] or mon.Spell
+		mon.Spell2 = SpellReplace[mon.Spell2] or mon.Spell2
+
+		-- formulas2
+		local Formula = Formulas[MonKind] or Formulas["def"]
+
+		if MapSettings.Type ~= BolsterTypes.OriginalStats then
+			BoostedHP  = mon.FullHP
+		end
+		
+		local function getFormulaOrDefault(stat)
+			return Formula[stat] or Formulas["def"][stat]
+		end
+		-- ~formulas2
+		-- Base spells
+		local Skill, Mas
+		local BuffSpells = not (GetAvgLevel(mon.Id) >= PartyLevel and MapSettings.Type ~= BolsterTypes.AllToEqual)
+		local NeedSpells = BuffSpells and MapSettings.Spells and MonSettings.Spells
+		if mon.Spell == 0 and NeedSpells then
+			vars.oldMons[Map.Name][mon:GetIndex()].Spell = mon.Spell
+			
+			mon.Spell = GenMonSpell(MonSettings, BolStep, 0)
+			if mon.Spell ~= 0 then
+				vars.oldMons[Map.Name][mon:GetIndex()].SpellChance = mon.SpellChance
+				vars.oldMons[Map.Name][mon:GetIndex()].SpellSkill = mon.SpellSkill
+				mon.SpellChance		= TxtMon.SpellChance
+				mon.SpellSkill 		= TxtMon.SpellSkill
+			end
+		elseif mon.Spell ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
+			vars.oldMons[Map.Name][mon:GetIndex()].SpellSkill = mon.SpellSkill
+			SpellSkill, SpellMastery = SplitSkill(mon.SpellSkill)
+			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+			Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
+			mon.SpellSkill = JoinSkill(Skill, Mas)
+		end
+
+		if mon.Spell2 == 0 and NeedSpells then
+			vars.oldMons[Map.Name][mon:GetIndex()].Spell2 = mon.Spell2
+			
+			mon.Spell2 = GenMonSpell(MonSettings, BolStep, 1, mon.Spell)
+			if mon.Spell2 ~= 0 then
+				vars.oldMons[Map.Name][mon:GetIndex()].Spell2Chance = mon.Spell2Chance
+				vars.oldMons[Map.Name][mon:GetIndex()].Spell2Skill = mon.Spell2Skill
+				mon.Spell2Chance	= TxtMon.Spell2Chance
+				mon.Spell2Skill 	= TxtMon.Spell2Skill
+				--if TxtMon.Spell2Skill == 0 then debug.Message("XDDDDD", BolStep, PartyLevel, MonsterLevel) end
+			end
+		elseif mon.Spell2 ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
+			vars.oldMons[Map.Name][mon:GetIndex()].Spell2Skill = mon.Spell2Skill
+			SpellSkill, SpellMastery = SplitSkill(mon.Spell2Skill)
+			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+			Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
+			mon.Spell2Skill = JoinSkill(Skill, Mas)
+		end
+
+		-- Summons
+		if mon.Special == 3 then -- explode
+			-- scaling because these params directly affect damage
+			scaleParam("SpecialA", maxU1)
+			scaleParam("SpecialB", maxU1)
+			scaleParam("SpecialC", maxU1)
+		elseif mon.Special == 0 then -- don't override existing specials
+			vars.oldMons[Map.Name][mon:GetIndex()].Special 		= mon.Special
+			vars.oldMons[Map.Name][mon:GetIndex()].SpecialA 	= mon.SpecialA
+			vars.oldMons[Map.Name][mon:GetIndex()].SpecialB 	= mon.SpecialB
+		--	vars.oldMons[Map.Name][mon:GetIndex()].SpecialC 	= mon.SpecialC
+			vars.oldMons[Map.Name][mon:GetIndex()].SpecialD 	= mon.SpecialD
+			
+			mon.Special 	= TxtMon.Special
+			mon.SpecialA 	= TxtMon.SpecialA
+			mon.SpecialB 	= TxtMon.SpecialB
+		--	mon.SpecialC 	= TxtMon.SpecialC
+			mon.SpecialD 	= TxtMon.SpecialD
+		end
+		scaleParam("Level", maxU1)
 	end
-
-	mon.ArmorClass = TxtMon.ArmorClass
-	mon.MoveSpeed = TxtMon.MoveSpeed
-
-	-- Attacks
-
-	mon.Attack1.DamageAdd 		= TxtMon.Attack1.DamageAdd
-	mon.Attack1.DamageDiceSides = TxtMon.Attack1.DamageDiceSides
-	mon.Attack1.DamageDiceCount = TxtMon.Attack1.DamageDiceCount
-
-	mon.Attack2.DamageAdd 		= TxtMon.Attack2.DamageAdd
-	mon.Attack2.DamageDiceSides = TxtMon.Attack2.DamageDiceSides
-	mon.Attack2.DamageDiceCount = TxtMon.Attack2.DamageDiceCount
-
-	mon.Attack2Chance 			= TxtMon.Attack2Chance
-	mon.Attack2.Missile 		= TxtMon.Attack2.Missile
-	mon.Attack2.Type 			= TxtMon.Attack2.Type
-
-	-- Spells
-	-- Monsters can not cast paralyze, replace it:
-	mon.Spell = SpellReplace[mon.Spell] or mon.Spell
-	mon.Spell2 = SpellReplace[mon.Spell2] or mon.Spell2
-
-	local NeedSpells = BolStep and MapSettings.Spells and MonSettings.Spells
-	if mon.Spell == 0 and NeedSpells then
-		mon.Spell = GenMonSpell(MonSettings, BolStep, 0)
-		mon.SpellChance		= TxtMon.SpellChance
-		mon.SpellSkill 		= TxtMon.SpellSkill
-	end
-
-	if mon.Spell2 == 0 and NeedSpells then
-		mon.Spell2 = GenMonSpell(MonSettings, BolStep, 1, mon.Spell)
-		mon.Spell2Chance	= TxtMon.Spell2Chance
-		mon.Spell2Skill 	= TxtMon.Spell2Skill
-	end
-
-	-- Summons
-
-	mon.Special 	= TxtMon.Special
-	mon.SpecialA 	= TxtMon.SpecialA
-	mon.SpecialB 	= TxtMon.SpecialB
---	mon.SpecialC 	= TxtMon.SpecialC
-	mon.SpecialD 	= TxtMon.SpecialD
 
 	-- Rewards
-
+	-- bolster monster doesn't touch rewards, so this code effectively removes any custom rewards besides gold (and maybe set item)
+	--[[
 	mon.Experience = TxtMon.Experience
 	mon.TreasureItemPercent = TxtMon.TreasureItemPercent
 	mon.TreasureItemLevel	= TxtMon.TreasureItemLevel
-
-	mon.Level = TxtMon.Level
-
+	]]
+	vars.oldMons[Map.Name][mon:GetIndex()].Experience = mon.Experience
+	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
+	vars.oldMons.Map = Map.Name
 end
 
-local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
+local eventTypes = {"Before", "", "After"}
+for i, v in ipairs(eventTypes) do
+	events[v .. "LoadMap"] = function()
+		if vars.oldMons.Map and vars.oldMons.Map == Map.Name then
+			events.call(v .. "LoadSaveGame")
+		end
+	end
+end
 
+function events.LoadSaveGame()
+	-- FIX FOR ASCENDED BUG
+	-- remove this handler and store HPPart in vars (update: something else needed) to make monsters retain their current HP after loading game!
+	for i, v in Map.Monsters do
+		v.HP = v.FullHP
+	end
+end
+
+local function restoreMonster(index, props)
+	if type(props) == "table" and index >= 0 and index <= Map.Monsters.High then
+		local mon = Map.Monsters[index]
+		for k, v in pairs(props) do
+			if k == "FullHP" then
+				if Game.UseMonsterBolster then
+					mon.HPPart = mon.HP / mon.FullHP
+				end
+				mon.FullHP = v
+				if not Game.UseMonsterBolster then
+					mon.HP = mon.FullHP
+				end
+			else
+				local parts = string.split(k, "%.")
+				for j = 1, #parts - 1 do
+					local part = parts[j]
+					mon = mon[part]
+				end
+				mon[parts[#parts]] = v
+			end
+		end
+	end
+end
+
+local function restore()
+	if Map.Refilled then
+		if vars.oldMons[Map.Name] then
+			vars.oldMons[Map.Name] = nil
+		end
+		return
+	end
+	if not vars.oldMons[Map.Name] then return end
+	for i, v in pairs(vars.oldMons[Map.Name]) do -- no ipairs, because indexes aren't sequential
+		restoreMonster(i, v)
+	end
+	vars.oldMons[Map.Name] = nil
+end
+
+events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
+
+local function processDeadMonsters()
+	if not vars.oldMons[Map.Name] then return end
+	local clear = {}
+	for i, v in pairs(vars.oldMons[Map.Name]) do
+		local mon = Map.Monsters[i]
+		if mon.HP == 0 and mon.AIState == const.AIState.Removed then -- check for removed because player might want to resurrect buffed monster
+			restoreMonster(i, v)
+			table.insert(clear, i)
+		end
+	end
+	for i, v in ipairs(clear) do
+		vars.oldMons[Map.Name][v] = nil
+	end
+end
+
+events.BeforeSaveGame = processDeadMonsters
+events.LeaveMap = processDeadMonsters
+--events.LeaveGame = processDeadMonsters
+
+local function PrepareTxtMon(i, OnlyThis)
+
+	MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+	if MapSettings then
+		PartyLevel = GetOverallPartyLevel() + MapSettings.LevelShift
+	else
+		return
+	end
 	if not Game.UseMonsterBolster or PartyLevel < 0 or MapSettings.Type == 0 then
 		return
 	end
-
-	-- formulas variables
-	local MonsterLevel,TotalEquipCost,HP,BoostedHP,AC,MonsterHeight,MaxDamage,SpellSkill,SpellMastery,BolsterMul,MonsterPower,MonSettings,MoveSpeed
-	--
-
-	local BolStep, MonTable, MonKind
-	local TotalEquipCost = GetOverallItemBonus()
-	local MonsSettings = Game.Bolster.Monsters
-	local BolsterMul = Game.BolsterAmount/100
-	local Formulas = Game.Bolster.Formulas
-
-	local env = {
-		max				= max,
-		min				= min,
-		ceil			= ceil,
-		floor			= floor,
-		sqrt			= sqrt,
-		random			= random
-		}
-
-	local function ProcessFormula(Formula, Default)
-		local f = Formula and assert(loadstring(Formula))
-
-		if type(f) == "function" then
-			env.PartyLevel 		= PartyLevel
-			env.MonsterLevel 	= MonsterLevel
-			env.TotalEquipCost 	= TotalEquipCost
-			env.HP				= HP
-			env.BoostedHP 		= BoostedHP
-			env.AC 				= AC
-			env.MonsterHeight 	= MonsterHeight
-			env.MaxDamage 		= MaxDamage
-			env.SpellSkill		= SpellSkill
-			env.SpellMastery 	= SpellMastery
-			env.BolsterMul 		= BolsterMul
-			env.MonsterPower 	= MonsterPower
-			env.MonSettings 	= MonSettings
-			env.MapSettings 	= MapSettings
-			env.MoveSpeed		= MoveSpeed
-
-			setfenv(f, env)
-			return f()
-		end
-		return Default
-	end
-
-	local function GetMaxDamage(Attack)
-		return Attack.DamageDiceCount*Attack.DamageDiceSides+Attack.DamageAdd
-	end
-
-	local function GetAvgLevel(mi)
-		local mk = ceil(mi/3)
-		local result = 0
-		for p = 0, 2 do
-			result = result + Game.MonstersTxt[mk*3-p].Level + MonsSettings[mk*3-p].LevelShift
-		end
-		return max(ceil(result/3), 3)
-	end
+	
+	TotalEquipCost = GetOverallItemBonus()
+	MonsSettings = Game.Bolster.Monsters
+	BolsterMul = Game.BolsterAmount/100
+	Formulas = Game.Bolster.Formulas
 
 	MonTable = {}
 
@@ -551,26 +744,29 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 		BolStep 		= min(floor(PartyLevel/MonsterLevel), 4)
 
 		local Formula = Formulas[MonKind] or Formulas["def"]
+		local function getFormulaOrDefault(stat)
+			return Formula[stat] or Formulas["def"][stat]
+		end
 
 		MonBolStep[monId] = BolStep
 
 		if MapSettings.Type ~= BolsterTypes.OriginalStats then
 
 			-- Base hitpoints
-			mon.FullHP = min(ProcessFormula(Formula["HP"], mon.FullHP), 30000)
+			mon.FullHP = min(ProcessFormula(getFormulaOrDefault("HP"), mon.FullHP), 30000)
 			BoostedHP  = mon.FullHP
 
 			-- Armor class
-			mon.ArmorClass = ProcessFormula(Formula["AC"], ArmorClass)
+			mon.ArmorClass = ProcessFormula(getFormulaOrDefault("AC"), ArmorClass)
 
 			-- Attacks
 			MaxDamage = GetMaxDamage(mon.Attack1)
-			MaxDamage = ProcessFormula(Formula["MaxDamage"], MaxDamage)
+			MaxDamage = ProcessFormula(getFormulaOrDefault("MaxDamage"), MaxDamage)
 			SetAttackMaxDamage(mon.Attack1, MaxDamage)
 
 			if mon.Attack2Chance > 0 then
 				MaxDamage = GetMaxDamage(mon.Attack2)
-				MaxDamage = ProcessFormula(Formula["MaxDamage"], MaxDamage)
+				MaxDamage = ProcessFormula(getFormulaOrDefault("MaxDamage"), MaxDamage)
 				SetAttackMaxDamage(mon.Attack2, MaxDamage)
 			end
 
@@ -579,15 +775,15 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 			local Skill, Mas
 			if mon.Spell > 0 then
 				SpellSkill, SpellMastery = SplitSkill(mon.SpellSkill)
-				Skill = ProcessFormula(Formula["SpellSkill"], SpellSkill)
-				Mas   = ProcessFormula(Formula["SpellMastery"], SpellMastery)
+				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
 				mon.SpellSkill = JoinSkill(Skill, Mas)
 			end
 
 			if mon.Spell2 > 0 then
 				SpellSkill, SpellMastery = SplitSkill(mon.Spell2Skill)
-				Skill = ProcessFormula(Formula["SpellSkill"], SpellSkill)
-				Mas   = ProcessFormula(Formula["SpellMastery"], SpellMastery)
+				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
 				mon.Spell2Skill = JoinSkill(Skill, Mas)
 			end
 
@@ -596,7 +792,7 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 		-- Move speed
 
 		MoveSpeed = mon.MoveSpeed
-		mon.MoveSpeed = ProcessFormula(Formula["MoveSpeed"], mon.MoveSpeed)
+		mon.MoveSpeed = ProcessFormula(getFormulaOrDefault("MoveSpeed"), mon.MoveSpeed)
 
 		-- Additional attacks
 
@@ -611,15 +807,17 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 
 		-- Additional spells
 
-		if ProcessFormula(Formula["AllowNewSpell"], false) then
+		if ProcessFormula(getFormulaOrDefault("AllowNewSpell"), false) then
 
 			local SkillByMas = {1,4,7,10}
 			local Mas = Style == 3 and 2 or 1
 			local Skill = SkillByMas[Mas]
-
+			
+			local bug = false
+			
 			SpellSkill, SpellMastery = Skill, Mas
-			Skill = ProcessFormula(Formula["SpellSkill"], SpellSkill)
-			Mas   = ProcessFormula(Formula["SpellMastery"], SpellMastery)
+			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+			Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
 
 			if mon.Spell == 0 and (BolStep >= 1 or MonSettings.Style == 3) then
 				mon.SpellSkill = JoinSkill(Skill, Mas)
@@ -630,12 +828,11 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 				mon.Spell2Skill = JoinSkill(Skill, Mas)
 				mon.Spell2Chance = MonSettings.Style == 3 and 35 or 20
 			end
-
 		end
 
 		-- Summons
 
-		if ProcessFormula(Formula["AllowReplicate"], false) then
+		if ProcessFormula(getFormulaOrDefault("AllowReplicate"), false) then
 
 			mon.Special = 4
 			mon.SpecialA = 0
@@ -645,7 +842,7 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 
 		end
 
-		if ProcessFormula(Formula["AllowSummons"], false) then
+		if ProcessFormula(getFormulaOrDefault("AllowSummons"), false) then
 
 			mon.Special = 2
 			mon.SpecialA = mon.MoveType == 5 and 0 or max((1 + BolStep),3) -- If monster always stands still, like Trees in The Tularean forest, he will behave like spawn point.
@@ -661,72 +858,41 @@ local function PrepareTxtMon(i, PartyLevel, MapSettings, OnlyThis)
 
 end
 
--- http://lua-users.org/wiki/CopyTable
-function deepcopy(orig, copies)
-    copies = copies or {}
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        if copies[orig] then
-            copy = copies[orig]
-        else
-            copy = {}
-            copies[orig] = copy
-            for orig_key, orig_value in pairs(orig) do
-                copy[deepcopy(orig_key, copies)] = deepcopy(orig_value, copies)
-            end
-            setmetatable(copy, deepcopy(getmetatable(orig), copies))
-        end
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
-end
-
-function deepCopy(tbl, ignore)
-      if not tbl then return {} end
-      local t = {}
-      for k,v in pairs(tbl) do
-         if type(v) == "table" then
-             t[k] = deepCopy(v, ignore)
-         else
-             if not ignore or (ignore and ignore ~= k) then 
-                t[k] = v
-             end
-        end
-      end
-      return t
-end
+local boostSummons = false -- this will get set to true after performing initial bolster, because I summon monsters
+	-- before that, and we don't want to boost them twice
 
 local function Init()
-	
-	OriginalMonstersTxt = deepcopy(Game.MonstersTxt)
 
 	ProcessBolsterTxt()
 	Game.Bolster.ReloadTxt = ProcessBolsterTxt
 	local StdSummonMonster = SummonMonster
 
 	function SummonMonster(Id, ...)
-
+		-- TODO: monsters summoned after initial bolster will not have their stats restored to normal after map exit or savegame reload
+		-- also allow callback here (for example to edit monsters stats in Wromthrax Cave Quest)
 		local mon, i = StdSummonMonster(Id, ...)
 		if not mon then
 			return
 		end
 
 		if not (Editor and Editor.WorkMode) then
-
-			local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
-			if MapSettings then
-				local PartyLevel = GetOverallPartyLevel() + MapSettings.LevelShift
-				if not ReadyMons[Id] then
-					PrepareTxtMon(Id, PartyLevel, MapSettings)
+			if boostSummons then
+				local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+				if MapSettings then
+					if not ReadyMons[Id] then -- only boost when monster wasn't prepared before
+						-- (otherwise you'd summon with boosted stats from Game.MonstersTxt and then boost again!)
+						PrepareTxtMon(Id)
+						PrepareMapMon(mon)
+					end
 				end
-				PrepareMapMon(mon, MapSettings)
 			end
-
 		end
 
 		return mon, i
+	end
+	
+	function events.BeforeLoadMap()
+		boostSummons = false
 	end
 
 	-- Set monster kind check
@@ -748,7 +914,7 @@ local function Init()
 
 				for i = d.esi, d.esi+2 do
 					if not ReadyMons[i] then
-						PrepareTxtMon(i, PartyLevel, MapSettings)
+						PrepareTxtMon(i)
 					end
 				end
 			end
@@ -813,7 +979,7 @@ local function Init()
 		t.MonId = MonId
 
 		if Game.UseMonsterBolster and ArenaMapSettings and not ReadyMons[MonId] then
-			PrepareTxtMon(MonId, ArenaPartyLevel, ArenaMapSettings, true)
+			PrepareTxtMon(MonId, true)
 		end
 	end
 
@@ -893,36 +1059,72 @@ local function BolsterMonsters()
 		end
 	end
 
-	PrepareTxtMon(t, PartyLevel, MapSettings, false)
+	--[[for i, v in Game.MonstersTxt do
+		local meta = getmetatable(v)
+		local newindex = meta.__newindex
+		function meta.__newindex(t, k, v)
+			if k == "Spell2Skill" and v == 0 then
+				debug.Message(t:GetIndex(), debug.traceback())
+			end
+			newindex(t, k, v)
+		end
+	end ]]
+	PrepareTxtMon(t, false)
 
 	for i,v in Map.Monsters do
 		if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
-			PrepareMapMon(v, MapSettings)
+			PrepareMapMon(v)
 		end
 	end
-
+	boostSummons = true
 end
-Game.BolsterMonsters = BolsterMonsters
+Game.BolsterMonsters = function()
+	restore()
+	BolsterMonsters()
+end
 
-local function deepcopy(orig)
-    local orig_type = type(orig)
-    local copy
-    if orig_type == 'table' then
-        copy = {}
-		local meta = getmetatable(orig)
-		if meta and meta.__call and type(meta.__call) == "function" then
-			for orig_key, orig_value in orig do
-				copy[deepcopy(orig_key)] = deepcopy(orig_value)
-			end
-		else
-			for orig_key, orig_value in pairs(orig) do
-				copy[deepcopy(orig_key)] = deepcopy(orig_value)
+function cp(t)
+	local copy = {}
+	if type(t) == "table" then
+		local meta = getmetatable(t)
+		local function copyRow(k, v)
+			if type(v) == "table" then
+				local meta = getmetatable(v)
+				copy[k] = {}
+				if meta and meta.members then
+					for k2, v2 in structs.enum(v) do
+						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
+					end
+				elseif meta and meta.__call and type(meta.__call) == "function" then
+					for k2, v2 in v do
+						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
+					end
+				else
+					for k2, v2 in pairs(v) do
+						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
+					end
+				end
+			else
+				copy[k] = v
 			end
 		end
-    else -- number, string, boolean, etc
-        copy = orig
-    end
-    return copy
+		if meta and meta.members then
+			for k2, v2 in structs.enum(t) do
+				copy[k2] = (type(v2) == "table" and cp(v2) or v2)
+			end
+		elseif meta and meta.__call and type(meta.__call) == "function" then
+			for k, v in t do
+				copyRow(k, v)
+			end
+		else
+			for k, v in pairs(t) do
+				copyRow(k, v)
+			end
+		end
+		return copy
+	else
+		return t
+	end
 end
 
 function events.AfterLoadMap()
@@ -930,15 +1132,45 @@ function events.AfterLoadMap()
 		return
 	end
 	
-	OriginalMonstersTxt = deepcopy(Game.MonstersTxt)
+	OriginalMonstersTxt = cp(Game.MonstersTxt)
 	
 	LocalMonstersTxt()
 	ReadyMons	= {}
 	MonBolStep	= {}
 
-	--BolsterMonsters()
+	BolsterMonsters()
 end
 
 function events.GameInitialized2()
 	Init()
 end
+
+--[[
+for k, v in Map.Monsters do
+	if v.Spell ~= 0 or v.Spell2 ~= 0 then
+		print(k, v.Id)
+		local orig = OriginalMonstersTxt[v.Id]
+		local inv = table.invert(const.Spells)
+		if v.Spell ~= 0 then
+			local name = inv[v.Spell]
+			local os, om = SplitSkill(orig.SpellSkill)
+			os = os or 0
+			om = om or 0
+			local bs, bm = SplitSkill(v.SpellSkill)
+			bs = bs or 0
+			bm = bm or 0
+			print(string.format("%s, Original: JoinSkill(%d, %d), Bolstered: JoinSkill(%d, %d)", name, os, om, bs, bm))
+		end
+		if v.Spell2 ~= 0 then
+			local name = inv[v.Spell2]
+			local os, om = SplitSkill(orig.Spell2Skill)
+			os = os or 0
+			om = om or 0
+			local bs, bm = SplitSkill(v.Spell2Skill)
+			bs = bs or 0
+			bm = bm or 0
+			print(string.format("%s, Original: JoinSkill(%d, %d), Bolstered: JoinSkill(%d, %d)", name, os, om, bs, bm))
+		end
+	end
+end
+]]

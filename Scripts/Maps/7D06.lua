@@ -21,6 +21,7 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+
 -- ERROR: Duplicate label: 10:3
 -- ERROR: Duplicate label: 10:5
 
@@ -86,10 +87,9 @@ events.LoadMap = evt.map[5].last
 evt.hint[10] = evt.str[15]  -- "Antonio’s Venetian Tea"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 842} then         -- 1-time EI temple
-		evt.Set{"QBits", Value = 842}         -- 1-time EI temple
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 842) then         -- 1-time EI temple
+		evt.Set("QBits", 842)         -- 1-time EI temple
 		giveFreeSkill(const.Skills.Merchant, 6, const.Expert)
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
@@ -97,9 +97,8 @@ end
 
 Game.MapEvtLines:RemoveEvent(16)
 evt.map[16] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 842} then         -- 1-time EI temple
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 842) then         -- 1-time EI temple
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
 end
@@ -109,183 +108,183 @@ events.LoadMap = evt.map[16].last
 evt.hint[21] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(21)
 evt.map[21] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[22] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(22)
 evt.map[22] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[23] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(23)
 evt.map[23] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[24] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(24)
 evt.map[24] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[25] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(25)
 evt.map[25] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[26] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(26)
 evt.map[26] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[27] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(27)
 evt.map[27] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[28] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(28)
 evt.map[28] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[29] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(29)
 evt.map[29] = function()
-	if not evt.Cmp{"MapVar0", Value = 1} then
-		evt.Set{"MapVar0", Value = 1}
-		evt.Add{"Inventory", Value = 1202}         -- "Torch Light"
+	if not evt.Cmp("MapVar0", 1) then
+		evt.Set("MapVar0", 1)
+		evt.Add("Inventory", 1202)         -- "Torch Light"
 	end
 end
 
 evt.hint[30] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(30)
 evt.map[30] = function()
-	if not evt.Cmp{"MapVar1", Value = 1} then
-		evt.Set{"MapVar1", Value = 1}
-		evt.Add{"Inventory", Value = 1224}         -- "Awaken"
+	if not evt.Cmp("MapVar1", 1) then
+		evt.Set("MapVar1", 1)
+		evt.Add("Inventory", 1224)         -- "Awaken"
 	end
 end
 
 evt.hint[31] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(31)
 evt.map[31] = function()
-	if not evt.Cmp{"MapVar2", Value = 1} then
-		evt.Set{"MapVar2", Value = 1}
-		evt.Add{"Inventory", Value = 1104}         -- "Fire Resistance"
+	if not evt.Cmp("MapVar2", 1) then
+		evt.Set("MapVar2", 1)
+		evt.Add("Inventory", 1104)         -- "Fire Resistance"
 	end
 end
 
 evt.hint[32] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(32)
 evt.map[32] = function()
-	if not evt.Cmp{"MapVar3", Value = 1} then
-		evt.Set{"MapVar3", Value = 1}
-		evt.Add{"Inventory", Value = 1113}         -- "Wizard Eye"
+	if not evt.Cmp("MapVar3", 1) then
+		evt.Set("MapVar3", 1)
+		evt.Add("Inventory", 1113)         -- "Wizard Eye"
 	end
 end
 
 evt.hint[33] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(33)
 evt.map[33] = function()
-	if not evt.Cmp{"MapVar4", Value = 1} then
-		evt.Set{"MapVar4", Value = 1}
-		evt.Add{"Inventory", Value = 1103}         -- "Fire Bolt"
+	if not evt.Cmp("MapVar4", 1) then
+		evt.Set("MapVar4", 1)
+		evt.Add("Inventory", 1103)         -- "Fire Bolt"
 	end
 end
 
 evt.hint[34] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(34)
 evt.map[34] = function()
-	if not evt.Cmp{"MapVar5", Value = 1} then
-		evt.Set{"MapVar5", Value = 1}
-		evt.Add{"Inventory", Value = 1125}         -- "Poison Spray"
+	if not evt.Cmp("MapVar5", 1) then
+		evt.Set("MapVar5", 1)
+		evt.Add("Inventory", 1125)         -- "Poison Spray"
 	end
 end
 
 evt.hint[35] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()
-	if not evt.Cmp{"MapVar6", Value = 1} then
-		evt.Set{"MapVar6", Value = 1}
-		evt.Add{"Inventory", Value = 1102}         -- "Torch Light"
+	if not evt.Cmp("MapVar6", 1) then
+		evt.Set("MapVar6", 1)
+		evt.Add("Inventory", 1102)         -- "Torch Light"
 	end
 end
 
 evt.hint[36] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(36)
 evt.map[36] = function()
-	if not evt.Cmp{"MapVar7", Value = 1} then
-		evt.Set{"MapVar7", Value = 1}
-		evt.Add{"Inventory", Value = 1102}         -- "Torch Light"
+	if not evt.Cmp("MapVar7", 1) then
+		evt.Set("MapVar7", 1)
+		evt.Add("Inventory", 1102)         -- "Torch Light"
 	end
 end
 
 evt.hint[37] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
-	if not evt.Cmp{"MapVar8", Value = 1} then
-		evt.Set{"MapVar8", Value = 1}
-		evt.Add{"Inventory", Value = 1102}         -- "Torch Light"
+	if not evt.Cmp("MapVar8", 1) then
+		evt.Set("MapVar8", 1)
+		evt.Add("Inventory", 1102)         -- "Torch Light"
 	end
 end
 
 evt.hint[38] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(38)
 evt.map[38] = function()
-	if not evt.Cmp{"MapVar9", Value = 1} then
-		evt.Set{"MapVar9", Value = 1}
-		evt.Add{"Inventory", Value = 1102}         -- "Torch Light"
+	if not evt.Cmp("MapVar9", 1) then
+		evt.Set("MapVar9", 1)
+		evt.Add("Inventory", 1102)         -- "Torch Light"
 	end
 end
 
 evt.hint[39] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(39)
 evt.map[39] = function()
-	if not evt.Cmp{"MapVar10", Value = 1} then
-		evt.Set{"MapVar10", Value = 1}
-		evt.Add{"Inventory", Value = 1102}         -- "Torch Light"
+	if not evt.Cmp("MapVar10", 1) then
+		evt.Set("MapVar10", 1)
+		evt.Add("Inventory", 1102)         -- "Torch Light"
 	end
 end
 
 evt.hint[40] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(40)
 evt.map[40] = function()
-	if not evt.Cmp{"MapVar11", Value = 1} then
-		evt.Set{"MapVar11", Value = 1}
-		evt.Add{"Inventory", Value = 1113}         -- "Wizard Eye"
+	if not evt.Cmp("MapVar11", 1) then
+		evt.Set("MapVar11", 1)
+		evt.Add("Inventory", 1113)         -- "Wizard Eye"
 	end
 end
 
 evt.hint[41] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(41)
 evt.map[41] = function()
-	if not evt.Cmp{"MapVar12", Value = 1} then
-		evt.Set{"MapVar12", Value = 1}
-		evt.Add{"Inventory", Value = 1113}         -- "Wizard Eye"
+	if not evt.Cmp("MapVar12", 1) then
+		evt.Set("MapVar12", 1)
+		evt.Add("Inventory", 1113)         -- "Wizard Eye"
 	end
 end
 
 evt.hint[42] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(42)
 evt.map[42] = function()
-	if not evt.Cmp{"MapVar13", Value = 1} then
-		evt.Set{"MapVar13", Value = 1}
-		evt.Add{"Inventory", Value = 1113}         -- "Wizard Eye"
+	if not evt.Cmp("MapVar13", 1) then
+		evt.Set("MapVar13", 1)
+		evt.Add("Inventory", 1113)         -- "Wizard Eye"
 	end
 end
 
 evt.hint[43] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(43)
 evt.map[43] = function()
-	if not evt.Cmp{"MapVar14", Value = 1} then
-		evt.Set{"MapVar14", Value = 1}
-		evt.Add{"Inventory", Value = 1113}         -- "Wizard Eye"
+	if not evt.Cmp("MapVar14", 1) then
+		evt.Set("MapVar14", 1)
+		evt.Add("Inventory", 1113)         -- "Wizard Eye"
 	end
 end
 

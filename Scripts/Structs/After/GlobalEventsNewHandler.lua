@@ -440,10 +440,10 @@ local function Cauldron(Eid)
 			elseif Var == 6 then
 				addDarkRes(pl, 10)
 			end
-			evt[math.max(Game.CurrentPlayer, 0)].Add("Experience", 0)
 			evt.hint[Eid] = Game.NPCTopic[CauldronEvents[0]]
 			mapvars.ActiveSprites[SpriteId] = true
 		end
+		evt[math.max(Game.CurrentPlayer, 0)].Add("Experience", 0)
 	end
 end
 

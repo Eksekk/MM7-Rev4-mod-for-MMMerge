@@ -10,7 +10,115 @@ if MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
 	end
 end
 
--- TODO: test all my asm additions
+--[[ TODO
+1. Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
+2. BDJ quest
+3. Tularean Caves quest
+4. AdaptiveMonstersStats: test changes with dynamically summoned boss (boosted stats) who casts spells as well,
+   things mentioned in overridden monster summon function (fix Wromthrax Cave Quest as well)
+5. Bosses
+6. Extra spawns in dungeons
+7. Changed main questline?
+8. Restore trumpet quest
+9. Castle Navan quest (and make treasury door open after getting/completing light knight promo)
+10. School of Sorcery and Breeding Pit quests
+11. Fill in mana/health regen items for MS.Rev4ForMergeManaHealthRegenStacking
+12. Make balance changes like of the Gods, of the Doom, leather more resistances optional
+13. Boost loot in the Gauntlet?
+14. Nerf Day of the Gods if boosted statistic breakpoints are active
+15. Fort Riverstride delete plans item
+16. Difficulty: max npcs hired at the same time
+17. Day of Protection giving a bit of dark/light resistance
+18. Dispel immunity enchantment (note: more item classes have spcitems than stditems)
+19. Add more spells to randomGiveSpell function
+20. Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
+21. make fire aura always work with permanent enchantments (elemental mod)
+22. Boost weapon boosting potions
+23. Character creation screen enhancements
+24. Additional topics in service houses + USE THEM
+25. USE NEUTONM'S NEW DUNGEON
+26. Use asm hook for spell resistance penetration (and check if day of the gods works and if yes then
+    take it into account), show resistances in green/normal/red depending on value after all changes
+27. Boost some of statistics' effects (if boosted breakpoints active, then less)
+28. Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
+29. Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
+
+
+
+IF I WANNA REALLY CHALLENGE MYSELF:
+###. New spells (additional weapon enhancements).
+]]
+
+local addTextFunctions = {}
+
+local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor/RGB
+local strDefaultColor = "\f00000"
+
+local extraAttributesText = CustomUI.CreateText{
+	Text = "Extra attributes:",
+	X =	110,
+	Y =	33,
+	--Width = 300,
+	Screen = const.Screens.Inventory,
+	Active = true,
+	Condition = function(t)
+		return Game.CurrentCharScreen == const.CharScreens.Stats
+	end
+}
+
+local extraDataText = CustomUI.CreateText{
+	Text = "",
+	X = 110,
+	Y = 100,
+	Width = 300,
+	Screen = const.Screens.Inventory,
+	Active = false,
+	Condition = function(t)
+		--[[if Keys.IsPressed(const.Keys.LBUTTON) or os.time() > t.Timeout then
+			CustomUI.RemoveElement(t)
+		else]]
+		if Game.CurrentCharScreen ~= const.CharScreens.Stats then return false end
+		CustomUI.ShowTooltip(t.Text, t.X, t.Y, t.Wt)
+		--end
+		return false
+	end
+}
+
+local btnExtraData = CustomUI.CreateButton{
+	IconUp = "TglXDataU",
+	IconDown = "TglXDataD",
+	Screen = const.Screens.Inventory,
+	Layer = 1,
+	DynLoad = true,
+	X =	275,
+	Y =	33,
+	--Masked = true,
+	Condition = function(t)
+		local show = Game.CurrentCharScreen == const.CharScreens.Stats
+		if show and Game.CurrentPlayer >= 0 then
+			local pl = Party[Game.CurrentPlayer]
+			local text = ""
+			for i, v in ipairs(addTextFunctions) do
+				text = text .. v(pl) .. (i ~= #addTextFunctions and "\n\n" or "")
+			end
+			extraDataText.Text = text
+		else
+			extraDataText.Active = false
+		end
+		return show
+	end,
+	Action = function()
+		extraDataText.Active = not extraDataText.Active
+	end,
+}
+	
+function events.AfterLoadMap()
+	if #addTextFunctions == 0 then
+		extraAttributesText.Active = false
+		extraDataText.Active = false
+		btnExtraData.Active = false
+	end
+end
 
 -- made thanks to Tomsod's Elemental Mod sources
 
@@ -40,6 +148,20 @@ end)
 -- Celeste location near Walls of the Mist door can be used for another dungeon entrance (explained with "it's a portal")
 
 -- spell resistance penetration! My dream idea is coming true :)
+
+function getItemBonusSum(pl, bonus, customItems)
+	local val = 0
+	for item, slot in pl:EnumActiveItems(false) do
+		if item.Bonus == bonus then
+			val = val + item.BonusStrength
+		end
+		if customItems and customItems[item.Number] then
+			val = val + customItems[item.Number]
+		end
+	end
+	return val
+end
+
 local chanceSumDataStart
 mem.autohook2(0x4547A8, function(d)
 	chanceSumDataStart = d.esi
@@ -50,6 +172,24 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	mem.autohook2(0x4546EC, function(d)
 		stdItemsDataStart = d.eax
 	end)]]
+	
+	table.insert(addTextFunctions, function(pl)
+		local template = [[Spell resistance penetration
+Fire      %d
+Air      %d
+Water      %d
+Earth      %d
+Spirit      %d
+Mind      %d
+Body      %d
+Light      %d
+Dark      %d]]
+		local t = {}
+		for bonus = 60, 68 do
+			table.insert(t, getItemBonusSum(pl, bonus))
+		end
+		return string.format(template, unpack(t))
+	end)
 	-- allow res pen items to generate
 	function events.GameInitialized2()
 		-- local entrySize = 4 + 4 + 9 * 1
@@ -159,7 +299,7 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 		local pl = Party.CurrentPlayer
 		-- move resistance values a little to the left (default is 070)
 		moveLeft(20)
-		if pl < 0 then return end -- skip if no player selected
+		if pl < 0 then i = i + 1; return end -- skip if no player selected
 		local damageType = resOrder[i]
 		if i == 10 then
 			i = 1
@@ -198,7 +338,62 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 		mem.copy(monsterRightclickDataBuf + pos - 1, add)
 		i = i + 1
 	end)
+	
+	-- move resistances to the left if you don't have skill
+	mem.autohook(0x41E8F5, function(d)
+		moveLeft(20)
+		if i == 10 then
+			i = 1
+			-- shorten "Physical" to "Phys" to get more space
+			local str = mem.string(monsterRightclickDataBuf)
+			-- Physical
+			-- 12345678
+			str = str:sub(1, 4) .. str:sub(9, str:len()) .. string.char(0)
+			mem.copy(monsterRightclickDataBuf, str)
+			return
+		end
+		i = i + 1
+	end)
 end
+
+-- show level in monster right click info (requires novice ID monster)
+mem.autohook(0x41E3A3, function(d)
+	local monsterData = mem.u4[d.ebp - 0x10]
+	local level = mem.u1[monsterData + 0x34]
+	local str = "Level\f00000\t046" .. level
+	
+	-- writeTextInTooltip, fastcall, args: ?, tooltip, x, y, ?, text, ?, ?, ?
+	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 86, 0xC4, mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+end)
+
+-- if you don't have required skill
+mem.autohook(0x41E40C, function(d)
+	local str = "Level\f00000\t046?"
+	
+	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 86, 0xC4, mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+end)
+
+-- show bonus in monster right click info (requires master ID monster)
+local shift = tostring(MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
+shift = string.rep("0", 3 - shift:len()) .. shift
+local invBonus = table.invert(const.MonsterBonus)
+mem.autohook(0x41E62D, function(d)
+	local monsterData = mem.u4[d.ebp - 0x10]
+	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
+	local bonus, mul = mem.u1[monsterData + 0x3F], mem.u1[monsterData + 0x40]
+	local str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
+	
+	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+end)
+
+-- if you don't have required skill
+mem.autohook(0x41E70C, function(d)
+	local monsterData = mem.u4[d.ebp - 0x10]
+	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
+	local str = "Bonus\f00000\t" .. shift .. "?"
+	
+	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+end)
 
 -- always show full info if you have required skill, no matter the id monster mastery
 -- identify monster gives ability to do critical hits
@@ -233,13 +428,19 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		cmp eax,ecx
 		jb @dontshow
 		@show:
-		mov dword [ss:ebp-0x1C],1
-		mov dword [ss:ebp-0x24],1
-		mov dword [ss:ebp-0x14],1
-		mov dword [ss:ebp-0x34],1
+		xor eax, eax
+		inc eax
+		mov dword [ss:ebp-0x1C],eax ; novice info
+		mov dword [ss:ebp-0x24],eax ; expert info
+		mov dword [ss:ebp-0x14],eax ; master info
+		mov dword [ss:ebp-0x34],eax ; GM info
+		mov dword [ss:ebp-0x28],eax ; spell effects (in vanilla shows if anyone in party has master ID monster or higher)
 		@dontshow: 
 		jmp absolute 0x41E0EF
-	]])
+	]], 0x70)
+	
+	-- skip small chunk of code taken care of by our hook function
+	mem.asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
 	
 	local critAttackMsg = "%s critically hits %s for %lu damage!" .. string.char(0)
 	local critShootMsg = "%s critically shoots %s for %lu points!" .. string.char(0)
@@ -366,16 +567,6 @@ end
 
 -- dark/light resistances!
 
-function getItemBonusSum(pl, bonus)
-	local val = 0
-	for item, slot in pl:EnumActiveItems(false) do
-		if item.Bonus == bonus then
-			val = val + item.BonusStrength
-		end
-	end
-	return val
-end
-
 function getLightRes(pl, temp)
 	return mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)] + (not temp and getItemBonusSum(pl, 69) or 0) + (temp and getLightRes(pl, false) or 0)
 end
@@ -471,68 +662,13 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	
 	-- add way to check new resistances
 	
-	local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor/RGB
-	local strDefaultColor = "\f00000"
-	
-	local template = "Light resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
-	local extraDataText = CustomUI.CreateText{
-		Text = "Extra attributes:",
-		X =	110,
-		Y =	33,
-		--Width = 300,
-		Screen = const.Screens.Inventory,
-		Active = true,
-		Condition = function(t)
-			return Game.CurrentCharScreen == const.CharScreens.Stats
-		end}
-	
-	local resText = CustomUI.CreateText{
-		Text = string.format(template, "", 0, "", 0, "", 0, "", 0),
-		X = 110,
-		Y = 100,
-		Width = 300,
-		Screen = const.Screens.Inventory,
-		Active = false,
-		Condition = function(t)
-			--[[if Keys.IsPressed(const.Keys.LBUTTON) or os.time() > t.Timeout then
-				CustomUI.RemoveElement(t)
-			else]]
-			if Game.CurrentCharScreen ~= const.CharScreens.Stats then return false end
-			CustomUI.ShowTooltip(t.Text, t.X, t.Y, t.Wt)
-			--end
-			return false
-		end}
-	
-	local btnCheckRes = CustomUI.CreateButton{
-			IconUp = "TglXDataU",
-			IconDown = "TglXDataD",
-			Screen = const.Screens.Inventory,
-			Layer = 1,
-			DynLoad = true,
-			X =	275,
-			Y =	33,
-			--Masked = true,
-			Condition = function(t)
-				local show = Game.CurrentCharScreen == const.CharScreens.Stats
-				if show and Game.CurrentPlayer >= 0 then
-					local pl = Party[Game.CurrentPlayer]
-					local tempL, permL, tempD, permD = getLightRes(pl, true), getLightRes(pl, false), getDarkRes(pl, true), getDarkRes(pl, false)
-					local aboveBaseL, aboveBaseD = tempL > permL, tempD > permD
-					resText.Text = string.format(template, aboveBaseL and strGreen or "", tempL, aboveBaseL and strDefaultColor or "", permL,
-												 aboveBaseD and strGreen or "", tempD, aboveBaseD and strDefaultColor or "", permD)
-				else
-					resText.Active = false
-				end
-				return show
-			end,
-			Action = function()
-				resText.Active = not resText.Active
-			end,
-			--MouseOverAction = function() ShowSlotSpellName(i) end
-		}
-	
-	
-	-- elemental totems and cleric totems
+	table.insert(addTextFunctions, function(pl)
+		local template = "Extra resistances\nLight resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
+		local tempL, permL, tempD, permD = getLightRes(pl, true), getLightRes(pl, false), getDarkRes(pl, true), getDarkRes(pl, false)
+		local aboveBaseL, aboveBaseD = tempL > permL, tempD > permD
+		return string.format(template, aboveBaseL and strGreen or "", tempL, aboveBaseL and strDefaultColor or "", permL,
+									 aboveBaseD and strGreen or "", tempD, aboveBaseD and strDefaultColor or "", permD)
+	end)
 else
 	-- Merge (Revamp?) default is to have fields in structs.Player for dark/light resists,
 	-- but there's nothing in the game that raises them, so because I modify them in save game,
@@ -552,9 +688,9 @@ end
 
 -- buff single-element resistance spells (10 fixed + 2/3/4/5 per skill point)
 -- yes I could do it via lua event, but I chose to carve through the harder way
-mem.nop2(0x427447, 0x42746D)
+--[=[mem.nop2(0x427447, 0x42746D)
 mem.asmpatch(0x427447, [[
-mov dword [ss:ebp-10], edx
+mov dword [ss:ebp-0x10], edx
 dec eax
 jz @normal
 dec eax
@@ -575,7 +711,25 @@ jmp @end
 lea edi, [edi*4 + 0xA]
 @end:
 mov [ss:ebp-0x4], edi
-]], 0x26)
+]], 0x26)]=]
+
+local resistanceSpells = {3, 14, 25, 36, 58, 69}
+
+function events.PlayerSpellVar(t)
+	if table.find(resistanceSpells, t.Spell) then
+		t.Value = t.Value + 1
+	end
+end
+
+-- SpellsExtra provides only skill multiplier, and I want to increase it by 10 always
+local incRes = mem.asmproc([[
+	add dword [ss:ebp - 0x4], 0xA
+	cmp ecx, 3
+	je absolute 0x4274B8
+	jmp absolute 0x427472
+]])
+
+mem.asmpatch(0x42746D, "jmp absolute " .. incRes)
 
 -- remove multilooting "bug"
 if MS.Rev4ForMergeRemoveMultilooting == 1 then
@@ -587,6 +741,7 @@ const.Difficulty =
 {
 	Easy = 0,
 	Medium = 1,
+	Normal = 1,
 	Hard = 2
 }
 
@@ -594,6 +749,7 @@ modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
 difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
 isEasy = function() return difficulty == const.Difficulty.Easy end
 isMedium = function() return difficulty == const.Difficulty.Medium end
+isNormal = isMedium
 isHard = function() return difficulty == const.Difficulty.Hard end
 
 function diffsel(...)
@@ -630,19 +786,24 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 		t.exactZ, t.ExactZ = exactZ, exactZ
 	end
 	t.count = t.count or "1-3"
-	assert(type(t.count) == "string")
 	t.powerChances = t.powerChances or {34, 33, 33}
 	t.radius = t.radius or 64
 	assert(t.monster and t.x and t.y and t.z and true or nil)
 	local class = (t.monster + 2):div(3)
 	
-	local min, max = getRange(t.count)
-	local toCreate = random(min, max)
+	local toCreate
+	if type(t.count) == "string" then
+		local min, max = getRange(t.count)
+		toCreate = random(min, max)
+	else
+		toCreate = t.count
+	end
 	
 	local summoned = {}
 	for i = 1, toCreate do
 		
 		local x, y, z
+		local spawnAttempts = 0
 		while true do
 			-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
 			local angle = random() * math.pi * 2
@@ -652,6 +813,10 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 			z = not t.exactZ and Map.IsOutdoor() and Map.GetGroundLevel(x, y) or t.z
 			if Map.IsOutdoor() or Map.RoomFromPoint(x, y, z) > 0 then -- room from point check makes sure that monsters won't generate in a wall
 				break
+			end
+			spawnAttempts = spawnAttempts + 1
+			if spawnAttempts >= 10 then
+				error("Couldn't spawn monster: " .. dump(t), 2)
 			end
 		end
 		
@@ -705,6 +870,7 @@ function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 	local items, objects = {}, {}
 	for i = 1, toCreate do
 		local x, y, z
+		local spawnAttempts = 0
 		while true do
 			-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
 			local angle = random() * math.pi * 2
@@ -715,6 +881,10 @@ function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 			z = Map.IsOutdoor() and Map.GetGroundLevel(x, y) or t.z
 			if Map.IsOutdoor() or Map.RoomFromPoint(x, y, z) > 0 then
 				break
+			end
+			spawnAttempts = spawnAttempts + 1
+			if spawnAttempts >= 10 then
+				error("Couldn't spawn item: " .. dump(t), 2)
 			end
 		end
 		SummonItem(t.item or 1, x, y, z, nil)
@@ -740,6 +910,78 @@ end
 
 psp = pseudoSpawnpointPrint
 psip = pseudoSpawnpointItemPrint
+
+function boostResistances(mon, amount)
+	for i, v in ipairs({const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth, const.Damage.Spirit, const.Damage.Mind,
+		const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}) do
+		mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
+	end
+end
+
+local spells =
+{
+	{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
+	{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
+	{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
+	{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
+	{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
+	{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
+	{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
+	{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
+	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
+}
+
+function randomGiveSpell(mon)
+	local roll = math.random(0, 2)
+	if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
+		return
+	end
+	local i = math.random(1, #spells)
+	local firstSpell = spells[i]
+	local addedFirst = false
+	if not mon.Spell then
+		mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+		addedFirst = true
+	end
+	if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
+		return
+	end
+	if not addedFirst then
+		local j
+		repeat
+			j = math.random(1, #spells)
+		until mon.Spell ~= spells[j].Spell
+		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+		return
+	end
+	local j
+	repeat
+		j = math.random(1, #spells)
+	until firstSpell.Spell ~= spells[j].Spell
+	local secondSpell = spells[j]
+	mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
+end
+
+function randomGiveElementalAttack(mon)
+	local a1, a2 = mon.Attack1, mon.Attack2
+	if a1 then
+		if a2 then
+			return
+		end
+		a2.Type = math.random(0, 7)
+		if a2.Type > 3 then
+			a2.Type = math.random(9, 10)
+		end
+		a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
+		mon.Attack2Chance = 50
+		return
+	end
+	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
+end
+
+function randomBoostResists(mon)
+	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
+end
 
 -- BUGFIX BY CTHSCR: shield spell halves projectile damage now (was bugged to not do this)
 mem.asmpatch(0x43800A, [[
@@ -834,14 +1076,17 @@ function changeChestItem(chest, index, item)
 	local chestItem = Map.Chests[chest].Items[index]
 	if type(item) == "number" then
 		chestItem.Number = item
+		return true
 	elseif type(item) == "table" and not item.level then
 		for k, v in pairs(item) do
 			chestItem[k] = v
 		end
+		return true
 	elseif type(item) == "table" and item.level then
 		chestItem:Randomize(item.level, item.type or const.ItemType.Any)
+		return true
 	end
-	return true
+	return false
 end
 
 function addChestItem(chest, item)
@@ -865,4 +1110,18 @@ function removeChestItem(chest, index)
 		item[v] = false
 	end
 	return true
+end
+
+function printBitValues(combined, bitDesc)
+	local t = {}
+	local bitDescriptions = bitDesc
+	if type(next(bitDesc)) ~= "number" then
+		bitDescriptions = table.invert(bitDesc)
+	end
+	for i, v in sortpairs(bitDescriptions) do
+		if bit.band(combined, i) ~= 0 then
+			table.insert(t, string.format("[0x%X] = %s", i, v))
+		end
+	end
+	print(table.concat(t, "\r\n"))
 end

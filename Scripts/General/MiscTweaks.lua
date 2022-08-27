@@ -1,5 +1,6 @@
 
-	local asmpatch = mem.asmpatch
+	local MO = Merge.Offsets
+	local asmpatch, asmproc = mem.asmpatch, mem.asmproc
 	--0x4608c0
 	local NewCode
 
@@ -96,9 +97,6 @@
 	mem.asmpatch(0x4af257, "push 0x7f")
 	-- Increase offset for MaxZ
 	mem.asmpatch(0x4af2ae, "add edi, 0x7f")
-
-	-- make "spirit lash" work correctly and damage few party members
-	mem.asmpatch(0x40548d, "jle 0x40546f - 0x40548d")
 
 	-- Fix monsters flickering in indoor maps.
 	function events.LoadMap()
@@ -599,7 +597,7 @@
 			end
 		end
 	end
-	
+
 	--[[ REV4 FOR MERGE ADDITION ]]--
 	const.Difficulty =
 	{
@@ -664,13 +662,25 @@
 	local statSP = const.Stats.SP
 	function events.CalcStatBonusBySkills(t)
 		if t.Stat == statSP and gameSPStats[t.Player.Class] == 0 then
-			local Skill, Mas = SplitSkill(t.Player.Skills[const.Skills.Meditation])
+			local Skill, Mas = SplitSkill(t.Player:GetSkill(const.Skills.Meditation))
 			t.Result = Skill * Mas
 		end
 	end
+	--   Add SP bonus from items if character without SP factor has Meditation
+	NewCode = asmproc([[
+	mov ecx, edi
+	mov edx, 28
+	call absolute ]] .. MO.GetPlayerSkillMastery .. [[;
+	test eax, eax
+	jz absolute 0x48DA98
+	push 0
+	push 8
+	mov ecx, edi
+	jmp absolute 0x48DA80
+	]])
 
 	mem.IgnoreProtection(true)
-	mem.u4[0x48da9d] = 0x48da87
+	mem.u4[0x48da9d] = NewCode
 	mem.IgnoreProtection(false)
 
 	-- Correct learn skills in temples and taverns

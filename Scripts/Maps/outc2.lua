@@ -1,7 +1,9 @@
 -- Free Haven
+local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	Party.QBits[180] = true -- Town portal
+	Party.QBits[311] = true	-- TP Buff Free Haven
 	Party.QBits[958] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
@@ -73,7 +75,9 @@ evt.map[50] = RevealSilverTongue
 ----------------------------------------
 -- Dragon tower
 
-if not Party.QBits[1180] then
+--[[
+Game.MapEvtLines:RemoveEvent(209)
+if not Party.QBits[1183] then
 
 	local function DragonTower()
 		StdQuestsFunctions.DragonTower(3823, 10974, 2700, 1183)
@@ -85,18 +89,19 @@ if not Party.QBits[1180] then
 	end
 
 end
+]]
 
 Game.MapEvtLines:RemoveEvent(210)
 evt.map[210] = function()
 	if not Party.QBits[1183] and evt.ForPlayer("All").Cmp{"Inventory", 2106} then
 		evt.Set{"QBits", 1183}
-		StdQuestsFunctions.SetTextureOutdoors(116, 42, "t1swbu")
+		StdQuestsFunctions.SetTextureOutdoors(25, 55, "t1swbu")
 	end
 end
 
 evt.map[214] = function()
 	if Party.QBits[1183] then
-		StdQuestsFunctions.SetTextureOutdoors(116, 42, "t1swbu")
+		StdQuestsFunctions.SetTextureOutdoors(25, 55, "t1swbu")
 	end
 end
 
@@ -126,8 +131,8 @@ evt.map[19] = function()
 		if Carpenter and Stonecutter then
 			Message(evt.str[29])
 			evt.Set{"QBits", 1130}
-			NPCFollowers.Remove(Carpenter)
-			NPCFollowers.Remove(Stonecutter)
+			MF.NPCDismiss(Carpenter, true)
+			MF.NPCDismiss(Stonecutter, true)
 		else
 			evt.EnterHouse{1442}
 		end

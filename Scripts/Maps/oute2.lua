@@ -15,13 +15,16 @@ function events.AfterLoadMap()
 	Game.HostileTxt[202][211] = 1
 
 	Party.QBits[184] = true -- Town portal
+	Party.QBits[312] = true	-- TP Buff Misty Islands
 	Party.QBits[964] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
 ----------------------------------------
 -- Dragon tower
 
-if not Party.QBits[1180] then
+--[[
+Game.MapEvtLines:RemoveEvent(210)
+if not Party.QBits[1181] then
 
 	local function DragonTower()
 		StdQuestsFunctions.DragonTower(3039, -9201, 2818, 1181)
@@ -33,6 +36,7 @@ if not Party.QBits[1180] then
 	end
 
 end
+]]
 
 Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()

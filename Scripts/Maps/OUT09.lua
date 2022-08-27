@@ -80,206 +80,168 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 886} then         -- End Game
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 886) then         -- End Game
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 	end
 end
 
 events.LoadMap = evt.map[1].last
 
-evt.house[3] = 247  -- "The Laughing Monk"
 Game.MapEvtLines:RemoveEvent(3)
-evt.map[3] = function()
-	evt.EnterHouse{Id = 247}         -- "The Laughing Monk"
-end
-
+evt.HouseDoor(3, 247)  -- "The Laughing Monk"
 evt.house[4] = 247  -- "The Laughing Monk"
-Game.MapEvtLines:RemoveEvent(4)
-evt.map[4] = function()
-end
-
-evt.house[5] = 143  -- "Paramount Guild of Water"
 Game.MapEvtLines:RemoveEvent(5)
-evt.map[5] = function()
-	evt.EnterHouse{Id = 143}         -- "Paramount Guild of Water"
-end
-
+evt.HouseDoor(5, 143)  -- "Paramount Guild of Water"
 evt.house[6] = 143  -- "Paramount Guild of Water"
-Game.MapEvtLines:RemoveEvent(6)
-evt.map[6] = function()
-end
-
-evt.house[7] = 489  -- "Sacred Sails"
 Game.MapEvtLines:RemoveEvent(7)
-evt.map[7] = function()
-	evt.EnterHouse{Id = 489}         -- "Sacred Sails"
-end
-
+evt.HouseDoor(7, 489)  -- "Sacred Sails"
 evt.house[8] = 489  -- "Sacred Sails"
-Game.MapEvtLines:RemoveEvent(8)
-evt.map[8] = function()
-end
-
 evt.hint[30] = evt.str[55]  -- "Home Portal"
 Game.MapEvtLines:RemoveEvent(30)
 evt.map[30] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"Inventory", Value = 1472} then         -- "Home Key"
+	evt.ForPlayer("All")
+	if evt.Cmp("Inventory", 1472) then         -- "Home Key"
 		evt.MoveToMap{X = -9909, Y = 8614, Z = -1024, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out03.Odm"}
 	else
-		evt.StatusText{Str = 22}         -- "You need the Home Key to use this teleporter."
+		evt.StatusText(22)         -- "You need the Home Key to use this teleporter."
 	end
 end
 
 evt.hint[51] = evt.str[7]  -- "House"
-evt.house[52] = 987  -- "Crane Residence"
 Game.MapEvtLines:RemoveEvent(52)
-evt.map[52] = function()
-	evt.EnterHouse{Id = 987}         -- "Crane Residence"
-end
-
-evt.house[53] = 988  -- "Smithson Residence"
+evt.HouseDoor(52, 987)  -- "Crane Residence"
 Game.MapEvtLines:RemoveEvent(53)
-evt.map[53] = function()
-	evt.EnterHouse{Id = 988}         -- "Smithson Residence"
-end
-
-evt.house[54] = 986  -- "Caverhill Residence"
+evt.HouseDoor(53, 988)  -- "Smithson Residence"
 Game.MapEvtLines:RemoveEvent(54)
-evt.map[54] = function()
-	evt.EnterHouse{Id = 986}         -- "Caverhill Residence"
-end
-
+evt.HouseDoor(54, 986)  -- "Caverhill Residence"
 evt.hint[151] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(151)
 evt.map[151] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[152] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(152)
 evt.map[152] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[153] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(153)
 evt.map[153] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[154] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(154)
 evt.map[154] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[155] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(155)
 evt.map[155] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[156] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(156)
 evt.map[156] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[157] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(157)
 evt.map[157] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[158] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(158)
 evt.map[158] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[159] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(159)
 evt.map[159] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[160] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(160)
 evt.map[160] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[161] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(161)
 evt.map[161] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[162] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(162)
 evt.map[162] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[163] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(163)
 evt.map[163] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[164] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(164)
 evt.map[164] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[165] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(165)
 evt.map[165] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[166] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(166)
 evt.map[166] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[167] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(167)
 evt.map[167] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[168] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(168)
 evt.map[168] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[169] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(169)
 evt.map[169] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[170] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(170)
 evt.map[170] = function()
-	if not evt.Cmp{"QBits", Value = 690} then         -- Open final Obelisk Chest
-		evt.OpenChest{Id = 0}
-		evt.Add{"Gold", Value = 100000}
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Set{"QBits", Value = 690}         -- Open final Obelisk Chest
+	if not evt.Cmp("QBits", 690) then         -- Open final Obelisk Chest
+		evt.OpenChest(0)
+		evt.Add("Gold", 100000)
+		evt.ForPlayer("All")
+		evt.Set("QBits", 690)         -- Open final Obelisk Chest
 	end
 end
 
@@ -302,29 +264,26 @@ end
 evt.hint[401] = evt.str[53]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(401)
 evt.map[401] = function()
-	if evt.Cmp{"QBits", Value = 561} then         -- "Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."
-		if not evt.Cmp{"QBits", Value = 562} then         -- Visited all stonehenges
-			if not evt.Cmp{"QBits", Value = 563} then         -- Visited stonehenge 1 (area 9)
-				evt.StatusText{Str = 56}         -- ""
-				evt.ForPlayer(-- ERROR: Const not found
-"All")
-				evt.Set{"QBits", Value = 563}         -- Visited stonehenge 1 (area 9)
-				evt.ForPlayer(-- ERROR: Const not found
-"All")
-				evt.Add{"QBits", Value = 757}         -- "Congratulations"
-				evt.Subtract{"QBits", Value = 757}         -- "Congratulations"
-				if evt.Cmp{"QBits", Value = 564} then         -- Visited stonehenge 2 (area 13)
-					if evt.Cmp{"QBits", Value = 565} then         -- Visited stonehenge 3 (area 14)
-						evt.ForPlayer(-- ERROR: Const not found
-"All")
-						evt.Set{"QBits", Value = 562}         -- Visited all stonehenges
+	if evt.Cmp("QBits", 561) then         -- "Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."
+		if not evt.Cmp("QBits", 562) then         -- Visited all stonehenges
+			if not evt.Cmp("QBits", 563) then         -- Visited stonehenge 1 (area 9)
+				evt.StatusText(56)         -- ""
+				evt.ForPlayer("All")
+				evt.Set("QBits", 563)         -- Visited stonehenge 1 (area 9)
+				evt.ForPlayer("All")
+				evt.Add("QBits", 757)         -- "Congratulations"
+				evt.Subtract("QBits", 757)         -- "Congratulations"
+				if evt.Cmp("QBits", 564) then         -- Visited stonehenge 2 (area 13)
+					if evt.Cmp("QBits", 565) then         -- Visited stonehenge 3 (area 14)
+						evt.ForPlayer("All")
+						evt.Set("QBits", 562)         -- Visited all stonehenges
 					end
 				end
 				return
 			end
 		end
 	end
-	if evt.Cmp{"QBits", Value = 758} then         -- Visited The Land of the giants
+	if evt.Cmp("QBits", 758) then         -- Visited The Land of the giants
 		evt.MoveToMap{X = 4221, Y = 17840, Z = 769, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "out12.odm"}
 	end
 end
@@ -333,35 +292,34 @@ evt.hint[451] = evt.str[52]  -- "Shrine"
 evt.hint[452] = evt.str[53]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(452)
 evt.map[452] = function()
-	if evt.Cmp{"PlayerBits", Value = 27} then
-		evt.StatusText{Str = 54}         -- "You Pray"
+	if evt.Cmp("PlayerBits", 27) then
+		evt.StatusText(54)         -- "You Pray"
 	else
-		evt.Add{"BaseAccuracy", Value = 10}
-		evt.Add{"BaseSpeed", Value = 10}
-		evt.Set{"PlayerBits", Value = 27}
-		evt.StatusText{Str = 76}         -- "+10 Accuracy and Speed(Permanent)"
+		evt.Add("BaseAccuracy", 10)
+		evt.Add("BaseSpeed", 10)
+		evt.Set("PlayerBits", 27)
+		evt.StatusText(76)         -- "+10 Accuracy and Speed(Permanent)"
 	end
 end
 
 evt.hint[453] = evt.str[50]  -- "Obelisk"
 Game.MapEvtLines:RemoveEvent(453)
 evt.map[453] = function()
-	if not evt.Cmp{"QBits", Value = 683} then         -- Visited Obelisk in Area 9
-		evt.StatusText{Str = 51}         -- " _vehlgpe"
-		evt.Add{"AutonotesBits", Value = 316}         -- "Obelisk message #8: _vehlgpe"
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Add{"QBits", Value = 683}         -- Visited Obelisk in Area 9
+	if not evt.Cmp("QBits", 683) then         -- Visited Obelisk in Area 9
+		evt.StatusText(51)         -- " _vehlgpe"
+		evt.Add("AutonotesBits", 316)         -- "Obelisk message #8: _vehlgpe"
+		evt.ForPlayer("All")
+		evt.Add("QBits", 683)         -- Visited Obelisk in Area 9
 	end
 end
 
 evt.hint[500] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(500)
 evt.map[500] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.CheckSeason{Season = 1} then
-				evt.CheckSeason{Season = 0}
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.CheckSeason(1) then
+				evt.CheckSeason(0)
 			end
 		end
 	end

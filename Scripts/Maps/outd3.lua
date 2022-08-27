@@ -65,9 +65,8 @@ evt.Map[43] = function()
 		return
 	end
 
-	if evt.MoveToMap{0, 0, 0, 0, 0, 0, 335, 2, "0"} then
-		evt.EnterHouse{222}
-	end
+	evt.MoveToMap{0, 0, 0, 0, 0, 0, 335, 2, "0"}
+	evt.EnterHouse{222}
 
 end -- Other parts are in StdQuestsFollowers.lua
 

@@ -13,6 +13,7 @@ function events.AfterLoadMap()
 	LocalHostileTxt()
 	Game.HostileTxt[196][0] = 0
 	Party.QBits[181] = true -- Town portal
+	Party.QBits[310] = true	-- TP Buff Blackshire
 	Party.QBits[955] = true	-- DDMapBuff, changed for rev4 for merge
 
 	-- Archers guards
@@ -58,7 +59,9 @@ end
 ----------------------------------------
 -- Dragon tower
 
-if not Party.QBits[1180] then
+--[[
+Game.MapEvtLines:RemoveEvent(210)
+if not Party.QBits[1184] then
 
 	local function DragonTower()
 		StdQuestsFunctions.DragonTower(-17921, 9724, 2742, 1184)
@@ -70,6 +73,7 @@ if not Party.QBits[1180] then
 	end
 
 end
+]]
 
 Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()

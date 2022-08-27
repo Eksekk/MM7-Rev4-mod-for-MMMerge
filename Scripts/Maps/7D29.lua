@@ -26,9 +26,10 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
+	if evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
 		evt.SetDoorState{Id = 35, State = 0}
 		evt.SetSprite{SpriteId = 10, Visible = 0, Name = "0"}
 		evt.SetTexture{Facet = 4, Name = "tfb09r1a"}
@@ -51,13 +52,12 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetTexture{Facet = 19, Name = "ch1b1"}
 		evt.SetTexture{Facet = 20, Name = "ch1b1"}
 	end
-	if evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
+	if evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
 		evt.SetTexture{Facet = 19, Name = "wizh-a"}
 		evt.SetTexture{Facet = 20, Name = "wizh-b"}
+	elseif not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
+		return
 	else
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
-			return
-		end
 		evt.SetTexture{Facet = 19, Name = "nechuma"}
 		evt.SetTexture{Facet = 20, Name = "nechumb"}
 	end
@@ -69,11 +69,10 @@ events.LoadMap = evt.map[1].last
 
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LeaveMap()
-	if not evt.Cmp{"QBits", Value = 647} then         -- Player castle goblins are all dead
+	if not evt.Cmp("QBits", 647) then         -- Player castle goblins are all dead
 		if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
-			evt.ForPlayer(-- ERROR: Const not found
-"All")
-			evt.Set{"QBits", Value = 647}         -- Player castle goblins are all dead
+			evt.ForPlayer("All")
+			evt.Set("QBits", 647)         -- Player castle goblins are all dead
 		end
 	end
 end
@@ -154,8 +153,8 @@ end
 
 Game.MapEvtLines:RemoveEvent(15)
 evt.map[15] = function()
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
 			return
 		end
 	end
@@ -164,8 +163,8 @@ end
 
 Game.MapEvtLines:RemoveEvent(16)
 evt.map[16] = function()
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
 			return
 		end
 	end
@@ -283,16 +282,15 @@ end
 evt.hint[35] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 883} then         -- Dwarven Messenger Once
-		if evt.Cmp{"Awards", Value = 120} then         -- "Completed Coding Wizard Quest"
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 883) then         -- Dwarven Messenger Once
+		if evt.Cmp("Awards", 120) then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
-			evt.Set{"QBits", Value = 881}         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set{"QBits", Value = 883}         -- Dwarven Messenger Once
-			evt.Subtract{"QBits", Value = 880}         -- Barrow Normal
-			evt.Set{"Counter2", Value = 0}
-			evt.SpeakNPC{NPC = 366}         -- "Messenger"
+			evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 883)         -- Dwarven Messenger Once
+			evt.Subtract("QBits", 880)         -- Barrow Normal
+			evt.Set("Counter2", 0)
+			evt.SpeakNPC(366)         -- "Messenger"
 		end
 	end
 end
@@ -302,8 +300,8 @@ events.LoadMap = evt.map[35].last
 evt.hint[37] = evt.str[11]  -- "Arnold's Super Protein Drink"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
-	if not evt.Cmp{"QBits", Value = 829} then         -- 1-time Castle Harm
-		evt.Set{"QBits", Value = 829}         -- 1-time Castle Harm
+	if not evt.Cmp("QBits", 829) then         -- 1-time Castle Harm
+		evt.Set("QBits", 829)         -- 1-time Castle Harm
 		giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
 	end
 end
@@ -323,28 +321,26 @@ end
 evt.hint[40] = evt.str[12]  -- "Phasing Cauldron"
 Game.MapEvtLines:RemoveEvent(40)
 evt.map[40] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 830} then         -- 1-time phasing cauldron
-		evt.Set{"QBits", Value = 830}         -- 1-time phasing cauldron
-		evt.Add{"FireResistance", Value = 20}
-		evt.Add{"AirResistance", Value = 20}
-		evt.Add{"WaterResistance", Value = 20}
-		evt.Add{"EarthResistance", Value = 20}
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 830) then         -- 1-time phasing cauldron
+		evt.Set("QBits", 830)         -- 1-time phasing cauldron
+		evt.Add("FireResistance", 20)
+		evt.Add("AirResistance", 20)
+		evt.Add("WaterResistance", 20)
+		evt.Add("EarthResistance", 20)
 	end
 end
 
 evt.hint[41] = evt.str[13]  -- "Elemental Totem"
 Game.MapEvtLines:RemoveEvent(41)
 evt.map[41] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 835} then         -- Dancing Flame
-		evt.Set{"QBits", Value = 835}         -- Dancing Flame
-		evt.Add{"FireResistance", Value = 10}
-		evt.Add{"AirResistance", Value = 10}
-		evt.Add{"WaterResistance", Value = 10}
-		evt.Add{"EarthResistance", Value = 10}
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 835) then         -- Dancing Flame
+		evt.Set("QBits", 835)         -- Dancing Flame
+		evt.Add("FireResistance", 10)
+		evt.Add("AirResistance", 10)
+		evt.Add("WaterResistance", 10)
+		evt.Add("EarthResistance", 10)
 	end
 	evt.SetSprite{SpriteId = 13, Visible = 1, Name = "sp57"}
 end
@@ -352,9 +348,8 @@ end
 evt.hint[50] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(50)
 evt.map[50] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 835} then         -- Dancing Flame
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 835) then         -- Dancing Flame
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "sp57"}
 	end
 end
@@ -364,137 +359,136 @@ events.LoadMap = evt.map[50].last
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"Inventory", Value = 964} then         -- "Blue Dragon's Key"
-		evt.OpenChest{Id = 9}
+	evt.ForPlayer("All")
+	if evt.Cmp("Inventory", 964) then         -- "Blue Dragon's Key"
+		evt.OpenChest(9)
 	else
-		evt.StatusText{Str = 22}         -- "This cabinet requires a Blue Dragon's Key."
+		evt.StatusText(22)         -- "This cabinet requires a Blue Dragon's Key."
 	end
 end
 
 evt.hint[185] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[196] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(196)
 evt.map[196] = function()
 	local i
-	if not evt.Cmp{"QBits", Value = 657} then         -- Membership to the School of Sorcery Scroll Shop
+	if not evt.Cmp("QBits", 657) then         -- Membership to the School of Sorcery Scroll Shop
 		return
 	end
-	if evt.Cmp{"MapVar2", Value = 3} then
+	if evt.Cmp("MapVar2", 3) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -503,15 +497,15 @@ evt.map[196] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _16
 	elseif i == 5 then
@@ -524,24 +518,23 @@ evt.map[196] = function()
 		return
 	end
 ::_17::
-	evt.Add{"MapVar2", Value = 1}
+	evt.Add("MapVar2", 1)
 end
 
 evt.hint[197] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(197)
 evt.map[197] = function()
-	if not evt.Cmp{"MapVar1", Value = 1} then
-		evt.Add{"Inventory", Value = 1505}         -- "Basic Cryptography"
-		evt.Set{"MapVar1", Value = 1}
+	if not evt.Cmp("MapVar1", 1) then
+		evt.Add("Inventory", 1505)         -- "Basic Cryptography"
+		evt.Set("MapVar1", 1)
 	end
 end
 
 evt.hint[198] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(198)
 evt.map[198] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 885} then         -- Harm no respawn
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 885) then         -- Harm no respawn
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
 	end
 end
@@ -551,30 +544,28 @@ events.LoadMap = evt.map[198].last
 evt.hint[376] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 585} then         -- Finished constructing Golem with Abbey normal head
+	if evt.Cmp("QBits", 585) then         -- Finished constructing Golem with Abbey normal head
 		evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = true}         -- "Group for M1"
 		goto _5
 	end
-	if evt.Cmp{"QBits", Value = 586} then         -- Finished constructing Golem with normal head
+	if evt.Cmp("QBits", 586) then         -- Finished constructing Golem with normal head
 		goto _5
 	end
 ::_7::
-	evt.ForPlayer(-- ERROR: Const not found
-"Current")
-	if not evt.Cmp{"QBits", Value = 2102} then         -- "Promoted to Crusader"
-		if not evt.Cmp{"QBits", Value = 2103} then         -- "Promoted to Honorary Crusader"
+	evt.ForPlayer("Current")
+	if not evt.Cmp("QBits", 1590) then         -- "Promoted to Crusader"
+		if not evt.Cmp("QBits", 1591) then         -- "Promoted to Honorary Crusader"
 			return
 		end
 	end
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
 Bit = 0x0, On = false}         -- "Generic Monster Group for Dungeons"
 	end
 	do return end
 ::_5::
-	evt.Subtract{"NPCs", Value = 395}         -- "Golem"
+	evt.Subtract("NPCs", 395)         -- "Golem"
 	evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for M1"
 	goto _7
 end
@@ -584,36 +575,33 @@ events.LoadMap = evt.map[376].last
 evt.hint[377] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(377)
 evt.map[377] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 526} then         -- Accepted Fireball wand from Malwick
+	if not evt.Cmp("QBits", 526) then         -- Accepted Fireball wand from Malwick
 		return
 	end
-	if evt.Cmp{"QBits", Value = 702} then         -- Finished with Malwick & Assc.
+	if evt.Cmp("QBits", 702) then         -- Finished with Malwick & Assc.
 		return
 	end
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
 		goto _14
 	end
-	if not evt.Cmp{"QBits", Value = 694} then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
-		if not evt.Cmp{"QBits", Value = 693} then         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+	if not evt.Cmp("QBits", 694) then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+		if not evt.Cmp("QBits", 693) then         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
 			return
 		end
-		if not evt.Cmp{"Counter5", Value = 336} then
+		if not evt.Cmp("Counter5", 336) then
 			return
 		end
-	else
-		if not evt.Cmp{"Counter5", Value = 672} then
-			return
-		end
+	elseif not evt.Cmp("Counter5", 672) then
+		return
 	end
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	evt.Add{"QBits", Value = 695}         -- Failed either goto or do guild quest
+	evt.ForPlayer("All")
+	evt.Add("QBits", 695)         -- Failed either goto or do guild quest
 ::_14::
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}         -- "Group for Malwick's Assc."
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
-	evt.Set{"BankGold", Value = 0}
-	evt.Subtract{"QBits", Value = 693}         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-	evt.Subtract{"QBits", Value = 694}         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+	evt.Set("BankGold", 0)
+	evt.Subtract("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+	evt.Subtract("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
 end
 
 events.LoadMap = evt.map[377].last
@@ -621,17 +609,15 @@ events.LoadMap = evt.map[377].last
 evt.hint[378] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(378)
 evt.map[378] = function()  -- Timer(<function>, 10*const.Minute)
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		if not evt.Cmp{"QBits", Value = 696} then         -- Killed all castle monsters
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		if not evt.Cmp("QBits", 696) then         -- Killed all castle monsters
 			if evt.CheckMonstersKilled{CheckType = 1, Id = 60, Count = 0} then
-				evt.ForPlayer(-- ERROR: Const not found
-"All")
-				evt.Add{"QBits", Value = 696}         -- Killed all castle monsters
-				if evt.Cmp{"QBits", Value = 697} then         -- Killed all outdoor monsters
-					evt.ForPlayer(-- ERROR: Const not found
-"All")
-					evt.Add{"QBits", Value = 702}         -- Finished with Malwick & Assc.
-					evt.Subtract{"QBits", Value = 695}         -- Failed either goto or do guild quest
+				evt.ForPlayer("All")
+				evt.Add("QBits", 696)         -- Killed all castle monsters
+				if evt.Cmp("QBits", 697) then         -- Killed all outdoor monsters
+					evt.ForPlayer("All")
+					evt.Add("QBits", 702)         -- Finished with Malwick & Assc.
+					evt.Subtract("QBits", 695)         -- Failed either goto or do guild quest
 				end
 			end
 		end
@@ -643,116 +629,116 @@ Timer(evt.map[378].last, 10*const.Minute)
 evt.house[416] = 380  -- ""
 Game.MapEvtLines:RemoveEvent(416)
 evt.map[416] = function()
-	if not evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.EnterHouse{Id = 380}         -- ""
+	if not evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
+		evt.EnterHouse(380)         -- ""
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
-			evt.EnterHouse{Id = 381}         -- ""
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
+			evt.EnterHouse(381)         -- ""
 			return
 		end
 	end
-	evt.EnterHouse{Id = 322}         -- "Sanctuary"
+	evt.EnterHouse(322)         -- "Sanctuary"
 end
 
 evt.house[417] = 380  -- ""
 Game.MapEvtLines:RemoveEvent(417)
 evt.map[417] = function()
-	if not evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.EnterHouse{Id = 380}         -- ""
+	if not evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
+		evt.EnterHouse(380)         -- ""
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
-			evt.EnterHouse{Id = 381}         -- ""
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
+			evt.EnterHouse(381)         -- ""
 			return
 		end
 	end
-	evt.EnterHouse{Id = 125}         -- "Beakers and Bottles"
+	evt.EnterHouse(125)         -- "Beakers and Bottles"
 end
 
 evt.house[418] = 380  -- ""
 Game.MapEvtLines:RemoveEvent(418)
 evt.map[418] = function()
-	if not evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.EnterHouse{Id = 380}         -- ""
+	if not evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
+		evt.EnterHouse(380)         -- ""
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
-			evt.EnterHouse{Id = 381}         -- ""
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
+			evt.EnterHouse(381)         -- ""
 			return
 		end
 	end
-	evt.EnterHouse{Id = 58}         -- "Thel's Armor and Shields"
+	evt.EnterHouse(58)         -- "Thel's Armor and Shields"
 end
 
 evt.house[419] = 380  -- ""
 Game.MapEvtLines:RemoveEvent(419)
 evt.map[419] = function()
-	if not evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.EnterHouse{Id = 380}         -- ""
+	if not evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
+		evt.EnterHouse(380)         -- ""
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
-			evt.EnterHouse{Id = 381}         -- ""
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
+			evt.EnterHouse(381)         -- ""
 			return
 		end
 	end
-	evt.EnterHouse{Id = 18}         -- "Swords Inc."
+	evt.EnterHouse(18)         -- "Swords Inc."
 end
 
 evt.house[420] = 1169  -- "Throne Room"
 Game.MapEvtLines:RemoveEvent(420)
 evt.map[420] = function()
-	if evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
-		evt.EnterHouse{Id = 1169}         -- "Throne Room"
+	if evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
+		evt.EnterHouse(1169)         -- "Throne Room"
 	else
-		evt.StatusText{Str = 21}         -- "The door is blocked"
+		evt.StatusText(21)         -- "The door is blocked"
 	end
 end
 
 evt.hint[451] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 592} then         -- Gave plans to elfking
-		if evt.Cmp{"QBits", Value = 593} then         -- Gave Loren to Catherine
+	if evt.Cmp("QBits", 592) then         -- Gave plans to elfking
+		if evt.Cmp("QBits", 593) then         -- Gave Loren to Catherine
 			goto _13
 		end
-		if not evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
-			if not evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
+		if not evt.Cmp("QBits", 597) then         -- Gave artifact to elves
+			if not evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
 				return
 			end
 		end
 		goto _20
 	end
-	if evt.Cmp{"QBits", Value = 594} then         -- Gave false plans to elfking (betray)
-		if not evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
+	if evt.Cmp("QBits", 594) then         -- Gave false plans to elfking (betray)
+		if not evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
 			return
 		end
 		goto _13
 	end
-	if not evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
+	if not evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
 		return
 	end
-	if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+	if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 		goto _20
 	end
 ::_16::
 	evt.SetTexture{Facet = 16, Name = "chb1p6"}
 	evt.SetTexture{Facet = 17, Name = "chb1p7"}
-	evt.Add{"QBits", Value = 783}         -- "Find the Blessed Panoply of Sir BunGleau."
+	evt.Add("QBits", 783)         -- "Find the Blessed Panoply of Sir BunGleau."
 	do return end
 ::_13::
-	if evt.Cmp{"QBits", Value = 659} then         -- Gave artifact to arbiter
+	if evt.Cmp("QBits", 659) then         -- Gave artifact to arbiter
 		evt.SetTexture{Facet = 16, Name = "bannwc-a"}
 		evt.SetTexture{Facet = 17, Name = "bannwc-b"}
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 596} then         -- Gave artifact to humans
-		if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+	if not evt.Cmp("QBits", 596) then         -- Gave artifact to humans
+		if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 			goto _20
 		end
 	end
@@ -760,7 +746,7 @@ evt.map[451] = function()  -- function events.LoadMap()
 ::_20::
 	evt.SetTexture{Facet = 16, Name = "elfhuma"}
 	evt.SetTexture{Facet = 17, Name = "elfhumb"}
-	evt.Add{"QBits", Value = 783}         -- "Find the Blessed Panoply of Sir BunGleau."
+	evt.Add("QBits", 783)         -- "Find the Blessed Panoply of Sir BunGleau."
 end
 
 events.LoadMap = evt.map[451].last
@@ -769,9 +755,8 @@ evt.hint[501] = evt.str[2]  -- "Leave Castle Harmondale"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Set{"QBits", Value = 647}         -- Player castle goblins are all dead
+		evt.ForPlayer("All")
+		evt.Set("QBits", 647)         -- Player castle goblins are all dead
 		evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = false}         -- "Southern Village Group in Harmondy"
 		evt.MoveToMap{X = -18325, Y = 12564, Z = 480, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7out02.odm"}
 	else

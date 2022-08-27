@@ -2,6 +2,7 @@
 
 function events.LoadMap()
 	Party.QBits[185] = true -- Town portal
+	Party.QBits[315] = true	-- TP Buff Frozen Highlands
 	Party.QBits[957] = true	-- DDMapBuff, changed for rev4 for merge
 
 	-- stop winter quest
@@ -38,7 +39,9 @@ evt.map[32] = function() StdQuestsFunctions.CheckPrices(476, 1517) end
 ----------------------------------------
 -- Dragon tower
 
-if not Party.QBits[1180] then
+--[[
+Game.MapEvtLines:RemoveEvent(209)
+if not Party.QBits[1185] then
 
 	local function DragonTower()
 		StdQuestsFunctions.DragonTower(-6606, 15546, 2550, 1185)
@@ -50,6 +53,7 @@ if not Party.QBits[1180] then
 	end
 
 end
+]]
 
 Game.MapEvtLines:RemoveEvent(210)
 evt.map[210] = function()

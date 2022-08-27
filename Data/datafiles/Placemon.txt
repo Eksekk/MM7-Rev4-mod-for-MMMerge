@@ -159,8 +159,8 @@
 158	Karl Fischer
 159	David Casso
 160	Morcarack
-161	Placeholder
-162	Placeholder
+161	Wasp Queen
+162	Hermit Troll
 163	Placeholder
 164	Placeholder
 165	Placeholder

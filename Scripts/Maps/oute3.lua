@@ -17,6 +17,7 @@ function events.AfterLoadMap()
 	LocalHostileTxt()
 	Game.HostileTxt[185][0] = 0
 	Party.QBits[183] = true -- Town portal
+	Party.QBits[313] = true	-- TP Buff New Sorpigal
 	Party.QBits[965] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
@@ -34,6 +35,8 @@ evt.map[16] = function() StdQuestsFunctions.CheckPrices(470, 1523) end
 ----------------------------------------
 -- Dragon tower
 
+--[[
+Game.MapEvtLines:RemoveEvent(230)
 if not Party.QBits[1180] then
 
 	local function DragonTower()
@@ -46,6 +49,7 @@ if not Party.QBits[1180] then
 	end
 
 end
+]]
 
 Game.MapEvtLines:RemoveEvent(231)
 evt.map[231] = function()

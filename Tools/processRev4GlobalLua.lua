@@ -4,6 +4,11 @@ io.close(file)
 
 -- note: there is event skip at event 511 in rev4
 
+local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
+{
+	[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
+}
+
 local replacements =
 {
 	["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
@@ -49,10 +54,6 @@ local replacements =
 	["evt%.Add%(\"Awards\", (%d+)%)"] =
 	function(award)
 		award = tonumber(award)
-		local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
-		{
-			[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
-		}
 		if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
 			-- promotion award, special processing
 			return ("evt.Add(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
@@ -68,10 +69,6 @@ local replacements =
 	["evt%.Set%(\"Awards\", (%d+)%)"] =
 	function(award)
 		award = tonumber(award)
-		local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
-		{
-			[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
-		}
 		if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
 			-- promotion award, special processing
 			return ("evt.Set(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
@@ -87,10 +84,6 @@ local replacements =
 	["evt%.Cmp%(\"Awards\", (%d+)%)"] =
 	function(award)
 		award = tonumber(award)
-		local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
-		{
-			[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
-		}
 		if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
 			-- promotion award, special processing
 			return ("evt.Cmp(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
@@ -106,10 +99,6 @@ local replacements =
 	["evt%.Subtract%(\"Awards\", (%d+)%)"] =
 	function(award)
 		award = tonumber(award)
-		local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
-		{
-			[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
-		}
 		if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
 			-- promotion award, special processing
 			return ("evt.Subtract(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
@@ -206,13 +195,17 @@ local replacements =
 			print("While processing scripts encountered evt.CheckMonstersKilled with CheckType of 4, need to take care of that")
 		end
 		return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id, count)
-	end
+	end,
+	-- just in case
+	["evt%.HouseDoor%((%d+),%s*(%d+)%)"] = function(event, house)
+		event = tonumber(event)
+		house = tonumber(house)
+		return string.format("Game.MapEvtLines:RemoveEvent(%d)\nevt.HouseDoor(%d, %d)", event, event, getHouseID(house))
+	end,
+	["for pl = 0, Party%.High %- 1 do"] = function()
+		return "for pl = 0, Party.High do"
+	end,
 }
-
---[[ TODO
-* SBG's blessed items have red crossed circle icon when equipped - idk how to fix this
-* after windiff newly downloaded revamp's directory with my own directory
---]]
 
 --[[ Script files to move to github folder
 * Quest_MM7Lich.lua
@@ -393,18 +386,18 @@ HouseId = 999}         -- "Drathen Keldin"]] ] = "",
 	[ [[evt.global[42397] = function()
 	evt.SetSnow{EffectId = 18, On = true}
 end]] ] = "",
-	[ [[evt.Set(-- ERROR: Not found
-"Awards", 108)
+	[ [[evt.Set(-- ERROR: Award index outside of normal range
+"Awards", 108)         -- "Inducted into the Erathian Hall of Shame!"
 		evt.EnterHouse(600)         -- Win Good]] ] =
-	[[evt.Set(-- ERROR: Not found
-"Awards", 109)]]
+	[[evt.Set(-- ERROR: Award index outside of normal range
+"Awards", 133)         -- "Inducted into the Erathian Hall of Shame!]]
 }
 
 for from, to in pairs(patches) do
 	local done = 0
 	content, done = content:replace(from, to)
 	if done == 0 then
-		error("Replacement not performed! Part of what to replace:\n" .. from:sub(1, math.min(from:len(), 100)))
+		print("Error! Replacement not performed! Part of what to replace:\n" .. from:sub(1, math.min(from:len(), 100)))
 	end
 end
 

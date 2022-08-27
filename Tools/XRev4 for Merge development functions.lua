@@ -1,65 +1,3 @@
--- below functions are taken from MMExtension repo, as they're not released yet and I don't feel like writing my own saving function, because I might screw something up
-
--- Saves a string into a file (overwrites it)
-local string_sub = string.sub
-function io.save(path, s, translate)
-	local f = assert(io.open(path, translate and "wt" or "wb"))
-	f:setvbuf("no")
-	f:write(s)
-	f:close()
-end
-
-local path_noslash = _G.path.noslash
-local path_dir = _G.path.dir
-local CreateDirectoryPtr = internal.CreateDirectory
-
-local function DoCreateDir(dir)
-	-- 183 = already exists
-	return mem.call(CreateDirectoryPtr, 0, dir, 0) ~= 0
-end
-
-local function CreateDirectory(dir)
-	dir = path_noslash(dir)
-	if dir == "" or #dir == 2 and string_sub(dir, -1) == ":" or DoCreateDir(dir) then
-		return true
-	end
-	local dir1 = path_dir(dir)
-	if dir1 ~= dir then
-		CreateDirectory(dir1)
-	end
-	return true
-end
-_G.os.mkdir = CreateDirectory
---!- backwards compatibility
-_G.os.CreateDirectory = CreateDirectory
---!- backwards compatibility
-_G.path.CreateDirectory = CreateDirectory
-
-local oldSave = _G.io.save
---!-
-function _G.io.save(path, ...)
-	CreateDirectory(path_dir(path))
-	return oldSave(path, ...)
-end
-
-local function WriteBasicTextTable(t, fname)
-	if fname then
-		return io.save(fname, WriteBasicTextTable(t))
-	end
-	local q, s = {}, ''
-	for i = 1, #t do
-		s = (type(t[i]) == "table" and table.concat(t[i], "\t") or t[i])
-		q[i] = s
-	end
-	if s ~= '' then
-		q[#q + 1] = ''
-	end
-	return table.concat(q, "\r\n")
-end
-_G.WriteBasicTextTable = WriteBasicTextTable
-
--- end of functions taken from MMExtension repo
-
 local mapFileNamesToNames = {}
 local fileNames = {}
 
@@ -221,7 +159,7 @@ function getHouseID(houseid)
 	if houseid == nil or houseid == "" then return "" end
 	local overrideMappings =
 	{
-		[428] = 1065, [427] = 1064, [426] = 1063, [425] = 1062, [423] = 1060, [432] = 1069, [431] = 1068, [434] = 1071, [433] = 1070, [444] = 1081 , [442] = 1079, [441] = 1078, [439] = 1076, [438] = 1075, [174] = 1169, [176] = 217, [178] = 218, [421] = 216, [184] = 221, [180] = 219, [182] = 220, -- 423 = morningstar residence
+		[428] = 1065, [427] = 1064, [426] = 1063, [425] = 1062, [423] = 1060, [432] = 1069, [431] = 1068, [434] = 1071, [433] = 1070, [444] = 1081 , [442] = 1079, [441] = 1078, [439] = 1076, [438] = 1075, [174] = 1169, [176] = 217, [178] = 218, [421] = 216, [184] = 221, [180] = 219, [182] = 220,
 		[189] = 1165, [79] = 315, [80] = 316, [78] = 314, [81] = 317, [413] = 1051, [367] = 1005, [485] = 1121, [495] = 1131, [504] = 1140, [477] = 1113, [480] = 1116, [333] = 971,
 		[405] = 1043, [368] = 1006, [469] = 1105, [435] = 1072, [408] = 1046, [453] = 1089, [443] = 1080, [440] = 1077, [74] = 310, [190] = 1166, [188] = 1164, [226] = 1172, [324] = 962,
 		[345] = 983, [21] = 54, [37] = 92, [133] = 291, [280] = 380, [281] = 381, [191] = 387, [173] = 382, [193] = 390, [217] = 414
@@ -307,7 +245,7 @@ end
 WriteBasicTextTable(t, "temp.txt")
 --]]
 
-local rev4 = LoadBasicTextTable("tab\\Placemon rev4.txt", 0)
+--[[local rev4 = LoadBasicTextTable("tab\\Placemon rev4.txt", 0)
 local merge = LoadBasicTextTable("tab\\Placemon merge.txt", 0)
 local placemonMappings = {}
 
@@ -327,7 +265,7 @@ for i = 2, #rev4 do
 	end
 	placemonMappings[tonumber(row[1])] = mapIdsToNamesMerge[name]
 	::continue::
-end
+end--]]
 
 --[[for i = 2, #rev4 do
 	local row = rev4[i]

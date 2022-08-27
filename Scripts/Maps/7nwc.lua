@@ -16,11 +16,12 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
-	if evt.Cmp{"QBits", Value = 805} then         -- Return to NWC
+	if evt.Cmp("QBits", 805) then         -- Return to NWC
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetDoorState{Id = 73, State = 1}
 		evt.SetDoorState{Id = 74, State = 1}
@@ -408,221 +409,214 @@ end
 
 Game.MapEvtLines:RemoveEvent(75)
 evt.map[75] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 797} then         -- NWC Switch1
-		evt.Set{"QBits", Value = 798}         -- NWC Switch2
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 797) then         -- NWC Switch1
+		evt.Set("QBits", 798)         -- NWC Switch2
 		evt.SetDoorState{Id = 74, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(76)
 evt.map[76] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 799} then         -- NWC Switch3
-		evt.Set{"QBits", Value = 800}         -- NWC Switch4
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 799) then         -- NWC Switch3
+		evt.Set("QBits", 800)         -- NWC Switch4
 		evt.SetDoorState{Id = 75, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(77)
 evt.map[77] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 800} then         -- NWC Switch4
-		evt.Set{"QBits", Value = 801}         -- NWC Switch5
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 800) then         -- NWC Switch4
+		evt.Set("QBits", 801)         -- NWC Switch5
 		evt.SetDoorState{Id = 76, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(78)
 evt.map[78] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 802} then         -- NWC Switch6
-		evt.Set{"QBits", Value = 803}         -- NWC Tele Bit
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 802) then         -- NWC Switch6
+		evt.Set("QBits", 803)         -- NWC Tele Bit
 		evt.SetDoorState{Id = 77, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(79)
 evt.map[79] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 798} then         -- NWC Switch2
-		evt.Set{"QBits", Value = 799}         -- NWC Switch3
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 798) then         -- NWC Switch2
+		evt.Set("QBits", 799)         -- NWC Switch3
 		evt.SetDoorState{Id = 78, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(80)
 evt.map[80] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 801} then         -- NWC Switch5
-		evt.Set{"QBits", Value = 802}         -- NWC Switch6
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 801) then         -- NWC Switch5
+		evt.Set("QBits", 802)         -- NWC Switch6
 		evt.SetDoorState{Id = 79, State = 1}
 	else
-		evt.StatusText{Str = 9}         -- "The lever won't budge"
+		evt.StatusText(9)         -- "The lever won't budge"
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(81)
 evt.map[81] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 805} then         -- Return to NWC
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 805) then         -- Return to NWC
 		return
 	end
-	if evt.Cmp{"QBits", Value = 803} then         -- NWC Tele Bit
+	if evt.Cmp("QBits", 803) then         -- NWC Tele Bit
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.MoveToMap{X = 2752, Y = 13056, Z = -1376, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 		return
 	end
-	if evt.Cmp{"QBits", Value = 797} then         -- NWC Switch1
+	if evt.Cmp("QBits", 797) then         -- NWC Switch1
 		return
 	end
-	evt.Set{"QBits", Value = 797}         -- NWC Switch1
+	evt.Set("QBits", 797)         -- NWC Switch1
 	evt.SetDoorState{Id = 71, State = 1}
 	evt.SetDoorState{Id = 72, State = 1}
-	if not evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
-		if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
-			evt.SpeakNPC{NPC = 347}         -- "Halfgild Wynac"
+	if not evt.Cmp("QBits", 611) then         -- Chose the path of Light
+		if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
+			evt.SpeakNPC(347)         -- "Halfgild Wynac"
 			return
 		end
 	end
-	evt.SpeakNPC{NPC = 346}         -- "Thomas Grey"
+	evt.SpeakNPC(346)         -- "Thomas Grey"
 end
 
 evt.hint[176] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 Game.MapEvtLines:RemoveEvent(451)
@@ -641,51 +635,50 @@ end
 Game.MapEvtLines:RemoveEvent(453)
 evt.map[453] = function()
 	local i
-	if not evt.Cmp{"Gold", Value = 10000} then
+	if not evt.Cmp("Gold", 10000) then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Gold", Value = 1}
+			evt.Add("Gold", 1)
 		elseif i == 2 then
-			evt.Add{"Gold", Value = 1}
+			evt.Add("Gold", 1)
 		elseif i == 3 then
-			evt.Add{"Gold", Value = 1}
+			evt.Add("Gold", 1)
 		elseif i == 4 then
-			evt.Add{"Gold", Value = 1}
+			evt.Add("Gold", 1)
 		elseif i == 5 then
-			evt.Add{"Gold", Value = 1}
+			evt.Add("Gold", 1)
 		else
-			evt.Set{"Gold", Value = 1}
+			evt.Set("Gold", 1)
 		end
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(454)
 evt.map[454] = function()
-	evt.Subtract{"Gold", Value = 10}
-	evt.Add{"Inventory", Value = 220}         -- "Potion Bottle"
+	evt.Subtract("Gold", 10)
+	evt.Add("Inventory", 220)         -- "Potion Bottle"
 end
 
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 805} then         -- Return to NWC
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 805) then         -- Return to NWC
 		if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
-			evt.Set{"QBits", Value = 814}         -- Small House only Once
+			evt.Set("QBits", 814)         -- Small House only Once
 			evt.MoveToMap{X = -15360, Y = 2956, Z = 129, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "mdt15.blv"}
 		else
-			evt.StatusText{Str = 12}         -- "You must kill all hostiles in order to leave the temple."
+			evt.StatusText(12)         -- "You must kill all hostiles in order to leave the temple."
 		end
 		return
 	end
 	evt.SetNPCTopic{NPC = 387, Index = 0, Event = 845}         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
 
-	if not evt.Cmp{"Inventory", Value = 1301} then         -- "Book of UnMakings"
-		evt.StatusText{Str = 11}         -- "You must have the Book of UnMakings in order to leave"
+	if not evt.Cmp("Inventory", 1301) then         -- "Book of UnMakings"
+		evt.StatusText(11)         -- "You must have the Book of UnMakings in order to leave"
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
-		if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
+	if not evt.Cmp("QBits", 611) then         -- Chose the path of Light
+		if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 			evt.MoveToMap{X = 3309, Y = -7974, Z = 0, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7d26.blv"}
 			return
 		end

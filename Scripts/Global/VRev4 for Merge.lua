@@ -1,5 +1,7 @@
 local MS = Merge.ModSettings
 
+placemonAdditionalStart = 196
+
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
 function events.CanCastTownPortal(t)
 	if t.CanCast and Merge.Functions.GetContinent() == 2 then -- Antagarich
@@ -159,131 +161,6 @@ local classes =
 	--[const.Class.Cleric] = {{
 }
 
---[[
-AcolyteDark	12
-AcolyteLight	10
-ApprenticeMage	110
-ArchDruid	40
-ArchDruid3	41
-ArchMage	116
-ArchMage3	117
-Archer	0
-Assassin	90
-Assassin3	91
-Barbarian	92
-Barbarian3	95
-BarbarianDark	98
-BarbarianDark3	99
-BarbarianLight2	96
-BarbarianLight3	97
-BattleMage	2
-BattleMage3	3
-Berserker	93
-BlackKnight	50
-BlackKnight3	51
-BountyHunter	82
-BountyHunter3	83
-Cavalier	45
-Champion	46
-Champion3	47
-Cleric	8
-ClericDark	13
-ClericLight	11
-Crusader	69
-DarkAdept	112
-Deerslayer	20
-Dragon	28
-DragonDark2	34
-DragonDark3	35
-DragonLight2	32
-DragonLight3	33
-Druid	36
-ElderVampire	101
-FlightLeader	29
-GreatDruid	37
-GreatWyrm	30
-GreatWyrm3	31
-Hero	72
-Hero3	73
-HighPriest	14
-HighPriest3	15
-Hunter	77
-InitiateMonk	61
-Justiciar	70
-Knight	44
-Mage	111
-MasterArcher	4
-MasterArcher3	5
-MasterDruid	38
-MasterDruid3	39
-MasterMonk	64
-MasterMonk3	65
-MasterNecromancer	118
-MasterNecromancer3	119
-MasterWizard	114
-MasterWizard3	115
-Minotaur	52
-MinotaurDark2	58
-MinotaurDark3	59
-MinotaurHeadsman	53
-MinotaurLight2	56
-MinotaurLight3	57
-MinotaurLord	54
-MinotaurLord3	55
-Monk	60
-Monk2	62
-Monk3	63
-Necromancer	113
-Ninja	66
-Ninja3	67
-Nosferatu	102
-Nosferatu3	103
-NosferatuDark	106
-NosferatuDark3	107
-NosferatuLight	104
-NosferatuLight3	105
-Paladin	68
-Paladin3	71
-Pathfinder	22
-Pathfinder3	23
-PathfinderDark	26
-PathfinderDark3	27
-PathfinderLight	24
-PathfinderLight3	25
-Peasant	120
-Pioneer	21
-Priest	9
-PriestDark	18
-PriestDark3	19
-PriestLight	16
-PriestLight3	17
-Ranger	76
-Ranger2	78
-Ranger3	79
-RangerLord	80
-RangerLord3	81
-Robber	86
-Robber3	87
-Rogue	85
-Sniper	6
-Sniper3	7
-Sorcerer	108
-Spy	88
-Spy3	89
-Templar	48
-Templar3	49
-Thief	84
-Vampire	100
-Villain	74
-Villain3	75
-Warlock	42
-Warlock3	43
-Warmonger	94
-WarriorMage	1
-Wizard	109
-nuPeas	121
-]]
-
 local classChangeChart =
 {
 	--[const.Class.
@@ -373,9 +250,7 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			-- exit to Tularean Caves
 			replaceEnterEvent(502, {X = -3257, Y = -12544, Z = 833, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7d08orig.blv"})
 		elseif Map.Name == "7d08orig.blv" then -- Duplicated Tularean Caves
-			-- remove Loren event for now
-			Game.MapEvtLines:RemoveEvent(376)
-			evt.map[376].clear()
+			
 		elseif Map.Name == "7out13.odm" then -- Tatalia
 			replaceEnterEvent(505, {X = -2568, Y = -143, Z = 97, Direction = 257, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt09orig.blv"})
 		elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
@@ -453,8 +328,8 @@ if not Rev4ForMergeMapstatsBoosted then
 				local idx2 = indexes[j + 1]
 				if --[[v[idx] > 0 and ]]v[idx2] > 0 and v[idx] ~= v[idx2] then -- I once adopted a rule that when both spawn values are equal, no boost happens
 				-- idk why, but I'll preserve it to not break anything
-					v[idx] = v[idx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 2) or diffsel(2, 4, 6)) -- 2 = Antagarich
-					v[idx2] = v[idx2] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 2) or diffsel(2, 4, 6))
+					v[idx] = v[idx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5)) -- 2 = Antagarich
+					v[idx2] = v[idx2] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5))
 				end
 			end
 		end
@@ -541,7 +416,7 @@ evt.global[878] = function()
 end
 
 -- spawn monsters
-function events.AfterLoadMap()
+function events.LoadMap() -- needs to be before bolster function in General/AdaptiveMonstersStats.lua
 	if difficulty == const.Difficulty.Easy or Merge.ModSettings.Rev4ForMergeExtraMonsterSpawns ~= 1 then
 		mapvars.Rev4ForMergeMonstersSpawned = true
 		return
@@ -591,7 +466,7 @@ function events.AfterLoadMap()
 			pseudoSpawnpoint{monster = 304, x = 19412, y = 13127, z = 3994, count = isMedium() and "5-8" or "9-13", powerChances = isMedium() and {70, 25, 5} or {55, 35, 10}, radius = 2048, group = 57}
 			
 			-- powerful plate fighter guarding fort riverstride, idea as usual from MM7 Refilled
-			pseudoSpawnpoint{monster = 259, x = 10391, y = -1963, z = 1571, count = isMedium() and "1-1" or "2-2", powerChances = {0, 0, 100}, radius = 64, group = 57, exactZ = true}
+			pseudoSpawnpoint{monster = 259, x = 10391, y = -1963, z = 1571, count = isMedium() and 1 or 2, powerChances = {0, 0, 100}, radius = 64, group = 57, exactZ = true}
 			
 			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = true}
 		elseif Map.Name == "7out04.odm" then -- Tularean Forest
@@ -712,7 +587,229 @@ function events.AfterLoadMap()
 		evt.SetMonGroupBit{NPCGroup = 255, Bit = const.MonsterBits.Hostile, On = true}
 	end
 	mapvars.Rev4ForMergeMonstersSpawned = true
-	-- BOOST SUPER VAMPIRE IN 7d16.blv
+end
+
+-- Bosses
+if MS.Rev4ForMergeAddBosses == 1 then
+	function events.LoadMap() -- need to execute before bolster happens
+		if mapvars.Rev4ForMergeBossesSpawned then
+			return
+		end
+		
+		local function hp(mon, mul)
+			mon.FullHP = math.round(mon.FullHP * mul)
+			mon.HP = mon.FullHP
+		end
+		local function rItem(mon, item, chance, typ)
+			if item >= 0 then
+				evt.SetMonsterItem{Monster = mon:GetIndex(), Item = item, Has = true}
+			else
+				mon.TreasureItemLevel, mon.TreasureItemPercent, mon.TreasureItemType = -item, chance or 100, typ or const.ItemType.Any
+			end
+		end
+		local function rewards(mon, expMul, item, moneyMul)
+			mon.Experience = math.round(mon.Experience * expMul)
+			if type(item) == "table" then
+				rItem(mon, unpack(item))
+			else
+				rItem(mon, item)
+			end
+			mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * moneyMul)
+		end
+		local function spells(mon, sp1, ch1, sk1, sp2, ch2, sk2)
+			if sp1 then
+				mon.Spell, mon.SpellChance, mon.SpellSkill = sp1, ch1, sk1
+			end
+			if sp2 then
+				mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = sp2, ch2, sk2
+			end
+		end
+		
+		local makeHostile = {}
+		local function hostile(mon)
+			table.insert(makeHostile, mon.Group)
+		end
+		function events.AfterLoadMap() -- need AfterLoadMap to override some map scripts setting monsters to friendly
+			for i, v in ipairs(makeHostile) do
+				evt.SetMonGroupBit{NPCGroup = v, Bit = const.MonsterBits.Hostile, On = true}
+			end
+			events.Remove(1)
+		end
+		
+		mapvars.Rev4ForMergeBossesSpawned = true
+		
+		if Map.Name == "7out01.odm" then -- Emerald Island
+			
+		elseif Map.Name == "7out02.odm" then -- Harmondale
+			
+		elseif Map.Name == "7out03.odm" then -- Erathia
+			
+		elseif Map.Name == "7out04.odm" then -- The Tularean Forest
+			
+		elseif Map.Name == "7out05.odm" then -- Deyja
+			
+		elseif Map.Name == "7out06.odm" then -- The Bracada Desert
+			
+		elseif Map.Name == "out09.odm" then -- Evenmorn Island
+			
+		elseif Map.Name == "out10.odm" then -- Mount Nighon
+			
+		elseif Map.Name == "out11.odm" then -- The Barrow Downs
+			
+		elseif Map.Name == "out12.odm" then -- The Land of the Giants
+			
+		elseif Map.Name == "7out13.odm" then -- Tatalia
+			
+		elseif Map.Name == "out14.odm" then -- Avlee
+			
+		elseif Map.Name == "7out15.odm" then -- Shoals
+			
+		elseif Map.Name == "d01.blv" then -- The Erathian Sewers
+			
+		elseif Map.Name == "d02.blv" then -- The Maze
+			
+		elseif Map.Name == "d03.blv" then -- Castle Gloaming
+			
+		elseif Map.Name == "d04.blv" then -- The Temple of Baa
+			
+		elseif Map.Name == "7d05.blv" then -- The Arena
+			
+		elseif Map.Name == "7d06.blv" then -- The Temple of the Moon
+			
+		elseif Map.Name == "7d07.blv" then -- Thunderfist Mountain
+			
+		elseif Map.Name == "7d08.blv" then -- The Gauntlet
+			
+		elseif Map.Name == "7d09.blv" then -- The Titans' Stronghold
+			
+		elseif Map.Name == "7d10.blv" then -- The Breeding Zone
+			
+		elseif Map.Name == "7d11.blv" then -- The Walls of Mist
+			
+		elseif Map.Name == "7d12.blv" then -- The Coding Fortress
+			
+		elseif Map.Name == "7d13.blv" then -- Zokarr's Tomb
+			
+		elseif Map.Name == "7d14.blv" then -- The School of Sorcery
+			
+		elseif Map.Name == "7d15.blv" then -- Watchtower 6
+			
+		elseif Map.Name == "7d16.blv" then -- The Wine Cellar
+			-- BOOST SUPER VAMPIRE
+		elseif Map.Name == "7d17.blv" then -- The Tidewater Caverns
+			
+		elseif Map.Name == "7d18.blv" then -- Lord Markham's Manor
+			
+		elseif Map.Name == "7d19.blv" then -- Grand Temple of the Moon
+			
+		elseif Map.Name == "7d20.blv" then -- The Mercenary Guild
+			
+		elseif Map.Name == "7d21.blv" then -- White Cliff Cave
+			
+		elseif Map.Name == "7d22.blv" then -- The Hall under the Hill
+			
+		elseif Map.Name == "7d23.blv" then -- The Lincoln
+			
+		elseif Map.Name == "7d24.blv" then -- Stone City
+			-- idea from MM7 Reimagined
+			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64}[1]
+			mon.NameId = placemonAdditionalStart + 3
+			hp(mon, diffsel(5, 6, 8))
+			hostile(mon)
+			mon.Attack1.DamageDiceCount = math.round(mon.Attack1.DamageDiceCount * diffsel(2, 2.5, 3))
+			spells(mon, const.Spells.IceBolt, 50, JoinSkill(diffsel(10, 13, 16), const.GM))
+			boostResistances(mon, {20, 20, 20, 20, 0, 0, 0, 20, 20, 20})
+			rewards(mon, 25, -4, 10)
+		elseif Map.Name == "7d25.blv" then -- Celeste
+			
+		elseif Map.Name == "7d26.blv" then -- The Pit
+			
+		elseif Map.Name == "7d27.blv" then -- Colony Zod
+			
+		elseif Map.Name == "7d28.blv" then -- The Dragon's Lair
+			
+		elseif Map.Name == "7d29.blv" then -- Castle Harmondale
+			
+		elseif Map.Name == "7d30.blv" then -- Castle Lambent
+			
+		elseif Map.Name == "7d31.blv" then -- Fort Riverstride
+			
+		elseif Map.Name == "7d32.blv" then -- Castle Navan
+			
+		elseif Map.Name == "7d33.blv" then -- Castle Gryphonheart
+			
+		elseif Map.Name == "7d34.blv" then -- The Red Dwarf Mines
+			
+		elseif Map.Name == "7d35.blv" then -- Nighon Tunnels
+			
+		elseif Map.Name == "7d36.blv" then -- Tunnels to Eeofol
+			
+		elseif Map.Name == "7d37.blv" then -- The Haunted Mansion
+			
+		elseif Map.Name == "mdk01.blv" then -- Barrow VII
+			
+		elseif Map.Name == "mdk02.blv" then -- Barrow IV
+			
+		elseif Map.Name == "mdk03.blv" then -- Barrow II
+			
+		elseif Map.Name == "mdk04.blv" then -- Barrow XIV
+			
+		elseif Map.Name == "mdk05.blv" then -- Barrow III
+			
+		elseif Map.Name == "mdt01.blv" then -- Barrow IX
+			
+		elseif Map.Name == "mdt02.blv" then -- Barrow VI
+			
+		elseif Map.Name == "mdt03.blv" then -- Barrow I
+			
+		elseif Map.Name == "mdt04.blv" then -- Barrow VIII
+			
+		elseif Map.Name == "mdt05.blv" then -- Barrow XIII
+			
+		elseif Map.Name == "mdr01.blv" then -- Barrow X
+			
+		elseif Map.Name == "mdr02.blv" then -- Barrow XII
+			
+		elseif Map.Name == "mdr03.blv" then -- Barrow V
+			
+		elseif Map.Name == "mdr04.blv" then -- Barrow XI
+			
+		elseif Map.Name == "mdr05.blv" then -- Barrow XV
+			
+		elseif Map.Name == "mdt09.blv" then -- Blue Guardian's Trove
+			
+		elseif Map.Name == "mdt10.blv" then -- The Treasury
+			
+		elseif Map.Name == "mdt11.blv" then -- The Kennel
+			
+		elseif Map.Name == "mdt12.blv" then -- The Vault
+			
+		elseif Map.Name == "mdt14.blv" then -- The Bandit Caves
+			
+		elseif Map.Name == "mdt15.blv" then -- The Small House
+			
+		elseif Map.Name == "t01.blv" then -- Temple of the Light
+			
+		elseif Map.Name == "t02.blv" then -- Temple of the Dark
+			
+		elseif Map.Name == "t03.blv" then -- Grand Temple of the Sun
+			
+		elseif Map.Name == "t04.blv" then -- The Hall of the Pit
+			
+		elseif Map.Name == "7nwc.blv" then -- The Strange Temple
+			
+		elseif Map.Name == "7d08orig.blv" then -- The Tularean Caves
+			
+		elseif Map.Name == "7d12orig.blv" then -- Clanker's Laboratory
+			
+		elseif Map.Name == "mdt09orig.blv" then -- Wromthrax's Cave
+			
+		elseif Map.Name == "mdt12orig.blv" then -- The Dragon Caves
+			
+		elseif Map.Name == "7nwcorig.blv" then -- The Strange Temple
+			
+		end
+	end
 end
 
 -- remove most free endgame items
@@ -783,8 +880,6 @@ end
 
 ]=]
 
--- boost loot in the Gauntlet?
-
 if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 then
 	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
 	-- defined in file General/ZRev4 for Merge.lua
@@ -849,7 +944,8 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 				end
 			elseif Map.Name == "7d24.blv" then -- Stone City
 				-- gemstones! they make money problems go away, especially with stone city
-				-- reputation to sell at cost at like expert 5 merchant
+				-- reputation to sell at cost at like expert 5 merchant (which is basically given for free
+				-- at beginning of the game)
 				
 				--[[Chest 0
 				1	990	Emerald
@@ -1184,8 +1280,6 @@ else
 	end
 end
 
--- make fire aura always work with permanent enchantments (elemental mod)
-
 if MS.Rev4ForMergeManaHealthRegenStacking == 1 then
 	-- make mana and health-restoring spc items stack linearly (extra restore is (items - 1) * items / 2, so 0, 1, 3, 6, 10...
 	function events.RegenTick(pl)
@@ -1253,91 +1347,3 @@ function events.GetShopSellPriceMul(t)
 	if isEasy() then return end
 	t.Multiplier = isMedium() and 0.75 or 0.5
 end
-
--- IDEA:
--- make mana giving items always work, even on a knight (meditation, especially at expert level, is not a viable way of getting spellpoints
--- you'd need 15 expert just to cast 1 Darkfire Bolt!
-
--- HookData
---[[
-AC = false,
-	AF = false,
-	AH = 0,
-	AL = 1,
-	AX = 1,
-	BH = 29,
-	BL = 216,
-	BX = 7640,
-	CF = false,
-	CH = 0,
-	CL = 100,
-	CX = 100,
-	DF = false,
-	DH = 0,
-	DI = 37,
-	DL = 0,
-	DX = 0,
-	EAX = 1,
-	EBP = 1698124,
-	EBX = 11673048,
-	ECX = 100,
-	EDI = 37,
-	EDX = 0,
-	EFLAGS = 518,
-	ESI = 7,
-	ESP = 1698120,
-	FLAGS = 518,
-	ID = false,
-	IF = true,
-	NT = false,
-	OF = false,
-	PF = true,
-	RF = false,
-	SF = false,
-	SI = 7,
-	TF = false,
-	VIF = false,
-	VIP = false,
-	VM = false,
-	ZF = false,
-	ac = false,
-	af = false,
-	ah = 0,
-	al = 1,
-	ax = 1,
-	bh = 29,
-	bl = 216,
-	bx = 7640,
-	cf = false,
-	ch = 0,
-	cl = 100,
-	cx = 100,
-	df = false,
-	dh = 0,
-	di = 37,
-	dl = 0,
-	dx = 0,
-	eax = 1,
-	ebp = 1698124,
-	ebx = 11673048,
-	ecx = 100,
-	edi = 37,
-	edx = 0,
-	eflags = 518,
-	esi = 7,
-	esp = 1698120,
-	flags = 518,
-	id = false,
-	if = true,
-	nt = false,
-	of = false,
-	pf = true,
-	rf = false,
-	sf = false,
-	si = 7,
-	tf = false,
-	vif = false,
-	vip = false,
-	vm = false,
-	zf = false
---]]

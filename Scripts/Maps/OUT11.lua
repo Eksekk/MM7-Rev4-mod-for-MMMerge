@@ -80,6 +80,7 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
@@ -88,25 +89,16 @@ end
 
 events.LoadMap = evt.map[1].last
 
-evt.house[3] = 249  -- "Miner's Only"
 Game.MapEvtLines:RemoveEvent(3)
-evt.map[3] = function()
-	evt.EnterHouse{Id = 249}         -- "Miner's Only"
-end
-
+evt.HouseDoor(3, 249)  -- "Miner's Only"
 evt.house[4] = 249  -- "Miner's Only"
-Game.MapEvtLines:RemoveEvent(4)
-evt.map[4] = function()
-end
-
 evt.hint[5] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 884} then         -- Barrow Create Monsters Once
-		if evt.Cmp{"QBits", Value = 881} then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set{"QBits", Value = 884}         -- Barrow Create Monsters Once
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 884) then         -- Barrow Create Monsters Once
+		if evt.Cmp("QBits", 881) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 884)         -- Barrow Create Monsters Once
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = -22146, Y = 5899, Z = 0, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -16576, Y = 11844, Z = 0, -- ERROR: Not found
@@ -128,7 +120,7 @@ NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = 17875, Y = 6342, Z = 0, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		else
-			evt.Set{"QBits", Value = 880}         -- Barrow Normal
+			evt.Set("QBits", 880)         -- Barrow Normal
 		end
 	end
 end
@@ -138,173 +130,148 @@ events.LoadMap = evt.map[5].last
 evt.hint[10] = evt.str[16]  -- "Geppetto’s thermos"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 833} then         -- Gepetto's Thermos
-		evt.Set{"QBits", Value = 833}         -- Gepetto's Thermos
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 833) then         -- Gepetto's Thermos
+		evt.Set("QBits", 833)         -- Gepetto's Thermos
 		giveFreeSkill(const.Skills.Repair, 7, const.Expert)
 	end
 end
 
 evt.hint[100] = evt.str[7]  -- "House"
-evt.house[101] = 1151  -- "Dallia's Home"
 Game.MapEvtLines:RemoveEvent(101)
-evt.map[101] = function()
-	evt.EnterHouse{Id = 1151}         -- "Dallia's Home"
-end
-
-evt.house[102] = 1152  -- "Gemstone Residence"
+evt.HouseDoor(101, 1151)  -- "Dallia's Home"
 Game.MapEvtLines:RemoveEvent(102)
-evt.map[102] = function()
-	evt.EnterHouse{Id = 1152}         -- "Gemstone Residence"
-end
-
-evt.house[103] = 1153  -- "Feldspar's Home"
+evt.HouseDoor(102, 1152)  -- "Gemstone Residence"
 Game.MapEvtLines:RemoveEvent(103)
-evt.map[103] = function()
-	evt.EnterHouse{Id = 1153}         -- "Feldspar's Home"
-end
-
-evt.house[104] = 1154  -- "Fissure Residence"
+evt.HouseDoor(103, 1153)  -- "Feldspar's Home"
 Game.MapEvtLines:RemoveEvent(104)
-evt.map[104] = function()
-	evt.EnterHouse{Id = 1154}         -- "Fissure Residence"
-end
-
-evt.house[105] = 1155  -- "Garnet House"
+evt.HouseDoor(104, 1154)  -- "Fissure Residence"
 Game.MapEvtLines:RemoveEvent(105)
-evt.map[105] = function()
-	evt.EnterHouse{Id = 1155}         -- "Garnet House"
-end
-
-evt.house[106] = 1156  -- "The House of Remedies"
+evt.HouseDoor(105, 1155)  -- "Garnet House"
 Game.MapEvtLines:RemoveEvent(106)
-evt.map[106] = function()
-	evt.EnterHouse{Id = 1156}         -- "The House of Remedies"
-end
-
+evt.HouseDoor(106, 1156)  -- "The House of Remedies"
 evt.hint[201] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(201)
 evt.map[201] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[202] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(202)
 evt.map[202] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[203] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(203)
 evt.map[203] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[204] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(204)
 evt.map[204] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[205] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(205)
 evt.map[205] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[206] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(206)
 evt.map[206] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[207] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(207)
 evt.map[207] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[208] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(208)
 evt.map[208] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 	evt.MoveToMap{X = 3072, Y = -416, Z = 0, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 end
 
 evt.hint[209] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(209)
 evt.map[209] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[210] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(210)
 evt.map[210] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[211] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[212] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(212)
 evt.map[212] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[213] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(213)
 evt.map[213] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[214] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(214)
 evt.map[214] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[215] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(215)
 evt.map[215] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[216] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(216)
 evt.map[216] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[217] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(217)
 evt.map[217] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[218] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(218)
 evt.map[218] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[219] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(219)
 evt.map[219] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[220] = evt.str[1]  -- "Chest "
 Game.MapEvtLines:RemoveEvent(220)
 evt.map[220] = function()
-	evt.OpenChest{Id = 0}
-	if not evt.Cmp{"QBits", Value = 578} then         -- Placed Golem torso
-		if not evt.Cmp{"QBits", Value = 737} then         -- Torso - I lost it
-			evt.Add{"QBits", Value = 737}         -- Torso - I lost it
+	evt.OpenChest(0)
+	if not evt.Cmp("QBits", 578) then         -- Placed Golem torso
+		if not evt.Cmp("QBits", 737) then         -- Torso - I lost it
+			evt.Add("QBits", 737)         -- Torso - I lost it
 		end
 	end
 end
@@ -316,32 +283,31 @@ evt.hint[320] = evt.str[3]  -- "Well"
 evt.hint[321] = evt.str[4]  -- "Drink from the Well"
 Game.MapEvtLines:RemoveEvent(321)
 evt.map[321] = function()
-	if evt.Cmp{"PlayerBits", Value = 18} then
-		evt.StatusText{Str = 11}         -- "Refreshing!"
+	if evt.Cmp("PlayerBits", 18) then
+		evt.StatusText(11)         -- "Refreshing!"
 		return
 	end
-	if not evt.Cmp{"AutonotesBits", Value = 282} then         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
-		evt.Add{"AutonotesBits", Value = 282}         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
+	if not evt.Cmp("AutonotesBits", 282) then         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
+		evt.Add("AutonotesBits", 282)         -- "25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs."
 	end
-	evt.Add{"FireResBonus", Value = 25}
-	evt.Add{"PlayerBits", Value = 18}
-	evt.StatusText{Str = 70}         -- "+25 Fire Resistance (Temporary)"
+	evt.Add("FireResBonus", 25)
+	evt.Add("PlayerBits", 18)
+	evt.StatusText(70)         -- "+25 Fire Resistance (Temporary)"
 end
 
-Timer(function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	evt.Subtract{"PlayerBits", Value = 18}
-end, const.Day, 1*const.Hour)
+RefillTimer(function()
+	evt.ForPlayer("All")
+	evt.Subtract("PlayerBits", 18)
+end, const.Day)
 
 evt.hint[322] = evt.str[4]  -- "Drink from the Well"
 Game.MapEvtLines:RemoveEvent(322)
 evt.map[322] = function()
-	if evt.Cmp{"Paralysed", Value = 0} then
-		evt.Set{"MainCondition", Value = const.Condition.Cursed}
-		evt.StatusText{Str = 71}         -- "Paralysis Relieved"
+	if evt.Cmp("Paralysed", 0) then
+		evt.Set("MainCondition", const.Condition.Cursed)
+		evt.StatusText(71)         -- "Paralysis Relieved"
 	else
-		evt.StatusText{Str = 11}         -- "Refreshing!"
+		evt.StatusText(11)         -- "Refreshing!"
 	end
 end
 
@@ -349,85 +315,82 @@ evt.hint[451] = evt.str[52]  -- "Shrine"
 evt.hint[452] = evt.str[53]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(452)
 evt.map[452] = function()
-	if evt.Cmp{"PlayerBits", Value = 29} then
-		evt.StatusText{Str = 54}         -- "You Pray"
+	if evt.Cmp("PlayerBits", 29) then
+		evt.StatusText(54)         -- "You Pray"
 	else
-		evt.Add{"BaseEndurance", Value = 10}
-		evt.Add{"BaseMight", Value = 10}
-		evt.Add{"PlayerBits", Value = 29}
-		evt.StatusText{Str = 76}         -- "+10 Endurance and Might(Permanent)"
+		evt.Add("BaseEndurance", 10)
+		evt.Add("BaseMight", 10)
+		evt.Add("PlayerBits", 29)
+		evt.StatusText(76)         -- "+10 Endurance and Might(Permanent)"
 	end
 end
 
 evt.hint[453] = evt.str[50]  -- "Obelisk"
 Game.MapEvtLines:RemoveEvent(453)
 evt.map[453] = function()
-	if not evt.Cmp{"QBits", Value = 685} then         -- Visited Obelisk in Area 11
-		evt.StatusText{Str = 51}         -- "ivg_whn_"
-		evt.Add{"AutonotesBits", Value = 318}         -- "Obelisk message #10: ivg_whn_"
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Add{"QBits", Value = 685}         -- Visited Obelisk in Area 11
+	if not evt.Cmp("QBits", 685) then         -- Visited Obelisk in Area 11
+		evt.StatusText(51)         -- "ivg_whn_"
+		evt.Add("AutonotesBits", 318)         -- "Obelisk message #10: ivg_whn_"
+		evt.ForPlayer("All")
+		evt.Add("QBits", 685)         -- Visited Obelisk in Area 11
 	end
 end
 
 evt.hint[250] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(250)
 evt.map[250] = function()  -- function events.LoadMap()
-	if evt.CheckSeason{Season = 2} then
+	if evt.CheckSeason(2) then
 		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree14"}
 		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree17"}
-		evt.StatusText{Str = 62}         -- ""
+		evt.StatusText(62)         -- ""
 		goto _23
 	end
-	if evt.CheckSeason{Season = 3} then
+	if evt.CheckSeason(3) then
 		evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree15"}
 		evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree18"}
-		evt.StatusText{Str = 63}         -- ""
+		evt.StatusText(63)         -- ""
 		goto _23
 	end
 	evt.SetSprite{SpriteId = 5, Visible = 1, Name = "7tree13"}
 	evt.SetSprite{SpriteId = 6, Visible = 1, Name = "7tree16"}
 	evt.SetSprite{SpriteId = 7, Visible = 1, Name = "7tree22"}
 	evt.SetSprite{SpriteId = 10, Visible = 1, Name = "0"}
-	if evt.Cmp{"MapVar50", Value = 1} then
+	if evt.Cmp("MapVar50", 1) then
 		evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree38"}
 	end
-	if evt.Cmp{"MapVar51", Value = 1} then
+	if evt.Cmp("MapVar51", 1) then
 		evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree38"}
 	end
-	if evt.Cmp{"MapVar52", Value = 1} then
+	if evt.Cmp("MapVar52", 1) then
 		evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree38"}
 	end
-	if evt.Cmp{"MapVar53", Value = 1} then
+	if evt.Cmp("MapVar53", 1) then
 		evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree38"}
 	end
-	if evt.Cmp{"MapVar54", Value = 1} then
+	if evt.Cmp("MapVar54", 1) then
 		evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree37"}
 	else
 		evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree38"}
 	end
-	if evt.Cmp{"MapVar55", Value = 1} then
+	if evt.Cmp("MapVar55", 1) then
 		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree"}
 	else
 		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree38"}
 	end
-	if evt.CheckSeason{Season = 1} then
-		evt.StatusText{Str = 61}         -- "You received an apple"
+	if evt.CheckSeason(1) then
+		evt.StatusText(61)         -- "You received an apple"
+	elseif evt.CheckSeason(0) then
+		evt.StatusText(60)         -- "Fruit Tree"
 	else
-		if evt.CheckSeason{Season = 0} then
-			evt.StatusText{Str = 60}         -- "Fruit Tree"
-		else
-			evt.StatusText{Str = 64}         -- ""
-		end
+		evt.StatusText(64)         -- ""
 	end
 	do return end
 ::_23::
@@ -446,12 +409,12 @@ events.LoadMap = evt.map[250].last
 evt.hint[251] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(251)
 evt.map[251] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar50", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar50", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar50", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar50", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -461,12 +424,12 @@ end
 evt.hint[252] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(252)
 evt.map[252] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar51", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar51", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar51", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar51", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -476,12 +439,12 @@ end
 evt.hint[253] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(253)
 evt.map[253] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar52", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar52", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar52", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar52", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -491,12 +454,12 @@ end
 evt.hint[254] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(254)
 evt.map[254] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar53", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar53", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar53", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar53", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -506,12 +469,12 @@ end
 evt.hint[255] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(255)
 evt.map[255] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar54", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar54", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar54", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar54", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -521,12 +484,12 @@ end
 evt.hint[256] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(256)
 evt.map[256] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar55", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar55", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar55", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar55", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -536,44 +499,39 @@ end
 evt.hint[501] = evt.str[30]  -- "Enter Stone City"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 880} then         -- Barrow Normal
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 880) then         -- Barrow Normal
 		goto _5
 	end
-	if evt.Cmp{"Counter2", Value = 180} then
+	if evt.Cmp("Counter2", 180) then
 		goto _18
 	end
-	if evt.Cmp{"QBits", Value = 882} then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		if evt.Cmp{"Counter2", Value = 304} then
+	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+		if evt.Cmp("Counter2", 304) then
 			goto _18
 		end
-		if evt.Cmp{"Inventory", Value = 1075} then         -- "Plague Elixir"
+		if evt.Cmp("Inventory", 1075) then         -- "Plague Elixir"
 			goto _5
 		end
-	else
-		if not evt.Cmp{"QBits", Value = 881} then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			goto _5
-		end
-		if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
-			evt.SetNPCGreeting{NPC = 398, Greeting = 143}         -- "Hothfarr IX" : "Have you brought a cure yet?"
-			evt.Set{"QBits", Value = 882}         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-			evt.Subtract{"QBits", Value = 881}         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.ForPlayer(-- ERROR: Const not found
-"All")
-			evt.Set{"Counter2", Value = 0}
-			evt.SpeakNPC{NPC = 398}         -- "Hothfarr IX"
-			return
-		end
+	elseif not evt.Cmp("QBits", 881) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+		goto _5
+	elseif evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
+		evt.SetNPCGreeting{NPC = 398, Greeting = 143}         -- "Hothfarr IX" : "Have you brought a cure yet?"
+		evt.Set("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+		evt.Subtract("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+		evt.ForPlayer("All")
+		evt.Set("Counter2", 0)
+		evt.SpeakNPC(398)         -- "Hothfarr IX"
+		return
 	end
-	evt.StatusText{Str = 20}         -- "The Gates are Locked"
+	evt.StatusText(20)         -- "The Gates are Locked"
 	do return end
 ::_5::
 	evt.MoveToMap{X = 256, Y = -4992, Z = 33, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 408, Icon = 2, Name = "7D24.blv"}         -- "Stone City"
 	do return end
 ::_18::
-	evt.Set{"Awards", Value = 124}         -- "Inducted into the Erathian Hall of Shame!
-	evt.SpeakNPC{NPC = 369}         -- "Doom Bearer
+	evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!
+	evt.SpeakNPC(369)         -- "Doom Bearer
 end
 
 evt.hint[502] = evt.str[32]  -- "Enter Mansion"
@@ -610,9 +568,4 @@ function events.AfterLoadMap()
 	Party.QBits[946] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
-Game.MapEvtLines:RemoveEvent(501)
-evt.hint[501] = evt.str[30]
-evt.map[501] = function()
-	evt.MoveToMap {179, -5386, 33, 240, 0, 0, 408, 2, "7d24.blv"}
-	--evt.MoveToMap {245, -5362, 34, 512, 0, 0, 408, 2, "7d24.blv"}
-end
+

@@ -22,9 +22,10 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	evt.Set{"MapVar0", Value = 1}
+	evt.Set("MapVar0", 1)
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 end
 
@@ -32,13 +33,12 @@ events.LoadMap = evt.map[1].last
 
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LeaveMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
+	evt.ForPlayer("All")
 ::_2::
-	if not evt.Cmp{"Inventory", Value = 1143} then         -- "Telekinesis"
+	if not evt.Cmp("Inventory", 1143) then         -- "Telekinesis"
 		return
 	end
-	evt.Subtract{"Inventory", Value = 1143}         -- "Telekinesis"
+	evt.Subtract("Inventory", 1143)         -- "Telekinesis"
 	goto _2
 end
 
@@ -63,7 +63,7 @@ end
 
 Game.MapEvtLines:RemoveEvent(6)
 evt.map[6] = function()
-	if not evt.Cmp{"MapVar0", Value = 2} then
+	if not evt.Cmp("MapVar0", 2) then
 		evt.SetDoorState{Id = 8, State = 0}
 		evt.SetDoorState{Id = 9, State = 0}
 	end
@@ -138,7 +138,7 @@ evt.hint[17] = evt.str[9]  -- "Drawer"
 Game.MapEvtLines:RemoveEvent(17)
 evt.map[17] = function()
 	evt.SetDoorState{Id = 26, State = 0}
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[18] = evt.str[1]  -- "Door"
@@ -156,7 +156,7 @@ end
 
 Game.MapEvtLines:RemoveEvent(20)
 evt.map[20] = function()
-	evt.Add{"Inventory", Value = 1143}         -- "Telekinesis"
+	evt.Add("Inventory", 1143)         -- "Telekinesis"
 	evt.SetDoorState{Id = 29, State = 0}
 end
 
@@ -193,122 +193,122 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[196] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(196)
 evt.map[196] = function()
 	local i
-	if evt.Cmp{"MapVar49", Value = 1} then
+	if evt.Cmp("MapVar49", 1) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -317,15 +317,15 @@ evt.map[196] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _14
 	elseif i == 5 then
@@ -338,39 +338,38 @@ evt.map[196] = function()
 		return
 	end
 ::_15::
-	evt.Add{"MapVar49", Value = 1}
+	evt.Add("MapVar49", 1)
 end
 
 evt.hint[197] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(197)
 evt.map[197] = function()
-	evt.StatusText{Str = 19}         -- ""
+	evt.StatusText(19)         -- ""
 end
 
 evt.hint[376] = evt.str[11]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
-	if not evt.Cmp{"QBits", Value = 574} then         -- Purified the Altar of Evil.  Priest of Light promo quest.
-		if evt.Cmp{"QBits", Value = 554} then         -- "Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Daedalus Falk on Emerald Island."
+	if not evt.Cmp("QBits", 574) then         -- Purified the Altar of Evil.  Priest of Light promo quest.
+		if evt.Cmp("QBits", 554) then         -- "Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Rebecca Devine in Celeste."
 			evt.SetTexture{Facet = 20, Name = "T2BEDSHT"}
-			evt.ForPlayer(-- ERROR: Const not found
-"All")
-			evt.Set{"QBits", Value = 574}         -- Purified the Altar of Evil.  Priest of Light promo quest.
-			evt.Add{"QBits", Value = 757}         -- "Congratulations"
-			evt.Subtract{"QBits", Value = 757}         -- "Congratulations"
-			evt.StatusText{Str = 15}         -- "You have Purified the Altar"
+			evt.ForPlayer("All")
+			evt.Set("QBits", 574)         -- Purified the Altar of Evil.  Priest of Light promo quest.
+			evt.Add("QBits", 757)         -- "Congratulations"
+			evt.Subtract("QBits", 757)         -- "Congratulations"
+			evt.StatusText(15)         -- "You have Purified the Altar"
 		end
 	end
 end
 
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
-	if evt.Cmp{"MapVar0", Value = 2} then
-		evt.Set{"MapVar0", Value = 1}
+	if evt.Cmp("MapVar0", 2) then
+		evt.Set("MapVar0", 1)
 		evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = false}
 		evt.SetDoorState{Id = 30, State = 1}
 	else
-		evt.Set{"MapVar0", Value = 2}
+		evt.Set("MapVar0", 2)
 		evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = true}
 		evt.SetDoorState{Id = 30, State = 0}
 	end
@@ -379,9 +378,8 @@ end
 evt.hint[501] = evt.str[2]  -- "Leave the Grand Temple of the Moon"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	evt.Subtract{"Inventory", Value = 1143}         -- "Telekinesis"
+	evt.ForPlayer("All")
+	evt.Subtract("Inventory", 1143)         -- "Telekinesis"
 	evt.MoveToMap{X = 8472, Y = -3176, Z = 32, Direction = 1408, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "Out09.odm"}
 end
 

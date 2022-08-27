@@ -41,6 +41,7 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
@@ -59,16 +60,16 @@ evt.hint[4] = evt.str[4]  -- "Button"
 Game.MapEvtLines:RemoveEvent(4)
 evt.map[4] = function()
 	evt.SetDoorState{Id = 6, State = 1}
-	evt.Set{"MapVar0", Value = 1}
+	evt.Set("MapVar0", 1)
 	evt.SetDoorState{Id = 20, State = 0}
 end
 
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()
-	if evt.Cmp{"MapVar0", Value = 1} then
+	if evt.Cmp("MapVar0", 1) then
 		evt.SetDoorState{Id = 5, State = 0}
 		evt.SetDoorState{Id = 4, State = 0}
-		evt.Set{"MapVar0", Value = 0}
+		evt.Set("MapVar0", 0)
 	end
 end
 
@@ -115,102 +116,90 @@ end
 evt.hint[12] = evt.str[12]  -- "Promotion Brazier"
 Game.MapEvtLines:RemoveEvent(12)
 evt.map[12] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 861} then         -- One Use
-		evt.StatusText{Str = 20}         -- "Only BDJ can activate this Brazier."
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 861) then         -- One Use
+		evt.StatusText(20)         -- "Only BDJ can activate this Brazier."
 		return
 	end
-	evt.Subtract{"QBits", Value = 861}         -- One Use
-	if evt.Cmp{"QBits", Value = 850} then         -- BDJ Final
-		evt.Set{"QBits", Value = 860}         -- Final
-		evt.ForPlayer(-- ERROR: Const not found
-3)
+	evt.Subtract("QBits", 861)         -- One Use
+	if evt.Cmp("QBits", 850) then         -- BDJ Final
+		evt.Set("QBits", 860)         -- Final
+		evt.ForPlayer(3)
+	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
+		evt.Set("QBits", 850)         -- BDJ Final
+		evt.ForPlayer(2)
+	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
+		evt.Set("QBits", 849)         -- BDJ 3
+		evt.ForPlayer(1)
 	else
-		if evt.Cmp{"QBits", Value = 849} then         -- BDJ 3
-			evt.Set{"QBits", Value = 850}         -- BDJ Final
-			evt.ForPlayer(-- ERROR: Const not found
-2)
+		evt.Set("QBits", 848)         -- BDJ 2
+		evt.ForPlayer(0)
+	end
+	if evt.Cmp("QBits", 851) then         -- Sorcerer
+		evt.Add("BaseIntellect", 20)
+		evt.Set("ClassIs", const.Class.ArchMage)
+		evt.Subtract("QBits", 851)         -- Sorcerer
+	else
+		if evt.Cmp("QBits", 852) then         -- Cleric
+			evt.Add("BasePersonality", 20)
+			evt.Set("ClassIs", const.Class.PriestLight)
+			evt.Subtract("QBits", 852)         -- Cleric
+			goto _78
+		end
+		if evt.Cmp("QBits", 853) then         -- Fighter
+			evt.Add("BaseEndurance", 15)
+			evt.Add("BaseMight", 5)
+			evt.Set("ClassIs", const.Class.Champion)
+			evt.Subtract("QBits", 853)         -- Fighter
+			goto _78
+		end
+		if evt.Cmp("QBits", 854) then         -- Paladin
+			evt.Add("BasePersonality", 5)
+			evt.Add("BaseEndurance", 10)
+			evt.Add("BaseMight", 5)
+			evt.Set("ClassIs", const.Class.Hero)
+			evt.Subtract("QBits", 854)         -- Paladin
+			goto _78
+		end
+		if evt.Cmp("QBits", 855) then         -- Monk
+			evt.Add("BaseEndurance", 10)
+			evt.Add("BaseMight", 10)
+			evt.Set("ClassIs", const.Class.Master)
+			evt.Subtract("QBits", 855)         -- Monk
+			goto _78
+		end
+		if evt.Cmp("QBits", 856) then         -- Thief
+			evt.Add("BaseLuck", 20)
+			evt.Set("ClassIs", const.Class.Spy)
+			evt.Subtract("QBits", 856)         -- Thief
+			goto _78
+		end
+		if evt.Cmp("QBits", 857) then         -- Ranger
+			evt.Add("BaseEndurance", 10)
+			evt.Add("BaseMight", 10)
+			evt.Set("ClassIs", const.Class.RangerLord)
+			evt.Subtract("QBits", 857)         -- Ranger
+		elseif evt.Cmp("QBits", 858) then         -- Archer
+			evt.Add("BaseSpeed", 15)
+			evt.Add("BaseIntellect", 5)
+			evt.Set("ClassIs", const.Class.MasterArcher)
+			evt.Subtract("QBits", 858)         -- Archer
 		else
-			if evt.Cmp{"QBits", Value = 848} then         -- BDJ 2
-				evt.Set{"QBits", Value = 849}         -- BDJ 3
-				evt.ForPlayer(-- ERROR: Const not found
-1)
-			else
-				evt.Set{"QBits", Value = 848}         -- BDJ 2
-				evt.ForPlayer(-- ERROR: Const not found
-0)
-			end
+			evt.Add("BaseIntellect", 10)
+			evt.Add("BasePersonality", 10)
+			evt.Set("ClassIs", const.Class.ArchDruid)
+			evt.Subtract("QBits", 859)         -- Druid
 		end
 	end
-	if evt.Cmp{"QBits", Value = 851} then         -- Sorcerer
-		evt.Add{"BaseIntellect", Value = 20}
-		evt.Set{"ClassIs", Value = const.Class.ArchMage}
-		evt.Subtract{"QBits", Value = 851}         -- Sorcerer
-	else
-		if evt.Cmp{"QBits", Value = 852} then         -- Cleric
-			evt.Add{"BasePersonality", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.PriestLight}
-			evt.Subtract{"QBits", Value = 852}         -- Cleric
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 853} then         -- Fighter
-			evt.Add{"BaseEndurance", Value = 15}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Champion}
-			evt.Subtract{"QBits", Value = 853}         -- Fighter
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 854} then         -- Paladin
-			evt.Add{"BasePersonality", Value = 5}
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 5}
-			evt.Set{"ClassIs", Value = const.Class.Hero}
-			evt.Subtract{"QBits", Value = 854}         -- Paladin
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 855} then         -- Monk
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.Master}
-			evt.Subtract{"QBits", Value = 855}         -- Monk
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 856} then         -- Thief
-			evt.Add{"BaseLuck", Value = 20}
-			evt.Set{"ClassIs", Value = const.Class.Spy}
-			evt.Subtract{"QBits", Value = 856}         -- Thief
-			goto _78
-		end
-		if evt.Cmp{"QBits", Value = 857} then         -- Ranger
-			evt.Add{"BaseEndurance", Value = 10}
-			evt.Add{"BaseMight", Value = 10}
-			evt.Set{"ClassIs", Value = const.Class.RangerLord}
-			evt.Subtract{"QBits", Value = 857}         -- Ranger
-		else
-			if evt.Cmp{"QBits", Value = 858} then         -- Archer
-				evt.Add{"BaseSpeed", Value = 15}
-				evt.Add{"BaseIntellect", Value = 5}
-				evt.Set{"ClassIs", Value = const.Class.MasterArcher}
-				evt.Subtract{"QBits", Value = 858}         -- Archer
-			else
-				evt.Add{"BaseIntellect", Value = 10}
-				evt.Add{"BasePersonality", Value = 10}
-				evt.Set{"ClassIs", Value = const.Class.ArchDruid}
-				evt.Subtract{"QBits", Value = 859}         -- Druid
-			end
-		end
-	end
-	if not evt.Cmp{"FireSkill", Value = 8} then
-		evt.Set{"FireSkill", Value = 72}
+	if not evt.Cmp("FireSkill", 8) then
+		evt.Set("FireSkill", 72)
 	end
 ::_78::
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"QBits", Value = 860} then         -- Final
+	evt.ForPlayer("All")
+	if evt.Cmp("QBits", 860) then         -- Final
 		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 837}         -- "The Coding Wizard" : "Let's Continue."
 	else
-		evt.StatusText{Str = 21}         -- "Return to the Coding Wizard."
+		evt.StatusText(21)         -- "Return to the Coding Wizard."
 		evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 800}         -- "The Coding Wizard" : "New Profession."
 	end
 end
@@ -224,128 +213,128 @@ evt.hint[18] = evt.str[28]  -- "Accuracy Barrel"
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[7]  -- "Cabinet"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[196] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(196)
 evt.map[196] = function()
 	local i
-	if evt.Cmp{"MapVar49", Value = 1} then
+	if evt.Cmp("MapVar49", 1) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -354,15 +343,15 @@ evt.map[196] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _14
 	elseif i == 5 then
@@ -375,14 +364,14 @@ evt.map[196] = function()
 		return
 	end
 ::_15::
-	evt.Add{"MapVar49", Value = 1}
+	evt.Add("MapVar49", 1)
 end
 
 evt.hint[197] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(197)
 evt.map[197] = function()
 	local i
-	if evt.Cmp{"MapVar50", Value = 1} then
+	if evt.Cmp("MapVar50", 1) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -391,15 +380,15 @@ evt.map[197] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _14
 	elseif i == 5 then
@@ -412,14 +401,14 @@ evt.map[197] = function()
 		return
 	end
 ::_15::
-	evt.Add{"MapVar50", Value = 1}
+	evt.Add("MapVar50", 1)
 end
 
 evt.hint[198] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(198)
 evt.map[198] = function()
 	local i
-	if evt.Cmp{"MapVar51", Value = 1} then
+	if evt.Cmp("MapVar51", 1) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -428,15 +417,15 @@ evt.map[198] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _14
 	elseif i == 5 then
@@ -449,14 +438,14 @@ evt.map[198] = function()
 		return
 	end
 ::_15::
-	evt.Add{"MapVar51", Value = 1}
+	evt.Add("MapVar51", 1)
 end
 
 evt.hint[199] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(199)
 evt.map[199] = function()
 	local i
-	if evt.Cmp{"MapVar52", Value = 1} then
+	if evt.Cmp("MapVar52", 1) then
 		return
 	end
 	i = Game.Rand() % 6
@@ -465,15 +454,15 @@ evt.map[199] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _14
 	elseif i == 5 then
@@ -486,21 +475,20 @@ evt.map[199] = function()
 		return
 	end
 ::_15::
-	evt.Add{"MapVar52", Value = 1}
+	evt.Add("MapVar52", 1)
 end
 
 evt.hint[200] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(200)
 evt.map[200] = function()
-	evt.StatusText{Str = 19}         -- ""
+	evt.StatusText(19)         -- ""
 end
 
 evt.hint[376] = evt.str[22]  -- "Summon the Coding Wizard"
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 862} then         -- Two Use
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 862) then         -- Two Use
 		evt.SetTexture{Facet = 1, Name = "solid01"}
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
@@ -509,20 +497,20 @@ evt.map[376] = function()
 
 Now what can I do for you?" ]]
 	end
-	evt.Set{"QBits", Value = 862}         -- Two Use
+	evt.Set("QBits", 862)         -- Two Use
 end
 
 evt.hint[451] = evt.str[16]  -- "Take a Drink"
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
-	if not evt.Cmp{"EnduranceBonus", Value = 35} then
-		if not evt.Cmp{"BaseEndurance", Value = 35} then
-			evt.Set{"PoisonedRed", Value = 0}
-			evt.StatusText{Str = 17}         -- "Not Very Refreshing"
+	if not evt.Cmp("EnduranceBonus", 35) then
+		if not evt.Cmp("BaseEndurance", 35) then
+			evt.Set("PoisonedRed", 0)
+			evt.StatusText(17)         -- "Not Very Refreshing"
 			return
 		end
 	end
-	evt.StatusText{Str = 18}         -- "Refreshing"
+	evt.StatusText(18)         -- "Refreshing"
 end
 
 evt.hint[452] = evt.str[100]  -- ""
@@ -535,13 +523,12 @@ end
 evt.hint[501] = evt.str[2]  -- "Entrance to Vori"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if evt.Cmp{"Inventory", Value = 1578} then         -- "VORI Password"
-		evt.Set{"QBits", Value = 875}         -- Eradicated
-		evt.Set{"Eradicated", Value = 0}
+	evt.ForPlayer("All")
+	if evt.Cmp("Inventory", 1578) then         -- "VORI Password"
+		evt.Set("QBits", 875)         -- Eradicated
+		evt.Set("Eradicated", 0)
 	else
-		evt.StatusText{Str = 9}         -- "You need the pasword to enter Vori."
+		evt.StatusText(9)         -- "You need the pasword to enter Vori."
 	end
 end
 

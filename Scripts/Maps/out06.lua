@@ -2,6 +2,9 @@
 
 function events.AfterLoadMap()
 	Party.QBits[926] = true	-- DDMapBuff, changed for rev4 for merge
+	if Party.QBits[294] then
+		evt.SetSprite(12, 1, "OrMatt1")
+	end
 end
 
 GroundTex = "gdtyl"
@@ -23,5 +26,16 @@ function events.TileSound(t)
 	local Grp = TileSounds[Game.CurrentTileBin[Map.TileMap[t.X][t.Y]].TileSet]
 	if Grp then
 		t.Sound = Grp[t.Run]
+	end
+end
+
+evt.map[104] = function()
+	Party.QBits[305] = true	-- TP Buff Shadowspire
+end
+
+evt.map[410] = function()
+	if Party.QBits[293] and not Party.QBits[294] and evt.All.Cmp("Inventory", 668) then
+		Party.QBits[294] = true
+		evt.SetSprite(12, 1, "OrMatt1")
 	end
 end

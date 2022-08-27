@@ -2956,8 +2956,8 @@ evt.global[920] = function()
 		evt.SetNPCGroupNews{NPCGroup = 81, NPCNews = 84}         -- "Peasents in the wharf town" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.SetNPCGroupNews{NPCGroup = 82, NPCNews = 84}         -- "Peasents in the village area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.SetNPCGroupNews{NPCGroup = 83, NPCNews = 84}         -- "Peasents in the Dock area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
-		evt.Set(-- ERROR: Not found
-"Awards", 109)
+		evt.Set(-- ERROR: Award index outside of normal range
+"Awards", 133)         -- "Inducted into the Erathian Hall of Shame!
 	else
 		evt.SetMessage(1253)         -- "Don't forget you'll need the wetsuits to get to the Lincoln.  These suits are in the chest outside this throne room and the Lincoln is in the sea west of Avlee.  Return here with the Overthruster as soon as possible."
 	end

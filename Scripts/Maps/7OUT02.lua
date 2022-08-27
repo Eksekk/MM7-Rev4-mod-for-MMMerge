@@ -77,383 +77,288 @@ local TXT = Localize{
 table.copy(TXT, evt.str, true)
 
 
+
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 796} then         -- Beginning of Festival
-		evt.Subtract{"QBits", Value = 796}         -- Beginning of Festival
-		evt.Set{"QBits", Value = 806}         -- Return to EI
-		evt.SpeakNPC{NPC = 345}         -- "Wren Wilder"
+	if evt.Cmp("QBits", 796) then         -- Beginning of Festival
+		evt.Subtract("QBits", 796)         -- Beginning of Festival
+		evt.Set("QBits", 806)         -- Return to EI
+		evt.SpeakNPC(345)         -- "Wren Wilder"
 	end
 end
 
 events.LoadMap = evt.map[1].last
 
 evt.house[2] = 382  -- "Castle Harmondale"
-Game.MapEvtLines:RemoveEvent(2)
-evt.map[2] = function()
-end
-
 evt.house[3] = 9  -- "Tempered Steel"
 Game.MapEvtLines:RemoveEvent(3)
 evt.map[3] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 9}         -- "Tempered Steel"
+		evt.EnterHouse(9)         -- "Tempered Steel"
 	end
 end
 
 evt.house[4] = 9  -- "Tempered Steel"
-Game.MapEvtLines:RemoveEvent(4)
-evt.map[4] = function()
-end
-
 evt.house[5] = 47  -- "The Peasant's Smithy"
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 47}         -- "The Peasant's Smithy"
+		evt.EnterHouse(47)         -- "The Peasant's Smithy"
 	end
 end
 
 evt.house[6] = 47  -- "The Peasant's Smithy"
-Game.MapEvtLines:RemoveEvent(6)
-evt.map[6] = function()
-end
-
 evt.house[7] = 85  -- "Otto's Oddities"
 Game.MapEvtLines:RemoveEvent(7)
 evt.map[7] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 85}         -- "Otto's Oddities"
+		evt.EnterHouse(85)         -- "Otto's Oddities"
 	end
 end
 
 evt.house[8] = 85  -- "Otto's Oddities"
-Game.MapEvtLines:RemoveEvent(8)
-evt.map[8] = function()
-end
-
 evt.house[9] = 117  -- "Philters and Elixirs"
 Game.MapEvtLines:RemoveEvent(9)
 evt.map[9] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 117}         -- "Philters and Elixirs"
+		evt.EnterHouse(117)         -- "Philters and Elixirs"
 	end
 end
 
 evt.house[10] = 117  -- "Philters and Elixirs"
-Game.MapEvtLines:RemoveEvent(10)
-evt.map[10] = function()
-end
-
 evt.house[11] = 311  -- "WelNin Cathedral"
 Game.MapEvtLines:RemoveEvent(11)
 evt.map[11] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 311}         -- "WelNin Cathedral"
+		evt.EnterHouse(311)         -- "WelNin Cathedral"
 	end
 end
 
 evt.house[12] = 311  -- "WelNin Cathedral"
-Game.MapEvtLines:RemoveEvent(12)
-evt.map[12] = function()
-end
-
 evt.house[13] = 1571  -- "Basic Principles"
 Game.MapEvtLines:RemoveEvent(13)
 evt.map[13] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1571}         -- "Basic Principles"
+		evt.EnterHouse(1571)         -- "Basic Principles"
 	end
 end
 
 evt.house[14] = 1571  -- "Basic Principles"
-Game.MapEvtLines:RemoveEvent(14)
-evt.map[14] = function()
-end
-
 evt.house[15] = 240  -- "On the House"
 Game.MapEvtLines:RemoveEvent(15)
 evt.map[15] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 240}         -- "On the House"
+		evt.EnterHouse(240)         -- "On the House"
 	end
 end
 
 evt.house[16] = 240  -- "On the House"
-Game.MapEvtLines:RemoveEvent(16)
-evt.map[16] = function()
-end
-
 evt.house[17] = 129  -- "Adept Guild of Fire"
 Game.MapEvtLines:RemoveEvent(17)
 evt.map[17] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 129}         -- "Adept Guild of Fire"
+		evt.EnterHouse(129)         -- "Adept Guild of Fire"
 	end
 end
 
 evt.house[18] = 129  -- "Adept Guild of Fire"
-Game.MapEvtLines:RemoveEvent(18)
-evt.map[18] = function()
-end
-
 evt.house[19] = 135  -- "Adept Guild of Air"
 Game.MapEvtLines:RemoveEvent(19)
 evt.map[19] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 135}         -- "Adept Guild of Air"
+		evt.EnterHouse(135)         -- "Adept Guild of Air"
 	end
 end
 
 evt.house[20] = 135  -- "Adept Guild of Air"
-Game.MapEvtLines:RemoveEvent(20)
-evt.map[20] = function()
-end
-
 evt.house[21] = 153  -- "Adept Guild of Spirit"
 Game.MapEvtLines:RemoveEvent(21)
 evt.map[21] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 153}         -- "Adept Guild of Spirit"
+		evt.EnterHouse(153)         -- "Adept Guild of Spirit"
 	end
 end
 
 evt.house[22] = 153  -- "Adept Guild of Spirit"
-Game.MapEvtLines:RemoveEvent(22)
-evt.map[22] = function()
-end
-
 evt.house[23] = 165  -- "Adept Guild of Body"
 Game.MapEvtLines:RemoveEvent(23)
 evt.map[23] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 165}         -- "Adept Guild of Body"
+		evt.EnterHouse(165)         -- "Adept Guild of Body"
 	end
 end
 
 evt.house[24] = 165  -- "Adept Guild of Body"
-Game.MapEvtLines:RemoveEvent(24)
-evt.map[24] = function()
-end
-
 evt.house[25] = 140  -- "Initiate Guild of Water"
 Game.MapEvtLines:RemoveEvent(25)
 evt.map[25] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 140}         -- "Initiate Guild of Water"
+		evt.EnterHouse(140)         -- "Initiate Guild of Water"
 	end
 end
 
 evt.house[26] = 140  -- "Initiate Guild of Water"
-Game.MapEvtLines:RemoveEvent(26)
-evt.map[26] = function()
-end
-
 evt.house[27] = 146  -- "Initiate Guild of Earth"
 Game.MapEvtLines:RemoveEvent(27)
 evt.map[27] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 146}         -- "Initiate Guild of Earth"
+		evt.EnterHouse(146)         -- "Initiate Guild of Earth"
 	end
 end
 
 evt.house[28] = 146  -- "Initiate Guild of Earth"
-Game.MapEvtLines:RemoveEvent(28)
-evt.map[28] = function()
-end
-
 evt.house[29] = 158  -- "Initiate Guild of Mind"
 Game.MapEvtLines:RemoveEvent(29)
 evt.map[29] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 158}         -- "Initiate Guild of Mind"
+		evt.EnterHouse(158)         -- "Initiate Guild of Mind"
 	end
 end
 
 evt.house[30] = 158  -- "Initiate Guild of Mind"
-Game.MapEvtLines:RemoveEvent(30)
-evt.map[30] = function()
-end
-
 evt.house[31] = 286  -- "The Vault"
 Game.MapEvtLines:RemoveEvent(31)
 evt.map[31] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 286}         -- "The Vault"
+		evt.EnterHouse(286)         -- "The Vault"
 	end
 end
 
 evt.house[32] = 286  -- "The Vault"
-Game.MapEvtLines:RemoveEvent(32)
-evt.map[32] = function()
-end
-
 evt.house[33] = 203  -- "Harmondale Townhall"
 Game.MapEvtLines:RemoveEvent(33)
 evt.map[33] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 203}         -- "Harmondale Townhall"
+		evt.EnterHouse(203)         -- "Harmondale Townhall"
 	end
 end
 
 evt.house[34] = 203  -- "Harmondale Townhall"
-Game.MapEvtLines:RemoveEvent(34)
-evt.map[34] = function()
-end
-
 evt.house[35] = 461  -- "The J.V.C Corral"
 Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()
-	if evt.Cmp{"Awards", Value = 126} then         -- "Reopened Harmondale Stables"
-		evt.EnterHouse{Id = 461}         -- "The J.V.C Corral"
+	if evt.Cmp("Awards", 126) then         -- "Reopened Harmondale Stables"
+		evt.EnterHouse(461)         -- "The J.V.C Corral"
 	else
-		evt.SpeakNPC{NPC = 1284}         -- "Christian the Stablemaster"
+		evt.SpeakNPC(1284)         -- "Christian the Stablemaster"
 	end
 end
 
 evt.house[36] = 461  -- "The J.V.C Corral"
-Game.MapEvtLines:RemoveEvent(36)
-evt.map[36] = function()
-end
-
 evt.house[37] = 1165  -- "Arbiter"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
-	if evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
+	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		goto _40
 	end
-	if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
+	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		goto _75
 	end
-	if evt.Cmp{"NPCs", Value = 416} then         -- "Judge Fairweather"
-		if evt.Cmp{"QBits", Value = 592} then         -- Gave plans to elfking
-			if evt.Cmp{"QBits", Value = 593} then         -- Gave Loren to Catherine
+	if evt.Cmp("NPCs", 416) then         -- "Judge Fairweather"
+		if evt.Cmp("QBits", 592) then         -- Gave plans to elfking
+			if evt.Cmp("QBits", 593) then         -- Gave Loren to Catherine
 				goto _19
 			end
-			if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+			if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 				goto _24
 			end
-			if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
+			if evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
 				goto _24
 			end
-		else
-			if evt.Cmp{"QBits", Value = 594} then         -- Gave false plans to elfking (betray)
-				if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
-					goto _19
-				end
-			else
-				if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
-					if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
-						goto _24
-					end
-				end
+		elseif evt.Cmp("QBits", 594) then         -- Gave false plans to elfking (betray)
+			if evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
+				goto _19
+			end
+		elseif evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
+			if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
+				goto _24
 			end
 		end
 		goto _22
 	end
-	if not evt.Cmp{"NPCs", Value = 417} then         -- "Judge Sleen"
-		if not evt.Cmp{"QBits", Value = 646} then         -- Arbiter Messenger only happens once
-			evt.EnterHouse{Id = 1165}         -- "Arbiter"
+	if not evt.Cmp("NPCs", 417) then         -- "Judge Sleen"
+		if not evt.Cmp("QBits", 646) then         -- Arbiter Messenger only happens once
+			evt.EnterHouse(1165)         -- "Arbiter"
 		end
 		return
 	end
-	if evt.Cmp{"QBits", Value = 592} then         -- Gave plans to elfking
-		if evt.Cmp{"QBits", Value = 593} then         -- Gave Loren to Catherine
+	if evt.Cmp("QBits", 592) then         -- Gave plans to elfking
+		if evt.Cmp("QBits", 593) then         -- Gave Loren to Catherine
 			goto _54
 		end
-		if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+		if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 			goto _59
 		end
-		if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
+		if evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
 			goto _59
 		end
-	else
-		if evt.Cmp{"QBits", Value = 594} then         -- Gave false plans to elfking (betray)
-			if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
-				goto _54
-			end
-		else
-			if evt.Cmp{"QBits", Value = 595} then         -- Gave false Loren to Catherine (betray)
-				if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
-					goto _59
-				end
-			end
+	elseif evt.Cmp("QBits", 594) then         -- Gave false plans to elfking (betray)
+		if evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
+			goto _54
+		end
+	elseif evt.Cmp("QBits", 595) then         -- Gave false Loren to Catherine (betray)
+		if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
+			goto _59
 		end
 	end
 ::_57::
-	evt.Add{"History14", Value = 0}
+	evt.Add("History14", 0)
 ::_62::
-	evt.Set{"QBits", Value = 612}         -- Chose the path of Dark
-	evt.Subtract{"QBits", Value = 665}         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-	evt.Set{"QBits", Value = 663}         -- "Enter the Pit from the Hall of the Pit in the Deyja Moors, then talk to Archibald in Castle Gloaming in the Pit."
-	evt.Set{"Counter5", Value = 0}
+	evt.Set("QBits", 612)         -- Chose the path of Dark
+	evt.Subtract("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
+	evt.Set("QBits", 663)         -- "Enter the Pit from the Hall of the Pit in the Deyja Moors, then talk to Archibald in Castle Gloaming in the Pit."
+	evt.Set("Counter5", 0)
 	evt.SetNPCGreeting{NPC = 417, Greeting = 218}         -- "Judge Sleen" : "I am happy to see you again, my lords.  Deyja is very pleased with the way things have turned out.  Is there anything I can do for you?"
-	evt.Subtract{"NPCs", Value = 417}         -- "Judge Sleen"
+	evt.Subtract("NPCs", 417)         -- "Judge Sleen"
 	evt.MoveNPC{NPC = 414, HouseId = 0}         -- "Ambassador Wright"
 	evt.MoveNPC{NPC = 416, HouseId = 0}         -- "Judge Fairweather"
 	evt.MoveNPC{NPC = 415, HouseId = 0}         -- "Ambassador Scale"
@@ -462,30 +367,30 @@ evt.map[37] = function()
 	evt.SetNPCTopic{NPC = 417, Index = 2, Event = 889}         -- "Judge Sleen" : "I lost it"
 	evt.ShowMovie{DoubleSize = 1, Name = "\"arbiter evil\" "}
 ::_75::
-	evt.EnterHouse{Id = 1166}         -- "Arbiter"
+	evt.EnterHouse(1166)         -- "Arbiter"
 	do return end
 ::_40::
-	evt.EnterHouse{Id = 1164}         -- "Arbiter"
+	evt.EnterHouse(1164)         -- "Arbiter"
 	do return end
 ::_19::
-	if evt.Cmp{"QBits", Value = 659} then         -- Gave artifact to arbiter
-		evt.Add{"History9", Value = 0}
+	if evt.Cmp("QBits", 659) then         -- Gave artifact to arbiter
+		evt.Add("History9", 0)
 		goto _27
 	end
-	if not evt.Cmp{"QBits", Value = 596} then         -- Gave artifact to humans
-		if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+	if not evt.Cmp("QBits", 596) then         -- Gave artifact to humans
+		if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 			goto _24
 		end
 	end
 ::_22::
-	evt.Add{"History7", Value = 0}
+	evt.Add("History7", 0)
 ::_27::
-	evt.Set{"QBits", Value = 611}         -- Chose the path of Light
-	evt.Subtract{"QBits", Value = 665}         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-	evt.Set{"QBits", Value = 664}         -- "Enter Celeste from the grand teleporter in the Bracada Desert, then talk to Gavin Magnus in Castle Lambent in Celeste."
-	evt.Set{"Counter5", Value = 0}
+	evt.Set("QBits", 611)         -- Chose the path of Light
+	evt.Subtract("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
+	evt.Set("QBits", 664)         -- "Enter Celeste from the grand teleporter in the Bracada Desert, then talk to Gavin Magnus in Castle Lambent in Celeste."
+	evt.Set("Counter5", 0)
 	evt.SetNPCGreeting{NPC = 416, Greeting = 221}         -- "Judge Fairweather" : "I am happy to see you again, my lords.  Bracada is very pleased with the way things have turned out.  Is there anything I can do for you?"
-	evt.Subtract{"NPCs", Value = 416}         -- "Judge Fairweather"
+	evt.Subtract("NPCs", 416)         -- "Judge Fairweather"
 	evt.MoveNPC{NPC = 416, HouseId = 1164}         -- "Judge Fairweather" -> "Arbiter"
 	evt.MoveNPC{NPC = 417, HouseId = 0}         -- "Judge Sleen"
 	evt.MoveNPC{NPC = 414, HouseId = 0}         -- "Ambassador Wright"
@@ -495,29 +400,29 @@ evt.map[37] = function()
 	evt.ShowMovie{DoubleSize = 1, Name = "\"arbiter good\" "}
 	goto _40
 ::_24::
-	evt.Add{"History8", Value = 0}
+	evt.Add("History8", 0)
 	goto _27
 ::_54::
-	if evt.Cmp{"QBits", Value = 659} then         -- Gave artifact to arbiter
-		evt.Add{"History16", Value = 0}
+	if evt.Cmp("QBits", 659) then         -- Gave artifact to arbiter
+		evt.Add("History16", 0)
 		goto _62
 	end
-	if not evt.Cmp{"QBits", Value = 596} then         -- Gave artifact to humans
-		if evt.Cmp{"QBits", Value = 597} then         -- Gave artifact to elves
+	if not evt.Cmp("QBits", 596) then         -- Gave artifact to humans
+		if evt.Cmp("QBits", 597) then         -- Gave artifact to elves
 			goto _59
 		end
 	end
 	goto _57
 ::_59::
-	evt.Add{"History15", Value = 0}
+	evt.Add("History15", 0)
 	goto _62
 end
 
 evt.hint[38] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(38)
 evt.map[38] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 875} then         -- Eradicated
-		evt.SpeakNPC{NPC = 364}         -- "Operator"
+	if evt.Cmp("QBits", 875) then         -- Eradicated
+		evt.SpeakNPC(364)         -- "Operator"
 	end
 end
 
@@ -526,14 +431,13 @@ events.LoadMap = evt.map[38].last
 evt.hint[39] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(39)
 evt.map[39] = function()  -- function events.LoadMap()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"Awards", Value = 123} then         -- "Completed the MM7Rev4mod Game!!"
-		if evt.Cmp{"QBits", Value = 886} then         -- End Game
+	evt.ForPlayer("All")
+	if not evt.Cmp("Awards", 123) then         -- "Completed the MM7Rev4mod Game!!"
+		if evt.Cmp("QBits", 886) then         -- End Game
 			evt.SetNPCGreeting{NPC = 365, Greeting = 147}         -- "Count ZERO" : "Magic Shop"
-			evt.Set{"Awards", Value = 123}         -- "Completed the MM7Rev4mod Game!!"
-			evt.Subtract{"QBits", Value = 642}         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
-			evt.SpeakNPC{NPC = 365}         -- "Count ZERO"
+			evt.Set("Awards", 123)         -- "Completed the MM7Rev4mod Game!!"
+			evt.Subtract("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
+			evt.SpeakNPC(365)         -- "Count ZERO"
 		end
 	end
 end
@@ -543,41 +447,39 @@ events.LoadMap = evt.map[39].last
 evt.hint[50] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(50)
 evt.map[50] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 526} then         -- Accepted Fireball wand from Malwick
+	if not evt.Cmp("QBits", 526) then         -- Accepted Fireball wand from Malwick
 		return
 	end
-	if evt.Cmp{"QBits", Value = 702} then         -- Finished with Malwick & Assc.
+	if evt.Cmp("QBits", 702) then         -- Finished with Malwick & Assc.
 		return
 	end
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
 		goto _20
 	end
-	if not evt.Cmp{"QBits", Value = 694} then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
-		if not evt.Cmp{"QBits", Value = 693} then         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-			if evt.Cmp{"Counter5", Value = 1008} then
-				evt.Set{"Counter5", Value = 0}
-				evt.Add{"Inventory", Value = 1506}         -- "Message from Mr. Stantley"
-				evt.Add{"QBits", Value = 693}         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-				evt.SpeakNPC{NPC = 437}         -- "Messenger"
+	if not evt.Cmp("QBits", 694) then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+		if not evt.Cmp("QBits", 693) then         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+			if evt.Cmp("Counter5", 1008) then
+				evt.Set("Counter5", 0)
+				evt.Add("Inventory", 1506)         -- "Message from Mr. Stantley"
+				evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+				evt.SpeakNPC(437)         -- "Messenger"
 			end
 			return
 		end
-		if not evt.Cmp{"Counter5", Value = 336} then
+		if not evt.Cmp("Counter5", 336) then
 			return
 		end
-	else
-		if not evt.Cmp{"Counter5", Value = 672} then
-			return
-		end
+	elseif not evt.Cmp("Counter5", 672) then
+		return
 	end
-	evt.Add{"QBits", Value = 695}         -- Failed either goto or do guild quest
-	evt.SpeakNPC{NPC = 437}         -- "Messenger"
+	evt.Add("QBits", 695)         -- Failed either goto or do guild quest
+	evt.SpeakNPC(437)         -- "Messenger"
 ::_20::
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}         -- "Group for Malwick's Assc."
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
-	evt.Set{"BankGold", Value = 0}
-	evt.Subtract{"QBits", Value = 693}         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-	evt.Subtract{"QBits", Value = 694}         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+	evt.Set("BankGold", 0)
+	evt.Subtract("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
+	evt.Subtract("QBits", 694)         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
 end
 
 events.LoadMap = evt.map[50].last
@@ -585,17 +487,15 @@ events.LoadMap = evt.map[50].last
 evt.hint[51] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(51)
 evt.map[51] = function()  -- Timer(<function>, 7.5*const.Minute)
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		if not evt.Cmp{"QBits", Value = 697} then         -- Killed all outdoor monsters
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		if not evt.Cmp("QBits", 697) then         -- Killed all outdoor monsters
 			if evt.CheckMonstersKilled{CheckType = 1, Id = 60, Count = 0} then
-				evt.ForPlayer(-- ERROR: Const not found
-"All")
-				evt.Add{"QBits", Value = 697}         -- Killed all outdoor monsters
-				if evt.Cmp{"QBits", Value = 696} then         -- Killed all castle monsters
-					evt.ForPlayer(-- ERROR: Const not found
-"All")
-					evt.Add{"QBits", Value = 702}         -- Finished with Malwick & Assc.
-					evt.Subtract{"QBits", Value = 695}         -- Failed either goto or do guild quest
+				evt.ForPlayer("All")
+				evt.Add("QBits", 697)         -- Killed all outdoor monsters
+				if evt.Cmp("QBits", 696) then         -- Killed all castle monsters
+					evt.ForPlayer("All")
+					evt.Add("QBits", 702)         -- Finished with Malwick & Assc.
+					evt.Subtract("QBits", 695)         -- Failed either goto or do guild quest
 				end
 			end
 		end
@@ -607,14 +507,14 @@ Timer(evt.map[51].last, 7.5*const.Minute)
 evt.hint[52] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(52)
 evt.map[52] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 888} then         -- LG 1-time
-		if evt.Cmp{"QBits", Value = 868} then         -- 0
+	if not evt.Cmp("QBits", 888) then         -- LG 1-time
+		if evt.Cmp("QBits", 868) then         -- 0
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
-			evt.Set{"NPCs", Value = 357}         -- "Lord Godwinson"
+			evt.Set("NPCs", 357)         -- "Lord Godwinson"
 			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
-			evt.Set{"QBits", Value = 888}         -- LG 1-time
-			evt.SpeakNPC{NPC = 357}         -- "Lord Godwinson"
+			evt.Set("QBits", 888)         -- LG 1-time
+			evt.SpeakNPC(357)         -- "Lord Godwinson"
 		end
 	end
 end
@@ -623,9 +523,9 @@ events.LoadMap = evt.map[52].last
 
 Game.MapEvtLines:RemoveEvent(110)
 evt.map[110] = function()
-	if not evt.Cmp{"QBits", Value = 645} then         -- Player castle timer only happens once
-		evt.Set{"Counter3", Value = 0}
-		evt.Set{"QBits", Value = 645}         -- Player castle timer only happens once
+	if not evt.Cmp("QBits", 645) then         -- Player castle timer only happens once
+		evt.Set("Counter3", 0)
+		evt.Set("QBits", 645)         -- Player castle timer only happens once
 	end
 	evt.SetTexture{Facet = 1, Name = "chb1dl"}
 	evt.SetTexture{Facet = 2, Name = "chb1dr"}
@@ -643,18 +543,18 @@ evt.map[110] = function()
 	evt.SetFacetBit{Id = 15, Bit = const.FacetBits.Invisible, On = false}
 	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "7tree07"}
 	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "7tree01"}
-	if not evt.Cmp{"History5", Value = 0} then
-		evt.Add{"History5", Value = 0}
+	if not evt.Cmp("History5", 0) then
+		evt.Add("History5", 0)
 	end
 end
 
 function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 610} then         -- Built Castle to Level 2 (rescued dwarf guy)
+	if not evt.Cmp("QBits", 610) then         -- Built Castle to Level 2 (rescued dwarf guy)
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 645} then         -- Player castle timer only happens once
-		evt.Set{"Counter3", Value = 0}
-		evt.Set{"QBits", Value = 645}         -- Player castle timer only happens once
+	if not evt.Cmp("QBits", 645) then         -- Player castle timer only happens once
+		evt.Set("Counter3", 0)
+		evt.Set("QBits", 645)         -- Player castle timer only happens once
 	end
 	evt.SetTexture{Facet = 1, Name = "chb1dl"}
 	evt.SetTexture{Facet = 2, Name = "chb1dr"}
@@ -672,8 +572,8 @@ function events.LoadMap()
 	evt.SetFacetBit{Id = 15, Bit = const.FacetBits.Invisible, On = false}
 	evt.SetSprite{SpriteId = 1, Visible = 1, Name = "7tree07"}
 	evt.SetSprite{SpriteId = 2, Visible = 1, Name = "7tree01"}
-	if not evt.Cmp{"History5", Value = 0} then
-		evt.Add{"History5", Value = 0}
+	if not evt.Cmp("History5", 0) then
+		evt.Add("History5", 0)
 	end
 end
 
@@ -691,8 +591,8 @@ evt.map[111] = function()
 end
 
 function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 614} then         -- Completed Proving Grounds without killing a single creature
-		if not evt.Cmp{"QBits", Value = 641} then         -- Completed Breeding Pit.
+	if not evt.Cmp("QBits", 614) then         -- Completed Proving Grounds without killing a single creature
+		if not evt.Cmp("QBits", 641) then         -- Completed Breeding Pit.
 			return
 		end
 	end
@@ -710,84 +610,84 @@ end
 evt.hint[112] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(112)
 evt.map[112] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[113] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(113)
 evt.map[113] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[114] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(114)
 evt.map[114] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[115] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(115)
 evt.map[115] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[116] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(116)
 evt.map[116] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[117] = evt.str[18]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(117)
 evt.map[117] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[118] = evt.str[18]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(118)
 evt.map[118] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[119] = evt.str[18]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(119)
 evt.map[119] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[120] = evt.str[18]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(120)
 evt.map[120] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[121] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(121)
 evt.map[121] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[122] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(122)
 evt.map[122] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[123] = evt.str[1]  -- "Crate"
 Game.MapEvtLines:RemoveEvent(123)
 evt.map[123] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[150] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(150)
 evt.map[150] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar50", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar50", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar50", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar50", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -797,12 +697,12 @@ end
 evt.hint[151] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(151)
 evt.map[151] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar51", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar51", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar51", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar51", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -812,12 +712,12 @@ end
 evt.hint[152] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(152)
 evt.map[152] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar52", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar52", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar52", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar52", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -827,12 +727,12 @@ end
 evt.hint[153] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(153)
 evt.map[153] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar53", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar53", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar53", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar53", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -842,12 +742,12 @@ end
 evt.hint[154] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(154)
 evt.map[154] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar54", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar54", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar54", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar54", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -857,12 +757,12 @@ end
 evt.hint[155] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(155)
 evt.map[155] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar55", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar55", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar55", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar55", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -872,12 +772,12 @@ end
 evt.hint[156] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(156)
 evt.map[156] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar56", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar56", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar56", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar56", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 57, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -887,12 +787,12 @@ end
 evt.hint[157] = evt.str[60]  -- "Fruit Tree"
 Game.MapEvtLines:RemoveEvent(157)
 evt.map[157] = function()
-	if not evt.CheckSeason{Season = 3} then
-		if not evt.CheckSeason{Season = 2} then
-			if not evt.Cmp{"MapVar57", Value = 1} then
-				evt.Add{"Inventory", Value = 1432}         -- "Red Delicious Apple"
-				evt.Set{"MapVar57", Value = 1}
-				evt.StatusText{Str = 61}         -- "You received an apple"
+	if not evt.CheckSeason(3) then
+		if not evt.CheckSeason(2) then
+			if not evt.Cmp("MapVar57", 1) then
+				evt.Add("Inventory", 1432)         -- "Red Delicious Apple"
+				evt.Set("MapVar57", 1)
+				evt.StatusText(61)         -- "You received an apple"
 				evt.SetSprite{SpriteId = 58, Visible = 1, Name = "tree37"}
 			end
 		end
@@ -901,16 +801,16 @@ end
 
 Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 646} then         -- Arbiter Messenger only happens once
-		if evt.Cmp{"Counter3", Value = 2272} then
-			evt.Add{"QBits", Value = 665}         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-			evt.Add{"History6", Value = 0}
+	if not evt.Cmp("QBits", 646) then         -- Arbiter Messenger only happens once
+		if evt.Cmp("Counter3", 2272) then
+			evt.Add("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
+			evt.Add("History6", 0)
 			evt.MoveNPC{NPC = 406, HouseId = 0}         -- "Ellen Rockway"
 			evt.MoveNPC{NPC = 407, HouseId = 0}         -- "Alain Hani"
 			evt.MoveNPC{NPC = 414, HouseId = 1169}         -- "Ambassador Wright" -> "Throne Room"
 			evt.MoveNPC{NPC = 416, HouseId = 244}         -- "Judge Fairweather" -> "Familiar Place"
-			evt.Set{"QBits", Value = 646}         -- Arbiter Messenger only happens once
-			evt.SpeakNPC{NPC = 430}         -- "Messenger"
+			evt.Set("QBits", 646)         -- Arbiter Messenger only happens once
+			evt.SpeakNPC(430)         -- "Messenger"
 		end
 	end
 end
@@ -944,33 +844,31 @@ evt.hint[219] = evt.str[41]  -- "Castle Harmondale"
 evt.hint[220] = evt.str[50]  -- "Obelisk"
 Game.MapEvtLines:RemoveEvent(220)
 evt.map[220] = function()
-	if not evt.Cmp{"QBits", Value = 676} then         -- Visited Obelisk in Area 2
-		evt.StatusText{Str = 51}         -- "pohuwwba"
-		evt.Add{"AutonotesBits", Value = 309}         -- "Obelisk message #1: pohuwwba"
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Add{"QBits", Value = 676}         -- Visited Obelisk in Area 2
+	if not evt.Cmp("QBits", 676) then         -- Visited Obelisk in Area 2
+		evt.StatusText(51)         -- "pohuwwba"
+		evt.Add("AutonotesBits", 309)         -- "Obelisk message #1: pohuwwba"
+		evt.ForPlayer("All")
+		evt.Add("QBits", 676)         -- Visited Obelisk in Area 2
 	end
 end
 
 evt.hint[221] = evt.str[53]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(221)
 evt.map[221] = function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	if not evt.Cmp{"QBits", Value = 868} then         -- 0
-		evt.StatusText{Str = 54}         -- "You Pray"
+	evt.ForPlayer("All")
+	if not evt.Cmp("QBits", 868) then         -- 0
+		evt.StatusText(54)         -- "You Pray"
 		return
 	end
 	vars.TheGauntletQBits = {}
 	for i = 0, 2 do
 		vars.TheGauntletQBits[i + 718] = Party.QBits[i + 718]
 	end
-	evt.Subtract{"QBits", Value = 718}         -- Harmondale - Town Portal
-	evt.Subtract{"QBits", Value = 719}         -- Erathia - Town Portal
-	evt.Subtract{"QBits", Value = 720}         -- Tularean Forest - Town Portal
-	while evt.Cmp{"Inventory", Value = 223} do         -- "Magic Potion"
-		evt.Subtract{"Inventory", Value = 223}         -- "Magic Potion"
+	evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
+	evt.Subtract("QBits", 719)         -- Erathia - Town Portal
+	evt.Subtract("QBits", 720)         -- Tularean Forest - Town Portal
+	while evt.Cmp("Inventory", 223) do         -- "Magic Potion"
+		evt.Subtract("Inventory", 223)         -- "Magic Potion"
 	end
 	for _, scroll in ipairs({332, 1134, 1834}) do
 		while evt.Cmp("Inventory", scroll) do
@@ -982,8 +880,7 @@ evt.map[221] = function()
 			pl.SP = 0
 		end
 	end
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
+	evt.ForPlayer("All")
 	-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
 	-- dispel magic
 	for i, pl in Party do
@@ -994,7 +891,7 @@ evt.map[221] = function()
 	for i, buff in Party.SpellBuffs do
 		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
 	end
-	evt.Subtract{"QBits", Value = 718}         -- Harmondale - Town Portal
+	evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
 	evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D08.blv"}
 end
 
@@ -1002,57 +899,57 @@ evt.hint[222] = evt.str[52]  -- "Shrine"
 evt.hint[223] = evt.str[4]  -- "Drink from the Well"
 Game.MapEvtLines:RemoveEvent(223)
 evt.map[223] = function()
-	if not evt.Cmp{"BankGold", Value = 99} then
-		if not evt.Cmp{"Gold", Value = 199} then
-			if not evt.Cmp{"MapVar19", Value = 1} then
-				evt.Add{"Gold", Value = 200}
-				evt.Set{"MapVar19", Value = 1}
+	if not evt.Cmp("BankGold", 99) then
+		if not evt.Cmp("Gold", 199) then
+			if not evt.Cmp("MapVar19", 1) then
+				evt.Add("Gold", 200)
+				evt.Set("MapVar19", 1)
 			end
 		end
 	end
-	evt.StatusText{Str = 11}         -- "Refreshing!"
+	evt.StatusText(11)         -- "Refreshing!"
 end
 
 RefillTimer(function()
-	evt.Set{"MapVar19", Value = 0}
-end, const.Week, true)
+	evt.Set("MapVar19", 0)
+end, const.Week)
 
 evt.hint[227] = evt.str[6]  -- "Drink from the Fountain"
 Game.MapEvtLines:RemoveEvent(227)
 evt.map[227] = function()
 	local i
-	if evt.Cmp{"PoisonedGreen", Value = 0} then
+	if evt.Cmp("PoisonedGreen", 0) then
 		goto _12
 	end
-	if evt.Cmp{"PoisonedYellow", Value = 0} then
+	if evt.Cmp("PoisonedYellow", 0) then
 		goto _12
 	end
-	if evt.Cmp{"PoisonedRed", Value = 0} then
+	if evt.Cmp("PoisonedRed", 0) then
 		goto _12
 	end
 	i = Game.Rand() % 3
 	if i == 1 then
-		evt.Set{"PoisonedGreen", Value = 0}
+		evt.Set("PoisonedGreen", 0)
 	elseif i == 2 then
-		evt.Set{"PoisonedYellow", Value = 0}
+		evt.Set("PoisonedYellow", 0)
 	else
-		evt.Set{"PoisonedRed", Value = 0}
+		evt.Set("PoisonedRed", 0)
 	end
-	evt.StatusText{Str = 72}         -- "Maybe that wasn't such a good idea."
+	evt.StatusText(72)         -- "Maybe that wasn't such a good idea."
 	do return end
 ::_12::
-	evt.StatusText{Str = 73}         -- "You probably shouldn't do that."
+	evt.StatusText(73)         -- "You probably shouldn't do that."
 end
 
 evt.hint[228] = evt.str[4]  -- "Drink from the Well"
 Game.MapEvtLines:RemoveEvent(228)
 evt.map[228] = function()
-	if evt.Cmp{"PlayerBits", Value = 2} then
-		evt.StatusText{Str = 11}         -- "Refreshing!"
+	if evt.Cmp("PlayerBits", 2) then
+		evt.StatusText(11)         -- "Refreshing!"
 	else
-		evt.Add{"BaseAccuracy", Value = 2}
-		evt.Add{"PlayerBits", Value = 2}
-		evt.StatusText{Str = 71}         -- "+2 Accuracy (Permanent)"
+		evt.Add("BaseAccuracy", 2)
+		evt.Add("PlayerBits", 2)
+		evt.StatusText(71)         -- "+2 Accuracy (Permanent)"
 	end
 end
 
@@ -1060,7 +957,7 @@ evt.hint[229] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(229)
 evt.map[229] = function()  -- Timer(<function>, 2.5*const.Minute)
 	local i
-	if not evt.Cmp{"QBits", Value = 760} then         -- Took area 2 hill fort
+	if not evt.Cmp("QBits", 760) then         -- Took area 2 hill fort
 		i = Game.Rand() % 4
 		if i == 1 then
 			i = Game.Rand() % 5
@@ -1201,8 +1098,8 @@ end
 evt.hint[236] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(236)
 evt.map[236] = function()
-	if not evt.Cmp{"QBits", Value = 760} then         -- Took area 2 hill fort
-		evt.Add{"QBits", Value = 760}         -- Took area 2 hill fort
+	if not evt.Cmp("QBits", 760) then         -- Took area 2 hill fort
+		evt.Add("QBits", 760)         -- Took area 2 hill fort
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 6545, FromY = 10984, FromZ = 4000, ToX = 6545, ToY = 5678, ToZ = 111}         -- "Fire Bolt"
 		evt.CastSpell{Spell = 2, Mastery = const.GM, Skill = 10, FromX = 13458, FromY = 8781, FromZ = 4000, ToX = 8805, ToY = 5257, ToZ = 204}         -- "Fire Bolt"
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = 5232, Y = 1424, Z = 0, NPCGroup = 51, unk = 0}
@@ -1217,12 +1114,12 @@ end
 evt.hint[237] = evt.str[22]  -- "Signal Fire Pit"
 Game.MapEvtLines:RemoveEvent(237)
 evt.map[237] = function()
-	if not evt.Cmp{"QBits", Value = 779} then         -- South Signal Fire Out02
-		evt.Set{"QBits", Value = 779}         -- South Signal Fire Out02
+	if not evt.Cmp("QBits", 779) then         -- South Signal Fire Out02
+		evt.Set("QBits", 779)         -- South Signal Fire Out02
 		evt.SetSprite{SpriteId = 20, Visible = 1, Name = "dec24"}
-		if evt.Cmp{"QBits", Value = 780} then         -- North Signal Fire Out02
-			if evt.Cmp{"QBits", Value = 781} then         -- West Siganl Fire Out02
-				evt.Set{"QBits", Value = 774}         -- Time for Gobs to appear in area 2(raiding camp)
+		if evt.Cmp("QBits", 780) then         -- North Signal Fire Out02
+			if evt.Cmp("QBits", 781) then         -- West Siganl Fire Out02
+				evt.Set("QBits", 774)         -- Time for Gobs to appear in area 2(raiding camp)
 			end
 		end
 	end
@@ -1231,12 +1128,12 @@ end
 evt.hint[238] = evt.str[22]  -- "Signal Fire Pit"
 Game.MapEvtLines:RemoveEvent(238)
 evt.map[238] = function()
-	if not evt.Cmp{"QBits", Value = 780} then         -- North Signal Fire Out02
-		evt.Set{"QBits", Value = 780}         -- North Signal Fire Out02
+	if not evt.Cmp("QBits", 780) then         -- North Signal Fire Out02
+		evt.Set("QBits", 780)         -- North Signal Fire Out02
 		evt.SetSprite{SpriteId = 21, Visible = 1, Name = "dec24"}
-		if evt.Cmp{"QBits", Value = 779} then         -- South Signal Fire Out02
-			if evt.Cmp{"QBits", Value = 781} then         -- West Siganl Fire Out02
-				evt.Set{"QBits", Value = 774}         -- Time for Gobs to appear in area 2(raiding camp)
+		if evt.Cmp("QBits", 779) then         -- South Signal Fire Out02
+			if evt.Cmp("QBits", 781) then         -- West Siganl Fire Out02
+				evt.Set("QBits", 774)         -- Time for Gobs to appear in area 2(raiding camp)
 			end
 		end
 	end
@@ -1245,12 +1142,12 @@ end
 evt.hint[239] = evt.str[22]  -- "Signal Fire Pit"
 Game.MapEvtLines:RemoveEvent(239)
 evt.map[239] = function()
-	if not evt.Cmp{"QBits", Value = 781} then         -- West Siganl Fire Out02
-		evt.Set{"QBits", Value = 781}         -- West Siganl Fire Out02
+	if not evt.Cmp("QBits", 781) then         -- West Siganl Fire Out02
+		evt.Set("QBits", 781)         -- West Siganl Fire Out02
 		evt.SetSprite{SpriteId = 22, Visible = 1, Name = "dec24"}
-		if evt.Cmp{"QBits", Value = 780} then         -- North Signal Fire Out02
-			if evt.Cmp{"QBits", Value = 779} then         -- South Signal Fire Out02
-				evt.Set{"QBits", Value = 774}         -- Time for Gobs to appear in area 2(raiding camp)
+		if evt.Cmp("QBits", 780) then         -- North Signal Fire Out02
+			if evt.Cmp("QBits", 779) then         -- South Signal Fire Out02
+				evt.Set("QBits", 774)         -- Time for Gobs to appear in area 2(raiding camp)
 			end
 		end
 	end
@@ -1259,7 +1156,7 @@ end
 evt.hint[240] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(240)
 evt.map[240] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 774} then         -- Time for Gobs to appear in area 2(raiding camp)
+	if evt.Cmp("QBits", 774) then         -- Time for Gobs to appear in area 2(raiding camp)
 		evt.SetMonGroupBit{NPCGroup = 71, Bit = const.MonsterBits.Invisible, On = false}         -- "Ridge walkers in Bracada"
 	end
 end
@@ -1269,7 +1166,7 @@ events.LoadMap = evt.map[240].last
 evt.hint[249] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(249)
 evt.map[249] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
+	if not evt.Cmp("QBits", 611) then         -- Chose the path of Light
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 	end
 end
@@ -1279,181 +1176,160 @@ events.LoadMap = evt.map[249].last
 evt.house[251] = 1101  -- "Mist Manor"
 Game.MapEvtLines:RemoveEvent(251)
 evt.map[251] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1101}         -- "Mist Manor"
+		evt.EnterHouse(1101)         -- "Mist Manor"
 	end
 end
 
 evt.house[252] = 1102  -- "Hillsmen Residence"
 Game.MapEvtLines:RemoveEvent(252)
 evt.map[252] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1102}         -- "Hillsmen Residence"
+		evt.EnterHouse(1102)         -- "Hillsmen Residence"
 	end
 end
 
 evt.house[253] = 1103  -- "Stillwater Residence"
 Game.MapEvtLines:RemoveEvent(253)
 evt.map[253] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1103}         -- "Stillwater Residence"
+		evt.EnterHouse(1103)         -- "Stillwater Residence"
 	end
 end
 
 evt.house[254] = 1104  -- "Mark Manor"
 Game.MapEvtLines:RemoveEvent(254)
 evt.map[254] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1104}         -- "Mark Manor"
+		evt.EnterHouse(1104)         -- "Mark Manor"
 	end
 end
 
 evt.house[255] = 1105  -- "Bowes Residence"
 Game.MapEvtLines:RemoveEvent(255)
 evt.map[255] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1105}         -- "Bowes Residence"
+		evt.EnterHouse(1105)         -- "Bowes Residence"
 	end
 end
 
 evt.house[256] = 1106  -- "Godwinson Estate"
 Game.MapEvtLines:RemoveEvent(256)
 evt.map[256] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1106}         -- "Godwinson Estate"
+		evt.EnterHouse(1106)         -- "Godwinson Estate"
 	end
 end
 
 evt.house[257] = 1107  -- "Krewlen Residence"
 Game.MapEvtLines:RemoveEvent(257)
 evt.map[257] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1107}         -- "Krewlen Residence"
+		evt.EnterHouse(1107)         -- "Krewlen Residence"
 	end
 end
 
 evt.house[258] = 1108  -- "Withersmythe's Home"
 Game.MapEvtLines:RemoveEvent(258)
 evt.map[258] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1108}         -- "Withersmythe's Home"
+		evt.EnterHouse(1108)         -- "Withersmythe's Home"
 	end
 end
 
 evt.house[260] = 1121  -- "Kern Residence"
 Game.MapEvtLines:RemoveEvent(260)
 evt.map[260] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1121}         -- "Kern Residence"
+		evt.EnterHouse(1121)         -- "Kern Residence"
 	end
 end
 
 evt.house[261] = 1122  -- "Chadric's House"
 Game.MapEvtLines:RemoveEvent(261)
 evt.map[261] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1122}         -- "Chadric's House"
+		evt.EnterHouse(1122)         -- "Chadric's House"
 	end
 end
 
 evt.house[262] = 1123  -- "Weider Residence"
 Game.MapEvtLines:RemoveEvent(262)
 evt.map[262] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1123}         -- "Weider Residence"
+		evt.EnterHouse(1123)         -- "Weider Residence"
 	end
 end
 
 evt.house[263] = 1126  -- "Kinney Residence"
 Game.MapEvtLines:RemoveEvent(263)
 evt.map[263] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1126}         -- "Kinney Residence"
+		evt.EnterHouse(1126)         -- "Kinney Residence"
 	end
 end
 
 evt.house[264] = 1127  -- "Farswell Residence"
 Game.MapEvtLines:RemoveEvent(264)
 evt.map[264] = function()
-	if evt.Cmp{"QBits", Value = 695} then         -- Failed either goto or do guild quest
-		evt.StatusText{Str = 21}         -- "This Door is Locked"
-		evt.FaceAnimation{-- ERROR: Const not found
-Player = "Current", Animation = 18}
+	if evt.Cmp("QBits", 695) then         -- Failed either goto or do guild quest
+		evt.StatusText(21)         -- "This Door is Locked"
+		evt.FaceAnimation{Player = "Current", Animation = 18}
 	else
-		evt.EnterHouse{Id = 1127}         -- "Farswell Residence"
+		evt.EnterHouse(1127)         -- "Farswell Residence"
 	end
 end
 
 evt.hint[265] = evt.str[7]  -- "House"
 evt.hint[266] = evt.str[10]  -- "Hut"
-evt.house[267] = 1124  -- "Skinner's House"
 Game.MapEvtLines:RemoveEvent(267)
-evt.map[267] = function()
-	evt.EnterHouse{Id = 1124}         -- "Skinner's House"
-end
-
-evt.house[268] = 1125  -- "Torrent's"
+evt.HouseDoor(267, 1124)  -- "Skinner's House"
 Game.MapEvtLines:RemoveEvent(268)
-evt.map[268] = function()
-	evt.EnterHouse{Id = 1125}         -- "Torrent's"
-end
-
+evt.HouseDoor(268, 1125)  -- "Torrent's"
 
 evt.hint[302] = evt.str[31]  -- "Enter the White Cliff Caves"
 Game.MapEvtLines:RemoveEvent(302)
 evt.map[302] = function()
-	if evt.Cmp{"QBits", Value = 836} then         -- White Cliff Cave Permission
+	if evt.Cmp("QBits", 836) then         -- White Cliff Cave Permission
 		evt.MoveToMap{X = 1344, Y = -256, Z = -107, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 391, Icon = 3, Name = "7D21.blv"}         -- "White Cliff Caves"
 	else
-		evt.StatusText{Str = 23}         -- "It's too dangerous to enter the cave at this time."
+		evt.StatusText(23)         -- "It's too dangerous to enter the cave at this time."
 	end
 end
 

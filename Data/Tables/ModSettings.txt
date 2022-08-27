@@ -61,3 +61,5 @@ Rev4ForMergeChangeStatisticBreakpoints	1
 Rev4ForMergeRandomizeRemovedItems	1
 Rev4ForMergeAddResistancePenetration	1
 Rev4ForMergeRemakeIdentifyMonster	1
+Rev4ForMergeAddDarkLightResistances	1
+Rev4ForMergeAddBosses	1

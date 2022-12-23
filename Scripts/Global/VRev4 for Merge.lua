@@ -583,7 +583,6 @@ function events.LoadMap() -- needs to be before bolster function in General/Adap
 			-- earth elementals near good items
 			pseudoSpawnpoint{monster = 235, x = -8683, y = -11027, z = 151, count = isMedium() and "2-4" or "5-7", powerChances = isMedium() and {60, 0, 40} or {40, 0, 60}, radius = 1024, group = 51}
 		end
-		-- 7d24.blv (Stone City) troglodyte boss
 		evt.SetMonGroupBit{NPCGroup = 255, Bit = const.MonsterBits.Hostile, On = true}
 	end
 	mapvars.Rev4ForMergeMonstersSpawned = true

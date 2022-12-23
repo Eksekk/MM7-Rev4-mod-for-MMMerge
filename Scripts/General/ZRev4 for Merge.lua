@@ -42,16 +42,20 @@ end
 27. Boost some of statistics' effects (if boosted breakpoints active, then less)
 28. Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 29. Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
+30. Create script for moving editor state from MM7 to Merge (using updated events, monsters, items etc.), then
+	dry run it and see if I included all changes (almost everything was done manually)
 
 
 
 IF I WANNA REALLY CHALLENGE MYSELF:
 ###. New spells (additional weapon enhancements).
+     freeze, feeblemind, turn to stone
 ]]
 
 local addTextFunctions = {}
 
 local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor/RGB
+local strRed = "\f63488"
 local strDefaultColor = "\f00000"
 
 local extraAttributesText = CustomUI.CreateText{
@@ -162,6 +166,20 @@ function getItemBonusSum(pl, bonus, customItems)
 	return val
 end
 
+local monsterRightclickDataBuf = 0x5DF0E0
+
+local function moveLeft(amount)
+	local buf = mem.string(monsterRightclickDataBuf)
+	local pos = buf:find(string.char(9))
+	if not pos then return end
+	-- next 3 bytes describe shift to the right (in ascii), so we need to decrease it
+	local replacement = tostring(tonumber(buf:sub(pos + 1, pos + 3)) - amount)
+	if replacement:len() < 3 then
+		replacement = string.rep("0", 3 - replacement:len()) .. replacement
+	end
+	mem.copy(monsterRightclickDataBuf + pos, replacement)
+end
+
 local chanceSumDataStart
 mem.autohook2(0x4547A8, function(d)
 	chanceSumDataStart = d.esi
@@ -172,6 +190,10 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	mem.autohook2(0x4546EC, function(d)
 		stdItemsDataStart = d.eax
 	end)]]
+	
+	-- const.Damage
+	local damageTypeToPenetrationBonus = {[const.Damage.Fire] = 0, [const.Damage.Air] = 1, [const.Damage.Water] = 2, [const.Damage.Earth] = 3,
+		[const.Damage.Spirit] = 4, [const.Damage.Mind] = 5, [const.Damage.Body] = 6, [const.Damage.Light] = 7, [const.Damage.Dark] = 8}
 	
 	table.insert(addTextFunctions, function(pl)
 		local template = [[Spell resistance penetration
@@ -210,92 +232,170 @@ Dark      %d]]
 		mem.IgnoreProtection(false)
 	end
 	
-	local oldResType
-	local oldRes
-	function events.MonsterAttacked(t)
-		-- TODO: handle race skills
-		local damageType
-		local obj = t.Attacker.Object
-		if obj and obj.Spell and t.Attacker.Player then
-			local reduction = 0
-			local damageType
-			for i = 11, 11 * 9, 11 do
-				if obj.Spell <= i then
-					damageType = math.ceil(i / 11) - 1
-					if damageType >= const.Damage.Phys then
-						damageType = damageType + 2
-					end
-					break
-				end
-			end
-			if not damageType then
-				return
-			end
-			for item in t.Attacker.Player:EnumActiveItems(false) do
-				if item.Bonus == 60 + damageType - (damageType >= const.Damage.Spirit and 2 or 0) then
-					reduction = reduction + item.BonusStrength
-				end
-			end
-			oldResType = damageType
-			oldRes = t.Monster.Resistances[damageType]
-			--debug.Message(oldResType, oldRes, oldRes - reduction)
-			t.Monster.Resistances[damageType] = math.max(0, (oldRes == const.MonsterImmune and IMMUNE_MONSTER_RESISTANCE or oldRes) - reduction)
+	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
+		const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
+		
+	function getEffectiveResistance(mon, pl, damageType)
+		local res = mon.Resistances[damageType] or 0
+		local immune = res == const.MonsterImmune
+		local bonus = damageTypeToPenetrationBonus[damageType]
+		if bonus then
+			bonus = bonus + 59
+			res = res - getItemBonusSum(pl, bonus + 1) -- +1 because of 1 -> 0 based array
 		end
+		if bonus and damageType <= const.Damage.Body then
+			local buff = mon.SpellBuffs[const.MonsterBuff.DayOfProtection]
+			if buff.ExpireTime > Game.Time then
+				res = res + buff.Power
+			end
+		end
+		if immune and math.max(res, 0) < const.MonsterImmune then
+			local reduction = const.MonsterImmune - math.max(res, 0)
+			res = IMMUNE_MONSTER_RESISTANCE - reduction
+		end
+		return math.max(math.min(res, const.MonsterImmune), 0)
 	end
 	
-	function events.AfterMonsterAttacked(t)
-		if oldRes then
-			t.Monster.Resistances[oldResType] = oldRes
-			oldRes = nil
-			oldResType = nil
+	-- debuff chance
+	-- TODO: slow etc.
+	mem.autohook(0x425ABD, function(d)
+		-- apparently this function can be called with entirely different meaning set of arguments...
+		-- oldEbp is needed for mass fear, obj for shrinking ray
+		local oldEbp = mem.u4[d.esp]
+		local playerAddr = mem.u4[oldEbp - 0x1C]
+		local pl 
+		for i = 0, 49 do
+			if Party.PlayersArray[i]["?ptr"] == playerAddr then
+				pl = Party.PlayersArray[i]
+			end
 		end
-	end
-end
-
--- show spell skill in monster right click info
-
-local monsterRightclickDataBuf = 0x5DF0E0
-
-local function moveLeft(amount)
-	local buf = mem.string(monsterRightclickDataBuf)
-	local pos = buf:find(string.char(9))
-	if not pos then return end
-	-- next 3 bytes describe shift to the right (in ascii), so we need to decrease it
-	local replacement = tostring(tonumber(buf:sub(pos + 1, pos + 3)) - amount)
-	if replacement:len() < 3 then
-		replacement = string.rep("0", 3 - replacement:len()) .. replacement
-	end
-	mem.copy(monsterRightclickDataBuf + pos, replacement)
-end
-
-local showSpellSkill = function(skillOffset, lenOffset)
-	return function(d)
-		mem.prot(true)
-		-- move spells info to the left
-		moveLeft(10)
-		local afterSpellName = monsterRightclickDataBuf
-		while mem.u1[afterSpellName] ~= 0xA and mem.u1[afterSpellName] ~= 0 do
-			afterSpellName = afterSpellName + 1
+		if not pl then
+			local obj = mem.u4[d.esp + 0x10]
+			local owner = mem.u4[obj + 0x58]
+			local type = owner % 8
+			if type ~= const.ObjectRefKind.Party then
+				return
+			end
+			pl = Party.PlayersArray[(owner - type) / 8]
 		end
-		local monsterData = mem.u4[d.ebp - 0x10]
-		local skill = mem.i2[monsterData + skillOffset]
-		local s, m = SplitSkill(skill)
-		local add = " " .. s .. (({"N", "E", "M", "G"})[m] or "None") .. "\n" -- "None" is for situations where monster had 0 spell skill so game doesn't crash, yes this happened during development (a bug obviously)
-		mem.copy(afterSpellName, add)
-		mem.u1[afterSpellName + add:len()] = 0 -- null terminator
-		mem.u4[0x19F93C + lenOffset] = mem.u4[0x19F93C + lenOffset] + add:len() -- update length of row
-		mem.prot(false)
-	end
-end
-mem.autohook(0x41E673, showSpellSkill(0x6E, 0))
-mem.autohook(0x41E6C1, showSpellSkill(0x70, 4))
-
--- show spell resistance penetration in monster right click info
-if MS.Rev4ForMergeAddResistancePenetration == 1 then
+		local monsterAddr = mem.u4[d.ebp + 0x8]
+		local i, mon = internal.GetMonster(monsterAddr)
+		d.eax = getEffectiveResistance(mon, pl, mem.u4[d.ebp + 0xC])
+		debug.Message(d.eax)
+	end)
+	
+	local playerIdx, attackingPlayer, monsterIdx, attackedMonster
+	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses (?))
+	mem.autohook(0x4372C1, function(d)
+		playerIdx, attackingPlayer = internal.GetPlayer(mem.u4[d.ebp - 0x8])
+		monsterIdx, attackedMonster = internal.GetMonster(d.esi)
+	end)
+	
+	--[[
+	0x4259C4: cmp eax,FDE8
+			  jl mm8.4259CF
+			  xor eax,eax
+			  jmp mm8.425A1E
+			  lea esi,dword ptr ds:[edx+eax+1E]
+	--]]
+	-- need to manually compute with our function because:
+	-- 1) if resistance becomes less that 0xFDE8, it would count as simply very very high resistance
+	-- 2) edx contains day of protection bonus, but if we didn't add it in our hook, we could have situation where
+	-- monster was immune, reduced resistance is like FCE8 (const.MonsterBonus - 1), which is effective 199
+	-- and after adding day of prot it would be for example 235, instead of full immunity
+	-- 3) if we hooked last line only, immune monster would be immune no matter what (jump would be always taken, no matter penetration level)
+	
+	-- damage
+	mem.autohook(0x4259C4, function(d)
+		d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
+		debug.Message(d.eax)
+	end)
+	
+	mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
+	
 	local i = 1
-	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
-					  const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
+	
 	mem.autohook(0x41E8A0, function(d)
+		local pl = Party.CurrentPlayer
+		-- move resistance values a little to the left (default is 070)
+		moveLeft(20)
+		if i == 10 then
+			i = 1
+			-- shorten "Physical" to "Phys" to get more space
+			local str = mem.string(monsterRightclickDataBuf)
+			-- Physical
+			-- 12345678
+			str = str:sub(1, 4) .. str:sub(9, str:len()) .. string.char(0)
+			mem.copy(monsterRightclickDataBuf, str)
+			return
+		end
+		if pl < 0 then i = i + 1; return end -- skip if no player selected
+		local damageType = resOrder[i]
+		local monsterPtr = mem.u4[d.ebp - 0x10]
+		local id, mon = internal.GetMonster(monsterPtr)
+		local newRes = getEffectiveResistance(mon, Party[pl], damageType)
+		local buf = mem.string(monsterRightclickDataBuf)
+		local oldRes = mem.u2[monsterPtr + 0x50 + (i - 1) * 2]
+		local strToFind = tostring(oldRes)
+		local immune = oldRes == const.MonsterImmune
+		if immune then
+			strToFind = "Immune"
+		elseif oldRes == 0 then
+			strToFind = "None"
+		end
+		local pos, pos2 = 0, -1
+		while pos2 ~= nil do
+			pos2 = buf:find(strToFind, pos + 1)
+			if pos2 then
+				pos = pos2
+			end
+		end
+		local stripImmunity, gainImmunity, greater, less = false, false, false, false
+		if newRes < oldRes then
+			less = true
+			if immune then
+				stripImmunity = true
+			end
+		elseif newRes > oldRes then
+			greater = true
+			if not immune and newRes >= const.MonsterImmune then
+				gainImmunity = true
+			end
+		end
+		local changed = greater or less
+		if not immune or stripImmunity then
+			local replacement
+			if gainImmunity then
+				replacement = strGreen .. "Immune" .. strDefaultColor .. " / " .. oldRes
+			elseif less and newRes == 0 then
+				replacement = strRed .. "None" .. strDefaultColor .. " / " .. (immune and ("I" .. IMMUNE_MONSTER_RESISTANCE) or oldRes)
+			elseif changed then
+				replacement = (greater and strGreen or strRed) .. newRes .. (changed and strDefaultColor or "") .. " / " .. (stripImmunity and ("I" .. IMMUNE_MONSTER_RESISTANCE) or oldRes)
+			end
+			if replacement then
+				mem.copy(monsterRightclickDataBuf + pos - 1, replacement .. string.char(0))
+			end
+		end
+		i = i + 1
+	end)
+	
+	-- move resistances to the left if you don't have skill
+	mem.autohook(0x41E8F5, function(d)
+		moveLeft(20)
+		if i == 10 then
+			i = 1
+			-- shorten "Physical" to "Phys" to get more space
+			local str = mem.string(monsterRightclickDataBuf)
+			-- Physical
+			-- 12345678
+			str = str:sub(1, 4) .. str:sub(9, str:len()) .. string.char(0)
+			mem.copy(monsterRightclickDataBuf, str)
+			return
+		end
+		i = i + 1
+	end)
+	
+	--[[mem.autohook(0x41E8A0, function(d)
 		local pl = Party.CurrentPlayer
 		-- move resistance values a little to the left (default is 070)
 		moveLeft(20)
@@ -337,24 +437,73 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 		local add = (immune and "I" or "") .. res .. "-" .. math.min(reduction, res) .. "=" .. math.max(res - reduction, 0) .. "\n" .. string.char(0)
 		mem.copy(monsterRightclickDataBuf + pos - 1, add)
 		i = i + 1
-	end)
+	end)]]
 	
-	-- move resistances to the left if you don't have skill
-	mem.autohook(0x41E8F5, function(d)
-		moveLeft(20)
-		if i == 10 then
-			i = 1
-			-- shorten "Physical" to "Phys" to get more space
-			local str = mem.string(monsterRightclickDataBuf)
-			-- Physical
-			-- 12345678
-			str = str:sub(1, 4) .. str:sub(9, str:len()) .. string.char(0)
-			mem.copy(monsterRightclickDataBuf, str)
-			return
+	--[[local oldResType
+	local oldRes
+	function events.MonsterAttacked(t)
+		-- TODO: handle race skills
+		local damageType
+		local obj = t.Attacker.Object
+		if obj and obj.Spell and t.Attacker.Player then
+			local reduction = 0
+			local damageType
+			for i = 11, 11 * 9, 11 do
+				if obj.Spell <= i then
+					damageType = math.ceil(i / 11) - 1
+					if damageType >= const.Damage.Phys then
+						damageType = damageType + 2
+					end
+					break
+				end
+			end
+			if not damageType then
+				return
+			end
+			for item in t.Attacker.Player:EnumActiveItems(false) do
+				if item.Bonus == 60 + damageType - (damageType >= const.Damage.Spirit and 2 or 0) then
+					reduction = reduction + item.BonusStrength
+				end
+			end
+			oldResType = damageType
+			oldRes = t.Monster.Resistances[damageType]
+			--debug.Message(oldResType, oldRes, oldRes - reduction)
+			t.Monster.Resistances[damageType] = math.max(0, (oldRes == const.MonsterImmune and IMMUNE_MONSTER_RESISTANCE or oldRes) - reduction)
 		end
-		i = i + 1
-	end)
+	end
+	
+	function events.AfterMonsterAttacked(t)
+		if oldRes then
+			t.Monster.Resistances[oldResType] = oldRes
+			oldRes = nil
+			oldResType = nil
+		end
+	end]]
 end
+
+-- show spell skill in monster right click info
+
+local showSpellSkill = function(skillOffset, lenOffset)
+	return function(d)
+		mem.prot(true)
+		-- move spells info to the left
+		moveLeft(10)
+		local afterSpellName = monsterRightclickDataBuf
+		while mem.u1[afterSpellName] ~= 0xA and mem.u1[afterSpellName] ~= 0 do
+			afterSpellName = afterSpellName + 1
+		end
+		local monsterData = mem.u4[d.ebp - 0x10]
+		local skill = mem.u2[monsterData + skillOffset]
+		local s, m = SplitSkill(skill)
+		local add = " " .. s .. (({"N", "E", "M", "G"})[m] or "None") .. "\n" -- "None" is for situations where monster had 0 spell skill so game doesn't crash, yes this happened during development (a bug obviously)
+		mem.copy(afterSpellName, add)
+		mem.u1[afterSpellName + add:len()] = 0 -- null terminator
+		mem.u4[0x19F93C + lenOffset] = mem.u4[0x19F93C + lenOffset] + add:len() -- update length of row
+		mem.prot(false)
+	end
+end
+mem.autohook(0x41E673, showSpellSkill(0x6E, 0))
+mem.autohook(0x41E6C1, showSpellSkill(0x70, 4))
 
 -- show level in monster right click info (requires novice ID monster)
 mem.autohook(0x41E3A3, function(d)
@@ -555,7 +704,7 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 		lea edi, dword [ecx + eax]
 		cmp edi, 0
 		jge @over
-		mov edi, 0
+		xor edi, edi
 		@over:
 		mov dword [ds:esi+0x1BFC], edi
 		pop ecx
@@ -758,89 +907,6 @@ end
 
 local Rev4ForMergeMapstatsBoosted -- needed for Global/VRev4 for Merge.lua
 
-local lookupTable = {}
-function getRange(str)
-	if lookupTable[str] then return lookupTable[str][1], lookupTable[str][2] end
-	local min, max = str:match("(%d+)%-(%d+)")
-	min = tonumber(min)
-	max = tonumber(max)
-	assert(min ~= nil and max ~= nil)
-	lookupTable[str] = {min, max}
-	return min, max
-end
-
-local random = math.random
-function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, exactZ)
-	local t = {}
-	if type(monster) == "table" then
-		t = monster -- user passed table with arguments instead of monster
-	else
-		t.Monster, t.monster = monster, monster
-		t.X, t.x = x, x
-		t.Y, t.y = y, y
-		t.Z, t.z = z, z
-		t.Count, t.count = count, count
-		t.PowerChances, t.powerChances = powerChances, powerChances
-		t.Radius, t.radius = radius, radius
-		t.Group, t.group = group, group
-		t.exactZ, t.ExactZ = exactZ, exactZ
-	end
-	t.count = t.count or "1-3"
-	t.powerChances = t.powerChances or {34, 33, 33}
-	t.radius = t.radius or 64
-	assert(t.monster and t.x and t.y and t.z and true or nil)
-	local class = (t.monster + 2):div(3)
-	
-	local toCreate
-	if type(t.count) == "string" then
-		local min, max = getRange(t.count)
-		toCreate = random(min, max)
-	else
-		toCreate = t.count
-	end
-	
-	local summoned = {}
-	for i = 1, toCreate do
-		
-		local x, y, z
-		local spawnAttempts = 0
-		while true do
-			-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
-			local angle = random() * math.pi * 2
-			local xadd = math.cos(angle) * random(1, t.radius)
-			local yadd = math.sin(angle) * random(1, t.radius)
-			x, y = t.x + xadd, t.y + yadd
-			z = not t.exactZ and Map.IsOutdoor() and Map.GetGroundLevel(x, y) or t.z
-			if Map.IsOutdoor() or Map.RoomFromPoint(x, y, z) > 0 then -- room from point check makes sure that monsters won't generate in a wall
-				break
-			end
-			spawnAttempts = spawnAttempts + 1
-			if spawnAttempts >= 10 then
-				error("Couldn't spawn monster: " .. dump(t), 2)
-			end
-		end
-		
-		local power = nil
-		local rand = random(1, 100)
-		if t.powerChances[1] ~= 0 and (rand <= t.powerChances[1] or (t.powerChances[2] == 0 and t.powerChances[3] == 0)) then
-			power = 0
-		elseif t.powerChances[2] ~= 0 and ((rand <= t.powerChances[2] + t.powerChances[1]) or (t.powerChances[1] == 0 and t.powerChances[3] == 0)) then
-			power = 1
-		elseif t.powerChances[3] ~= 0 then
-			power = 2
-		elseif t.powerChances[2] ~= 0 then
-			power = 1
-		else
-			power = 0
-		end
-		
-		local mon = SummonMonster(class * 3 - 2 + power, x, y, z, true)
-		mon.Group = t.group or 255
-		table.insert(summoned, mon)
-	end
-	return summoned
-end
-
 function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 	local t = {}
 	if type(item) == "table" then
@@ -976,25 +1042,16 @@ function randomGiveElementalAttack(mon)
 		mon.Attack2Chance = 50
 		return
 	end
-	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
+	a1.Type = math.random(0, 7)
+	if a1.Type > 3 then
+		a1.Type = math.random(9, 10)
+	end
+	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
 end
 
 function randomBoostResists(mon)
 	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
 end
-
--- BUGFIX BY CTHSCR: shield spell halves projectile damage now (was bugged to not do this)
-mem.asmpatch(0x43800A, [[
-cmp dword ptr [0xB21818 + 0x4], 0
-jl @std
-jg @half
-cmp dword ptr [0xB21818], 0
-jbe @std
-@half:
-sar dword ptr [ebp - 0x4], 1
-@std:
-cmp dword ptr [ebx + 0x1B08], 0
-]])
 
 function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves item look on map unchanged
 	if Merge.ModSettings.Rev4ForMergeRandomizeRemovedItems == 1 then

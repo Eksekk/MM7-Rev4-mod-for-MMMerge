@@ -371,7 +371,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			if WromthraxId then
 				local wrom = Map.Monsters[WromthraxId]
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
-				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = XYZ(wrom), XYZ(wrom)
+				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = wrom.X, wrom.Y, wrom.Z, XYZ(wrom)
 				wrom.HP, wrom.FullHP = math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1)), math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1))
 				wrom.Group = 255
 				wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)

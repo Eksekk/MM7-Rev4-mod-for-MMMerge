@@ -654,6 +654,7 @@ local function restoreMonster(index, props)
 end
 
 local function restore()
+	if Editor and Editor.WorkMode then return end
 	if Map.Refilled then
 		if vars.oldMons[Map.Name] then
 			vars.oldMons[Map.Name] = nil
@@ -670,6 +671,7 @@ end
 events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
 
 local function processDeadMonsters()
+	if Editor and Editor.WorkMode then return end
 	if not vars.oldMons[Map.Name] then return end
 	local clear = {}
 	for i, v in pairs(vars.oldMons[Map.Name]) do

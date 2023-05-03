@@ -72,14 +72,14 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 68	Minotaur Peasant	Minotaur Pesant B	3	9	0	39	3D6	1	N	Short	Wimp	4	250	90	0	0	Phys	3D4+2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 69	Minotaur Peasant	Minotaur Pesant C	6	21	0	96	4D6	1	N	Short	Wimp	4	280	80	0	0	Phys	3D4+4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 70	Dragon	Dragon A	70	700	60	5600	250D10+L6	1	Y	Long	Suicidal	4	240	70	0	0	Fire	12D8	Fire	0	0	0	0	0	0	0	0	35	35	35	35	35	35	35	10	10	10	0
-71	Dragon Flightleader	Dragon B	85	977	80	8075	300D10+L6	1	Y	Med	Suicidal	4	260	65	0	0	Water	14D8	Fire	0	0	0	0	0	0	0	0	40	40	40	40	40	40	40	15	15	20	0
-72	Great Wyrm	Dragon C	100	1300	100	11000	400D10+L6	1	Y	Short	Suicidal	4	300	60	0	0	Air	16D8	Fire	0	0	0	0	0	0	0	0	45	45	45	45	45	45	45	20	20	30	0
+71	Dragon Flightleader	Dragon B	85	977	80	8075	250D12+L6	1	Y	Med	Suicidal	4	260	65	0	0	Water	14D8	Fire	0	0	0	0	0	0	0	0	40	40	40	40	40	40	40	15	15	20	0
+72	Great Wyrm	Dragon C	100	1300	100	11000	250D16+L6	1	Y	Short	Suicidal	4	300	60	0	0	Air	16D8	Fire	0	0	0	0	0	0	0	0	45	45	45	45	45	45	45	20	20	30	0
 73	Lesser Fire Elemental	Fire Elemental A	50	400	0	3000	15%10D30+L4	0	Y	Long	Aggress	3	300	70	0	0	Fire	7D10	0	0	0	0	0	20	"Fireball,M,9"	0	0	Imm	10	0	10	Imm	0	10	10	10	10	0
 74	Fire Elemental	Fire Elemental B	65	617	0	4875	15%10D40+L5	0	Y	Med	Aggress	3	310	70	0	0	Fire	9D10	0	0	0	0	0	30	"Haste,M,9"	0	0	Imm	20	0	20	Imm	0	20	20	20	20	0
 75	Greater Fire Elemental	Fire Elemental C	80	880	0	7200	15%10D40+L6	0	Y	Med	Aggress	3	330	70	2	0	Fire	10D10	0	0	0	0	0	40	"Incinerate,GM,10"	0	0	Imm	30	0	30	Imm	0	30	30	30	30	0
-76	Lesser Water Elemental	Water Elemental A	50	400	0	3000	10%10D30+L4	0	Y	Short	Aggress	3	250	70	0	0	Water	7D10	0	0	0	0	0	20	"IceBolt,E,7"	0	0	10	10	Imm	0	Imm	0	10	10	10	10	0
+76	Lesser Water Elemental	Water Elemental A	50	400	0	3000	10%10D30+L4	0	Y	Short	Aggress	3	250	70	0	0	Water	7D10	0	0	0	0	0	20	"Ice Bolt,E,7"	0	0	10	10	Imm	0	Imm	0	10	10	10	10	0
 77	Water Elemental	Water Elemental B	65	617	0	4875	10%10D40+L5	0	Y	Short	Aggress	3	270	70	0	0	Water	9D10	0	0	0	0	0	30	"Acid Burst,M,9"	0	0	20	20	Imm	0	Imm	0	20	20	20	20	0
-78	Greater Water Elemental	Water Elemental C	80	880	0	7200	10%10D40+L6	0	Y	Short	Aggress	3	290	70	2	0	Water	10D10	0	0	0	0	0	40	"IceBlast,GM,10"	0	0	30	30	Imm	0	Imm	0	30	30	30	30	0
+78	Greater Water Elemental	Water Elemental C	80	880	0	7200	10%10D40+L6	0	Y	Short	Aggress	3	290	70	2	0	Water	10D10	0	0	0	0	0	40	"Ice Blast,GM,10"	0	0	30	30	Imm	0	Imm	0	30	30	30	30	0
 79	Lesser Earth Elemental	Earth Elemental A	50	400	0	3000	20%10D30+L4Ore	0	N	Long	Aggress	3	110	70	0	0	Phys	7D10	0	0	0	0	0	20	"Blades,M,9"	0	0	10	0	10	Imm	Imm	0	10	10	10	10	0
 80	Earth Elemental	Earth Elemental B	65	617	0	4875	20%10D40+L5Ore	0	N	Long	Aggress	3	130	70	0	0	Phys	9D10	0	0	0	0	0	30	"Rock Blast,M,5"	0	0	20	0	20	Imm	Imm	0	20	20	20	20	0
 81	Greater Earth Elemental	Earth Elemental C	80	880	0	7200	15%10D40+L6Ore	0	N	Med	Aggress	3	200	70	2	0	Phys	10D10	0	0	0	0	0	40	"Mass Distortion,GM,10"	0	0	30	0	30	Imm	Imm	0	30	30	30	30	0
@@ -114,8 +114,8 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 110	Unicorn	Unicorn B	35	227	30	1575	45%20D5+L2Amulet	1	N	Med	Aggress	3	160	60	0	0	Fire	6D6	Fire	0	0	0	0	0	0	0	0	0	35	0	35	20	0	20	35	0	20	0
 111	Unicorn Herd Leader	Unicorn C	45	337	40	2475	45%20D5+L3Gem	1	N	Short	Aggress	3	180	50	0	0	Air	7D6	Air	0	0	0	0	0	0	0	0	0	45	0	45	30	0	30	45	0	30	"shot,x3"
 112	Emerald Dragon	Crystal Dragon A	75	787	60	6375	250D10+L6	0	N	Long	Aggress	4	240	70	2	0	Ener	12D8	Ener	50	Ener	12D8	Ener	0	0	0	0	15	15	15	15	15	15	15	10	10	20	0
-113	Sapphire Dragon	Crystal Dragon B	100	1300	80	11000	300D10+L6	0	N	Med	Aggress	4	260	65	2	0	Ener	14D8	Ener	50	Ener	14D8	Ener	0	0	0	0	20	20	20	20	20	20	20	15	15	30	0
-114	Ruby Dragon	Crystal Dragon C	125	1937	100	16875	400D10+L6	0	N	Short	Aggress	4	300	60	2	0	Ener	16D8	Ener	50	Ener	16D8	Ener	0	0	0	0	30	30	30	30	30	30	30	20	20	40	0
+113	Sapphire Dragon	Crystal Dragon B	100	1300	80	11000	250D12+L6	0	N	Med	Aggress	4	260	65	2	0	Ener	14D8	Ener	50	Ener	14D8	Ener	0	0	0	0	20	20	20	20	20	20	20	15	15	30	0
+114	Ruby Dragon	Crystal Dragon C	125	1937	100	16875	250D16+L6	0	N	Short	Aggress	4	300	60	2	0	Ener	16D8	Ener	50	Ener	16D8	Ener	0	0	0	0	30	30	30	30	30	30	30	20	20	40	0
 115	Mist Hawk	Thunderbird A	39	269	30	1911	20D30	1	Y	Long	Normal	4	250	90	0	0	Air	6D7	0	0	0	0	0	10	"Lightning Bolt,M,5"	0	0	5	Imm	5	0	5	0	5	5	5	5	0
 116	Storm Eagle	Thunderbird B	59	525	35	4071	25D30	1	Y	Med	Aggress	4	260	80	0	0	Air	8D7+5	0	0	0	0	0	20	"Lightning Bolt,M,7"	0	0	10	Imm	10	0	10	0	10	5	5	10	0
 117	Thunderbird	Thunderbird C	79	861	40	7031	30D30	1	Y	Short	Suicidal	4	300	70	2	0	Air	10D7+10	0	0	0	0	0	30	"Lightning Bolt,M,9"	0	0	20	Imm	20	0	20	0	20	5	5	20	0
@@ -148,10 +148,10 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 144	Boulder	Malevolent Boulder C	35	227	80	1575	45%25D25+L5Ore	0	N	Short	Suicidal	3	300	70	3	BrkArmor	Phys	5D10	0	25	Phys	6D6	Rock	25	"Rock Blast,N,4"	0	0	30	15	15	Imm	Imm	0	30	0	0	15	"explode,4D5,earth"
 145	Plane Guardian	Plane Guardian A	50	400	60	3000	30%200D10+L5	1	N	Med	Suicidal	2	200	70	0	0	Phys	5D8+10	0	0	0	0	0	20	"Paralyze,M,9"	0	0	15	15	15	15	15	15	15	15	15	0	0
 146	Plane Protector	Plane Guardian B	70	700	80	5600	30%250D10+L5	1	N	Short	Suicidal	2	200	70	0	0	Phys	6D8+15	0	0	0	0	0	30	"Paralyze,M,9"	0	0	25	25	25	25	25	25	25	25	25	0	0
-147	Plane Overlord	Plane Guardian C	90	1080	100	9000	40%300D10+L6	1	N	Short	Suicidal	2	200	70	0	0	Phys	10D8+20	0	0	0	0	0	40	"Paralyze,M,9"	0	0	30	30	30	30	30	30	30	30	30	0	0
+147	Plane Overlord	Plane Guardian C	90	1080	100	9000	40%250D12+L6	1	N	Short	Suicidal	2	200	70	0	0	Phys	10D8+20	0	0	0	0	0	40	"Paralyze,M,9"	0	0	30	30	30	30	30	30	30	30	30	0	0
 148	Crystal Walker	Crystal Walker A	60	540	0	4200	30%200D10+L5	0	N	Short	Suicidal	3	280	90	0	Paralyze	Air	15D4	0	35	Air	15D4	Air	0	0	0	0	15	15	15	15	15	15	15	15	15	0	0
 149	Crystal Sentry	Crystal Walker B	80	880	0	7200	30%250D10+L5	0	N	Short	Suicidal	3	280	80	0	Paralyze	Air	20D4	0	45	Air	20D4	Air	0	0	0	0	25	25	25	25	25	25	25	25	25	0	0
-150	Crystal Guardian	Crystal Walker C	100	1300	0	11000	30%300D10+L6	0	N	Short	Suicidal	3	330	70	0	Paralyze	Air	25D4	0	55	Air	25D4	Air	0	0	0	0	30	30	30	30	30	30	30	30	30	0	0
+150	Crystal Guardian	Crystal Walker C	100	1300	0	11000	30%250D12+L6	0	N	Short	Suicidal	3	330	70	0	Paralyze	Air	25D4	0	55	Air	25D4	Air	0	0	0	0	30	30	30	30	30	30	30	30	30	0	0
 151	Fear	Nightmare A	50	400	60	3000	25%8D30+L3Ring	1	N	Med	Aggress	3	200	70	2	Afraid	Phys	6D8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Imm	0
 152	Terror	Nightmare B	70	700	80	5600	25%8D30+L4Ring	1	N	Short	Suicidal	3	200	70	2	Insane	Phys	8D8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Imm	0
 153	Nightmare	Nightmare C	90	1080	100	9000	25%8D30+L5Ring	1	N	Short	Suicidal	3	200	70	3	Insane	Phys	10D8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Imm	0
@@ -199,7 +199,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 195	Mercenary Captain	Human Mercenary C	24	129	20	816	25%5d6+L3Sword	1	N	Short	Aggress	2	300	70	0	0	Phys	3D7+8	0	0	0	0	0	0	0	0	0	15	15	15	15	15	15	15	0	0	0	0
 196	Chaos Guardian	Wimpy Plane Guardian A	50	400	60	3000	30%200D10+L5	0	N	Med	Suicidal	2	200	70	0	0	Phys	15D4	0	0	0	0	0	20	"Paralyze,M,9"	0	0	15	15	15	15	15	15	15	15	15	0	0
 197	Chaos Protector	Wimpy Plane Guardian B	70	700	80	5600	30%250D10+L5	0	N	Short	Suicidal	2	200	70	0	0	Phys	20D4	0	0	0	0	0	30	"Paralyze,M,9"	0	0	25	25	25	25	25	25	25	25	25	0	0
-198	Chaos Overlord	Wimpy Plane Guardian C	90	1080	100	9000	30%300D10+L6	0	N	Short	Suicidal	2	200	70	0	0	Phys	25D4	0	0	0	0	0	40	"Paralyze,M,9"	0	0	30	30	30	30	30	30	30	30	30	0	0
+198	Chaos Overlord	Wimpy Plane Guardian C	90	1080	100	9000	30%250D12+L6	0	N	Short	Suicidal	2	200	70	0	0	Phys	25D4	0	0	0	0	0	40	"Paralyze,M,9"	0	0	30	30	30	30	30	30	30	30	30	0	0
 199	Angel	Angel A	30	180	25	1200	5%50D20+L4Sword	1	Y	Free	Aggress	3	250	60	0	0	Phys	2D8+10	0	0	0	0	0	30	"Light Bolt,M,8"	20	"Dispel Magic,M,8"	20	20	20	20	30	15	30	Imm	10	20	0																						
 200	Angel Lord	Angel B	50	400	35	3000	10%75D20+L5Sword	1	Y	Free	Aggress	3	275	50	0	0	Phys	2D8+15	0	0	0	0	0	30	"Light Bolt,M,12"	50	"Day of Protection,M,12"	30	30	30	30	40	15	40	Imm	10	20	0																						
 201	Archangel	Angel C	70	700	45	5600	15%100D20+L6Sword	1	Y	Free	Suicidal	3	300	40	2	0	Phys	2D8+20	0	0	0	0	0	30	"Light Bolt,G,16"	50	"Hour of Power,G,16"	40	40	40	40	50	15	50	Imm	10	20	0																						
@@ -464,9 +464,9 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 460	Mega-Dragon	zUltra Dragon A	100	1300	100	11000	0	1	Y	Short	Suicidal	4	300	30	4	Errad	Ener	20D8	Ener	0	0	0	0	0	0	0	0	Imm	70	70	70	70	15	Imm	30	30	70	"Summon,air,ADragon C"																						
 461	Mega-Dragon	zUltra Dragon B	100	1300	100	11000	0	1	Y	Short	Suicidal	4	300	30	4	Errad	Ener	20D8	Ener	0	0	0	0	0	0	0	0	Imm	70	70	70	70	15	Imm	30	30	70	"Summon,air,ADragon C"																						
 462	Mega-Dragon	zUltra Dragon C	100	" 1,300 "	100	" 11,000 "	0	1	Y	Short	Suicidal	4	300	30	4	Errad	Ener	20D8	Ener	0	0	0	0	0	0	0	0	Imm	70	70	70	70	15	Imm	30	30	70	"Summon,air,ADragon C"																						
-463	Cat A	zcat a 	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
-464	Cat B	zcat b 	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
-465	Cat C	zcat c 	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
+463	Cat A	zcat a	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+464	Cat B	zcat b	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+465	Cat C	zcat c	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 466	Chicken A	zchicken a	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
 467	Chicken B	zchicken b	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
 468	Chicken C	zchicken c	1	3	3	11	2D6	1	N	Long	Wimp	4	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0																						
@@ -516,8 +516,8 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 512	Giant Wyrm	DragonLand B	60	540	50	4200	150D10+L5	0	N	Med	Aggress	4	160	70	3	Pois3	Water	10D10	Water	0	0	0	0	0	0	0	0	40	40	40	Imm	40	40	40	40	40	40	0
 513	Great Wyrm	DragonLand C	70	700	60	5600	200D10+L6	0	N	Short	Aggress	4	140	70	4	Pois3	Water	10D10	Water	0	0	0	0	0	0	0	0	50	50	50	Imm	50	50	50	50	50	50	0
 514	Red Dragon	DragonCover A	80	880	60	7200	250D10+L6	0	Y	Long	Aggress	4	240	70	4	0	Fire	12D8	Fire	0	0	0	0	0	0	0	0	Imm	50	30	50	50	50	50	50	50	50	0
-515	Blue Dragon	DragonCover B	90	1080	80	9000	300D10+L6	0	Y	Med	Aggress	4	260	65	4	BrkItem	Water	14D8	Water	0	0	0	0	0	0	0	0	30	70	Imm	70	70	70	70	70	70	70	0
-516	Gold Dragon	DragonCover C	100	1300	100	11000	400D10+L6	0	Y	Short	Aggress	4	300	60	4	BrkItem	Ener	16D8	Ener	0	0	0	0	0	0	0	0	90	90	90	90	Imm	Imm	Imm	90	90	90	0
+515	Blue Dragon	DragonCover B	90	1080	80	9000	250D12+L6	0	Y	Med	Aggress	4	260	65	4	BrkItem	Water	14D8	Water	0	0	0	0	0	0	0	0	30	70	Imm	70	70	70	70	70	70	70	0
+516	Gold Dragon	DragonCover C	100	1300	100	11000	250D16+L6	0	Y	Short	Aggress	4	300	60	4	BrkItem	Ener	16D8	Ener	0	0	0	0	0	0	0	0	90	90	90	90	Imm	Imm	Imm	90	90	90	0
 517	Druid	Druidess A	10	40	12	200	5%10D10+L1Misc	0	N	Med	Normal	4	160	90	0	0	Fire	2D4+3	Fire	0	0	0	0	40	"Harm,N,2"	0	0	10	10	10	10	10	10	10	10	10	0	0
 518	Great Druid	Druidess B	16	73	16	416	10%20D10+L2Misc	0	N	Med	Aggress	4	180	90	0	0	Water	2D4+6	Water	0	0	0	0	40	"Deadly Swarm,N,3"	0	0	20	20	20	20	20	20	20	20	20	0	0
 519	Grand Druid	Druidess C	28	162	22	1064	20%50D10+L3Misc	0	N	Short	Aggress	4	200	80	2	DrainSP	Earth	2D4+12	Earth	0	0	0	0	30	"Fireball,M,6"	0	0	30	30	30	30	30	30	30	30	30	0	0
@@ -533,9 +533,9 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 529	Fire Beast	ElemFire A	13	55	12	299	0	0	Y	Free	Suicidal	4	200	90	0	0	Fire	2D8	Fire	0	0	0	0	0	0	0	0	Imm	10	10	10	Imm	Imm	Imm	50	50	10	0
 530	Fire Spirit	ElemFire B	26	145	15	936	0	0	Y	Free	Suicidal	4	220	90	0	0	Fire	5D8	Fire	0	0	0	0	0	0	0	0	Imm	10	10	10	Imm	Imm	Imm	50	50	10	0
 531	Fire Elemental	ElemFire C	39	269	18	1911	0	0	Y	Free	Suicidal	4	240	80	0	BrkItem	Fire	8D8	Fire	0	0	0	0	0	0	0	0	Imm	10	10	10	Imm	Imm	Imm	50	50	10	0
-532	Water Beast	ElemWater A	14	61	10	336	0	0	N	Free	Suicidal	4	240	80	0	0	Phys	3D12	0	0	0	0	0	30	"IceBolt,N,3"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
-533	Water Spirit	ElemWater B	24	129	13	816	0	0	N	Free	Suicidal	4	260	80	0	0	Phys	4D12	0	0	0	0	0	30	"IceBolt,N,5"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
-534	Water Elemental	ElemWater C	36	237	16	1656	0	0	N	Free	Suicidal	4	280	70	0	BrkItem	Phys	6D12	0	0	0	0	0	30	"IceBolt,N,7"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
+532	Water Beast	ElemWater A	14	61	10	336	0	0	N	Free	Suicidal	4	240	80	0	0	Phys	3D12	0	0	0	0	0	30	"Ice Bolt,N,3"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
+533	Water Spirit	ElemWater B	24	129	13	816	0	0	N	Free	Suicidal	4	260	80	0	0	Phys	4D12	0	0	0	0	0	30	"Ice Bolt,N,5"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
+534	Water Elemental	ElemWater C	36	237	16	1656	0	0	N	Free	Suicidal	4	280	70	0	BrkItem	Phys	6D12	0	0	0	0	0	30	"Ice Bolt,N,7"	0	0	10	10	Imm	10	Imm	Imm	Imm	50	50	10	0
 535	Fighter	FighterChain A	14	61	18	336	5%10D10+L1Chain	0	N	Long	Normal	4	220	90	0	0	Phys	3D3+6	0	0	0	0	0	0	0	0	0	10	10	10	10	10	10	10	10	10	10	0
 536	Soldier	FighterChain B	24	129	24	816	5%20D10+L2Chain	0	N	Long	Aggress	4	240	80	0	0	Phys	3D3+10	0	0	0	0	0	0	0	0	0	20	20	20	20	10	10	10	10	10	20	0
 537	Veteran	FighterChain C	35	227	30	1575	10%30D10+L3Chain	0	N	Med	Aggress	4	260	70	0	Brkweapon	Phys	3D3+14	0	20	Phys	3D3+45	0	0	0	0	0	30	30	30	30	10	10	10	10	10	30	0
@@ -545,7 +545,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 541	Stone Gargoyle	BGargoyle A	16	73	18	416	5%5D10+L2Amulet	0	Y	Long	Aggress	4	300	80	0	Weak	Phys	2D12	0	0	0	0	0	0	0	0	0	10	10	10	Imm	10	10	10	10	10	20	0
 542	Marble Gargoyle	BGargoyle B	22	114	22	704	10%10D10+L2Amulet	0	Y	Long	Aggress	4	320	80	0	Paralyze	Phys	2D12+4	0	0	0	0	0	0	0	0	0	10	10	10	Imm	15	15	15	15	15	30	0
 543	Diamond Gargoyle	BGargoyle C	33	207	26	1419	20%25D10+L3Amulet	0	Y	Med	Suicidal	4	350	70	0	Paralyze	Phys	2D12+8	0	0	0	0	0	0	0	0	0	10	10	10	Imm	20	20	20	20	20	Imm	0
-544	Genie	BGenie A	33	207	35	1419	30%L4	0	Y	Free	Aggress	4	200	60	0	0	Water	8D4+8	Water	0	0	0	0	20	"IceBolt,M,10"	0	0	0	30	Imm	30	Imm	30	Imm	30	30	30	0
+544	Genie	BGenie A	33	207	35	1419	30%L4	0	Y	Free	Aggress	4	200	60	0	0	Water	8D4+8	Water	0	0	0	0	20	"Ice Bolt,M,10"	0	0	0	30	Imm	30	Imm	30	Imm	30	30	30	0
 545	Djinn	BGenie B	44	325	45	2376	30%L5	0	Y	Free	Aggress	4	220	50	0	Asleep	Air	10D4+10	Air	0	0	0	0	20	"Lightning Bolt,M,12"	0	0	30	Imm	30	0	Imm	30	Imm	30	30	30	0
 546	Efreet	BGenie C	55	467	55	3575	30%L6	0	Y	Free	Aggress	4	250	40	0	Afraid	Fire	12D4+12	Fire	0	0	0	0	20	"Fireball,M,15"	0	0	Imm	30	0	30	Imm	30	Imm	30	30	30	0
 547	Ghost	BGhost A	9	35	25	171	5%L2Ring	0	Y	Free	Normal	4	240	100	0	Afraid	Dark	1D6+6	0	0	0	0	0	0	0	0	0	10	10	10	Imm	Imm	Imm	Imm	0	10	10	0
@@ -586,7 +586,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 582	Minotaur King	BMinotaur C	79	861	40	7031	20%50D20+L6Axe	0	N	Short	Suicidal	4	300	60	2	0	Phys	3D7+60	0	0	0	0	0	20	"Finger of Death,N,14"	0	0	30	30	30	30	30	30	30	30	30	30	0
 583	Novice Monk	BMonk A	8	30	16	144	5%L1Amulet	0	N	Long	Normal	4	200	100	0	0	Fire	2D4+2	Fire	0	0	0	0	20	"Fire Bolt,N,2"	0	0	10	0	0	0	0	0	0	0	0	0	0
 584	Initiate Monk	BMonk B	16	73	19	416	5%L2Amulet	0	N	Long	Aggress	4	220	90	0	0	Air	2D4+8	Air	0	0	0	0	20	"Lightning Bolt,N,3"	0	0	0	10	0	0	0	0	0	0	0	0	0
-585	Master Monk	BMonk C	27	153	28	999	10%L3Amulet	0	N	Long	Suicidal	4	240	80	0	Weak	Water	2D4+16	Water	0	0	0	0	20	"IceBolt,M,6"	0	0	5	5	20	5	Imm	Imm	Imm	50	50	0	0
+585	Master Monk	BMonk C	27	153	28	999	10%L3Amulet	0	N	Long	Suicidal	4	240	80	0	Weak	Water	2D4+16	Water	0	0	0	0	20	"Ice Bolt,M,6"	0	0	5	5	20	5	Imm	Imm	Imm	50	50	0	0
 586	Swordsman	Nobleman A	10	40	10	200	5%10d10+L1Sword	0	N	Long	Aggress	4	220	90	0	0	Phys	3D7+4	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	5	0
 587	Expert Swordsman	Nobleman B	17	79	15	459	5%15D10+L2Sword	0	N	Med	Aggress	4	250	80	0	0	Phys	3D7+6	0	0	0	0	0	0	0	0	0	10	5	5	5	5	5	5	5	5	5	0
 588	Master Swordsman	Nobleman C	24	129	20	816	10%30D10+L3Sword	0	N	Short	Aggress	4	280	70	2	Brkweapon	Phys	3D7+8	0	20	Phys	3D7+20	0	0	0	0	0	15	10	10	10	10	10	10	10	10	10	0
@@ -612,7 +612,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 608	Peasant	PeasantM1 B	2	6	5	24	4D4	0	N	Long	Wimp	0	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 609	Peasant	PeasantM1 C	3	9	6	39	8D8	0	N	Long	Wimp	0	140	100	0	0	Phys	2D2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 610	Apprentice Mage	PeasantM2 A	2	6	3	24	5%2D6+L1Staff	0	N	Med	Normal	4	140	100	0	0	Phys	2D4	0	0	0	0	0	20	"Fire Bolt,N,1"	0	0	0	0	0	0	0	0	0	0	0	0	0
-611	Journeyman Mage	PeasantM2 B	6	21	5	96	5%5D6+L1Staff	0	N	Med	Normal	4	140	100	0	0	Phys	2D4+2	0	0	0	0	0	30	"IceBolt,N,1"	0	0	0	0	0	0	0	0	0	0	0	0	0
+611	Journeyman Mage	PeasantM2 B	6	21	5	96	5%5D6+L1Staff	0	N	Med	Normal	4	140	100	0	0	Phys	2D4+2	0	0	0	0	0	30	"Ice Bolt,N,1"	0	0	0	0	0	0	0	0	0	0	0	0	0
 612	Mage	PeasantM2 C	10	40	7	200	10%10D6+L1Misc	0	N	Med	Aggress	4	140	100	0	0	Phys	2D4+6	0	0	0	0	0	50	"Lightning Bolt,N,2"	0	0	0	0	0	0	0	0	0	0	0	0	0
 613	Follower of Baa	PeasantM3 A	3	9	3	39	2D6	0	N	Med	Normal	4	140	100	0	0	Phys	2D4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 614	Mystic of Baa	PeasantM3 B	5	17	5	75	5%3D6+L1Staff	0	N	Med	Aggress	4	160	90	0	0	Phys	2D4+2	0	0	0	0	0	30	"Mind Blast,N,1"	0	0	0	0	0	0	0	0	0	0	0	0	0
@@ -642,8 +642,8 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 638	Burglar	BThief B	12	50	14	264	10%4D10+L1	0	N	Med	Normal	4	260	60	0	Stealx2	Phys	3D4+6	0	20	Phys	3D4+3	Dagger	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 639	Rogue	BThief C	18	86	20	504	20%5D10+L2Cape	0	N	Med	Aggress	4	270	60	0	Stealx2	Phys	3D4+12	0	20	Phys	3D4+6	Dagger	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 640	Titan	BTitan A	65	617	60	4875	40%200D10+L5	0	N	Short	Aggress	4	200	70	0	BrkItem	Air	2D20+60	Air	0	0	0	0	30	"Psychic Shock,M,15"	0	0	30	Imm	30	30	Imm	30	30	30	30	30	0
-641	Noble Titan	BTitan B	75	787	70	6375	300D10+L5	0	N	Short	Aggress	4	200	70	0	BrkItem	Air	2D20+80	Air	0	0	0	0	40	"Psychic Shockt,M,18"	0	0	50	Imm	50	50	Imm	50	50	50	50	50	0
-642	Supreme Titan	BTitan C	95	1187	80	9975	400D10+L6	0	N	Short	Aggress	4	200	70	0	Dead	Air	2D20+120	Air	0	0	0	0	50	"Psychic Shock,M,25"	0	0	80	Imm	80	80	Imm	80	80	80	80	80	0
+641	Noble Titan	BTitan B	75	787	70	6375	250D12+L5	0	N	Short	Aggress	4	200	70	0	BrkItem	Air	2D20+80	Air	0	0	0	0	40	"Psychic Shockt,M,18"	0	0	50	Imm	50	50	Imm	50	50	50	50	50	0
+642	Supreme Titan	BTitan C	95	1187	80	9975	250D16+L6	0	N	Short	Aggress	4	200	70	0	Dead	Air	2D20+120	Air	0	0	0	0	50	"Psychic Shock,M,25"	0	0	80	Imm	80	80	Imm	80	80	80	80	80	0
 643	Wolfman	Werewolf A	20	100	20	600	10%5D20+L3Misc	0	N	Med	Aggress	4	300	90	0	Disease2x2	Phys	2D12+12	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	5	0
 644	Werewolf	Werewolf B	30	180	25	1200	10%10D20+L4MIsc	0	N	Med	Aggress	4	320	80	0	Disease3x2	Phys	2D12+16	0	0	0	0	0	0	0	0	0	10	10	10	10	10	10	10	10	10	10	0
 645	Greater Werewolf	Werewolf C	40	280	30	2000	10%20D20+L5Misc	0	N	Short	Suicidal	4	350	70	0	Uncon	Phys	2D12+20	0	0	0	0	0	0	0	0	0	15	15	15	15	15	15	15	15	15	15	0

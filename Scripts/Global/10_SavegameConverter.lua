@@ -5,6 +5,12 @@ Log(Merge.Log.Info, "Init started: %s", LogId)
 local MF, MM, MV = Merge.Functions, Merge.ModSettings, Merge.Vars
 local floor = math.floor
 
+local function abits_shift_l(to_bit, delta)
+	for i = to_bit, delta + 1, -1 do
+		Party.AutonotesBits[i] = Party.AutonotesBits[i - delta]
+	end
+end
+
 local function convert_0_20040100()
 	if vars.SaveGameFormatVersion == nil or (tonumber(vars.SaveGameFormatVersion)
 			and tonumber(vars.SaveGameFormatVersion) < 20040100) then
@@ -799,6 +805,7 @@ local function convert_21040400_21072000()
 end
 
 local function convert_21072000_21101000()
+	abits_shift_l(696, 4)
 	-- Garret Deverro
 	Game.NPC[51].EventA = 0
 	Game.NPC[51].EventB = 735
@@ -872,6 +879,7 @@ local function convert_21072000_21101000()
 end
 
 local function convert_21101000_21121800()
+	abits_shift_l(696, 12)
 	vars.GlobalReputation.Maps = vars.GlobalReputation.Maps or {}
 	-- MM6 Arena Master
 	MF.NPCRestore(1225)

@@ -255,38 +255,38 @@ Note bit	Autonote Text	Category
 254	Your path is clear to my vision. You must seek out the four elemental lords and release them from their prisons. These prisons are in the Destroyer's realm--the Plane Between Planes.	seer		
 255	"Seek out Xanthor! Though he is but a piece in the game of Balance, the next move you make towards destiny it through a meeting with him."	seer		
 256	"The Balance is restored. Now that your destiny is made, I can no longer guide you--my sight only pertains to what is connected to the fate of Balance. What you do now is up to you. Good luck to you, Heroes of Jadame!"	seer		
-257	Accepted fireball wand from Mr. Malwick on Emerald Island.	Misc	1	
-258	50 points of temporary Fire resistance from the central town well on Emerald Island.	Stat	1	Stat
-259	5 Hit Points regained from the well east of the Temple on Emerald Island.	Stat	1	Misc
-260	5 Spell Points regained from the well west of the Temple on Emerald Island.	Stat	1	Arbiter
-261	2 points of permanent Luck from the well on the western edge of Emerald Island.	Stat	1	Teacher
-262	10 points of temporary Might from the well in the village south of Harmondale.	Stat	2	Potion
-263	10 points of temporary Accuracy from the well in the village northeast of Steadwick.	Stat	3	Obelisk
-264	2 points of permanent Might from the well in the northwest section of Steadwick.	Stat	3	
-265	Disease cured at the eastern well in Steadwick.	Stat	3	
-266	20 points of temporary Body Resistance from the well south of the Steadwick Town Hall.	Stat	3	
-267	50 points of temporary Might from the central fountain in Steadwick.	Stat	3	
-268	5 points of temporary Personality from the trough in front of the Steadwick Town Hall.	Stat	3	
-269	50 points of temporary Earth resistance from the central fountain in Pierpont.	Stat	4	
-270	2 points of permanent Intellect from the southern village well in Deyja.	Stat	5	
-271	5 points of permanent Fire resistance from the well in the western village in Deyja.	Stat	5	
-272	10 points of temporary Personality from the well near the Temple of the Dark in Moulder in Deyja.	Stat	5	
-273	10 points of temporary Fire resistance from the well in the south side of Moulder in Deyja.	Stat	5	
-274	25 points of temporary Intellect and Personality from the fountain outside the School of Sorcery in the Bracada Desert.	Stat	6	
-275	"25 points of temporary Might, Intellect, Personality, Endurance, Speed, Accuracy, and Luck from the central fountain in Celeste."	Stat	7	
-276	50 points of temporary Intellect and Personality from the central fountain in Damocles in Mount Nighon.	Stat	10	
-277	2 Skill Points from the well near Offerings and Blessings in Damocles in Mount Nighon. 	Stat	10	
-278	2 points of permanent Personality from the well near Fortune's Folly in Damocles in Mount Nighon.	Stat	10	
-279	"20 points of temporary Air, Earth, Fire, Water, Body, and Mind resistances from the well near the Fire Guild in Damocles in Mount Nighon."	Stat	10	
-280	50 Spell Points recovered from the well in the eastern village in Mount Nighon.	Stat	10	
-281	50 Hit Points recovered from the well in the western village in Mount Nighon.	Stat	10	
-282	25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs.	Stat	11	
-283	2 points of permanent Speed from the well in the western section of Tidewater in Tatalia.	Stat	13	
-284	20 points of temporary Air resistance from the well in the eastern section of Tidewater in Tatalia.	Stat	13	
-285	20 points of temporary Armor Class from the well in the northern village in Tatalia.	Stat	13	
-286	2 points of permanent Endurance from the well in the northeast section of Spaward in Avlee.	Stat	14	
-287	20 points of temporary Water resistance from the well in the northwest section of Spaward in Avlee.	Stat	14	
-288	25 Hit Points regained from the well in the island village in Avlee.	Stat	14	
+257	Accepted fireball wand from Mr. Malwick on Emerald Island.	Misc		
+258	50 points of temporary Fire resistance from the central town well on Emerald Island.	Stat		
+259	5 Hit Points regained from the well east of the Temple on Emerald Island.	Stat		
+260	5 Spell Points regained from the well west of the Temple on Emerald Island.	Stat		
+261	2 points of permanent Luck from the well on the western edge of Emerald Island.	Stat		
+262	10 points of temporary Might from the well in the village south of Harmondale.	Stat		
+263	10 points of temporary Accuracy from the well in the village northeast of Steadwick.	Stat		
+264	2 points of permanent Might from the well in the northwest section of Steadwick.	Stat		
+265	Disease cured at the eastern well in Steadwick.	Stat		
+266	20 points of temporary Body Resistance from the well south of the Steadwick Town Hall.	Stat		
+267	50 points of temporary Might from the central fountain in Steadwick.	Stat		
+268	5 points of temporary Personality from the trough in front of the Steadwick Town Hall.	Stat		
+269	50 points of temporary Earth resistance from the central fountain in Pierpont.	Stat		
+270	2 points of permanent Intellect from the southern village well in Deyja.	Stat		
+271	5 points of permanent Fire resistance from the well in the western village in Deyja.	Stat		
+272	10 points of temporary Personality from the well near the Temple of the Dark in Moulder in Deyja.	Stat		
+273	10 points of temporary Fire resistance from the well in the south side of Moulder in Deyja.	Stat		
+274	25 points of temporary Intellect and Personality from the fountain outside the School of Sorcery in the Bracada Desert.	Stat		
+275	"25 points of temporary Might, Intellect, Personality, Endurance, Speed, Accuracy, and Luck from the central fountain in Celeste."	Stat		
+276	50 points of temporary Intellect and Personality from the central fountain in Damocles in Mount Nighon.	Stat		
+277	2 Skill Points from the well near Offerings and Blessings in Damocles in Mount Nighon. 	Stat		
+278	2 points of permanent Personality from the well near Fortune's Folly in Damocles in Mount Nighon.	Stat		
+279	"20 points of temporary Air, Earth, Fire, Water, Body, and Mind resistances from the well near the Fire Guild in Damocles in Mount Nighon."	Stat		
+280	50 Spell Points recovered from the well in the eastern village in Mount Nighon.	Stat		
+281	50 Hit Points recovered from the well in the western village in Mount Nighon.	Stat		
+282	25 points of temporary Fire resistance from the well in the southwestern village in the Barrow Downs.	Stat		
+283	2 points of permanent Speed from the well in the western section of Tidewater in Tatalia.	Stat		
+284	20 points of temporary Air resistance from the well in the eastern section of Tidewater in Tatalia.	Stat		
+285	20 points of temporary Armor Class from the well in the northern village in Tatalia.	Stat		
+286	2 points of permanent Endurance from the well in the northeast section of Spaward in Avlee.	Stat		
+287	20 points of temporary Water resistance from the well in the northwest section of Spaward in Avlee.	Stat		
+288	25 Hit Points regained from the well in the island village in Avlee.	Stat		
 289	Red liquid grants Might.	Misc		
 290	Orange liquid grants Intellect.	Misc		
 291	Blue liquid grants Personality.	Misc		

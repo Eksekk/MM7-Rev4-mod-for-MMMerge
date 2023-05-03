@@ -3107,6 +3107,7 @@ if MF.GtSettingNum(MM.MM8EnableTier1Promo, 0) then
 		QuestItem = 669,	-- Letter to Ninegos
 		Exp = 25000,
 		Done = function()
+			Party.QBits[1729] = false
 			Party.QBits[1731] = true
 			Game.NPC[55].House = 625
 		end,

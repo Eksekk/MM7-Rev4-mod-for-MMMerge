@@ -45,6 +45,9 @@ ScrollChanceGM	100
 ScrollChanceCursedGM	50
 Scripts.EnableVisibleGauntlets	0
 Scripts.EnableDruidSummoner	0
+SpellsBuffSkipNonConscious	1
+SpellsHasteSingleWeakNonFail	1
+SpellsHourHasteSingleWeakNonFail	1
 Rev4ForMergeActivateExtraQuests	1
 UseOriginalGenieLamps	1
 Rev4ForMergeDuplicateModdedDungeons	1

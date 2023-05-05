@@ -42,3 +42,11 @@ luac.out
 "**/rev4 mm7 icons lod/"
 **/*Backup*/
 *.bak
+
+# hard links to scripts introduced by me
+Scripts/new/
+
+# VS Code history?
+.history
+
+.vscode

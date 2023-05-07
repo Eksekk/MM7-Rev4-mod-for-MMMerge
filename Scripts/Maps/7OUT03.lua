@@ -79,6 +79,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 Game.LoadSound(509)
 Game.LoadSound(510)
@@ -970,10 +972,10 @@ end
 -- ERROR: Invalid command size: 510:4 (Subtract)
 -- ERROR: Invalid command size: 510:5 (Add)
 
-
 --[[ MMMerge additions ]]--
 
 -- Erathia
+local MF = Merge.Functions
 
 -- Travel to Emerald Isle if Player was not there before.
 
@@ -1007,4 +1009,9 @@ function events.AfterLoadMap()
 		Timer(CCTimers.Catch, false, const.Minute*3)
 
 	end
+end
+
+-- Town Portal fountain
+evt.map[208] = function()
+	MF.SetLastFountain()
 end

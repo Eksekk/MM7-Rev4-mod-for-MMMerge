@@ -21,6 +21,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 evt.MazeInfo = evt.str[1]  -- "Door"
 -- ERROR: Duplicate label: 4101:0
@@ -330,4 +332,3 @@ Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.MoveToMap{X = 18754, Y = -17550, Z = 929, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "out14.odm"}
 end
-

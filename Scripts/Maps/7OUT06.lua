@@ -76,6 +76,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 -- ERROR: Duplicate label: 303:0
 -- ERROR: Duplicate label: 461:0
@@ -620,9 +622,9 @@ evt.map[503] = function()
 end
 
 evt.hint[318] = evt.str[100]  -- ""
-evt.map[318] = function()
-	evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-end
+	evt.map[318] = function()
+		evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+	end
 
 --[[ MMMerge additions ]]--
 

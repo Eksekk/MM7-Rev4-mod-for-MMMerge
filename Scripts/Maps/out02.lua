@@ -1,7 +1,14 @@
 -- Ravenshore
+local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	Party.QBits[922] = true	-- DDMapBuff, changed for rev4 for merge
+end
+
+-- Town Portal fountain
+evt.map[104] = function()
+	Party.QBits[302] = true	-- TP Buff Ravenshore
+	MF.SetLastFountain()
 end
 
 -- Final part of Cross continents quest
@@ -15,10 +22,6 @@ if QSet and QSet.GotFinalQuest then
 		end
 	end
 
-end
-
-evt.map[104] = function()
-	Party.QBits[302] = true	-- TP Buff Ravenshore
 end
 
 function events.BeforeLoadMap()

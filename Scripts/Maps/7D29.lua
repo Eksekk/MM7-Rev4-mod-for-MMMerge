@@ -25,6 +25,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 Game.MapEvtLines:RemoveEvent(1)
@@ -561,7 +563,7 @@ evt.map[376] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-Bit = 0x0, On = false}         -- "Generic Monster Group for Dungeons"
+		Bit = 0x0, On = false}         -- "Generic Monster Group for Dungeons"
 	end
 	do return end
 ::_5::
@@ -764,18 +766,18 @@ evt.map[501] = function()
 	end
 end
 
--- fix for a bug where golem and messenger of the saints are visible by default
-function events.AfterLoadMap()
-	if (not vars["Castle Harmondale NPCs hidden"]) and Game.Map.Name == "7d29.blv" then
-		if not (Party.QBits[585] or Party.QBits[586]) then
-			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = true}
+	-- fix for a bug where golem and messenger of the saints are visible by default
+	function events.AfterLoadMap()
+		if (not vars["Castle Harmondale NPCs hidden"]) and Game.Map.Name == "7d29.blv" then
+			if not (Party.QBits[585] or Party.QBits[586]) then
+				evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = true}
+			end
+			if not Party.QBits[647] then
+				evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = true}
+			end
+			vars["Castle Harmondale NPCs hidden"] = true
 		end
-		if not Party.QBits[647] then
-			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = true}
-		end
-		vars["Castle Harmondale NPCs hidden"] = true
 	end
-end
 
 --[[ MMMerge additions ]]--
 

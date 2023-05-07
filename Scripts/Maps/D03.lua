@@ -33,24 +33,27 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
+
 
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if not evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
+	if not evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 		goto _6
 	end
-	if evt.Cmp{"QBits", Value = 782} then         -- Your friends are mad at you 
-		if evt.Cmp{"Counter10", Value = 720} then
-			evt.Subtract{"QBits", Value = 782}         -- Your friends are mad at you 
-			evt.Set{"MapVar4", Value = 0}
+	if evt.Cmp("QBits", 782) then         -- Your friends are mad at you 
+		if evt.Cmp("Counter10", 720) then
+			evt.Subtract("QBits", 782)         -- Your friends are mad at you 
+			evt.Set("MapVar4", 0)
 			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
 			evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = false}         -- "Guards"
 			return
 		end
 		goto _6
 	end
-	if not evt.Cmp{"MapVar4", Value = 2} then
+	if not evt.Cmp("MapVar4", 2) then
 		return
 	end
 ::_7::
@@ -58,7 +61,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	do return end
 ::_6::
-	evt.Set{"MapVar4", Value = 2}
+	evt.Set("MapVar4", 2)
 	goto _7
 end
 
@@ -82,261 +85,257 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	if evt.Cmp{"QBits", Value = 611} then         -- Chose the path of Light
-		if not evt.Cmp{"Awards", Value = 24} then         -- "Retrieved Soul Jars"
-			evt.OpenChest{Id = 0}
-			evt.Add{"QBits", Value = 743}         -- Lich Jar Case - I lost it
-			evt.Add{"QBits", Value = 662}         -- Got Lich Jar from Castle Gloaming
+	if evt.Cmp("QBits", 611) then         -- Chose the path of Light
+		if not evt.Cmp("Awards", 24) then         -- "Retrieved Soul Jars"
+			evt.OpenChest(0)
+			evt.Add("QBits", 743)         -- Lich Jar Case - I lost it
+			evt.Add("QBits", 662)         -- Got Lich Jar from Castle Gloaming
 			return
 		end
 	end
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
-		if evt.Cmp{"QBits", Value = 643} then         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
+	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
+		if evt.Cmp("QBits", 643) then         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
 			evt.SetChestBit{ChestId = 6, Bit = const.ChestBits.Trapped, On = false}
-			evt.OpenChest{Id = 6}
-			evt.Add{"QBits", Value = 747}         -- Wetsuit - I lost it
+			evt.OpenChest(6)
+			evt.Add("QBits", 747)         -- Wetsuit - I lost it
 			return
 		end
-	else
-		if not evt.Cmp{"MapVar4", Value = 2} then
-			evt.Set{"MapVar4", Value = 2}
-			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
-		end
+	elseif not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
+		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
+		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
-		if evt.Cmp{"QBits", Value = 643} then         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
+	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
+		if evt.Cmp("QBits", 643) then         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit."
 			evt.SetChestBit{ChestId = 7, Bit = const.ChestBits.Trapped, On = false}
-			evt.OpenChest{Id = 7}
-			evt.Add{"QBits", Value = 747}         -- Wetsuit - I lost it
+			evt.OpenChest(7)
+			evt.Add("QBits", 747)         -- Wetsuit - I lost it
 			return
 		end
-	else
-		if not evt.Cmp{"MapVar4", Value = 2} then
-			evt.Set{"MapVar4", Value = 2}
-			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
-		end
+	elseif not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
+		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
+		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 2}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 2)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 	end
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[376] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
-	if not evt.Cmp{"QBits", Value = 711} then         -- Take the Associate's Tapestry
-		if evt.Cmp{"QBits", Value = 612} then         -- Chose the path of Dark
-			if evt.Cmp{"QBits", Value = 694} then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
+	if not evt.Cmp("QBits", 711) then         -- Take the Associate's Tapestry
+		if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
+			if evt.Cmp("QBits", 694) then         -- "Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia."
 				evt.SetTexture{Facet = 10, Name = "cnb"}
-				evt.Add{"Inventory", Value = 1422}         -- "Big Tapestry"
-				evt.Add{"QBits", Value = 711}         -- Take the Associate's Tapestry
+				evt.Add("Inventory", 1422)         -- "Big Tapestry"
+				evt.Add("QBits", 711)         -- Take the Associate's Tapestry
 				evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 				evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-				evt.Set{"MapVar4", Value = 2}
+				evt.Set("MapVar4", 2)
 			end
 		end
 	end
@@ -345,7 +344,7 @@ end
 evt.hint[377] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(377)
 evt.map[377] = function()  -- function events.LoadMap()
-	if evt.Cmp{"QBits", Value = 711} then         -- Take the Associate's Tapestry
+	if evt.Cmp("QBits", 711) then         -- Take the Associate's Tapestry
 		evt.SetTexture{Facet = 15, Name = "cnb"}
 	end
 end
@@ -355,24 +354,22 @@ events.LoadMap = evt.map[377].last
 evt.house[5] = 219  -- "Throne Room"
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()
-	if evt.Cmp{"MapVar4", Value = 2} then
-		evt.StatusText{Str = 21}         -- "The Door is Locked"
+	if evt.Cmp("MapVar4", 2) then
+		evt.StatusText(21)         -- "The Door is Locked"
+	elseif evt.Cmp("QBits", 710) then         -- Archibald in Clankers Lab now
+		evt.EnterHouse(221)         -- "Throne Room"
 	else
-		if evt.Cmp{"QBits", Value = 710} then         -- Archibald in Clankers Lab now
-			evt.EnterHouse{Id = 221}         -- "Throne Room"
-		else
-			evt.EnterHouse{Id = 219}         -- "Throne Room"
-		end
+		evt.EnterHouse(219)         -- "Throne Room"
 	end
 end
 
 evt.hint[451] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
-	if not evt.Cmp{"Invisible", Value = 0} then
-		if not evt.Cmp{"MapVar4", Value = 1} then
-			evt.SpeakNPC{NPC = 619}         -- "Castle Guard"
-			evt.Set{"MapVar4", Value = 1}
+	if not evt.Cmp("Invisible", 0) then
+		if not evt.Cmp("MapVar4", 1) then
+			evt.SpeakNPC(619)         -- "Castle Guard"
+			evt.Set("MapVar4", 1)
 		end
 	end
 end
@@ -380,13 +377,13 @@ end
 evt.hint[452] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(452)
 evt.map[452] = function()
-	if not evt.Cmp{"Invisible", Value = 0} then
-		if not evt.Cmp{"MapVar4", Value = 2} then
+	if not evt.Cmp("Invisible", 0) then
+		if not evt.Cmp("MapVar4", 2) then
 			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 			evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
-			evt.Set{"MapVar4", Value = 2}
-			evt.Set{"Counter10", Value = 0}
-			evt.Set{"QBits", Value = 782}         -- Your friends are mad at you 
+			evt.Set("MapVar4", 2)
+			evt.Set("Counter10", 0)
+			evt.Set("QBits", 782)         -- Your friends are mad at you 
 		end
 	end
 end
@@ -394,8 +391,8 @@ end
 evt.hint[453] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(453)
 evt.map[453] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 0}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 0)
 	end
 end
 
@@ -403,19 +400,17 @@ evt.hint[454] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(454)
 evt.map[454] = function()
 	local i
-	if not evt.Cmp{"FireResBonus", Value = 50} then
-		if not evt.Cmp{"FireResistance", Value = 50} then
-			evt.ForPlayer(-- ERROR: Const not found
-"All")
-			evt.Set{"Dead", Value = 0}
+	if not evt.Cmp("FireResBonus", 50) then
+		if not evt.Cmp("FireResistance", 50) then
+			evt.ForPlayer("All")
+			evt.Set("Dead", 0)
 			return
 		end
 	end
 	i = Game.Rand() % 2
 	if i == 1 then
-		evt.ForPlayer(-- ERROR: Const not found
-"All")
-		evt.Set{"Dead", Value = 0}
+		evt.ForPlayer("All")
+		evt.Set("Dead", 0)
 	end
 end
 

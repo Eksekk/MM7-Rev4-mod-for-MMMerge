@@ -15,6 +15,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -672,7 +674,7 @@ evt.map[501] = function()
 		return
 	end
 	evt.SetNPCTopic{NPC = 387, Index = 0, Event = 845}         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
-
+	
 	if not evt.Cmp("Inventory", 1301) then         -- "Book of UnMakings"
 		evt.StatusText(11)         -- "You must have the Book of UnMakings in order to leave"
 		return
@@ -685,8 +687,6 @@ evt.map[501] = function()
 	end
 	evt.MoveToMap{X = 670, Y = -93, Z = 0, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7d14.blv"}
 end
-
-
 
 --[[ MMMerge additions ]]--
 

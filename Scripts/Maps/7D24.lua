@@ -54,6 +54,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -471,4 +473,3 @@ Game.MapEvtLines:RemoveEvent(502)
 evt.map[502] = function()
 	evt.MoveToMap{X = 522, Y = -808, Z = 1, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D35.blv"}
 end
-

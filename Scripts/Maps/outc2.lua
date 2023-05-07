@@ -72,6 +72,10 @@ end
 evt.map[49] = RevealSilverTongue
 evt.map[50] = RevealSilverTongue
 
+-- Town Portal fountain
+evt.map[163] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

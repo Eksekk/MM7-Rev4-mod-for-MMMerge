@@ -1,4 +1,5 @@
 -- Shadowspire
+local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	Party.QBits[926] = true	-- DDMapBuff, changed for rev4 for merge
@@ -29,8 +30,10 @@ function events.TileSound(t)
 	end
 end
 
+-- Town Portal fountain
 evt.map[104] = function()
 	Party.QBits[305] = true	-- TP Buff Shadowspire
+	MF.SetLastFountain()
 end
 
 evt.map[410] = function()

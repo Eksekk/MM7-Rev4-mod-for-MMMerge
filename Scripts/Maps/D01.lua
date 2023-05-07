@@ -21,19 +21,22 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
+
 
 evt.hint[3] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(3)
 evt.map[3] = function()
 	evt.SetDoorState{Id = 22, State = 1}
-	evt.Set{"MapVar1", Value = 1}
+	evt.Set("MapVar1", 1)
 end
 
 evt.hint[4] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(4)
 evt.map[4] = function()
 	evt.SetDoorState{Id = 23, State = 1}
-	evt.Set{"MapVar1", Value = 1}
+	evt.Set("MapVar1", 1)
 end
 
 evt.hint[5] = evt.str[1]  -- "Door"
@@ -95,7 +98,7 @@ evt.hint[18] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(18)
 evt.map[18] = function()
 	evt.SetDoorState{Id = 18, State = 1}
-	evt.Set{"MapVar1", Value = 0}
+	evt.Set("MapVar1", 0)
 end
 
 evt.hint[19] = evt.str[1]  -- "Door"
@@ -114,7 +117,7 @@ evt.hint[21] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(21)
 evt.map[21] = function()
 	evt.SetDoorState{Id = 21, State = 1}
-	evt.Set{"MapVar1", Value = 0}
+	evt.Set("MapVar1", 0)
 end
 
 Game.MapEvtLines:RemoveEvent(151)
@@ -146,129 +149,125 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
-evt.house[376] = 1162  -- "Master Thief"
 Game.MapEvtLines:RemoveEvent(376)
-evt.map[376] = function()
-	evt.EnterHouse{Id = 1162}         -- "Master Thief"
-end
-
+evt.HouseDoor(376, 1162)  -- "Master Thief"
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
 	evt.SetDoorState{Id = 24, State = 2}         -- switch state
@@ -321,7 +320,7 @@ end
 evt.hint[457] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(457)
 evt.map[457] = function()
-	if evt.Cmp{"MapVar1", Value = 1} then
+	if evt.Cmp("MapVar1", 1) then
 		evt.CastSpell{Spell = 39, Mastery = const.GM, Skill = 10, FromX = 5632, FromY = 4736, FromZ = 542, ToX = 5632, ToY = 12352, ToZ = 542}         -- "Blades"
 	end
 end
@@ -329,7 +328,7 @@ end
 evt.hint[458] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(458)
 evt.map[458] = function()
-	if evt.Cmp{"MapVar1", Value = 1} then
+	if evt.Cmp("MapVar1", 1) then
 		evt.CastSpell{Spell = 39, Mastery = const.GM, Skill = 10, FromX = -5632, FromY = 4736, FromZ = 542, ToX = -5632, ToY = 12352, ToZ = 542}         -- "Blades"
 	end
 end

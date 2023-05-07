@@ -76,6 +76,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -1323,6 +1325,7 @@ evt.HouseDoor(267, 1124)  -- "Skinner's House"
 Game.MapEvtLines:RemoveEvent(268)
 evt.HouseDoor(268, 1125)  -- "Torrent's"
 
+
 evt.hint[302] = evt.str[31]  -- "Enter the White Cliff Caves"
 Game.MapEvtLines:RemoveEvent(302)
 evt.map[302] = function()
@@ -1332,8 +1335,6 @@ evt.map[302] = function()
 		evt.StatusText(23)         -- "It's too dangerous to enter the cave at this time."
 	end
 end
-
-
 
 --[[ MMMerge additions ]]--
 

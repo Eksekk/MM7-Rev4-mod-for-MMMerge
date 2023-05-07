@@ -1,4 +1,5 @@
 -- New Sorpigal
+local MF = Merge.Functions
 
 local TileSounds = {
 [6] = {[0] = 90, 	[1] = 51}
@@ -32,6 +33,10 @@ Game.MapEvtLines:RemoveEvent(16)
 evt.house[16] = 470
 evt.map[16] = function() StdQuestsFunctions.CheckPrices(470, 1523) end
 
+-- Town Portal fountain
+evt.map[131] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

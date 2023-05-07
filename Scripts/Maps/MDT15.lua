@@ -21,6 +21,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 Game.MapEvtLines:RemoveEvent(1)
@@ -30,37 +32,37 @@ evt.map[1] = function()  -- function events.LoadMap()
 			if evt.Cmp("QBits", 611) then         -- Chose the path of Light
 				evt.Set("QBits", 814)         -- Small House only Once
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SpeakNPC(762)         -- "Maximus"
 			elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
 				evt.Set("QBits", 814)         -- Small House only Once
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
+				NPCGroup = 1587, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-NPCGroup = 1587, unk = 0}
-					evt.SpeakNPC(724)         -- "Sir Carneghem"
+				NPCGroup = 1587, unk = 0}
+				evt.SpeakNPC(724)         -- "Sir Carneghem"
 			end
 		end
 	end
@@ -227,4 +229,3 @@ evt.map[502] = function()
 	end
 	evt.MoveToMap{X = -7745, Y = -6673, Z = 65, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7D26.blv"}
 end
-

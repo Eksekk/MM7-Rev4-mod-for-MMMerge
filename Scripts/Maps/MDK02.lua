@@ -21,6 +21,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -31,7 +33,7 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetDoorState{Id = 26, State = 0}
 	end
 	evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
+	Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
 end
 
 events.LoadMap = evt.map[1].last
@@ -205,4 +207,3 @@ evt.map[502] = function()
 		evt.MoveToMap{X = 28, Y = -1374, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D13.blv"}
 	end
 end
-

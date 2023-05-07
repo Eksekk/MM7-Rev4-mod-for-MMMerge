@@ -319,132 +319,6 @@ function rev4m.mapScripts()
 		end,
 	}
 
-	local function indentCount(str)
-		str = str:match("(%s*).-") -- get whitespace at beginning
-		str = str:gsub("    ", "\t") -- replace sequences of four spaces with tabs
-		str = str:gsub(" ", "") -- remove all other spaces
-		local count
-		str, count = str:gsub("\t", "\t") -- get tab count
-		return count
-	end
-
-	function string.trim(text)
-		return (text:match("^%s*(.-)%s*$")) or ""
-	end
-
-	function string.trimNewlines(text)
-		return (text:match("^\n*(.-)\n*$")) or ""
-	end
-
-	function string.escapeRegex(text)
-		return (text:gsub("(%W)", "%%%1"))
-	end
-
-	function printf(...)
-		return print(string.format(...))
-	end
-
-	function string.escapeForFormat(text)
-		return (text:gsub("(%%)", "%%%1"))
-	end
-
-	-- replace given pattern, correctly dealing with differing indent
-	function string.replaceIndent(text, replaceWhat, replacement)
-		-- split text and replacement into lines and check if first text line is found
-		local linesText, linesReplaceWhat, linesReplacement = text:trimNewlines():split("\n"), replaceWhat:trimNewlines():split("\n"), replacement:trimNewlines():split("\n")
-		--[[for k, v in pairs{text = text, replaceWhat = replaceWhat, replacement = replacement} do
-			local r, rn, n
-			_, r = v:gsub("\r", "\r")
-			_, rn = v:gsub("\r\n", "\r\n")
-			_, n = v:gsub("\n", "\n")
-			--printf("%s: R: %d, RN: %d, N: %d", k, r, rn, n)
-		end]]
-		assert(#text > 20)
-		assert(#linesReplaceWhat > 0)
-		assert(#linesReplacement > 0)
-		local firstWhat = linesReplaceWhat[1]:trim():escapeRegex()
-		--[[if #linesReplaceWhat <= 1 then
-			local count
-			firstWhat, count = text:gsub(firstWhat, replacement)
-			return firstWhat, count
-		end]]
-		local firstLinePositions = {}
-		for i, line in ipairs(linesText) do
-			if line:match(firstWhat) then
-			--if line == firstWhat then
-				firstLinePositions[#firstLinePositions + 1] = i
-			end
-		end
-		if #firstLinePositions == 0 then
-			print("match not found")
-			return text, 0
-		end
-		local errors = {}
-		local function errorMsg(...)
-			errors[#errors + 1] = string.format(...)
-		end
-		local replaced, replacedOffset = 0, 0
-		for matchIdx, firstLinePos in ipairs(firstLinePositions) do
-			firstLinePos = firstLinePos + replacedOffset
-			if #linesText - #linesReplaceWhat < firstLinePos then -- not enough lines to match fully
-				errorMsg("replacement %d", matchIdx)
-				errorMsg("match not found - not enough lines to match")
-				goto continue
-			end
-			-- skip first line, because already found
-			for i = 2, #linesReplaceWhat do
-				local idx = firstLinePos + i - 1
-				--if not linesText[idx]:match(replaceWhat[i]:trim():escapeRegex()) then
-				if not linesText[idx]:match(linesReplaceWhat[i]:trim():escapeRegex()) then
-					errorMsg("replacement %d", matchIdx)
-					errorMsg("match failed at line %d", i)
-					errorMsg("text: %s", linesText[idx]:trim():escapeForFormat())
-					errorMsg("replace what: %s", linesReplaceWhat[i]:trim():escapeForFormat())
-					goto continue
-				end
-			end
-			replaced, replacedOffset = replaced + 1, replacedOffset + (#linesReplacement - #linesReplaceWhat) -- if replacing 3 lines with 5, only 2 are inserted
-			local indentBaseText = indentCount(linesText[firstLinePos])
-			-- can't get first replacement line indent? using last, usually will be correct because I usually patch entire blocks
-			local indentBaseReplacement = indentCount(linesReplacement[#linesReplacement])
-			local output = {}
-			-- now replace, ignoring indent
-			for i, repl in ipairs(linesReplacement) do
-				local indentDifference = indentCount(repl) - indentBaseReplacement
-				local indent = string.rep("\t", math.max(indentBaseText, indentBaseText + indentDifference)) -- not lower than starting indent
-				output[#output + 1] = indent .. repl:trim()
-			end
-			-- start replacing
-			local replaceInplace = math.min(#output, #linesReplaceWhat)
-			for i = 1, replaceInplace do
-				linesText[firstLinePos + i - 1] = output[i]
-			end
-			-- rest need to have space created for them
-			local left = #output - replaceInplace
-			if left > 0 then
-				local firstFreedIndex = #linesText - left + 1
-				for i = #linesText, firstFreedIndex, -1 do
-					linesText[i + left] = linesText[i]
-				end
-				for i = firstFreedIndex, #linesText do
-					local indexOfCurrent = i - firstFreedIndex + 1 -- 1-based
-					local replacementIndex = #output - left + indexOfCurrent
-					linesText[i] = output[replacementIndex]
-				end
-			end
-			::continue::
-		end
-		local str = string.format("%d matches, %d replacements done", #firstLinePositions, replaced)
-		if #errors > 0 then
-			str = str .. "\n" .. table.concat(errors, "\n")
-			print(str)
-			return table.concat(linesText, "\n"), replaced
-		end
-		print(str)
-		return table.concat(linesText, "\n"), #linesReplacement
-		-- KEEP INDENT BELOW LOWEST LINE AND MATCH TO FIRST LINE INDENT
-	end
-
 	local replacementsafter =
 	{
 		--[["evt%.HouseDoor%((%d+), (%d+)%)([^\"]-\"[^\"]-\")"] =
@@ -648,7 +522,7 @@ function rev4m.mapScripts()
 				end
 			end
 		end
-		evt.StatusText{20}         -- "You must all be wearing your wetsuits to exit the ship"
+		evt.StatusText(20)         -- "You must all be wearing your wetsuits to exit the ship"
 	end]], ""},
 		-- Stone City
 		-- perception skill barrel
@@ -677,21 +551,22 @@ function rev4m.mapScripts()
 		-- Colony Zod
 		-- remove buggy script which is replaced in Merge anyways
 		["d27.lua"] = {[[evt.map[376] = function()
-		evt.SpeakNPC(626)         -- "Roland Ironfist"
-		evt.SetSprite{SpriteId = 20, Visible = 1, Name = "dec05"}
-		evt.Add("Inventory", 1463)         -- "Colony Zod Key"
-		evt.Add("QBits", 752)         -- Talked to Roland
-		evt.Add("History24", 0)
-		evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = true}
-		evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = true}
+		if not evt.Cmp("QBits", 752) then         -- Talked to Roland
+			evt.SpeakNPC(626)         -- "Roland Ironfist"
+			evt.SetSprite{SpriteId = 20, Visible = 1, Name = "dec05"}
+			evt.Add("Inventory", 1463)         -- "Colony Zod Key"
+			evt.Add("QBits", 752)         -- Talked to Roland
+			evt.Add("History24", 0)
+			evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = true}
+			evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = true}
+		end
 	end
 	]], "",
 		-- delegate exit event to EVT file so it doesn't crash the game (bugfix)
 		[[evt.hint[501] = evt.str[2]  -- "Leave the Hive"
 	evt.map[501] = function()
 		evt.MoveToMap{X = -18246, Y = -11910, Z = 3201, Direction = 128, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "Out12.odm"}
-	end
-	]], ""},
+	end]], ""},
 		-- Castle Harmondale
 		-- bodybuilding skill barrel
 		["d29.lua"] = {[[evt.map[37] = function()
@@ -1285,19 +1160,19 @@ function rev4m.mapScripts()
 		["out04.lua"] = {[[
 
 	-- Clanker's Laboratory
-	Game.MapEvtLines:RemoveEvent(503)
-	evt.map[503] = function()
+Game.MapEvtLines:RemoveEvent(503)
+evt.map[503] = function()
 
-		if Party.QBits[710] then
-			evt.MoveNPC{427, 395}
-			Game.Houses[395].ExitMap = 86
-			Game.Houses[395].ExitPic = 1
-			evt.EnterHouse{395}
-		else
-			evt.MoveToMap{0,-709,1,512,0,0,395,9,"7d12.blv"}
-		end
+	if Party.QBits[710] then
+		evt.MoveNPC{427, 395}
+		Game.Houses[395].ExitMap = 86
+		Game.Houses[395].ExitPic = 1
+		evt.EnterHouse{395}
+	else
+		evt.MoveToMap{0,-709,1,512,0,0,395,9,"7d12.blv"}
+	end
 
-	end]], ""},
+end]], ""},
 		["out14.lua"] = {"Party.QBits[783]", "Party.QBits[980]"},
 		["hive.lua"] = {"Party.QBits[784]", "Party.QBits[981]"},
 		-- Barrow Downs
@@ -1326,7 +1201,26 @@ function rev4m.mapScripts()
 		-- Emerald Island
 		-- add QBits and show movie on arrival
 		[[
+	-- starting QBits
+	evt.map[100] = function()  -- function events.LoadMap()
+		local add = true
+		for qb = 513, 519 do
+			if Party.QBits[qb] then
+				add = false
+				break
+			end
+		end
+		if add then
+			for qb = 513, 518 do
+				evt.Add("QBits", qb) -- evt to show flash on PC faces
+			end
+			evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
+		end
+	end
 
+	events.LoadMap = evt.map[100].last]],
+	-- old patch, kept just in case
+	--[=[
 	evt.map[100] = function()  -- function events.LoadMap()
 		if not evt.Cmp("QBits", 519) then         -- Finished Scavenger Hunt
 			if not evt.Cmp("QBits", 518) then         -- "Return a wealthy hat to the Judge on Emerald Island."
@@ -1351,7 +1245,7 @@ function rev4m.mapScripts()
 		end
 	end
 
-	events.LoadMap = evt.map[100].last]]},
+	events.LoadMap = evt.map[100].last]=]},
 		-- Coding Fortress
 		-- make BDJ invisible by default
 		-- make BDJ hostile on save game reload/lloyd back to dungeon
@@ -1421,6 +1315,11 @@ function rev4m.mapScripts()
 		["d08.lua"] = true
 	}
 
+	local function patchFailure(what, patch)
+		printf("Error (%s): replacement not made: %s", what, patch:sub(1, math.min(300, patch:len())))
+		error("breakpoint")
+	end
+
 	for i in path.find(rev4m.path.originalRev4Scripts .. "*.lua") do
 		print("Current file: " .. path.name(i))
 		local file = io.open(i)
@@ -1431,7 +1330,10 @@ function rev4m.mapScripts()
 		local done = nil
 		if patches[name] ~= nil then
 			for i = 1, #patches[name], 2 do
-				content, done = content:replace(patches[name][i], patches[name][i + 1])
+				content, done = content:replaceIndent(patches[name][i], patches[name][i + 1])
+				if done == 0 then
+					patchFailure("Patches before", patches[name][i])
+				end
 			end
 		end
 		for regex, fun in pairs(replacements) do
@@ -1457,14 +1359,7 @@ function rev4m.mapScripts()
 				--content, done = content:replace(patchesAfter[name][i], patchesAfter[name][i + 1])
 				content, done = content:replaceIndent(patchesAfter[name][i], patchesAfter[name][i + 1])
 				if done == 0 then
-					local content2 = patchesAfter[name][i]
-					--[[local j = 0
-					for j = 1, 3 do
-						j = content:find("\r\n", j + 1)
-					end
-					j = j or content2:len()]]
-					print("Error: replacement not made: " .. content2:sub(1, math.min(300, content2:len())))
-					error("breakpoint")
+					patchFailure("patchesAfter", patchesAfter[name][i])
 				end
 			end
 		end
@@ -1481,9 +1376,13 @@ function rev4m.mapScripts()
 		
 		if patchesMerge[name] ~= nil then
 			for i = 1, #patchesMerge[name], 2 do
-				content, done = content:replace(patchesMerge[name][i], patchesMerge[name][i + 1])
+				content, done = content:replaceIndent(patchesMerge[name][i], patchesMerge[name][i + 1])
+				if done == 0 then
+					patchFailure("patchesMerge", patchesMerge[name][i])
+				end
 			end
 		end
+		
 		-- convert DDMapBuffs
 		local done
 		content, done = content:gsub("Party%.QBits%[(%d+)%] = true	%-%- DDMapBuff", function(buff)
@@ -1493,9 +1392,8 @@ function rev4m.mapScripts()
 		if done ~= 1 and name:find("out") ~= nil then
 			print("Outdoor map " .. name .. ", no DDMapBuff replacement made - check this")
 		end
-		content = content:replace([[
-
-	Game.MapEvtLines.Count = 0  -- Deactivate all standard events]], "")
+		content = content:replace("Game.MapEvtLines.Count = 0  -- Deactivate all standard events", "-- REMOVED BY REV4 FOR MERGE\n-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events")
 		io.save(rev4m.path.processedRev4Scripts .. getFileName(path.name(i)), content)
 	end
+	rev4m.ddMapBuffs() -- process maps not modified in rev4
 end

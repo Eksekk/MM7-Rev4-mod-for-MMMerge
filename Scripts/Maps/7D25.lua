@@ -73,6 +73,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -444,7 +446,6 @@ end
 
 Game.MapEvtLines:RemoveEvent(504)
 evt.HouseDoor(504, 316)  -- "Temple of Light"
-
 
 --[[ MMMerge additions ]]--
 

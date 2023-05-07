@@ -21,6 +21,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -277,21 +279,21 @@ evt.map[502] = function()
 	evt.Set("Eradicated", 0)
 end
 
--- fix so that friends will fight with dragons & hydras
-function events.AfterLoadMap()
-	LocalHostileTxt()
-	local nameids = {}
-	for k, v in Map.Monsters do
-		if v.NameId ~= 0 then
-			table.insert(nameids, (v.Id + 2):div(3))
+	-- fix so that friends will fight with dragons & hydras
+	function events.AfterLoadMap()
+		LocalHostileTxt()
+		local nameids = {}
+		for k, v in Map.Monsters do
+			if v.NameId ~= 0 then
+				table.insert(nameids, (v.Id + 2):div(3))
+			end
 		end
-	end
-	for _, m in ipairs(nameids) do
-		for i, v in Game.HostileTxt do
-			if not table.find(nameids, i) then
-				Game.HostileTxt[m][i] = 4
-				Game.HostileTxt[i][m] = 4
+		for _, m in ipairs(nameids) do
+			for i, v in Game.HostileTxt do
+				if not table.find(nameids, i) then
+					Game.HostileTxt[m][i] = 4
+					Game.HostileTxt[i][m] = 4
+				end
 			end
 		end
 	end
-end

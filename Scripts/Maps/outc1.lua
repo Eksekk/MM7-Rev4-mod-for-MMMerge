@@ -1,4 +1,5 @@
 -- Frozen Highlands
+local MF = Merge.Functions
 
 function events.LoadMap()
 	Party.QBits[185] = true -- Town portal
@@ -36,6 +37,10 @@ Game.MapEvtLines:RemoveEvent(32)
 evt.house[32] = 476
 evt.map[32] = function() StdQuestsFunctions.CheckPrices(476, 1517) end
 
+-- Town Portal fountain
+evt.map[107] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

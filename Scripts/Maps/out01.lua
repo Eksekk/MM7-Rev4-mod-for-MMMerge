@@ -26,6 +26,13 @@ function events.AfterLoadMap()
 	Party.QBits[921] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
+-- Town Portal fountain
+evt.map[104] = function()
+	Party.QBits[185] = true	-- Blood Drop Town Portal
+	Party.QBits[306] = true -- TP Buff Daggerwound Islands
+	MF.SetLastFountain()
+end
+
 evt.map[410] = function()
 	if Party.QBits[296] and not Party.QBits[297] then
 		evt.SetMonGroupBit(15, const.MonsterBits.Invisible, false)
@@ -43,6 +50,6 @@ end
 function events.PickCorpse(t)
 	local mon_id = MF.GetNPCMapMonster(53)
 	if mon_id and t.MonsterIndex == mon_id then
-		t.AllowDefault = false -- bypass default behaivor (do not remove corpse)
+		t.Allow = false -- bypass default behaivor (do not remove corpse)
 	end
 end

@@ -22,11 +22,14 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
+
 
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp{"MapVar4", Value = 2} then
+	if evt.Cmp("MapVar4", 2) then
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = true}         -- "Group for M1"
@@ -108,121 +111,121 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	evt.OpenChest{Id = 1}
+	evt.OpenChest(1)
 end
 
 evt.hint[177] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(177)
 evt.map[177] = function()
-	evt.OpenChest{Id = 2}
+	evt.OpenChest(2)
 end
 
 evt.hint[178] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(178)
 evt.map[178] = function()
-	evt.OpenChest{Id = 3}
+	evt.OpenChest(3)
 end
 
 evt.hint[179] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(179)
 evt.map[179] = function()
-	evt.OpenChest{Id = 4}
+	evt.OpenChest(4)
 end
 
 evt.hint[180] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(180)
 evt.map[180] = function()
-	evt.OpenChest{Id = 5}
+	evt.OpenChest(5)
 end
 
 evt.hint[181] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(181)
 evt.map[181] = function()
-	evt.OpenChest{Id = 6}
+	evt.OpenChest(6)
 end
 
 evt.hint[182] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(182)
 evt.map[182] = function()
-	evt.OpenChest{Id = 7}
+	evt.OpenChest(7)
 end
 
 evt.hint[183] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(183)
 evt.map[183] = function()
-	evt.OpenChest{Id = 8}
+	evt.OpenChest(8)
 end
 
 evt.hint[184] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(184)
 evt.map[184] = function()
-	evt.OpenChest{Id = 9}
+	evt.OpenChest(9)
 end
 
 evt.hint[185] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(185)
 evt.map[185] = function()
-	evt.OpenChest{Id = 10}
+	evt.OpenChest(10)
 end
 
 evt.hint[186] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(186)
 evt.map[186] = function()
-	evt.OpenChest{Id = 11}
+	evt.OpenChest(11)
 end
 
 evt.hint[187] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(187)
 evt.map[187] = function()
-	evt.OpenChest{Id = 12}
+	evt.OpenChest(12)
 end
 
 evt.hint[188] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(188)
 evt.map[188] = function()
-	evt.OpenChest{Id = 13}
+	evt.OpenChest(13)
 end
 
 evt.hint[189] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(189)
 evt.map[189] = function()
-	evt.OpenChest{Id = 14}
+	evt.OpenChest(14)
 end
 
 evt.hint[190] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(190)
 evt.map[190] = function()
-	evt.OpenChest{Id = 15}
+	evt.OpenChest(15)
 end
 
 evt.hint[191] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(191)
 evt.map[191] = function()
-	evt.OpenChest{Id = 16}
+	evt.OpenChest(16)
 end
 
 evt.hint[192] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(192)
 evt.map[192] = function()
-	evt.OpenChest{Id = 17}
+	evt.OpenChest(17)
 end
 
 evt.hint[193] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(193)
 evt.map[193] = function()
-	evt.OpenChest{Id = 18}
+	evt.OpenChest(18)
 end
 
 evt.hint[194] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(194)
 evt.map[194] = function()
-	evt.OpenChest{Id = 19}
+	evt.OpenChest(19)
 end
 
 evt.hint[195] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	evt.OpenChest{Id = 0}
+	evt.OpenChest(0)
 end
 
 evt.hint[196] = evt.str[10]  -- "Bookcase"
@@ -232,11 +235,11 @@ evt.map[196] = function()
 	if evt.CheckMonstersKilled{CheckType = 3, Id = 0, Count = 0} then
 		return
 	end
-	if not evt.Cmp{"QBits", Value = 657} then         -- Membership to the School of Sorcery Scroll Shop
+	if not evt.Cmp("QBits", 657) then         -- Membership to the School of Sorcery Scroll Shop
 		return
 	end
-	if evt.Cmp{"MapVar2", Value = 3} then
-		evt.StatusText{Str = 19}         -- "There are no items that interest you"
+	if evt.Cmp("MapVar2", 3) then
+		evt.StatusText(19)         -- "There are no items that interest you"
 		return
 	end
 	i = Game.Rand() % 6
@@ -245,15 +248,15 @@ evt.map[196] = function()
 	elseif i == 4 then
 		i = Game.Rand() % 6
 		if i == 1 then
-			evt.Add{"Inventory", Value = 1203}         -- "Fire Bolt"
+			evt.Add("Inventory", 1203)         -- "Fire Bolt"
 		elseif i == 2 then
-			evt.Add{"Inventory", Value = 1214}         -- "Feather Fall"
+			evt.Add("Inventory", 1214)         -- "Feather Fall"
 		elseif i == 3 then
-			evt.Add{"Inventory", Value = 1216}         -- "Sparks"
+			evt.Add("Inventory", 1216)         -- "Sparks"
 		elseif i == 4 then
-			evt.Add{"Inventory", Value = 1281}         -- "Dispel Magic"
+			evt.Add("Inventory", 1281)         -- "Dispel Magic"
 		elseif i == 5 then
-			evt.Add{"Inventory", Value = 1269}         -- "Heal"
+			evt.Add("Inventory", 1269)         -- "Heal"
 		end
 		goto _17
 	elseif i == 5 then
@@ -266,73 +269,71 @@ evt.map[196] = function()
 		return
 	end
 ::_18::
-	evt.Add{"MapVar2", Value = 1}
+	evt.Add("MapVar2", 1)
 end
 
 RefillTimer(function()
-	evt.Set{"MapVar2", Value = 0}
-end, const.Week, true)
+	evt.Set("MapVar2", 0)
+end, const.Week)
 
 RefillTimer(function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	evt.Subtract{"QBits", Value = 657}         -- Membership to the School of Sorcery Scroll Shop
+	evt.ForPlayer("All")
+	evt.Subtract("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
 	evt.SetNPCTopic{NPC = 620, Index = 1, Event = 926}         -- "Eric Swarrel" : "Book Shop"
-end, const.Year, true)
+end, const.Year)
 
 RefillTimer(function()
-	evt.ForPlayer(-- ERROR: Const not found
-"All")
-	evt.Subtract{"QBits", Value = 657}         -- Membership to the School of Sorcery Scroll Shop
+	evt.ForPlayer("All")
+	evt.Subtract("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
 	evt.SetNPCTopic{NPC = 620, Index = 1, Event = 926}         -- "Eric Swarrel" : "Book Shop"
-end, const.Year, true)
+end, const.Year)
 
 evt.hint[197] = evt.str[10]  -- "Bookcase"
 Game.MapEvtLines:RemoveEvent(197)
 evt.map[197] = function()
-	if not evt.Cmp{"QBits", Value = 666} then         -- Got Scroll of Waves
-		evt.Add{"Inventory", Value = 1504}         -- "Scroll of Waves"
-		evt.Set{"QBits", Value = 726}         -- Scroll of Waves - I lost it
-		evt.Add{"QBits", Value = 666}         -- Got Scroll of Waves
+	if not evt.Cmp("QBits", 666) then         -- Got Scroll of Waves
+		evt.Add("Inventory", 1504)         -- "Scroll of Waves"
+		evt.Set("QBits", 726)         -- Scroll of Waves - I lost it
+		evt.Add("QBits", 666)         -- Got Scroll of Waves
 	end
 end
 
 evt.hint[416] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(416)
 evt.map[416] = function()
-	evt.SpeakNPC{NPC = 387}         -- "Thomas Grey"
+	evt.SpeakNPC(387)         -- "Thomas Grey"
 end
 
 evt.hint[451] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(451)
 evt.map[451] = function()
-	if not evt.Cmp{"MapVar4", Value = 1} then
-		evt.SpeakNPC{NPC = 621}         -- "Guard"
-		evt.Set{"MapVar4", Value = 1}
+	if not evt.Cmp("MapVar4", 1) then
+		evt.SpeakNPC(621)         -- "Guard"
+		evt.Set("MapVar4", 1)
 	end
 end
 
 evt.hint[452] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(452)
 evt.map[452] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
+	if not evt.Cmp("MapVar4", 2) then
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-		evt.Set{"MapVar4", Value = 2}
+		evt.Set("MapVar4", 2)
 	end
 end
 
 evt.hint[453] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(453)
 evt.map[453] = function()
-	if not evt.Cmp{"MapVar4", Value = 2} then
-		evt.Set{"MapVar4", Value = 0}
+	if not evt.Cmp("MapVar4", 2) then
+		evt.Set("MapVar4", 0)
 	end
 end
 
 evt.hint[454] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(454)
 evt.map[454] = function()
-	if evt.Cmp{"MapAlert", Value = 0} then
+	if evt.Cmp("MapAlert", 0) then
 		evt.CastSpell{Spell = 18, Mastery = const.GM, Skill = 15, FromX = 1074, FromY = 1870, FromZ = 1, ToX = 1074, ToY = 293, ToZ = 1}         -- "Lightning Bolt"
 		evt.CastSpell{Spell = 18, Mastery = const.GM, Skill = 15, FromX = -1106, FromY = 1882, FromZ = 1, ToX = -1106, ToY = 293, ToZ = 1}         -- "Lightning Bolt"
 		evt.CastSpell{Spell = 6, Mastery = const.GM, Skill = 10, FromX = -1220, FromY = 427, FromZ = 1, ToX = 1209, ToY = 427, ToZ = 1}         -- "Fireball"
@@ -343,8 +344,7 @@ end
 evt.hint[455] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(455)
 evt.map[455] = function()
-	evt.DamagePlayer{-- ERROR: Const not found
-Player = "Current", DamageType = const.Damage.Water, Damage = 10}
+	evt.DamagePlayer{Player = "Current", DamageType = const.Damage.Water, Damage = 10}
 end
 
 evt.hint[501] = evt.str[2]  -- "Leave the School of Sorcery"

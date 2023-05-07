@@ -24,6 +24,10 @@ Game.MapEvtLines:RemoveEvent(11)
 evt.house[11] = 475
 evt.map[11] = function() StdQuestsFunctions.CheckPrices(475, 1521) end
 
+-- Town Portal fountain
+evt.map[162] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

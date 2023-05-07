@@ -1,4 +1,5 @@
 -- Blackshire
+local MF = Merge.Functions
 
 local TileSounds = {[6] = {[0] = 91, 	[1] = 52}}
 
@@ -56,6 +57,10 @@ function events.OpenChest(i)
 	end
 end
 
+-- Town Portal fountain
+evt.map[104] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

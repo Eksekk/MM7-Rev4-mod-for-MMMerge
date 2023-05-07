@@ -57,6 +57,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[46]  -- "Welcome to Emerald Isle"
@@ -567,32 +569,24 @@ evt.map[575] = function()
 	end
 end
 
-
-evt.map[100] = function()  -- function events.LoadMap()
-	if not evt.Cmp("QBits", 519) then         -- Finished Scavenger Hunt
-		if not evt.Cmp("QBits", 518) then         -- "Return a wealthy hat to the Judge on Emerald Island."
-			if not evt.Cmp("QBits", 517) then         -- "Return a musical instrument to the Judge on Emerald Island."
-				if not evt.Cmp("QBits", 516) then         -- "Return a floor tile to the Judge on Emerald Island."
-					if not evt.Cmp("QBits", 515) then         -- "Return a longbow to the Judge on Emerald Island."
-						if not evt.Cmp("QBits", 514) then         -- "Return a seashell to the Judge on Emerald Island."
-							if not evt.Cmp("QBits", 513) then         -- "Return a red potion to the Judge on Emerald Island."
-								evt.Add("QBits", 518)         -- "Return a wealthy hat to the Judge on Emerald Island."
-								evt.Add("QBits", 517)         -- "Return a musical instrument to the Judge on Emerald Island."
-								evt.Add("QBits", 516)         -- "Return a floor tile to the Judge on Emerald Island."
-								evt.Add("QBits", 515)         -- "Return a longbow to the Judge on Emerald Island."
-								evt.Add("QBits", 514)         -- "Return a seashell to the Judge on Emerald Island."
-								evt.Add("QBits", 513)         -- "Return a red potion to the Judge on Emerald Island."
-								evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
-							end
-						end
-					end
-				end
+	-- starting QBits
+	evt.map[100] = function()  -- function events.LoadMap()
+		local add = true
+		for qb = 513, 519 do
+			if Party.QBits[qb] then
+				add = false
+				break
 			end
 		end
+		if add then
+			for qb = 513, 518 do
+				evt.Add("QBits", qb) -- evt to show flash on PC faces
+			end
+			evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
+		end
 	end
-end
 
-events.LoadMap = evt.map[100].last
+	events.LoadMap = evt.map[100].last
 
 --[[ MMMerge additions ]]--
 

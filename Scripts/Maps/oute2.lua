@@ -1,4 +1,5 @@
 -- Misty Islands
+local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	LocalHostileTxt()
@@ -19,6 +20,10 @@ function events.AfterLoadMap()
 	Party.QBits[964] = true	-- DDMapBuff, changed for rev4 for merge
 end
 
+-- Town Portal fountain
+evt.map[109] = function()
+	MF.SetLastFountain()
+end
 ----------------------------------------
 -- Dragon tower
 

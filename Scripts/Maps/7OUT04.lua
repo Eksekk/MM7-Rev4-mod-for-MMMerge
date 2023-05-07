@@ -79,6 +79,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 Game.MapEvtLines:RemoveEvent(1)
@@ -696,15 +698,19 @@ evt.map[503] = function()
 	evt.StatusText(21)         -- "This Door is Locked"
 end
 
-
-
 --[[ MMMerge additions ]]--
 
 -- The Tularean Forest
+local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	Party.QBits[719] = true	-- TP Buff Tularean Forest
 	Party.QBits[939] = true	-- DDMapBuff, changed for rev4 for merge
+end
+
+-- Town Portal fountain
+evt.map[204] = function()
+	MF.SetLastFountain()
 end
 
 -- Dimension door

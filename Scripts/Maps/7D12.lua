@@ -40,6 +40,8 @@ local TXT = Localize{
 }
 table.copy(TXT, evt.str, true)
 
+-- REMOVED BY REV4 FOR MERGE
+-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events
 
 
 evt.hint[1] = evt.str[100]  -- ""
@@ -532,17 +534,17 @@ evt.map[501] = function()
 	end
 end
 
-function events.AfterLoadMap()
-	if Map.Name == "7d12.blv" then
-		-- make BDJ invisible by default
-		if not vars["BDJ hidden"] then
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
-			vars["BDJ hidden"] = true
+	function events.AfterLoadMap()
+		if Map.Name == "7d12.blv" then
+			-- make BDJ invisible by default
+			if not vars["BDJ hidden"] then
+				evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = true}
+				vars["BDJ hidden"] = true
+			end
+			-- make BDJ hostile on save game reload/lloyd back to dungeon
+			if vars["make BDJ hostile"] then
+				evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
+			end
+			vars["make BDJ hostile"] = true
 		end
-		-- make BDJ hostile on save game reload/lloyd back to dungeon
-		if vars["make BDJ hostile"] then
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = true}
-		end
-		vars["make BDJ hostile"] = true
 	end
-end

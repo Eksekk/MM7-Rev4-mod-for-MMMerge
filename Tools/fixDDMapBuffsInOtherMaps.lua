@@ -6,7 +6,7 @@ local function isOutdoorMM7(name)
 	(m and m == 14))
 end
 
-for i in path.find("other map scripts\\*.lua") do
+for i in path.find(rev4m.path.originalOtherMapScripts .. "*.lua") do
 	print("Current file: " .. path.name(i))
 	local file = io.open(i)
 	local content = file:read("*a")
@@ -23,7 +23,7 @@ for i in path.find("other map scripts\\*.lua") do
 		print("Outdoor map " .. name .. ", no DDMapBuff replacement made - check this")
 	end
 	if done == 1 then
-		io.save("other map scripts\\processed\\" .. path.name(i), content)
+		io.save(rev4m.path.processedOtherMapScripts .. path.name(i), content)
 	end
 	::continue::
 end

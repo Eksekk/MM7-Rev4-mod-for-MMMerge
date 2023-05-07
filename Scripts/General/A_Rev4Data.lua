@@ -1,6 +1,17 @@
 -- will contain various consts which were previously in separate scripts
-rev4 = rev4 or {}
-rev4.const = rev4.const or {}
+rev4m = rev4m or {}
+rev4m.const = rev4m.const or {}
+-- all paths are relative to game folder
+rev4m.path.mergeMapScripts = "merge map scripts\\" -- not decompiled, but found in Scripts/Maps only
+rev4m.path.originalRev4Scripts = "rev4 map scripts\\" -- only those changed in rev4, decompiled
+rev4m.path.processedRev4Scripts = "rev4 map scripts\\processed\\"
+rev4m.path.originalOtherMapScripts = "other map scripts\\" -- other existing map scripts from Merge
+rev4m.path.processedOtherMapScripts = "other map scripts\\processed\\"
+
+-- temporary, for testing
+rev4m.path.processedRev4Scripts = "combined processed scripts\\"
+rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
+
 
 -- doing comparison of old revamp files with new, integrating where needed
 -- current stage: map scripts are different - update those from merge and regenerate modded with script

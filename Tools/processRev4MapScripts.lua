@@ -329,80 +329,118 @@ function rev4m.mapScripts()
 	end
 
 	function string.trim(text)
-		return text:match("^%s*(.-)%s*$")
+		return (text:match("^%s*(.-)%s*$")) or ""
+	end
+
+	function string.trimNewlines(text)
+		return (text:match("^\n*(.-)\n*$")) or ""
 	end
 
 	function string.escapeRegex(text)
-		return text:gsub("%W", "%%%1")
+		return (text:gsub("(%W)", "%%%1"))
+	end
+
+	function printf(...)
+		return print(string.format(...))
+	end
+
+	function string.escapeForFormat(text)
+		return (text:gsub("(%%)", "%%%1"))
 	end
 
 	-- replace given pattern, correctly dealing with differing indent
 	function string.replaceIndent(text, replaceWhat, replacement)
 		-- split text and replacement into lines and check if first text line is found
-		local linesText, linesReplaceWhat, linesReplacement = text:split("\n"), replaceWhat:split("\n"), replacement:split("\n")
+		local linesText, linesReplaceWhat, linesReplacement = text:trimNewlines():split("\n"), replaceWhat:trimNewlines():split("\n"), replacement:trimNewlines():split("\n")
+		--[[for k, v in pairs{text = text, replaceWhat = replaceWhat, replacement = replacement} do
+			local r, rn, n
+			_, r = v:gsub("\r", "\r")
+			_, rn = v:gsub("\r\n", "\r\n")
+			_, n = v:gsub("\n", "\n")
+			--printf("%s: R: %d, RN: %d, N: %d", k, r, rn, n)
+		end]]
 		assert(#text > 20)
 		assert(#linesReplaceWhat > 0)
 		assert(#linesReplacement > 0)
-		local firstWhat = linesReplaceWhat[1]:trim()
-		if #linesReplaceWhat <= 1 then
-			-- UNCOMMENT AND TEST
-			print("x")
+		local firstWhat = linesReplaceWhat[1]:trim():escapeRegex()
+		--[[if #linesReplaceWhat <= 1 then
 			local count
-			firstWhat, count = text:gsub(firstWhat:escapeRegex(), replacement:escapeRegex())
+			firstWhat, count = text:gsub(firstWhat, replacement)
 			return firstWhat, count
-		end
-		local firstLinePos
+		end]]
+		local firstLinePositions = {}
 		for i, line in ipairs(linesText) do
-			if line:match(firstWhat:escapeRegex()) then
+			if line:match(firstWhat) then
 			--if line == firstWhat then
-				firstLinePos = i
-				break
+				firstLinePositions[#firstLinePositions + 1] = i
 			end
 		end
-		if not firstLinePos then
+		if #firstLinePositions == 0 then
 			print("match not found")
 			return text, 0
-		elseif #linesText - #linesReplaceWhat < firstLinePos then -- not enough lines to match fully
-			print("match not found - not enough lines to match")
-			return text, 0
 		end
-		-- skip first line, because already found
-		for i = 2, #linesReplaceWhat do
-			local idx = firstLinePos + i - 1
-			--if not linesText[idx]:match(replaceWhat[i]:trim():escapeRegex()) then
-			if linesText[idx]:trim() ~= linesReplaceWhat[i]:trim() then
-				print(string.format("match failed at line %d of replacement", i))
-				return text, 0
+		local errors = {}
+		local function errorMsg(...)
+			errors[#errors + 1] = string.format(...)
+		end
+		local replaced, replacedOffset = 0, 0
+		for matchIdx, firstLinePos in ipairs(firstLinePositions) do
+			firstLinePos = firstLinePos + replacedOffset
+			if #linesText - #linesReplaceWhat < firstLinePos then -- not enough lines to match fully
+				errorMsg("replacement %d", matchIdx)
+				errorMsg("match not found - not enough lines to match")
+				goto continue
 			end
-		end
-		local indentBaseText = indentCount(linesText[firstLinePos])
-		-- can't get first replacement line indent? using last, usually will be correct because I usually patch entire blocks
-		local indentBaseReplacement = indentCount(linesReplacement[#linesReplacement])
-		local output = {}
-		-- now replace, ignoring indent
-		for i, repl in ipairs(linesReplacement) do
-			local indentDifference = indentCount(repl) - indentBaseReplacement
-			local indent = string.rep("\t", math.max(indentBaseText, indentBaseText + indentDifference))
-			output[#output + 1] = indent .. repl:trim()
-		end
-		-- start replacing
-		local replaceInplace = math.min(#linesReplacement, #linesReplaceWhat)
-		for i = 1, replaceInplace do
-			linesText[firstLinePos + i - 1] = linesReplacement[i]
-		end
-		-- rest need to have space created for them
-		local left = #linesReplacement - replaceInplace
-		if left > 0 then
-			local firstFreedIndex = #linesText - left + 1
-			for i = #linesText, firstFreedIndex, -1 do
-				linesText[i + left] = linesText[i]
+			-- skip first line, because already found
+			for i = 2, #linesReplaceWhat do
+				local idx = firstLinePos + i - 1
+				--if not linesText[idx]:match(replaceWhat[i]:trim():escapeRegex()) then
+				if not linesText[idx]:match(linesReplaceWhat[i]:trim():escapeRegex()) then
+					errorMsg("replacement %d", matchIdx)
+					errorMsg("match failed at line %d", i)
+					errorMsg("text: %s", linesText[idx]:trim():escapeForFormat())
+					errorMsg("replace what: %s", linesReplaceWhat[i]:trim():escapeForFormat())
+					goto continue
+				end
 			end
-			for i = firstFreedIndex, #linesText do
-				local indexOfCurrent = i - firstFreedIndex + 1 -- 1-based
-				local replacementIndex = #linesReplacement - left + indexOfCurrent
-				linesText[i] = linesReplacement[replacementIndex]
+			replaced, replacedOffset = replaced + 1, replacedOffset + (#linesReplacement - #linesReplaceWhat) -- if replacing 3 lines with 5, only 2 are inserted
+			local indentBaseText = indentCount(linesText[firstLinePos])
+			-- can't get first replacement line indent? using last, usually will be correct because I usually patch entire blocks
+			local indentBaseReplacement = indentCount(linesReplacement[#linesReplacement])
+			local output = {}
+			-- now replace, ignoring indent
+			for i, repl in ipairs(linesReplacement) do
+				local indentDifference = indentCount(repl) - indentBaseReplacement
+				local indent = string.rep("\t", math.max(indentBaseText, indentBaseText + indentDifference)) -- not lower than starting indent
+				output[#output + 1] = indent .. repl:trim()
 			end
+			-- start replacing
+			local replaceInplace = math.min(#output, #linesReplaceWhat)
+			for i = 1, replaceInplace do
+				linesText[firstLinePos + i - 1] = output[i]
+			end
+			-- rest need to have space created for them
+			local left = #output - replaceInplace
+			if left > 0 then
+				local firstFreedIndex = #linesText - left + 1
+				for i = #linesText, firstFreedIndex, -1 do
+					linesText[i + left] = linesText[i]
+				end
+				for i = firstFreedIndex, #linesText do
+					local indexOfCurrent = i - firstFreedIndex + 1 -- 1-based
+					local replacementIndex = #output - left + indexOfCurrent
+					linesText[i] = output[replacementIndex]
+				end
+			end
+			::continue::
 		end
+		local str = string.format("%d matches, %d replacements done", #firstLinePositions, replaced)
+		if #errors > 0 then
+			str = str .. "\n" .. table.concat(errors, "\n")
+			print(str)
+			return table.concat(linesText, "\n"), replaced
+		end
+		print(str)
 		return table.concat(linesText, "\n"), #linesReplacement
 		-- KEEP INDENT BELOW LOWEST LINE AND MATCH TO FIRST LINE INDENT
 	end
@@ -1164,13 +1202,13 @@ function rev4m.mapScripts()
 			evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
 			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]],
-
+			-- need ansi encoding (windows 1252 for vscode) to correctly represent these funny apostrophes
 			[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
-			evt.Set("Awards", 128)         -- "Hall of Shame Award â€˜Unfaithful Friendsâ€™"
+			evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)]],
 			
-			[[evt.Set("Awards", 128)         -- "Hall of Shame Award â€˜Unfaithful Friendsâ€™"
+			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]},
@@ -1383,7 +1421,7 @@ function rev4m.mapScripts()
 		["d08.lua"] = true
 	}
 
-	for i in path.find("rev4 map scripts\\*.lua") do
+	for i in path.find(rev4m.path.originalRev4Scripts .. "*.lua") do
 		print("Current file: " .. path.name(i))
 		local file = io.open(i)
 		local content = file:read("*a")
@@ -1433,7 +1471,7 @@ function rev4m.mapScripts()
 		
 		-- preserve MMMerge script additions
 		if ignoreMergeAdditions[name] == nil then
-			local file = io.open("merge map scripts\\" .. getFileName(path.name(i)), "r")
+			local file = io.open(rev4m.path.mergeMapScripts .. getFileName(path.name(i)), "r")
 			if file then
 				local content2 = file:read("*a")
 				content = content .. "\n\n--[[ MMMerge additions ]]--\n\n" .. content2
@@ -1458,6 +1496,6 @@ function rev4m.mapScripts()
 		content = content:replace([[
 
 	Game.MapEvtLines.Count = 0  -- Deactivate all standard events]], "")
-		io.save("rev4 map scripts\\processed\\" .. getFileName(path.name(i)), content)
+		io.save(rev4m.path.processedRev4Scripts .. getFileName(path.name(i)), content)
 	end
 end

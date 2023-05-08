@@ -534,7 +534,7 @@ evt.map[573] = function()
 	evt.Subtract("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract("Inventory", 1540)         -- "Lost Scroll of Wonka"
 	evt.Add("Awards", 129)         -- "Recovered the Lost Scroll of  Wonka"
-	evt.SetNPCTopic{NPC = 478, Index = 1, Event = 0}         -- "Blayze "
+	Game.NPC[478].Events[1] = 0         -- "Blayze "
 	evt.Add("Experience", 40000)
 end
 
@@ -543,7 +543,7 @@ evt.map[574] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1361) then         -- "Watcher's Ring of Elemental Water"
 		evt.SetMessage(2854)
-		evt.SetNPCTopic{NPC = 483, Index = 0, Event = 2002}         -- "Tobren Rainshield" : "The Greatest Hero"
+		Game.NPC[483].Events[0] = 2002         -- "Tobren Rainshield" : "The Greatest Hero"
 		return
 	end
 	if not evt.Cmp("Inventory", 1128) then         -- "Water Walk"

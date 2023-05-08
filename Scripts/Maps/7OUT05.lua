@@ -506,8 +506,8 @@ evt.map[455] = function()
 			evt.Set("MapVar29", 5)
 		end
 	end
-	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1257}         -- "Lunius Shador" : "Pay 1000 Gold"
-	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1258}         -- "Lunius Shador" : "Don't Pay"
+	Game.NPC[461].Events[0] = 1257         -- "Lunius Shador" : "Pay 1000 Gold"
+	Game.NPC[461].Events[1] = 1258         -- "Lunius Shador" : "Don't Pay"
 end
 
 evt.hint[456] = evt.str[100]  -- ""
@@ -524,8 +524,8 @@ evt.map[456] = function()
 			evt.Set("MapVar29", 5)
 		end
 	end
-	evt.SetNPCTopic{NPC = 461, Index = 0, Event = 1257}         -- "Lunius Shador" : "Pay 1000 Gold"
-	evt.SetNPCTopic{NPC = 461, Index = 1, Event = 1258}         -- "Lunius Shador" : "Don't Pay"
+	Game.NPC[461].Events[0] = 1257         -- "Lunius Shador" : "Pay 1000 Gold"
+	Game.NPC[461].Events[1] = 1258         -- "Lunius Shador" : "Don't Pay"
 end
 
 evt.hint[500] = evt.str[100]  -- ""

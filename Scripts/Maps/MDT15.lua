@@ -223,8 +223,8 @@ Game.MapEvtLines:RemoveEvent(502)
 evt.map[502] = function()
 	if not evt.Cmp("QBits", 879) then         -- 0
 		evt.MoveNPC{NPC = 424, HouseId = 1071}         -- "Maximus" -> "Hostel"
-		evt.SetNPCTopic{NPC = 424, Index = 0, Event = 0}         -- "Maximus"
-		evt.SetNPCTopic{NPC = 424, Index = 1, Event = 878}         -- "Maximus" : "Congratulations!"
+		Game.NPC[424].Events[0] = 0         -- "Maximus"
+		Game.NPC[424].Events[1] = 878         -- "Maximus" : "Congratulations!"
 		evt.Set("QBits", 879)         -- 0
 	end
 	evt.MoveToMap{X = -7745, Y = -6673, Z = 65, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7D26.blv"}

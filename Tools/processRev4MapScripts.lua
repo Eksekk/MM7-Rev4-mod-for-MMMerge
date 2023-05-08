@@ -1,323 +1,11 @@
 rev4m = rev4m or {}
 function rev4m.mapScripts()
-	local currentFile
-	local doNotRemoveTheseEvents =
-	{
-		["d27.lua"] = {501, 376} -- 376 because MMMerge overwrites this event and cleans it up, 501 to fix a bug where game crashes after killing Xenofex when exiting, only when using lua script
-	}
-	--evt.Set("QBits", 863)
 	local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
 	{
 		[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
 	}
 
-	local replacements =
-	{
-		["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
-		["evt%.global%[(%d+)%]"] = eventNumberReplacements("evt.global[%d]"),
-		["evt%.Cmp%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Cmp(\"QBits\", %d)"):format(getQuestBit(num)) end,
-		["evt%.Set%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Set(\"QBits\", %d)"):format(getQuestBit(num)) end,
-		["evt%.Add%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Add(\"QBits\", %d)"):format(getQuestBit(num)) end,
-		["evt%.Subtract%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Subtract(\"QBits\", %d)"):format(getQuestBit(num)) end,
-		["evt%.SetMessage%((%d+)%)"] =
-		function(message)
-			message = tonumber(message)
-			return ("evt.SetMessage(%d)"):format(getMessage(message))
-		end,
-		["evt%.SetNPCTopic%{NPC = (%d+), Index = (%d+), Event = (%d+)%}"] =
-		function(npc, index, event)
-			npc = tonumber(npc)
-			index = tonumber(index)
-			event = tonumber(event)
-			local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
-			return ("evt.SetNPCTopic{NPC = %d, Index = %d, Event = %d}"):format(getNPC(npc), index, getEvent(event))
-			-- return ("Game.NPC[%d].Event%s = %d"):format(getNPC(npc), indexes[index], getEvent(event))
-		end,
-		--evt.Subtract("NPCs", 18)         -- "Lord Godwinson"
-		["evt%.Subtract%(\"NPCs\", (%d+)%)"] =
-		function(npc)
-			npc = tonumber(npc)
-			return ("evt.Subtract(\"NPCs\", %d)"):format(getNPC(npc))
-		end,
-		["evt%.Add%(\"NPCs\", (%d+)%)"] =
-		function(npc)
-			npc = tonumber(npc)
-			return ("evt.Add(\"NPCs\", %d)"):format(getNPC(npc))
-		end,
-		["evt%.Set%(\"NPCs\", (%d+)%)"] =
-		function(npc)
-			npc = tonumber(npc)
-			return ("evt.Set(\"NPCs\", %d)"):format(getNPC(npc))
-		end,
-		["evt%.Cmp%(\"NPCs\", (%d+)%)"] =
-		function(npc)
-			npc = tonumber(npc)
-			return ("evt.Cmp(\"NPCs\", %d)"):format(getNPC(npc))
-		end,
-		["evt%.Add%(\"Awards\", (%d+)%)"] =
-		function(award)
-			award = tonumber(award)
-			if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-				-- promotion award, special processing
-				return ("evt.Add(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-			else
-				--local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-				--print("Not promotion award: " .. awards[award + 1][2])
-			end
-			local a2 = award
-			award = getAward(award)
-			if award == -1 then return ("--" .. " evt.Add(\"Awards\", %d)"):format(a2) end
-			return ("evt.Add(\"Awards\", %d)"):format(award)
-		end,
-		["evt%.Set%(\"Awards\", (%d+)%)"] =
-		function(award)
-			award = tonumber(award)
-			if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-				-- promotion award, special processing
-				return ("evt.Set(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-			else
-				--local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-				--print("Not promotion award: " .. awards[award + 1][2])
-			end
-			local a2 = award
-			award = getAward(award)
-			if award == -1 then return ("--" .. " evt.Set(\"Awards\", %d)"):format(a2) end
-			return ("evt.Set(\"Awards\", %d)"):format(award)
-		end,
-		["evt%.Cmp%(\"Awards\", (%d+)%)"] =
-		function(award)
-			award = tonumber(award)
-			if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-				-- promotion award, special processing
-				return ("evt.Cmp(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-			else
-				--local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-				--print("Not promotion award: " .. awards[award + 1][2])
-			end
-			local a2 = award
-			award = getAward(award)
-			if award == -1 then return ("--" .. " evt.Cmp(\"Awards\", %d)"):format(a2) end
-			return ("evt.Cmp(\"Awards\", %d)"):format(award)
-		end,
-		["evt%.Subtract%(\"Awards\", (%d+)%)"] =
-		function(award)
-			award = tonumber(award)
-			if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-				-- promotion award, special processing
-				return ("evt.Subtract(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-			else
-				--local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-				--print("Not promotion award: " .. awards[award + 1][2])
-			end
-			local a2 = award
-			award = getAward(award)
-			if award == -1 then return ("--" .. " evt.Subtract(\"Awards\", %d)"):format(a2) end
-			return ("evt.Subtract(\"Awards\", %d)"):format(award)
-		end,
-		["evt%.SetNPCGroupNews%{NPCGroup = (%d+), NPCNews = (%d+)%}"] = 
-		function(group, news)
-			group = tonumber(group)
-			news = tonumber(news)
-			return ("evt.SetNPCGroupNews{NPCGroup = %d, NPCNews = %d}"):format(getNpcGroup(group), news + 51)
-		end,
-		["evt%.SetNPCGreeting%{NPC = (%d+), Greeting = (%d+)%}"] =
-		function (npc, greeting)
-			npc = tonumber(npc)
-			greeting = tonumber(greeting)
-			return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
-		end,
-		["evt%.Cmp%(\"Inventory\", (%d+)%)"] =
-		function(item)
-			item = tonumber(item)
-			return ("evt.Cmp(\"Inventory\", %d)"):format(getItem(item))
-		end,
-		["evt%.Add%(\"Inventory\", (%d+)%)"] =
-		function(item)
-			item = tonumber(item)
-			return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
-		end,
-		["evt%.Subtract%(\"Inventory\", (%d+)%)"] =
-		function(item)
-			item = tonumber(item)
-			return ("evt.Subtract(\"Inventory\", %d)"):format(getItem(item))
-		end,
-		["evt%.Set%(\"Inventory\", (%d+)%)"] =
-		function(item)
-			item = tonumber(item)
-			-- apparently evt.Set("Inventory", num) makes character diseased... (tested on Emerald Island ship, water master)
-			return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
-		end,
-		["evt%.MoveNPC%{NPC = (%d+), HouseId = (%d+)%}"] =
-		function(npc, houseid)
-			npc = tonumber(npc)
-			houseid = tonumber(houseid)
-			return ("evt.MoveNPC{NPC = %d, HouseId = %d}"):format(getNPC(npc), getHouseID(houseid))
-		end,
-		["evt%.SetNPCItem%{NPC = (%d+), Item = (%d+), On = (%w+)%}"] =
-		function(npc, item, on)
-			npc = tonumber(npc)
-			item = tonumber(item)
-			return ("evt.SetNPCItem{NPC = %d, Item = %d, On = %s}"):format(getNPC(npc), getItem(item), on)
-		end,
-		--[[["evt%.Add%(\"History(%d+)\", (%d+)%)"] =
-		function(historyid, dummy)
-			historyid = tonumber(historyid)
-			dummy = tonumber(dummy)
-			return ("--" .. " evt.Add(\"History%d\", %d)"):format(historyid, dummy)
-		end,]]--
-		["evt%.SetMonGroupBit%{NPCGroup = (%d+), Bit = ([%w%.]+), On = (%w+)%}"]
-		= function(npcgroup, bit, on)
-			npcgroup = tonumber(npcgroup)
-			return ("evt.SetMonGroupBit{NPCGroup = %d, Bit = %s, On = %s}"):format(getNpcGroup(npcgroup), bit, on)
-		end,
-		["evt%.Set%(\"AutonotesBits\", (%d+)%)"] =
-		function(autonote)
-			autonote = tonumber(autonote)
-			return ("evt.Set(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-		end,
-		["evt%.ChangeEvent%((%d+)%)"] = 
-		function(event)
-			event = tonumber(event)
-			return ("evt.ChangeEvent(%d)"):format(getEvent(event))
-		end,
-		["evt%.StatusText%((%d+)%)"] = 
-		function(message)
-			message = tonumber(message)
-			return ("evt.StatusText(%d)"):format(getMessage(message))
-		end,
-		["evt%.CheckMonstersKilled%{CheckType = (%d+), Id = (%d+), Count = (%d+)%}"] =
-		function(checktype, id, count)
-			checktype = tonumber(checktype)
-			id = tonumber(id)
-			count = tonumber(count)
-			if checktype == 1 then
-				return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id + 51, count)
-			elseif checktype == 2 then
-				return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, getMonster(id), count)
-			elseif checktype == 4 then
-				print("While processing scripts encountered evt.CheckMonstersKilled with CheckType of 4, need to take care of that")
-			end
-			return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id, count)
-		end,
-		["evt%.HouseDoor%((%d+),%s*(%d+)%)"] = function(event, house)
-			event = tonumber(event)
-			house = tonumber(house)
-			return string.format("Game.MapEvtLines:RemoveEvent(%d)\nevt.HouseDoor(%d, %d)", event, event, getHouseID(house))
-		end,
-		["for pl = 0, Party%.High %- 1 do"] = function()
-			return "for pl = 0, Party.High do"
-		end
-	}
-
-	local replacements2 = -- replacements specific to map scripts
-	{
-		["evt%.house%[(%d+)%] = (%d+)"] =
-		function(idx, house)
-			idx = tonumber(idx)
-			house = tonumber(house)
-			return ("evt.house[%d] = %d"):format(idx, getHouseID(house))
-		end,
-		["evt%.EnterHouse%((%d+)%)"] =
-		function(house)
-			house = tonumber(house)
-			return ("evt.EnterHouse(%d)"):format(getHouseID(house))
-		end,
-		["evt%.EnterHouse%{Id = (%d+)%}"] =
-		function(house)
-			house = tonumber(house)
-			return ("evt.EnterHouse{Id = %d}"):format(getHouseID(house))
-		end,
-		["evt%.MoveToMap%{X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), Direction = (%-?%d+), LookAngle = (%-?%d+), SpeedZ = (%-?%d+), HouseId = (%-?%d+), Icon = (%-?%d+), Name = \"([%w%.]+)\"%}"]
-		= function(x, y, z, direction, lookangle, speedz, houseid, icon, name)
-			x = tonumber(x)
-			y = tonumber(y)
-			z = tonumber(z)
-			direction = tonumber(direction)
-			lookangle = tonumber(lookangle)
-			speedz = tonumber(speedz)
-			houseid = tonumber(houseid)
-			icon = tonumber(icon)
-				
-			return ("evt.MoveToMap{X = %d, Y = %d, Z = %d, Direction = %d, LookAngle = %d, SpeedZ = %d, HouseId = %d, Icon = %d, Name = \"%s\"}")
-			:format(x, y, z, direction, lookangle, speedz, getHouseID(houseid), icon, getFileName(name))
-		end,
-		["evt%.SpeakNPC%((%d+)%)"] =
-		function(npc)
-			npc = tonumber(npc)
-			return ("evt.SpeakNPC(%d)"):format(getNPC(npc))
-		end,
-		["evt%.SetMonsterItem%{Monster = (%d+), Item = (%d+), Has = (%w+)%}"] =
-		function(monster, item, has)
-			monster = tonumber(monster)
-			item = tonumber(item)
-			return ("evt.SetMonsterItem{Monster = %d, Item = %d, Has = %s}"):format(monster, getItem(item), has)
-		end,
-		--[[["evt%.SetNPCGreeting%{NPC = (%d+), Greeting = (%d+)%}"] =
-		function(npc, greeting)
-			npc = tonumber(npc)
-			greeting = tonumber(greeting)
-			return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
-		end--]]
-		["evt%.Add%(\"AutonotesBits\", (%d+)%)"] =
-		function(autonote)
-			autonote = tonumber(autonote)
-			return ("evt.Add(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-		end,
-		["evt%.Cmp%(\"AutonotesBits\", (%d+)%)"] =
-		function(autonote)
-			autonote = tonumber(autonote)
-			return ("evt.Cmp(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-		end,
-		["evt%.map%[(%d+)%] = function"] =
-		function(event)
-			event = tonumber(event)
-			local doNotRemoveEntry = doNotRemoveTheseEvents[currentFile]
-			if doNotRemoveEntry then
-				if table.find(doNotRemoveEntry, event) then
-					return ("evt.map[%d] = function"):format(event)
-				end
-			end
-			return ("Game.MapEvtLines:RemoveEvent(%d)\nevt.map[%d] = function"):format(event, event)
-		end,
-		["evt%.SummonMonsters%{TypeIndexInMapStats = (%d+), Level = (%d+), Count = (%d+), X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), (%-%- ERROR: Not found%s+)NPCGroup = (%d+), unk = (%d+)%}"] =
-		function(tiims, level, count, x, y, z, comment, npcgroup, unk)
-			tiims = tonumber(tiims)
-			level = tonumber(level)
-			count = tonumber(count)
-			x = tonumber(x)
-			y = tonumber(y)
-			z = tonumber(z)
-			npcgroup = tonumber(npcgroup)
-			unk = tonumber(unk)
-			return ("evt.SummonMonsters{TypeIndexInMapStats = %d, Level = %d, Count = %d, X = %d, Y = %d, Z = %d, %sNPCGroup = %d, unk = %d}")
-			:format(tiims, level, count, x, y, z, comment or "", npcgroup + 51, unk)
-		end,
-		["evt%.SummonMonsters%{TypeIndexInMapStats = (%d+), Level = (%d+), Count = (%d+), X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), NPCGroup = (%d+), unk = (%d+)%}"] =
-		function(tiims, level, count, x, y, z, npcgroup, unk)
-			tiims = tonumber(tiims)
-			level = tonumber(level)
-			count = tonumber(count)
-			x = tonumber(x)
-			y = tonumber(y)
-			z = tonumber(z)
-			npcgroup = tonumber(npcgroup)
-			unk = tonumber(unk)
-			return ("evt.SummonMonsters{TypeIndexInMapStats = %d, Level = %d, Count = %d, X = %d, Y = %d, Z = %d, NPCGroup = %d, unk = %d}")
-			:format(tiims, level, count, x, y, z, npcgroup + 51, unk)
-		end,
-		["evt%.SetSprite%{SpriteId = (%d+), Visible = (%d+), Name = \"(%w*)\"%}"] =
-		function(spriteid, visible, name)
-			spriteid = tonumber(spriteid)
-			visible = tonumber(visible)
-			if name:match("^tree") then
-				local num = tonumber(name:match("%d+")) or 99
-				if num <= 30 or num == 63 or num == 64 then
-					return ("evt.SetSprite{SpriteId = %d, Visible = %d, Name = \"%s\"}"):format(spriteid, visible, "7" .. name)
-				end
-			end
-			return ("evt.SetSprite{SpriteId = %d, Visible = %d, Name = \"%s\"}"):format(spriteid, visible, name)
-		end,
-	}
+	local replacements = table.copy(rev4m.scriptReplacements)
 
 	local replacementsafter =
 	{
@@ -415,12 +103,12 @@ function rev4m.mapScripts()
 			[[evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
 			evt.Set("QBits", 863)         -- Three Use
 			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			evt.SetNPCTopic{NPC = 357, Index = 1, Event = 1172}         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
+			Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
 			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
 			evt.Subtract("QBits", 868)         -- 0]],
 			[[evt.Set("QBits", 863)         -- Three Use
 			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			evt.SetNPCTopic{NPC = 357, Index = 1, Event = 1172}         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
+			Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
 			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
 			evt.Subtract("QBits", 868)         -- 0
 			evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"]],
@@ -543,9 +231,9 @@ function rev4m.mapScripts()
 		["d25.lua"] =
 		{[[evt.SpeakNPC(358)         -- "Resurectra"
 				evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
-				evt.SetNPCTopic{NPC = 422, Index = 0, Event = 947}         -- "Robert the Wise" : "Control Cube"]],
+				Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"]],
 		[[evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
-				evt.SetNPCTopic{NPC = 422, Index = 0, Event = 947}         -- "Robert the Wise" : "Control Cube"
+				Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"
 				evt.SpeakNPC(358)         -- "Resurectra"]]
 		},
 		-- Colony Zod
@@ -786,11 +474,11 @@ function rev4m.mapScripts()
 		[[evt.SpeakNPC(357)         -- "Lord Godwinson"
 				evt.Set("NPCs", 357)         -- "Lord Godwinson"
 				evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
-				evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
+				Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
 				evt.Set("QBits", 888)         -- LG 1-time]],
 		[[evt.Set("NPCs", 357)         -- "Lord Godwinson"
 				evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
-				evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
+				Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
 				evt.Set("QBits", 888)         -- LG 1-time
 				evt.SpeakNPC(357)         -- "Lord Godwinson"]],
 		[[evt.SpeakNPC(430)         -- "Messenger"
@@ -871,10 +559,10 @@ function rev4m.mapScripts()
 				evt.Set("Counter2", 0)
 				evt.SpeakNPC(366)         -- "Messenger"]],
 		[[evt.SpeakNPC(412)         -- "Messenger"
-				evt.SetNPCTopic{NPC = 408, Index = 0, Event = 946}         -- "Queen Catherine" : "The Kennel"
+				Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
 				evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
 				evt.Set("QBits", 873)         -- mESSENGER ONE-TIME]],
-		[[evt.SetNPCTopic{NPC = 408, Index = 0, Event = 946}         -- "Queen Catherine" : "The Kennel"
+		[[Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
 				evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
 				evt.Set("QBits", 873)         -- mESSENGER ONE-TIME
 				evt.SpeakNPC(412)         -- "Messenger"]]},
@@ -983,7 +671,7 @@ function rev4m.mapScripts()
 		-- The Strange Temple
 		-- remove unfinished Rev4 script which will interfere with my own quest
 		["nwc.lua"] = {[[
-		evt.SetNPCTopic{NPC = 388, Index = 0, Event = 847}         -- "Halfgild Wynac" : "Lord Godwinson sent us!"]], ""
+		Game.NPC[388].Events[0] = 847         -- "Halfgild Wynac" : "Lord Godwinson sent us!"]], ""
 		},
 		
 		-- The Vault
@@ -1040,13 +728,13 @@ function rev4m.mapScripts()
 			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = false}         -- "Southern Village Group in Harmondy"
 			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Invisible, On = false}         -- "Main village in Harmondy"
 			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			evt.SetNPCTopic{NPC = 360, Index = 1, Event = 790}         -- "Zedd True Shot" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 373, Index = 1, Event = 876}         -- "Duke Bimbasto" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 374, Index = 1, Event = 877}         -- "Sir Vilx of Stone City" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+			Game.NPC[360].Events[1] = 790         -- "Zedd True Shot" : "Let's Go!"
+			Game.NPC[373].Events[1] = 876         -- "Duke Bimbasto" : "Let's Go!"
+			Game.NPC[374].Events[1] = 877         -- "Sir Vilx of Stone City" : "Let's Go!"
+			Game.NPC[376].Events[1] = 884         -- "Pascal the Mad Mage" : "Let's Go!"
+			Game.NPC[359].Events[1] = 885         -- "Baron BunGleau" : "Let's Go!"
+			Game.NPC[357].Events[1] = 886         -- "Lord Godwinson" : "Let's Go!"
+			Game.NPC[1279].Events[0] = 1174         -- "The Coding Wizard" : "A word of Caution!"
 			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
 			[[evt.Set("QBits", 892)         -- "Pass the Test of Friendship"
 			evt.Subtract("NPCs", 360)         -- "Zedd True Shot"
@@ -1068,13 +756,13 @@ function rev4m.mapScripts()
 			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = false}         -- "Southern Village Group in Harmondy"
 			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Invisible, On = false}         -- "Main village in Harmondy"
 			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			evt.SetNPCTopic{NPC = 360, Index = 1, Event = 790}         -- "Zedd True Shot" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 373, Index = 1, Event = 876}         -- "Duke Bimbasto" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 374, Index = 1, Event = 877}         -- "Sir Vilx of Stone City" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 376, Index = 1, Event = 884}         -- "Pascal the Mad Mage" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 359, Index = 1, Event = 885}         -- "Baron BunGleau" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 357, Index = 1, Event = 886}         -- "Lord Godwinson" : "Let's Go!"
-			evt.SetNPCTopic{NPC = 1279, Index = 0, Event = 1174}         -- "The Coding Wizard" : "A word of Caution!"
+			Game.NPC[360].Events[1] = 790         -- "Zedd True Shot" : "Let's Go!"
+			Game.NPC[373].Events[1] = 876         -- "Duke Bimbasto" : "Let's Go!"
+			Game.NPC[374].Events[1] = 877         -- "Sir Vilx of Stone City" : "Let's Go!"
+			Game.NPC[376].Events[1] = 884         -- "Pascal the Mad Mage" : "Let's Go!"
+			Game.NPC[359].Events[1] = 885         -- "Baron BunGleau" : "Let's Go!"
+			Game.NPC[357].Events[1] = 886         -- "Lord Godwinson" : "Let's Go!"
+			Game.NPC[1279].Events[0] = 1174         -- "The Coding Wizard" : "A word of Caution!"
 			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]],
 			-- need ansi encoding (windows 1252 for vscode) to correctly represent these funny apostrophes
@@ -1326,7 +1014,7 @@ end]], ""},
 		local content = file:read("*a")
 		file:close()
 		local name = path.name(i):lower()
-		currentFile = name
+		rev4m.currentlyProcessedScript = name
 		local done = nil
 		if patches[name] ~= nil then
 			for i = 1, #patches[name], 2 do
@@ -1340,9 +1028,6 @@ end]], ""},
 			if regex ~= "evt%.StatusText%((%d+)%)" then
 				content = content:gsub(regex, fun)
 			end
-		end
-		for regex, fun in pairs(replacements2) do
-			content = content:gsub(regex, fun)
 		end
 		for regex, fun in pairs(replacementsafter) do
 			content = content:gsub(regex, fun)

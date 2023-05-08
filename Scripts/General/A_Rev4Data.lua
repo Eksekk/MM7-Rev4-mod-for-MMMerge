@@ -19,3 +19,374 @@ rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 -- after finishing comparison, update game files with new both in game folder and rev4 github folder, then compare with newest revamp
 -- also compare old files with current, to make sure I did not lose anything while integrating
 -- also mark mmmerge-master as newest revamp files!
+
+-- SCRIPT REPLACEMENT FUNCTIONS
+
+-- returns generic add/set/cmp/sub handler
+local function actionReplacement(format, action, func)
+    return function(num)
+        num = tonumber(num)
+        return format:format(action, func(num, action))
+    end
+end
+
+rev4m.f = rev4m.f or {}
+
+rev4m.const.firstGlobalLuaFreeEntry = 2000 -- that we will use
+local function eventNumberReplacements(str)
+	local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
+	local lastOriginalMM7Event = 572
+	return function(num)
+		num = tonumber(num)
+		local add
+		if (num >= noMappingEvents[1][1] and num <= noMappingEvents[1][2]) or (num >= noMappingEvents[2][1] and num <= noMappingEvents[2][2]) then
+			add = 0
+		else
+			if num > lastOriginalMM7Event then -- new rev4 event, moved to end
+				add = rev4m.const.firstGlobalLuaFreeEntry - (lastOriginalMM7Event + 1)
+			elseif num > noMappingEvents[2][2] then
+				add = 750 - (515 - 513 + 2) - (506 - 501 + 1) + 1
+			elseif num > noMappingEvents[1][2] then
+				add = 750 - (506 - 501 + 1)
+			else
+				add = 750
+			end
+		end
+		-- make it disable standard events, so generated lua file can be used without copy pasting into decompiled global.lua
+		if str:find("global") ~= nil and num <= lastOriginalMM7Event then
+			return ("Game.GlobalEvtLines:RemoveEvent(%d)\n"):format(num + add) .. str:format(num + add)
+		end
+		return str:format(num + add)
+	end
+end
+
+-- creates handlers for cmp/set/add/sub/subtract
+--[[local function cmpAddSetSub(regex, format, func)
+    for _, action in ipairs{"Cmp", "Add", "Set", "Sub", "Subtract"} do
+        replacements[regex:format(action)] = actionReplacement(format, action, func)
+    end
+end]]
+function rev4m.f.cmpAddSetSub(str, func)
+    -- r = evt.%s("QBits", %s)
+    -- regex = r:format("%s", "(%%d+)")
+    -- format = r:format("%s", "%d")
+    -- also maybe normal regex escape and then replacing double percent signs would work?
+    local regex, format = str:format("%s", "(%%d+)"):escapeRegexNoPercent(), str:format("%s", "%d")
+    for _, action in ipairs{"Cmp", "Add", "Set", "Sub", "Subtract"} do
+        replacements[regex:format(action)] = actionReplacement(format, action, func)
+    end
+end
+
+local mappingsFromMM7PromotionAwardsToMergeQBits = require("rev4m\\generateMappingsFromMM7PromotionAwardsToMergeQBits")
+
+rev4m.scriptReplacements =
+{
+    ["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
+    ["evt%.global%[(%d+)%]"] = eventNumberReplacements("evt.global[%d]"),
+    ["evt%.Cmp%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Cmp(\"QBits\", %d)"):format(getQuestBit(num)) end,
+    ["evt%.Set%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Set(\"QBits\", %d)"):format(getQuestBit(num)) end,
+    ["evt%.Add%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Add(\"QBits\", %d)"):format(getQuestBit(num)) end,
+    ["evt%.Subtract%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Subtract(\"QBits\", %d)"):format(getQuestBit(num)) end,
+    ["evt%.SetMessage%((%d+)%)"] =
+    function(message)
+        message = tonumber(message)
+        return ("evt.SetMessage(%d)"):format(getMessage(message))
+    end,
+    ["evt%.SetNPCTopic%{NPC = (%d+), Index = (%d+), Event = (%d+)%}"] =
+    function(npc, index, event)
+        npc = tonumber(npc)
+        index = tonumber(index)
+        event = tonumber(event)
+        --local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
+        --return ("evt.SetNPCTopic{NPC = %d, Index = %d, Event = %d}"):format(getNPC(npc), index, getEvent(event))
+        return ("Game.NPC[%d].Events[%d] = %d"):format(getNPC(npc), index, getEvent(event))
+    end,
+    ["evt%.Subtract%(\"NPCs\", (%d+)%)"] =
+    function(npc)
+        npc = tonumber(npc)
+        return ("evt.Subtract(\"NPCs\", %d)"):format(getNPC(npc))
+    end,
+    ["evt%.Add%(\"NPCs\", (%d+)%)"] =
+    function(npc)
+        npc = tonumber(npc)
+        return ("evt.Add(\"NPCs\", %d)"):format(getNPC(npc))
+    end,
+    ["evt%.Set%(\"NPCs\", (%d+)%)"] =
+    function(npc)
+        npc = tonumber(npc)
+        return ("evt.Set(\"NPCs\", %d)"):format(getNPC(npc))
+    end,
+    ["evt%.Cmp%(\"NPCs\", (%d+)%)"] =
+    function(npc)
+        npc = tonumber(npc)
+        return ("evt.Cmp(\"NPCs\", %d)"):format(getNPC(npc))
+    end,
+    ["evt%.Add%(\"Awards\", (%d+)%)"] =
+    function(award)
+        award = tonumber(award)
+        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
+            -- promotion award, special processing
+            return ("evt.Add(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
+        else
+            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
+            --print("Not promotion award: " .. awards[award + 1][2])
+        end
+        local a2 = award
+        award = getAward(award)
+        if award == -1 then return ("--" .. " evt.Add(\"Awards\", %d)"):format(a2) end
+        return ("evt.Add(\"Awards\", %d)"):format(award)
+    end,
+    ["evt%.Set%(\"Awards\", (%d+)%)"] =
+    function(award)
+        award = tonumber(award)
+        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
+            -- promotion award, special processing
+            return ("evt.Set(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
+        else
+            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
+            --print("Not promotion award: " .. awards[award + 1][2])
+        end
+        local a2 = award
+        award = getAward(award)
+        if award == -1 then return ("--" .. " evt.Set(\"Awards\", %d)"):format(a2) end
+        return ("evt.Set(\"Awards\", %d)"):format(award)
+    end,
+    ["evt%.Cmp%(\"Awards\", (%d+)%)"] =
+    function(award)
+        award = tonumber(award)
+        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
+            -- promotion award, special processing
+            return ("evt.Cmp(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
+        else
+            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
+            --print("Not promotion award: " .. awards[award + 1][2])
+        end
+        local a2 = award
+        award = getAward(award)
+        if award == -1 then return ("--" .. " evt.Cmp(\"Awards\", %d)"):format(a2) end
+        return ("evt.Cmp(\"Awards\", %d)"):format(award)
+    end,
+    ["evt%.Subtract%(\"Awards\", (%d+)%)"] =
+    function(award)
+        award = tonumber(award)
+        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
+            -- promotion award, special processing
+            return ("evt.Subtract(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
+        else
+            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
+            --print("Not promotion award: " .. awards[award + 1][2])
+        end
+        local a2 = award
+        award = getAward(award)
+        if award == -1 then return ("--" .. " evt.Subtract(\"Awards\", %d)"):format(a2) end
+        return ("evt.Subtract(\"Awards\", %d)"):format(award)
+    end,
+    ["evt%.SetNPCGroupNews%{NPCGroup = (%d+), NPCNews = (%d+)%}"] = 
+    function(group, news)
+        group = tonumber(group)
+        news = tonumber(news)
+        return ("evt.SetNPCGroupNews{NPCGroup = %d, NPCNews = %d}"):format(getNpcGroup(group), news + 51)
+    end,
+    ["evt%.SetNPCGreeting%{NPC = (%d+), Greeting = (%d+)%}"] =
+    function (npc, greeting)
+        npc = tonumber(npc)
+        greeting = tonumber(greeting)
+        return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
+    end,
+    ["evt%.Cmp%(\"Inventory\", (%d+)%)"] =
+    function(item)
+        item = tonumber(item)
+        return ("evt.Cmp(\"Inventory\", %d)"):format(getItem(item))
+    end,
+    ["evt%.Add%(\"Inventory\", (%d+)%)"] =
+    function(item)
+        item = tonumber(item)
+        return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
+    end,
+    ["evt%.Subtract%(\"Inventory\", (%d+)%)"] =
+    function(item)
+        item = tonumber(item)
+        return ("evt.Subtract(\"Inventory\", %d)"):format(getItem(item))
+    end,
+    ["evt%.Set%(\"Inventory\", (%d+)%)"] =
+    function(item)
+        item = tonumber(item)
+        -- apparently evt.Set("Inventory", num) makes character diseased... (tested on Emerald Island ship, water master)
+        return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
+    end,
+    ["evt%.MoveNPC%{NPC = (%d+), HouseId = (%d+)%}"] =
+    function(npc, houseid)
+        npc = tonumber(npc)
+        houseid = tonumber(houseid)
+        return ("evt.MoveNPC{NPC = %d, HouseId = %d}"):format(getNPC(npc), getHouseID(houseid))
+    end,
+    ["evt%.SetNPCItem%{NPC = (%d+), Item = (%d+), On = (%w+)%}"] =
+    function(npc, item, on)
+        npc = tonumber(npc)
+        item = tonumber(item)
+        return ("evt.SetNPCItem{NPC = %d, Item = %d, On = %s}"):format(getNPC(npc), getItem(item), on)
+    end,
+    --[[["evt%.Add%(\"History(%d+)\", (%d+)%)"] =
+    function(historyid, dummy)
+        historyid = tonumber(historyid)
+        dummy = tonumber(dummy)
+        return ("--" .. " evt.Add(\"History%d\", %d)"):format(historyid, dummy)
+    end,]]--
+    ["evt%.SetMonGroupBit%{NPCGroup = (%d+), Bit = ([%w%.]+), On = (%w+)%}"]
+    = function(npcgroup, bit, on)
+        npcgroup = tonumber(npcgroup)
+        return ("evt.SetMonGroupBit{NPCGroup = %d, Bit = %s, On = %s}"):format(getNpcGroup(npcgroup), bit, on)
+    end,
+    ["evt%.Set%(\"AutonotesBits\", (%d+)%)"] =
+    function(autonote)
+        autonote = tonumber(autonote)
+        return ("evt.Set(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
+    end,
+    ["evt%.ChangeEvent%((%d+)%)"] = 
+    function(event)
+        event = tonumber(event)
+        return ("evt.ChangeEvent(%d)"):format(getEvent(event))
+    end,
+    ["evt%.StatusText%((%d+)%)"] = 
+    function(message)
+        message = tonumber(message)
+        return ("evt.StatusText(%d)"):format(getMessage(message))
+    end,
+    ["evt%.CheckMonstersKilled%{CheckType = (%d+), Id = (%d+), Count = (%d+)%}"] =
+    function(checktype, id, count)
+        checktype = tonumber(checktype)
+        id = tonumber(id)
+        count = tonumber(count)
+        if checktype == 1 then
+            return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id + 51, count)
+        elseif checktype == 2 then
+            return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, getMonster(id), count)
+        elseif checktype == 4 then
+            print("While processing scripts encountered evt.CheckMonstersKilled with CheckType of 4, need to take care of that")
+        end
+        return ("evt.CheckMonstersKilled{CheckType = %d, Id = %d, Count = %d}"):format(checktype, id, count)
+    end,
+    ["evt%.HouseDoor%((%d+),%s*(%d+)%)"] = function(event, house)
+        event = tonumber(event)
+        house = tonumber(house)
+        return string.format("Game.MapEvtLines:RemoveEvent(%d)\nevt.HouseDoor(%d, %d)", event, event, getHouseID(house))
+    end,
+    ["for pl = 0, Party%.High %- 1 do"] = function()
+        return "for pl = 0, Party.High do"
+    end,
+}
+
+local doNotRemoveTheseEvents =
+{
+    ["d27.lua"] = {501, 376} -- 376 because MMMerge overwrites this event and cleans it up, 501 to fix a bug where game crashes after killing Xenofex when exiting, only when using lua script
+}
+
+table.copy(-- replacements specific to map scripts
+{
+    ["evt%.house%[(%d+)%] = (%d+)"] =
+    function(idx, house)
+        idx = tonumber(idx)
+        house = tonumber(house)
+        return ("evt.house[%d] = %d"):format(idx, getHouseID(house))
+    end,
+    ["evt%.EnterHouse%((%d+)%)"] =
+    function(house)
+        house = tonumber(house)
+        return ("evt.EnterHouse(%d)"):format(getHouseID(house))
+    end,
+    ["evt%.EnterHouse%{Id = (%d+)%}"] =
+    function(house)
+        house = tonumber(house)
+        return ("evt.EnterHouse{Id = %d}"):format(getHouseID(house))
+    end,
+    ["evt%.MoveToMap%{X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), Direction = (%-?%d+), LookAngle = (%-?%d+), SpeedZ = (%-?%d+), HouseId = (%-?%d+), Icon = (%-?%d+), Name = \"([%w%.]+)\"%}"]
+    = function(x, y, z, direction, lookangle, speedz, houseid, icon, name)
+        x = tonumber(x)
+        y = tonumber(y)
+        z = tonumber(z)
+        direction = tonumber(direction)
+        lookangle = tonumber(lookangle)
+        speedz = tonumber(speedz)
+        houseid = tonumber(houseid)
+        icon = tonumber(icon)
+            
+        return ("evt.MoveToMap{X = %d, Y = %d, Z = %d, Direction = %d, LookAngle = %d, SpeedZ = %d, HouseId = %d, Icon = %d, Name = \"%s\"}")
+        :format(x, y, z, direction, lookangle, speedz, getHouseID(houseid), icon, getFileName(name))
+    end,
+    ["evt%.SpeakNPC%((%d+)%)"] =
+    function(npc)
+        npc = tonumber(npc)
+        return ("evt.SpeakNPC(%d)"):format(getNPC(npc))
+    end,
+    ["evt%.SetMonsterItem%{Monster = (%d+), Item = (%d+), Has = (%w+)%}"] =
+    function(monster, item, has)
+        monster = tonumber(monster)
+        item = tonumber(item)
+        return ("evt.SetMonsterItem{Monster = %d, Item = %d, Has = %s}"):format(monster, getItem(item), has)
+    end,
+    --[[["evt%.SetNPCGreeting%{NPC = (%d+), Greeting = (%d+)%}"] =
+    function(npc, greeting)
+        npc = tonumber(npc)
+        greeting = tonumber(greeting)
+        return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
+    end--]]
+    ["evt%.Add%(\"AutonotesBits\", (%d+)%)"] =
+    function(autonote)
+        autonote = tonumber(autonote)
+        return ("evt.Add(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
+    end,
+    ["evt%.Cmp%(\"AutonotesBits\", (%d+)%)"] =
+    function(autonote)
+        autonote = tonumber(autonote)
+        return ("evt.Cmp(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
+    end,
+    ["evt%.map%[(%d+)%] = function"] =
+    function(event)
+        event = tonumber(event)
+        local doNotRemoveEntry = doNotRemoveTheseEvents[rev4m.currentlyProcessedScript]
+        if doNotRemoveEntry then
+            if table.find(doNotRemoveEntry, event) then
+                return ("evt.map[%d] = function"):format(event)
+            end
+        end
+        return ("Game.MapEvtLines:RemoveEvent(%d)\nevt.map[%d] = function"):format(event, event)
+    end,
+    ["evt%.SummonMonsters%{TypeIndexInMapStats = (%d+), Level = (%d+), Count = (%d+), X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), (%-%- ERROR: Not found%s+)NPCGroup = (%d+), unk = (%d+)%}"] =
+    function(tiims, level, count, x, y, z, comment, npcgroup, unk)
+        tiims = tonumber(tiims)
+        level = tonumber(level)
+        count = tonumber(count)
+        x = tonumber(x)
+        y = tonumber(y)
+        z = tonumber(z)
+        npcgroup = tonumber(npcgroup)
+        unk = tonumber(unk)
+        return ("evt.SummonMonsters{TypeIndexInMapStats = %d, Level = %d, Count = %d, X = %d, Y = %d, Z = %d, %sNPCGroup = %d, unk = %d}")
+        :format(tiims, level, count, x, y, z, comment or "", npcgroup + 51, unk)
+    end,
+    ["evt%.SummonMonsters%{TypeIndexInMapStats = (%d+), Level = (%d+), Count = (%d+), X = (%-?%d+), Y = (%-?%d+), Z = (%-?%d+), NPCGroup = (%d+), unk = (%d+)%}"] =
+    function(tiims, level, count, x, y, z, npcgroup, unk)
+        tiims = tonumber(tiims)
+        level = tonumber(level)
+        count = tonumber(count)
+        x = tonumber(x)
+        y = tonumber(y)
+        z = tonumber(z)
+        npcgroup = tonumber(npcgroup)
+        unk = tonumber(unk)
+        return ("evt.SummonMonsters{TypeIndexInMapStats = %d, Level = %d, Count = %d, X = %d, Y = %d, Z = %d, NPCGroup = %d, unk = %d}")
+        :format(tiims, level, count, x, y, z, npcgroup + 51, unk)
+    end,
+    ["evt%.SetSprite%{SpriteId = (%d+), Visible = (%d+), Name = \"(%w*)\"%}"] =
+    function(spriteid, visible, name)
+        spriteid = tonumber(spriteid)
+        visible = tonumber(visible)
+        if name:match("^tree") then
+            local num = tonumber(name:match("%d+")) or 99
+            if num <= 30 or num == 63 or num == 64 then
+                return ("evt.SetSprite{SpriteId = %d, Visible = %d, Name = \"%s\"}"):format(spriteid, visible, "7" .. name)
+            end
+        end
+        return ("evt.SetSprite{SpriteId = %d, Visible = %d, Name = \"%s\"}"):format(spriteid, visible, name)
+    end,
+}, rev4m.scriptReplacements, true)

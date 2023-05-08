@@ -279,13 +279,13 @@ end, const.Week)
 RefillTimer(function()
 	evt.ForPlayer("All")
 	evt.Subtract("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
-	evt.SetNPCTopic{NPC = 620, Index = 1, Event = 926}         -- "Eric Swarrel" : "Book Shop"
+	Game.NPC[620].Events[1] = 926         -- "Eric Swarrel" : "Book Shop"
 end, const.Year)
 
 RefillTimer(function()
 	evt.ForPlayer("All")
 	evt.Subtract("QBits", 657)         -- Membership to the School of Sorcery Scroll Shop
-	evt.SetNPCTopic{NPC = 620, Index = 1, Event = 926}         -- "Eric Swarrel" : "Book Shop"
+	Game.NPC[620].Events[1] = 926         -- "Eric Swarrel" : "Book Shop"
 end, const.Year)
 
 evt.hint[197] = evt.str[10]  -- "Bookcase"

@@ -673,7 +673,7 @@ evt.map[501] = function()
 		end
 		return
 	end
-	evt.SetNPCTopic{NPC = 387, Index = 0, Event = 845}         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
+	Game.NPC[387].Events[0] = 845         -- "Thomas Grey" : "We've retrieved the Book of UnMakings!"
 	
 	if not evt.Cmp("Inventory", 1301) then         -- "Book of UnMakings"
 		evt.StatusText(11)         -- "You must have the Book of UnMakings in order to leave"

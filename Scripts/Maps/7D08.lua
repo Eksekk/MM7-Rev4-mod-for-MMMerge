@@ -64,12 +64,12 @@ NPCGroup = 563, unk = 0}
 NPCGroup = 563, unk = 0}
 	else
 		evt.SetNPCGreeting{NPC = 355, Greeting = 155}         -- "BDJ the Coding Wizard" : "BDJ’s the name, coding wizard’s the Game! And I do trust that you are enjoying the ‘game’."
-		evt.SetNPCTopic{NPC = 355, Index = 0, Event = 0}         -- "BDJ the Coding Wizard"
-		evt.SetNPCTopic{NPC = 355, Index = 1, Event = 0}         -- "BDJ the Coding Wizard"
-		evt.SetNPCTopic{NPC = 355, Index = 2, Event = 0}         -- "BDJ the Coding Wizard"
+		Game.NPC[355].Events[0] = 0         -- "BDJ the Coding Wizard"
+		Game.NPC[355].Events[1] = 0         -- "BDJ the Coding Wizard"
+		Game.NPC[355].Events[2] = 0         -- "BDJ the Coding Wizard"
 		evt.Set("QBits", 863)         -- Three Use
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-		evt.SetNPCTopic{NPC = 357, Index = 1, Event = 1172}         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
+		Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
 		evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
 		evt.Subtract("QBits", 868)         -- 0
 		evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
@@ -416,9 +416,9 @@ evt.map[376] = function()
 	evt.SetNPCGreeting{NPC = 355, Greeting = 165}         --[[ "BDJ the Coding Wizard" : "I see you’ve found the key to the Coding Fortress. Well done! You’ve probably had a few elemental ‘misunderstandings’ in findings this key, but I assure you that they were minor disputes compared to what you now face.
 
 It’s finally time to ‘run the Gauntlet’ all the way back to the beginning!  Good luck!!" ]]
-	evt.SetNPCTopic{NPC = 355, Index = 0, Event = 0}         -- "BDJ the Coding Wizard"
-	evt.SetNPCTopic{NPC = 355, Index = 1, Event = 0}         -- "BDJ the Coding Wizard"
-	evt.SetNPCTopic{NPC = 355, Index = 2, Event = 0}         -- "BDJ the Coding Wizard"
+	Game.NPC[355].Events[0] = 0         -- "BDJ the Coding Wizard"
+	Game.NPC[355].Events[1] = 0         -- "BDJ the Coding Wizard"
+	Game.NPC[355].Events[2] = 0         -- "BDJ the Coding Wizard"
 	evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4176, Y = -10981, Z = 833, -- ERROR: Not found
 NPCGroup = 563, unk = 0}

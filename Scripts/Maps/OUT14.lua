@@ -83,7 +83,7 @@ evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		evt.SetNPCTopic{NPC = 547, Index = 1, Event = 1202}         -- "Lucid Apple" : "We need your help!"
+		Game.NPC[547].Events[1] = 1202         -- "Lucid Apple" : "We need your help!"
 	end
 end
 

@@ -12,34 +12,6 @@ function mtm(str)
 	return evt.MoveToMap{Name = mapFileNamesToNames[str:lower()] or str}
 end
 
-local firstGlobalLuaFreeEntry = 2000 -- that we will use
-eventNumberReplacements = function(str)
-	local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
-	local lastOriginalMM7Event = 572
-	return function(num)
-		num = tonumber(num)
-		local add
-		if (num >= noMappingEvents[1][1] and num <= noMappingEvents[1][2]) or (num >= noMappingEvents[2][1] and num <= noMappingEvents[2][2]) then
-			add = 0
-		else
-			if num > lastOriginalMM7Event then -- new rev4 event, moved to end
-				add = firstGlobalLuaFreeEntry - (lastOriginalMM7Event + 1)
-			elseif num > noMappingEvents[2][2] then
-				add = 750 - (515 - 513 + 2) - (506 - 501 + 1) + 1
-			elseif num > noMappingEvents[1][2] then
-				add = 750 - (506 - 501 + 1)
-			else
-				add = 750
-			end
-		end
-		-- make it disable standard events, so generated lua file can be used without copy pasting into decompiled global.lua
-		if str:find("global") ~= nil and num <= lastOriginalMM7Event then
-			return ("Game.GlobalEvtLines:RemoveEvent(%d)\n"):format(num + add) .. str:format(num + add)
-		end
-		return str:format(num + add)
-	end
-end
-
 function getQuestBit(questBit)
 	return questBit + 512
 end
@@ -81,7 +53,7 @@ function getEvent(event)
 	if event == 0 then return 0 end
 	local eventAdd = 750
 	if event >= 573 then
-		eventAdd = firstGlobalLuaFreeEntry - 573
+		eventAdd = rev4m.const.firstGlobalLuaFreeEntry - 573
 	-- skill teaching events
 	-- blaster
 	elseif event >= 221 and event <= 223 then

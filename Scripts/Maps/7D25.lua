@@ -124,7 +124,7 @@ evt.map[2] = function()  -- function events.LoadMap()
 
 However, we still have work to do in order to triumph in our endeavors.  After you have healed and rested, see Robert the Wise for you next assignment.  He can be found in the Hostel across the way from Sir Caneghem." ]]
 			evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
-			evt.SetNPCTopic{NPC = 422, Index = 0, Event = 947}         -- "Robert the Wise" : "Control Cube"
+			Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"
 			evt.SpeakNPC(358)         -- "Resurectra"
 		end
 	end
@@ -155,7 +155,7 @@ evt.map[6] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 617) then         -- Slayed Xenofex
 		evt.ForPlayer("All")
-		evt.SetNPCTopic{NPC = 419, Index = 1, Event = 883}         -- "Resurectra" : "Most Excellent!!"
+		Game.NPC[419].Events[1] = 883         -- "Resurectra" : "Most Excellent!!"
 	end
 end
 

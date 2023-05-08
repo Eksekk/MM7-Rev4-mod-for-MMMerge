@@ -164,7 +164,7 @@ evt.map[32] = function()  -- function events.LoadMap()
 		evt.MoveNPC{NPC = 1281, HouseId = 0}         -- "EAO the Lector"
 	elseif evt.Cmp("QBits", 866) then         -- 0
 		evt.MoveNPC{NPC = 1281, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
-		evt.SetNPCTopic{NPC = 1281, Index = 0, Event = 852}         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
+		Game.NPC[1281].Events[0] = 852         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
 	end
 end
 
@@ -192,10 +192,10 @@ evt.hint[34] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(34)
 evt.map[34] = function()  -- function events.LoadMap()
 	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		evt.SetNPCTopic{NPC = 371, Index = 1, Event = 1173}         -- "Myrta Bumblebee" : "Buy Speed Boost Potent"
+		Game.NPC[371].Events[1] = 1173         -- "Myrta Bumblebee" : "Buy Speed Boost Potent"
 		evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Invisible, On = false}         -- "Group walkers in the Tularean forest"
 	else
-		evt.SetNPCTopic{NPC = 371, Index = 1, Event = 0}         -- "Myrta Bumblebee"
+		Game.NPC[371].Events[1] = 0         -- "Myrta Bumblebee"
 	end
 end
 
@@ -253,7 +253,7 @@ evt.map[39] = function()  -- function events.LoadMap()
 	if not evt.Cmp("QBits", 873) then         -- mESSENGER ONE-TIME
 		if evt.Cmp("QBits", 719) then         -- Erathia - Town Portal
 			evt.SetNPCGreeting{NPC = 412, Greeting = 133}         -- "Messenger" : "Welcome to Emerald Island.  I will be your guide during your stay here.  From time to time I will appear to tell you about something you're about to see to help you understand your New World.  If you tire of my messages (I won't be offended if you do), just click on my portrait to talk to me then click on 'Tour Off' to silence me.  "
-			evt.SetNPCTopic{NPC = 408, Index = 0, Event = 946}         -- "Queen Catherine" : "The Kennel"
+			Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
 			evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
 			evt.Set("QBits", 873)         -- mESSENGER ONE-TIME
 			evt.SpeakNPC(412)         -- "Messenger"

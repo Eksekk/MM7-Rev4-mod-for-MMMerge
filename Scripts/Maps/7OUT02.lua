@@ -365,8 +365,8 @@ evt.map[37] = function()
 	evt.MoveNPC{NPC = 416, HouseId = 0}         -- "Judge Fairweather"
 	evt.MoveNPC{NPC = 415, HouseId = 0}         -- "Ambassador Scale"
 	evt.MoveNPC{NPC = 417, HouseId = 1166}         -- "Judge Sleen" -> "Arbiter"
-	evt.SetNPCTopic{NPC = 417, Index = 1, Event = 892}         -- "Judge Sleen" : "Hint"
-	evt.SetNPCTopic{NPC = 417, Index = 2, Event = 889}         -- "Judge Sleen" : "I lost it"
+	Game.NPC[417].Events[1] = 892         -- "Judge Sleen" : "Hint"
+	Game.NPC[417].Events[2] = 889         -- "Judge Sleen" : "I lost it"
 	evt.ShowMovie{DoubleSize = 1, Name = "\"arbiter evil\" "}
 ::_75::
 	evt.EnterHouse(1166)         -- "Arbiter"
@@ -397,8 +397,8 @@ evt.map[37] = function()
 	evt.MoveNPC{NPC = 417, HouseId = 0}         -- "Judge Sleen"
 	evt.MoveNPC{NPC = 414, HouseId = 0}         -- "Ambassador Wright"
 	evt.MoveNPC{NPC = 415, HouseId = 0}         -- "Ambassador Scale"
-	evt.SetNPCTopic{NPC = 416, Index = 1, Event = 894}         -- "Judge Fairweather" : "Hint"
-	evt.SetNPCTopic{NPC = 416, Index = 2, Event = 889}         -- "Judge Fairweather" : "I lost it"
+	Game.NPC[416].Events[1] = 894         -- "Judge Fairweather" : "Hint"
+	Game.NPC[416].Events[2] = 889         -- "Judge Fairweather" : "I lost it"
 	evt.ShowMovie{DoubleSize = 1, Name = "\"arbiter good\" "}
 	goto _40
 ::_24::
@@ -514,7 +514,7 @@ evt.map[52] = function()  -- function events.LoadMap()
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
 			evt.Set("NPCs", 357)         -- "Lord Godwinson"
 			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
-			evt.SetNPCTopic{NPC = 357, Index = 0, Event = 846}         -- "Lord Godwinson" : "Coding Wizard Quest"
+			Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set("QBits", 888)         -- LG 1-time
 			evt.SpeakNPC(357)         -- "Lord Godwinson"
 		end

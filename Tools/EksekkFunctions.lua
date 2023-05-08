@@ -345,8 +345,6 @@ function vertexLoc()
 	for i, id in f.VertexIds do print(id, XYZ(Map.Vertexes[id])) end
 end
 
-
-
 local function indentCount(str)
 	str = str:match("(%s*).-") -- get whitespace at beginning
 	str = str:gsub("    ", "\t") -- replace sequences of four spaces with tabs
@@ -366,6 +364,10 @@ end
 
 function string.escapeRegex(text)
 	return (text:gsub("(%W)", "%%%1"))
+end
+
+function string.escapeRegexNoPercent(text)
+	return (text:gsub("([^%w%%])", "%%%1"))
 end
 
 function printf(...)
@@ -389,7 +391,6 @@ function string.replaceIndent(text, replaceWhat, replacement)
 	end]]
 	assert(#text > 20)
 	assert(#linesReplaceWhat > 0)
-	assert(#linesReplacement > 0)
 	local firstWhat = linesReplaceWhat[1]:trim():escapeRegex()
 	--[[if #linesReplaceWhat <= 1 then
 		local count

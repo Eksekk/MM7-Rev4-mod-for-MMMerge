@@ -24,12 +24,4 @@ for i = 50, 60 do
 	mappings[i] = 1596 + (i - 50)
 end
 
-local text = ""
-for award, qbit in pairs(mappings) do
-	text = text .. ("[%d] = %d, "):format(award, qbit)
-end
-text = text:sub(1, -3)
-
-local file = io.open("mm7 awards to merge qbits.txt", "w")
-file:write(text)
-io.close(file)
+return mappings

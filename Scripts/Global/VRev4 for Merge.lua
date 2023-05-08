@@ -154,6 +154,11 @@ NPCTopic
 
 -- BDJ change class quest
 
+-- each different class has own topic
+-- current player index in variables
+-- enter npc: set quest branch
+-- save quest branch in vars when switching
+
 local classes =
 {
 	-- class = {{first promo classes}, {second promo classes(light, dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior

@@ -49,7 +49,7 @@ function getMessage(message)
 	return message + add
 end
 
-function getEvent(event)
+function getGlobalEvent(event)
 	if event == 0 then return 0 end
 	local eventAdd = 750
 	if event >= 573 then
@@ -336,7 +336,7 @@ function loadGameState()
 		Game.NPC[getNPC(i)].Greet = getGreeting(v.Greet)
 		local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
 		for j = 0, 5 do
-			Game.NPC[getNPC(i)]["Event" .. indexes[j] ] = getEvent(v["Event" .. indexes[j] ])
+			Game.NPC[getNPC(i)]["Event" .. indexes[j] ] = getGlobalEvent(v["Event" .. indexes[j] ])
 		end
 	end
 end

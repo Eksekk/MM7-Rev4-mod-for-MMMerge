@@ -13,7 +13,6 @@ rev4m.path.processedOtherMapScripts = "other map scripts\\processed\\"
 rev4m.path.processedRev4Scripts = "combined processed scripts\\"
 rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 
-
 -- doing comparison of old revamp files with new, integrating where needed
 -- current stage: map scripts are different - update those from merge and regenerate modded with script
 -- after finishing comparison, update game files with new both in game folder and rev4 github folder, then compare with newest revamp
@@ -26,7 +25,8 @@ rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 local function actionReplacement(format, action, func)
     return function(num)
         num = tonumber(num)
-        return format:format(action, func(num, action))
+        local val, actionOverride, formatOverride = func(num, action)
+        return (formatOverride or format):format(actionOverride or action, val) -- allow changing action by provided function (used by inventory set)
     end
 end
 
@@ -83,10 +83,6 @@ rev4m.scriptReplacements =
 {
     ["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
     ["evt%.global%[(%d+)%]"] = eventNumberReplacements("evt.global[%d]"),
-    ["evt%.Cmp%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Cmp(\"QBits\", %d)"):format(getQuestBit(num)) end,
-    ["evt%.Set%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Set(\"QBits\", %d)"):format(getQuestBit(num)) end,
-    ["evt%.Add%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Add(\"QBits\", %d)"):format(getQuestBit(num)) end,
-    ["evt%.Subtract%(\"QBits\", (%d+)%)"] = function(num) return ("evt.Subtract(\"QBits\", %d)"):format(getQuestBit(num)) end,
     ["evt%.SetMessage%((%d+)%)"] =
     function(message)
         message = tonumber(message)
@@ -98,88 +94,8 @@ rev4m.scriptReplacements =
         index = tonumber(index)
         event = tonumber(event)
         --local indexes = {[0] = "A", "B", "C", "D", "E", "F"}
-        --return ("evt.SetNPCTopic{NPC = %d, Index = %d, Event = %d}"):format(getNPC(npc), index, getEvent(event))
-        return ("Game.NPC[%d].Events[%d] = %d"):format(getNPC(npc), index, getEvent(event))
-    end,
-    ["evt%.Subtract%(\"NPCs\", (%d+)%)"] =
-    function(npc)
-        npc = tonumber(npc)
-        return ("evt.Subtract(\"NPCs\", %d)"):format(getNPC(npc))
-    end,
-    ["evt%.Add%(\"NPCs\", (%d+)%)"] =
-    function(npc)
-        npc = tonumber(npc)
-        return ("evt.Add(\"NPCs\", %d)"):format(getNPC(npc))
-    end,
-    ["evt%.Set%(\"NPCs\", (%d+)%)"] =
-    function(npc)
-        npc = tonumber(npc)
-        return ("evt.Set(\"NPCs\", %d)"):format(getNPC(npc))
-    end,
-    ["evt%.Cmp%(\"NPCs\", (%d+)%)"] =
-    function(npc)
-        npc = tonumber(npc)
-        return ("evt.Cmp(\"NPCs\", %d)"):format(getNPC(npc))
-    end,
-    ["evt%.Add%(\"Awards\", (%d+)%)"] =
-    function(award)
-        award = tonumber(award)
-        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-            -- promotion award, special processing
-            return ("evt.Add(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-        else
-            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-            --print("Not promotion award: " .. awards[award + 1][2])
-        end
-        local a2 = award
-        award = getAward(award)
-        if award == -1 then return ("--" .. " evt.Add(\"Awards\", %d)"):format(a2) end
-        return ("evt.Add(\"Awards\", %d)"):format(award)
-    end,
-    ["evt%.Set%(\"Awards\", (%d+)%)"] =
-    function(award)
-        award = tonumber(award)
-        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-            -- promotion award, special processing
-            return ("evt.Set(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-        else
-            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-            --print("Not promotion award: " .. awards[award + 1][2])
-        end
-        local a2 = award
-        award = getAward(award)
-        if award == -1 then return ("--" .. " evt.Set(\"Awards\", %d)"):format(a2) end
-        return ("evt.Set(\"Awards\", %d)"):format(award)
-    end,
-    ["evt%.Cmp%(\"Awards\", (%d+)%)"] =
-    function(award)
-        award = tonumber(award)
-        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-            -- promotion award, special processing
-            return ("evt.Cmp(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-        else
-            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-            --print("Not promotion award: " .. awards[award + 1][2])
-        end
-        local a2 = award
-        award = getAward(award)
-        if award == -1 then return ("--" .. " evt.Cmp(\"Awards\", %d)"):format(a2) end
-        return ("evt.Cmp(\"Awards\", %d)"):format(award)
-    end,
-    ["evt%.Subtract%(\"Awards\", (%d+)%)"] =
-    function(award)
-        award = tonumber(award)
-        if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
-            -- promotion award, special processing
-            return ("evt.Subtract(\"QBits\", %d)"):format(mappingsFromMM7PromotionAwardsToMergeQBits[award])
-        else
-            --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
-            --print("Not promotion award: " .. awards[award + 1][2])
-        end
-        local a2 = award
-        award = getAward(award)
-        if award == -1 then return ("--" .. " evt.Subtract(\"Awards\", %d)"):format(a2) end
-        return ("evt.Subtract(\"Awards\", %d)"):format(award)
+        --return ("evt.SetNPCTopic{NPC = %d, Index = %d, Event = %d}"):format(getNPC(npc), index, getGlobalEvent(event))
+        return ("Game.NPC[%d].Events[%d] = %d"):format(getNPC(npc), index, getGlobalEvent(event))
     end,
     ["evt%.SetNPCGroupNews%{NPCGroup = (%d+), NPCNews = (%d+)%}"] = 
     function(group, news)
@@ -192,27 +108,6 @@ rev4m.scriptReplacements =
         npc = tonumber(npc)
         greeting = tonumber(greeting)
         return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
-    end,
-    ["evt%.Cmp%(\"Inventory\", (%d+)%)"] =
-    function(item)
-        item = tonumber(item)
-        return ("evt.Cmp(\"Inventory\", %d)"):format(getItem(item))
-    end,
-    ["evt%.Add%(\"Inventory\", (%d+)%)"] =
-    function(item)
-        item = tonumber(item)
-        return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
-    end,
-    ["evt%.Subtract%(\"Inventory\", (%d+)%)"] =
-    function(item)
-        item = tonumber(item)
-        return ("evt.Subtract(\"Inventory\", %d)"):format(getItem(item))
-    end,
-    ["evt%.Set%(\"Inventory\", (%d+)%)"] =
-    function(item)
-        item = tonumber(item)
-        -- apparently evt.Set("Inventory", num) makes character diseased... (tested on Emerald Island ship, water master)
-        return ("evt.Add(\"Inventory\", %d)"):format(getItem(item))
     end,
     ["evt%.MoveNPC%{NPC = (%d+), HouseId = (%d+)%}"] =
     function(npc, houseid)
@@ -237,15 +132,10 @@ rev4m.scriptReplacements =
         npcgroup = tonumber(npcgroup)
         return ("evt.SetMonGroupBit{NPCGroup = %d, Bit = %s, On = %s}"):format(getNpcGroup(npcgroup), bit, on)
     end,
-    ["evt%.Set%(\"AutonotesBits\", (%d+)%)"] =
-    function(autonote)
-        autonote = tonumber(autonote)
-        return ("evt.Set(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-    end,
     ["evt%.ChangeEvent%((%d+)%)"] = 
     function(event)
         event = tonumber(event)
-        return ("evt.ChangeEvent(%d)"):format(getEvent(event))
+        return ("evt.ChangeEvent(%d)"):format(getGlobalEvent(event))
     end,
     ["evt%.StatusText%((%d+)%)"] = 
     function(message)
@@ -275,6 +165,34 @@ rev4m.scriptReplacements =
         return "for pl = 0, Party.High do"
     end,
 }
+
+-- _G to make clear these are globals defined elsewhere (in this case in development functions script)
+cmpAddSetSub("evt.%s(\"QBits\", %s)", _G.getQuestBit)
+cmpAddSetSub("evt.%s(\"NPCs\", %s)", _G.getNPC)
+cmpAddSetSub("evt.%s(\"Awards\", %s", function(award)
+    award = tonumber(award)
+    if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
+        -- promotion award, special processing
+        return mappingsFromMM7PromotionAwardsToMergeQBits[award]
+    else
+        --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
+        --print("Not promotion award: " .. awards[award + 1][2])
+    end
+    local a2 = award
+    award = _G.getAward(award)
+    if award == -1 then
+        return a2, nil, "-- evt.%s(\"Awards\", %d)"
+    end
+    return award
+end)
+
+cmpAddSetSub("evt.%s(\"Inventory\", %s)", function(item, action)
+    item = tonumber(item)
+    -- apparently evt.Set("Inventory", num) makes character diseased... (tested on Emerald Island ship, water master)
+    return _G.getItem(item), action == "Set" and "Add" or action
+end)
+
+cmpAddSetSub("evt.%s(\"AutonotesBits\", %s)", _G.getAutonote)
 
 local doNotRemoveTheseEvents =
 {
@@ -330,16 +248,7 @@ table.copy(-- replacements specific to map scripts
         greeting = tonumber(greeting)
         return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
     end--]]
-    ["evt%.Add%(\"AutonotesBits\", (%d+)%)"] =
-    function(autonote)
-        autonote = tonumber(autonote)
-        return ("evt.Add(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-    end,
-    ["evt%.Cmp%(\"AutonotesBits\", (%d+)%)"] =
-    function(autonote)
-        autonote = tonumber(autonote)
-        return ("evt.Cmp(\"AutonotesBits\", %d)"):format(getAutonote(autonote))
-    end,
+
     ["evt%.map%[(%d+)%] = function"] =
     function(event)
         event = tonumber(event)

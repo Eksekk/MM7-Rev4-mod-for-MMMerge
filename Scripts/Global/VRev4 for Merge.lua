@@ -75,7 +75,7 @@ local vals = {
 	0, -6
 }
 
-if Merge.ModSettings.Rev4ForMergeChangeStatisticBreakpoints == 1 then
+if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
 	function events.GetStatisticEffect(t)
 		for i = 1, #vals - 2, 2 do
 			if t.Value >= vals[i] then

@@ -1,17 +1,3 @@
-local mapFileNamesToNames = {}
-local fileNames = {}
-
-for _, msi in Game.MapStats do
-	mapFileNamesToNames[msi.Name:lower()] = msi.FileName:lower()
-	table.insert(fileNames, msi.FileName:lower())
-end
-
-function mtm(str)
-	-- show error instead of crashing game
-	assert(mapFileNamesToNames[str:lower()] or table.find(fileNames, str:lower()), "Invalid map name")
-	return evt.MoveToMap{Name = mapFileNamesToNames[str:lower()] or str}
-end
-
 function getQuestBit(questBit)
 	return questBit + 512
 end

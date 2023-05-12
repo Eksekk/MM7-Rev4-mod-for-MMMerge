@@ -8,11 +8,15 @@ rev4m.path.originalRev4Scripts = "rev4 map scripts\\" -- only those changed in r
 rev4m.path.processedRev4Scripts = "rev4 map scripts\\processed\\"
 rev4m.path.originalOtherMapScripts = "other map scripts\\" -- other existing map scripts from Merge
 rev4m.path.processedOtherMapScripts = "other map scripts\\processed\\"
+rev4m.path.rev4GlobalLua = "GLOBAL rev4.lua"
 
 -- temporary, for testing
 rev4m.path.processedRev4Scripts = "combined processed scripts\\"
 rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 
+-- relative to modules folder, for use in require
+rev4m.modulePaths = rev4m.modulePaths or {}
+rev4m.modulePaths.awardMappings = "rev4m\\generateMappingsFromMM7PromotionAwardsToMergeQBits"
 -- doing comparison of old revamp files with new, integrating where needed
 -- current stage: map scripts are different - update those from merge and regenerate modded with script
 -- after finishing comparison, update game files with new both in game folder and rev4 github folder, then compare with newest revamp
@@ -25,8 +29,10 @@ rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 local function actionReplacement(format, action, func)
     return function(num)
         num = tonumber(num)
+        -- allow changing action by provided function (used by inventory set)
+        -- or even entire format string
         local val, actionOverride, formatOverride = func(num, action)
-        return (formatOverride or format):format(actionOverride or action, val) -- allow changing action by provided function (used by inventory set)
+        return (formatOverride or format):format(actionOverride or action, val)
     end
 end
 
@@ -60,24 +66,21 @@ local function eventNumberReplacements(str)
 	end
 end
 
--- creates handlers for cmp/set/add/sub/subtract
---[[local function cmpAddSetSub(regex, format, func)
-    for _, action in ipairs{"Cmp", "Add", "Set", "Sub", "Subtract"} do
-        replacements[regex:format(action)] = actionReplacement(format, action, func)
-    end
-end]]
-function rev4m.f.cmpAddSetSub(str, func)
+local function cmpAddSetSub(str, func)
     -- r = evt.%s("QBits", %s)
     -- regex = r:format("%s", "(%%d+)")
     -- format = r:format("%s", "%d")
     -- also maybe normal regex escape and then replacing double percent signs would work?
-    local regex, format = str:format("%s", "(%%d+)"):escapeRegexNoPercent(), str:format("%s", "%d")
+    --local regex, format = str:gsub("([^%w%%])", string.rep("%%", 4) .. "%1"):format("%s", "(%%d+)"), str:format("%s", "%d")
+    --:format("%s", "(%%d+)"):format("Cmp")
+    --('evt.%s("QBits", %s)'):gsub("([^%w%%])", "%%%%%1"):format("Cmp", "(%d+)")
+    local regex, format = (str:gsub("([^%w%%])", "%%%%%1")), str:format("%s", "%d")
     for _, action in ipairs{"Cmp", "Add", "Set", "Sub", "Subtract"} do
-        replacements[regex:format(action)] = actionReplacement(format, action, func)
+        rev4m.scriptReplacements[regex:format(action, "(%d+)")] = actionReplacement(format, action, func)
     end
 end
 
-local mappingsFromMM7PromotionAwardsToMergeQBits = require("rev4m\\generateMappingsFromMM7PromotionAwardsToMergeQBits")
+local mappingsFromMM7PromotionAwardsToMergeQBits = require(rev4m.modulePaths.awardMappings)
 
 rev4m.scriptReplacements =
 {
@@ -167,13 +170,13 @@ rev4m.scriptReplacements =
 }
 
 -- _G to make clear these are globals defined elsewhere (in this case in development functions script)
-cmpAddSetSub("evt.%s(\"QBits\", %s)", _G.getQuestBit)
-cmpAddSetSub("evt.%s(\"NPCs\", %s)", _G.getNPC)
-cmpAddSetSub("evt.%s(\"Awards\", %s", function(award)
-    award = tonumber(award)
+-- TODO: possible race condition if award replacement runs first, transforms award into qbit and then qbit replacement runs
+cmpAddSetSub("evt.%s(\"QBits\", %s)", function(num) return _G.getQuestBit(num) end) -- wrap in function because getQuestBit is not defined yet
+cmpAddSetSub("evt.%s(\"NPCs\", %s)", function(num) return _G.getNPC(num) end)
+cmpAddSetSub("evt.%s(\"Awards\", %s)", function(award)
     if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
         -- promotion award, special processing
-        return mappingsFromMM7PromotionAwardsToMergeQBits[award]
+        return mappingsFromMM7PromotionAwardsToMergeQBits[award], nil, "evt.%s(\"QBits\", %s)"
     else
         --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
         --print("Not promotion award: " .. awards[award + 1][2])
@@ -187,12 +190,11 @@ cmpAddSetSub("evt.%s(\"Awards\", %s", function(award)
 end)
 
 cmpAddSetSub("evt.%s(\"Inventory\", %s)", function(item, action)
-    item = tonumber(item)
     -- apparently evt.Set("Inventory", num) makes character diseased... (tested on Emerald Island ship, water master)
     return _G.getItem(item), action == "Set" and "Add" or action
 end)
 
-cmpAddSetSub("evt.%s(\"AutonotesBits\", %s)", _G.getAutonote)
+cmpAddSetSub("evt.%s(\"AutonotesBits\", %s)", function(num) return _G.getAutonote(num) end)
 
 local doNotRemoveTheseEvents =
 {

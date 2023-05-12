@@ -1,47 +1,13 @@
 rev4m = rev4m or {}
 function rev4m.mapScripts()
-	local mappingsFromMM7PromotionAwardsToMergeQBits = -- generated with generateMappingsFromMM7PromotionAwardsToMergeQBits
-	{
-		[10] = 1560, [11] = 1561, [12] = 1562, [13] = 1563, [16] = 1566, [17] = 1567, [18] = 1568, [19] = 1569, [22] = 1572, [23] = 1573, [24] = 1574, [25] = 1575, [27] = 1577, [28] = 1578, [29] = 1579, [30] = 1580, [31] = 1581, [34] = 1584, [35] = 1585, [36] = 1586, [37] = 1587, [38] = 1588, [39] = 1589, [40] = 1590, [41] = 1591, [42] = 1592, [43] = 1593, [44] = 1594, [45] = 1595, [50] = 1596, [51] = 1597, [52] = 1598, [53] = 1599, [54] = 1600, [55] = 1601, [56] = 1602, [57] = 1603, [58] = 1604, [59] = 1605, [60] = 1606, [62] = 1607, [63] = 1608, [64] = 1609, [65] = 1610, [66] = 1611, [67] = 1612, [68] = 1613, [69] = 1614, [70] = 1615, [71] = 1616, [72] = 1617, [73] = 1618, [74] = 1619, [75] = 1620, [76] = 1621, [77] = 1622, [78] = 1623, [79] = 1624
-	}
-
 	local replacements = table.copy(rev4m.scriptReplacements)
-
-	local replacementsafter =
-	{
-		--[["evt%.HouseDoor%((%d+), (%d+)%)([^\"]-\"[^\"]-\")"] =
-		function(event, house, comment)
-			event = tonumber(event)
-			house = tonumber(house)
-			-- apparently this is not working, need to replace with different function
-			return (
-
-	evt.map[%d] = function()
-		evt.EnterHouse(%d)%s
-	end		):format(event, getHouseID(house), comment)
-		end,--]]
-	}
 
 	--[[ TODO
 	* out01.lua - house226?
-
-	for k, v in Map.Monsters do if v.NPC_ID ~= 0 then print(k, Game.NPC[v.NPC_ID].Name) end end
-
-	t = {} for v, k in pairs(Editor.State.Monsters) do t[k] = v end
-	--]]
-
-	--[[evt.Set("QBits", 868)
-	evt.MoveToMap{Name = "out02.odm"}
+	
 
 	https://discord.com/channels/296507109997019137/795807513924075540/885284417893957633
 	--]]
-	-- lord godwinson
-	-- brazier should phase
-	-- inspect event 376
-
-	--for k, v in Map.Monsters do if v.NameId ~= 0 then print (v.NameId) end end
-	--evt.ForPlayer(-- ERROR: Const not found
-	--"All")
 
 	local patches =
 	{
@@ -1028,9 +994,6 @@ end]], ""},
 			if regex ~= "evt%.StatusText%((%d+)%)" then
 				content = content:gsub(regex, fun)
 			end
-		end
-		for regex, fun in pairs(replacementsafter) do
-			content = content:gsub(regex, fun)
 		end
 		
 		if additions[name] ~= nil then

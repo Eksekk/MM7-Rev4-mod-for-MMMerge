@@ -176,7 +176,7 @@ cmpAddSetSub("evt.%s(\"NPCs\", %s)", function(num) return _G.getNPC(num) end)
 cmpAddSetSub("evt.%s(\"Awards\", %s)", function(award)
     if mappingsFromMM7PromotionAwardsToMergeQBits[award] ~= nil then
         -- promotion award, special processing
-        return mappingsFromMM7PromotionAwardsToMergeQBits[award], nil, "evt.%s(\"QBits\", %s)"
+        return mappingsFromMM7PromotionAwardsToMergeQBits[award], nil, "evt.%s(\"QBits\", %d)"
     else
         --local awards = LoadBasicTextTable("tab\\AWARDS rev4.txt", 0)
         --print("Not promotion award: " .. awards[award + 1][2])
@@ -305,14 +305,16 @@ table.copy(-- replacements specific to map scripts
 -- FIX EVENMORN ISLAND MERGE TILES bug
 -- also need to swap grass and water tilesets
 --[[
-for i = 0, 127 do
-	for j = 0, 127 do
-		local val = Map.TileMap[i][j]
-		if val >= 90 and val <= 113 then
-			Map.TileMap[i][j] = val + 36
-		elseif val >= 126 and val <= 149 then
-			Map.TileMap[i][j] = val - 36
-		end
-	end
-end
+local s = Editor.State
+local mapStr = s.TileMap
+mapStr = mapStr:gsub("(.)", function(b)
+    local val = b:byte()
+    if val >= 90 and val <= 113 then
+        return string.char(val + 36)
+    elseif val >= 126 and val <= 149 then
+        return string.char(val - 36)
+    end
+end)
+s.TileMap = mapStr
+Editor.NeedStateSync()
 ]]

@@ -39,7 +39,7 @@ end
 rev4m.f = rev4m.f or {}
 
 rev4m.const.firstGlobalLuaFreeEntry = 2000 -- that we will use
-local function eventNumberReplacements(str)
+local function globalEventNumberReplacements(str)
 	local noMappingEvents = {{501, 506}, {513, 515}} -- for some reason these events from MM7 are put in the middle of MM8 events and require no numeric change
 	local lastOriginalMM7Event = 572
 	return function(num)
@@ -84,8 +84,8 @@ local mappingsFromMM7PromotionAwardsToMergeQBits = require(rev4m.modulePaths.awa
 
 rev4m.scriptReplacements =
 {
-    ["evt%.CanShowTopic%[(%d+)%]"] = eventNumberReplacements("evt.CanShowTopic[%d]"),
-    ["evt%.global%[(%d+)%]"] = eventNumberReplacements("evt.global[%d]"),
+    ["evt%.CanShowTopic%[(%d+)%]"] = globalEventNumberReplacements("evt.CanShowTopic[%d]"),
+    ["evt%.global%[(%d+)%]"] = globalEventNumberReplacements("evt.global[%d]"),
     ["evt%.SetMessage%((%d+)%)"] =
     function(message)
         message = tonumber(message)
@@ -301,3 +301,18 @@ table.copy(-- replacements specific to map scripts
         return ("evt.SetSprite{SpriteId = %d, Visible = %d, Name = \"%s\"}"):format(spriteid, visible, name)
     end,
 }, rev4m.scriptReplacements, true)
+
+-- FIX EVENMORN ISLAND MERGE TILES bug
+-- also need to swap grass and water tilesets
+--[[
+for i = 0, 127 do
+	for j = 0, 127 do
+		local val = Map.TileMap[i][j]
+		if val >= 90 and val <= 113 then
+			Map.TileMap[i][j] = val + 36
+		elseif val >= 126 and val <= 149 then
+			Map.TileMap[i][j] = val - 36
+		end
+	end
+end
+]]

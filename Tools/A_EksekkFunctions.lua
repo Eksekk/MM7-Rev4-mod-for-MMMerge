@@ -481,3 +481,11 @@ function string.replaceIndent(text, replaceWhat, replacement)
 	return table.concat(linesText, "\n"), #linesReplacement
 	-- KEEP INDENT BELOW LOWEST LINE AND MATCH TO FIRST LINE INDENT
 end
+
+function partyTileId()
+	return Map.TileMap[(64 - Party.Y / 0x200):floor()] [(64 + Party.X / 0x200):floor()]
+end
+
+function partyTile()
+	return (Game.CurrentTileBin.Items or Game.TileBin)[partyTileId()]
+end

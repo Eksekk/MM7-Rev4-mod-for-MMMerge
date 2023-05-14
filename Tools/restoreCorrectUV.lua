@@ -57,5 +57,6 @@ local function callback(state, map)
 end
 
 function restoreCorrectUv()
-    BatchLoad(rev4mMapsDir, outputDir, callback)
+    rev4m.batchCompilingMaps = true -- needed to avoid crash from "monster flickering" fix from MiscTweaks.lua
+    BatchLoad(rev4mMapsDir, outputDir, callback, function() rev4m.batchCompilingMaps = nil end)
 end

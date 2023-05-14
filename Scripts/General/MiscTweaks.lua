@@ -104,6 +104,11 @@
 		if not Map.IsIndoor() then
 			return
 		end
+		
+		-- REV4 FOR MERGE ADDITION, causes crashes when batch compiling and switching indoor -> outdoor
+		if rev4m and rev4m.batchCompilingMaps then
+			return
+		end
 
 		local function fix(strData, strRoomData)
 			local tData = mapvars[strData]

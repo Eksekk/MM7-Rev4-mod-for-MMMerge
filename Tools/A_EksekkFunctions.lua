@@ -489,3 +489,11 @@ end
 function partyTile()
 	return (Game.CurrentTileBin.Items or Game.TileBin)[partyTileId()]
 end
+
+function tlen(t)
+	local count = 0
+	for i, v in universalEnum(t) do
+		count = count + 1
+	end
+	return count
+end

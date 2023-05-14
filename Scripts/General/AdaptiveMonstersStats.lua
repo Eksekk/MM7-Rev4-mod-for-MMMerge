@@ -673,12 +673,18 @@ events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monst
 local function processDeadMonsters()
 	if Editor and Editor.WorkMode then return end
 	if not vars.oldMons[Map.Name] then return end
+	if Map.Monsters.High == -1 then return end -- map not loaded fully? happened when restoring uv
+	
 	local clear = {}
 	for i, v in pairs(vars.oldMons[Map.Name]) do
-		local mon = Map.Monsters[i]
-		if mon.HP == 0 and mon.AIState == const.AIState.Removed then -- check for removed because player might want to resurrect buffed monster
-			restoreMonster(i, v)
+		if i < Map.Monsters.Low or i > Map.Monsters.High then
 			table.insert(clear, i)
+		else
+			local mon = Map.Monsters[i]
+			if mon.HP == 0 and mon.AIState == const.AIState.Removed then -- check for removed because player might want to resurrect buffed monster
+				restoreMonster(i, v)
+				table.insert(clear, i)
+			end
 		end
 	end
 	for i, v in ipairs(clear) do

@@ -313,6 +313,24 @@ mapStr = mapStr:gsub("(.)", function(b)
         return string.char(val + 36)
     elseif val >= 126 and val <= 149 then
         return string.char(val - 36)
+    else
+        return b
+    end
+end)
+s.TileMap = mapStr
+Editor.NeedStateSync()
+
+-- tatalia
+local s = Editor.State
+local mapStr = s.TileMap
+mapStr = mapStr:gsub("(.)", function(b)
+    local val = b:byte()
+    if val >= 198 and val <= 221 then
+        return string.char(val - 72)
+    elseif val >= 126 and val <= 149 then
+        return string.char(val + 72)
+    else
+        return b
     end
 end)
 s.TileMap = mapStr

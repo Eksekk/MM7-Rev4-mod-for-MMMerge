@@ -115,6 +115,65 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 	return summoned
 end
 
+function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
+	local t = {}
+	if type(item) == "table" then
+		t = item -- user passed table with arguments instead of item
+	else
+		t.Item, t.item = item, item
+		t.X, t.x = x, x
+		t.Y, t.y = y, y
+		t.Z, t.z = z, z
+		t.Count, t.count = count, count
+		t.Radius, t.radius = radius, radius
+		t.level, t.Level = level, level
+		t.typ, t.Typ = typ, typ
+	end
+	t.count = t.count or 1
+	t.radius = t.radius or 64
+	assert(t.item and t.x and t.y and t.z and true or nil)
+	
+	local min, max
+	if type(t.count) == "number" then
+		min, max = t.count, t.count
+	else
+		min, max = getRange(t.count)
+	end
+	local toCreate = random(min, max)
+	
+	local items, objects = {}, {}
+	for i = 1, toCreate do
+		local x, y, z
+		local spawnAttempts = 0
+		while true do
+			-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
+			local angle = random() * math.pi * 2
+			local xadd = math.cos(angle) * random(1, t.radius)
+			local yadd = math.sin(angle) * random(1, t.radius)
+			
+			x, y = t.x + xadd, t.y + yadd
+			z = Map.IsOutdoor() and Map.GetGroundLevel(x, y) or t.z
+			if Map.IsOutdoor() or Map.RoomFromPoint(x, y, z) > 0 then
+				break
+			end
+			spawnAttempts = spawnAttempts + 1
+			if spawnAttempts >= 10 then
+				error("Couldn't spawn item: " .. dump(t), 2)
+			end
+		end
+		SummonItem(t.item or 1, x, y, z, nil)
+		local obj = Map.Objects[Map.Objects.High]
+		local item = obj.Item
+		table.insert(objects, obj)
+		table.insert(items, item)
+		if t.level then
+			item:Randomize(t.level, t.typ or const.ItemType.Any)
+			obj.Type, obj.TypeIndex = Game.ItemsTxt[item.Number].SpriteIndex, Game.ItemsTxt[item.Number].SpriteIndex
+		end
+	end
+	return items, objects
+end
+
 function psp()
   print(string.format("x = %d, y = %d, z = %d", XYZ(Party)))
   print(string.format("x = %d, y = %d", Party.X, Party.Y))

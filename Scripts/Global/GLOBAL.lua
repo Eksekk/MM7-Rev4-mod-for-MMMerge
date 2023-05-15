@@ -1,4 +1,3 @@
--- ERROR: Duplicate label: 120:0
 -- ERROR: Duplicate label: 518:5
 
 -- "Castle Harmondale?"
@@ -462,7 +461,7 @@ evt.global[783] = function()
 	evt.SetNPCGreeting{NPC = 340, Greeting = 366}         -- "Lord Markham" : "Hmmph.  You don't actually expect me to act as though you really were a noble, do you?  Once a peasant, always a peasant, that's what my mother used to say.  Really, could you use the servant's entrance next time you stop by?  It really is embarrassing to have you dusty, mud spattered peasants coming in through the front door.  What will the neighbors think?"
 	evt.Add("QBits", 648)         -- Party doesn't come back to Out01 temple anymore
 	evt.ShowMovie{DoubleSize = 1, ExitCurrentScreen = true, Name = "pcout01 "}
-	evt.MoveToMap{X = -17331, Y = 12547, Z = 465, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "Out02.odm"}
+	evt.MoveToMap{X = -17331, Y = 12547, Z = 465, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.odm"}
 end
 
 -- "Do you have any quests for us?"
@@ -668,10 +667,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(800)
 evt.global[800] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 869) then         -- BDJ Final
-		evt.SetMessage(2822)         -- "Adventurer 5, select your new profession."
-		evt.ForPlayer(4)
-	elseif evt.Cmp("QBits", 850) then         -- BDJ 4
+	if evt.Cmp("QBits", 850) then         -- BDJ Final
 		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
 		evt.ForPlayer(3)
 	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
@@ -2730,7 +2726,7 @@ You are strong, but not strong enough to defeat the devils on your own.  They ar
 		evt.Set("QBits", 632)         -- Got Hive part
 		Game.NPC[419].Events[1] = 919         -- "Resurectra" : "Final Task"
 		evt.Add(-- ERROR: Not found
-"Awards", 21)
+		"Awards", 21)
 	else
 		evt.SetMessage(1221)         -- "I guess there's no hurry getting this job done, but we don't want the Necromancers to grow bored waiting for us to do our part and destroy the blocker.  So, please, as soon as you feel ready you must attack the Devils.  Remember that the Warlocks have dug a tunnel from their volcano to the land of the Devils.  You should be able to use that to get yourselves there."
 	end
@@ -2957,7 +2953,7 @@ evt.global[920] = function()
 		evt.SetNPCGroupNews{NPCGroup = 82, NPCNews = 84}         -- "Peasents in the village area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.SetNPCGroupNews{NPCGroup = 83, NPCNews = 84}         -- "Peasents in the Dock area" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
 		evt.Set(-- ERROR: Award index outside of normal range
-"Awards", 133)         -- "Inducted into the Erathian Hall of Shame!
+		"Awards", 133)         -- "Inducted into the Erathian Hall of Shame!
 	else
 		evt.SetMessage(1253)         -- "Don't forget you'll need the wetsuits to get to the Lincoln.  These suits are in the chest outside this throne room and the Lincoln is in the sea west of Avlee.  Return here with the Overthruster as soon as possible."
 	end
@@ -6015,4 +6011,3 @@ When he retired, the Saints hid his armor and placed six scrolls about the count
 	evt.SetNPCGreeting{NPC = 1273, Greeting = 125}         -- "Messenger of the Saints" : "Greetings again, friends."
 	Game.NPC[1273].Events[0] = 801         -- "Messenger of the Saints" : "Crusader"
 end
-

@@ -9,7 +9,7 @@ rev4m.path.processedRev4Scripts = "rev4 map scripts\\processed\\"
 rev4m.path.originalOtherMapScripts = "other map scripts\\" -- other existing map scripts from Merge
 rev4m.path.processedOtherMapScripts = "other map scripts\\processed\\"
 rev4m.path.rev4GlobalLua = "GLOBAL rev4.lua"
-rev4m.path.processedRev4GlobalLua = "GLOBAL rev4 processed.lua"
+rev4m.path.processedRev4GlobalLua = "combined processed scripts\\GLOBAL.lua"
 
 -- temporary, for testing
 rev4m.path.processedRev4Scripts = "combined processed scripts\\"

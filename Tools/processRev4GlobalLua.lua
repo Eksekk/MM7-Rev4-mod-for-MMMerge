@@ -78,7 +78,7 @@ function rev4m.globalScripts()
 
 	for from, to in pairs(patches) do
 		local done = 0
-		content, done = content:replace(from, to)
+		content, done = content:replaceIndent(from, to)
 		if done == 0 then
 			rev4m.f.patchFailure("global patches", from)
 		end

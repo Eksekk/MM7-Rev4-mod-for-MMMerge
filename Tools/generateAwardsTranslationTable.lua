@@ -19,20 +19,10 @@ for i = 2, #awardsrev4 do
 	if entrymerge == nil then
 		print("Couldn't find merge award for award title \"" .. (entryrev4[2] or "") .. "\".")
 	else
-		mappingTable[entryrev4[1]] = entrymerge[1]
+		mappingTable[tonumber(entryrev4[1])] = tonumber(entrymerge[1])
 	end
 end
 
 mappingTable[102] = 41 -- arcomage champion
 
-local content = ""
-for r4, merge in pairs(mappingTable) do
-	if r4 == "" or merge == "" then goto continue end
-	content = content .. "[" .. r4 .. "] = " .. merge .. ", "
-	::continue::
-end
-content = content:sub(1, -3)
-
-local file = io.open("awards translation table.txt", "w")
-file:write(content)
-io.close(file)
+return mappingTable

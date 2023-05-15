@@ -61,12 +61,9 @@ function getGlobalEvent(event)
 	return event + eventAdd
 end
 
+local translationTableFromRev4ToMerge = require(rev4m.modulePaths.awardsTranslationTable)
+-- awards.txt in merge is a shitshow (interspersed MM7/MM8 awards), that's why I'm using a translation table
 function getAward(award)
-	local translationTableFromRev4ToMerge = -- generated with generateAwardsTranslationTable
-	-- awards.txt in merge is a shitshow (interspersed MM7/MM8 awards), that's why I'm using a translation table
-	{
-		[4] = 3, [101] = 55, [5] = 4, [80] = 24, [32] = 127, [110] = 135, [81] = 25, [7] = 119, [33] = 128, [100] = 53, [14] = 122, [82] = 26, [92] = 30, [111] = 105, [83] = 27, [9] = 121, [15] = 123, [93] = 32, [94] = 34, [46] = 6, [84] = 28, [26] = 126, [47] = 19, [95] = 38, [96] = 39, [107] = 132, [97] = 40, [98] = 51, [87] = 129, [99] = 52, [48] = 21, [106] = 131, [49] = 22, [109] = 134, [113] = 105, [115] = 105, [114] = 105, [112] = 105, [102] = 41, [108] = 133, [105] = 130, [21] = 125, [3] = 2, [6] = 118, [2] = 1, [61] = 23, [8] = 120, [20] = 124
-	}
 	if translationTableFromRev4ToMerge[award] ~= nil then
 		return translationTableFromRev4ToMerge[award]
 	else
@@ -112,18 +109,18 @@ for i = 3, #dmerge do
 	end
 end
 
+local overrideHouseMappings =
+{
+	[428] = 1065, [427] = 1064, [426] = 1063, [425] = 1062, [423] = 1060, [432] = 1069, [431] = 1068, [434] = 1071, [433] = 1070, [444] = 1081 , [442] = 1079, [441] = 1078, [439] = 1076, [438] = 1075, [174] = 1169, [176] = 217, [178] = 218, [421] = 216, [184] = 221, [180] = 219, [182] = 220,
+	[189] = 1165, [79] = 315, [80] = 316, [78] = 314, [81] = 317, [413] = 1051, [367] = 1005, [485] = 1121, [495] = 1131, [504] = 1140, [477] = 1113, [480] = 1116, [333] = 971,
+	[405] = 1043, [368] = 1006, [469] = 1105, [435] = 1072, [408] = 1046, [453] = 1089, [443] = 1080, [440] = 1077, [74] = 310, [190] = 1166, [188] = 1164, [226] = 1172, [324] = 962,
+	[345] = 983, [21] = 54, [37] = 92, [133] = 291, [280] = 380, [281] = 381, [191] = 387, [173] = 382, [193] = 390, [217] = 414
+}
 function getHouseID(houseid)
 	if houseid == 0 then return 0 end
 	if houseid == nil or houseid == "" then return "" end
-	local overrideMappings =
-	{
-		[428] = 1065, [427] = 1064, [426] = 1063, [425] = 1062, [423] = 1060, [432] = 1069, [431] = 1068, [434] = 1071, [433] = 1070, [444] = 1081 , [442] = 1079, [441] = 1078, [439] = 1076, [438] = 1075, [174] = 1169, [176] = 217, [178] = 218, [421] = 216, [184] = 221, [180] = 219, [182] = 220,
-		[189] = 1165, [79] = 315, [80] = 316, [78] = 314, [81] = 317, [413] = 1051, [367] = 1005, [485] = 1121, [495] = 1131, [504] = 1140, [477] = 1113, [480] = 1116, [333] = 971,
-		[405] = 1043, [368] = 1006, [469] = 1105, [435] = 1072, [408] = 1046, [453] = 1089, [443] = 1080, [440] = 1077, [74] = 310, [190] = 1166, [188] = 1164, [226] = 1172, [324] = 962,
-		[345] = 983, [21] = 54, [37] = 92, [133] = 291, [280] = 380, [281] = 381, [191] = 387, [173] = 382, [193] = 390, [217] = 414
-	}
-	if overrideMappings[houseid] ~= nil then
-		return overrideMappings[houseid]
+	if overrideHouseMappings[houseid] ~= nil then
+		return overrideHouseMappings[houseid]
 	end
 	local rev4name = rev4names[houseid]
 	if rev4name == nil then
@@ -325,37 +322,4 @@ function loadGameState()
 			Game.NPC[getNPC(i)]["Event" .. indexes[j] ] = getGlobalEvent(v["Event" .. indexes[j] ])
 		end
 	end
-end
-
-local mapIdsToItemNames = {}
-
-for i, entry in Game.ItemsTxt do
-	mapIdsToItemNames[entry.Name:lower()] = i
-end
-
-function item(id)
-	evt.GiveItem{Id = mapIdsToItemNames[id] or id}
-end
-
-function increaseSpawnsInMapstats(infile, outfile, s, e, howMuch)
-	local t = LoadBasicTextTable(infile, 0)
-	for i = s, e do
-		local index = i + 3
-		local row = t[index]
-		for j = 20, 28, 4 do
-			local min, max = row[j]:match("(%d+)%-(%d+)")
-			min = tonumber(min) or 0
-			max = tonumber(max) or 0
-			if max - min <= 0 then goto continue end
-			min = min + howMuch
-			max = max + howMuch
-			row[j] = " " .. min .. "-" .. max
-			::continue::
-		end
-	end
-	WriteBasicTextTable(t, outfile)
-end
-
-function idm(pl, level, mastery)
-	Party[pl].Skills[const.Skills.IdentifyMonster] = JoinSkill(level, mastery)
 end

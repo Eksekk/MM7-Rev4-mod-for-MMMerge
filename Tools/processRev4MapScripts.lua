@@ -973,6 +973,8 @@ end]], ""},
 		printf("Error (%s): replacement not made: %s", what, patch:sub(1, math.min(300, patch:len())))
 		error("breakpoint")
 	end
+	rev4m.f = rev4m.f or {}
+	rev4m.f.patchFailure = patchFailure
 
 	for i in path.find(rev4m.path.originalRev4Scripts .. "*.lua") do
 		print("Current file: " .. path.name(i))

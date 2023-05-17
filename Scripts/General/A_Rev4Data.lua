@@ -19,11 +19,6 @@ rev4m.path.processedOtherMapScripts = "combined processed scripts\\"
 rev4m.modulePaths = rev4m.modulePaths or {}
 rev4m.modulePaths.awardMappings = "rev4m\\generateMappingsFromMM7PromotionAwardsToMergeQBits"
 rev4m.modulePaths.awardsTranslationTable = "rev4m\\generateAwardsTranslationTable"
--- doing comparison of old revamp files with new, integrating where needed
--- current stage: map scripts are different - update those from merge and regenerate modded with script
--- after finishing comparison, update game files with new both in game folder and rev4 github folder, then compare with newest revamp
--- also compare old files with current, to make sure I did not lose anything while integrating
--- also mark mmmerge-master as newest revamp files!
 
 -- SCRIPT REPLACEMENT FUNCTIONS
 

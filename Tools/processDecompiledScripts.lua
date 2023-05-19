@@ -81,22 +81,6 @@ function rev4m.mapScripts()
 	NPCGroup = 563, unk = 0}
 		evt.Subtract("QBits", 878)         -- 0]]
 		},
-		-- Titan's Stronghold
-		-- correct dispel magic on map load (asshole mechanic, but let's preserve it)
-		["d09.lua"] =
-		{
-		[[evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"]],
-		[[-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
-		-- dispel magic
-		for i, pl in Party do
-			for buffid, buff in pl.SpellBuffs do
-				mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
-			end
-		end
-		for i, buff in Party.SpellBuffs do
-			mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
-		end]]
-		},
 		-- Zokarr's Tomb
 		-- fix barrow IV enter coordinates
 		["d13.lua"] = {[[evt.MoveToMap{X = -426, Y = 281, Z = -15, Direction = 1664, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "MDT02.blv"}]],

@@ -1,12 +1,14 @@
+-- runs as one of first handlers for "LoadMap" event
 local function replaceMapEvent(num, func, onload, hint)
     events.Remove("LoadMap", evt.map[num].last)
     evt.map[num].clear()
-    evt.map[num] = func
     if onload then
-        events.LoadMap = evt.map[num].last
-    end
-    if hint then
-        evt.hint[num] = hint
+        func()
+    else
+        evt.map[num] = func
+        if hint then
+            evt.hint[num] = hint
+        end
     end
 end
 
@@ -39,8 +41,13 @@ local patches = {
                 end
                 evt.SetMonGroupBit{NPCGroup = 4, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
             end
-        end)
+        end, true)
 
+        --[[
+            evt.MoveToMap{X = -3970, Y =
+  5025, Z = 
+  -95, Name = "7d06.blv"}
+  ]]
         -- merchant barrel
         replaceMapEvent(10, function()
             evt.ForPlayer("All")
@@ -69,7 +76,9 @@ local patches = {
     end
 }
 
-function events.BeforeLoadMap()
+-- very important to use AddFirst("LoadMap") to remove all original handlers
+-- "BeforeLoadMap()" wouldn't remove them (because they aren't loaded yet), and normal "LoadMap()" (not AddFirst("LoadMap")) would allow "OnLoadMap" events to run
+events.AddFirst("LoadMap", function()
     local patch = patches[Map.Name]
     patch = patch and patch()
-end
+end)

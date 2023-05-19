@@ -11,40 +11,46 @@ if MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
 end
 
 --[[ TODO
-1. Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
-2. BDJ quest
-3. Tularean Caves quest
-4. AdaptiveMonstersStats: test changes with dynamically summoned boss (boosted stats) who casts spells as well,
+IMPORTANCE CATEGORIES:
+---- very important ----
+* BDJ quest
+* AdaptiveMonstersStats: test changes with dynamically summoned boss (boosted stats) who casts spells as well,
    things mentioned in overridden monster summon function (fix Wromthrax Cave Quest as well)
-5. Bosses
-6. Extra spawns in dungeons
-7. Changed main questline?
-8. Restore trumpet quest
-9. Castle Navan quest (and make treasury door open after getting/completing light knight promo)
-10. School of Sorcery and Breeding Pit quests
-11. Fill in mana/health regen items for MS.Rev4ForMergeManaHealthRegenStacking
-12. Make balance changes like of the Gods, of the Doom, leather more resistances optional
-13. Boost loot in the Gauntlet?
-14. Nerf Day of the Gods if boosted statistic breakpoints are active
-15. Fort Riverstride delete plans item
-16. Difficulty: max npcs hired at the same time
-17. Day of Protection giving a bit of dark/light resistance
-18. Dispel immunity enchantment (note: more item classes have spcitems than stditems)
-19. Add more spells to randomGiveSpell function
-20. Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
-21. make fire aura always work with permanent enchantments (elemental mod)
-22. Boost weapon boosting potions
-23. Character creation screen enhancements
-24. Additional topics in service houses + USE THEM
-25. USE NEUTONM'S NEW DUNGEON
-26. Use asm hook for spell resistance penetration (and check if day of the gods works and if yes then
-    take it into account), show resistances in green/normal/red depending on value after all changes
-27. Boost some of statistics' effects (if boosted breakpoints active, then less)
-28. Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
-29. Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
-30. Create script for moving editor state from MM7 to Merge (using updated events, monsters, items etc.), then
+* Fill in mana/health regen items for MS.Rev4ForMergeManaHealthRegenStacking
+* Make balance changes like of the Gods, of the Doom, leather more resistances optional
+* Nerf Day of the Gods if boosted statistic breakpoints are active
+
+---- important ----
+* Dispel immunity enchantment (note: more item classes have spcitems than stditems)
+* Bosses
+* Boost weapon boosting potions
+* Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
+* Boost some of statistics' effects (if boosted breakpoints active, then less)
+* Tularean Caves quest
+
+---- good to have ----
+* Extra spawns in dungeons
+* Changed main questline?
+* Restore trumpet quest
+* Castle Navan quest (and make treasury door open after getting/completing light knight promo)
+* School of Sorcery and Breeding Pit quests
+* Create script for moving editor state from MM7 to Merge (using updated events, monsters, items etc.), then
 	dry run it and see if I included all changes (almost everything was done manually)
 
+
+---- minor ----
+* Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
+* Boost loot in the Gauntlet?
+* Fort Riverstride delete plans item
+* Difficulty: max npcs hired at the same time
+* Day of Protection giving a bit of dark/light resistance
+* Add more spells to randomGiveSpell function
+* make fire aura always work with permanent enchantments (elemental mod)
+* Character creation screen enhancements
+* Additional topics in service houses + USE THEM
+* USE NEUTONM'S NEW DUNGEON
+* Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
+* Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
 
 
 IF I WANNA REALLY CHALLENGE MYSELF:

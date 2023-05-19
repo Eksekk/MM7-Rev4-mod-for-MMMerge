@@ -81,21 +81,10 @@ function rev4m.mapScripts()
 	NPCGroup = 563, unk = 0}
 		evt.Subtract("QBits", 878)         -- 0]]
 		},
-		-- Zokarr's Tomb
-		-- fix barrow IV enter coordinates
-		["d13.lua"] = {[[evt.MoveToMap{X = -426, Y = 281, Z = -15, Direction = 1664, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "MDT02.blv"}]],
-		[[evt.MoveToMap{X = -21, Y = -2122, Z = 0, Direction = 1408, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "MDT02.blv"}]]},
-		-- Wine Cellar
-		-- require actually killing the vampire
-		["d16.lua"] = {[[evt.map[501] = function()
-		evt.Set("QBits", 619)         -- Slayed the vampire]], [[evt.map[501] = function()]]},
-		-- Hall Under the Hill
-		-- fix one tree setSprite
-		["d22.lua"] = {"evt.SetSprite{SpriteId = 56, Visible = 1, Name = \"tree\"}", "evt.SetSprite{SpriteId = 56, Visible = 1, Name = \"tree37\"}"
-		},
 		-- Lincoln
 		-- delegate exit event to Merge script
 		-- btw in following patch evt.Cmp should have item number updated, but since Merge handles that event differently and I patch the only check of this VarNum, I'm ignoring it
+		-- memo: can't be standalone patch
 		["d23.lua"] = {[[
 
 	evt.hint[501] = evt.str[2]  -- "Leave the Lincoln"
@@ -117,20 +106,6 @@ function rev4m.mapScripts()
 		end
 		evt.StatusText(20)         -- "You must all be wearing your wetsuits to exit the ship"
 	end]], ""},
-		-- Stone City
-		-- perception skill barrel
-		["d24.lua"] = {[[evt.map[10] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 846) then         -- 1-time stone city
-			evt.Set("QBits", 846)         -- 1-time stone city
-			evt.Set("PerceptionSkill", 70)
-		end
-	end]], [[evt.map[10] = function()
-		if not evt.Cmp("QBits", 846) then         -- 1-time stone city
-			evt.Set("QBits", 846)         -- 1-time stone city
-			giveFreeSkill(const.Skills.Perception, 6, const.Expert)
-		end
-	end]]},
 		-- Celeste
 		-- fix evt.SpeakNPC
 		["d25.lua"] =
@@ -154,12 +129,7 @@ function rev4m.mapScripts()
 			evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = true}
 		end
 	end
-	]], "",
-		-- delegate exit event to EVT file so it doesn't crash the game (bugfix)
-		[[evt.hint[501] = evt.str[2]  -- "Leave the Hive"
-	evt.map[501] = function()
-		evt.MoveToMap{X = -18246, Y = -11910, Z = 3201, Direction = 128, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "Out12.odm"}
-	end]], ""},
+	]], ""},
 		-- Castle Harmondale
 		-- bodybuilding skill barrel
 		["d29.lua"] = {[[evt.map[37] = function()

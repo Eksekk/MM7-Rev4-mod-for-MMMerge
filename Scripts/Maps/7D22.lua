@@ -357,7 +357,7 @@ evt.map[460] = function()  -- function events.LoadMap()
 		evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree38"}
 	end
 	if evt.Cmp("MapVar55", 1) then
-		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree37"}
+		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree"}
 	else
 		evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree38"}
 	end
@@ -370,3 +370,4 @@ Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.MoveToMap{X = 1550, Y = 21117, Z = 800, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "Out14.odm"}
 end
+

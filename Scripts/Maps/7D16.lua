@@ -233,5 +233,7 @@ end
 evt.hint[501] = evt.str[2]  -- "Leave the Wine Cellar"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
+	evt.Set("QBits", 619)         -- Slayed the vampire
 	evt.MoveToMap{X = 8216, Y = -10619, Z = 289, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 1, Name = "7Out13.odm"}
 end
+

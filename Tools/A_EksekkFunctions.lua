@@ -43,11 +43,11 @@ end
 
 dofile("C:\\Users\\Eksekk\\Documents\\GitHub\\MMStuff\\F_EditorEnhancements.lua")
 
-local mapFileNamesToNames = {}
+local fileNameByMapName = {}
 local fileNames = {}
 function events.GameInitialized2()
 	for _, msi in Game.MapStats do
-		mapFileNamesToNames[msi.Name:lower()] = msi.FileName:lower()
+		fileNameByMapName[msi.Name:lower()] = msi.FileName:lower()
 		table.insert(fileNames, msi.FileName:lower())
 	end
 end
@@ -58,8 +58,7 @@ function mtm(str)
 
 	--assert(mapFileNamesToNames[s1] or table.find(fileNames, s1), "Invalid map name")
 	return evt.MoveToMap{Name = assert(
-		mapFileNamesToNames[s1]
-		or mapFileNamesToNames[s2]
+		fileNameByMapName[str:lower()]
 		or fileNames[table.find(fileNames, s1)]
 		or fileNames[table.find(fileNames, s2)],
 		"Invalid map name")

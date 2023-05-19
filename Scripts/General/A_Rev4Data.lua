@@ -195,7 +195,7 @@ cmpAddSetSub("evt.%s(\"AutonotesBits\", %s)", function(num) return _G.getAutonot
 
 local doNotRemoveTheseEvents =
 {
-    ["d27.lua"] = {501, 376} -- 376 because MMMerge overwrites this event and cleans it up, 501 to fix a bug where game crashes after killing Xenofex when exiting, only when using lua script
+    ["d27.lua"] = {501, 376}, -- 376 because MMMerge overwrites this event and cleans it up, 501 to fix a bug where game crashes after killing Xenofex when exiting, only when using lua script
 }
 
 table.copy(-- replacements specific to map scripts

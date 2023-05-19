@@ -1,3 +1,11 @@
+local patches
+-- very important to use AddFirst("LoadMap") to remove all original handlers
+-- "BeforeLoadMap()" wouldn't remove them (because they aren't loaded yet), and normal "LoadMap()" (not AddFirst("LoadMap")) would allow "OnLoadMap" events to run
+events.AddFirst("LoadMap", function()
+    local patch = patches[Map.Name]
+    patch = patch and patch()
+end)
+
 -- runs as one of first handlers for "LoadMap" event
 local function replaceMapEvent(num, func, onload, hint)
     events.Remove("LoadMap", evt.map[num].last)
@@ -12,7 +20,7 @@ local function replaceMapEvent(num, func, onload, hint)
     end
 end
 
-local patches = {
+patches = {
     -- Temple of the Moon on Emerald Island
     ["7d06.blv"] = function()
         -- give adventurer items
@@ -60,7 +68,7 @@ local patches = {
     end,
     -- Titan's Stronghold
     -- correct dispel magic on map load (asshole mechanic, but let's preserve it)
-    ["7d09.lua"] = function()
+    ["7d09.blv"] = function()
         replaceMapEvent(1, function()
             -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
             -- dispel magic
@@ -73,12 +81,79 @@ local patches = {
                 mem.call(0x455E3C, 1, buff["?ptr"])
             end
         end, true)
-    end
-}
+    end,
 
--- very important to use AddFirst("LoadMap") to remove all original handlers
--- "BeforeLoadMap()" wouldn't remove them (because they aren't loaded yet), and normal "LoadMap()" (not AddFirst("LoadMap")) would allow "OnLoadMap" events to run
-events.AddFirst("LoadMap", function()
-    local patch = patches[Map.Name]
-    patch = patch and patch()
-end)
+    -- THOSE BELOW ARE NOT TESTED --
+
+    -- Zokarr's Tomb
+    -- fix barrow IV enter coordinates
+    ["7d13.blv"] = function()
+        replaceMapEvent(501, function()
+            local i
+            i = Game.Rand() % 6
+            if i >= 3 and i <= 5 then
+                evt.MoveToMap{X = 335, Y = -1064, Z = 1, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = getFileName("MDK02.blv")}
+            else
+                evt.MoveToMap{X = -21, Y = -2122, Z = 0, Direction = 1408, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = getFileName("MDT02.blv")}
+            end
+        end)
+    end,
+    -- Wine Cellar
+    -- require actually killing the vampire (don't set QBit on map leave)
+    ["7d16.blv"] = function()
+        replaceMapEvent(501, function()
+            evt.MoveToMap{X = 8216, Y = -10619, Z = 289, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 1, Name = getFileName("Out13.odm")}
+        end)
+    end,
+    -- Hall Under the Hill
+    -- fix one tree setSprite
+    ["7d22.blv"] = function()
+        replaceMapEvent(460, function()  -- function events.LoadMap()
+            if evt.Cmp("MapVar50", 1) then
+                evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree38"}
+            end
+            if evt.Cmp("MapVar51", 1) then
+                evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 52, Visible = 1, Name = "tree38"}
+            end
+            if evt.Cmp("MapVar52", 1) then
+                evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 53, Visible = 1, Name = "tree38"}
+            end
+            if evt.Cmp("MapVar53", 1) then
+                evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 54, Visible = 1, Name = "tree38"}
+            end
+            if evt.Cmp("MapVar54", 1) then
+                evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 55, Visible = 1, Name = "tree38"}
+            end
+            if evt.Cmp("MapVar55", 1) then
+                evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree37"}
+            else
+                evt.SetSprite{SpriteId = 56, Visible = 1, Name = "tree38"}
+            end
+        end, true)
+    end,
+    -- Stone City
+    -- perception skill barrel
+    ["7d24.blv"] = function()
+        replaceMapEvent(10, function()
+            if not evt.Cmp("QBits", getQuestBit(334)) then         -- 1-time stone city
+                evt.Set("QBits", getQuestBit(334))         -- 1-time stone city
+                giveFreeSkill(const.Skills.Perception, 6, const.Expert)
+            end
+        end)
+    end,
+    -- Colony Zod
+    -- delegate exit event to EVT file so it doesn't crash the game (bugfix)
+    ["7d27.blv"] = function()
+        replaceMapEvent(501, function() end)
+    end,
+}

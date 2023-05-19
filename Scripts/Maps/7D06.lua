@@ -59,28 +59,8 @@ end
 
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()  -- function events.LoadMap()
-	local changed = false
-	for idx, m in Map.Monsters do
-		if m.Id == 403 then -- green adventurer
-			changed = true
-			evt.SetMonsterItem{Monster = idx, Item = 1460, Has = true}         -- "Contestant's Shield"
-			evt.SetMonsterItem{Monster = idx, Item = 866, Has = true}         -- "Blaster"
-			break
-		end
-	end
-	if not changed then
-		for idx, m in Map.Monsters do
-			if m.Id == 404 or m.Id == 405 then
-				changed = true
-				evt.SetMonsterItem{Monster = idx, Item = 1460, Has = true}         -- "Contestant's Shield"
-				evt.SetMonsterItem{Monster = idx, Item = 866, Has = true}         -- "Blaster"
-				break
-			end
-		end
-	end
-	if not changed then
-		MessageBox("Error: script giving items to monsters in temple of the moon is not working as expected, this should be reported to mod author so he can fix it and give you a command to get these items")
-	end
+	evt.SetMonsterItem{Monster = 1, Item = 1460, Has = true}         -- "Contestant's Shield"
+	evt.SetMonsterItem{Monster = 1, Item = 866, Has = true}         -- "Blaster"
 	evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
 end
 
@@ -92,7 +72,7 @@ evt.map[10] = function()
 	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 842) then         -- 1-time EI temple
 		evt.Set("QBits", 842)         -- 1-time EI temple
-		giveFreeSkill(const.Skills.Merchant, 6, const.Expert)
+		evt.Set("MerchantSkill", 70)
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
 end
@@ -303,6 +283,8 @@ Game.MapEvtLines:RemoveEvent(100)
 evt.map[100] = function()
 	evt.MoveToMap{X = 15816, Y = 12161, Z = 1133, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out01.Odm"}
 end
+
+
 
 --[[ MMMerge additions ]]--
 

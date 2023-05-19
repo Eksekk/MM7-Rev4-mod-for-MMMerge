@@ -54,8 +54,16 @@ end
 
 function mtm(str)
 	-- show error instead of crashing game
-	assert(mapFileNamesToNames[str:lower()] or table.find(fileNames, str:lower()), "Invalid map name")
-	return evt.MoveToMap{Name = mapFileNamesToNames[str:lower()] or str}
+	local s1, s2 = path.setext(str:lower(), ".odm"), path.setext(str:lower(), ".blv")
+
+	--assert(mapFileNamesToNames[s1] or table.find(fileNames, s1), "Invalid map name")
+	return evt.MoveToMap{Name = assert(
+		mapFileNamesToNames[s1]
+		or mapFileNamesToNames[s2]
+		or fileNames[table.find(fileNames, s1)]
+		or fileNames[table.find(fileNames, s2)],
+		"Invalid map name")
+	}
 end
 
 function kill()
@@ -487,7 +495,7 @@ function partyTileId()
 end
 
 function partyTile()
-	return (Game.CurrentTileBin.Items or Game.TileBin)[partyTileId()]
+	return (Game.CurrentTileBin and Game.CurrentTileBin.Items or Game.TileBin)[partyTileId()]
 end
 
 function tlen(t)
@@ -496,4 +504,12 @@ function tlen(t)
 		count = count + 1
 	end
 	return count
+end
+
+function cmpSetMapvarBool(name)
+	local x = mapvars[name]
+	if not x then
+		mapvars[name] = true
+	end
+	return x
 end

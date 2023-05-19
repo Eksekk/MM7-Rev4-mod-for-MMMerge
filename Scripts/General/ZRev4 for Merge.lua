@@ -281,7 +281,7 @@ Dark      %d]]
 		local monsterAddr = mem.u4[d.ebp + 0x8]
 		local i, mon = internal.GetMonster(monsterAddr)
 		d.eax = getEffectiveResistance(mon, pl, mem.u4[d.ebp + 0xC])
-		debug.Message(d.eax)
+		--debug.Message(d.eax)
 	end)
 	
 	local playerIdx, attackingPlayer, monsterIdx, attackedMonster

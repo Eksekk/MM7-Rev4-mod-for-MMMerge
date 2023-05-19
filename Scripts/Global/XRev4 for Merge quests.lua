@@ -181,7 +181,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 		local monsterSpawnpoints, class
 		local function spawn2()
 			if Map.Name ~= mapname then
-				error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name))
+				error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name), 3)
 			end
 			if #monsterSpawnpoints == 0 then return end
 			local randOrder = {}
@@ -472,8 +472,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 		CheckDone = function() return vars.WromthraxCaveQuest.PortalDeactivated end, -- kill monsters part is handled by MMExt
 		NPC = 779, -- Rawn Talreish in Erathia (house with a pillar in front of it)
 		Slot = 3,
-		Experience = 200000,
-		Gold = 30000,
+		Experience = 220000,
+		Gold = 45000,
 		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 1,
 		Done = function() for i = 0, 2 do for j = 1, 3 + (2 - i) do evt.Add("Inventory", 1491 + i) end end end, --  5 Kergar, 4 Erudine, 3 Stalt
 		Texts = {
@@ -713,4 +713,121 @@ end
 
 -- RESTORE TRUMPET QUEST
 
--- for k, v in Map.Monsters do if Map.RoomFromPoint(XYZ(v)) == 0 then print(k) end end
+
+
+-- BDJ change class quest
+
+-- each different class has own topic
+-- current player index in variables
+-- enter npc: set quest branch
+-- save quest branch in vars when switching
+--[[
+Archer    WarriorMage    BattleMage    MasterArcher    Sniper    
+Cleric    Priest    AcolyteLight    ClericLight    AcolyteDark    ClericDark    HighPriest    PriestLight    PriestDark    PriestDark    
+Deerslayer    Pioneer    Pathfinder    PathfinderLight    PathfinderDark    
+Dragon    FlightLeader    GreatWyrm    
+Druid    GreatDruid    MasterDruid    ArchDruid    Warlock    
+Knight    Cavalier    Champion    Templar    BlackKnight    
+Minotaur    MinotaurHeadsman    MinotaurLord    
+Monk    InitiateMonk    MasterMonk    Ninja    
+Paladin    Crusader    Hero    Villain    
+Ranger    Hunter    RangerLord    BountyHunter    
+Thief    Rogue    Robber    Spy    Assassin    
+Barbarian    Berserker    Warmonger    
+Vampire    ElderVampire    Nosferatu    NosferatuLight    NosferatuDark    
+Sorcerer    Wizard    ApprenticeMage    Mage    DarkAdept    Necromancer    MasterWizard    ArchMage    Lich    
+Peasant    n/u
+]]
+local cc = const.Class
+local mt = getmetatable(const.Class) or {}
+local oldIndex = mt.__index
+function mt.__index(tbl, key)
+	local old = (oldIndex or function() end)(tbl, key)
+	if old == nil then
+		error(string.format("Unknown class %q", key), 2)
+	else
+		return old
+	end
+end
+setmetatable(cc, mt)
+local classes =
+{
+	-- class = {{first promo classes}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
+	[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
+	[cc.Cleric] = {{cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},
+	[cc.Deerslayer] = {{cc.Pioneer}, {cc.Pathfinder}},
+	[cc.Dragon] = {{cc.FlightLeader}, {cc.GreatWyrm}},
+	[cc.Druid] = {{cc.GreatDruid}, {l = cc.ArchDruid, d = cc.Warlock, cc.MasterDruid}, MM7 = true},
+	[cc.Knight] = {{cc.Cavalier}, {l = cc.Champion, d = cc.BlackKnight, cc.Templar}, MM7 = true},
+	[cc.Minotaur] = {{cc.MinotaurHeadsman}, {cc.MinotaurLord}},
+	[cc.Monk] = {{cc.InitiateMonk}, {l = cc.MasterMonk, d = cc.Ninja}, MM7 = true},
+	[cc.Paladin] = {{cc.Crusader}, {l = cc.Hero, d = cc.Villain}, MM7 = true},
+	[cc.Ranger] = {{cc.Hunter}, {l = cc.RangerLord, d = cc.BountyHunter}, MM7 = true},
+	[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
+	[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
+	[cc.Vampire] = {{cc.ElderVampire}, {cc.Nosferatu}},
+	[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.Lich, cc.MasterWizard}, MM7 = true},
+	--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
+}
+cc.Necromancer = cc.Sorcerer
+
+local classChangeChart =
+{
+	-- ORIGINAL
+	[cc.Archer] = {cc.Paladin, cc.Monk, cc.Druid},
+	[cc.Cleric] = {cc.Druid, cc.Paladin, cc.Archer},
+	[cc.Druid] = {cc.Archer, cc.Monk, cc.Sorcerer},
+	[cc.Knight] = {cc.Archer, cc.Ranger, cc.Druid},
+	[cc.Monk] = {cc.Thief, cc.Druid, cc.Archer},
+	[cc.Paladin] = {cc.Druid, cc.Ranger, cc.Archer},
+	[cc.Ranger] = {cc.Archer, cc.Paladin, cc.Thief},
+	[cc.Thief] = {cc.Archer, cc.Knight, cc.Monk},
+	[cc.Sorcerer] = {cc.Archer, cc.Paladin, cc.Cleric},
+	-- MERGE ADDITION
+	[cc.Deerslayer] = {cc.Ranger, cc.Thief, cc.Sorcerer},
+	[cc.Dragon] = {cc.Monk, cc.Archer, cc.Druid},
+	[cc.Minotaur] = {cc.Knight, cc.Ranger, cc.Paladin},
+	[cc.Barbarian] = {cc.Vampire, cc.Paladin, cc.Druid},
+	[cc.Vampire] = {cc.Deerslayer, cc.Druid, cc.Knight},
+	--[cc.] = {cc., cc., cc.},
+}
+
+local cs = const.Stat
+local classChangeStatBonuses =
+{
+	-- ORIGINAL
+	[cc.Archer] = {[cs.Speed] = 15, [cs.Intellect] = 5},
+	[cc.Cleric] = {[cs.Personality] = 20},
+	[cc.Druid] = {[cs.Intellect] = 10, [cs.Personality] = 10},
+	[cc.Knight] = {[cs.Endurance] = 15, [cs.Might] = 5},
+	[cc.Monk] = {[cs.Endurance] = 10, [cs.Might] = 10},
+	[cc.Paladin] = {[cs.Personality] = 5, [cs.Endurance] = 10, [cs.Might] = 5},
+	[cc.Ranger] = {[cs.Endurance] = 10, [cs.Might] = 10},
+	[cc.Thief] = {[cs.Luck] = 20},
+	[cc.Sorcerer] = {[cs.Intellect] = 20},
+	-- MERGE ADDITION
+	[cc.Deerslayer] = {[sc.Accuracy] = 10, [cs.Intellect] = 10},
+	[cc.Dragon] = {[cs.Might] = 5, [cs.Endurance] = 15},
+	[cc.Minotaur] = {[cs.Personality] = 10, [cs.Might] = 10},
+	[cc.Barbarian] = {[cs.Endurance] = 20},
+	[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
+}
+
+Game.GlobalEvtLines:RemoveEvent(800)
+evt.global[800].clear() -- New Profession
+
+function events.LoadMap()
+	if Map.Name == "7d12.blv" then
+		-- Promotion Brazier
+		Game.MapEvtLines:RemoveEvent(12)
+		evt.map[12].clear()
+	end
+end
+
+local BDJQuestID = "BDJClassChangeQuest"
+local BDJNPCID = 1279
+Quest
+{
+	BDJQuestID,
+	NPC = BDJNPCID
+}

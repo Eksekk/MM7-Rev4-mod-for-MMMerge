@@ -335,12 +335,12 @@ function printSortedConst(c)
 	end
 end
 
-function debugTable(tbl) -- makes table print its contents in stacktrace instead of "(table: 0x0ff488f8)"
+function debugTable(tbl, dumpDepth) -- makes table print its contents in stacktrace instead of "(table: 0x0ff488f8)"
 	local mt = getmetatable(tbl) or {}
 	if not mt.__tostring then
 		function mt.__tostring(t)
-			rawset(getmetatable(t), "__tostring", nil)
-			return dump(t)
+			rawset(getmetatable(t), "__tostring", nil) -- avoid infinite recursion
+			return dump(t, dumpDepth)
 		end
 	end
 	setmetatable(tbl, mt)

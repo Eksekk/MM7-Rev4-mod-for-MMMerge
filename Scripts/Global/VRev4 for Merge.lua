@@ -152,44 +152,6 @@ NPCTopic
 	"Go back"
 }
 
--- BDJ change class quest
-
--- each different class has own topic
--- current player index in variables
--- enter npc: set quest branch
--- save quest branch in vars when switching
-
-local classes =
-{
-	-- class = {{first promo classes}, {second promo classes(light, dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
-	[const.Class.Archer] = {{const.Class.WarriorMage}, {const.Class.MasterArcher, const.Class.Sniper, const.Class.BattleMage}, ["MM7"] = true},
-	--[const.Class.Cleric] = {{
-}
-
-local classChangeChart =
-{
-	--[const.Class.
-}
-
-Game.GlobalEvtLines:RemoveEvent(800)
-evt.global[800].clear() -- New Profession
-
-function events.LoadMap()
-	if Map.Name == "7d12.blv" then
-		-- Promotion Brazier
-		Game.MapEvtLines:RemoveEvent(12)
-		evt.map[12].clear()
-	end
-end
-
-local BDJQuestID = "BDJClassChangeQuest"
-local BDJNPCID = 1279
-Quest
-{
-	BDJQuestID,
-	NPC = BDJNPCID
-}
-
 -- duplicate modded dungeons
 
 local oldMapOfContinent = TownPortalControls.MapOfContinent

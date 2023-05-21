@@ -16,7 +16,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 		t = monster -- user passed table with arguments instead of monster
 	else
 		-- pack all arguments into a table
-		t.monster = monster, monster
+		t.monster = monster
 		t.x = x
 		t.y = y
 		t.z = z

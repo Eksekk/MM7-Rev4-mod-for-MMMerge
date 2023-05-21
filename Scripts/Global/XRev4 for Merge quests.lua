@@ -311,7 +311,7 @@ end
 if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
 	-- chests, ground items?
 	-- randomized monster spells, monster bonuses
-	function events.GameInitialized2()
+	function events.BeforeLoadMap()
 		Game.MapStats[238].Tres = 7
 	end
 	
@@ -769,7 +769,7 @@ local classes =
 	[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.Lich, cc.MasterWizard}, MM7 = true},
 	--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
 }
-cc.Necromancer = cc.Sorcerer
+classes[cc.Necromancer] = classes[cc.Sorcerer]
 
 local classChangeChart =
 {
@@ -816,16 +816,124 @@ local classChangeStatBonuses =
 Game.GlobalEvtLines:RemoveEvent(800)
 evt.global[800].clear() -- New Profession
 
+local Q = tget(vars, "bdjClassChangeQuest")
+local function myQuestBranch(str)
+	Q.branch = str
+	QuestBranch(str)
+end
+QuestNPC = 1279 -- BDJ
+function events.EnterNPC(id)
+	if id == QuestNPC and Q.branch then
+		QuestBranch(Q.branch)
+	end
+end
+
+local function getClassTier(classId)
+	for k, v in pairs(classes) do
+		if k == classId then
+			return 0
+		elseif table.find(v[1], classId) then
+			return 1
+		elseif table.find(v[2], classId) then
+			return 2
+		end
+	end
+	error(string.format("Invalid class %d", classId))
+end
+
+local invClass = table.invert(cc)
+local function getClassEntry(classId)
+	for class, promos in pairs(classes) do
+		if class == classId or table.find(promos[1], classId) or table.findIf(promos[2], function(v) return v == classId end) then
+			return class, promos
+		end
+	end
+	error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
+end
+
+local function nextPlayer()
+	Q.currentPlayer = (Q.currentPlayer or 0) + 1
+	if Q.currentPlayer > Party.High then
+		myQuestBranch("BDJ_finish")
+	else
+		Q.currentClass = -1
+		local pl = Party[Q.currentPlayer]
+		local base = getClassEntry(pl.Class)
+		myQuestBranch("BDJ_class_" .. base)
+	end
+end
+
+for classId, data in pairs(classChangeChart) do
+	for i = 1, 3 do
+		NPCTopic {
+			Game.ClassNames[data[i]],
+			Game.NPCText[getMessage(41)],
+			Branch = "BDJ_class_" .. classId,
+			Ungive = function()
+				Q.currentClass = data[i]
+				myQuestBranch("")
+			end
+		}
+	end
+	NPCTopic {
+		Game.NPCTopic[getGlobalEvent(123)],
+		Game.NPCText[getMessage(267)],
+		Branch = "BDJ_class_" .. classId,
+		Ungive = nextPlayer
+	}
+end
+
+local function brazierAction()
+	if not Q.currentClass or Q.currentClass == -1 then
+		Game.ShowStatusText(evt.str[20])
+		return
+	end
+	local destinationClass = Q.currentClass
+	local pl = Party[Q.currentPlayer or 0]
+	local tier = getClassTier(pl.Class)
+	local baseClassId, baseClassPromos = getClassEntry(pl.Class)
+	local newClassId, newClassPromos = getClassEntry(destinationClass)
+	if tier == 0 then
+		evt.Set("ClassIs", baseClassId)
+	elseif tier == 1 then
+		evt.Set("ClassIs", baseClassPromos[1])
+	elseif tier == 2 then
+		local finalBase, finalNew = baseClassPromos[2], newClassPromos[2]
+		if finalBase.MM7 then
+			-- MM7 to MM7 - try to convert
+			if finalNew.MM7 then
+				if finalBase.l == pl.Class and finalNew.l then
+					evt.Set("ClassIs", finalNew.l)
+				elseif finalBase.d == pl.Class and finalNew.d then
+					evt.Set("ClassIs", finalNew.d)
+				else
+					evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+				end
+			else
+				-- MM7 to not MM7 - pick first available
+				evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+			end
+		else
+			-- (not MM7 to MM7) or (not MM7 to not MM7) - pick neutral (first available)
+			evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+		end
+	else
+		error(string.format("Class %d (%q)", baseClassId, invClass[baseClassId]))
+	end
+	nextPlayer()
+	Game.ShowStatusText(evt.str[21])
+end
+
 function events.LoadMap()
 	if Map.Name == "7d12.blv" then
 		-- Promotion Brazier
 		Game.MapEvtLines:RemoveEvent(12)
 		evt.map[12].clear()
+		evt.map[12] = brazierAction
 	end
 end
 
 local BDJQuestID = "BDJClassChangeQuest"
-local BDJNPCID = 1279
 Quest
 {
 	BDJQuestID,

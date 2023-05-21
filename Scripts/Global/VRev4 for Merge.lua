@@ -6,84 +6,95 @@ placemonAdditionalStart = 196
 function events.CanCastTownPortal(t)
 	if t.CanCast and Merge.Functions.GetContinent() == 2 then -- Antagarich
 		t.Handled = true
-		t.CanCast = evt.All.Cmp("QBits", 718)         -- Harmondale - Town Portal
+		t.CanCast = evt.All.Cmp("QBits", getQuestBit(206))         -- Harmondale - Town Portal
 	end
 end
 
 -- The Gauntlet
--- restore town portal QBits upon map leave
--- need workaround with last map name because QBits aren't set in events.LeaveMap
+-- store town portal QBits on map enter and restore on map leave
 
-local lastMapName = nil
-function events.LeaveMap()
-	lastMapName = Game.Map.Name
+function rev4m.storeGauntletQBits()
+	if rev4m.bdjQ and rev4m.bdjQ.done then return end
+	for i = 0, 2 do
+		if vars.TheGauntletQBits[i] == nil then
+			vars.TheGauntletQBits[i] = Party.QBits[i + getQuestBit(206)]
+			Party.QBits[i + getQuestBit(206)] = false
+		end
+   	end
 end
 
-function events.AfterLoadMap()
-	if lastMapName == "7d08.blv" then
-		for i = 0, 2 do
-			 Party.QBits[i + 718] = vars.TheGauntletQBits and vars.TheGauntletQBits[i + 718] or false
-		end
-		--[[
-		Party.QBits[718] = true         -- Harmondale - Town Portal
-		Party.QBits[719] = true         -- Erathia - Town Portal
-		Party.QBits[720] = true         -- Tularean Forest - Town Portal
-		--]]
+function rev4m.restoreGauntletQBits()
+	for i = 0, 2 do
+		Party.QBits[i + getQuestBit(206)] = vars.TheGauntletQBits and vars.TheGauntletQBits[i + getQuestBit(206)] or false
+   	end
+end
+
+function events.BeforeLoadMap()
+	if Map.Name == "7d08.blv" or Map.Name == "7d12.blv" then -- The Gauntlet or Coding Fortress
+		rev4m.storeGauntletQBits()
+	end
+end
+
+function events.LeaveMap()
+	if Map.Name == "7d12.blv" then -- Coding Fortress
+		rev4m.restoreGauntletQBits()
 	end
 end
 
 -- increase stat breakpoint rewards
 
-local vals = {
-	500, 45,
-	400, 40,
-	350, 35,
-	300, 30,
-	275, 29,
-	250, 28,
-	225, 26,
-	200, 24,
-	180, 23,
-	161, 22,
-	146, 21,
-	131, 20,
-	116, 19,
-	101, 18,
-	91, 17,
-	82, 16,
-	74, 15,
-	67, 14,
-	61, 13,
-	55, 12,
-	50, 11,
-	45, 10,
-	40, 9,
-	35, 8,
-	31, 7,
-	27, 6,
-	24, 5,
-	21, 4,
-	19, 3,
-	17, 2,
-	15, 1,
-	13, 0,
-	11, -1,
-	9, -2,
-	7, -3,
-	5, -4,
-	3, -5,
-	0, -6
-}
+do
+	local vals = {
+		500, 45,
+		400, 40,
+		350, 35,
+		300, 30,
+		275, 29,
+		250, 28,
+		225, 26,
+		200, 24,
+		180, 23,
+		161, 22,
+		146, 21,
+		131, 20,
+		116, 19,
+		101, 18,
+		91, 17,
+		82, 16,
+		74, 15,
+		67, 14,
+		61, 13,
+		55, 12,
+		50, 11,
+		45, 10,
+		40, 9,
+		35, 8,
+		31, 7,
+		27, 6,
+		24, 5,
+		21, 4,
+		19, 3,
+		17, 2,
+		15, 1,
+		13, 0,
+		11, -1,
+		9, -2,
+		7, -3,
+		5, -4,
+		3, -5,
+		0, -6
+	}
 
-if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
-	function events.GetStatisticEffect(t)
-		for i = 1, #vals - 2, 2 do
-			if t.Value >= vals[i] then
-				t.Result = vals[i + 1]
-				return
+	if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
+		function events.GetStatisticEffect(t)
+			for i = 1, #vals - 2, 2 do
+				if t.Value >= vals[i] then
+					t.Result = vals[i + 1]
+					return
+				end
 			end
+			t.Result = vals[#vals]
 		end
-		t.Result = vals[#vals]
 	end
 end
 

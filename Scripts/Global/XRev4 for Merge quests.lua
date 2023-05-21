@@ -721,23 +721,7 @@ end
 -- current player index in variables
 -- enter npc: set quest branch
 -- save quest branch in vars when switching
---[[
-Archer    WarriorMage    BattleMage    MasterArcher    Sniper    
-Cleric    Priest    AcolyteLight    ClericLight    AcolyteDark    ClericDark    HighPriest    PriestLight    PriestDark    PriestDark    
-Deerslayer    Pioneer    Pathfinder    PathfinderLight    PathfinderDark    
-Dragon    FlightLeader    GreatWyrm    
-Druid    GreatDruid    MasterDruid    ArchDruid    Warlock    
-Knight    Cavalier    Champion    Templar    BlackKnight    
-Minotaur    MinotaurHeadsman    MinotaurLord    
-Monk    InitiateMonk    MasterMonk    Ninja    
-Paladin    Crusader    Hero    Villain    
-Ranger    Hunter    RangerLord    BountyHunter    
-Thief    Rogue    Robber    Spy    Assassin    
-Barbarian    Berserker    Warmonger    
-Vampire    ElderVampire    Nosferatu    NosferatuLight    NosferatuDark    
-Sorcerer    Wizard    ApprenticeMage    Mage    DarkAdept    Necromancer    MasterWizard    ArchMage    Lich    
-Peasant    n/u
-]]
+
 local cc = const.Class
 local mt = getmetatable(const.Class) or {}
 local oldIndex = mt.__index
@@ -750,192 +734,296 @@ function mt.__index(tbl, key)
 	end
 end
 setmetatable(cc, mt)
-local classes =
-{
-	-- class = {{first promo classes}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
-	[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
-	[cc.Cleric] = {{cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},
-	[cc.Deerslayer] = {{cc.Pioneer}, {cc.Pathfinder}},
-	[cc.Dragon] = {{cc.FlightLeader}, {cc.GreatWyrm}},
-	[cc.Druid] = {{cc.GreatDruid}, {l = cc.ArchDruid, d = cc.Warlock, cc.MasterDruid}, MM7 = true},
-	[cc.Knight] = {{cc.Cavalier}, {l = cc.Champion, d = cc.BlackKnight, cc.Templar}, MM7 = true},
-	[cc.Minotaur] = {{cc.MinotaurHeadsman}, {cc.MinotaurLord}},
-	[cc.Monk] = {{cc.InitiateMonk}, {l = cc.MasterMonk, d = cc.Ninja}, MM7 = true},
-	[cc.Paladin] = {{cc.Crusader}, {l = cc.Hero, d = cc.Villain}, MM7 = true},
-	[cc.Ranger] = {{cc.Hunter}, {l = cc.RangerLord, d = cc.BountyHunter}, MM7 = true},
-	[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
-	[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
-	[cc.Vampire] = {{cc.ElderVampire}, {cc.Nosferatu}},
-	[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.Lich, cc.MasterWizard}, MM7 = true},
-	--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
-}
-classes[cc.Necromancer] = classes[cc.Sorcerer]
+do
+	local classes =
+	{
+		-- class = {{first promo classes}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
+		[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
+		[cc.Cleric] = {{cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},
+		[cc.Deerslayer] = {{cc.Pioneer}, {cc.Pathfinder}},
+		[cc.Dragon] = {{cc.FlightLeader}, {cc.GreatWyrm}},
+		[cc.Druid] = {{cc.GreatDruid}, {l = cc.ArchDruid, d = cc.Warlock, cc.MasterDruid}, MM7 = true},
+		[cc.Knight] = {{cc.Cavalier}, {l = cc.Champion, d = cc.BlackKnight, cc.Templar}, MM7 = true},
+		[cc.Minotaur] = {{cc.MinotaurHeadsman}, {cc.MinotaurLord}},
+		[cc.Monk] = {{cc.InitiateMonk}, {l = cc.MasterMonk, d = cc.Ninja}, MM7 = true},
+		[cc.Paladin] = {{cc.Crusader}, {l = cc.Hero, d = cc.Villain}, MM7 = true},
+		[cc.Ranger] = {{cc.Hunter}, {l = cc.RangerLord, d = cc.BountyHunter}, MM7 = true},
+		[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
+		[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
+		[cc.Vampire] = {{cc.ElderVampire}, {cc.Nosferatu}},
+		[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.Lich, cc.MasterWizard}, MM7 = true},
+		--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
+	}
+	classes[cc.Necromancer] = classes[cc.Sorcerer]
 
-local classChangeChart =
-{
-	-- ORIGINAL
-	[cc.Archer] = {cc.Paladin, cc.Monk, cc.Druid},
-	[cc.Cleric] = {cc.Druid, cc.Paladin, cc.Archer},
-	[cc.Druid] = {cc.Archer, cc.Monk, cc.Sorcerer},
-	[cc.Knight] = {cc.Archer, cc.Ranger, cc.Druid},
-	[cc.Monk] = {cc.Thief, cc.Druid, cc.Archer},
-	[cc.Paladin] = {cc.Druid, cc.Ranger, cc.Archer},
-	[cc.Ranger] = {cc.Archer, cc.Paladin, cc.Thief},
-	[cc.Thief] = {cc.Archer, cc.Knight, cc.Monk},
-	[cc.Sorcerer] = {cc.Archer, cc.Paladin, cc.Cleric},
-	-- MERGE ADDITION
-	[cc.Deerslayer] = {cc.Ranger, cc.Thief, cc.Sorcerer},
-	[cc.Dragon] = {cc.Monk, cc.Archer, cc.Druid},
-	[cc.Minotaur] = {cc.Knight, cc.Ranger, cc.Paladin},
-	[cc.Barbarian] = {cc.Vampire, cc.Paladin, cc.Druid},
-	[cc.Vampire] = {cc.Deerslayer, cc.Druid, cc.Knight},
-	--[cc.] = {cc., cc., cc.},
-}
+	local classChangeChart =
+	{
+		-- ORIGINAL
+		[cc.Archer] = {cc.Paladin, cc.Monk, cc.Druid},
+		[cc.Cleric] = {cc.Druid, cc.Paladin, cc.Archer},
+		[cc.Druid] = {cc.Archer, cc.Monk, cc.Sorcerer},
+		[cc.Knight] = {cc.Archer, cc.Ranger, cc.Druid},
+		[cc.Monk] = {cc.Thief, cc.Druid, cc.Archer},
+		[cc.Paladin] = {cc.Druid, cc.Ranger, cc.Archer},
+		[cc.Ranger] = {cc.Archer, cc.Paladin, cc.Thief},
+		[cc.Thief] = {cc.Archer, cc.Knight, cc.Monk},
+		[cc.Sorcerer] = {cc.Archer, cc.Paladin, cc.Cleric},
+		-- MERGE ADDITION
+		[cc.Deerslayer] = {cc.Ranger, cc.Thief, cc.Sorcerer},
+		[cc.Dragon] = {cc.Monk, cc.Archer, cc.Druid},
+		[cc.Minotaur] = {cc.Knight, cc.Ranger, cc.Paladin},
+		[cc.Barbarian] = {cc.Vampire, cc.Paladin, cc.Druid},
+		[cc.Vampire] = {cc.Deerslayer, cc.Druid, cc.Knight},
+		--[cc.] = {cc., cc., cc.},
+	}
 
-local cs = const.Stat
-local classChangeStatBonuses =
-{
-	-- ORIGINAL
-	[cc.Archer] = {[cs.Speed] = 15, [cs.Intellect] = 5},
-	[cc.Cleric] = {[cs.Personality] = 20},
-	[cc.Druid] = {[cs.Intellect] = 10, [cs.Personality] = 10},
-	[cc.Knight] = {[cs.Endurance] = 15, [cs.Might] = 5},
-	[cc.Monk] = {[cs.Endurance] = 10, [cs.Might] = 10},
-	[cc.Paladin] = {[cs.Personality] = 5, [cs.Endurance] = 10, [cs.Might] = 5},
-	[cc.Ranger] = {[cs.Endurance] = 10, [cs.Might] = 10},
-	[cc.Thief] = {[cs.Luck] = 20},
-	[cc.Sorcerer] = {[cs.Intellect] = 20},
-	-- MERGE ADDITION
-	[cc.Deerslayer] = {[sc.Accuracy] = 10, [cs.Intellect] = 10},
-	[cc.Dragon] = {[cs.Might] = 5, [cs.Endurance] = 15},
-	[cc.Minotaur] = {[cs.Personality] = 10, [cs.Might] = 10},
-	[cc.Barbarian] = {[cs.Endurance] = 20},
-	[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
-}
+	local cs = const.Stat
+	local classChangeStatBonuses =
+	{
+		-- ORIGINAL
+		[cc.Archer] = {[cs.Speed] = 15, [cs.Intellect] = 5},
+		[cc.Cleric] = {[cs.Personality] = 20},
+		[cc.Druid] = {[cs.Intellect] = 10, [cs.Personality] = 10},
+		[cc.Knight] = {[cs.Endurance] = 15, [cs.Might] = 5},
+		[cc.Monk] = {[cs.Endurance] = 10, [cs.Might] = 10},
+		[cc.Paladin] = {[cs.Personality] = 5, [cs.Endurance] = 10, [cs.Might] = 5},
+		[cc.Ranger] = {[cs.Endurance] = 10, [cs.Might] = 10},
+		[cc.Thief] = {[cs.Luck] = 20},
+		[cc.Sorcerer] = {[cs.Intellect] = 20},
+		-- MERGE ADDITION
+		[cc.Deerslayer] = {[cs.Accuracy] = 10, [cs.Intellect] = 10},
+		[cc.Dragon] = {[cs.Might] = 5, [cs.Endurance] = 15},
+		[cc.Minotaur] = {[cs.Personality] = 10, [cs.Might] = 10},
+		[cc.Barbarian] = {[cs.Endurance] = 20},
+		[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
+	}
 
-Game.GlobalEvtLines:RemoveEvent(800)
-evt.global[800].clear() -- New Profession
+	Game.GlobalEvtLines:RemoveEvent(800)
+	evt.global[800].clear() -- New Profession
 
-local Q = tget(vars, "bdjClassChangeQuest")
-local function myQuestBranch(str)
-	Q.branch = str
-	QuestBranch(str)
-end
-QuestNPC = 1279 -- BDJ
-function events.EnterNPC(id)
-	if id == QuestNPC and Q.branch then
-		QuestBranch(Q.branch)
+	local Q = tget(vars, "bdjClassChangeQuest")
+	rev4m.bdjQ = Q
+	local function myQuestBranch(str)
+		Q.branch = str
+		QuestBranch(str)
 	end
-end
-
-local function getClassTier(classId)
-	for k, v in pairs(classes) do
-		if k == classId then
-			return 0
-		elseif table.find(v[1], classId) then
-			return 1
-		elseif table.find(v[2], classId) then
-			return 2
-		end
+	local branches = {}
+	function branches.chooseClass(id)
+		return "BDJ_class_" .. classId
 	end
-	error(string.format("Invalid class %d", classId))
-end
-
-local invClass = table.invert(cc)
-local function getClassEntry(classId)
-	for class, promos in pairs(classes) do
-		if class == classId or table.find(promos[1], classId) or table.findIf(promos[2], function(v) return v == classId end) then
-			return class, promos
-		end
+	function branches.newProfession(index)
+		return "BDJ_choose_" .. index
 	end
-	error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
-end
-
-local function nextPlayer()
-	Q.currentPlayer = (Q.currentPlayer or 0) + 1
-	if Q.currentPlayer > Party.High then
-		myQuestBranch("BDJ_finish")
-	else
-		Q.currentClass = -1
-		local pl = Party[Q.currentPlayer]
-		local base = getClassEntry(pl.Class)
-		myQuestBranch("BDJ_class_" .. base)
+	function branches.welcome()
+		return "BDJ_welcome"
 	end
-end
-
-for classId, data in pairs(classChangeChart) do
-	for i = 1, 3 do
-		NPCTopic {
-			Game.ClassNames[data[i]],
-			Game.NPCText[getMessage(41)],
-			Branch = "BDJ_class_" .. classId,
-			Ungive = function()
-				Q.currentClass = data[i]
-				myQuestBranch("")
+	function branches.welcome2()
+		return "BDJ_welcome2"
+	end
+	function branches.finished_confirm()
+		return "BDJ_finished_confirm"
+	end
+	function branches.noTopics()
+		return "BDJ_done"
+	end
+	QuestNPC = 1279 -- BDJ
+	function events.EnterNPC(id)
+		if id == QuestNPC then
+			if not Q.branch then
+				myQuestBranch(branches.welcome())
+			else
+				QuestBranch(Q.branch)
 			end
+		end
+	end
+
+	local function getClassTier(classId)
+		for k, v in pairs(classes) do
+			if k == classId then
+				return 0
+			elseif table.find(v[1], classId) then
+				return 1
+			elseif table.find(v[2], classId) then
+				return 2
+			end
+		end
+		error(string.format("Invalid class %d", classId))
+	end
+
+	local invClass = table.invert(cc)
+	local function getClassEntry(classId)
+		for class, promos in pairs(classes) do
+			if class == classId or table.find(promos[1], classId) or table.findIf(promos[2], function(v) return v == classId end) then
+				return class, promos
+			end
+		end
+		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
+	end
+
+	local function nextPlayer()
+		Q.currentPlayer = (Q.currentPlayer or -1) + 1
+		if Q.currentPlayer > Party.High then
+			myQuestBranch(branches.finished_confirm())
+		else
+			Q.currentClass = -1
+			myQuestBranch(branches.newProfession(Q.currentPlayer))
+		end
+	end
+
+	for classId, data in pairs(classChangeChart) do
+		for i = 1, 3 do
+			NPCTopic {
+				Game.ClassNames[data[i]],
+				Game.NPCText[getMessage(41)],
+				Branch = branches.chooseClass(classId),
+				Ungive = function()
+					Q.currentClass = data[i]
+					myQuestBranch("")
+				end
+			}
+		end
+		NPCTopic {
+			Game.NPCTopic[getGlobalEvent(123)],
+			Game.NPCText[getMessage(267)],
+			Ungive = nextPlayer
 		}
 	end
-	NPCTopic {
-		Game.NPCTopic[getGlobalEvent(123)],
-		Game.NPCText[getMessage(267)],
-		Branch = "BDJ_class_" .. classId,
-		Ungive = nextPlayer
-	}
-end
 
-local function brazierAction()
-	if not Q.currentClass or Q.currentClass == -1 then
-		Game.ShowStatusText(evt.str[20])
-		return
+	local brazierAction
+
+	function events.AfterLoadMap()
+		if Map.Name == "7d12.blv" then
+			-- Promotion Brazier
+			Game.MapEvtLines:RemoveEvent(12)
+			evt.map[12].clear()
+			evt.map[12] = brazierAction
+		end
 	end
-	local destinationClass = Q.currentClass
-	local pl = Party[Q.currentPlayer or 0]
-	local tier = getClassTier(pl.Class)
-	local baseClassId, baseClassPromos = getClassEntry(pl.Class)
-	local newClassId, newClassPromos = getClassEntry(destinationClass)
-	if tier == 0 then
-		evt.Set("ClassIs", baseClassId)
-	elseif tier == 1 then
-		evt.Set("ClassIs", baseClassPromos[1])
-	elseif tier == 2 then
-		local finalBase, finalNew = baseClassPromos[2], newClassPromos[2]
-		if finalBase.MM7 then
-			-- MM7 to MM7 - try to convert
-			if finalNew.MM7 then
-				if finalBase.l == pl.Class and finalNew.l then
-					evt.Set("ClassIs", finalNew.l)
-				elseif finalBase.d == pl.Class and finalNew.d then
-					evt.Set("ClassIs", finalNew.d)
+
+	function brazierAction()
+		if not Q.currentClass or Q.currentClass == -1 then
+			Game.ShowStatusText(evt.str[20])
+			return
+		end
+		local destinationClass = Q.currentClass
+		local pl = Party[Q.currentPlayer or 0]
+		local tier = getClassTier(pl.Class)
+		local baseClassId, baseClassPromos = getClassEntry(pl.Class)
+		local newClassId, newClassPromos = getClassEntry(destinationClass)
+		if tier == 0 then
+			evt.Set("ClassIs", baseClassId)
+		elseif tier == 1 then
+			evt.Set("ClassIs", baseClassPromos[1])
+		elseif tier == 2 then
+			local finalBase, finalNew = baseClassPromos[2], newClassPromos[2]
+			if finalBase.MM7 then
+				-- MM7 to MM7 - try to convert
+				if finalNew.MM7 then
+					if finalBase.l == pl.Class and finalNew.l then
+						evt.Set("ClassIs", finalNew.l)
+					elseif finalBase.d == pl.Class and finalNew.d then
+						evt.Set("ClassIs", finalNew.d)
+					else
+						evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+					end
 				else
+					-- MM7 to not MM7 - pick first available
 					evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
 				end
 			else
-				-- MM7 to not MM7 - pick first available
-				evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+				-- (not MM7 to MM7) or (not MM7 to not MM7) - pick neutral (first available)
+				evt.Set("ClassIs", finalNew[1] or finalNew.l or finalNew.d or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
 			end
 		else
-			-- (not MM7 to MM7) or (not MM7 to not MM7) - pick neutral (first available)
-			evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+			error(string.format("Class %d (%q)", baseClassId, invClass[baseClassId]))
 		end
-	else
-		error(string.format("Class %d (%q)", baseClassId, invClass[baseClassId]))
+		for id, add in pairs(classChangeStatBonuses[newClassId] or {}) do
+			pl.Stats[id] = pl.Stats[id] + add
+		end
+		Game.ShowStatusText(evt.str[21])
+		nextPlayer()
 	end
-	nextPlayer()
-	Game.ShowStatusText(evt.str[21])
-end
 
-function events.LoadMap()
-	if Map.Name == "7d12.blv" then
-		-- Promotion Brazier
-		Game.MapEvtLines:RemoveEvent(12)
-		evt.map[12].clear()
-		evt.map[12] = brazierAction
+	NPCTopic
+	{
+		Game.NPCTopic[getGlobalEvent(48)],
+		Game.NPCText[getMessage(71)],
+		Branch = branches.welcome(),
+		Ungive = function()
+			myQuestBranch(branches.welcome2())
+			-- evt.SetNPCTopic{NPC = getNPC(456), Index = 0, Event = getGlobalEvent(49)}         -- "The Coding Wizard" : "How does this work?"
+			evt.MoveNPC{NPC = getNPC(460), HouseId = getHouseID(470)}         -- "Lord Godwinson" -> "Godwinson Estate"
+			evt.SetNPCTopic{NPC = getNPC(460), Index = 0, Event = getGlobalEvent(96)}         -- "Lord Godwinson" : "Coding Wizard Quest"
+			evt.SetNPCGreeting{NPC = getNPC(460), Greeting = getGreeting(26)}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
+		end
+	}
+
+	NPCTopic
+	{
+		Game.NPCTopic[getGlobalEvent(49)],
+		Game.NPCText[getMessage(72)],
+		Branch = branches.welcome2(),
+		Ungive = nextPlayer
+	}
+
+	for i = 0, 4 do
+		NPCTopic
+		{
+			Game.NPCTopic[getGlobalEvent(50)],
+			string.format("Adventurer %d, select your new profession.", i + 1),
+			Ungive = function()
+				nextPlayer()
+				local pl = Party[Q.currentPlayer]
+				local base = getClassEntry(pl.Class)
+				myQuestBranch(branches.chooseClass(base))
+			end,
+			Branch = branches.newProfession(i)
+		}
 	end
-end
 
-local BDJQuestID = "BDJClassChangeQuest"
-Quest
-{
-	BDJQuestID,
-	NPC = BDJNPCID
-}
+	NPCTopic {
+		-- "Let's Continue."
+		Game.NPCTopic[getGlobalEvent(87)],
+		-- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
+		Game.NPCText[getMessage(87)],
+		Ungive = function()
+			myQuestBranch(branches.noTopics())
+			--[[
+			evt.Set("QBits", 206)         -- Harmondale - Town Portal
+			evt.Set("QBits", 207)         -- Erathia - Town Portal
+			evt.Set("QBits", 208)         -- Tularean Forest - Town Portal
+			]]
+			rev4m.bdjQ.done = true
+			evt.SetMonGroupBit{NPCGroup = 9, Bit = const.MonsterBits.Invisible, On = true}         -- "Group for Malwick's Assc."
+			evt.ForPlayer("Current")
+			evt.Add("Inventory", 775)         -- "LG's Proof"
+		end
+	}
+
+	--[=[
+		-- "Greetings from BDJ!"
+	evt.global[48] = function()
+		evt.SetMessage(71)         --[[ "BDJ’s the name, coding wizard’s the Game! And I do trust that you are enjoying the ‘game’.
+
+	I see that you have survived The Gauntlet in good fashion.  Congratulations!  You may now select a new profession for each qualified party member.  Each member will be presented with three choices for a new profession.  Based upon the choice, twenty ‘bonus’ points will be distributed to one-or-more attributes: re, a new fighter will gain +15 Endurance and +5 Might; a new sorcerer will gain +20 Intellect.
+
+	When you select the new profession, the member will automatically be promoted to the highest rating in that character class; re, a Fighter will immediately become a Champion, a Sorcerer an Arch Mage.  Once you’ve selected your new profession, you will no longer continue to advance in your original profession, although you will retain all or your previous skill and spell abilities." ]]
+	evt.ForPlayer("All")
+	evt.SetNPCTopic{NPC = 456, Index = 0, Event = 49}         -- "The Coding Wizard" : "How does this work?"
+	evt.MoveNPC{NPC = 460, HouseId = 470}         -- "Lord Godwinson" -> "Godwinson Estate"
+	evt.SetNPCTopic{NPC = 460, Index = 0, Event = 96}         -- "Lord Godwinson" : "Coding Wizard Quest"
+	evt.SetNPCGreeting{NPC = 460, Greeting = 26}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
+	end
+	]=]
+
+	--[=[
+		-- "How does this work?"
+	evt.global[49] = function()
+		evt.SetMessage(72)         --[[ "Here’s how the process works.  You have four members in your party; member 1, member 2, member 3, and member 4 (from left-to-right).  Each time you select “New Profession”, you will ‘index’ to a different party member, starting at member 1.  The member will be presented with a single ‘fast track’ choice.  You may either select this choice or ‘EXIT’ and then select me a second time to be presented with three choices.
+
+	When the selected party member has chosen a new profession, proceed to the Brazier to acquire the new profession and then return to me.  When all four members have selected their new Profession, return to me one more time and then we’re done.  So let’s get started, ok?" ]]
+		evt.ForPlayer("All")
+		evt.SetNPCTopic{NPC = 456, Index = 0, Event = 50}         -- "The Coding Wizard" : "New Profession."
+	end
+	]=]
+end

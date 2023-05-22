@@ -1,6 +1,9 @@
 local MS = Merge.ModSettings
-local questID = "ClearFortRiverstride"
+if not _G.getQuestBit then
+	error("Data conversion functions are undefined")
+end
 if MS.Rev4ForMergeActivateExtraQuests == 1 then
+	local questID = "ClearFortRiverstride"
 	KillMonstersQuest {
 		questID,
 		{Map = "7d31.blv", Group = {56, 57, 58}},
@@ -721,20 +724,20 @@ end
 -- current player index in variables
 -- enter npc: set quest branch
 -- save quest branch in vars when switching
-
-local cc = const.Class
-local mt = getmetatable(const.Class) or {}
-local oldIndex = mt.__index
-function mt.__index(tbl, key)
-	local old = (oldIndex or function() end)(tbl, key)
-	if old == nil then
-		error(string.format("Unknown class %q", key), 2)
-	else
-		return old
-	end
-end
-setmetatable(cc, mt)
 do
+	local cc = const.Class
+	local mt = getmetatable(const.Class) or {}
+	local oldIndex = mt.__index or function() end
+	function mt.__index(tbl, key)
+		local old = oldIndex(tbl, key)
+		if old == nil then
+			error(string.format("Unknown class %q", key), 2)
+		else
+			return old
+		end
+	end
+	setmetatable(cc, mt)
+
 	local classes =
 	{
 		-- class = {{first promo classes}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
@@ -751,7 +754,7 @@ do
 		[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
 		[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
 		[cc.Vampire] = {{cc.ElderVampire}, {cc.Nosferatu}},
-		[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.Lich, cc.MasterWizard}, MM7 = true},
+		[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.MasterNecromancer, cc.MasterWizard}, MM7 = true},
 		--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
 	}
 	classes[cc.Necromancer] = classes[cc.Sorcerer]
@@ -777,7 +780,7 @@ do
 		--[cc.] = {cc., cc., cc.},
 	}
 
-	local cs = const.Stat
+	local cs = const.Stats
 	local classChangeStatBonuses =
 	{
 		-- ORIGINAL
@@ -797,9 +800,7 @@ do
 		[cc.Barbarian] = {[cs.Endurance] = 20},
 		[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
 	}
-
-	Game.GlobalEvtLines:RemoveEvent(800)
-	evt.global[800].clear() -- New Profession
+	getmetatable(cc).__index = oldIndex
 
 	local Q = tget(vars, "bdjClassChangeQuest")
 	rev4m.bdjQ = Q
@@ -809,7 +810,7 @@ do
 	end
 	local branches = {}
 	function branches.chooseClass(id)
-		return "BDJ_class_" .. classId
+		return "BDJ_class_" .. id
 	end
 	function branches.newProfession(index)
 		return "BDJ_choose_" .. index
@@ -826,10 +827,14 @@ do
 	function branches.noTopics()
 		return "BDJ_done"
 	end
+	function branches.brazier()
+		return "BDJ_brazier"
+	end
 	QuestNPC = 1279 -- BDJ
 	function events.EnterNPC(id)
 		if id == QuestNPC then
 			if not Q.branch then
+				Game.NPC[QuestNPC].EventA = 0 -- prevent welcome topic from showing after choosing profession
 				myQuestBranch(branches.welcome())
 			else
 				QuestBranch(Q.branch)
@@ -875,16 +880,20 @@ do
 			NPCTopic {
 				Game.ClassNames[data[i]],
 				Game.NPCText[getMessage(41)],
+				Slot = i - 1,
 				Branch = branches.chooseClass(classId),
 				Ungive = function()
 					Q.currentClass = data[i]
-					myQuestBranch("")
+					myQuestBranch(branches.brazier())
 				end
 			}
 		end
+		-- "skip profession" topic
 		NPCTopic {
 			Game.NPCTopic[getGlobalEvent(123)],
 			Game.NPCText[getMessage(267)],
+			Slot = 3,
+			Branch = branches.chooseClass(classId),
 			Ungive = nextPlayer
 		}
 	end
@@ -911,14 +920,14 @@ do
 		local baseClassId, baseClassPromos = getClassEntry(pl.Class)
 		local newClassId, newClassPromos = getClassEntry(destinationClass)
 		if tier == 0 then
-			evt.Set("ClassIs", baseClassId)
+			evt.Set("ClassIs", newClassId)
 		elseif tier == 1 then
-			evt.Set("ClassIs", baseClassPromos[1])
+			evt.Set("ClassIs", newClassPromos[1][1])
 		elseif tier == 2 then
 			local finalBase, finalNew = baseClassPromos[2], newClassPromos[2]
-			if finalBase.MM7 then
-				-- MM7 to MM7 - try to convert
-				if finalNew.MM7 then
+			if baseClassPromos.MM7 then
+				if newClassPromos.MM7 then
+					-- MM7 to MM7 - try to convert
 					if finalBase.l == pl.Class and finalNew.l then
 						evt.Set("ClassIs", finalNew.l)
 					elseif finalBase.d == pl.Class and finalNew.d then
@@ -938,7 +947,7 @@ do
 			error(string.format("Class %d (%q)", baseClassId, invClass[baseClassId]))
 		end
 		for id, add in pairs(classChangeStatBonuses[newClassId] or {}) do
-			pl.Stats[id] = pl.Stats[id] + add
+			pl.Stats[id].Base = pl.Stats[id].Base + add
 		end
 		Game.ShowStatusText(evt.str[21])
 		nextPlayer()
@@ -948,6 +957,7 @@ do
 	{
 		Game.NPCTopic[getGlobalEvent(48)],
 		Game.NPCText[getMessage(71)],
+		Slot = 0,
 		Branch = branches.welcome(),
 		Ungive = function()
 			myQuestBranch(branches.welcome2())
@@ -962,6 +972,7 @@ do
 	{
 		Game.NPCTopic[getGlobalEvent(49)],
 		Game.NPCText[getMessage(72)],
+		Slot = 0,
 		Branch = branches.welcome2(),
 		Ungive = nextPlayer
 	}
@@ -971,9 +982,9 @@ do
 		{
 			Game.NPCTopic[getGlobalEvent(50)],
 			string.format("Adventurer %d, select your new profession.", i + 1),
+			Slot = 0,
 			Ungive = function()
-				nextPlayer()
-				local pl = Party[Q.currentPlayer]
+				local pl = Party[Q.currentPlayer or 0]
 				local base = getClassEntry(pl.Class)
 				myQuestBranch(branches.chooseClass(base))
 			end,
@@ -986,6 +997,8 @@ do
 		Game.NPCTopic[getGlobalEvent(87)],
 		-- "There ya go!  Now return this scroll to Lord Godwinson to complete this quest.  Then he’ll know that I am more than a myth."
 		Game.NPCText[getMessage(87)],
+		Slot = 0,
+		Branch = branches.finished_confirm(),
 		Ungive = function()
 			myQuestBranch(branches.noTopics())
 			--[[
@@ -993,37 +1006,11 @@ do
 			evt.Set("QBits", 207)         -- Erathia - Town Portal
 			evt.Set("QBits", 208)         -- Tularean Forest - Town Portal
 			]]
-			rev4m.bdjQ.done = true
-			evt.SetMonGroupBit{NPCGroup = 9, Bit = const.MonsterBits.Invisible, On = true}         -- "Group for Malwick's Assc."
+			Q.done = true
+			rev4m.restoreGauntletQBits()
+			evt.SetMonGroupBit{NPCGroup = getNpcGroup(9), Bit = const.MonsterBits.Invisible, On = true}         -- "Group for Malwick's Assc."
 			evt.ForPlayer("Current")
-			evt.Add("Inventory", 775)         -- "LG's Proof"
+			evt.Add("Inventory", getItem(775))         -- "LG's Proof"
 		end
 	}
-
-	--[=[
-		-- "Greetings from BDJ!"
-	evt.global[48] = function()
-		evt.SetMessage(71)         --[[ "BDJ’s the name, coding wizard’s the Game! And I do trust that you are enjoying the ‘game’.
-
-	I see that you have survived The Gauntlet in good fashion.  Congratulations!  You may now select a new profession for each qualified party member.  Each member will be presented with three choices for a new profession.  Based upon the choice, twenty ‘bonus’ points will be distributed to one-or-more attributes: re, a new fighter will gain +15 Endurance and +5 Might; a new sorcerer will gain +20 Intellect.
-
-	When you select the new profession, the member will automatically be promoted to the highest rating in that character class; re, a Fighter will immediately become a Champion, a Sorcerer an Arch Mage.  Once you’ve selected your new profession, you will no longer continue to advance in your original profession, although you will retain all or your previous skill and spell abilities." ]]
-	evt.ForPlayer("All")
-	evt.SetNPCTopic{NPC = 456, Index = 0, Event = 49}         -- "The Coding Wizard" : "How does this work?"
-	evt.MoveNPC{NPC = 460, HouseId = 470}         -- "Lord Godwinson" -> "Godwinson Estate"
-	evt.SetNPCTopic{NPC = 460, Index = 0, Event = 96}         -- "Lord Godwinson" : "Coding Wizard Quest"
-	evt.SetNPCGreeting{NPC = 460, Greeting = 26}         -- "Lord Godwinson" : "Well met, my friends!  Sit a-spell and tell me all about your recent adventures."
-	end
-	]=]
-
-	--[=[
-		-- "How does this work?"
-	evt.global[49] = function()
-		evt.SetMessage(72)         --[[ "Here’s how the process works.  You have four members in your party; member 1, member 2, member 3, and member 4 (from left-to-right).  Each time you select “New Profession”, you will ‘index’ to a different party member, starting at member 1.  The member will be presented with a single ‘fast track’ choice.  You may either select this choice or ‘EXIT’ and then select me a second time to be presented with three choices.
-
-	When the selected party member has chosen a new profession, proceed to the Brazier to acquire the new profession and then return to me.  When all four members have selected their new Profession, return to me one more time and then we’re done.  So let’s get started, ok?" ]]
-		evt.ForPlayer("All")
-		evt.SetNPCTopic{NPC = 456, Index = 0, Event = 50}         -- "The Coding Wizard" : "New Profession."
-	end
-	]=]
 end

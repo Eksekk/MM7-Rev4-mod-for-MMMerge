@@ -15,6 +15,7 @@ end
 
 function rev4m.storeGauntletQBits()
 	if rev4m.bdjQ and rev4m.bdjQ.done then return end
+	vars.TheGauntletQBits = vars.TheGauntletQBits or {}
 	for i = 0, 2 do
 		if vars.TheGauntletQBits[i] == nil then
 			vars.TheGauntletQBits[i] = Party.QBits[i + getQuestBit(206)]

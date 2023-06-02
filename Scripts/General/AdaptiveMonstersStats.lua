@@ -3,16 +3,6 @@ local ReadyMons = {}
 local MonBolStep = {}
 OriginalMonstersTxt = nil
 
-modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
-difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
-isEasy = function() return difficulty == const.Difficulty.Easy end
-isMedium = function() return difficulty == const.Difficulty.Medium end
-isHard = function() return difficulty == const.Difficulty.Hard end
-
-function diffsel(...)
-	return assert(select(difficulty + 1, ...))
-end
-
 ---- Additional mon properties and bolster tables
 
 const.Bolster = {}

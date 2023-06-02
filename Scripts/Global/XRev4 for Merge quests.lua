@@ -802,11 +802,23 @@ do
 	}
 	getmetatable(cc).__index = oldIndex
 
+	function bdjtest()
+		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
+		function events.AfterLoadMap()
+			kill()
+			Sleep(500)
+			for i in Map.Doors do
+				evt.SetDoorState{Id = i, State = 2}
+			end
+			events.Remove("AfterLoadMap", 1)
+		end
+	end
+
 	local Q = tget(vars, "bdjClassChangeQuest")
 	rev4m.bdjQ = Q
 	local function myQuestBranch(str)
 		Q.branch = str
-		QuestBranch(str)
+		QuestBranch(str, true)
 	end
 	local branches = {}
 	function branches.chooseClass(id)
@@ -831,13 +843,14 @@ do
 		return "BDJ_brazier"
 	end
 	QuestNPC = 1279 -- BDJ
+	local npcCopy = QuestNPC
 	function events.EnterNPC(id)
-		if id == QuestNPC then
+		if id == npcCopy then
 			if not Q.branch then
-				Game.NPC[QuestNPC].EventA = 0 -- prevent welcome topic from showing after choosing profession
+				Game.NPC[npcCopy].EventA = 0 -- prevent welcome topic from showing after choosing profession
 				myQuestBranch(branches.welcome())
 			else
-				QuestBranch(Q.branch)
+				--QuestBranch(Q.branch, true)
 			end
 		end
 	end
@@ -848,7 +861,7 @@ do
 				return 0
 			elseif table.find(v[1], classId) then
 				return 1
-			elseif table.find(v[2], classId) then
+			elseif table.findIf(v[2], function(v) return v == classId end) then
 				return 2
 			end
 		end
@@ -874,30 +887,7 @@ do
 			myQuestBranch(branches.newProfession(Q.currentPlayer))
 		end
 	end
-
-	for classId, data in pairs(classChangeChart) do
-		for i = 1, 3 do
-			NPCTopic {
-				Game.ClassNames[data[i]],
-				Game.NPCText[getMessage(41)],
-				Slot = i - 1,
-				Branch = branches.chooseClass(classId),
-				Ungive = function()
-					Q.currentClass = data[i]
-					myQuestBranch(branches.brazier())
-				end
-			}
-		end
-		-- "skip profession" topic
-		NPCTopic {
-			Game.NPCTopic[getGlobalEvent(123)],
-			Game.NPCText[getMessage(267)],
-			Slot = 3,
-			Branch = branches.chooseClass(classId),
-			Ungive = nextPlayer
-		}
-	end
-
+	
 	local brazierAction
 
 	function events.AfterLoadMap()
@@ -989,6 +979,29 @@ do
 				myQuestBranch(branches.chooseClass(base))
 			end,
 			Branch = branches.newProfession(i)
+		}
+	end
+
+	for classId, data in pairs(classChangeChart) do
+		for i = 1, 3 do
+			NPCTopic {
+				Game.ClassNames[data[i]],
+				Game.NPCText[getMessage(41)],
+				Slot = i - 1,
+				Branch = branches.chooseClass(classId),
+				Ungive = function()
+					Q.currentClass = data[i]
+					myQuestBranch(branches.brazier())
+				end
+			}
+		end
+		-- "skip profession" topic
+		NPCTopic {
+			Game.NPCTopic[getGlobalEvent(123)],
+			Game.NPCText[getMessage(267)],
+			Slot = 3,
+			Branch = branches.chooseClass(classId),
+			Ungive = nextPlayer
 		}
 	end
 

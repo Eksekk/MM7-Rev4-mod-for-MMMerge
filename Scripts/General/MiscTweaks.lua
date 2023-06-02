@@ -604,15 +604,6 @@
 	end
 
 	--[[ REV4 FOR MERGE ADDITION ]]--
-	const.Difficulty =
-	{
-		Easy = 0,
-		Medium = 1,
-		Hard = 2
-	}
-
-	modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
-	difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
 	-- below function is changed to respect difficulty levels
 	-- Add a bit of sp regeneration by meditation skill
 	function events.RegenTick(Player)

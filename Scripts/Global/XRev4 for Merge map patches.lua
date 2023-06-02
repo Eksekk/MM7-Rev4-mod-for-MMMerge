@@ -156,4 +156,71 @@ patches = {
     ["7d27.blv"] = function()
         replaceMapEvent(501, function() end)
     end,
+    -- Castle Harmondale
+		-- bodybuilding skill barrel
+	["7d29.lua"] = function()
+        replaceMapEvent(37, function()
+            if not evt.Cmp("QBits", getQuestBit(317)) then         -- 1-time Castle Harm
+                evt.Set("QBits", getQuestBit(317))         -- 1-time Castle Harm
+                giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
+            end
+        end)
+        -- script processing fix
+        replaceMapEvent(35, function()  -- function events.LoadMap()
+            evt.ForPlayer("All")
+            if not evt.Cmp("QBits", getQuestBit(371)) then         -- Dwarven Messenger Once
+                if evt.Cmp("Awards", getAward(8)) then         -- "Completed Coding Wizard Quest"
+                    evt.SetNPCGreeting{NPC = getNPC(27), Greeting = getGreeting(27)}         -- "Messenger" : ""
+                    evt.Set("QBits", getQuestBit(369))         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+                    evt.Set("QBits", getQuestBit(371))         -- Dwarven Messenger Once
+                    evt.Subtract("QBits", getQuestBit(368))         -- Barrow Normal
+                    evt.Set("Counter2", 0)
+                    evt.SpeakNPC(getNPC(27))         -- "Messenger"
+                end
+            end
+        end)
+    end,
+    
+    -- Red Dwarf Mines
+    -- Learning skill barrel
+    ["7d34.lua"] = function()
+        replaceMapEvent(10, function()
+            if not evt.Cmp("QBits", getQuestBit(335)) then         -- BDJ 1
+                evt.Set("QBits", getQuestBit(335))         -- BDJ 1
+                giveFreeSkill(const.Skills.Learning, 6, const.Expert)
+            end
+        end)
+    end,
+
+    -- OUTDOOR --
+
+    -- Emerald Island
+	-- fix for different NPCs talking (QBit wasn't set originally)
+	["7out01.lua"] = function()
+		replaceMapEvent(200, function()
+            if not evt.Cmp("QBits", getQuestBit(17)) then         -- No more docent babble
+                evt.Set("QBits", getQuestBit(17))         -- No more docent babble
+                evt.SpeakNPC(getNPC(3))         -- "Big Daddy Jim"
+            end
+        end)
+    end,
+
+    -- Harmondale
+    -- Harmondale teleportal hub
+    ["out02.lua"] = function()
+        replaceMapEvent(218, function()
+            local hasKey = false
+            for i = 0, 4 do
+                if evt.All.Cmp("Inventory", 1467 + i) then
+                    hasKey = true
+                    break
+                end
+            end
+            if not hasKey then
+                Game.ShowStatusText(evt.str[20])
+            else
+                evt.EnterHouse(925)
+            end
+        end)
+    end,
 }

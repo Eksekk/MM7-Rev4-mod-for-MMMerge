@@ -407,7 +407,7 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 405	Arvin Keldin	0757	0	0	0	0	0	205	0	0	0	0	0	0	0			
 406	Ellen Rockway	0791	0	0	0	0	0	206	0	866	0	868	0	0	0	Human Ambassador		
 407	Alain Hani	0700	0	0	0	0	0	207	0	870	0	872	0	0	0	Elven Ambassador		
-408	Queen Catherine	1534	0	0	0	217	0	208	0	874	0	0	0	880	0			
+408	Queen Catherine	2182	0	0	0	217	0	208	0	874	0	0	0	880	0			
 409	ElfKing	1543	0	0	0	218	0	210	0	881	0	0	0	887	0			
 410	Loren Steel	0894	0	0	0	0	0	262	0	0	0	0	0	0	0			
 411	Fake Loren	0894	0	0	0	0	0	263	0	0	0	0	0	0	0			
@@ -1278,10 +1278,10 @@ NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Eve
 1276	Rena Putnum Kedrin	0865	0	0	0	0	0	0	0	1266	0	0	0	0	0			
 1277	Map Giver	1556	0	0	0	0	0	358	0	882	0	0	0	0	0			
 1278	Map Giver 1	1556	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1279	The Coding Wizard	1556	0	0	0	0	0	359	0	798	0	0	0	0	0			
+1279	The Coding Wizard	1556	0	0	0	0	0	359	0	0	0	0	0	0	0			
 1280	Lady K	0841	0	0	0	0	0	0	0	0	0	0	0	0	0			
 1281	EAO the Lector	0846	0	0	0	0	0	0	0	0	0	0	0	0	0			
-1282	Duchess of Deja	1534	0	0	0	0	0	0	0	0	0	0	0	0	0			
+1282	Duchess of Deja	2182	0	0	0	0	0	0	0	0	0	0	0	0	0			
 1283	Lord Godwinson	0889	0	0	0	1106	0	0	0	846	0	0	0	0	0			
 1284	Christian the Stablemaster	0917	0	0	0	0	0	121	0	813	0	0	0	0	0			
 1285	Harmondale Teleportal Hub	1561	0	0	0	925	0	368	0	0	0	0	0	0	0			

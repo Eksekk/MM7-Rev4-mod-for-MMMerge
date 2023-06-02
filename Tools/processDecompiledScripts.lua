@@ -130,117 +130,18 @@ function rev4m.mapScripts()
 		end
 	end
 	]], ""},
-		-- Castle Harmondale
-		-- bodybuilding skill barrel
-		["d29.lua"] = {[[evt.map[37] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 829) then         -- 1-time Castle Harm
-			evt.Set("QBits", 829)         -- 1-time Castle Harm
-			evt.Set("BodybuildingSkill", 71)
-		end
-	end]], [[evt.map[37] = function()
-		if not evt.Cmp("QBits", 829) then         -- 1-time Castle Harm
-			evt.Set("QBits", 829)         -- 1-time Castle Harm
-			giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
-		end
-	end]],
-		-- script processing fix
-		[[evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
-	Bit = 0x0, On = false}]], [[evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-	Bit = 0x0, On = false}]],
-		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(366)         -- "Messenger"
-				evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)]],
-		[[evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)
-				evt.SpeakNPC(366)         -- "Messenger"]]
-		},
-
-		-- Red Dwarf Mines
-		-- Learning skill barrel
-		["d34.lua"] = {[[evt.map[10] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 847) then         -- BDJ 1
-			evt.Set("QBits", 847)         -- BDJ 1
-			evt.Set("LearningSkill", 70)
-		end
-	end]], [[evt.map[10] = function()
-		if not evt.Cmp("QBits", 847) then         -- BDJ 1
-			evt.Set("QBits", 847)         -- BDJ 1
-			giveFreeSkill(const.Skills.Learning, 6, const.Expert)
-		end
-	end]]},
 		-- Emerald Island
-		-- fix for different NPCs talking (QBit wasn't set originally)
 		["out01.lua"] =
 		{
-		[[evt.map[200] = function()
-		if not evt.Cmp("QBits", 529) then         -- No more docent babble
-			evt.SpeakNPC(342)         -- "Big Daddy Jim"
-		end
-		evt.Set("QBits", 529)         -- No more docent babble
-	end]], [[evt.map[200] = function()
-		if not evt.Cmp("QBits", 529) then         -- No more docent babble
-			evt.Set("QBits", 529)        -- No more docent babble
-			evt.SpeakNPC(342)         -- "Big Daddy Jim"
-		end
-	end]],
 		-- fix evt.SpeakNPC
 		[[evt.SpeakNPC(356)         -- "Sally"
 			evt.Subtract("QBits", 806)         -- Return to EI]],
 			[[evt.Subtract("QBits", 806)         -- Return to EI
 			evt.SpeakNPC(356)         -- "Sally"]]},
+		-- Harmondale
 		-- Harmondale teleportal hub
 		["out02.lua"] =
 		{
-			[[evt.map[218] = function()
-		evt.ForPlayer(0)
-		if evt.Cmp("Inventory", 1467) then         -- "Tatalia Teleportal Key"
-			evt.MoveToMap{X = 6604, Y = -8941, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out13.odm"}         -- "Harmondale Teleportal Hub"
-			goto _9
-		end
-		if evt.Cmp("Inventory", 1469) then         -- "Avlee Teleportal Key"
-			goto _9
-		end
-		if evt.Cmp("Inventory", 1468) then         -- "Deja Teleportal Key"
-			goto _10
-		end
-		if evt.Cmp("Inventory", 1471) then         -- "Bracada Teleportal Key"
-			goto _11
-		end
-		if not evt.Cmp("Inventory", 1470) then         -- "Evenmorn Teleportal Key"
-			evt.StatusText(20)         -- "You need a key to use this hub!"
-			return
-		end
-	::_12::
-		evt.MoveToMap{X = 17161, Y = -10827, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "Out09.odm"}         -- "Harmondale Teleportal Hub"
-		do return end
-	::_9::
-		evt.MoveToMap{X = 14414, Y = 12615, Z = 0, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "Out14.odm"}         -- "Harmondale Teleportal Hub"
-	::_10::
-		evt.MoveToMap{X = 4586, Y = -12681, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out05.odm"}         -- "Harmondale Teleportal Hub"
-	::_11::
-		evt.MoveToMap{X = 8832, Y = 18267, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out06.odm"}         -- "Harmondale Teleportal Hub"
-		goto _12
-	end]], [[evt.map[218] = function()
-		local hasKey = false
-		for i = 0, 4 do
-			if evt.All.Cmp("Inventory", 1467 + i) then
-				hasKey = true
-				break
-			end
-		end
-		if not hasKey then
-			Game.ShowStatusText(evt.str[20])
-		else
-			evt.EnterHouse(925)
-		end
-	end]],
 		-- remove original castle harmondale enter event, as it's replaced in Merge
 		[[
 
@@ -642,11 +543,11 @@ function rev4m.mapScripts()
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]],
 			-- need ansi encoding (windows 1252 for vscode) to correctly represent these funny apostrophes
 			[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
-			evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
+			evt.Set("Awards", 128)         -- "Hall of Shame Award ï¿½Unfaithful Friendsï¿½"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)]],
 			
-			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
+			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ï¿½Unfaithful Friendsï¿½"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]},

@@ -299,6 +299,26 @@ table.copy(-- replacements specific to map scripts
     end,
 }, rev4m.scriptReplacements, true)
 
+-- difficulty
+const.Difficulty =
+{
+	Easy = 0,
+	Medium = 1,
+	Normal = 1,
+	Hard = 2
+}
+
+modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
+difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
+isEasy = function() return difficulty == const.Difficulty.Easy end
+isMedium = function() return difficulty == const.Difficulty.Medium end
+isNormal = isMedium
+isHard = function() return difficulty == const.Difficulty.Hard end
+
+function diffsel(...)
+	return assert(select(difficulty + 1, ...))
+end
+
 -- FIX EVENMORN ISLAND MERGE TILES bug
 -- also need to swap grass and water tilesets
 --[[

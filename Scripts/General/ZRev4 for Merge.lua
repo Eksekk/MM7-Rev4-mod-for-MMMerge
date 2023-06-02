@@ -314,7 +314,7 @@ Dark      %d]]
 	-- damage
 	mem.autohook(0x4259C4, function(d)
 		d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
-		debug.Message(d.eax)
+		--debug.Message(d.eax)
 	end)
 	
 	mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
@@ -891,26 +891,6 @@ if MS.Rev4ForMergeRemoveMultilooting == 1 then
 	mem.nop(0x4251F3)
 end
 
--- difficulty
-const.Difficulty =
-{
-	Easy = 0,
-	Medium = 1,
-	Normal = 1,
-	Hard = 2
-}
-
-modSettingsDifficulty = Merge.ModSettings.Rev4ForMergeDifficulty
-difficulty = modSettingsDifficulty and modSettingsDifficulty >= 0 and modSettingsDifficulty <= 2 and math.floor(modSettingsDifficulty) == modSettingsDifficulty and modSettingsDifficulty or const.Difficulty.Easy
-isEasy = function() return difficulty == const.Difficulty.Easy end
-isMedium = function() return difficulty == const.Difficulty.Medium end
-isNormal = isMedium
-isHard = function() return difficulty == const.Difficulty.Hard end
-
-function diffsel(...)
-	return assert(select(difficulty + 1, ...))
-end
-
 local Rev4ForMergeMapstatsBoosted -- needed for Global/VRev4 for Merge.lua
 
 function boostResistances(mon, amount)
@@ -1103,18 +1083,4 @@ function removeChestItem(chest, index)
 		item[v] = false
 	end
 	return true
-end
-
-function printBitValues(combined, bitDesc)
-	local t = {}
-	local bitDescriptions = bitDesc
-	if type(next(bitDesc)) ~= "number" then
-		bitDescriptions = table.invert(bitDesc)
-	end
-	for i, v in sortpairs(bitDescriptions) do
-		if bit.band(combined, i) ~= 0 then
-			table.insert(t, string.format("[0x%X] = %s", i, v))
-		end
-	end
-	print(table.concat(t, "\r\n"))
 end

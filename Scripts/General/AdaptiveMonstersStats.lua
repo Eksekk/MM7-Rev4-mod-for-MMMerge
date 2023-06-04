@@ -420,8 +420,7 @@ local function PrepareMapMon(mon)
 	local TxtMon		= Game.MonstersTxt[mon.Id]
 	MonSettings	= Game.Bolster.Monsters[mon.Id]
 	local BolStep		= MonBolStep[mon.Id]
-	mapvars.oldMons = mapvars.oldMons or {}
-	mapvars.oldMons[mon:GetIndex()] = mapvars.oldMons[mon:GetIndex()] or {}
+	local oldMonBackup = tget(mapvars, "oldMons", mon:GetIndex())
 	
 	local function scaleParam(param, maxVal, onlyReturn)
 		local parts = string.split(param, "%.")
@@ -430,7 +429,7 @@ local function PrepareMapMon(mon)
 			local part = parts[i]
 			monster, orig, txt = monster[part], orig[part], txt[part]
 		end
-		mapvars.oldMons[mon:GetIndex()][param] = monster[part]
+		oldMonBackup[param] = monster[part]
 		local part = parts[#parts]
 		if orig[part] ~= 0 then -- avoid divide by zero
 			local scale = txt[part] / orig[part]
@@ -505,11 +504,11 @@ local function PrepareMapMon(mon)
 
 		scaleParam("Attack2Chance", 80)
 		if (not mon.Attack2.Missile or mon.Attack2.Missile == 0) and mon.Attack2Chance > 0 then
-			mapvars.oldMons[mon:GetIndex()]["Attack2.Missile"] = mon.Attack2.Missile
+			oldMonBackup["Attack2.Missile"] = mon.Attack2.Missile
 			mon.Attack2.Missile 		= TxtMon.Attack2.Missile
 		end
 		if not mon.Attack2.Type or mon.Attack2.Type == 0 and mon.Attack2Chance > 0 then
-			mapvars.oldMons[mon:GetIndex()]["Attack2.Type"] = mon.Attack2.Type
+			oldMonBackup["Attack2.Type"] = mon.Attack2.Type
 			mon.Attack2.Type 			= TxtMon.Attack2.Type
 		end
 
@@ -536,17 +535,17 @@ local function PrepareMapMon(mon)
 		local function doSpell(isSecond)
 			local spellKey, chanceKey, skillKey = isSecond and "Spell2" or "Spell", isSecond and "Spell2Chance" or "SpellChance", isSecond and "Spell2Skill" or "SpellSkill"
 			if mon[spellKey] == 0 and NeedSpells then
-				mapvars.oldMons[mon:GetIndex()][spellKey] = mon[spellKey]
+				oldMonBackup[spellKey] = mon[spellKey]
 				
 				mon[spellKey] = GenMonSpell(MonSettings, BolStep, isSecond and 1 or 0, isSecond and mon[spellKey])
 				if mon[spellKey] ~= 0 then
-					mapvars.oldMons[mon:GetIndex()][chanceKey] = mon[chanceKey]
-					mapvars.oldMons[mon:GetIndex()][skillKey] = mon[skillKey]
+					oldMonBackup[chanceKey] = mon[chanceKey]
+					oldMonBackup[skillKey] = mon[skillKey]
 					mon[chanceKey]		= TxtMon[chanceKey]
 					mon[skillKey] 		= TxtMon[skillKey]
 				end
 			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
-				mapvars.oldMons[mon:GetIndex()][skillKey] = mon[skillKey]
+				oldMonBackup[skillKey] = mon[skillKey]
 				SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
 				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
 				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
@@ -564,11 +563,11 @@ local function PrepareMapMon(mon)
 			scaleParam("SpecialB", maxU1)
 			scaleParam("SpecialC", maxU1)
 		elseif mon.Special == 0 then -- don't override existing specials
-			mapvars.oldMons[mon:GetIndex()].Special 		= mon.Special
-			mapvars.oldMons[mon:GetIndex()].SpecialA 	= mon.SpecialA
-			mapvars.oldMons[mon:GetIndex()].SpecialB 	= mon.SpecialB
-		--	mapvars.oldMons[mon:GetIndex()].SpecialC 	= mon.SpecialC
-			mapvars.oldMons[mon:GetIndex()].SpecialD 	= mon.SpecialD
+			oldMonBackup.Special 		= mon.Special
+			oldMonBackup.SpecialA 	= mon.SpecialA
+			oldMonBackup.SpecialB 	= mon.SpecialB
+		--	old.SpecialC 	= mon.SpecialC
+			oldMonBackup.SpecialD 	= mon.SpecialD
 			
 			mon.Special 	= TxtMon.Special
 			mon.SpecialA 	= TxtMon.SpecialA
@@ -586,7 +585,7 @@ local function PrepareMapMon(mon)
 	mon.TreasureItemPercent = TxtMon.TreasureItemPercent
 	mon.TreasureItemLevel	= TxtMon.TreasureItemLevel
 	]]
-	mapvars.oldMons[mon:GetIndex()].Experience = mon.Experience
+	oldMonBackup.Experience = mon.Experience
 	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
 	vars.lastVisitedMap = Map.Name
 end
@@ -613,13 +612,17 @@ local function restoreMonster(index, props)
 		local mon = Map.Monsters[index]
 		for k, v in pairs(props) do
 			if k == "FullHP" then
+				--[[
 				if Game.UseMonsterBolster then
 					mon.HPPart = mon.HP / mon.FullHP
 				end
+				]]
 				mon.FullHP = v
+				--[[
 				if not Game.UseMonsterBolster then
 					mon.HP = mon.FullHP
 				end
+				]]
 			else
 				local parts = string.split(k, "%.")
 				for j = 1, #parts - 1 do
@@ -1072,56 +1075,12 @@ Game.BolsterMonsters = function()
 	BolsterMonsters()
 end
 
-function cp(t)
-	local copy = {}
-	if type(t) == "table" then
-		local meta = getmetatable(t)
-		local function copyRow(k, v)
-			if type(v) == "table" then
-				local meta = getmetatable(v)
-				copy[k] = {}
-				if meta and meta.members then
-					for k2, v2 in structs.enum(v) do
-						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
-					end
-				elseif meta and meta.__call and type(meta.__call) == "function" then
-					for k2, v2 in v do
-						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
-					end
-				else
-					for k2, v2 in pairs(v) do
-						copy[k][k2] = (type(v2) == "table" and cp(v2) or v2)
-					end
-				end
-			else
-				copy[k] = v
-			end
-		end
-		if meta and meta.members then
-			for k2, v2 in structs.enum(t) do
-				copy[k2] = (type(v2) == "table" and cp(v2) or v2)
-			end
-		elseif meta and meta.__call and type(meta.__call) == "function" then
-			for k, v in t do
-				copyRow(k, v)
-			end
-		else
-			for k, v in pairs(t) do
-				copyRow(k, v)
-			end
-		end
-		return copy
-	else
-		return t
-	end
-end
-
 function events.AfterLoadMap()
 	if Editor and Editor.WorkMode then
 		return
 	end
 	
-	OriginalMonstersTxt = cp(Game.MonstersTxt)
+	OriginalMonstersTxt = deepcopyMM(Game.MonstersTxt)
 	
 	LocalMonstersTxt()
 	ReadyMons	= {}

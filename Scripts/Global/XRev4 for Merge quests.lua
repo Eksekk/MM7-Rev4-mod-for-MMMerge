@@ -654,50 +654,64 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		local cellKey = 979
 		local jailerNameId = placemonAdditionalStart + 1
 		local NpcToRescue = 1286
-		assert(Game.NPCData[NpcToRescue].Name == "Bradley Clark")
+		assert(Game.NPCDataTxt[NpcToRescue].Name == "Bradley Clark")
 		local questGiverHouseId = 1105
 		
 		local questId = "TulareanCavesRescuePrisoner"
 		local QData = tget(vars, questId)
 		
-		-- imprisoned topic
+		-- imprisoned and guards alive topic
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
 			CanShow = function() return vars.Quests[questID] ~= "Done" end,
-			"Rescue",
-			"Were you sent by Matric? No matter the answer, thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
+			"The Rescue",
+			"Thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
 		}
 
-		-- in party topic
+		-- guards dead or in party topic
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
-			CanShow = function() return NPCFollowers.NPCInGroup(NpcToRescue) end,
-			"Rescue",
-			"Were you sent by Matric? No matter the answer, thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
+			CanShow = function()
+				return NPCFollowers.NPCInGroup(NpcToRescue) or QData.guardsKilled
+			end,
+			"The Escape",
+			"We can go now! Please don't waste too much time, we'll probably get some 'tail' from the elves, if you know what I mean."
+		}
+
+		-- join topic
+		NPCTopic{
+			NPC = NpcToRescue,
+			Slot = 1,
+			CanShow = function()
+				return QData.guardsKilled
+					and not NPCFollowers.NPCInGroup(NpcToRescue)
+					and vars.Quests[questID] ~= "Done"
+			end,
+			Ungive = function()
+				NPCFollowers.Add(NpcToRescue)
+				ExitCurrentScreen()
+			end,
+			"Let's go!"
 		}
 		
-		-- thank you topic & greeting
+		-- thank you topic
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
 			CanShow = function() return vars.Quests[questID] == "Done" end,
-			"The rescue",
+			"The Rescue",
 			"Thanks again for rescuing me! You are true heroes and have done your people a great favor."
 		}
-		Greeting{
-			NPC = NpcToRescue,
-			CanShow = function() return vars.Quests[questID] == "Done" end,
-			""
-		}
+
 		Quest{
 			questId,
 			NPC = 588, -- Matric Bowes in Harmondale (he's kinda hidden, he resides in house behind weapon/armor shop),
 			-- I always wanted his location to be starting point of an amazing quest
 			Slot = 2,
 			Experience = 75000,
-			Gold = 10000,
+			Gold = 13000,
 			--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
 			CheckDone = function()
 				return NPCFollowers.NPCInGroup(NpcToRescue)
@@ -720,13 +734,87 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				Undone = "What went wrong? Were guards too sturdy or you couldn't find the key? I'm sure it is in the caverns, you'll find it eventually.",
 				Done = [[My god, you've actually did it? My friend owes you his life, and you have lifetime of my gratitude. Was the escape mission difficult? [Bradley Clark tells Matric about your epic encounter with guards]. Hah, so not only you managed it, you also did it in such amazing style?
 				
-	Not only did you help me and my friend, but also dealt very important blow to the elves. I hope you will enjoy your reward.
+	Not only did you help me and my friend, but also dealt very heavy blow to the elves. I hope you will enjoy your reward.
 				]],
 				
-				Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon.",
-				Award = "Assisted in creation of the ancient Potion of the Swift Mind."
+				Quest = "Rescue Bradley Clark from Tularean Caverns and return to Matric Bowes in Harmondale.",
+				Award = "Rescued Bradley Clark"
 			}
 		}
+
+		function events.LoadMap()
+			if Map.Name ~= "7d08orig.blv" then return end
+			evt.map[376].clear()
+			evt.hint[376] = "Cell Door"
+			evt.map[376] = function()
+				if not evt.All.Cmp("Inventory", cellKey) then
+					Game.ShowStatusText("It's locked.")
+					return
+				elseif NPCFollowers.NPCInGroup(NpcToRescue) or vars.Quests[questID] == "Done" then
+					Game.ShowStatusText("It's empty.")
+					return
+				end
+				evt.SpeakNPC{Id = NpcToRescue}
+			end
+			if not cmpSetMapvarBool("questSetup") then
+				-- spawn item near castle navan door
+				pseudoSpawnpointItem{item = cellKey, x = -5622, y = -10314, z = 768, count = 1}
+
+				local mons = {}
+
+				-- elven warrior guards
+				mons = table.join(mons, pseudoSpawnpoint{monster = 250, x = -4849, y = -9421, z = 703, powerChances = {20, 20, 60}, count = 6, transform = function(mon)
+					monUtils.hp(mon, 2)
+					monUtils.rewards(mon, 8, nil, 4)
+				end})
+
+				-- guards near npc cell
+				-- elven warriors
+				local guards = {}
+				local function warrior(lev)
+					return function(mon)
+						table.insert(guards, mon:GetIndex())
+						monUtils.hp(mon, lev)
+						monUtils.rewards(mon, 5 + lev * 2, -4, lev)
+						mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + lev * 3
+					end
+				end
+				-- pillar room
+				pseudoSpawnpoint{monster = 250, x = 9084, y = 7435, z = -29, count = 4, powerChances = {33, 33, 34}, transform = warrior(3)}
+				pseudoSpawnpoint{monster = 250, x = 7947, y = 6682, z = -68, count = 4, powerChances = {33, 33, 34}, transform = warrior(3)}
+
+				-- cell slope
+				pseudoSpawnpoint{monster = 250, x = 12228, y = 4095, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2)}
+				pseudoSpawnpoint{monster = 250, x = 11791, y = 3998, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2)}
+
+				-- archers
+				local function archer(lev)
+					return function(mon)
+						table.insert(guards, mon:GetIndex())
+						monUtils.hp(mon, lev)
+						monUtils.rewards(mon, lev * 4, -4, lev)
+						mon.Attack1.DamageDiceSides = math.round(mon.Attack1.DamageDiceSides * (1 + 0.1 * lev))
+					end
+				end
+				-- cell slope
+				pseudoSpawnpoint{monster = 247, x = 11441, y = 5474, z = 315, count = "2-3", powerChances = {40, 40, 20}, transform = archer(3)}
+				pseudoSpawnpoint{monster = 247, x = 12171, y = 2951, z = 795, count = "2-3", powerChances = {20, 50, 30}, transform = archer(2)}
+				
+				mapvars.aliveGuards = guards
+
+				-- wyverns todo
+			end
+				
+			function events.MonsterKilled(mon, index)
+				local i = table.find(mapvars.aliveGuards, index)
+				if i then
+					table.remove(mapvars.aliveGuards, i)
+					if #mapvars.aliveGuards == 0 then
+						QData.guardsKilled = true
+					end
+				end
+			end
+		end
 	end
 end
 

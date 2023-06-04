@@ -618,6 +618,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			end
 			events.Remove(1)
 		end
+		local hp, rewards, spells = monUtils.hp, monUtils.rewards, monUtils.spells
 		
 		mapvars.Rev4ForMergeBossesSpawned = true
 		

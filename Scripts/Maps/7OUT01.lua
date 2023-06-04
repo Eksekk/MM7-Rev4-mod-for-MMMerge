@@ -353,9 +353,9 @@ end
 Game.MapEvtLines:RemoveEvent(200)
 evt.map[200] = function()
 	if not evt.Cmp("QBits", 529) then         -- No more docent babble
-		evt.Set("QBits", 529)        -- No more docent babble
 		evt.SpeakNPC(342)         -- "Big Daddy Jim"
 	end
+	evt.Set("QBits", 529)         -- No more docent babble
 end
 
 Game.MapEvtLines:RemoveEvent(201)

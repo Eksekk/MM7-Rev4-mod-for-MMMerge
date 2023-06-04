@@ -48,9 +48,10 @@ events.LoadMap = evt.map[1].last
 evt.hint[10] = evt.str[15]  -- "Professor Dumbledore’s Grog "
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
+	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 847) then         -- BDJ 1
 		evt.Set("QBits", 847)         -- BDJ 1
-		giveFreeSkill(const.Skills.Learning, 6, const.Expert)
+		evt.Set("LearningSkill", 70)
 	end
 end
 
@@ -392,6 +393,8 @@ Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.MoveToMap{X = 20980, Y = 14802, Z = 1, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out06.odm"}
 end
+
+
 
 --[[ MMMerge additions ]]--
 

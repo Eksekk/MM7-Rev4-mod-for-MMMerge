@@ -814,6 +814,9 @@ do
 		end
 	end
 
+	-- IMPORTANT
+	-- normal event shouldn't be assigned (by default or through event)
+
 	local Q = tget(vars, "bdjClassChangeQuest")
 	rev4m.bdjQ = Q
 	local function myQuestBranch(str)
@@ -847,11 +850,15 @@ do
 	function events.EnterNPC(id)
 		if id == npcCopy then
 			if not Q.branch then
-				Game.NPC[npcCopy].EventA = 0 -- prevent welcome topic from showing after choosing profession
 				myQuestBranch(branches.welcome())
 			else
 				--QuestBranch(Q.branch, true)
 			end
+		end
+	end
+	function events.CanExitNPC(id)
+		if id == npcCopy then
+			t.Allow = true
 		end
 	end
 
@@ -950,6 +957,7 @@ do
 		Slot = 0,
 		Branch = branches.welcome(),
 		Ungive = function()
+			--debug.Message(QuestBranch())
 			myQuestBranch(branches.welcome2())
 			-- evt.SetNPCTopic{NPC = getNPC(456), Index = 0, Event = getGlobalEvent(49)}         -- "The Coding Wizard" : "How does this work?"
 			evt.MoveNPC{NPC = getNPC(460), HouseId = getHouseID(470)}         -- "Lord Godwinson" -> "Godwinson Estate"

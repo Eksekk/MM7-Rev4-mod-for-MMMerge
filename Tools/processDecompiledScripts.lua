@@ -161,168 +161,14 @@ function rev4m.mapScripts()
 			evt.Set("QBits", 644)         -- Butler only shows up once (area 2)
 		end
 	end]], "",
-		-- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members, and set QBits in vars to restore later
-		[[evt.map[221] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 868) then         -- 0
-			evt.StatusText(54)         -- "You Pray"
-			return
-		end
-		evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
-		evt.Subtract("QBits", 719)         -- Erathia - Town Portal
-		evt.Subtract("QBits", 720)         -- Tularean Forest - Town Portal
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-	::_8::
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		evt.Subtract("Inventory", 1134)         -- "Lloyd's Beacon"
-		if evt.Cmp("Inventory", 1134) then         -- "Lloyd's Beacon"
-			goto _8
-		end
-		if evt.Cmp("Inventory", 223) then         -- "Magic Potion"
-			goto _8
-		end
-		for pl = 0, Party.High do
-			evt.ForPlayer(pl)
-			if evt.Cmp("FireSkill", 1) then
-				evt.Set("SP", 0)
-			end
-		end
-		evt.ForPlayer("All")
-		evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
-		evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
-		evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D08.blv"}
-	end]],
-		[[evt.map[221] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 868) then         -- 0
-			evt.StatusText(54)         -- "You Pray"
-			return
-		end
-		vars.TheGauntletQBits = {}
-		for i = 0, 2 do
-			vars.TheGauntletQBits[i + 718] = Party.QBits[i + 718]
-		end
-		evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
-		evt.Subtract("QBits", 719)         -- Erathia - Town Portal
-		evt.Subtract("QBits", 720)         -- Tularean Forest - Town Portal
-		while evt.Cmp("Inventory", 223) do         -- "Magic Potion"
-			evt.Subtract("Inventory", 223)         -- "Magic Potion"
-		end
-		for _, scroll in ipairs({332, 1134, 1834}) do
-			while evt.Cmp("Inventory", scroll) do
-				evt.Subtract("Inventory", scroll)
-			end
-		end
-		for _, pl in Party do
-			if pl.Skills[const.Skills.Fire] ~= 0 then
-				pl.SP = 0
-			end
-		end
-		evt.ForPlayer("All")
-		-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
-		-- dispel magic
-		for i, pl in Party do
-			for buffid, buff in pl.SpellBuffs do
-				mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
-			end
-		end
-		for i, buff in Party.SpellBuffs do
-			mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
-		end
-		evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
-		evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D08.blv"}
-	end]],
 		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(365)         -- "Count ZERO"
-				evt.Set("Awards", 123)         -- "Completed the MM7Rev4mod Game!!"
-				evt.Subtract("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."]],
-				[[evt.Set("Awards", 123)         -- "Completed the MM7Rev4mod Game!!"
-				evt.Subtract("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
-				evt.SpeakNPC(365)         -- "Count ZERO"]],
 		[[evt.SpeakNPC(437)         -- "Messenger"
 					evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."]],
 		[[evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-					evt.SpeakNPC(437)         -- "Messenger"]],
-		[[evt.SpeakNPC(357)         -- "Lord Godwinson"
-				evt.Set("NPCs", 357)         -- "Lord Godwinson"
-				evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
-				Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
-				evt.Set("QBits", 888)         -- LG 1-time]],
-		[[evt.Set("NPCs", 357)         -- "Lord Godwinson"
-				evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
-				Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
-				evt.Set("QBits", 888)         -- LG 1-time
-				evt.SpeakNPC(357)         -- "Lord Godwinson"]],
-		[[evt.SpeakNPC(430)         -- "Messenger"
-				evt.Add("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-				evt.Add("History6", 0)
-				evt.MoveNPC{NPC = 406, HouseId = 0}         -- "Ellen Rockway"
-				evt.MoveNPC{NPC = 407, HouseId = 0}         -- "Alain Hani"
-				evt.MoveNPC{NPC = 414, HouseId = 1169}         -- "Ambassador Wright" -> "Throne Room"
-				evt.MoveNPC{NPC = 416, HouseId = 244}         -- "Judge Fairweather" -> "Familiar Place"
-				evt.Set("QBits", 646)         -- Arbiter Messenger only happens once]],
-		[[evt.Add("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-				evt.Add("History6", 0)
-				evt.MoveNPC{NPC = 406, HouseId = 0}         -- "Ellen Rockway"
-				evt.MoveNPC{NPC = 407, HouseId = 0}         -- "Alain Hani"
-				evt.MoveNPC{NPC = 414, HouseId = 1169}         -- "Ambassador Wright" -> "Throne Room"
-				evt.MoveNPC{NPC = 416, HouseId = 244}         -- "Judge Fairweather" -> "Familiar Place"
-				evt.Set("QBits", 646)         -- Arbiter Messenger only happens once
-				evt.SpeakNPC(430)         -- "Messenger"]]},
+					evt.SpeakNPC(437)         -- "Messenger"]],},
+
 		-- Erathia
-		-- fix small bug in town portal code
-		["out03.lua"] = {[[evt.map[35] = function()
-		evt.ForPlayer("All")
-		if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-			evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
-			evt.MoveToMap{X = -6731, Y = 14045, Z = -512, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.Odm"}
-		else
-			evt.StatusText(22)         -- "You need a town portal pass!"
-		end
-	end]], [[evt.map[35] = function()
-		evt.ForPlayer("All")
-		if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-			evt.MoveToMap{X = -6731, Y = 14045, Z = -512, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.Odm"}
-			evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
-		else
-			evt.StatusText(22)         -- "You need a town portal pass!"
-		end
-	end]], [[evt.map[36] = function()
-		evt.ForPlayer("All")
-		if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-			evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
-			evt.MoveToMap{X = -15148, Y = -10240, Z = 1312, Direction = 40, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out04.odm"}
-		else
-			evt.StatusText(22)         -- "You need a town portal pass!"
-		end
-	end]], [[evt.map[36] = function()
-		evt.ForPlayer("All")
-		if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-			evt.MoveToMap{X = -15148, Y = -10240, Z = 1312, Direction = 40, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out04.odm"}
-			evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
-		else
-			evt.StatusText(22)         -- "You need a town portal pass!"
-		end
-	end]],
-		-- brianna's brandy (identify item tea)
-		[[evt.map[37] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 843) then         -- 1-time Erathia
-			evt.Set("QBits", 843)         -- 1-time Erathia
-			evt.Set("IdentifyItemSkill", 70)
-			evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
-		end
-	end]], [[evt.map[37] = function()
-		if not evt.Cmp("QBits", 843) then         -- 1-time Erathia
-			evt.Set("QBits", 843)         -- 1-time Erathia
-			giveFreeSkill(const.Skills.IdentifyItem, 6, const.Expert)
-			evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
-		end
-	end]],
+		["out03.lua"] = {
 		-- fix evt.SpeakNPC
 		[[evt.SpeakNPC(366)         -- "Messenger"
 				evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
@@ -334,6 +180,7 @@ function rev4m.mapScripts()
 				evt.Subtract("QBits", 880)         -- Barrow Normal
 				evt.Set("Counter2", 0)
 				evt.SpeakNPC(366)         -- "Messenger"]],
+
 		[[evt.SpeakNPC(412)         -- "Messenger"
 				Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
 				evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
@@ -542,12 +389,13 @@ function rev4m.mapScripts()
 			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]],
 			-- need ansi encoding (windows 1252 for vscode) to correctly represent these funny apostrophes
+			-- "detect encoding" in settings needs to be on
 			[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
-			evt.Set("Awards", 128)         -- "Hall of Shame Award ï¿½Unfaithful Friendsï¿½"
+			evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)]],
 			
-			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ï¿½Unfaithful Friendsï¿½"
+			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)
 			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]},
@@ -713,7 +561,7 @@ end]], ""},
 		-- Coding Fortress
 		-- make BDJ invisible by default
 		-- make BDJ hostile on save game reload/lloyd back to dungeon
-		["d12.lua"] = {[[
+		--[=[ ["d12.lua"] = {[[
 	function events.AfterLoadMap()
 		if Map.Name == "7d12.blv" then
 			-- make BDJ invisible by default
@@ -727,7 +575,7 @@ end]], ""},
 			end
 			vars["make BDJ hostile"] = true
 		end
-	end]]},
+	end]]},]=]
 		-- Castle Harmondale
 		-- fix for a bug where golem and messenger of the saints are visible by default
 		["d29.lua"] = {[[

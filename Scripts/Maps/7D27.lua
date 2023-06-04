@@ -366,7 +366,10 @@ evt.map[377] = function()
 	end
 end
 
-
+evt.hint[501] = evt.str[2]  -- "Leave the Hive"
+evt.map[501] = function()
+	evt.MoveToMap{X = -18246, Y = -11910, Z = 3201, Direction = 128, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "Out12.odm"}
+end
 
 --[[ MMMerge additions ]]--
 

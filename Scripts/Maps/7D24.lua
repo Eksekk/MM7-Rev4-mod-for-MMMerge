@@ -111,9 +111,10 @@ end
 evt.hint[10] = evt.str[15]  -- "Shirley's Astral Elixir"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
+	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 846) then         -- 1-time stone city
 		evt.Set("QBits", 846)         -- 1-time stone city
-		giveFreeSkill(const.Skills.Perception, 6, const.Expert)
+		evt.Set("PerceptionSkill", 70)
 	end
 end
 
@@ -473,3 +474,4 @@ Game.MapEvtLines:RemoveEvent(502)
 evt.map[502] = function()
 	evt.MoveToMap{X = 522, Y = -808, Z = 1, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D35.blv"}
 end
+

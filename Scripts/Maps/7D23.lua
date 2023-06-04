@@ -868,25 +868,6 @@ end
 
 Timer(evt.map[477].last, 1*const.Minute)
 
-evt.hint[501] = evt.str[2]  -- "Leave the Lincoln"
-evt.map[501] = function()
-	evt.ForPlayer(0)
-	if evt.Cmp("IsWearingItem", 604) then
-		evt.ForPlayer(1)
-		if evt.Cmp("IsWearingItem", 604) then
-			evt.ForPlayer(2)
-			if evt.Cmp("IsWearingItem", 604) then
-				evt.ForPlayer(3)
-				if evt.Cmp("IsWearingItem", 604) then
-					evt.MoveToMap{X = -7005, Y = 7856, Z = 225, Direction = 128, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7out15.odm"}
-					return
-				end
-			end
-		end
-	end
-	evt.StatusText(20)         -- "You must all be wearing your wetsuits to exit the ship"
-end
-
 
 
 --[[ MMMerge additions ]]--

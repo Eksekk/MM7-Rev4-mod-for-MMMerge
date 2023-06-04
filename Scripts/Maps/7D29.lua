@@ -288,11 +288,11 @@ evt.map[35] = function()  -- function events.LoadMap()
 	if not evt.Cmp("QBits", 883) then         -- Dwarven Messenger Once
 		if evt.Cmp("Awards", 120) then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
+			evt.SpeakNPC(366)         -- "Messenger"
 			evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 			evt.Set("QBits", 883)         -- Dwarven Messenger Once
 			evt.Subtract("QBits", 880)         -- Barrow Normal
 			evt.Set("Counter2", 0)
-			evt.SpeakNPC(366)         -- "Messenger"
 		end
 	end
 end
@@ -302,9 +302,10 @@ events.LoadMap = evt.map[35].last
 evt.hint[37] = evt.str[11]  -- "Arnold's Super Protein Drink"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
+	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 829) then         -- 1-time Castle Harm
 		evt.Set("QBits", 829)         -- 1-time Castle Harm
-		giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
+		evt.Set("BodybuildingSkill", 71)
 	end
 end
 
@@ -562,8 +563,8 @@ evt.map[376] = function()  -- function events.LoadMap()
 	end
 	evt.ForPlayer("All")
 	if evt.Cmp("QBits", 612) then         -- Chose the path of Dark
-		evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-		Bit = 0x0, On = false}         -- "Generic Monster Group for Dungeons"
+		evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
+Bit = 0x0, On = false}         -- "Generic Monster Group for Dungeons"
 	end
 	do return end
 ::_5::

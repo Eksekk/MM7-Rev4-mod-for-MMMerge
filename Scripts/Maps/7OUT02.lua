@@ -437,9 +437,9 @@ evt.map[39] = function()  -- function events.LoadMap()
 	if not evt.Cmp("Awards", 123) then         -- "Completed the MM7Rev4mod Game!!"
 		if evt.Cmp("QBits", 886) then         -- End Game
 			evt.SetNPCGreeting{NPC = 365, Greeting = 147}         -- "Count ZERO" : "Magic Shop"
+			evt.SpeakNPC(365)         -- "Count ZERO"
 			evt.Set("Awards", 123)         -- "Completed the MM7Rev4mod Game!!"
 			evt.Subtract("QBits", 642)         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
-			evt.SpeakNPC(365)         -- "Count ZERO"
 		end
 	end
 end
@@ -512,11 +512,11 @@ evt.map[52] = function()  -- function events.LoadMap()
 	if not evt.Cmp("QBits", 888) then         -- LG 1-time
 		if evt.Cmp("QBits", 868) then         -- 0
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
+			evt.SpeakNPC(357)         -- "Lord Godwinson"
 			evt.Set("NPCs", 357)         -- "Lord Godwinson"
 			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
 			evt.Set("QBits", 888)         -- LG 1-time
-			evt.SpeakNPC(357)         -- "Lord Godwinson"
 		end
 	end
 end
@@ -805,6 +805,7 @@ Game.MapEvtLines:RemoveEvent(211)
 evt.map[211] = function()  -- function events.LoadMap()
 	if not evt.Cmp("QBits", 646) then         -- Arbiter Messenger only happens once
 		if evt.Cmp("Counter3", 2272) then
+			evt.SpeakNPC(430)         -- "Messenger"
 			evt.Add("QBits", 665)         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
 			evt.Add("History6", 0)
 			evt.MoveNPC{NPC = 406, HouseId = 0}         -- "Ellen Rockway"
@@ -812,7 +813,6 @@ evt.map[211] = function()  -- function events.LoadMap()
 			evt.MoveNPC{NPC = 414, HouseId = 1169}         -- "Ambassador Wright" -> "Throne Room"
 			evt.MoveNPC{NPC = 416, HouseId = 244}         -- "Judge Fairweather" -> "Familiar Place"
 			evt.Set("QBits", 646)         -- Arbiter Messenger only happens once
-			evt.SpeakNPC(430)         -- "Messenger"
 		end
 	end
 end
@@ -828,18 +828,34 @@ evt.hint[217] = evt.str[3]  -- "Well"
 evt.hint[218] = evt.str[19]  -- "Harmondale Teleportal Hub"
 Game.MapEvtLines:RemoveEvent(218)
 evt.map[218] = function()
-	local hasKey = false
-	for i = 0, 4 do
-		if evt.All.Cmp("Inventory", 1467 + i) then
-			hasKey = true
-			break
-		end
+	evt.ForPlayer(0)
+	if evt.Cmp("Inventory", 1467) then         -- "Tatalia Teleportal Key"
+		evt.MoveToMap{X = 6604, Y = -8941, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out13.odm"}         -- "Harmondale Teleportal Hub"
+		goto _9
 	end
-	if not hasKey then
-		Game.ShowStatusText(evt.str[20])
-	else
-		evt.EnterHouse(925)
+	if evt.Cmp("Inventory", 1469) then         -- "Avlee Teleportal Key"
+		goto _9
 	end
+	if evt.Cmp("Inventory", 1468) then         -- "Deja Teleportal Key"
+		goto _10
+	end
+	if evt.Cmp("Inventory", 1471) then         -- "Bracada Teleportal Key"
+		goto _11
+	end
+	if not evt.Cmp("Inventory", 1470) then         -- "Evenmorn Teleportal Key"
+		evt.StatusText(20)         -- "You need a key to use this hub!"
+		return
+	end
+::_12::
+	evt.MoveToMap{X = 17161, Y = -10827, Z = 0, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "Out09.odm"}         -- "Harmondale Teleportal Hub"
+	do return end
+::_9::
+	evt.MoveToMap{X = 14414, Y = 12615, Z = 0, Direction = 768, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "Out14.odm"}         -- "Harmondale Teleportal Hub"
+::_10::
+	evt.MoveToMap{X = 4586, Y = -12681, Z = 0, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out05.odm"}         -- "Harmondale Teleportal Hub"
+::_11::
+	evt.MoveToMap{X = 8832, Y = 18267, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 1172, Icon = 4, Name = "7Out06.odm"}         -- "Harmondale Teleportal Hub"
+	goto _12
 end
 
 evt.hint[219] = evt.str[41]  -- "Castle Harmondale"
@@ -862,37 +878,31 @@ evt.map[221] = function()
 		evt.StatusText(54)         -- "You Pray"
 		return
 	end
-	vars.TheGauntletQBits = {}
-	for i = 0, 2 do
-		vars.TheGauntletQBits[i + 718] = Party.QBits[i + 718]
-	end
 	evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
 	evt.Subtract("QBits", 719)         -- Erathia - Town Portal
 	evt.Subtract("QBits", 720)         -- Tularean Forest - Town Portal
-	while evt.Cmp("Inventory", 223) do         -- "Magic Potion"
-		evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+::_8::
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 223)         -- "Magic Potion"
+	evt.Subtract("Inventory", 1134)         -- "Lloyd's Beacon"
+	if evt.Cmp("Inventory", 1134) then         -- "Lloyd's Beacon"
+		goto _8
 	end
-	for _, scroll in ipairs({332, 1134, 1834}) do
-		while evt.Cmp("Inventory", scroll) do
-			evt.Subtract("Inventory", scroll)
-		end
+	if evt.Cmp("Inventory", 223) then         -- "Magic Potion"
+		goto _8
 	end
-	for _, pl in Party do
-		if pl.Skills[const.Skills.Fire] ~= 0 then
-			pl.SP = 0
+	for pl = 0, Party.High do
+		evt.ForPlayer(pl)
+		if evt.Cmp("FireSkill", 1) then
+			evt.Set("SP", 0)
 		end
 	end
 	evt.ForPlayer("All")
-	-- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
-	-- dispel magic
-	for i, pl in Party do
-		for buffid, buff in pl.SpellBuffs do
-			mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
-		end
-	end
-	for i, buff in Party.SpellBuffs do
-		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
-	end
+	evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
 	evt.Subtract("QBits", 718)         -- Harmondale - Town Portal
 	evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D08.blv"}
 end

@@ -410,7 +410,7 @@ local function ProcessFormula(Formula, Default)
 end
 
 function events.BeforeLoadMap()
-	vars.oldMons = vars.oldMons or {}
+	mapvars.oldMons = mapvars.oldMons or {}
 	events.Remove(1)
 end
 
@@ -420,32 +420,33 @@ local function PrepareMapMon(mon)
 	local TxtMon		= Game.MonstersTxt[mon.Id]
 	MonSettings	= Game.Bolster.Monsters[mon.Id]
 	local BolStep		= MonBolStep[mon.Id]
-	vars.oldMons[Map.Name] = vars.oldMons[Map.Name] or {}
-	vars.oldMons[Map.Name][mon:GetIndex()] = vars.oldMons[Map.Name][mon:GetIndex()] or {}
+	mapvars.oldMons = mapvars.oldMons or {}
+	mapvars.oldMons[mon:GetIndex()] = mapvars.oldMons[mon:GetIndex()] or {}
 	
 	local function scaleParam(param, maxVal, onlyReturn)
 		local parts = string.split(param, "%.")
-		local mon2, orig, txt = mon, OriginalMonstersTxt[mon.Id], TxtMon
+		local monster, orig, txt = mon, OriginalMonstersTxt[mon.Id], TxtMon
 		for i = 1, #parts - 1 do
 			local part = parts[i]
-			mon2, orig, txt = mon2[part], orig[part], txt[part]
+			monster, orig, txt = monster[part], orig[part], txt[part]
 		end
-		vars.oldMons[Map.Name][mon:GetIndex()][param] = mon2[part]
+		mapvars.oldMons[mon:GetIndex()][param] = monster[part]
 		local part = parts[#parts]
 		if orig[part] ~= 0 then -- avoid divide by zero
 			local scale = txt[part] / orig[part]
 			if scale ~= scale then -- check for NaN
 				error("scale is Not a Number")
 			end
+			local val = min(maxVal, math.round(monster[part] * scale))
 			if onlyReturn then
-				return min(maxVal, math.round(mon2[part] * scale))
+				return val
 			end
-			mon2[part] = min(maxVal, math.round(mon2[part] * scale))
+			monster[part] = val
 		else
 			if onlyReturn then
 				return min(maxVal, txt[part])
 			end
-			mon2[part] = min(maxVal, txt[part])
+			monster[part] = min(maxVal, txt[part])
 		end
 	end
 	
@@ -482,8 +483,9 @@ local function PrepareMapMon(mon)
 
 		--if mon.NameId ~= 123 then -- Q
 			if mon.HP > 0 then
-				mon.HP = max(min(floor(scaleParam("FullHP", maxI2, true) * (mon.HPPart or (mon.HP/mon.FullHP))), maxI2), 1)
-				mon.HPPart = nil
+				local hitPointPercentage = mon.HP / mon.FullHP
+				local scaled = floor(scaleParam("FullHP", maxI2, true) * hitPointPercentage)
+				mon.HP = max(min(scaled, maxI2), 1)
 			end
 			scaleParam("FullHP", maxI2)
 		--end
@@ -503,11 +505,11 @@ local function PrepareMapMon(mon)
 
 		scaleParam("Attack2Chance", 80)
 		if (not mon.Attack2.Missile or mon.Attack2.Missile == 0) and mon.Attack2Chance > 0 then
-			vars.oldMons[Map.Name][mon:GetIndex()]["Attack2.Missile"] = mon.Attack2.Missile
+			mapvars.oldMons[mon:GetIndex()]["Attack2.Missile"] = mon.Attack2.Missile
 			mon.Attack2.Missile 		= TxtMon.Attack2.Missile
 		end
 		if not mon.Attack2.Type or mon.Attack2.Type == 0 and mon.Attack2Chance > 0 then
-			vars.oldMons[Map.Name][mon:GetIndex()]["Attack2.Type"] = mon.Attack2.Type
+			mapvars.oldMons[mon:GetIndex()]["Attack2.Type"] = mon.Attack2.Type
 			mon.Attack2.Type 			= TxtMon.Attack2.Type
 		end
 
@@ -531,42 +533,29 @@ local function PrepareMapMon(mon)
 		local Skill, Mas
 		local BuffSpells = not (GetAvgLevel(mon.Id) >= PartyLevel and MapSettings.Type ~= BolsterTypes.AllToEqual)
 		local NeedSpells = BuffSpells and MapSettings.Spells and MonSettings.Spells
-		if mon.Spell == 0 and NeedSpells then
-			vars.oldMons[Map.Name][mon:GetIndex()].Spell = mon.Spell
-			
-			mon.Spell = GenMonSpell(MonSettings, BolStep, 0)
-			if mon.Spell ~= 0 then
-				vars.oldMons[Map.Name][mon:GetIndex()].SpellChance = mon.SpellChance
-				vars.oldMons[Map.Name][mon:GetIndex()].SpellSkill = mon.SpellSkill
-				mon.SpellChance		= TxtMon.SpellChance
-				mon.SpellSkill 		= TxtMon.SpellSkill
+		local function doSpell(isSecond)
+			local spellKey, chanceKey, skillKey = isSecond and "Spell2" or "Spell", isSecond and "Spell2Chance" or "SpellChance", isSecond and "Spell2Skill" or "SpellSkill"
+			if mon[spellKey] == 0 and NeedSpells then
+				mapvars.oldMons[mon:GetIndex()][spellKey] = mon[spellKey]
+				
+				mon[spellKey] = GenMonSpell(MonSettings, BolStep, isSecond and 1 or 0, isSecond and mon[spellKey])
+				if mon[spellKey] ~= 0 then
+					mapvars.oldMons[mon:GetIndex()][chanceKey] = mon[chanceKey]
+					mapvars.oldMons[mon:GetIndex()][skillKey] = mon[skillKey]
+					mon[chanceKey]		= TxtMon[chanceKey]
+					mon[skillKey] 		= TxtMon[skillKey]
+				end
+			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
+				mapvars.oldMons[mon:GetIndex()][skillKey] = mon[skillKey]
+				SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
+				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
+				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
+				mon[skillKey] = JoinSkill(Skill, Mas)
 			end
-		elseif mon.Spell ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
-			vars.oldMons[Map.Name][mon:GetIndex()].SpellSkill = mon.SpellSkill
-			SpellSkill, SpellMastery = SplitSkill(mon.SpellSkill)
-			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
-			Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
-			mon.SpellSkill = JoinSkill(Skill, Mas)
 		end
 
-		if mon.Spell2 == 0 and NeedSpells then
-			vars.oldMons[Map.Name][mon:GetIndex()].Spell2 = mon.Spell2
-			
-			mon.Spell2 = GenMonSpell(MonSettings, BolStep, 1, mon.Spell)
-			if mon.Spell2 ~= 0 then
-				vars.oldMons[Map.Name][mon:GetIndex()].Spell2Chance = mon.Spell2Chance
-				vars.oldMons[Map.Name][mon:GetIndex()].Spell2Skill = mon.Spell2Skill
-				mon.Spell2Chance	= TxtMon.Spell2Chance
-				mon.Spell2Skill 	= TxtMon.Spell2Skill
-				--if TxtMon.Spell2Skill == 0 then debug.Message("XDDDDD", BolStep, PartyLevel, MonsterLevel) end
-			end
-		elseif mon.Spell2 ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
-			vars.oldMons[Map.Name][mon:GetIndex()].Spell2Skill = mon.Spell2Skill
-			SpellSkill, SpellMastery = SplitSkill(mon.Spell2Skill)
-			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
-			Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
-			mon.Spell2Skill = JoinSkill(Skill, Mas)
-		end
+		doSpell()
+		doSpell(true)
 
 		-- Summons
 		if mon.Special == 3 then -- explode
@@ -575,11 +564,11 @@ local function PrepareMapMon(mon)
 			scaleParam("SpecialB", maxU1)
 			scaleParam("SpecialC", maxU1)
 		elseif mon.Special == 0 then -- don't override existing specials
-			vars.oldMons[Map.Name][mon:GetIndex()].Special 		= mon.Special
-			vars.oldMons[Map.Name][mon:GetIndex()].SpecialA 	= mon.SpecialA
-			vars.oldMons[Map.Name][mon:GetIndex()].SpecialB 	= mon.SpecialB
-		--	vars.oldMons[Map.Name][mon:GetIndex()].SpecialC 	= mon.SpecialC
-			vars.oldMons[Map.Name][mon:GetIndex()].SpecialD 	= mon.SpecialD
+			mapvars.oldMons[mon:GetIndex()].Special 		= mon.Special
+			mapvars.oldMons[mon:GetIndex()].SpecialA 	= mon.SpecialA
+			mapvars.oldMons[mon:GetIndex()].SpecialB 	= mon.SpecialB
+		--	mapvars.oldMons[mon:GetIndex()].SpecialC 	= mon.SpecialC
+			mapvars.oldMons[mon:GetIndex()].SpecialD 	= mon.SpecialD
 			
 			mon.Special 	= TxtMon.Special
 			mon.SpecialA 	= TxtMon.SpecialA
@@ -597,15 +586,15 @@ local function PrepareMapMon(mon)
 	mon.TreasureItemPercent = TxtMon.TreasureItemPercent
 	mon.TreasureItemLevel	= TxtMon.TreasureItemLevel
 	]]
-	vars.oldMons[Map.Name][mon:GetIndex()].Experience = mon.Experience
+	mapvars.oldMons[mon:GetIndex()].Experience = mon.Experience
 	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
-	vars.oldMons.Map = Map.Name
+	vars.lastVisitedMap = Map.Name
 end
 
 local eventTypes = {"Before", "", "After"}
 for i, v in ipairs(eventTypes) do
 	events[v .. "LoadMap"] = function()
-		if vars.oldMons.Map and vars.oldMons.Map == Map.Name then
+		if vars.lastVisitedMap and vars.lastVisitedMap == Map.Name then
 			events.call(v .. "LoadSaveGame")
 		end
 	end
@@ -615,7 +604,7 @@ function events.LoadSaveGame()
 	-- FIX FOR ASCENDED BUG
 	-- remove this handler and store HPPart in vars (update: something else needed) to make monsters retain their current HP after loading game!
 	for i, v in Map.Monsters do
-		v.HP = v.FullHP
+		--v.HP = v.FullHP
 	end
 end
 
@@ -645,28 +634,30 @@ end
 
 local function restore()
 	if Editor and Editor.WorkMode then return end
+	--[[ not needed?
 	if Map.Refilled then
-		if vars.oldMons[Map.Name] then
-			vars.oldMons[Map.Name] = nil
+		if mapvars.oldMons then
+			mapvars.oldMons = nil
 		end
 		return
 	end
-	if not vars.oldMons[Map.Name] then return end
-	for i, v in pairs(vars.oldMons[Map.Name]) do -- no ipairs, because indexes aren't sequential
+	]]
+	if not mapvars.oldMons then return end
+	for i, v in pairs(mapvars.oldMons) do -- no ipairs, because indexes aren't sequential
 		restoreMonster(i, v)
 	end
-	vars.oldMons[Map.Name] = nil
+	mapvars.oldMons = nil
 end
 
 events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
 
 local function processDeadMonsters()
 	if Editor and Editor.WorkMode then return end
-	if not vars.oldMons[Map.Name] then return end
+	if not mapvars.oldMons then return end
 	if Map.Monsters.High == -1 then return end -- map not loaded fully? happened when restoring uv
 	
 	local clear = {}
-	for i, v in pairs(vars.oldMons[Map.Name]) do
+	for i, v in pairs(mapvars.oldMons) do
 		if i < Map.Monsters.Low or i > Map.Monsters.High then
 			table.insert(clear, i)
 		else
@@ -678,7 +669,7 @@ local function processDeadMonsters()
 		end
 	end
 	for i, v in ipairs(clear) do
-		vars.oldMons[Map.Name][v] = nil
+		mapvars.oldMons[v] = nil
 	end
 end
 

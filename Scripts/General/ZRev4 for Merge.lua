@@ -1084,3 +1084,14 @@ function removeChestItem(chest, index)
 	end
 	return true
 end
+
+function dispelMagic()
+	for i, pl in Party do
+		for buffid, buff in pl.SpellBuffs do
+			mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
+		end
+	end
+	for i, buff in Party.SpellBuffs do
+		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
+	end
+end

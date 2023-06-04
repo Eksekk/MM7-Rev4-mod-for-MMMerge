@@ -206,8 +206,8 @@ Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-		evt.MoveToMap{X = -6731, Y = 14045, Z = -512, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.Odm"}
 		evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
+		evt.MoveToMap{X = -6731, Y = 14045, Z = -512, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out02.Odm"}
 	else
 		evt.StatusText(22)         -- "You need a town portal pass!"
 	end
@@ -218,8 +218,8 @@ Game.MapEvtLines:RemoveEvent(36)
 evt.map[36] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1539) then         -- "Town Portal Pass"
-		evt.MoveToMap{X = -15148, Y = -10240, Z = 1312, Direction = 40, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out04.odm"}
 		evt.Subtract("Inventory", 1539)         -- "Town Portal Pass"
+		evt.MoveToMap{X = -15148, Y = -10240, Z = 1312, Direction = 40, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7Out04.odm"}
 	else
 		evt.StatusText(22)         -- "You need a town portal pass!"
 	end
@@ -228,9 +228,10 @@ end
 evt.hint[37] = evt.str[16]  -- "Brianna's Brandy"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
+	evt.ForPlayer("All")
 	if not evt.Cmp("QBits", 843) then         -- 1-time Erathia
 		evt.Set("QBits", 843)         -- 1-time Erathia
-		giveFreeSkill(const.Skills.IdentifyItem, 6, const.Expert)
+		evt.Set("IdentifyItemSkill", 70)
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
 end

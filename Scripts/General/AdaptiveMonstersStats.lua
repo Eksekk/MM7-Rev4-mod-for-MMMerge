@@ -429,8 +429,8 @@ local function PrepareMapMon(mon)
 			local part = parts[i]
 			monster, orig, txt = monster[part], orig[part], txt[part]
 		end
-		oldMonBackup[param] = monster[part]
 		local part = parts[#parts]
+		oldMonBackup[param] = monster[part]
 		if orig[part] ~= 0 then -- avoid divide by zero
 			local scale = txt[part] / orig[part]
 			if scale ~= scale then -- check for NaN
@@ -609,8 +609,8 @@ end
 
 local function restoreMonster(index, props)
 	if type(props) == "table" and index >= 0 and index <= Map.Monsters.High then
-		local mon = Map.Monsters[index]
 		for k, v in pairs(props) do
+			local mon = Map.Monsters[index]
 			if k == "FullHP" then
 				--[[
 				if Game.UseMonsterBolster then
@@ -654,6 +654,8 @@ end
 
 events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
 
+-- instantly restores dead monsters, in case Map.Monsters is shrunk (MiscTweaks.lua has something like that)
+-- otherwise index in mapvars might refer to invalid, or even worse, another monster than originally saved
 local function processDeadMonsters()
 	if Editor and Editor.WorkMode then return end
 	if not mapvars.oldMons then return end

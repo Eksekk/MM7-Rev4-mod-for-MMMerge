@@ -649,69 +649,85 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 	
 	-- TULAREAN CAVERNS QUEST
 	-- similar to original, rescue a prisoner, but you have to use a key and have to kill custom guards
-	
-	local cellKey = 979
-	local jailerNameId = placemonAdditionalStart + 1
-	local NpcToRescue = 1286
-	local questGiverHouseId = 1105
-	
-	local questId = "TulareanCavesRescuePrisoner"
-	
-	-- imprisoned and in party topic
-	NPCTopic{
-		NPC = NpcToRescue,
-		Slot = 0,
-		CanShow = function() return vars.Quests[questID] ~= "Done" end,
-		"Rescue",
-		"Thanks again for rescuing me! You are true heroes."
-	}
-	
-	-- thank you topic & greeting
-	NPCTopic{
-		NPC = NpcToRescue,
-		Slot = 0,
-		CanShow = function() return vars.Quests[questID] == "Done" end,
-		"The rescue",
-		"Thanks again for rescuing me! You are true heroes and have done your people a great favor."
-	}
-	Greeting{
-		NPC = NpcToRescue,
-		CanShow = function() return vars.Quests[questID] == "Done" end,
-		""
-	}
-	Quest{
-		questId,
-		NPC = 588, -- Matric Bowes in Harmondale (he's kinda hidden, he resides in house behind weapon/armor shop),
-		-- I always wanted his location to be starting point of an amazing quest
-		Slot = 2,
-		Experience = 75000,
-		Gold = 10000,
-		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
-		CheckDone = function()
-			return NPCFollowers.NPCInGroup(NpcToRescue)
-		end,
-		Done = function()
-			NPCFollowers.Remove(NpcToRescue)
-			evt.MoveNPC{NPC = NpcToRescue, HouseId = questGiverHouseId}
-			ReloadHouse()
-		end,
-		Texts = {
-			Topic = "Quest",
-			TopicDone = false,
-			Give = [[I'm glad you've come here. I need your help desperately. See, my best friend Bradley Clark is also a very important person (he is one of human ambassadors who have dealt with elves). That's not as fortunate as it might seem, because elves have kidnapped and imprisoned him! Since then, I've fallen into deep sorrow. I can't take the fact my best friend is no longer here with me, and what's worse, he suffers or maybe even is tortured for information!
-			
-I've had a private spy hired to investigate this kidnapping, and he reported he's almost sure my friend is kept in Tularean Caves in the forest. There's a connection with the caves from Elvish castle, but our spy was unable to open the way. We have theorized that maybe you need to arrive from the other side. Whatever, even if the locked door can be bypassed, you shouldn't take this route. You'll have entire legion of elves mad at you.
 
-The rescue still won't be easy. You can't escape with him until the route is mostly safe, and I'm almost positive you'll need to find a key first (they probably don't keep such important prisoners unlocked).
-
-Can you do it? You'll be greatly rewarded for your services.]],
-			Undone = "",
-			Done = "YOU HAVE DONE IT? Found them? I don't know why he hadn't used them all. But yes, finally some of his character paid off. You will receive your reward as promised. Thanks again for doing the impossible.",
-			
-			Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon.",
-			Award = "Assisted in creation of the ancient Potion of the Swift Mind."
+	do
+		local cellKey = 979
+		local jailerNameId = placemonAdditionalStart + 1
+		local NpcToRescue = 1286
+		assert(Game.NPCData[NpcToRescue].Name == "Bradley Clark")
+		local questGiverHouseId = 1105
+		
+		local questId = "TulareanCavesRescuePrisoner"
+		local QData = tget(vars, questId)
+		
+		-- imprisoned topic
+		NPCTopic{
+			NPC = NpcToRescue,
+			Slot = 0,
+			CanShow = function() return vars.Quests[questID] ~= "Done" end,
+			"Rescue",
+			"Were you sent by Matric? No matter the answer, thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
 		}
-	}
+
+		-- in party topic
+		NPCTopic{
+			NPC = NpcToRescue,
+			Slot = 0,
+			CanShow = function() return NPCFollowers.NPCInGroup(NpcToRescue) end,
+			"Rescue",
+			"Were you sent by Matric? No matter the answer, thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
+		}
+		
+		-- thank you topic & greeting
+		NPCTopic{
+			NPC = NpcToRescue,
+			Slot = 0,
+			CanShow = function() return vars.Quests[questID] == "Done" end,
+			"The rescue",
+			"Thanks again for rescuing me! You are true heroes and have done your people a great favor."
+		}
+		Greeting{
+			NPC = NpcToRescue,
+			CanShow = function() return vars.Quests[questID] == "Done" end,
+			""
+		}
+		Quest{
+			questId,
+			NPC = 588, -- Matric Bowes in Harmondale (he's kinda hidden, he resides in house behind weapon/armor shop),
+			-- I always wanted his location to be starting point of an amazing quest
+			Slot = 2,
+			Experience = 75000,
+			Gold = 10000,
+			--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
+			CheckDone = function()
+				return NPCFollowers.NPCInGroup(NpcToRescue)
+			end,
+			Done = function()
+				NPCFollowers.Remove(NpcToRescue)
+				evt.MoveNPC{NPC = NpcToRescue, HouseId = questGiverHouseId}
+				ReloadHouse()
+			end,
+			Texts = {
+				Topic = "Quest",
+				TopicDone = false,
+				Give = [[I'm glad you've come here. I need your help desperately. See, my best friend Bradley Clark is also a very important person (he is one of human ambassadors who have dealt with elves). That's not as fortunate as it might seem, because elves have kidnapped and imprisoned him! Since then, I've fallen into deep sorrow. I can't take the fact my best friend is no longer here with me, and what's worse, he suffers or maybe even is tortured for information!
+				
+	I've had a private spy hired to investigate this kidnapping, and he reported he's almost sure my friend is kept in Tularean Caves in the forest. There's a connection with the caves from Elvish castle, but our spy was unable to open the way. We have theorized that maybe you need to arrive from the other side. Whatever, even if the locked door can be bypassed, you shouldn't take this route. You'll have entire legion of elves mad at you.
+
+	The rescue still won't be easy. You can't escape with him until the route is mostly safe, and I'm almost positive you'll need to find a key first (they probably don't keep such important prisoners unlocked).
+
+	Can you do it? You'll be greatly rewarded for your services.]],
+				Undone = "What went wrong? Were guards too sturdy or you couldn't find the key? I'm sure it is in the caverns, you'll find it eventually.",
+				Done = [[My god, you've actually did it? My friend owes you his life, and you have lifetime of my gratitude. Was the escape mission difficult? [Bradley Clark tells Matric about your epic encounter with guards]. Hah, so not only you managed it, you also did it in such amazing style?
+				
+	Not only did you help me and my friend, but also dealt very important blow to the elves. I hope you will enjoy your reward.
+				]],
+				
+				Quest = "Find three alchemical reagents of immense power in Clanker's Laboratory and deliver them to Elzbet Winterspoon in Nighon.",
+				Award = "Assisted in creation of the ancient Potion of the Swift Mind."
+			}
+		}
+	end
 end
 
 -- RESTORE TRUMPET QUEST

@@ -420,7 +420,8 @@ local function PrepareMapMon(mon)
 	local TxtMon		= Game.MonstersTxt[mon.Id]
 	MonSettings	= Game.Bolster.Monsters[mon.Id]
 	local BolStep		= MonBolStep[mon.Id]
-	local oldMonBackup = tget(mapvars, "oldMons", mon:GetIndex())
+	local oldMonBackup = tget(mapvars, "oldMons", mon:GetIndex(), "properties")
+	mapvars.oldMons[mon:GetIndex()].id = mon.Id
 	
 	local function scaleParam(param, maxVal, onlyReturn)
 		local parts = string.split(param, "%.")
@@ -635,6 +636,14 @@ local function restoreMonster(index, props)
 	end
 end
 
+local function checkMonster(index)
+	if mapvars.oldMons[index].id ~= Map.Monsters[index].Id then
+		debug.Message(string.format("Couldn't restore monster index %d: saved id (%d) doesn't match real id (%d)", index, mapvars.oldMons[index].id, Map.Monsters[index].Id))
+		return false
+	end
+	return true
+end
+
 local function restore()
 	if Editor and Editor.WorkMode then return end
 	--[[ not needed?
@@ -647,7 +656,9 @@ local function restore()
 	]]
 	if not mapvars.oldMons then return end
 	for i, v in pairs(mapvars.oldMons) do -- no ipairs, because indexes aren't sequential
-		restoreMonster(i, v)
+		if checkMonster(i) then
+			restoreMonster(i, v.properties)
+		end
 	end
 	mapvars.oldMons = nil
 end
@@ -668,7 +679,7 @@ local function processDeadMonsters()
 		else
 			local mon = Map.Monsters[i]
 			if mon.HP == 0 and mon.AIState == const.AIState.Removed then -- check for removed because player might want to resurrect buffed monster
-				restoreMonster(i, v)
+				restoreMonster(i, v.properties)
 				table.insert(clear, i)
 			end
 		end

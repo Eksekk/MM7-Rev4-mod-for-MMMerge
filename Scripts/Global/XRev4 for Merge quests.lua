@@ -650,6 +650,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 	-- TULAREAN CAVERNS QUEST
 	-- similar to original, rescue a prisoner, but you have to use a key and have to kill custom guards
 
+	-- IMPORTANT NOTE: files in Scripts/Localization directory break npc texts
 	do
 		local cellKey = 979
 		local jailerNameId = placemonAdditionalStart + 1
@@ -664,7 +665,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
-			CanShow = function() return vars.Quests[questID] ~= "Done" end,
+			CanShow = function() return vars.Quests[questID] ~= "Done" and not NPCFollowers.NPCInGroup(NpcToRescue) end,
 			"The Rescue",
 			"Thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
 		}
@@ -744,6 +745,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 
 		function events.LoadMap()
 			if Map.Name ~= "7d08orig.blv" then return end
+			Game.MapEvtLines:RemoveEvent(376)
 			evt.map[376].clear()
 			evt.hint[376] = "Cell Door"
 			evt.map[376] = function()
@@ -760,13 +762,11 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				-- spawn item near castle navan door
 				pseudoSpawnpointItem{item = cellKey, x = -5622, y = -10314, z = 768, count = 1}
 
-				local mons = {}
-
 				-- elven warrior guards
-				mons = table.join(mons, pseudoSpawnpoint{monster = 250, x = -4849, y = -9421, z = 703, powerChances = {20, 20, 60}, count = 6, transform = function(mon)
+				pseudoSpawnpoint{monster = 250, x = -4849, y = -9421, z = 703, powerChances = {20, 20, 60}, count = 6, transform = function(mon)
 					monUtils.hp(mon, 2)
 					monUtils.rewards(mon, 8, nil, 4)
-				end})
+				end}
 
 				-- guards near npc cell
 				-- elven warriors
@@ -774,6 +774,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				local function warrior(lev)
 					return function(mon)
 						table.insert(guards, mon:GetIndex())
+						mon.NameId = jailerNameId
 						monUtils.hp(mon, lev)
 						monUtils.rewards(mon, 5 + lev * 2, -4, lev)
 						mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + lev * 3
@@ -791,6 +792,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				local function archer(lev)
 					return function(mon)
 						table.insert(guards, mon:GetIndex())
+						mon.NameId = jailerNameId
 						monUtils.hp(mon, lev)
 						monUtils.rewards(mon, lev * 4, -4, lev)
 						mon.Attack1.DamageDiceSides = math.round(mon.Attack1.DamageDiceSides * (1 + 0.1 * lev))
@@ -801,10 +803,11 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				pseudoSpawnpoint{monster = 247, x = 12171, y = 2951, z = 795, count = "2-3", powerChances = {20, 50, 30}, transform = archer(2)}
 				
 				mapvars.aliveGuards = guards
+				evt.SetMonGroupBit(255, const.MonsterBits.Hostile, true)
 
 				-- wyverns todo
 			end
-				
+			-- fixme: when quests are disabled, killing guards won't count
 			function events.MonsterKilled(mon, index)
 				local i = table.find(mapvars.aliveGuards, index)
 				if i then

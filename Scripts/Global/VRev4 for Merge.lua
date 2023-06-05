@@ -567,41 +567,6 @@ function events.LoadMap() -- needs to be before bolster function in General/Adap
 	mapvars.Rev4ForMergeMonstersSpawned = true
 end
 
-monUtils = {}		
-function monUtils.hp(mon, mul)
-	mon.FullHP = math.round(mon.FullHP * mul)
-	mon.HP = mon.FullHP
-end
-
-local function rItem(mon, item, chance, typ)
-	if item then
-		if item >= 0 then
-			evt.SetMonsterItem{Monster = mon:GetIndex(), Item = item, Has = true}
-		else
-			mon.TreasureItemLevel, mon.TreasureItemPercent, mon.TreasureItemType = -item, chance or 100, typ or const.ItemType.Any
-		end
-	end
-end
-
-function monUtils.rewards(mon, expMul, item, moneyMul)
-	mon.Experience = math.round(mon.Experience * expMul)
-	if type(item) == "table" then
-		rItem(mon, unpack(item))
-	else
-		rItem(mon, item)
-	end
-	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * moneyMul)
-end
-
-function monUtils.spells(mon, sp1, ch1, sk1, sp2, ch2, sk2)
-	if sp1 then
-		mon.Spell, mon.SpellChance, mon.SpellSkill = sp1, ch1, sk1
-	end
-	if sp2 then
-		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = sp2, ch2, sk2
-	end
-end
-
 -- Bosses
 if MS.Rev4ForMergeAddBosses == 1 then
 	function events.LoadMap() -- need to execute before bolster happens

@@ -58,9 +58,124 @@ IF I WANNA REALLY CHALLENGE MYSELF:
      freeze, feeblemind, turn to stone
 ]]
 
+monUtils = {}		
+function monUtils.hp(mon, mul)
+	mon.FullHP = math.round(mon.FullHP * mul)
+	mon.HP = mon.FullHP
+end
+
+local function rItem(mon, item, chance, typ)
+	if item then
+		if item >= 0 then
+			evt.SetMonsterItem{Monster = mon:GetIndex(), Item = item, Has = true}
+		else
+			mon.TreasureItemLevel, mon.TreasureItemPercent, mon.TreasureItemType = -item, chance or 100, typ or const.ItemType.Any
+		end
+	end
+end
+
+function monUtils.rewards(mon, expMul, item, moneyMul)
+	mon.Experience = math.round(mon.Experience * expMul)
+	if type(item) == "table" then
+		rItem(mon, unpack(item))
+	else
+		rItem(mon, item)
+	end
+	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * moneyMul)
+end
+
+function monUtils.spells(mon, sp1, ch1, sk1, sp2, ch2, sk2)
+	if sp1 then
+		mon.Spell, mon.SpellChance, mon.SpellSkill = sp1, ch1, sk1
+	end
+	if sp2 then
+		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = sp2, ch2, sk2
+	end
+end
+
+local function boostResistances(mon, amount)
+	for i, v in ipairs({const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth, const.Damage.Spirit, const.Damage.Mind,
+		const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}) do
+		mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
+	end
+end
+
+monUtils.boostResistances = boostResistances
+monUtils.resists = boostResistances
+
+local spells =
+{
+	{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
+	{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
+	{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
+	{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
+	{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
+	{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
+	{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
+	{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
+	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
+}
+
+function randomGiveSpell(mon, useSpells)
+	useSpells = useSpells or spells
+	local roll = math.random(0, 2)
+	if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
+		return
+	end
+	local i = math.random(1, #useSpells)
+	local firstSpell = useSpells[i]
+	local addedFirst = false
+	if not mon.Spell then
+		mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+		addedFirst = true
+	end
+	if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
+		return
+	end
+	if not addedFirst then
+		local j
+		repeat
+			j = math.random(1, #useSpells)
+		until mon.Spell ~= useSpells[j].Spell
+		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+		return
+	end
+	local j
+	repeat
+		j = math.random(1, #useSpells)
+	until firstSpell.Spell ~= useSpells[j].Spell
+	local secondSpell = useSpells[j]
+	mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
+end
+
+function randomGiveElementalAttack(mon)
+	local a1, a2 = mon.Attack1, mon.Attack2
+	if a1 then
+		if a2 then
+			return
+		end
+		a2.Type = math.random(0, 7)
+		if a2.Type > 3 then
+			a2.Type = math.random(9, 10)
+		end
+		a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
+		mon.Attack2Chance = 50
+		return
+	end
+	a1.Type = math.random(0, 7)
+	if a1.Type > 3 then
+		a1.Type = math.random(9, 10)
+	end
+	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
+end
+
+function randomBoostResists(mon)
+	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
+end
+
 local addTextFunctions = {}
 
-local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor/RGB
+local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor
 local strRed = "\f63488"
 local strDefaultColor = "\f00000"
 
@@ -889,84 +1004,6 @@ mem.asmpatch(0x42746D, "jmp absolute " .. incRes)
 -- remove multilooting "bug"
 if MS.Rev4ForMergeRemoveMultilooting == 1 then
 	mem.nop(0x4251F3)
-end
-
-local Rev4ForMergeMapstatsBoosted -- needed for Global/VRev4 for Merge.lua
-
-function boostResistances(mon, amount)
-	for i, v in ipairs({const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth, const.Damage.Spirit, const.Damage.Mind,
-		const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}) do
-		mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
-	end
-end
-
-local spells =
-{
-	{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
-	{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
-	{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
-	{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
-	{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
-	{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
-	{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
-	{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
-	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
-}
-
-function randomGiveSpell(mon)
-	local roll = math.random(0, 2)
-	if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
-		return
-	end
-	local i = math.random(1, #spells)
-	local firstSpell = spells[i]
-	local addedFirst = false
-	if not mon.Spell then
-		mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-		addedFirst = true
-	end
-	if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
-		return
-	end
-	if not addedFirst then
-		local j
-		repeat
-			j = math.random(1, #spells)
-		until mon.Spell ~= spells[j].Spell
-		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-		return
-	end
-	local j
-	repeat
-		j = math.random(1, #spells)
-	until firstSpell.Spell ~= spells[j].Spell
-	local secondSpell = spells[j]
-	mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
-end
-
-function randomGiveElementalAttack(mon)
-	local a1, a2 = mon.Attack1, mon.Attack2
-	if a1 then
-		if a2 then
-			return
-		end
-		a2.Type = math.random(0, 7)
-		if a2.Type > 3 then
-			a2.Type = math.random(9, 10)
-		end
-		a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
-		mon.Attack2Chance = 50
-		return
-	end
-	a1.Type = math.random(0, 7)
-	if a1.Type > 3 then
-		a1.Type = math.random(9, 10)
-	end
-	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
-end
-
-function randomBoostResists(mon)
-	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
 end
 
 function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves item look on map unchanged

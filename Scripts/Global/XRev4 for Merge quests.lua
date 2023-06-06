@@ -437,7 +437,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 		end
 		
 		if not vars.WromthraxCaveQuest.PortalDeactivated then
-			Timer(sp.spawn, const.Minute * 30, Game.Time, true)
+			Timer(sp.spawn, const.Minute * diffsel(30, 25, 20), Game.Time, true)
 			function rem()
 				RemoveTimer(sp.spawn)
 				events.Remove("LeaveMap", rem)
@@ -516,6 +516,8 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 	-- quest giver: Elzbet Winterspoon (Nighon, master alchemy trainer)
 	-- could be alchemy GM, but he already manages one quest in Rev4
 	-- bring back pristine Phoenix Feather, pristine Dragon Turtle Fang and pristine Unicorn Horn
+
+	-- TODO: this item in conjunction with reagents is way too powerful reward
 	local rewardItem = 1394 -- Mog'Draxar
 	local itemIDs = {982, 983, 984}
 	local questID = "ClankersLabCollectPowerfulReagents"
@@ -586,8 +588,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			
 			-- miniboss: Clanker's Puppet, mage
 			-- changing stats here works, because he is summoned before bolster happens
-			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = "1-1", powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}
-			wiz = wiz[1]
+			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = "1-1", powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
 			wiz.FullHP = wiz.FullHP * diffsel(3, 4, 5)
 			wiz.HP = wiz.FullHP
 			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
@@ -633,12 +634,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			pseudoSpawnpointItem{item = itemIDs[2], x = -2500, y = 2398, z = 385, count = 1, radius = 16, exactZ = true}
 			
 			-- in chest, left room at the top of minimap
-			for i, item in Map.Chests[10].Items do
-				if item.Number == 0 then
-					item.Number = itemIDs[3]
-					break
-				end
-			end
+			assert(addChestItem(10, itemIDs[3]))
 		end
 	end
 	
@@ -987,6 +983,16 @@ do
 		end
 	end
 
+	local function nextPlayer()
+		Q.currentPlayer = (Q.currentPlayer or -1) + 1
+		if Q.currentPlayer > Party.High then
+			myQuestBranch(branches.finished_confirm())
+		else
+			Q.currentClass = -1
+			myQuestBranch(branches.newProfession(Q.currentPlayer))
+		end
+	end
+
 	local function getClassTier(classId)
 		for k, v in pairs(classes) do
 			if k == classId then
@@ -1008,16 +1014,6 @@ do
 			end
 		end
 		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
-	end
-
-	local function nextPlayer()
-		Q.currentPlayer = (Q.currentPlayer or -1) + 1
-		if Q.currentPlayer > Party.High then
-			myQuestBranch(branches.finished_confirm())
-		else
-			Q.currentClass = -1
-			myQuestBranch(branches.newProfession(Q.currentPlayer))
-		end
 	end
 	
 	local brazierAction

@@ -522,6 +522,8 @@ local function PrepareMapMon(mon)
 		end
 		-- ~formulas2
 		-- Base spells
+		-- FIXME: -- this code occasionally reduces spell skill/mastery if there is custom boss with high skill
+		-- this is fixed, but bolster still won't make their skill higher, as it probably should
 		local Skill, Mas
 		local BuffSpells = not (GetAvgLevel(mon.Id) >= PartyLevel and MapSettings.Type ~= BolsterTypes.AllToEqual)
 		local NeedSpells = BuffSpells and MapSettings.Spells and MonSettings.Spells
@@ -539,10 +541,10 @@ local function PrepareMapMon(mon)
 				end
 			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
 				oldMonBackup[skillKey] = mon[skillKey]
-				SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
+				local SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
 				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill, mon.Id)
 				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery, mon.Id)
-				mon[skillKey] = JoinSkill(Skill, Mas)
+				mon[skillKey] = JoinSkill(math.max(SpellSkill, Skill), math.max(SpellMastery, Mas))
 			end
 		end
 
@@ -559,7 +561,7 @@ local function PrepareMapMon(mon)
 			oldMonBackup.Special 		= mon.Special
 			oldMonBackup.SpecialA 	= mon.SpecialA
 			oldMonBackup.SpecialB 	= mon.SpecialB
-		--	old.SpecialC 	= mon.SpecialC
+		--	oldMonBackup.SpecialC 	= mon.SpecialC
 			oldMonBackup.SpecialD 	= mon.SpecialD
 			
 			mon.Special 	= TxtMon.Special
@@ -592,38 +594,16 @@ for i, v in ipairs(eventTypes) do
 	end
 end
 
-function events.LoadSaveGame()
-	-- FIX FOR ASCENDED BUG
-	-- remove this handler and store HPPart in vars (update: something else needed) to make monsters retain their current HP after loading game!
-	for i, v in Map.Monsters do
-		--v.HP = v.FullHP
-	end
-end
-
 local function restoreMonster(index, props)
 	if type(props) == "table" and index >= 0 and index <= Map.Monsters.High then
 		for k, v in pairs(props) do
 			local mon = Map.Monsters[index]
-			if k == "FullHP" then
-				--[[
-				if Game.UseMonsterBolster then
-					mon.HPPart = mon.HP / mon.FullHP
-				end
-				]]
-				mon.FullHP = v
-				--[[
-				if not Game.UseMonsterBolster then
-					mon.HP = mon.FullHP
-				end
-				]]
-			else
-				local parts = string.split(k, "%.")
-				for j = 1, #parts - 1 do
-					local part = parts[j]
-					mon = mon[part]
-				end
-				mon[parts[#parts]] = v
+			local parts = string.split(k, "%.")
+			for j = 1, #parts - 1 do
+				local part = parts[j]
+				mon = mon[part]
 			end
+			mon[parts[#parts]] = v
 		end
 	end
 end
@@ -638,14 +618,6 @@ end
 
 local function restore()
 	if Editor and Editor.WorkMode then return end
-	--[[ not needed?
-	if Map.Refilled then
-		if mapvars.oldMons then
-			mapvars.oldMons = nil
-		end
-		return
-	end
-	]]
 	if not mapvars.oldMons then return end
 	for i, v in pairs(mapvars.oldMons) do -- no ipairs, because indexes aren't sequential
 		if checkMonster(i) then
@@ -686,7 +658,7 @@ events.LeaveMap = processDeadMonsters
 --events.LeaveGame = processDeadMonsters
 
 local function PrepareTxtMon(i, OnlyThis)
-
+	MonsSettings = Game.Bolster.Monsters
 	MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
 	if MapSettings then
 		PartyLevel = GetOverallPartyLevel() + MapSettings.LevelShift
@@ -698,7 +670,6 @@ local function PrepareTxtMon(i, OnlyThis)
 	end
 	
 	TotalEquipCost = GetOverallItemBonus()
-	MonsSettings = Game.Bolster.Monsters
 	BolsterMul = Game.BolsterAmount/100
 	Formulas = Game.Bolster.Formulas
 
@@ -727,6 +698,7 @@ local function PrepareTxtMon(i, OnlyThis)
 			MonTable[k] = nil
 		end
 	end
+
 	local commonVars = {
 		MapSettings = MapSettings,
 		PartyLevel = PartyLevel,
@@ -791,7 +763,6 @@ local function PrepareTxtMon(i, OnlyThis)
 		end
 
 		-- Move speed
-		-- FIXME: formula variables are global - overwritten with each new txt monster
 		MoveSpeed = mon.MoveSpeed
 		mon.MoveSpeed = ProcessFormula(getFormulaOrDefault("MoveSpeed"), mon.MoveSpeed)
 
@@ -902,13 +873,13 @@ local function Init()
 	local StdSummonMonster = SummonMonster
 
 	function SummonMonster(Id, ...)
-		-- TODO: monsters summoned after initial bolster will not have their stats restored to normal after map exit or savegame reload
-		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
+		
 		local mon, i = StdSummonMonster(Id, ...)
 		if not mon then
 			return
 		end
-		-- FIXME: RESTORE BASE STATS HERE
+		-- fix monsters summoned after initial bolster not having their stats restored to normal after map exit or savegame reload
+		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
 		if boostSummons then
 			restoreMonsterParams(mon, OriginalMonstersTxt[Id])
 		end

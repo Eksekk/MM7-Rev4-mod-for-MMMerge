@@ -125,7 +125,7 @@ local function randomGiveSpell(mon, useSpells)
 	local i = math.random(1, #useSpells)
 	local firstSpell = useSpells[i]
 	local addedFirst = false
-	if not mon.Spell then
+	if mon.Spell == 0 then
 		mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
 		addedFirst = true
 	end

@@ -760,7 +760,6 @@ local function PrepareTxtMon(i, OnlyThis)
 			-- Base hitpoints
 			mon.FullHP = min(ProcessFormula(getFormulaOrDefault("HP"), mon.FullHP), 30000)
 			BoostedHP  = mon.FullHP
-
 			-- Armor class
 			mon.ArmorClass = ProcessFormula(getFormulaOrDefault("AC"), ArmorClass)
 
@@ -795,7 +794,7 @@ local function PrepareTxtMon(i, OnlyThis)
 		end
 
 		-- Move speed
-
+		-- FIXME: formula variables are global - overwritten with each new txt monster
 		MoveSpeed = mon.MoveSpeed
 		mon.MoveSpeed = ProcessFormula(getFormulaOrDefault("MoveSpeed"), mon.MoveSpeed)
 
@@ -866,29 +865,58 @@ end
 local boostSummons = false -- this will get set to true after performing initial bolster, because I summon monsters
 	-- before that, and we don't want to boost them twice
 
+-- variables that keep track of what to restore from unboosted monsters.txt when summoning
+local restoreParams = {"FullHP", "ArmorClass", "Attack2Chance", "Spell", "Spell2", "SpellSkill", "Spell2Skill", "SpellChance", "Spell2Chance", "MoveSpeed", "SpecialA", "SpecialB", "SpecialC", "SpecialD"}
+local restoreAttacks = {"Attack1", "Attack2"}
+local restoreAttackParams = {"DamageDiceCount", "DamageDiceSides", "DamageAdd", "Type", "Missile"}
+
+local function restoreMonsterParams(mon, txt)
+	for _, par in ipairs(restoreParams) do
+		mon[par] = assert(txt[par])
+	end
+	for _, attack in ipairs(restoreAttacks) do
+		for _, par in ipairs(restoreAttackParams) do
+			mon[attack][par] = assert(txt[attack][par])
+		end
+	end
+end
+
 local function Init()
 
 	ProcessBolsterTxt()
 	Game.Bolster.ReloadTxt = ProcessBolsterTxt
+
 	local StdSummonMonster = SummonMonster
 
 	function SummonMonster(Id, ...)
 		-- TODO: monsters summoned after initial bolster will not have their stats restored to normal after map exit or savegame reload
-		-- also allow callback here (for example to edit monsters stats in Wromthrax Cave Quest)
+		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
 		local mon, i = StdSummonMonster(Id, ...)
 		if not mon then
 			return
 		end
+		-- FIXME: RESTORE BASE STATS HERE
+		if boostSummons then
+			restoreMonsterParams(mon, OriginalMonstersTxt[Id])
+		end
+		-- callback to allow modifying monster "base stats" before saving them to restore later
+		events.call("SummonMonster", mon, boostSummons)
 
 		if not (Editor and Editor.WorkMode) then
 			if boostSummons then
 				local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
 				if MapSettings then
-					if not ReadyMons[Id] then -- only boost when monster wasn't prepared before
+					--[[if not ReadyMons[Id] then -- only boost when monster wasn't prepared before
 						-- (otherwise you'd summon with boosted stats from Game.MonstersTxt and then boost again!)
 						PrepareTxtMon(Id)
 						PrepareMapMon(mon)
+					end]]
+					-- create data if first monster of type
+					if not ReadyMons[Id] then
+						PrepareTxtMon(Id)
 					end
+					-- bolster. Note that this will run only after initial bolster (see "if boostSummons then")
+					PrepareMapMon(mon)
 				end
 			end
 		end

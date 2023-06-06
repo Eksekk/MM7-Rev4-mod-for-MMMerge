@@ -100,14 +100,27 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 			power = 0
 		end
 		
+		local doneMerge
+		local transform = type(t.transform) == "function" and t.transform
+		if Merge and transform then
+			function events.SummonMonster(mon)
+				doneMerge = true
+				transform(mon)
+				events.Remove("SummonMonster", 1)
+			end
+		end
+		
 		-- summon monster
 		local mon = SummonMonster(class * 3 - 2 + power, x, y, z, true) -- true means monster has treasure
+		if Merge and transform and not doneMerge then
+			error("Couldn't apply transform to monster")
+		elseif not Merge and transform then
+			transform(mon)
+		end
 		-- set group
 		mon.Group = t.group or 255
 		-- perform transform if it is set
-		if t.transform and type(t.transform) == "function" then
-			t.transform(mon)
-		end
+		
 		
 		-- insert into table to return later
 		table.insert(summoned, mon)

@@ -238,14 +238,6 @@ function getDDMapBuff(buff)
 	return buff + add
 end
 
-function kill()
-	for k, v in Map.Monsters do
-		if v.Hostile then
-			v.HP = 0
-		end
-	end
-end
-
 _G.g = getItem
 
 GameState_Quests = {}

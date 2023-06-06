@@ -116,7 +116,7 @@ local spells =
 	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
 }
 
-function randomGiveSpell(mon, useSpells)
+local function randomGiveSpell(mon, useSpells)
 	useSpells = useSpells or spells
 	local roll = math.random(0, 2)
 	if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
@@ -147,8 +147,9 @@ function randomGiveSpell(mon, useSpells)
 	local secondSpell = useSpells[j]
 	mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
 end
+monUtils.randomGiveSpell = randomGiveSpell
 
-function randomGiveElementalAttack(mon)
+local function randomGiveElementalAttack(mon)
 	local a1, a2 = mon.Attack1, mon.Attack2
 	if a1 then
 		if a2 then
@@ -168,10 +169,12 @@ function randomGiveElementalAttack(mon)
 	end
 	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
 end
+monUtils.randomGiveElementalAttack = randomGiveElementalAttack
 
-function randomBoostResists(mon)
+local function randomBoostResists(mon)
 	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
 end
+monUtils.randomBoostResists = randomBoostResists
 
 local addTextFunctions = {}
 

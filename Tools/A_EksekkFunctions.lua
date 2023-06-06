@@ -65,9 +65,9 @@ function mtm(str)
 	}
 end
 
-function kill()
+function kill(includeFriendly)
 	for k, v in Map.Monsters do
-		if v.Hostile then
+		if includeFriendly or v.Hostile then
 			v.HP = 0
 		end
 	end

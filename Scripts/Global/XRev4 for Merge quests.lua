@@ -218,17 +218,25 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 				end
 				local max = math.min(canSpawn, maxInOneSpawn)
 				if max <= 0 then return end
+				local oldTransform = spawn.transform
+				local function newTransform(mon)
+					if oldTransform then
+						oldTransform(mon)
+					end
+					local f = transforms[class]
+					if f then
+						f(mon)
+					end
+				end
+				spawn.transform = newTransform
 				local oldC = spawn.count
 				spawn.count = minInOneSpawn == max and max or (tostring(minInOneSpawn) .. "-" .. tostring(max))
 				local mons = pseudoSpawnpoint(spawn)
-				spawn.count = oldC
+				spawn.count, spawn.transform = oldC, oldTransform
 				for i, v in ipairs(mons) do
 					local class = monClass(v.Id)
 					spawned[class] = spawned[class] or {}
 					table.insert(spawned[class], mons[i])
-					if transforms[class] then
-						mons[i] = transforms[class](mons[i])
-					end
 				end
 				canSpawn = canSpawn - #mons
 			end
@@ -324,16 +332,25 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 	sp.addSpawnpoint{monster = 154, x = 15760, y = 3873, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
 	sp.addSpawnpoint{monster = 154, x = 15002, y = 6179, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
 	sp.setMax(154, diffsel(8, 10, 12))
-	sp.setTransform(154, function(mon) randomBoostResists(mon); randomGiveSpell(mon); mon.TreasureDiceCount = mon.TreasureDiceCount * 3; return mon end)
+	sp.setTransform(154, function(mon)
+		monUtils.randomBoostResists(mon)
+		monUtils.randomGiveSpell(mon)
+		mon.TreasureDiceCount = mon.TreasureDiceCount * 3
+	end)
 	
 	sp.addSpawnpoint{monster = 151, x = 16058, y = 8317, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
 	sp.addSpawnpoint{monster = 151, x = 16913, y = 4169, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
 	sp.setMax(151, diffsel(3, 5, 7))
-	sp.setTransform(151, function(mon) randomBoostResists(mon); mon.PhysResistance = 100; randomGiveElementalAttack(mon); mon.TreasureDiceCount = mon.TreasureDiceCount * 3 return mon end)
+	sp.setTransform(151, function(mon)
+		monUtils.randomBoostResists(mon)
+		mon.PhysResistance = 100 -- remove immunity
+		monUtils.randomGiveElementalAttack(mon)
+		mon.TreasureDiceCount = mon.TreasureDiceCount * 3
+	end)
 	
 	sp.addSpawnpoint({monster = 145, x = 13493, y = 2928, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 1024})
 	sp.setMax(145, diffsel(3, 4, 6))
-	sp.setTransform(145, function(mon) randomBoostResists(mon); return mon end)
+	sp.setTransform(145, monUtils.randomBoostResists)
 	
 	local questID = "WromthraxCaveDisablePortalAndClear"
 	local PORTAL_FACET_INDEX = 10
@@ -379,7 +396,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 				wrom.Group = 255
 				wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
 				wrom.Spell2, wrom.Spell2Chance, wrom.Spell2Skill = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 8, const.GM)
-				boostResistances(wrom, diffsel(10, 30, 50))
+				monUtils.boostResistances(wrom, diffsel(10, 30, 50))
 				wrom.Attack1.DamageAdd = diffsel(20, 25, 30)
 				wrom.TreasureDiceCount = wrom.TreasureDiceCount * 3
 				evt.SetMonsterItem{Monster = WromthraxId, Item = DARK_TALISMAN_ID, Has = true}
@@ -396,8 +413,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			local n = pseudoSpawnpoint{monster = 154, x = 9418, y = 9879, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
 			n = table.join(n, pseudoSpawnpoint{monster = 154, x = 10281, y = 2911, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096})
 			for i, v in ipairs(n) do
-				randomBoostResists(v)
-				randomGiveSpell(v)
+				monUtils.randomBoostResists(v)
+				monUtils.randomGiveSpell(v)
 				v.TreasureDiceCount = v.TreasureDiceCount * 3
 				--randomGiveElementalAttack(v)
 			end
@@ -405,16 +422,16 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDun
 			-- nightmares
 			n = pseudoSpawnpoint{monster = 151, x = 7073, y = 3927, z = -127, count = diffsel("2-4", "4-7", "6-10"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
 			for i, v in ipairs(n) do
-				randomBoostResists(v)
+				monUtils.randomBoostResists(v)
 				v.PhysResistance = 150
-				randomGiveElementalAttack(v)
+				monUtils.randomGiveElementalAttack(v)
 				v.TreasureDiceCount = v.TreasureDiceCount * 3
 			end
 			
 			-- "MM8 behemoths"
 			n = pseudoSpawnpoint{monster = 145, x = 11704, y = 6109, z = 65, count = diffsel("2-4", "4-7", "7-11"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
 			for i, v in ipairs(n) do
-				randomBoostResists(v)
+				monUtils.randomBoostResists(v)
 				--randomGiveElementalAttack(v)
 			end
 		end
@@ -568,11 +585,12 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			pseudoSpawnpoint{monster = 295, x = 638, y = 3674, z = 385, count = diffsel("1-2", "2-3", "3-4"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 56}
 			
 			-- miniboss: Clanker's Puppet, mage
+			-- changing stats here works, because he is summoned before bolster happens
 			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = "1-1", powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}
 			wiz = wiz[1]
 			wiz.FullHP = wiz.FullHP * diffsel(3, 4, 5)
 			wiz.HP = wiz.FullHP
-			boostResistances(wiz, diffsel(40, 60, 80))
+			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
 			wiz.NameId = placemonAdditionalStart

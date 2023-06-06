@@ -349,10 +349,6 @@ local function GenMonSpell(MonSettings, BolStep, SpellNum, OtherSpell)
 
 end
 
--- formulas variables
-local PartyLevel,MonsterLevel,TotalEquipCost,HP,BoostedHP,AC,MonsterHeight,MaxDamage,SpellSkill,SpellMastery,BolsterMul,MonsterPower,MonSettings,MoveSpeed
---
-
 local BolStep, MonTable, MonKind
 local TotalEquipCost
 local MonsSettings
@@ -372,6 +368,17 @@ function GetAvgLevel(mi)
 	return max(ceil(result/3), 3)
 end
 
+-- formulas variables
+
+-- these globals are used for txt monsters only, because they are overwritten with each monster
+local PartyLevel,MonsterLevel,TotalEquipCost,HP,BoostedHP,AC,MonsterHeight,MaxDamage,SpellSkill,SpellMastery,BolsterMul,MonsterPower,MonSettings,MoveSpeed,MapSettings
+-- after processing txt, this table receives the data (indexed by monster id) and spell formulas in PrepareMapMon() use this
+local formulaVariables = {}
+
+function events.BeforeLoadMap()
+	formulaVariables = {}
+end
+
 local env = {
 	max				= max,
 	min				= min,
@@ -380,26 +387,32 @@ local env = {
 	sqrt			= sqrt,
 	random			= random
 	}
+	
 
-local function ProcessFormula(Formula, Default)
+local function ProcessFormula(Formula, Default, monId)
 	local f = Formula and assert(loadstring(Formula))
 
 	if type(f) == "function" then
-		env.PartyLevel 		= PartyLevel
-		env.MonsterLevel 	= MonsterLevel
-		env.TotalEquipCost 	= TotalEquipCost
-		env.HP				= HP
-		env.BoostedHP 		= BoostedHP
-		env.AC 				= AC
-		env.MonsterHeight 	= MonsterHeight
-		env.MaxDamage 		= MaxDamage
-		env.SpellSkill		= SpellSkill
-		env.SpellMastery 	= SpellMastery
-		env.BolsterMul 		= BolsterMul
-		env.MonsterPower 	= MonsterPower
-		env.MonSettings 	= MonSettings
-		env.MapSettings 	= MapSettings
-		env.MoveSpeed		= MoveSpeed
+		if not monId then
+			env.PartyLevel 		= PartyLevel
+			env.MonsterLevel 	= MonsterLevel
+			env.TotalEquipCost 	= TotalEquipCost
+			env.HP				= HP
+			env.BoostedHP 		= BoostedHP
+			env.AC 				= AC
+			env.MonsterHeight 	= MonsterHeight
+			env.MaxDamage 		= MaxDamage
+			env.SpellSkill		= SpellSkill
+			env.SpellMastery 	= SpellMastery
+			env.BolsterMul 		= BolsterMul
+			env.MonsterPower 	= MonsterPower
+			env.MonSettings 	= MonSettings
+			env.MapSettings 	= MapSettings
+			env.MoveSpeed		= MoveSpeed
+		else
+			assert(tlen(formulaVariables[monId]) == 15)
+			table.copy(formulaVariables[monId], env, true)
+		end
 
 		setfenv(f, env)
 		return f()
@@ -409,16 +422,11 @@ local function ProcessFormula(Formula, Default)
 	return Default
 end
 
-function events.BeforeLoadMap()
-	mapvars.oldMons = mapvars.oldMons or {}
-	events.Remove(1)
-end
-
 local SpellReplace = {[81] = 87}
 local function PrepareMapMon(mon)
 
 	local TxtMon		= Game.MonstersTxt[mon.Id]
-	MonSettings	= Game.Bolster.Monsters[mon.Id]
+	local MonSettings	= Game.Bolster.Monsters[mon.Id]
 	local BolStep		= MonBolStep[mon.Id]
 	local oldMonBackup = tget(mapvars, "oldMons", mon:GetIndex(), "properties")
 	mapvars.oldMons[mon:GetIndex()].id = mon.Id
@@ -457,27 +465,15 @@ local function PrepareMapMon(mon)
 		-- Base stats
 		
 		-- formulas 1
-		MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+		local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+		local PartyLevel
 		if MapSettings then
 			PartyLevel = GetOverallPartyLevel() + MapSettings.LevelShift
 		else
 			return
 		end
 		
-		TotalEquipCost = GetOverallItemBonus()
-		MonsSettings = Game.Bolster.Monsters
-		BolsterMul = Game.BolsterAmount/100
 		Formulas = Game.Bolster.Formulas
-		
-		MonKind 		= ceil(mon.Id/3)
-		HP 				= mon.FullHP
-		BoostedHP		= mon.FullHP
-		AC 				= mon.ArmorClass
-		MonSettings		= MonsSettings[mon.Id]
-		MonsterHeight 	= Game.MonListBin[mon.Id].Height
-		MonsterPower	= mon.Id - MonKind*3 + 3
-		MonsterLevel	= GetAvgLevel(mon.Id)
-		BolStep 		= min(floor(PartyLevel/MonsterLevel), 4)
 		
 		-- ~formulas1
 
@@ -520,10 +516,6 @@ local function PrepareMapMon(mon)
 
 		-- formulas2
 		local Formula = Formulas[MonKind] or Formulas["def"]
-
-		if MapSettings.Type ~= BolsterTypes.OriginalStats then
-			BoostedHP  = mon.FullHP
-		end
 		
 		local function getFormulaOrDefault(stat)
 			return Formula[stat] or Formulas["def"][stat]
@@ -548,8 +540,8 @@ local function PrepareMapMon(mon)
 			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
 				oldMonBackup[skillKey] = mon[skillKey]
 				SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
-				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)
-				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
+				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill, mon.Id)
+				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery, mon.Id)
 				mon[skillKey] = JoinSkill(Skill, Mas)
 			end
 		end
@@ -735,6 +727,12 @@ local function PrepareTxtMon(i, OnlyThis)
 			MonTable[k] = nil
 		end
 	end
+	local commonVars = {
+		MapSettings = MapSettings,
+		PartyLevel = PartyLevel,
+		TotalEquipCost = TotalEquipCost,
+		BolsterMul = BolsterMul,
+	}
 
 	for monId, mon in pairs(MonTable) do
 
@@ -761,7 +759,7 @@ local function PrepareTxtMon(i, OnlyThis)
 			mon.FullHP = min(ProcessFormula(getFormulaOrDefault("HP"), mon.FullHP), 30000)
 			BoostedHP  = mon.FullHP
 			-- Armor class
-			mon.ArmorClass = ProcessFormula(getFormulaOrDefault("AC"), ArmorClass)
+			mon.ArmorClass = ProcessFormula(getFormulaOrDefault("AC"), ArmorClass) -- ??? global?
 
 			-- Attacks
 			MaxDamage = GetMaxDamage(mon.Attack1)
@@ -790,7 +788,6 @@ local function PrepareTxtMon(i, OnlyThis)
 				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery)
 				mon.Spell2Skill = JoinSkill(Skill, Mas)
 			end
-
 		end
 
 		-- Move speed
@@ -855,6 +852,22 @@ local function PrepareTxtMon(i, OnlyThis)
 			mon.SpecialD = MonSettings.SummonId == 0 and monId or MonSettings.SummonId
 
 		end
+
+		local vars = {
+			HP = HP,
+			BoostedHP = BoostedHP,
+			AC = AC,
+			MonSettings = MonSettings,
+			MonsterHeight = MonsterHeight,
+			MonsterPower = MonsterPower,
+			MonsterLevel = MonsterLevel,
+			MaxDamage = MaxDamage,
+			SpellSkill = SpellSkill, -- ??? maybe overwritten by second spell?
+			SpellMastery = SpellMastery, -- same as above
+			MoveSpeed = MoveSpeed,	
+		}
+		table.copy(commonVars, vars)
+		formulaVariables[mon.Id] = vars
 
 		ReadyMons[monId] = true
 
@@ -938,7 +951,6 @@ local function Init()
 	end
 
 	-- Boost summons
-
 	mem.autohook2(0x44d4b1, function(d)
 		if Game.UseMonsterBolster and not ReadyMons[d.esi] then
 			local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
@@ -1104,12 +1116,14 @@ local function BolsterMonsters()
 	end ]]
 	PrepareTxtMon(t, false)
 
-	for i,v in Map.Monsters do
-		if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
-			PrepareMapMon(v)
+	if Game.UseMonsterBolster then
+		for i,v in Map.Monsters do
+			if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
+				PrepareMapMon(v)
+			end
 		end
+		boostSummons = true
 	end
-	boostSummons = true
 end
 Game.BolsterMonsters = function()
 	restore()

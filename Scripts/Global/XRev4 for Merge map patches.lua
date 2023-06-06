@@ -237,20 +237,13 @@ patches = {
             end
         end)
 
-        -- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members, and set QBits in vars to restore later
+        -- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members
 		replaceMapEvent(221, function()
             evt.ForPlayer("All")
             if not evt.Cmp("QBits", getQuestBit(356)) then         -- 0
                 evt.StatusText(54)         -- "You Pray"
                 return
             end
-            vars.TheGauntletQBits = {}
-            for i = 0, 2 do
-                vars.TheGauntletQBits[i + getQuestBit(206)] = Party.QBits[i + getQuestBit(206)]
-            end
-            evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
-            evt.Subtract("QBits", getQuestBit(207))         -- Erathia - Town Portal
-            evt.Subtract("QBits", getQuestBit(208))         -- Tularean Forest - Town Portal
             while evt.Cmp("Inventory", getItem(223)) do         -- "Magic Potion"
                 evt.Subtract("Inventory", getItem(223))         -- "Magic Potion"
             end

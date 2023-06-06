@@ -14,11 +14,8 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * BDJ quest
-* AdaptiveMonstersStats: test changes with dynamically summoned boss (boosted stats) who casts spells as well,
-   things mentioned in overridden monster summon function (fix Wromthrax Cave Quest as well)
 * Fill in mana/health regen items for MS.Rev4ForMergeManaHealthRegenStacking
 * Make balance changes like of the Gods, of the Doom, leather more resistances optional
-* Nerf Day of the Gods if boosted statistic breakpoints are active
 
 ---- important ----
 * Dispel immunity enchantment (note: more item classes have spcitems than stditems)
@@ -1133,5 +1130,75 @@ function dispelMagic()
 	end
 	for i, buff in Party.SpellBuffs do
 		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
+	end
+end
+
+-- increase stat breakpoint rewards
+do
+	local vals = {
+		500, 45,
+		400, 40,
+		350, 35,
+		300, 30,
+		275, 29,
+		250, 28,
+		225, 26,
+		200, 24,
+		180, 23,
+		161, 22,
+		146, 21,
+		131, 20,
+		116, 19,
+		101, 18,
+		91, 17,
+		82, 16,
+		74, 15,
+		67, 14,
+		61, 13,
+		55, 12,
+		50, 11,
+		45, 10,
+		40, 9,
+		35, 8,
+		31, 7,
+		27, 6,
+		24, 5,
+		21, 4,
+		19, 3,
+		17, 2,
+		15, 1,
+		13, 0,
+		11, -1,
+		9, -2,
+		7, -3,
+		5, -4,
+		3, -5,
+		0, -6
+	}
+
+	if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
+		function events.GetStatisticEffect(t)
+			for i = 1, #vals - 2, 2 do
+				if t.Value >= vals[i] then
+					t.Result = vals[i + 1]
+					return
+				end
+			end
+			t.Result = vals[#vals]
+		end
+
+		-- nerf day of the gods
+		local powers = {1, 2, 2, 3} -- per mastery
+		local bonuses = {3, 3, 9, 9}
+		function events.PlayerSpellVar(t)
+			--{Spell = 33, VarNum = 3, Value = d.eax, Mastery = u4[0x51791C]}
+			if t.Spell == const.Spells.DayOfTheGods then
+				if t.VarNum == 3 then -- per skill
+					t.Value = assert(powers[t.Mastery])
+				elseif t.VarNum == 4 then -- const
+					t.Value = assert(bonuses[t.Mastery])
+				end
+			end
+		end
 	end
 end

@@ -305,7 +305,7 @@ Q Bit	Quest Note Text	Notes	Owner
 304		TP Buff Regna	
 305		TP Buff Shadowspire	
 306		TP Buff Daggerwound Islands	
-307		TP Switch Antagrich	
+307		TP Switch Antagarich	
 308		TP Switch Enroth	
 309		TP Switch Global	
 310		TP Buff Blackshire	
@@ -511,518 +511,518 @@ Q Bit	Quest Note Text	Notes	Owner
 510	0	0	0
 511	0	0	0
 512	0	0	0
-513	Return a red potion to the Judge on Emerald Island.	0	Bryan	
-514	Return a seashell to the Judge on Emerald Island.	0	Bryan	
-515	Return a longbow to the Judge on Emerald Island.	0	Bryan	
-516	Return a floor tile to the Judge on Emerald Island.	0	Bryan	
-517	Return a musical instrument to the Judge on Emerald Island.	0	Bryan	
-518	Return a wealthy hat to the Judge on Emerald Island.	0	Bryan	
-519		Finished Scavenger Hunt	Bryan	
-520		Brought red potion	Bryan	0
-521		Brought seashell	Bryan	0
-522		Brought longbow	Bryan	0
-523		Brought tile	Bryan	0
-524		Brought instrument	Bryan	0
-525		Brought hat	Bryan	0
-526		Accepted Fireball wand from Malwick	Bryan	0
-527		Able to use boat to get off Emerald Island	Bryan	0
-528	Find the missing contestants on Emerald Island and bring back proof to Lord Markham.	0	Bryan	0
-529		No more docent babble	Bryan	0
-530	"Go to Lord Markham's estate in Tatalia, steal the vase there, and return it to William Lasker in the Erathian Sewers."	0	Bryan	0
-531	"Go to Watchtower 6 in the Deyja Moors, and move the weight from the top of the tower to the bottom of the tower.  Then return to William Lasker in the Erathian Sewers."	0	Bryan	0
-532		Watchtower 6.  Weight in the appropriate box.  Important for Global event 47 (Spy promotion)		0
-533	Go to the Celestial Court in Celeste and kill Lady Eleanor Carmine.  Return with proof to Seknit Undershadow in the Deyja Moors.	0	Bryan	0
-534	"Find the map that shows the location of Sir BunGleau's panoply and return it to the Massenger of the Saints.."		Bryan	0
-535		Found map when on Crusader quest	Bryan	0
-536	"Find the Blessed Panoply of Sir BunGleau and return to the Angel in Castle Harmondale".	0	Bryan	0
-537		Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.	Bryan	0
-538	"Find the Blessed Panoply of Sir BunGleau and return  to William Setag in the Deyja Moors."	0	Bryan	0
-539	Find the lost meditation spot in the Dwarven Barrows.	0	Bryan	0
-540	"Go to the Temple of Baa in Avlee and kill the High Priest of Baa, then return to Bartholomew Hume in Harmondale."	0	Bryan	0
-541	"Kill the creatures in the Kennel and return to Queen Catherine with the Journal of Experiments.."	0	Bryan	0
-542	Retrieve the Perfect Bow from the Titans' Stronghold in Avlee and return it to Lawrence Mark in Harmondale.	0	Bryan	0
-543	Sabotage the lift in the Red Dwarf Mines in the Bracada Desert then return to Zedd True Shot on Emerald Island.	0	Bryan	0
-544	Retrieve the Perfect Bow from the Titans' Stronghold in Avlee and return it to Steagal Snick in Avlee.	0	Bryan	0
-545	Win five arena challenges then return to Leda Rowan in the Bracada Desert.	0	Bryan	0
-546	Destroy all the undead in the Haunted House in the Barrow Downs and return to Frederick Org in Erathia.	0	Bryan	0
-547	Raid the Elven Treasury at Castle Navan in the Tularean Forest and return to Frederick Org in Erathia.	0	Bryan	0
-548	Calm the trees in the Tularean Forest by speaking to the Oldest Tree then return to Lysander Sweet in the Bracada Desert.	0	Bryan	0
-549	Solve the secret to the entrance of the Faerie Mound in Avlee and speak to the Faerie King.	0	Bryan	0
-550	"Collect 10,000 gold worth of bounties from the Bounty Hunts in the town halls, then return to Ebednezer Sower in the Tularean Forest."	0	Bryan	0
-551	Find the Heart of the Forest in the Mercenary Guild in Tatalia and return it to the Oldest Tree in the Tularean Forest.	0	Bryan	0
-552		Talked to the Oldest Tree	Bryan	0
-553		Solved Tree quest	Bryan	0
-554	Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Daedalus Falk on Emerald Island.	0	Bryan	0
-555	Find the lost pirate map in the Tidewater Caverns in Tatalia and return to Daedalus Falk on Emerald Island.	0	Bryan	0
-556	Deface the Altar of Good in the Temple of the Sun on Evenmorn Isle then return to Daedalus Falk in the Deyja Moors.	0	Bryan	0
-557	"Collect the six golem pieces and construct a complete golem, then return to Thomas Grey in the School of Sorcery."	0	Bryan	0
-558		Player Castle.  Golem should appear in castle bit.	Bryan	0
-559	Recover the Book of Unmakings from the Strange Temple and return it to Thomas Grey in the School of Sorcery.	0	Bryan	0
-560	Retrieve the lich jars from the Proving Grounds in Celeste and bring them back to Halfgild Wynac in the Pit.	0	Bryan	0
-561	"Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."	0	Bryan	0
-562		Visited all stonehenges		0
-563		Visited stonehenge 1 (area 9)		0
-564		Visited stonehenge 2 (area 13)		0
-565		Visited stonehenge 3 (area 14)		0
-566	"Retrieve the bones of the Dwarf King from the tunnels between Stone City and Nighon and place them in their proper resting place in the Barrow Downs, then return to Anthony Green in the Tularean Forest."	0	Bryan	0
-567	Retrieve the dragon egg from the Dragon Cave in the Land of the Giants and return it to Tor Anwyn in Mount Nighon.	0	Bryan	0
-568		Watchtower 6.  Taken the weight from the upper gatehouse.  Spy promo quest		0
-569		Solved the code puzzle.  Ninja promo quest		0
-570		Destroyed critter generator in dungeon.  Warrior Mage promo quest.		0
-571		Won five arena championships at [something] difficulty level.  Champion promo quest.	Bryan	0
-572		Robbed Elven treasury.  Black Knight promo quest.		0
-573		Collected 10000 gold in bounties.  Bounty Hunter promo quest.	Bryan	0
-574		Purified the Altar of Evil.  Priest of Light promo quest.		0
-575		Defaced the Altar of Good.  Priest of Dark promo quest.		0
-576		Activate boat to area 9.  Priest promo quest		0
-577		Barrow downs.   Returned the bones of the Dwarf King.  Arch Druid promo quest.		0
-578		Placed Golem torso	Bryan	0
-579		Placed Golem left leg	Bryan	0
-580		Placed Golem right leg	Bryan	0
-581		Placed Golem left arm	Bryan	0
-582		Placed Golem left leg	Bryan	0
-583		Placed Golem head	Bryan	0
-584		Placed Golem Abbey normal head	Bryan	0
-585		Finished constructing Golem with Abbey normal head	Bryan	0
-586		Finished constructing Golem with normal head	Bryan	0
-587	"Clean out Castle Harmondale and return to the Butler in the tavern, On the House, in Harmondale."	Given by butler at the door to the player castle.		0
-588	Rescue the dwarves from the Red Dwarf Mines and return to the Dwarf King in Stone City in the Barrow Downs.		Bryan	0
-589	Retrieve plans from Fort Riverstride and return them to Eldrich Parson in Castle Navan in the Tularean Forest.		Bryan	0
-590	Rescue Loren Steel from the Tularean Caves in the Tularean Forest and return him to Queen Catherine.		Bryan	0
-591	Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose.		Bryan	0
-592		Gave plans to elfking	Bryan	0
-593		Gave Loren to Catherine	Bryan	0
-594		Gave false plans to elfking (betray)	Bryan	0
-595		Gave false Loren to Catherine (betray)	Bryan	0
-596		Gave artifact to humans	Bryan	0
-597		Gave artifact to elves	Bryan	0
-598		Gave weapons to humans	Bryan	0
-599		Gave weapons to elves	Bryan	0
-600		Talked to Catherine	Bryan	0
-601		Talked to elfking	Bryan	0
-602		Told Catherine about fake prisoner	Bryan	0
-603		Told Elfking about fake plans	Bryan	0
-604		Fort Riverstride.  Opened chest with plans		0
-605		Tularean Caves.  Got Loren		0
-606	Give false Riverstride plans to Eldrich Parson in Castle Navan in the Tularean Forest.		Bryan	0
-607	Return the Loren imposter to Queen Catherine in Castle Gryphonheart in Erathia.		Bryan	0
-608		Built Castle to Level 3 (good)NO LONGER USED(Riki)	Bryan	0
-609		Built Castle to Level 3 (evil)NO LONGER USED(Riki)	Bryan	0
-610		Built Castle to Level 2 (rescued dwarf guy)	Bryan	0
-611		Chose the path of Light	Bryan	0
-612		Chose the path of Dark	Bryan	0
-613	Complete the Walls of Mist without killing a single opponent and return to Gavin Magnus in Castle Lambent in Celeste.		Bryan	0
-614		Completed Proving Grounds without killing a single creature	Bryan	0
-615	Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste.		Bryan	0
-616	Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste.	0	Bryan	0
-617		Slayed Xenofex	0	0
-618	Investigate the Wine Cellar in Tatalia and return to Crag Hack in Castle Lambent in Celeste.	0	Bryan	0
-619		Slayed the vampire	0	0
-620	Retrieve the Case of Soul Jars from Castle Gloaming in the Pit and return to Sir Caneghem in Celeste.	0	Bryan	0
-621	Assassinate Tolberti in his house in the Pit and return his control cube to Robert the Wise in Celeste.	0	Bryan	0
-622		Finished Necro Proving Grounds	Bryan	0
-623		Finished Necro Task 2 - Temple of Light	Bryan	0
-624		Finished Necro Task 3 - Soul Jars	Bryan	0
-625		Finished Necro Task 4 - Clanker's Lab	Bryan	0
-626		Finished Wizard Proving Grounds	Bryan	0
-627		Finished Wizard Task 2 - Temple of Dark	Bryan	0
-628		Finished Wizard Task 3 - Wine Cellar	Bryan	0
-629		Finished Wizard Task 4 - Soul Jars	Bryan	0
-630		Killed Good MM3 Person	Bryan	0
-631		Killed Evil MM3 Person	Bryan	0
-632		Got Hive part	Bryan	0
-633		Got the sci-fi part	Bryan	0
-634	Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Kastore in the Pit.	0	Bryan	0
-635	Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Kastore in the Pit.	0	Bryan	0
-636	Retrieve the Case of Soul Jars from the Warlocks in Thunderfist Mountain and bring them to Maximus in the Pit.	0	Bryan	0
-637	Destroy the magical defenses inside Clanker's Laboratory and return to Dark Shade in the Pit.	0	Bryan	0
-638		Destroyed the magical defenses in Clanker's Lab	0	0
-639	Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit.	0	Bryan	0
-640	Complete the Breeding Zone and return to Archibald in the Pit.	0	Bryan	0
-641		Completed Breeding Pit.	0	0
-642	Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste.	0	0	0
-643	Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit.	0	0	0
-644		Butler only shows up once (area 2)	Pete	0
-645		Player castle timer only happens once	Pete	0
-646		Arbiter Messenger only happens once	Pete	0
-647		Player castle goblins are all dead	Riki	0
-648		Party doesn't come back to Out01 temple anymore	Bryan	0
-649		Artifact Messenger only happens once	Riki	0
-650		Killed specific monster (Armsmaster GM quest) - important for Bob	Bryan	0
-651		Completed fountain quest (Water Magic GM) - important for Bob	Bryan	0
-652		Cleaned out the haunted mansion (Cavalier promo)	Bryan	0
-653		"Only give Markham's vase once (Markham's manor, Thief promo)."	Bryan	0
-654		Killed all monsters in Haunted mansion	Bryan	0
-655		Killed all monsters in Bandit cave	Bryan	0
-656		Alice Hargreaves in building only once	Bryan	0
-657		Membership to the School of Sorcery Scroll Shop	Bryan	0
-658	Talk to the Dwarves in Stone City in the Barrow Downs to find a way to repair Castle Harmondale.	0	0	0
-659		Gave artifact to arbiter	Bryan	0
-660		Got Lich Jar from Walls of Mist	Bryan	0
-661		Got Lich Jar from Thunderfist Mountain	Bryan	0
-662		Got Lich Jar from Castle Gloaming	Bryan	0
-663	"Enter the Pit from the Hall of the Pit in the Deyja Moors, then talk to Archibald in Castle Gloaming in the Pit."	0	0	0
-664	"Enter Celeste from the grand teleporter in the Bracada Desert, then talk to Gavin Magnus in Castle Lambent in Celeste."	0	0	0
-665	Choose a judge to succeed Judge Grey as Arbiter in Harmondale.	0	0	0
-666		Got Scroll of Waves	0	0
-667	Retrieve the Lantern of Light from the Barrow Downs and return it to Tarin Withern in Harmondale.	Barrow Lantern Quest	James	0
-668	Retrieve Haldar's Remains from the Maze in Nighon and return them to Mazim Dusk in Nighon.	Haldar's Remains Quest	James	0
-669	Retrieve Davrik's Signet ring from the Bandit Caves in the northeast of Erathia and return it to Davrik Peladium in Erathia.	Davrik's Ring Quest	James	0
-670	Take Sealed Letter to Lord Markham in Lord Markham's Manor in Tatalia for collector Norbert Thrush.		James	0
-671	Return Parson's Quill to Norbert Thrush in Erathia.		James	0
-672		Got Signet ring out of chest	Tim	0
-673		Got magic dust out of chest 	Tim	0
-674		Got lantern of light	Tim	0
-675		Got perfect bow out of chest	Tim	0
-676		Visited Obelisk in Area 2	Riki	0
-677		Visited Obelisk in Area 3	Riki	0
-678		Visited Obelisk in Area 4	Riki	0
-679		Visited Obelisk in Area 5	Riki	0
-680		Visited Obelisk in Area 6	Riki	0
-681		Visited Obelisk in Area 7	Riki	0
-682		Visited Obelisk in Area 8	Riki	0
-683		Visited Obelisk in Area 9	Riki	0
-684		Visited Obelisk in Area 10	Riki	0
-685		Visited Obelisk in Area 11	Riki	0
-686		Visited Obelisk in Area 12	Riki	0
-687		Visited Obelisk in Area 13	Riki	0
-688		Visited Obelisk in Area 14	Riki	0
-689		Visited Obelisk in Area 39	Riki	0
-690		Open final Obelisk Chest	Riki	0
-691	Take the sealed letter to the Faerie King in the Hall under the Hill in Avlee.		Bryan	0
-692	Take the Faerie Pipes to Johann Kerrid in the Tularean Forest.		Bryan	0
-693	Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks.	Goto Merc Guild	Bryan	0
-694	Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia.	Do the Merc Guild Quest	Bryan	0
-695		Failed either goto or do guild quest	Bryan	0
-696		Killed all castle monsters	Bryan	0
-697		Killed all outdoor monsters	Bryan	0
-698	Kill all the Troglodytes underneath Stone City and return to Spark Burnkindle in Stone City.	0	Bryan	0
-699	Kill all the Griffins in Erathia and the Bracada Desert and return to Seth Drakkson in the Deyja Moors.	0	Bryan	0
-700		Killed all Erathian Griffins	Bryan	0
-701		Killed all Bracada Desert Griffins	Bryan	0
-702		Finished with Malwick & Assc.	Riki	0
-703		Turn on map in mdtXX(Dwarven Barrow)	Riki	0
-704		Turn on map in mdkXX(Dwarven Barrow)	Riki	0
-705		Turn on map in mdrXX(Dwarven Barrow)	Riki	0
-706	"Find the fate of Darron's brother in the White Cliff Caves, then return to Darron Temper in Harmondale."	0	0	0
-707	Retrieve the Seasons' Stole from the Hall of the Pit and return it to Gary Zimm in the Bracada Desert.	0	0	0
-708		Find second entrance to Watchtower6	James	0
-709		Entered Faerie Mound	James	0
-710		Archibald in Clankers Lab now	0	0
-711		Take the Associate's Tapestry	0	0
-712	"Retrieve the three statuettes and place them on the shrines in the Bracada Desert, Tatalia, and Avlee, then return to Thom Lumbra in the Tularean Forest."		0	0
-713		Placed item 617 in out14(statue)	0	0
-714		Place item 618 in out13(statue)	0	0
-715		Place item 619 in out06(statue)	0	0
-716	Retrieve the three paintings and return them to Ferdinand Visconti in Tatalia.	0	0	0
-717	"Honor Elrond's memory by winning the Arcomage Championship, then return to Darron Temper in Pierpont."	0	0	0
-718		TP Buff Harmondale	0	0
-719		TP Buff Tularean Forest	0	0
-720		TP Buff Erathia	0	0
-721		TP Buff Nighon	0	0
-722		TP Buff Celeste	0	0
-723		TP Buff The Pit	0	0
-724		Vase - I lost it	0	0
-725		Dagger - I lost it	0	0
-726		Scroll of Waves - I lost it	0	0
-727		Cipher - I lost it	0	0
-728		Worn Belt - I lost it	0	0
-729		Heart of Wood - I lost it	0	0
-730		Map to Evenmorn - I lost it	0	0
-731		Golem Head - I lost it	0	0
-732		Abby normal head - I lost it	0	0
-733		Right arm - I lost it	0	0
-734		Left arm - I lost it	0	0
-735		Right leg - I lost it	0	0
-736		Left leg - I lost it	0	0
-737		Torso - I lost it	0	0
-738		Book of Divine Intervention - I lost it	0	0
-739		Dragon Egg - I lost it	0	0
-740		Dwarf Bones - I lost it	0	0
-741		Lich Jar (Empty) - I lost it	0	0
-742		Elixir - I lost it	0	0
-743		Lich Jar Case - I lost it	0	0
-744		Altar Piece (Good) - I lost it	0	0
-745		Altar Piece (Evil) - I lost it	0	0
-746		Control Cube - I lost it	0	0
-747		Wetsuit - I lost it	0	0
-748		Final Part - I lost it	0	0
-749		Lich Jar (Full) - I lost it	0	0
-750		Won all Arcomage games	0	0
-751		Got the Divine Intervention	0	0
-752		Talked to Roland	0	0
-753		Perfect bow - I lost it	0	0
-754		Opened chest with shadow mask	0	0
-755		Killed High Preist of Baa	0	0
-756		Finished ArcoMage Quest - Get the treasure	0	0
-757	Congratulations	For Blinging	0	0
-758		Visited The Land of the giants	0	0
-759		Control Cube only once	0	0
-760		Took area 2 hill fort	0	0
-761		Don't get ambushed	0	0
-762		Bought Item 1	0	0
-763		Bought Item 2	0	0
-764		Bought Item 3	0	0
-765		Bought Item 4	0	0
-766		Bought Item 5	0	0
-767		Bought Item 6	0	0
-768		Can't keep buying 1	0	0
-769		Can't keep buying 2	0	0
-770		Can't keep buying 3	0	0
-771		Can't keep buying 4	0	0
-772		Can't keep buying 5	0	0
-773		Can't keep buying 6	0	0
-774		Time for Gobs to appear in area 2(raiding camp)	0	0
-775		Area 12 Archibald only once	0	0
-776		Took Roland Painting	0	0
-777		Took Archi Painting	0	0
-778		Took Angel Painting	0	0
-779		South Signal Fire Out02	0	0
-780		North Signal Fire Out02	0	0
-781		West Siganl Fire Out02	0	0
-782		Your friends are mad at you 	0	0
-783	"Find the Blessed Panoply of Sir BunGleau."	Given on Emerald Island	0	0
-784	"Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."	Fire Grandmaster Promotion Quest Requirement	0	0
-785	"Complete four Courier Guild missions."	Courier Quest	0	0
-786		Courier Quest 1	0	0
-787		Courier Quest 2	0	0
-788		Courier Quest 3	0	0
-789		Courier Quest 4	0	0
-790		Courier Quest 1 complete	0	0
-791		Courier Quest 2 complete	0	0
-792		Courier Quest 3 complete	0	0
-793		Courier Quest 4 complete	0	0
-794		Rena Quest	0	0
-795		End of Festival	0	0
-796		Beginning of Festival	0	0
-797		NWC Switch1	0	0
-798		NWC Switch2	0	0
-799		NWC Switch3	0	0
-800		NWC Switch4	0	0
-801		NWC Switch5	0	0
-802		NWC Switch6	0	0
-803		NWC Tele Bit	0	0
-804		Erathian Festival	0	0
-805		Return to NWC	0	0
-806		Return to EI	0	0
-807		Water	0	0
-808		Fire	0	0
-809		Air	0	0
-810		Earth	0	0
-811	"Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"	Return Text Maximus	0	0
-812		Completed Strange Temple	0	0
-813	"Clear out the Strange Temple,  retrieve the ancient weapons, and return to Sir Carneghem in Celeste"	Return Text Carneghem	0	0
-814		Small House only Once	0	0
-815		Reward	0	0
-816		0	0	0
-817		0	0	0
-818		0	0	0
-819		0	0	0
-820		0	0	0
-821		0	0	0
-822		0	0	0
-823		0	0	0
-824		0	0	0
-825		0	0	0
-826		0	0	0
-827		0	0	0
-828		1-time EI Well	0	0
-829		1-time Castle Harm	0	0
-830		1-time phasing cauldron	0	0
-831		1-TIME INTUITION	0	0
-832		1-TIME LEARNING	0	0
-833		Gepetto's Thermos	0	0
-834		0	0	0
-835		Dancing Flame	0	0
-836		White Cliff Cave Permission	0	0
-837		Resurectra	0	0
-838		Resurectra	0	0
-839		Titan Sprite B	0	0
-840		Titan Sprite C	0	0
-841		Titan Sprite D	0	0
-842		1-time EI temple	0	0
-843		1-time Erathia	0	0
-844		1-time baa	0	0
-845		1-time baa	0	0
-846		1-time stone city	0	0
-847		BDJ 1	0	0
-848		BDJ 2	0	0
-849		BDJ 3	0	0
-850		BDJ 4	0	0
-851		Sorcerer	0	0
-852		Cleric	0	0
-853		Fighter	0	0
-854		Paladin	0	0
-855		Monk	0	0
-856		Thief	0	0
-857		Ranger	0	0
-858		Archer	0	0
-859		Druid	0	0
-860		Final	0	0
-861		One Use	0	0
-862		Two Use	0	0
-863		Three Use	0	0
-864		Four Use	0	0
-865	"Bring proof of the Coding Wizard's existence to Lord Godwinson."	0	0	0
-866			0	0
-867	"Bring a Red Delicious Apple to the Duchess of Deja."	0	0	0
-868		0	0	0
-869		BDJ Final	0	0
-870		0	0	0
-871		0	0	0
-872		0	0	0
-873		mESSENGER ONE-TIME	0	0
-874	 Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste.	0	0	0
-875		Eradicated	0	0
-876		0	0	0
-877		0	0	0
-878		0	0	0
-879		0	0	0
-880		Barrow Normal	0	0
-881	Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward.	0	0	0
-882	Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days.	0	0	0
-883		Dwarven Messenger Once	0	0
-884		Barrow Create Monsters Once	0	0
-885		Harm no respawn	0	0
-886		End Game	0	0
-887		Enter Throne for Kennel Quest	0	0
-888		LG 1-time	0	0
-889		Bimbasto	0	0
-890		Vilx	0	0
-891		Exit 1-time Cave 1 Vault	0	0
-892	Pass the Test of Friendship	0	0	0
-893		0	0	0
-894		0	0	0
-895	Bring the Grognard's Cutlass to Christian at the J.V.C Corral.	0	0	0
-896	0	0	0	0
-897	0	0	0	0
-898	0	0	0	0
-899	0	0	0	0
-900	0	0	0	0
-901	0	0	0	0
-902	0	0	0	0
-903	0	0	0	0
-904	0	0	0	0
-905	0	0	0	0
-906	0	0	0	0
-907	0	0	0	0
-908	0	0	0	0
-909	0	0	0	0
-910	0	0	0	0
-911	0	0	0	0
-912	0	0	0	0
-913	0	0	0	0
-914	0	0	0	0
-915	0	0	0	0
-916	0	0	0	0
-917	0	0	0	0
-918	0	0	0	0
-919	0	0	0	0
-920	0	0	0	0
-921		DD buff: map 1 (Out01) visited	0	0
-922		DD buff: map 2 (Out02) visited	0	0
-923		DD buff: map 3 (Out03) visited	0	0
-924		DD buff: map 4 (Out04) visited	0	0
-925		DD buff: map 5 (Out05) visited	0	0
-926		DD buff: map 6 visited	0	0
-927		DD buff: map 7 visited	0	0
-928		DD buff: map 8 visited	0	0
-929	0	0	0	0
-930	0	0	0	0
-931	0	0	0	0
-932	0	0	0	0
-933		DD buff: map 13 visited	0	0
-934	0	0	0	0
-935	0	0	0	0
-936		DD buff: map 62 visited	0	0
-937		DD buff: map 63 visited	0	0
-938		DD buff: map 64 visited	0	0
-939		DD buff: map 65 visited	0	0
-940		DD buff: map 66 visited	0	0
-941		DD buff: map 67 visited	0	0
-942	0	0	0	0
-943	0	0	0	0
-944		DD buff: map 68 visited	0	0
-945		DD buff: map 69 visited	0	0
-946		DD buff: map 70 visited	0	0
-947		DD buff: map 71 visited	0	0
-948		DD buff: map 72 visited	0	0
-949		DD buff: map 73 visited	0	0
-950	0	0	0	0
-951		DD buff: map 137 visited	0	0
-952		DD buff: map 138 visited	0	0
-953		DD buff: map 139 visited	0	0
-954		DD buff: map 140 visited	0	0
-955		DD buff: map 141 visited	0	0
-956		DD buff: map 142 visited	0	0
-957		DD buff: map 143 visited	0	0
-958		DD buff: map 144 visited	0	0
-959		DD buff: map 145 visited	0	0
-960		DD buff: map 146 visited	0	0
-961		DD buff: map 147 visited	0	0
-962		DD buff: map 148 visited	0	0
-963		DD buff: map 149 visited	0	0
-964		DD buff: map 150 visited	0	0
-965		DD buff: map 151 visited	0	0
-966	0	0	0	0
-967	0	0	0	0
-968	0	0	0	0
-969	0	0	0	0
-970	0	0	0	0
-971	0	0	0	0
-972	0	0	0	0
-973	0	0	0	0
-974	0	0	0	0
-975	0	0	0	0
-976	0	0	0	0
-977	0	0	0	0
-978	0	0	0	0
-979	0	0	0	0
-980	0	0	0	0
-981	0	0	0	0
-982	0	0	0	0
-983	0	0	0	0
-984	0	0	0	0
-985	0	0	0	0
-986	0	0	0	0
-987	0	0	0	0
-988	0	0	0	0
-989	0	0	0	0
-990	0	0	0	0
-991	0	0	0	0
-992	0	0	0	0
-993	0	0	0	0
-994	0	0	0	0
-995	0	0	0	0
-996	0	0	0	0
-997	0	0	0	0
-998	0	0	0	0
-999	0	0	0	0
-1000	0	0	0	0
-1001		MM7 Hunter promo complete	0	0
-1002		MM7 Ranger Lord promo complete	0	0
-1003		MM7 Bounty Hunter promo complete	0	0
-1004		MM7 Priest promo complete	0	0
-1005		MM7 Priest of Light promo complete	0	0
-1006		MM7 Priest of Dark promo complete	0	0
-1007		MM7 Wizard promo complete	0	0
-1008		MM7 Arch Mage promo complete	0	0
-1009		MM7 Master Necromancer promo complete	0	0
-1010		MM7 Great Druid promo complete	0	0
-1011		MM7 Arch Druid promo complete	0	0
-1012		MM7 Warlock promo complete	0	0
-1013	0	0	0	0
-1014	0	0	0	0
-1015	0	0	0	0
-1016	0	0	0	0
-1017	0	0	0	0
-1018	0	0	0	0
-1019	0	0	0	0
-1020	0	0	0	0
-1021	0	0	0	0
-1022	0	0	0	0
-1023	0	0	0	0
-1024	0	0	0	0
+513	Return a red potion to the Judge on Emerald Island.	0	Bryan
+514	Return a seashell to the Judge on Emerald Island.	0	Bryan
+515	Return a longbow to the Judge on Emerald Island.	0	Bryan
+516	Return a floor tile to the Judge on Emerald Island.	0	Bryan
+517	Return a musical instrument to the Judge on Emerald Island.	0	Bryan
+518	Return a wealthy hat to the Judge on Emerald Island.	0	Bryan
+519		Finished Scavenger Hunt	Bryan
+520		Brought red potion	Bryan
+521		Brought seashell	Bryan
+522		Brought longbow	Bryan
+523		Brought tile	Bryan
+524		Brought instrument	Bryan
+525		Brought hat	Bryan
+526		Accepted Fireball wand from Malwick	Bryan
+527		Able to use boat to get off Emerald Island	Bryan
+528	Find the missing contestants on Emerald Island and bring back proof to Lord Markham.	0	Bryan
+529		No more docent babble	Bryan
+530	"Go to Lord Markham's estate in Tatalia, steal the vase there, and return it to William Lasker in the Erathian Sewers."	0	Bryan
+531	"Go to Watchtower 6 in the Deyja Moors, and move the weight from the top of the tower to the bottom of the tower.  Then return to William Lasker in the Erathian Sewers."	0	Bryan
+532		Watchtower 6.  Weight in the appropriate box.  Important for Global event 47 (Spy promotion)	
+533	Go to the Celestial Court in Celeste and kill Lady Eleanor Carmine.  Return with proof to Seknit Undershadow in the Deyja Moors.	0	Bryan
+534	"Kill Wromthrax the Heartless in his cave in Tatalia, then talk to Sir Charles Quixote."	0	Bryan
+535		Killed dragon when on Crusader quest	Bryan
+536	Rescue Alice Hargreaves from William's Tower in the Deyja Moors then talk to Sir Charles Quixote.	0	Bryan
+537		Mini-dungeon Area 5.  Rescued/Captured Alice Hargreaves.	Bryan
+538	Capture Alice Hargreaves from her residence in Castle Gryphonheart and return her to William's Tower in the Deyja Moors.	0	Bryan
+539	Find the lost meditation spot in the Dwarven Barrows.	0	Bryan
+540	"Go to the Temple of Baa in Avlee and kill the High Priest of Baa, then return to Bartholomew Hume in Harmondale."	0	Bryan
+541	"Crack the code in the School of Sorcery in the Bracada Desert to reveal the location of the Tomb of Ashwar Nog'Nogoth.  Discover the tomb's location, enter it, and then return it to Stephan Sand in the Pit."	0	Bryan
+542	Retrieve the Perfect Bow from the Titans' Stronghold in Avlee and return it to Lawrence Mark in Harmondale.	0	Bryan
+543	Sabotage the lift in the Red Dwarf Mines in the Bracada Desert then return to Steagal Snick in Avlee.	0	Bryan
+544	Retrieve the Perfect Bow from the Titans' Stronghold in Avlee and return it to Steagal Snick in Avlee.	0	Bryan
+545	Win five arena challenges then return to Leda Rowan in the Bracada Desert.	0	Bryan
+546	Destroy all the undead in the Haunted House in the Barrow Downs and return to Frederick Org in Erathia.	0	Bryan
+547	Raid the Elven Treasury at Castle Navan in the Tularean Forest and return to Frederick Org in Erathia.	0	Bryan
+548	Calm the trees in the Tularean Forest by speaking to the Oldest Tree then return to Lysander Sweet in the Bracada Desert.	0	Bryan
+549	Solve the secret to the entrance of the Faerie Mound in Avlee and speak to the Faerie King.	0	Bryan
+550	"Collect 10,000 gold worth of bounties from the Bounty Hunts in the town halls, then return to Ebednezer Sower in the Tularean Forest."	0	Bryan
+551	Find the Heart of the Forest in the Mercenary Guild in Tatalia and return it to the Oldest Tree in the Tularean Forest.	0	Bryan
+552		Talked to the Oldest Tree	Bryan
+553		Solved Tree quest	Bryan
+554	Purify the Altar of Evil in the Temple of the Moon on Evenmorn Isle then return to Rebecca Devine in Celeste.	0	Bryan
+555	Find the lost pirate map in the Tidewater Caverns in Tatalia and return to Daedalus Falk in the Deyja Moors.	0	Bryan
+556	Deface the Altar of Good in the Temple of the Sun on Evenmorn Isle then return to Daedalus Falk in the Deyja Moors.	0	Bryan
+557	"Collect the six golem pieces and construct a complete golem, then return to Thomas Grey in the School of Sorcery."	0	Bryan
+558		Player Castle.  Golem should appear in castle bit.	Bryan
+559	Find the Book of Divine Intervention in the Breeding Zone in the Pit and return it to Thomas Grey in the School of Sorcery.	0	Bryan
+560	Retrieve the lich jars from the Proving Grounds in Celeste and bring them back to Halfgild Wynac in the Pit.	0	Bryan
+561	"Visit the three stonehenge monoliths in Tatalia, the Evenmorn Islands, and Avlee, then return to Anthony Green in the Tularean Forest."	0	Bryan
+562		Visited all stonehenges	
+563		Visited stonehenge 1 (area 9)	
+564		Visited stonehenge 2 (area 13)	
+565		Visited stonehenge 3 (area 14)	
+566	"Retrieve the bones of the Dwarf King from the tunnels between Stone City and Nighon and place them in their proper resting place in the Barrow Downs, then return to Anthony Green in the Tularean Forest."	0	Bryan
+567	Retrieve the dragon egg from the Dragon Cave in the Land of the Giants and return it to Tor Anwyn in Mount Nighon.	0	Bryan
+568		Watchtower 6.  Taken the weight from the upper gatehouse.  Spy promo quest	
+569		Solved the code puzzle.  Ninja promo quest	
+570		Destroyed critter generator in dungeon.  Warrior Mage promo quest.	
+571		Won five arena championships at [something] difficulty level.  Champion promo quest.	Bryan
+572		Robbed Elven treasury.  Black Knight promo quest.	
+573		Collected 10000 gold in bounties.  Bounty Hunter promo quest.	Bryan
+574		Purified the Altar of Evil.  Priest of Light promo quest.	
+575		Defaced the Altar of Good.  Priest of Dark promo quest.	
+576		Activate boat to area 9.  Priest promo quest	
+577		Barrow downs.   Returned the bones of the Dwarf King.  Arch Druid promo quest.	
+578		Placed Golem torso	Bryan
+579		Placed Golem left leg	Bryan
+580		Placed Golem right leg	Bryan
+581		Placed Golem left arm	Bryan
+582		Placed Golem left leg	Bryan
+583		Placed Golem head	Bryan
+584		Placed Golem Abbey normal head	Bryan
+585		Finished constructing Golem with Abbey normal head	Bryan
+586		Finished constructing Golem with normal head	Bryan
+587	"Clean out Castle Harmondale and return to the Butler in the tavern, On the House, in Harmondale."	Given by butler at the door to the player castle.	
+588	Rescue the dwarves from the Red Dwarf Mines and return to the Dwarf King in Stone City in the Barrow Downs.		Bryan
+589	Retrieve plans from Fort Riverstride and return them to Eldrich Parson in Castle Navan in the Tularean Forest.		Bryan
+590	Rescue Loren Steel from the Tularean Caves in the Tularean Forest and return him to Queen Catherine.		Bryan
+591	Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose.		Bryan
+592		Gave plans to elfking	Bryan
+593		Gave Loren to Catherine	Bryan
+594		Gave false plans to elfking (betray)	Bryan
+595		Gave false Loren to Catherine (betray)	Bryan
+596		Gave artifact to humans	Bryan
+597		Gave artifact to elves	Bryan
+598		Gave weapons to humans	Bryan
+599		Gave weapons to elves	Bryan
+600		Talked to Catherine	Bryan
+601		Talked to elfking	Bryan
+602		Told Catherine about fake prisoner	Bryan
+603		Told Elfking about fake plans	Bryan
+604		Fort Riverstride.  Opened chest with plans	
+605		Tularean Caves.  Got Loren	
+606	Give false Riverstride plans to Eldrich Parson in Castle Navan in the Tularean Forest.		Bryan
+607	Return the Loren imposter to Queen Catherine in Castle Gryphonheart in Erathia.		Bryan
+608		Built Castle to Level 3 (good)NO LONGER USED(Riki)	Bryan
+609		Built Castle to Level 3 (evil)NO LONGER USED(Riki)	Bryan
+610		Built Castle to Level 2 (rescued dwarf guy)	Bryan
+611		Chose the path of Light	Bryan
+612		Chose the path of Dark	Bryan
+613	Complete the Walls of Mist without killing a single opponent and return to Gavin Magnus in Castle Lambent in Celeste.		Bryan
+614		Completed Proving Grounds without killing a single creature	Bryan
+615	Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Resurectra in Castle Lambent in Celeste.		Bryan
+616	Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste.	0	Bryan
+617		Slayed Xenofex	0
+618	Investigate the Wine Cellar in Tatalia and return to Crag Hack in Castle Lambent in Celeste.	0	Bryan
+619		Slayed the vampire	0
+620	Retrieve the Case of Soul Jars from Castle Gloaming in the Pit and return to Sir Caneghem in Celeste.	0	Bryan
+621	Assassinate Tolberti in his house in the Pit and return his control cube to Robert the Wise in Celeste.	0	Bryan
+622		Finished Necro Proving Grounds	Bryan
+623		Finished Necro Task 2 - Temple of Light	Bryan
+624		Finished Necro Task 3 - Soul Jars	Bryan
+625		Finished Necro Task 4 - Clanker's Lab	Bryan
+626		Finished Wizard Proving Grounds	Bryan
+627		Finished Wizard Task 2 - Temple of Dark	Bryan
+628		Finished Wizard Task 3 - Wine Cellar	Bryan
+629		Finished Wizard Task 4 - Soul Jars	Bryan
+630		Killed Good MM3 Person	Bryan
+631		Killed Evil MM3 Person	Bryan
+632		Got Hive part	Bryan
+633		Got the sci-fi part	Bryan
+634	Retrieve the altar piece from the Temple of Light in Celeste and the Temple of Dark in the Pit and return them to Kastore in the Pit.	0	Bryan
+635	Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Kastore in the Pit.	0	Bryan
+636	Retrieve the Case of Soul Jars from the Warlocks in Thunderfist Mountain and bring them to Maximus in the Pit.	0	Bryan
+637	Destroy the magical defenses inside Clanker's Laboratory and return to Dark Shade in the Pit.	0	Bryan
+638		Destroyed the magical defenses in Clanker's Lab	0
+639	Assassinate Robert the Wise in his house in Celeste and return to Tolberti in the Pit.	0	Bryan
+640	Complete the Breeding Zone and return to Archibald in the Pit.	0	Bryan
+641		Completed Breeding Pit.	0
+642	Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste.	0	0
+643	Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Kastore in the Pit.	0	0
+644		Butler only shows up once (area 2)	Pete
+645		Player castle timer only happens once	Pete
+646		Arbiter Messenger only happens once	Pete
+647		Player castle goblins are all dead	Riki
+648		Party doesn't come back to Out01 temple anymore	Bryan
+649		Artifact Messenger only happens once	Riki
+650		Killed specific monster (Armsmaster GM quest) - important for Bob	Bryan
+651		Completed fountain quest (Water Magic GM) - important for Bob	Bryan
+652		Cleaned out the haunted mansion (Cavalier promo)	Bryan
+653		"Only give Markham's vase once (Markham's manor, Thief promo)."	Bryan
+654		Killed all monsters in Haunted mansion	Bryan
+655		Killed all monsters in Bandit cave	Bryan
+656		Alice Hargreaves in building only once	Bryan
+657		Membership to the School of Sorcery Scroll Shop	Bryan
+658	Talk to the Dwarves in Stone City in the Barrow Downs to find a way to repair Castle Harmondale.	0	0
+659		Gave artifact to arbiter	Bryan
+660		Got Lich Jar from Walls of Mist	Bryan
+661		Got Lich Jar from Thunderfist Mountain	Bryan
+662		Got Lich Jar from Castle Gloaming	Bryan
+663	"Enter the Pit from the Hall of the Pit in the Deyja Moors, then talk to Archibald in Castle Gloaming in the Pit."	0	0
+664	"Enter Celeste from the grand teleporter in the Bracada Desert, then talk to Gavin Magnus in Castle Lambent in Celeste."	0	0
+665	Choose a judge to succeed Judge Grey as Arbiter in Harmondale.	0	0
+666		Got Scroll of Waves	0
+667	Retrieve the Lantern of Light from the Barrow Downs and return it to Tarin Withern in Harmondale.	Barrow Lantern Quest	James
+668	Retrieve Haldar's Remains from the Maze in Nighon and return them to Mazim Dusk in Nighon.	Haldar's Remains Quest	James
+669	Retrieve Davrik's Signet ring from the Bandit Caves in the northeast of Erathia and return it to Davrik Peladium in Harmondale.	Davrik's Ring Quest	James
+670	Take Sealed Letter to Lord Markham in Lord Markham's Manor in Tatalia for collector Norbert Thrush.		James
+671	Return Parson's Quill to Norbert Thrush in Erathia.		James
+672		Got Signet ring out of chest	Tim
+673		Got magic dust out of chest 	Tim
+674		Got lantern of light	Tim
+675		Got perfect bow out of chest	Tim
+676		Visited Obelisk in Area 2	Riki
+677		Visited Obelisk in Area 3	Riki
+678		Visited Obelisk in Area 4	Riki
+679		Visited Obelisk in Area 5	Riki
+680		Visited Obelisk in Area 6	Riki
+681		Visited Obelisk in Area 7	Riki
+682		Visited Obelisk in Area 8	Riki
+683		Visited Obelisk in Area 9	Riki
+684		Visited Obelisk in Area 10	Riki
+685		Visited Obelisk in Area 11	Riki
+686		Visited Obelisk in Area 12	Riki
+687		Visited Obelisk in Area 13	Riki
+688		Visited Obelisk in Area 14	Riki
+689		Visited Obelisk in Area 39	Riki
+690		Open final Obelisk Chest	Riki
+691	Take the sealed letter to the Faerie King in the Hall under the Hill in Avlee.		Bryan
+692	Take the Faerie Pipes to Johann Kerrid in the Tularean Forest.		Bryan
+693	Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks.	Goto Merc Guild	Bryan
+694	Steal the Tapestry from your associate's Castle and return it to Niles Stantley in the Mercenary Guild in Tatalia.	Do the Merc Guild Quest	Bryan
+695		Failed either goto or do guild quest	Bryan
+696		Killed all castle monsters	Bryan
+697		Killed all outdoor monsters	Bryan
+698	Kill all the Troglodytes underneath Stone City and return to Spark Burnkindle in Stone City.	0	Bryan
+699	Kill all the Griffins in Erathia and the Bracada Desert and return to Seth Drakkson in the Deyja Moors.	0	Bryan
+700		Killed all Erathian Griffins	Bryan
+701		Killed all Bracada Desert Griffins	Bryan
+702		Finished with Malwick & Assc.	Riki
+703		Turn on map in mdtXX(Dwarven Barrow)	Riki
+704		Turn on map in mdkXX(Dwarven Barrow)	Riki
+705		Turn on map in mdrXX(Dwarven Barrow)	Riki
+706	"Find the fate of Darron's brother in the White Cliff Caves, then return to Darron Temper in Harmondale."	0	0
+707	Retrieve the Seasons' Stole from the Hall of the Pit and return it to Gary Zimm in the Bracada Desert.	0	0
+708		Find second entrance to Watchtower6	James
+709		Entered Faerie Mound	James
+710		Archibald in Clankers Lab now	0
+711		Take the Associate's Tapestry	0
+712	"Retrieve the three statuettes and place them on the shrines in the Bracada Desert, Tatalia, and Avlee, then return to Thom Lumbra in the Tularean Forest."		0
+713		Placed item 617 in out14(statue)	0
+714		Place item 618 in out13(statue)	0
+715		Place item 619 in out06(statue)	0
+716	Retrieve the three paintings and return them to Ferdinand Visconti in Tatalia.	0	0
+717	"Win a game of Arcomage in all thirteen taverns, then return to Gina Barnes in Erathia."	0	0
+718		TP Buff Harmondale	0
+719		TP Buff Tularean Forest	0
+720		TP Buff Erathia	0
+721		TP Buff Nighon	0
+722		TP Buff Celeste	0
+723		TP Buff The Pit	0
+724		Vase - I lost it	0
+725		Dagger - I lost it	0
+726		Scroll of Waves - I lost it	0
+727		Cipher - I lost it	0
+728		Worn Belt - I lost it	0
+729		Heart of Wood - I lost it	0
+730		Map to Evenmorn - I lost it	0
+731		Golem Head - I lost it	0
+732		Abby normal head - I lost it	0
+733		Right arm - I lost it	0
+734		Left arm - I lost it	0
+735		Right leg - I lost it	0
+736		Left leg - I lost it	0
+737		Torso - I lost it	0
+738		Book of Divine Intervention - I lost it	0
+739		Dragon Egg - I lost it	0
+740		Dwarf Bones - I lost it	0
+741		Lich Jar (Empty) - I lost it	0
+742		Elixir - I lost it	0
+743		Lich Jar Case - I lost it	0
+744		Altar Piece (Good) - I lost it	0
+745		Altar Piece (Evil) - I lost it	0
+746		Control Cube - I lost it	0
+747		Wetsuit - I lost it	0
+748		Final Part - I lost it	0
+749		Lich Jar (Full) - I lost it	0
+750		Won all Arcomage games	0
+751		Got the Divine Intervention	0
+752		Talked to Roland	0
+753		Perfect bow - I lost it	0
+754		Opened chest with shadow mask	0
+755		Killed High Preist of Baa	0
+756		Finished ArcoMage Quest - Get the treasure	0
+757	Congratulations	For Blinging	0
+758		Visited The Land of the giants	0
+759		Control Cube only once	0
+760		Took area 2 hill fort	0
+761		Don't get ambushed	0
+762		Bought Item 1	0
+763		Bought Item 2	0
+764		Bought Item 3	0
+765		Bought Item 4	0
+766		Bought Item 5	0
+767		Bought Item 6	0
+768		Can't keep buying 1	0
+769		Can't keep buying 2	0
+770		Can't keep buying 3	0
+771		Can't keep buying 4	0
+772		Can't keep buying 5	0
+773		Can't keep buying 6	0
+774		Time for Gobs to appear in area 2(raiding camp)	0
+775		Area 12 Archibald only once	0
+776		Took Roland Painting	0
+777		Took Archi Painting	0
+778		Took Angel Painting	0
+779		South Signal Fire Out02	0
+780		North Signal Fire Out02	0
+781		West Siganl Fire Out02	0
+782		Your friends are mad at you 	0
+783		Finished MM7 Story	
+784		Finished MM6 Story	0
+785		MM7 Rouge promo complete	0
+786		MM7 Spy promo complete	0
+787		MM7 Assassin promo complete	0
+788		MM7 Crusader promo complete	0
+789		MM7 Hero promo complete	0
+790		MM7 Villain promo complete	0
+791		MM7 Initiate Monk promo complete	0
+792		MM7 Master Monk promo complete	0
+793		MM7 Ninja promo complete	0
+794		MM7 Warrior Mage promo complete	0
+795		MM7 Master Archer promo complete	0
+796		MM7 Sniper promo complete	0
+797		MM7 Cavalier promo complete	0
+798		MM7 Templar promo complete	0
+799		MM7 Black Knight promo complete	0
+800		Chose the path of Neutrality	0
+801		DD buff: map 1 (Out01) visited	0
+802		DD buff: map 2 (Out02) visited	0
+803		DD buff: map 3 (Out03) visited	0
+804		DD buff: map 4 (Out04) visited	0
+805		DD buff: map 5 (Out05) visited	0
+806		DD buff: map 6 visited	0
+807		DD buff: map 7 visited	0
+808		DD buff: map 8 visited	0
+809	0	0	0
+810	0	0	0
+811	0	0	0
+812	0	0	0
+813		DD buff: map 13 visited	0
+814	0	0	0
+815	0	0	0
+816		DD buff: map 62 visited	0
+817		DD buff: map 63 visited	0
+818		DD buff: map 64 visited	0
+819		DD buff: map 65 visited	0
+820		DD buff: map 66 visited	0
+821		DD buff: map 67 visited	0
+822	0	0	0
+823	0	0	0
+824		DD buff: map 68 visited	0
+825		DD buff: map 69 visited	0
+826		DD buff: map 70 visited	0
+827		DD buff: map 71 visited	0
+828		DD buff: map 72 visited	0
+829		DD buff: map 73 visited	0
+830	0	0	0
+831		DD buff: map 137 visited	0
+832		DD buff: map 138 visited	0
+833		DD buff: map 139 visited	0
+834		DD buff: map 140 visited	0
+835		DD buff: map 141 visited	0
+836		DD buff: map 142 visited	0
+837		DD buff: map 143 visited	0
+838		DD buff: map 144 visited	0
+839		DD buff: map 145 visited	0
+840		DD buff: map 146 visited	0
+841		DD buff: map 147 visited	0
+842		DD buff: map 148 visited	0
+843		DD buff: map 149 visited	0
+844		DD buff: map 150 visited	0
+845		DD buff: map 151 visited	0
+846	0	0	0
+847	0	0	0
+848	0	0	0
+849	0	0	0
+850	0	0	0
+851	0	0	0
+852	0	0	0
+853	0	0	0
+854	0	0	0
+855	0	0	0
+856	0	0	0
+857	0	0	0
+858	0	0	0
+859	0	0	0
+860	0	0	0
+861	0	0	0
+862	0	0	0
+863	0	0	0
+864	0	0	0
+865	0	0	0
+866	0	0	0
+867	0	0	0
+868	0	0	0
+869	0	0	0
+870	0	0	0
+871	0	0	0
+872	0	0	0
+873	0	0	0
+874	0	0	0
+875	0	0	0
+876	0	0	0
+877	0	0	0
+878	0	0	0
+879	0	0	0
+880	0	0	0
+881	0	0	0
+882	0	0	0
+883	0	0	0
+884	0	0	0
+885	0	0	0
+886	0	0	0
+887	0	0	0
+888	0	0	0
+889	0	0	0
+890	0	0	0
+891	0	0	0
+892	0	0	0
+893	0	0	0
+894	0	0	0
+895	0	0	0
+896	0	0	0
+897	0	0	0
+898	0	0	0
+899	0	0	0
+900	0	0	0
+901	0	0	0
+902	0	0	0
+903	0	0	0
+904	0	0	0
+905	0	0	0
+906	0	0	0
+907	0	0	0
+908	0	0	0
+909	0	0	0
+910	0	0	0
+911	0	0	0
+912	0	0	0
+913	0	0	0
+914	0	0	0
+915	0	0	0
+916	0	0	0
+917	0	0	0
+918	0	0	0
+919	0	0	0
+920	0	0	0
+921	0	0	0
+922	0	0	0
+923	0	0	0
+924	0	0	0
+925	0	0	0
+926	0	0	0
+927	0	0	0
+928	0	0	0
+929	0	0	0
+930	0	0	0
+931	0	0	0
+932	0	0	0
+933	0	0	0
+934	0	0	0
+935	0	0	0
+936	0	0	0
+937	0	0	0
+938	0	0	0
+939	0	0	0
+940	0	0	0
+941	0	0	0
+942	0	0	0
+943	0	0	0
+944	0	0	0
+945	0	0	0
+946	0	0	0
+947	0	0	0
+948	0	0	0
+949	0	0	0
+950	0	0	0
+951	0	0	0
+952	0	0	0
+953	0	0	0
+954	0	0	0
+955	0	0	0
+956	0	0	0
+957	0	0	0
+958	0	0	0
+959	0	0	0
+960	0	0	0
+961	0	0	0
+962	0	0	0
+963	0	0	0
+964	0	0	0
+965	0	0	0
+966	0	0	0
+967	0	0	0
+968	0	0	0
+969	0	0	0
+970	0	0	0
+971	0	0	0
+972	0	0	0
+973	0	0	0
+974	0	0	0
+975	0	0	0
+976	0	0	0
+977	0	0	0
+978	0	0	0
+979	0	0	0
+980	0	0	0
+981	0	0	0
+982	0	0	0
+983	0	0	0
+984	0	0	0
+985	0	0	0
+986	0	0	0
+987	0	0	0
+988	0	0	0
+989	0	0	0
+990	0	0	0
+991	0	0	0
+992	0	0	0
+993	0	0	0
+994	0	0	0
+995	0	0	0
+996	0	0	0
+997	0	0	0
+998	0	0	0
+999	0	0	0
+1000	0	0	0
+1001		MM7 Hunter promo complete	0
+1002		MM7 Ranger Lord promo complete	0
+1003		MM7 Bounty Hunter promo complete	0
+1004		MM7 Priest promo complete	0
+1005		MM7 Priest of Light promo complete	0
+1006		MM7 Priest of Dark promo complete	0
+1007		MM7 Wizard promo complete	0
+1008		MM7 Arch Mage promo complete	0
+1009		MM7 Master Necromancer promo complete	0
+1010		MM7 Great Druid promo complete	0
+1011		MM7 Arch Druid promo complete	0
+1012		MM7 Warlock promo complete	0
+1013	0	0	0
+1014	0	0	0
+1015	0	0	0
+1016	0	0	0
+1017	0	0	0
+1018	0	0	0
+1019	0	0	0
+1020	0	0	0
+1021	0	0	0
+1022	0	0	0
+1023	0	0	0
+1024	0	0	0
 1025		" 1 D09, key to open D05"	" D09, key to open D05"
 1026		" 2 D11, given for glass shard for staff of terrax quest"	" D11, given for glass shard for staff of terrax quest"
 1027		" 3 D06, given when harp is recovered"	" D06, given when harp is recovered"
@@ -1733,3 +1733,331 @@ Q Bit	Quest Note Text	Notes	Owner
 1732	"Bring the hoof of a Centaur Chieftain to Wamhog Guthirc in Ironsand Desert."	
 1733		Hoof of the Centaur Chieftain obtained
 1734		Q 1732 completed
+1735			
+1736			
+1737			
+1738			
+1739			
+1740			
+1741			
+1742			
+1743			
+1744			
+1745			
+1746			
+1747			
+1748			
+1749			
+1750			
+1751			
+1752			
+1753			
+1754			
+1755			
+1756			
+1757			
+1758			
+1759			
+1760			
+1761			
+1762			
+1763			
+1764			
+1765			
+1766			
+1767			
+1768			
+1769			
+1770			
+1771			
+1772			
+1773			
+1774			
+1775			
+1776			
+1777			
+1778			
+1779			
+1780			
+1781			
+1782			
+1783			
+1784			
+1785			
+1786			
+1787			
+1788			
+1789			
+1790			
+1791			
+1792			
+1793			
+1794			
+1795			
+1796			
+1797			
+1798			
+1799			
+1800			
+1801			
+1802			
+1803			
+1804			
+1805			
+1806			
+1807			
+1808			
+1809			
+1810			
+1811			
+1812			
+1813			
+1814			
+1815			
+1816			
+1817			
+1818			
+1819			
+1820			
+1821			
+1822			
+1823			
+1824			
+1825			
+1826			
+1827			
+1828			
+1829			
+1830			
+1831			
+1832			
+1833			
+1834			
+1835			
+1836			
+1837			
+1838			
+1839			
+1840			
+1841			
+1842			
+1843			
+1844			
+1845			
+1846			
+1847			
+1848			
+1849			
+1850			
+1851			
+1852			
+1853			
+1854			
+1855			
+1856			
+1857			
+1858			
+1859			
+1860			
+1861			
+1862			
+1863			
+1864			
+1865			
+1866			
+1867			
+1868			
+1869			
+1870			
+1871			
+1872			
+1873			
+1874			
+1875			
+1876			
+1877			
+1878			
+1879			
+1880			
+1881			
+1882			
+1883			
+1884			
+1885			
+1886			
+1887			
+1888			
+1889			
+1890			
+1891			
+1892			
+1893			
+1894			
+1895			
+1896			
+1897			
+1898			
+1899			
+1900			
+1901			
+1902			
+1903			
+1904			
+1905			
+1906			
+1907			
+1908			
+1909			
+1910			
+1911			
+1912			
+1913			
+1914			
+1915			
+1916			
+1917			
+1918			
+1919			
+1920			
+1921			
+1922			
+1923			
+1924			
+1925			
+1926			
+1927			
+1928			
+1929			
+1930			
+1931			
+1932			
+1933			
+1934			
+1935			
+1936			
+1937			
+1938			
+1939			
+1940			
+1941			
+1942			
+1943			
+1944			
+1945			
+1946			
+1947			
+1948			
+1949			
+1950	"Find the Blessed Panoply of Sir BunGleau."	Given on Emerald Island	0	0
+1951	"Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."	Fire Grandmaster Promotion Quest Requirement	0	0
+1952	"Complete four Courier Guild missions."	Courier Quest	0	0
+1953		Courier Quest 1	0	0
+1954		Courier Quest 2	0	0
+1955		Courier Quest 3	0	0
+1956		Courier Quest 4	0	0
+1957		Courier Quest 1 complete	0	0
+1958		Courier Quest 2 complete	0	0
+1959		Courier Quest 3 complete	0	0
+1960		Courier Quest 4 complete	0	0
+1961		Rena Quest	0	0
+1962		End of Festival	0	0
+1963		Beginning of Festival	0	0
+1964		NWC Switch1	0	0
+1965		NWC Switch2	0	0
+1966		NWC Switch3	0	0
+1967		NWC Switch4	0	0
+1968		NWC Switch5	0	0
+1969		NWC Switch6	0	0
+1970		NWC Tele Bit	0	0
+1971		Erathian Festival	0	0
+1972		Return to NWC	0	0
+1973		Return to EI	0	0
+1974		Water	0	0
+1975		Fire	0	0
+1976		Air	0	0
+1977		Earth	0	0
+1978	"Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"	Return Text Maximus	0	0
+1979		Completed Strange Temple	0	0
+1980	"Clear out the Strange Temple,  retrieve the ancient weapons, and return to Sir Carneghem in Celeste"	Return Text Carneghem	0	0
+1981		Small House only Once	0	0
+1982		Reward	0	0
+1983		0	0	0
+1984	Courier Assignment 1: See Taren in Tatalia	0	0	0
+1985	Courier Assignment 1: Take contract to Mortie Ottin in Pierpont, have him sign it, and return signed contract to Taren in Tatalia	0	0	0
+1986	Courier Assignment 1: Return signed contract to Taren in Tatalia	0	0	0
+1987	Courier Assignment 2: See Master Hume in Bracada 	0	0	0
+1988	Courier Assignment 2: Have Douglas Iversen in Harmondale repair amulet and return to Master Hume in Bracada	0	0	0
+1989	Courier Assignment 2: Return Amulet to Master Hume in Bracada	0	0	0
+1990	Courier Assignment 3: See Alice in Spaward 	0	0	0
+1991	Courier Assignment 3: Retrieve recipe from Panny Pretty in Erathia and return to Alice in Spaward	0	0	0
+1992	Courier Assignment 4: See Agatha Putnam in Deja 	0	0	0
+1993	Courier Assignment 4: Obtain Beauty Cream from Licia Rivenrock in Barrow Downs and deliver to Rena Putnam in Deja	0	0	0
+1994	Courier Assignment 4: Return Beauty Cream to Rena Putnam in Deja	0	0	0
+1995		1-time EI Well	0	0
+1996		1-time Castle Harm	0	0
+1997		1-time phasing cauldron	0	0
+1998		1-TIME INTUITION	0	0
+1999		1-TIME LEARNING	0	0
+2000		Gepetto's Thermos	0	0
+2001		0	0	0
+2002		Dancing Flame	0	0
+2003		White Cliff Cave Permission	0	0
+2004		Resurectra	0	0
+2005		Resurectra	0	0
+2006		Titan Sprite B	0	0
+2007		Titan Sprite C	0	0
+2008		Titan Sprite D	0	0
+2009		1-time EI temple	0	0
+2010		1-time Erathia	0	0
+2011		1-time baa	0	0
+2012		1-time baa	0	0
+2013		1-time stone city	0	0
+2014		BDJ 1	0	0
+2015		BDJ 2	0	0
+2016		BDJ 3	0	0
+2017		BDJ Final	0	0
+2018		Sorcerer	0	0
+2019		Cleric	0	0
+2020		Fighter	0	0
+2021		Paladin	0	0
+2022		Monk	0	0
+2023		Thief	0	0
+2024		Ranger	0	0
+2025		Archer	0	0
+2026		Druid	0	0
+2027		Final	0	0
+2028		One Use	0	0
+2029		Two Use	0	0
+2030		Three Use	0	0
+2031		Four Use	0	0
+2032	"Bring proof of the Coding Wizard's existence to Lord Godwinson."	0	0	0
+2033		0	0	0
+2034	"Bring a Red Delicious Apple to the Duchess of Deja."	0	0	0
+2035		0	0	0
+2036		0	0	0
+2037		0	0	0
+2038		0	0	0
+2039		0	0	0
+2040		mESSENGER ONE-TIME	0	0
+2041	 Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste.	0	0	0
+2042		Eradicated	0	0
+2043		0	0	0
+2044		0	0	0
+2045		0	0	0
+2046		0	0	0
+2047		Barrow Normal	0	0
+2048	Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward.	0	0	0
+2049	Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days.	0	0	0
+2050		Dwarven Messenger Once	0	0
+2051		Barrow Create Monsters Once	0	0
+2052		Harm no respawn	0	0
+2053		End Game	0	0
+2054		Enter Throne for Kennel Quest	0	0
+2055		LG 1-time	0	0
+2056		Bimbasto	0	0
+2057		Vilx	0	0
+2058		Exit 1-time Cave 1 Vault	0	0
+2059	Pass the Test of Friendship	0	0	0
+2060		0	0	0
+2061		0	0	0
+2062	Bring the Grognard's Cutlass to Christian at the J.V.C Corral.	0	0	0

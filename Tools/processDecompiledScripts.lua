@@ -692,6 +692,7 @@ end]], ""},
 		end
 		
 		-- convert DDMapBuffs
+		--[[
 		local done
 		content, done = content:gsub("Party%.QBits%[(%d+)%] = true	%-%- DDMapBuff", function(buff)
 			buff = tonumber(buff)
@@ -700,10 +701,11 @@ end]], ""},
 		if done ~= 1 and name:find("out") ~= nil then
 			print("Outdoor map " .. name .. ", no DDMapBuff replacement made - check this")
 		end
+		]]
 		content = content:replace("Game.MapEvtLines.Count = 0  -- Deactivate all standard events", "-- REMOVED BY REV4 FOR MERGE\n-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events")
 		io.save(rev4m.path.processedRev4Scripts .. getFileName(path.name(i)), content)
 	end
-	rev4m.ddMapBuffs() -- process maps not modified in rev4
+	--rev4m.ddMapBuffs() -- process maps not modified in rev4
 end
 
 rev4m = rev4m or {}

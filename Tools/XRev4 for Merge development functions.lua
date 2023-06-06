@@ -1,5 +1,10 @@
 function getQuestBit(questBit)
-	return questBit + 512
+	assert(questBit <= 383)
+	local add = 512
+	if questBit >= 271 then -- last original mm7 qbit used
+		add = 1950 - 271
+	end
+	return questBit + add
 end
 
 function getNPC(npc)

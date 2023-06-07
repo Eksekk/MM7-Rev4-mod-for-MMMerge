@@ -143,6 +143,7 @@ function rev4m.mapScripts()
 		["out02.lua"] =
 		{
 		-- remove original castle harmondale enter event, as it's replaced in Merge
+		-- note: if I used separate file, it would probably remove merge event too
 		[[
 
 	evt.hint[301] = evt.str[30]  -- "Enter Castle Harmondale"
@@ -237,11 +238,8 @@ function rev4m.mapScripts()
 			evt.SpeakNPC(373)         -- "Duke Bimbasto"]]
 		},
 		-- Bracada Desert
-		-- fix dock teleporter to teleport you on the ground
 		["out06.lua"] =
 		{
-			[[evt.MoveToMap{X = 17656, Y = -20704, Z = 800, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
-			[[evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
 			-- fix evt.SpeakNPC
 			[[evt.SpeakNPC(366)         -- "Messenger"
 				evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
@@ -255,20 +253,7 @@ function rev4m.mapScripts()
 				evt.SpeakNPC(366)         -- "Messenger"]]
 		},
 		-- Barrow Downs
-		-- repair tea
-		["out11.lua"] = {[[evt.map[10] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 833) then         -- Gepetto's Thermos
-			evt.Set("QBits", 833)         -- Gepetto's Thermos
-			evt.Set("RepairSkill", 71)
-		end
-	end]], [[evt.map[10] = function()
-		evt.ForPlayer("All")
-		if not evt.Cmp("QBits", 833) then         -- Gepetto's Thermos
-			evt.Set("QBits", 833)         -- Gepetto's Thermos
-			giveFreeSkill(const.Skills.Repair, 7, const.Expert)
-		end
-	end]],
+		["out11.lua"] = {
 		-- fix evt.SpeakNPC
 		[[evt.SpeakNPC(398)         -- "Hothfarr IX"
 			evt.Set("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
@@ -284,11 +269,6 @@ function rev4m.mapScripts()
 		evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!"]],
 		[[evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!
 		evt.SpeakNPC(369)         -- "Doom Bearer]]
-		},
-		["mdk02.lua"] = {[[evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
-	Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}]],
-	[[evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-	Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}]]
 		},
 
 		-- The Strange Temple
@@ -485,8 +465,8 @@ evt.map[503] = function()
 	end
 
 end]], ""},
-		["out14.lua"] = {"Party.QBits[783]", "Party.QBits[980]"},
-		["hive.lua"] = {"Party.QBits[784]", "Party.QBits[981]"},
+		--["out14.lua"] = {"Party.QBits[783]", "Party.QBits[980]"},
+		--["hive.lua"] = {"Party.QBits[784]", "Party.QBits[981]"},
 		-- Barrow Downs
 		-- remove conflicting Stone City enter event
 		["out11.lua"] = {
@@ -512,25 +492,6 @@ end]], ""},
 		{
 		-- Emerald Island
 		-- add QBits and show movie on arrival
-		[[
-	-- starting QBits
-	evt.map[100] = function()  -- function events.LoadMap()
-		local add = true
-		for qb = 513, 519 do
-			if Party.QBits[qb] then
-				add = false
-				break
-			end
-		end
-		if add then
-			for qb = 513, 518 do
-				evt.Add("QBits", qb) -- evt to show flash on PC faces
-			end
-			evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
-		end
-	end
-
-	events.LoadMap = evt.map[100].last]],
 	-- old patch, kept just in case
 	--[=[
 	evt.map[100] = function()  -- function events.LoadMap()
@@ -591,35 +552,6 @@ end]], ""},
 			vars["Castle Harmondale NPCs hidden"] = true
 		end
 	end]]},
-		-- Bracada Desert
-		-- fix teleporters so one of two teleporting to temple teleports to shops instead
-		["out06.lua"] = {
-			[[evt.hint[318] = evt.str[100]  -- ""
-	evt.map[318] = function()
-		evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-	end]]
-		},
-		-- The Vault
-		-- fix so that friends will fight with dragons & hydras
-		["mdt12.lua"] = {[[
-	-- fix so that friends will fight with dragons & hydras
-	function events.AfterLoadMap()
-		LocalHostileTxt()
-		local nameids = {}
-		for k, v in Map.Monsters do
-			if v.NameId ~= 0 then
-				table.insert(nameids, (v.Id + 2):div(3))
-			end
-		end
-		for _, m in ipairs(nameids) do
-			for i, v in Game.HostileTxt do
-				if not table.find(nameids, i) then
-					Game.HostileTxt[m][i] = 4
-					Game.HostileTxt[i][m] = 4
-				end
-			end
-		end
-	end]]}
 	}
 
 	local ignoreMergeAdditions =

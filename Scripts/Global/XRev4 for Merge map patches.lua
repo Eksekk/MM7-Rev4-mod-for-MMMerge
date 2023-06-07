@@ -206,6 +206,41 @@ patches = {
         end)
     end,
 
+    -- one of the barrows
+    ["mdk02.blv"] = function()
+        replaceMapEvent(1, function()  -- function events.LoadMap()
+            if evt.Cmp("QBits", getQuestBit(192)) then         -- Turn on map in mdkXX(Dwarven Barrow)
+                evt.SetDoorState{Id = 25, State = 0}
+                evt.SetDoorState{Id = 26, State = 0}
+            end
+            evt.SetMonGroupBit{NPCGroup = getNpcGroup(5), Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
+        end, true)
+    end,
+    
+	-- The Vault
+    ["mdt12.blv"] = function()
+        -- fix so that friends will fight with dragons & hydras
+        -- simply make any monster classes with name ids hostile to all others, and vice versa
+        function events.AfterLoadMap()
+            LocalHostileTxt()
+            local nameids = {}
+            for k, v in Map.Monsters do
+                if v.NameId ~= 0 then
+                    table.insert(nameids, (v.Id + 2):div(3))
+                end
+            end
+            for _, m in ipairs(nameids) do
+                for i, v in Game.HostileTxt do
+                    if not table.find(nameids, i) then
+                        Game.HostileTxt[m][i] = 4
+                        Game.HostileTxt[i][m] = 4
+                    end
+                end
+            end
+            events.Remove("AfterLoadMap", 1) -- just in case
+        end
+    end,
+
     -- OUTDOOR --
 
     -- Emerald Island
@@ -217,6 +252,24 @@ patches = {
                 evt.SpeakNPC(getNPC(3))         -- "Big Daddy Jim"
             end
         end)
+
+		-- add QBits and show movie on arrival
+		replaceMapEvent(100, function()  -- function events.LoadMap()
+                local add = true
+                for qb = getQuestBit(1), getQuestBit(7) do
+                    if Party.QBits[qb] then
+                        add = false
+                        break
+                    end
+                end
+                if add then
+                    for qb = getQuestBit(1), getQuestBit(6) do
+                        evt.Add("QBits", qb) -- evt to show flash on PC faces
+                    end
+                    evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
+                end
+            end
+        , true)
     end,
 
     -- Harmondale
@@ -264,6 +317,7 @@ patches = {
             evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
             evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
         end)
+
         -- some evt.speakNPC fixes
         replaceMapEvent(39, function()  -- function events.LoadMap()
             evt.ForPlayer("All")
@@ -291,7 +345,6 @@ patches = {
         replaceMapEvent(211, function()  -- function events.LoadMap()
             if not evt.Cmp("QBits", getQuestBit(134)) then         -- Arbiter Messenger only happens once
                 if evt.Cmp("Counter3", 2272) then
-                    evt.SpeakNPC(getNPC(91))         -- "Messenger"
                     evt.Add("QBits", getQuestBit(153))         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
                     evt.Add("History6", 0)
                     evt.MoveNPC{NPC = getNPC(67), HouseId = 0}         -- "Ellen Rockway"
@@ -299,13 +352,14 @@ patches = {
                     evt.MoveNPC{NPC = getNPC(75), HouseId = getHouseID(174)}         -- "Ambassador Wright" -> "Throne Room"
                     evt.MoveNPC{NPC = getNPC(77), HouseId = getHouseID(112)}         -- "Judge Fairweather" -> "Familiar Place"
                     evt.Set("QBits", getQuestBit(134))         -- Arbiter Messenger only happens once
+                    evt.SpeakNPC(getNPC(91))         -- "Messenger"
                 end
             end
         end, true)
     end,
-    	-- Erathia
-		-- fix small bug in town portal code
+    -- Erathian
     ["7out03.odm"] = function()
+        -- fix small bug in town portal code
         replaceMapEvent(35, function()
             evt.ForPlayer("All")
             if evt.Cmp("Inventory", getItem(737)) then         -- "Town Portal Pass"
@@ -331,6 +385,30 @@ patches = {
                 evt.Set("QBits", getQuestBit(331))         -- 1-time Erathia
                 giveFreeSkill(const.Skills.IdentifyItem, 6, const.Expert)
                 evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
+            end
+        end)
+    end,
+    -- Bracada Desert
+	["7out06.odm"] = function()
+        -- fix dock teleporter to teleport you on the ground
+        replaceMapEvent(312, function()
+			evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+        end)
+		-- Bracada Desert
+		-- fix teleporters so one of two teleporting to temple teleports to shops instead
+        -- this is actually an additional event
+        replaceMapEvent(318, function()
+            evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+        end, nil, evt.str[100])
+    end,
+    -- Barrow Downs
+	-- repair tea
+	["out11.odm"] = function()
+        replaceMapEvent(10, function()
+            evt.ForPlayer("All")
+            if not evt.Cmp("QBits", getQuestBit(321)) then         -- Gepetto's Thermos
+                evt.Set("QBits", getQuestBit(321))         -- Gepetto's Thermos
+                giveFreeSkill(const.Skills.Repair, 7, const.Expert)
             end
         end)
     end,

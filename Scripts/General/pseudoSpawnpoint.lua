@@ -9,6 +9,18 @@ function getRange(str)
 	return min, max
 end
 
+local function getMinMaxCount(value)
+	if type(value) == "string" then
+		return getRange(value)
+	elseif type(value) == "table" then
+		return value[1], value[2]
+	elseif type(value) == "number" then
+		return value, value
+	else
+		error("Unsupported count type", 3)
+	end
+end
+
 local random = math.random
 function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, exactZ)
 	local t = {} -- will hold arguments
@@ -32,17 +44,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 	assert(t.monster and t.x and t.y and (not t.exactZ or t.z), "pseudoSpawnpoint() call is missing critical parameters") -- make sure that all required parameters are provided
 	local class = (t.monster + 2):div(3) -- class now contains id of monster class (group of 3 monsters of increasing tiers, as all types are divided into 3 tiers)
 	
-	local toCreate -- will hold how many monsters to create
-	if type(t.count) == "string" then
-		local min, max = getRange(t.count)
-		toCreate = random(min, max)
-	elseif type(t.count) == "table" then
-		toCreate = random(t.count[1], t.count[2])
-	elseif type(t.count) == "number" then
-		toCreate = t.count
-	else
-		error("Unsupported monster count type", 2)
-	end
+	local toCreate = random(getMinMaxCount(t.count)) -- will hold how many monsters to create
 	
 	local summoned = {} -- will hold summoned monsters to return
 	for i = 1, toCreate do
@@ -100,6 +102,8 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 			power = 0
 		end
 		
+		-- perform transform if it is set
+		-- need roundabout way for Merge because bolster there screws things up without heavy modifications to it, including new event below
 		local doneMerge
 		local transform = type(t.transform) == "function" and t.transform
 		if Merge and transform then
@@ -119,8 +123,6 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 		end
 		-- set group
 		mon.Group = t.group or 255
-		-- perform transform if it is set
-		
 		
 		-- insert into table to return later
 		table.insert(summoned, mon)
@@ -146,13 +148,7 @@ function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 	t.radius = t.radius or 64
 	assert(t.item and t.x and t.y and t.z and true or nil)
 	
-	local min, max
-	if type(t.count) == "number" then
-		min, max = t.count, t.count
-	else
-		min, max = getRange(t.count)
-	end
-	local toCreate = random(min, max)
+	local toCreate = random(getMinMaxCount(t.count))
 	
 	local items, objects = {}, {}
 	for i = 1, toCreate do

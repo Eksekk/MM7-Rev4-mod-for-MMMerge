@@ -643,7 +643,9 @@ local function processDeadMonsters()
 		else
 			local mon = Map.Monsters[i]
 			if mon.HP == 0 and mon.AIState == const.AIState.Removed then -- check for removed because player might want to resurrect buffed monster
-				restoreMonster(i, v.properties)
+				if checkMonster(i) then
+					restoreMonster(i, v.properties)
+				end
 				table.insert(clear, i)
 			end
 		end

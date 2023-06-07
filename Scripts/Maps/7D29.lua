@@ -285,13 +285,13 @@ evt.hint[35] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 883) then         -- Dwarven Messenger Once
+	if not evt.Cmp("QBits", 2050) then         -- Dwarven Messenger Once
 		if evt.Cmp("Awards", 120) then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
 			evt.SpeakNPC(366)         -- "Messenger"
-			evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set("QBits", 883)         -- Dwarven Messenger Once
-			evt.Subtract("QBits", 880)         -- Barrow Normal
+			evt.Set("QBits", 2048)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 2050)         -- Dwarven Messenger Once
+			evt.Subtract("QBits", 2047)         -- Barrow Normal
 			evt.Set("Counter2", 0)
 		end
 	end
@@ -303,8 +303,8 @@ evt.hint[37] = evt.str[11]  -- "Arnold's Super Protein Drink"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 829) then         -- 1-time Castle Harm
-		evt.Set("QBits", 829)         -- 1-time Castle Harm
+	if not evt.Cmp("QBits", 1996) then         -- 1-time Castle Harm
+		evt.Set("QBits", 1996)         -- 1-time Castle Harm
 		evt.Set("BodybuildingSkill", 71)
 	end
 end
@@ -325,8 +325,8 @@ evt.hint[40] = evt.str[12]  -- "Phasing Cauldron"
 Game.MapEvtLines:RemoveEvent(40)
 evt.map[40] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 830) then         -- 1-time phasing cauldron
-		evt.Set("QBits", 830)         -- 1-time phasing cauldron
+	if not evt.Cmp("QBits", 1997) then         -- 1-time phasing cauldron
+		evt.Set("QBits", 1997)         -- 1-time phasing cauldron
 		evt.Add("FireResistance", 20)
 		evt.Add("AirResistance", 20)
 		evt.Add("WaterResistance", 20)
@@ -338,8 +338,8 @@ evt.hint[41] = evt.str[13]  -- "Elemental Totem"
 Game.MapEvtLines:RemoveEvent(41)
 evt.map[41] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 835) then         -- Dancing Flame
-		evt.Set("QBits", 835)         -- Dancing Flame
+	if not evt.Cmp("QBits", 2002) then         -- Dancing Flame
+		evt.Set("QBits", 2002)         -- Dancing Flame
 		evt.Add("FireResistance", 10)
 		evt.Add("AirResistance", 10)
 		evt.Add("WaterResistance", 10)
@@ -352,7 +352,7 @@ evt.hint[50] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(50)
 evt.map[50] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 835) then         -- Dancing Flame
+	if evt.Cmp("QBits", 2002) then         -- Dancing Flame
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "sp57"}
 	end
 end
@@ -537,7 +537,7 @@ evt.hint[198] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(198)
 evt.map[198] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 885) then         -- Harm no respawn
+	if evt.Cmp("QBits", 2052) then         -- Harm no respawn
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
 	end
 end
@@ -732,7 +732,7 @@ evt.map[451] = function()  -- function events.LoadMap()
 ::_16::
 	evt.SetTexture{Facet = 16, Name = "chb1p6"}
 	evt.SetTexture{Facet = 17, Name = "chb1p7"}
-	evt.Add("QBits", 783)         -- "Find the Blessed Panoply of Sir BunGleau."
+	evt.Add("QBits", 1950)         -- "Find the Blessed Panoply of Sir BunGleau."
 	do return end
 ::_13::
 	if evt.Cmp("QBits", 659) then         -- Gave artifact to arbiter
@@ -749,7 +749,7 @@ evt.map[451] = function()  -- function events.LoadMap()
 ::_20::
 	evt.SetTexture{Facet = 16, Name = "elfhuma"}
 	evt.SetTexture{Facet = 17, Name = "elfhumb"}
-	evt.Add("QBits", 783)         -- "Find the Blessed Panoply of Sir BunGleau."
+	evt.Add("QBits", 1950)         -- "Find the Blessed Panoply of Sir BunGleau."
 end
 
 events.LoadMap = evt.map[451].last

@@ -70,8 +70,8 @@ evt.hint[10] = evt.str[15]  -- "Antonio’s Venetian Tea"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 842) then         -- 1-time EI temple
-		evt.Set("QBits", 842)         -- 1-time EI temple
+	if not evt.Cmp("QBits", 2009) then         -- 1-time EI temple
+		evt.Set("QBits", 2009)         -- 1-time EI temple
 		evt.Set("MerchantSkill", 70)
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
@@ -80,7 +80,7 @@ end
 Game.MapEvtLines:RemoveEvent(16)
 evt.map[16] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 842) then         -- 1-time EI temple
+	if evt.Cmp("QBits", 2009) then         -- 1-time EI temple
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "sp57"}
 	end
 end

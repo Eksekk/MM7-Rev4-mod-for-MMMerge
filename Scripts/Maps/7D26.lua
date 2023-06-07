@@ -61,7 +61,7 @@ table.copy(TXT, evt.str, true)
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 805) then         -- Return to NWC
+	if evt.Cmp("QBits", 1972) then         -- Return to NWC
 		goto _16
 	end
 	if not evt.Cmp("QBits", 722) then         -- The Pit - Town Portal
@@ -220,10 +220,10 @@ evt.house[376] = 1070  -- "Hostel"
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
 	if not evt.Cmp("QBits", 612) then         -- Chose the path of Dark
-		if not evt.Cmp("QBits", 814) then         -- Small House only Once
-			if evt.Cmp("QBits", 815) then         -- Reward
+		if not evt.Cmp("QBits", 1981) then         -- Small House only Once
+			if evt.Cmp("QBits", 1982) then         -- Reward
 				evt.MoveToMap{X = -15360, Y = 3808, Z = 129, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 9, Name = "MDT15.blv"}
-			elseif evt.Cmp("QBits", 811) then         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+			elseif evt.Cmp("QBits", 1978) then         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 				evt.MoveToMap{X = 0, Y = 3808, Z = 129, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 9, Name = "MDT15.blv"}
 			end
 		end

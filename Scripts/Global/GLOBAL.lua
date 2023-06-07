@@ -34,7 +34,7 @@ evt.global[753] = function()
 	evt.ForPlayer("All")
 	evt.Add("Experience", 1000)
 	evt.Add("Awards", 1)         -- "Won the Scavenger Hunt on Emerald Island"
-	evt.Set("QBits", 796)         -- Beginning of Festival
+	evt.Set("QBits", 1963)         -- Beginning of Festival
 	evt.SetNPCGroupNews{NPCGroup = 52, NPCNews = 56}         -- "" : "Congratulations!"
 end
 
@@ -281,7 +281,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(769)
 evt.global[769] = function()
 	evt.SetMessage(959)         -- "We have discovered a corruption so powerful that it threatens to engulf all of Erathia. Due to this peril, we have formed a temporary truce with Lord Archibald until we can ‘neutralize’ this threat. Since the danger was spawned in The Pit, you need to travel there and seek out Maximus.  He will brief you on the situation.  Obey him as if his words were spoken by Gavin Magnus, himself."
-	evt.Set("QBits", 805)         -- Return to NWC
+	evt.Set("QBits", 1972)         -- Return to NWC
 	Game.NPC[421].Events[0] = 0         -- "Sir Caneghem"
 	evt.MoveNPC{NPC = 424, HouseId = 1071}         -- "Maximus" -> "Hostel"
 	Game.NPC[424].Events[0] = 772         -- "Maximus" : "Dangerous Mission"
@@ -291,7 +291,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(770)
 evt.global[770] = function()
 	evt.SetMessage(1141)         -- "We have discovered a corruption so powerful that it threatens to engulf all of Erathia. Due to this peril, we have formed a temporary truce with Gavin Magnus until we can ‘neutralize’ this threat. Since the danger was spawned in Celeste, you need to travel there and seek out Sir Caneghem.  He will brief you on the situation.  Obey him as if his words were spoken by Lord Archibald, himself."
-	evt.Set("QBits", 805)         -- Return to NWC
+	evt.Set("QBits", 1972)         -- Return to NWC
 	Game.NPC[424].Events[0] = 0         -- "Maximus"
 	evt.MoveNPC{NPC = 421, HouseId = 1064}         -- "Sir Caneghem" -> "Hostel"
 	Game.NPC[421].Events[0] = 771         -- "Sir Caneghem" : "Dangerous Mission"
@@ -325,7 +325,7 @@ evt.global[773] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Set("QBits", 807)         -- Water
+	evt.Set("QBits", 1974)         -- Water
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("WaterResistance", 50)
@@ -339,7 +339,7 @@ evt.global[774] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Set("QBits", 808)         -- Fire
+	evt.Set("QBits", 1975)         -- Fire
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("FireResistance", 50)
@@ -353,7 +353,7 @@ evt.global[775] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Set("QBits", 809)         -- Air
+	evt.Set("QBits", 1976)         -- Air
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("AirResistance", 50)
@@ -367,7 +367,7 @@ evt.global[776] = function()
 	evt.SetMessage(1146)         --[[ "What you are about to attempt will try your mettle and prove your worth.  If you are successful, you’ll be heralded as the ‘Heroes of Erathia’.  If you fail, the Erathian way of life will be destroyed by unspeakable evil. For Erathia, and for your victory, I give you my blessing.
 
 For Truth!  For Justice!  For the Erathian Way!" ]]
-	evt.Set("QBits", 810)         -- Earth
+	evt.Set("QBits", 1977)         -- Earth
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("EarthResistance", 50)
@@ -435,7 +435,7 @@ evt.global[781] = function()
 	if not evt.Cmp("Inventory", 253) then         -- "Divine Cure"
 		evt.Add("Inventory", 253)         -- "Divine Cure"
 	end
-	evt.Set("QBits", 836)         -- White Cliff Cave Permission
+	evt.Set("QBits", 2003)         -- White Cliff Cave Permission
 	evt.SetMessage(2859)         --[[ "Retrieve the Watcher's Ring of Elemental Earth and then we’ll discuss promotions.  The Ring is guarded by Greckaw, Hurler of Mountains, a powerful Earth Elemental who dwells in the White Cliff Caves in Harmondale. 
 
 Be extremely cautious when you enter this cave, children.  The Mad Mage Pascal, Diviner of Strange Flesh has sent his army of Trolls to take this ring by force, and a battle rages between Greckaw’s minions and these invaders.  You would do well to let them fight it out and then kill the survivors.  But make no mistake, young ones, either side will turn on you in a heartbeat! 
@@ -667,20 +667,20 @@ end
 Game.GlobalEvtLines:RemoveEvent(800)
 evt.global[800] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 850) then         -- BDJ Final
+	if evt.Cmp("QBits", 2017) then         -- BDJ Final
 		evt.SetMessage(1024)         -- "Adventurer 4, select your new profession."
 		evt.ForPlayer(3)
-	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
+	elseif evt.Cmp("QBits", 2016) then         -- BDJ 3
 		evt.SetMessage(1023)         -- "Adventurer 3, select your new profession."
 		evt.ForPlayer(2)
-	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
+	elseif evt.Cmp("QBits", 2015) then         -- BDJ 2
 		evt.SetMessage(1022)         -- "Adventurer 2, select your new profession."
 		evt.ForPlayer(1)
 	else
 		evt.SetMessage(1021)         -- "Adventurer 1, select your new profession."
 		evt.ForPlayer(0)
 	end
-	evt.Set("QBits", 861)         -- One Use
+	evt.Set("QBits", 2028)         -- One Use
 	if evt.Cmp("ClassIs", const.Class.ArchMage) then
 		Game.NPC[1279].Events[0] = 820         -- "The Coding Wizard" : "Archer"
 		Game.NPC[1279].Events[1] = 836         -- "The Coding Wizard" : "Paladin"
@@ -715,7 +715,7 @@ evt.global[800] = function()
 		Game.NPC[1279].Events[2] = 832         -- "The Coding Wizard" : "Thief"
 	else
 		if not evt.Cmp("ClassIs", const.Class.Spy) then
-			evt.Subtract("QBits", 861)         -- One Use
+			evt.Subtract("QBits", 2028)         -- One Use
 			evt.SetMessage(978)         -- "You don't Qualify"
 			return
 		end
@@ -811,7 +811,7 @@ evt.global[804] = function()
 	evt.SetNPCGreeting{NPC = 1273, Greeting = 161}         -- "Messenger of the Saints" : "Salutations Heroes!  I am certain thou hast much to accomplish before we dally about."
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
 	Game.NPC[1273].Events[0] = 0         -- "Messenger of the Saints"
-	evt.Set("QBits", 885)         -- Harm no respawn
+	evt.Set("QBits", 2052)         -- Harm no respawn
 end
 
 -- "Hello?"
@@ -840,7 +840,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(806)
 evt.global[806] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 851)         -- Sorcerer
+	evt.Set("QBits", 2018)         -- Sorcerer
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -851,7 +851,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(807)
 evt.global[807] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 852)         -- Cleric
+	evt.Set("QBits", 2019)         -- Cleric
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -944,7 +944,7 @@ evt.global[813] = function()
 		evt.Set("Awards", 126)         -- "Reopened Harmondale Stables"
 		evt.Add("Experience", 7500)
 		evt.Add("Gold", 500)
-		evt.Subtract("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
+		evt.Subtract("QBits", 2062)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
 		Game.NPC[1284].Events[0] = 0         -- "Christian the Stablemaster"
 	else
 		evt.SetMessage(940)         --[[ "The Stable Guild has discovered that a raiding force of Goblins, lead by the infamous Grognard, is poised to launch an incursion into Harmondale.  Until this threat is ‘neutralized’, the stables will remain closed.
@@ -952,7 +952,7 @@ evt.global[813] = function()
 The Guild has intercepted and ‘detained’ a Goblin courier who has revealed that the Goblin force will launch their attack shortly after ‘signal fires’ are lighted.  Don’t know about these ‘signal fires’, but if you can find them, light them, and then ambush the invasion force, perhaps you could deal with this threat decisively.
 
 If you will ‘neutralize’ this threat and bring me proof that it is safe once again to renew our services, I will re-open the stables.  The proof I will need is the Grognard’s Cutlass carried by the Goblin leader." ]]
-		evt.Set("QBits", 895)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
+		evt.Set("QBits", 2062)         -- "Bring the Grognard's Cutlass to Christian at the J.V.C Corral."
 	end
 end
 
@@ -1078,7 +1078,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(819)
 evt.global[819] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 853)         -- Fighter
+	evt.Set("QBits", 2020)         -- Fighter
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1089,7 +1089,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(820)
 evt.global[820] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 858)         -- Archer
+	evt.Set("QBits", 2025)         -- Archer
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1181,7 +1181,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(825)
 evt.global[825] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 859)         -- Druid
+	evt.Set("QBits", 2026)         -- Druid
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1192,7 +1192,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(826)
 evt.global[826] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 857)         -- Ranger
+	evt.Set("QBits", 2024)         -- Ranger
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1267,7 +1267,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(831)
 evt.global[831] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 855)         -- Monk
+	evt.Set("QBits", 2022)         -- Monk
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1278,7 +1278,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(832)
 evt.global[832] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 856)         -- Thief
+	evt.Set("QBits", 2023)         -- Thief
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1347,7 +1347,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(836)
 evt.global[836] = function()
 	evt.ForPlayer("All")
-	evt.Set("QBits", 854)         -- Paladin
+	evt.Set("QBits", 2021)         -- Paladin
 	Game.NPC[1279].Events[0] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 	Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -1559,12 +1559,12 @@ Here, take this reward of 50 Skill Points for each party member.  It should help
 Now tell me all about your adventure!" ]]
 		evt.Subtract("Inventory", 1577)         -- "LG's Proof"
 		evt.Add("SkillPoints", 50)
-		evt.Subtract("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
+		evt.Subtract("QBits", 2032)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.Set("Awards", 120)         -- "Completed Coding Wizard Quest"
 		Game.NPC[1283].Events[0] = 0         -- "Lord Godwinson"
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
 		evt.MoveNPC{NPC = 1283, HouseId = 1106}         -- "Lord Godwinson" -> "Godwinson Estate"
-	elseif evt.Cmp("QBits", 865) then         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
+	elseif evt.Cmp("QBits", 2032) then         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.SetMessage(1027)         -- "Bring me proof that the Coding Wizard is more than just a myth."
 	else
 		evt.SetMessage(1005)         --[[ "Erathian folklore mentions a mysterious ‘coding wizard’ named ‘BDJ’. The legend says he has mastered the ‘coding magicks’ that control ‘The Game’. As the story goes, he is able to offer a second character class to those who have already mastered their chosen profession.
@@ -1574,7 +1574,7 @@ I spent much of my youth in search of this wizard, but alas, I was never able to
 I have a dear friend, the Lady Kathryn, who may be able to assist you with this quest.  She resides on Evenmorn Island.  Seek her out and heed her advise.
 
 Good luck, adventurers!" ]]
-		evt.Set("QBits", 865)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
+		evt.Set("QBits", 2032)         -- "Bring proof of the Coding Wizard's existence to Lord Godwinson."
 		evt.MoveNPC{NPC = 1280, HouseId = 247}         -- "Lady K" -> "The Laughing Monk"
 		Game.NPC[1280].Events[0] = 847         -- "Lady K" : "Lord Godwinson sent us!"
 	end
@@ -1588,7 +1588,7 @@ evt.global[847] = function()
 So you’ve decided to take the journey to find BDJ the Coding Wizard?  He’s a strange one, that Wizard.  A mysterious legend in Erathia who, above all, covets his privacy and guards his secrets closely.  But if you can find him, the rewards are worth the journey!
 
 I do know this.  To reach this wizard you must first run The Gauntlet.  The Lector EAO is the foremost authority on this ‘gauntlet’.  She travels quite a bit, but she does return to her home in Erathia each Summer.  Seek her out.  She may be able to assist you on your journey." ]]
-	evt.Set("QBits", 866)         -- 0
+	evt.Set("QBits", 2033)         -- 0
 	Game.NPC[1280].Events[0] = 0         -- "Lady K"
 end
 
@@ -1705,7 +1705,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(853)
 evt.global[853] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 867) then         -- "Bring a Red Delicious Apple to the Duchess of Deja."
+	if evt.Cmp("QBits", 2034) then         -- "Bring a Red Delicious Apple to the Duchess of Deja."
 		goto _4
 	end
 ::_2::
@@ -1723,14 +1723,14 @@ However, I do know **how** you can enter The Gauntlet.  You simply need to pray 
 
 Good Luck!" ]]
 		evt.Subtract("Inventory", 1432)         -- "Red Delicious Apple"
-		evt.Subtract("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
-		evt.Set("QBits", 868)         -- 0
+		evt.Subtract("QBits", 2034)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
+		evt.Set("QBits", 2035)         -- 0
 		Game.NPC[1282].Events[0] = 0         -- "Duchess of Deja"
 	else
 		evt.SetMessage(1028)         --[[ "So you want to know the location of the legendary ‘Gauntlet’ leading to the Coding Wizard?  Perhaps I can help.  But you must first do something for me.
 
 As you can see, Deja is not exactly the Land of Milk and Honey.  I have a terrible hunger for a fresh Red Delicious Apple from the forests in Tulerea.  Bring one of these apples to me, and then we’ll talk."" ]]
-		evt.Set("QBits", 867)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
+		evt.Set("QBits", 2034)         -- "Bring a Red Delicious Apple to the Duchess of Deja."
 	end
 end
 
@@ -2058,7 +2058,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(869)
 evt.global[869] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
+	if not evt.Cmp("QBits", 1974) or not evt.Cmp("QBits", 1975) or not evt.Cmp("QBits", 1976) or not evt.Cmp("QBits", 1977) then
 		return
 	end
 	evt.SetMessage(1151)         --[[ "Ok then.  Here’s your briefing.
@@ -2067,7 +2067,7 @@ We have recently discovered that the Strange Temple is being used as a ‘staging 
 
 What I need you to do is to proceed to the residence of Judas, find the hidden teleport therein, and enter the Strange Temple. Once in the temple, destroy all creatures within, retrieve the ancient weapons, and return to me. Should you encounter the traitor, terminate him … with extreme prejudice." ]]
 	evt.MoveNPC{NPC = 424, HouseId = 0}         -- "Maximus"
-	evt.Set("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+	evt.Set("QBits", 1978)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
 end
 
 -- "An invitation…"
@@ -2117,17 +2117,17 @@ end
 Game.GlobalEvtLines:RemoveEvent(873)
 evt.global[873] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 850) then         -- BDJ Final
-		evt.Subtract("QBits", 861)         -- One Use
+	if evt.Cmp("QBits", 2017) then         -- BDJ Final
+		evt.Subtract("QBits", 2028)         -- One Use
 		Game.NPC[1279].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
-	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
-		evt.Set("QBits", 850)         -- BDJ Final
+	elseif evt.Cmp("QBits", 2016) then         -- BDJ 3
+		evt.Set("QBits", 2017)         -- BDJ Final
 		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
-	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
-		evt.Set("QBits", 849)         -- BDJ 3
+	elseif evt.Cmp("QBits", 2015) then         -- BDJ 2
+		evt.Set("QBits", 2016)         -- BDJ 3
 		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	else
-		evt.Set("QBits", 848)         -- BDJ 2
+		evt.Set("QBits", 2015)         -- BDJ 2
 		Game.NPC[1279].Events[0] = 800         -- "The Coding Wizard" : "New Profession."
 	end
 	Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
@@ -2188,8 +2188,8 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Lord Archibald, himself, has place a reward for you in the House that once belonged to Judas.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to Celeste for your next assignment."" ]]
-		evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
-		evt.Set("QBits", 815)         -- Reward
+		evt.Subtract("QBits", 1978)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+		evt.Set("QBits", 1982)         -- Reward
 		evt.Set("BlasterSkill", 1)
 		evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
 		evt.Add("Experience", 200000)
@@ -2213,8 +2213,8 @@ Because of your service, heroes, I hereby grant all members of your party the An
 Oh! and Gavin Magnus, himself, has place a reward for you in the House that once belonged to Robert the Wise.  It’s in the chest on the second floor.  You may retrieve the reward at any time.
 
 After you have rested, return to The Pit for your next assignment." ]]
-	evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
-	evt.Set("QBits", 815)         -- Reward
+	evt.Subtract("QBits", 1978)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"
+	evt.Set("QBits", 1982)         -- Reward
 	evt.Set("BlasterSkill", 1)
 	evt.Set("Awards", 119)         -- "Declared Heroes of Erathia"
 	evt.Add("Experience", 200000)
@@ -2308,7 +2308,7 @@ After you have rested, return to The Pit for your next assignment." ]]
 	evt.SetNPCGreeting{NPC = 425, Greeting = 357}         -- "Dark Shade" : "Welcome back  Heroes!   What can I do for you?"
 	evt.SetNPCGreeting{NPC = 423, Greeting = 357}         -- "Kastore" : "Welcome back  Heroes!   What can I do for you?"
 	evt.MoveNPC{NPC = 419, HouseId = 220}         -- "Resurectra" -> "Throne Room"
-	evt.Subtract("QBits", 814)         -- Small House only Once
+	evt.Subtract("QBits", 1981)         -- Small House only Once
 	do return end
 ::_57::
 	-- evt.Set("LightSkill", 136)
@@ -2710,12 +2710,12 @@ end
 -- "Strike the Devils"
 Game.GlobalEvtLines:RemoveEvent(905)
 evt.global[905] = function()
-	if not evt.Cmp("QBits", 838) then         -- Resurectra
+	if not evt.Cmp("QBits", 2005) then         -- Resurectra
 		evt.SetMessage(1219)         --[[ "Our plans rapidly approach their conclusion, but there is a hitch.  You have defeated the unholy alliance of The Corruption, but the traitor Judas has escaped and taken refuge with Xenofex and his Devil minions. They still represent a terrible threat, and though they are licking their wounds from our recent victory, will one day regain their strength and devastate the world.  If anything we do is to have lasting effect, we must first destroy these monsters for once and for all.
 
 You are strong, but not strong enough to defeat the devils on your own.  They are vulnerable to the brand of magic most commonly wielded by the Necromancers, and less so by our own Wizards.  It is imperative that you infiltrate the Devil's base and kill their leader Xenofex and the traitor, Judas.  That should end their threat to this world for some time.  The Warlocks have dug a tunnel from their volcano to the Land of the Giants-- the land the Devils claim as their own.  Perhaps you can use that." ]]
 		evt.Set("QBits", 616)         -- "Go to Colony Zod in the Land of the Giants and slay Xenofex then return to Resurectra in Castle Lambent in Celeste."
-		evt.Set("QBits", 838)         -- Resurectra
+		evt.Set("QBits", 2005)         -- Resurectra
 	elseif evt.Cmp("QBits", 617) then         -- Slayed Xenofex
 		evt.SetMessage(1220)         -- "YOU ARE HEROES!!!  Your work against the devils was masterful!  And the rescue of King Roland was as delightful as it was unexpected.  History will never forget your names for doing what you just did!  I, for one, am very proud to know you.  "
 		evt.Add("Gold", 50000)
@@ -2926,7 +2926,7 @@ evt.global[920] = function()
 	if evt.Cmp("Inventory", 1407) then         -- "Oscillation Overthruster"
 		evt.Subtract("Inventory", 1407)         -- "Oscillation Overthruster"
 		evt.Subtract("QBits", 747)         -- Wetsuit - I lost it
-		evt.Set("QBits", 886)         -- End Game
+		evt.Set("QBits", 2053)         -- End Game
 		Game.NPC[419].Events[1] = 0         -- "Resurectra"
 		evt.ShowMovie{DoubleSize = 1, ExitCurrentScreen = true, Name = "\"Endgame 1 Good\" "}
 		evt.SetNPCGroupNews{NPCGroup = 61, NPCNews = 84}         -- "Southern Village Group in Harmondy" : "I heard there was a gate built to the Ancients!  I wonder what they look like."
@@ -3365,7 +3365,7 @@ evt.global[947] = function()
 			evt.Subtract("NPCs", 373)         -- "Duke Bimbasto"
 			evt.Subtract("NPCs", 376)         -- "Pascal the Mad Mage"
 			evt.SetMessage(1186)         -- "Excellent!  Now that we have the Control Cube, you need to see Resurectra in Castle Lambent.  She will provide details on your next assignment."
-			evt.Subtract("QBits", 874)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
+			evt.Subtract("QBits", 2041)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			Game.NPC[422].Events[0] = 0         -- "Robert the Wise"
 			evt.MoveNPC{NPC = 422, HouseId = 0}         -- "Robert the Wise"
@@ -3377,7 +3377,7 @@ evt.global[947] = function()
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)
 		end
-	elseif not evt.Cmp("QBits", 874) then         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
+	elseif not evt.Cmp("QBits", 2041) then         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
 		evt.SetMessage(961)         --[[ "Our preparations are nearing completion.  However we first need to obtain an artifact known as the ‘Control Cube’.  This artifact is guarded by Jester’s Folly, a dragon of such power that all other creatures flee from its presence!  This dragon resides in the Vault, a cavern deep within the bowls of Deja. The entrance to the Vault is guarded by the Treasury, a bulwark fortress built by the Necromancers to protect the artifact.
 
 We need your party to break into the Treasury, find the key, enter the Vault, slay Jester’s Folly, retrieve the Control Cube, and return to me.
@@ -3385,7 +3385,7 @@ We need your party to break into the Treasury, find the key, enter the Vault, sl
 Duke Bimbasto and Sir Vilx.., Erathia's Greatest Champions, have offered their assistance.  They will meet you at the entrance to the Treasury.
 
 Be careful on this quest.  The dangers are many, and the foes are plenty." ]]
-		evt.Set("QBits", 874)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
+		evt.Set("QBits", 2041)         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
 		evt.SetNPCGreeting{NPC = 422, Greeting = 137}         -- "Robert the Wise" : "You must bring the Control Cube to me."
 	end
 end
@@ -4240,7 +4240,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1171)
 evt.global[1171] = function()
 	evt.SetMessage(1508)         -- "The sacred relic of the Order of Fire, the Scroll of Mage Wonka, has been lost for many years.  The caravan that was transporting this relic from Harmondale to Bracada never made it out of the Barrow Downs.  Find the Lost Scroll of Wonka and return it to me and I will grant all Elemental Magic users in your party Expert Fire Magic with a Skill of ‘8’."
-	evt.Add("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
+	evt.Add("QBits", 1951)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	Game.NPC[478].Events[1] = 2000         -- "Blayze " : "We've found the Lost Scroll!"
 end
 
@@ -4574,8 +4574,8 @@ Oh. Be careful.  The chests are ‘trapped’." ]]
 		evt.Add("Experience", 100000)
 		evt.Add("Gold", 5000)
 		evt.Set("Awards", 125)         -- "Proclaimed Friend of Hothfarr, King of Dwarves and Savior of Stone City"
-		evt.Subtract("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		evt.Set("QBits", 880)         -- Barrow Normal
+		evt.Subtract("QBits", 2049)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+		evt.Set("QBits", 2047)         -- Barrow Normal
 		evt.Subtract("Inventory", 1075)         -- "Plague Elixir"
 		Game.NPC[398].Events[0] = 0         -- "Hothfarr IX"
 		evt.SetNPCGreeting{NPC = 398, Greeting = 145}         -- "Hothfarr IX" : "Welcome back Friends of Hothfarr and Saviors of Stone City!  The city is at your disposal."
@@ -5209,7 +5209,7 @@ end
 Game.GlobalEvtLines:RemoveEvent(1259)
 evt.global[1259] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
+	if evt.Cmp("QBits", 1956) then         -- Courier Quest 4
 		evt.SetMessage(2868)         --[[ "My! Aren't you a fine-looking group of adventurers!  Zowie!  Fine, supple, strong; beauty at its best!  It’s always grand to meet others of the same calaibre as myself.  They should call ‘our kind’ the ‘Beautiful Ones’.  My name is Agatha.  Good to feast my eyes on you all. 
 
 Now, onto the task at-hand.  My twin sister Rena lives here in Deja with her husband, Jayce Kedrin.  Rena and I are not identical twins and she was not ‘blessed’ with the ‘looks’ in our family as was I.  She’s, well, kind of plain.  Some might call her a real ‘Bow Wow’, if you know what I mean.  She’s the proverbial ‘two-bag date’.  Anywise, her birthday is upon us and I have purchased a special concoction called ‘Beauty Cream’ from Licia Rivenrock.  She’s indeed a Master Herbalist and her ‘cream’ is reported to do wonders with even the most ‘ordinary’ of subjects. I need you to pick up the order from Licia and deliver it to my sister.  Licia runs a business called ‘The House of Remedies’ in the Barrow Downs.
@@ -5218,27 +5218,27 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 		Game.NPC[548].Events[0] = 0         -- "Agatha Putnam"
 		return
 	end
-	if evt.Cmp("QBits", 788) then         -- Courier Quest 3
+	if evt.Cmp("QBits", 1955) then         -- Courier Quest 3
 		if evt.Cmp("Inventory", 1576) then         -- "Recipe"
 			evt.SetMessage(2867)         -- "The recipe!  You made good time on this delivery.  Great service!  Thanks.  Here's your fee."
 			evt.Subtract("Inventory", 1576)         -- "Recipe"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
 			Game.NPC[1274].Events[0] = 0         -- "Alice the Chef"
-			evt.Set("QBits", 792)         -- Courier Quest 3 complete
+			evt.Set("QBits", 1959)         -- Courier Quest 3 complete
 		else
 			evt.SetMessage(2865)         -- "Welcome to Alice’s Restaurant … where you can get anything you want!  Well, that is, except me. I’m Alice.  Today’s special is broiled filet of Troll, smothered in toad stools with …  Oh, I’m sorry.  You’re the couriers, aren’t you!  What I need you to do is to pickup a recipe from Peni Pretty in Erathia and return it to me.  The standard delivery fee will be paid upon receipt of the recipe."
 		end
 		return
 	end
-	if evt.Cmp("QBits", 787) then         -- Courier Quest 2
+	if evt.Cmp("QBits", 1954) then         -- Courier Quest 2
 		if evt.Cmp("Inventory", 1366) then         -- "Talisman (repaired)"
 			evt.SetMessage(2863)         -- "The talisman, good as new!  Thanks.  Here’s your payment."
 			evt.Subtract("Inventory", 1366)         -- "Talisman (repaired)"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
 			Game.NPC[377].Events[0] = 0         -- "Bartholomew Hume"
-			evt.Set("QBits", 791)         -- Courier Quest 2 complete
+			evt.Set("QBits", 1958)         -- Courier Quest 2 complete
 			return
 		end
 		if not evt.Cmp("Inventory", 1365) then         -- "Talisman (broken)"
@@ -5248,7 +5248,7 @@ Oh! And my sister will provide you with the customary fee upon delivery. " ]]
 		evt.SetMessage(2862)         -- "Ahh,the Couriers in-training!  Your arrival is most propitious!   I need you to deliver this broken talisman to Douglas Iversen in Harmondale.  Wait while he repairs the item and return it to me.  Upon its return, I’ll give you the standard courier fee."
 		return
 	end
-	if not evt.Cmp("QBits", 786) then         -- Courier Quest 1
+	if not evt.Cmp("QBits", 1953) then         -- Courier Quest 1
 		return
 	end
 	if evt.Cmp("Inventory", 1575) then         -- "Signed Contract"
@@ -5259,7 +5259,7 @@ Oh! and I found the crossword puzzle answer.  Freddie the Freeloader was a Red S
 		evt.ForPlayer("Current")
 		evt.Add("Gold", 5000)
 		Game.NPC[580].Events[0] = 0         -- "Taren the Lifter"
-		evt.Set("QBits", 790)         -- Courier Quest 1 complete
+		evt.Set("QBits", 1957)         -- Courier Quest 1 complete
 		return
 	end
 	if not evt.Cmp("Inventory", 1574) then         -- "Unsigned Contract"
@@ -5275,12 +5275,12 @@ end
 Game.GlobalEvtLines:RemoveEvent(1260)
 evt.global[1260] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 789) then         -- Courier Quest 4
-		if evt.Cmp("QBits", 794) then         -- Rena Quest
+	if evt.Cmp("QBits", 1956) then         -- Courier Quest 4
+		if evt.Cmp("QBits", 1961) then         -- Rena Quest
 			evt.SetMessage(2870)         --[[ "A delivery for me?  Must be my birthday present from Agie. Oh my!  A bottle of the legendary ‘Beauty Cream’.  I’m so excited about this!  Here, let me have it.  [Rena takes the bottle and gulps down the entire content] 
 
 Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m going to take a little nap.  Visit me later to see the results of the ‘miracle treatment’.  By for now …. " ]]
-			evt.Set("QBits", 793)         -- Courier Quest 4 complete
+			evt.Set("QBits", 1960)         -- Courier Quest 4 complete
 			evt.Subtract("Inventory", 1074)         -- "Beauty Creme"
 			evt.ForPlayer("Current")
 			evt.Add("Gold", 5000)
@@ -5291,27 +5291,27 @@ Oh!  I feel so …. strange.  Here, take your delivery fee and leave now.  I’m goi
 			evt.SetMessage(2869)         --[[ "Hi, I’m Licia.  Can I interest you in some of my herbal remedies?  Perhaps some Love Potent #9?  Or a bottle of my patented ‘potency formula’ named ‘Argaiv’?  
 
 Oh, of course not.  You’re the couriers here for a pick up, aren’t you.  Well here’s the bottle of Beauty Cream, and here’s your Deja Teleportal Key.  Good luck on your journey back to Deja."" ]]
-			evt.Set("QBits", 794)         -- Rena Quest
+			evt.Set("QBits", 1961)         -- Rena Quest
 			Game.NPC[1275].Events[0] = 1260         -- "Rena Putnum Kedrin" : "Courier Delivery"
 			evt.ForPlayer("Current")
 			evt.Add("Inventory", 1074)         -- "Beauty Creme"
 			evt.Add("Inventory", 1468)         -- "Deja Teleportal Key"
 			Game.NPC[738].Events[0] = 0         -- "Licia Rivenrock"
 		end
-	elseif evt.Cmp("QBits", 788) then         -- Courier Quest 3
+	elseif evt.Cmp("QBits", 1955) then         -- Courier Quest 3
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1576)         -- "Recipe"
 		evt.SetMessage(2866)         -- "Oh, the couriers!  I suspect you’re here for the recipe?  Here you are.  And here’s the Avlee Teleportal Key."
 		evt.Add("Inventory", 1469)         -- "Avlee Teleportal Key"
 		Game.NPC[781].Events[0] = 0         -- "Peni Pretty"
-	elseif evt.Cmp("QBits", 787) then         -- Courier Quest 2
+	elseif evt.Cmp("QBits", 1954) then         -- Courier Quest 2
 		evt.Subtract("Inventory", 1365)         -- "Talisman (broken)"
 		evt.ForPlayer("Current")
 		evt.Add("Inventory", 1366)         -- "Talisman (repaired)"
 		evt.SetMessage(2864)         -- "What have we here?  Oh, I see.  This will be easy to fix.  [Iversen takes the talisman into the back room and returns in a few minutes]  There ya go, good as new!  Return this to Master Hume for your reward.  Here's your second teleportal key."
 		evt.Add("Inventory", 1471)         -- "Bracada Teleportal Key"
 		Game.NPC[467].Events[0] = 0         -- "Douglas Iverson"
-	elseif evt.Cmp("QBits", 786) then         -- Courier Quest 1
+	elseif evt.Cmp("QBits", 1953) then         -- Courier Quest 1
 		if evt.Cmp("Inventory", 1574) then         -- "Unsigned Contract"
 			evt.Subtract("Inventory", 1574)         -- "Unsigned Contract"
 			evt.ForPlayer("Current")
@@ -5341,7 +5341,7 @@ Game.GlobalEvtLines:RemoveEvent(1262)
 evt.global[1262] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Gold", 500) then
-		evt.Set("QBits", 785)         -- "Complete four Courier Guild missions."
+		evt.Set("QBits", 1952)         -- "Complete four Courier Guild missions."
 		evt.ForPlayer("Current")
 		evt.Subtract("Gold", 500)
 		evt.Add("Inventory", 1472)         -- "Home Key"
@@ -5356,53 +5356,53 @@ end
 Game.GlobalEvtLines:RemoveEvent(1263)
 evt.global[1263] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 793) then         -- Courier Quest 4 complete
-		if evt.Cmp("QBits", 792) then         -- Courier Quest 3 complete
+	if not evt.Cmp("QBits", 1960) then         -- Courier Quest 4 complete
+		if evt.Cmp("QBits", 1959) then         -- Courier Quest 3 complete
 			evt.SetMessage(947)         --[[ "Now to your final assignment.  This one’s a bit tricky, I’m afraid, and somewhat dangerous.  In the mid-western region of Deja there is a small, unnamed village of four or five shanties.  Journey to this village and find Agatha Putnam.  She’ll provide details of your final delivery.  After you’ve completed this assignment, use the Deja Home Portal to return to me for your promotion to Master Courier. 
 
 Oh!  And watch out for the hostiles in this area!  Good luck." ]]
 			Game.NPC[548].Events[0] = 1259         -- "Agatha Putnam" : "Courier Delivery"
 			Game.NPC[738].Events[0] = 1260         -- "Licia Rivenrock" : "Courier Delivery"
 			evt.MoveNPC{NPC = 1275, HouseId = 974}         -- "Rena Putnum Kedrin" -> "Kedrin Residence"
-			evt.Set("QBits", 789)         -- Courier Quest 4
-		elseif evt.Cmp("QBits", 791) then         -- Courier Quest 2 complete
+			evt.Set("QBits", 1956)         -- Courier Quest 4
+		elseif evt.Cmp("QBits", 1958) then         -- Courier Quest 2 complete
 			evt.SetMessage(1655)         -- "I see you are well on your way to Master Courier.  Good!  Your third delivery takes you to the town of Spaward in Avlee.  You need to locate Alice's Restaurant  (where you can get anything you want) and just ask Alice.  She'll brief you on the details of the delivery."
 			Game.NPC[1274].Events[0] = 1259         -- "Alice the Chef" : "Courier Delivery"
 			Game.NPC[781].Events[0] = 1260         -- "Peni Pretty" : "Courier Delivery"
-			evt.Set("QBits", 788)         -- Courier Quest 3
-		elseif evt.Cmp("QBits", 790) then         -- Courier Quest 1 complete
+			evt.Set("QBits", 1955)         -- Courier Quest 3
+		elseif evt.Cmp("QBits", 1957) then         -- Courier Quest 1 complete
 			evt.SetMessage(1654)         -- "Good job on your first assignment!  For your next delivery, you must journey to the Bracada Desert and seek out Bartholomew Hume, the Roving Monk. You can normally find him near the Crystal Caravans.  He will provide you with details of the delivery. Bracada does have a Home Portal, in case you need to return here during your assignment.""
 			Game.NPC[377].Events[0] = 1259         -- "Bartholomew Hume" : "Courier Delivery"
 			Game.NPC[467].Events[0] = 1260         -- "Douglas Iverson" : "Courier Delivery"
-			evt.Set("QBits", 787)         -- Courier Quest 2
+			evt.Set("QBits", 1954)         -- Courier Quest 2
 		else
 			evt.SetMessage(1653)         -- "Your first assignment takes you to Tatalia.  When you arrive, seek out Taren.  He will provide you with details of the delivery.  Tatalia does have a Home Portal, in case you need to return here during your assignment."
 			evt.MoveNPC{NPC = 580, HouseId = 1048}         -- "Taren the Lifter" -> "Taren's House"
 			Game.NPC[446].Events[0] = 1260         -- "Mortie Ottin" : "Courier Delivery"
-			evt.Set("QBits", 786)         -- Courier Quest 1
+			evt.Set("QBits", 1953)         -- Courier Quest 1
 		end
 		return
 	end
 	evt.SetMessage(948)         --[[ "Congratulations!  You’ve completed all four assignments in record time, just as the Erathian Festival of the Five Moons is ending!   You are now ready to join the ranks of our elite guild. I hereby promote you to the rank of Master Courier!  Welcome to the Guild! 
 
 Now just one more thing.  Our couriers used to service the Evenmorn Islands. Unfortunately through a series of miss-haps, all keys to the island chain were lost, stolen, or destroyed.   If you ever come across one of these keys, please bring it back to me so that I can make a copy of it.  I will reward you handsomely in gold.  Good luck, Master Couriers!"" ]]
-	evt.Subtract("QBits", 785)         -- "Complete four Courier Guild missions."
-	evt.Subtract("QBits", 786)         -- Courier Quest 1
-	evt.Subtract("QBits", 787)         -- Courier Quest 2
-	evt.Subtract("QBits", 788)         -- Courier Quest 3
-	evt.Subtract("QBits", 789)         -- Courier Quest 4
-	evt.Subtract("QBits", 790)         -- Courier Quest 1 complete
-	evt.Subtract("QBits", 791)         -- Courier Quest 2 complete
-	evt.Subtract("QBits", 792)         -- Courier Quest 3 complete
-	evt.Subtract("QBits", 793)         -- Courier Quest 4 complete
-	evt.Subtract("QBits", 794)         -- Rena Quest
+	evt.Subtract("QBits", 1952)         -- "Complete four Courier Guild missions."
+	evt.Subtract("QBits", 1953)         -- Courier Quest 1
+	evt.Subtract("QBits", 1954)         -- Courier Quest 2
+	evt.Subtract("QBits", 1955)         -- Courier Quest 3
+	evt.Subtract("QBits", 1956)         -- Courier Quest 4
+	evt.Subtract("QBits", 1957)         -- Courier Quest 1 complete
+	evt.Subtract("QBits", 1958)         -- Courier Quest 2 complete
+	evt.Subtract("QBits", 1959)         -- Courier Quest 3 complete
+	evt.Subtract("QBits", 1960)         -- Courier Quest 4 complete
+	evt.Subtract("QBits", 1961)         -- Rena Quest
 	Game.NPC[387].Events[0] = 842         -- "Thomas Grey" : "Wizard"
 	Game.NPC[380].Events[0] = 817         -- "Steagal Snick" : "Warrior Mage"
 	Game.NPC[389].Events[0] = 848         -- "Anthony Green" : "Great Druid"
 	Game.NPC[382].Events[0] = 823         -- "Frederick Org" : "Cavalier"
 	Game.NPC[384].Events[0] = 829         -- "Ebednezer Sower" : "Hunter"
 	Game.NPC[377].Events[1] = 808         -- "Bartholomew Hume" : "Initiate"
-	evt.Set("QBits", 795)         -- End of Festival
+	evt.Set("QBits", 1962)         -- End of Festival
 	for pl = 0, Party.High do
 		evt.ForPlayer(pl)
 		evt.Add("Experience", 20000)
@@ -5980,7 +5980,7 @@ Blayze retires to a back room.  In a few moments he begins an incantation in slo
 Blaze returns from the back room, chewing gum and popping bubbles, a broad smile on his face.  Yep, that’s it.  Well done adventurers!!  As promised, here’s your reward.”" ]]
 	giveFreeSkill(const.Skills.Fire, 8, const.Expert, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 end)
 	evt.ForPlayer("All")
-	evt.Subtract("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
+	evt.Subtract("QBits", 1951)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract("Inventory", 1540)         -- "Lost Scroll of Wonka"
 	evt.Add("Awards", 129)         -- "Recovered the Lost Scroll of  Wonka"
 	Game.NPC[478].Events[1] = 0         -- "Blayze "

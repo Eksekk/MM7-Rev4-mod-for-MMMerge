@@ -109,6 +109,7 @@ patches = {
             end
         end)
     end,
+    
     -- Wine Cellar
     -- require actually killing the vampire (don't unconditionally set QBit on map leave)
     ["7d16.blv"] = function()
@@ -155,6 +156,7 @@ patches = {
             end
         end, true)
     end,
+
     -- Stone City
     -- perception skill barrel
     ["7d24.blv"] = function()
@@ -165,11 +167,13 @@ patches = {
             end
         end)
     end,
+
     -- Colony Zod
     -- delegate exit event to EVT file so it doesn't crash the game (bugfix)
     ["7d27.blv"] = function()
         replaceMapEvent(501, function() end)
     end,
+
     -- Castle Harmondale
 	-- bodybuilding skill barrel
 	["7d29.blv"] = function()
@@ -177,20 +181,6 @@ patches = {
             if not evt.Cmp("QBits", getQuestBit(317)) then         -- 1-time Castle Harm
                 evt.Set("QBits", getQuestBit(317))         -- 1-time Castle Harm
                 giveFreeSkill(const.Skills.Bodybuilding, 7, const.Expert)
-            end
-        end)
-        -- script processing fix
-        replaceMapEvent(35, function()  -- function events.LoadMap()
-            evt.ForPlayer("All")
-            if not evt.Cmp("QBits", getQuestBit(371)) then         -- Dwarven Messenger Once
-                if evt.Cmp("Awards", getAward(8)) then         -- "Completed Coding Wizard Quest"
-                    evt.SetNPCGreeting{NPC = getNPC(27), Greeting = getGreeting(27)}         -- "Messenger" : ""
-                    evt.Set("QBits", getQuestBit(369))         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-                    evt.Set("QBits", getQuestBit(371))         -- Dwarven Messenger Once
-                    evt.Subtract("QBits", getQuestBit(368))         -- Barrow Normal
-                    evt.Set("Counter2", 0)
-                    evt.SpeakNPC(getNPC(27))         -- "Messenger"
-                end
             end
         end)
     end,
@@ -317,47 +307,8 @@ patches = {
             evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
             evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
         end)
-
-        -- some evt.speakNPC fixes
-        replaceMapEvent(39, function()  -- function events.LoadMap()
-            evt.ForPlayer("All")
-            if not evt.Cmp("Awards", getAward(15)) then         -- "Completed the MM7Rev4mod Game!!"
-                if evt.Cmp("QBits", getQuestBit(374)) then         -- End Game
-                    evt.SetNPCGreeting{NPC = getNPC(26), Greeting = getGreeting(32)}         -- "Count ZERO" : "Magic Shop"
-                    evt.Set("Awards", getAward(15))         -- "Completed the MM7Rev4mod Game!!"
-                    evt.Subtract("QBits", getQuestBit(130))         -- "Go to the Lincoln in the sea west of Avlee and retrieve the Oscillation Overthruster and return it to Resurectra in Celeste."
-                    evt.SpeakNPC(getNPC(26))         -- "Count ZERO"
-                end
-            end
-        end, true)
-        replaceMapEvent(52, function()  -- function events.LoadMap()
-            if not evt.Cmp("QBits", getQuestBit(376)) then         -- LG 1-time
-                if evt.Cmp("QBits", getQuestBit(356)) then         -- 0
-                    evt.SetNPCGreeting{NPC = getNPC(18), Greeting = getGreeting(148)}         -- "Lord Godwinson" : "Let us press on,my friends!"
-                    evt.Set("NPCs", getNPC(18))         -- "Lord Godwinson"
-                    evt.MoveNPC{NPC = getNPC(460), HouseId = 0}         -- "Lord Godwinson"
-                    evt.SetNPCTopic{NPC = getNPC(18), Index = 0, Event = getGlobalEvent(96)}         -- "Lord Godwinson" : "Coding Wizard Quest"
-                    evt.Set("QBits", getQuestBit(376))         -- LG 1-time
-                    evt.SpeakNPC(getNPC(18))         -- "Lord Godwinson"
-                end
-            end
-        end, true)
-        replaceMapEvent(211, function()  -- function events.LoadMap()
-            if not evt.Cmp("QBits", getQuestBit(134)) then         -- Arbiter Messenger only happens once
-                if evt.Cmp("Counter3", 2272) then
-                    evt.Add("QBits", getQuestBit(153))         -- "Choose a judge to succeed Judge Grey as Arbiter in Harmondale."
-                    evt.Add("History6", 0)
-                    evt.MoveNPC{NPC = getNPC(67), HouseId = 0}         -- "Ellen Rockway"
-                    evt.MoveNPC{NPC = getNPC(68), HouseId = 0}         -- "Alain Hani"
-                    evt.MoveNPC{NPC = getNPC(75), HouseId = getHouseID(174)}         -- "Ambassador Wright" -> "Throne Room"
-                    evt.MoveNPC{NPC = getNPC(77), HouseId = getHouseID(112)}         -- "Judge Fairweather" -> "Familiar Place"
-                    evt.Set("QBits", getQuestBit(134))         -- Arbiter Messenger only happens once
-                    evt.SpeakNPC(getNPC(91))         -- "Messenger"
-                end
-            end
-        end, true)
     end,
-    -- Erathian
+    -- Erathia
     ["7out03.odm"] = function()
         -- fix small bug in town portal code
         replaceMapEvent(35, function()
@@ -394,7 +345,6 @@ patches = {
         replaceMapEvent(312, function()
 			evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
         end)
-		-- Bracada Desert
 		-- fix teleporters so one of two teleporting to temple teleports to shops instead
         -- this is actually an additional event
         replaceMapEvent(318, function()

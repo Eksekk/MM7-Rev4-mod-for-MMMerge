@@ -35,12 +35,12 @@ evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
 	evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Hostile, On = false}         -- "Southern Village Group in Harmondy"
 	evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Hostile, On = false}         -- "Main village in Harmondy"
-	if evt.Cmp("QBits", 892) then         -- "Pass the Test of Friendship"
+	if evt.Cmp("QBits", 2059) then         -- "Pass the Test of Friendship"
 		evt.SetNPCGreeting{NPC = 1279, Greeting = 156}         -- "The Coding Wizard" : "Friends do not abandon friends in the midst of a fray!  You have failed the Test of Friendship!"
+		evt.SpeakNPC(1279)         -- "The Coding Wizard"
 		evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 		evt.Subtract("Inventory", 1477)         -- "Control Cube"
 		evt.Set("Eradicated", 0)
-		evt.SpeakNPC(1279)         -- "The Coding Wizard"
 	else
 		Game.NPC[1279].Events[1] = 0         -- "The Coding Wizard"
 		Game.NPC[1279].Events[2] = 0         -- "The Coding Wizard"
@@ -192,8 +192,9 @@ evt.hint[501] = evt.str[2]  -- "Enter the tunnel."
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 891) then         -- Exit 1-time Cave 1 Vault
-		evt.Set("QBits", 892)         -- "Pass the Test of Friendship"
+	if evt.Cmp("QBits", 2058) then         -- Exit 1-time Cave 1 Vault
+		evt.SpeakNPC(1279)         -- "The Coding Wizard"
+		evt.Set("QBits", 2059)         -- "Pass the Test of Friendship"
 		evt.Subtract("NPCs", 360)         -- "Zedd True Shot"
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
 		evt.Subtract("NPCs", 359)         -- "Baron BunGleau"
@@ -221,7 +222,6 @@ evt.map[501] = function()
 		Game.NPC[357].Events[1] = 886         -- "Lord Godwinson" : "Let's Go!"
 		Game.NPC[1279].Events[0] = 1174         -- "The Coding Wizard" : "A word of Caution!"
 		evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-		evt.SpeakNPC(1279)         -- "The Coding Wizard"
 	elseif evt.Cmp("Inventory", 963) then         -- "Grate Key"
 		evt.Subtract("Inventory", 963)         -- "Grate Key"
 		evt.SetNPCGreeting{NPC = 1279, Greeting = 150}         --[[ "The Coding Wizard" : "You are finally face-to-face with Jester’s Folly and his minions, adventurers.  It is now time for the Test of Friendship.  Hear me and heed my words.
@@ -231,6 +231,7 @@ I give you a solemn charge, adventurers.  It is your responsibility to ensure th
 Once you have defeated Jester’s Folly and possess the Cube, you must gather each member of the fellowship and then use the cave exit immediately behind you to return to Celeste. Return to Robert the Wise with the Cube and in company with the entire brotherhood.  Robert will grant you the appropriate rewards for your victory!
 
 But be warned, adventurers!  If you let any of the brotherhood fall in battle, you will be eradicated, returned to Hamdondale, and branded ‘Unfaithful Friends’.  Unfaithful friends will not be able to complete ‘The Game’." ]]
+		evt.SpeakNPC(1279)         -- "The Coding Wizard"
 		evt.SetNPCGreeting{NPC = 360, Greeting = 151}         -- "Zedd True Shot" : "What a glorious day for victory, my friends!."
 		evt.SetNPCGreeting{NPC = 376, Greeting = 151}         -- "Pascal the Mad Mage" : "What a glorious day for victory, my friends!."
 		evt.SetNPCGreeting{NPC = 373, Greeting = 151}         -- "Duke Bimbasto" : "What a glorious day for victory, my friends!."
@@ -243,8 +244,7 @@ But be warned, adventurers!  If you let any of the brotherhood fall in battle, y
 		evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
 		evt.Set("NPCs", 373)         -- "Duke Bimbasto"
 		evt.Set("NPCs", 376)         -- "Pascal the Mad Mage"
-		evt.Set("QBits", 891)         -- Exit 1-time Cave 1 Vault
-		evt.SpeakNPC(1279)         -- "The Coding Wizard"
+		evt.Set("QBits", 2058)         -- Exit 1-time Cave 1 Vault
 	else
 		evt.StatusText(9)         -- "The Steel Grate is locked."
 	end
@@ -265,7 +265,7 @@ evt.map[502] = function()
 					if evt.Cmp("NPCs", 359) then         -- "Baron BunGleau"
 						if evt.Cmp("NPCs", 360) then         -- "Zedd True Shot"
 							evt.Set("Awards", 127)         -- "Declared Friends of ‘The Game’"
-							evt.Subtract("QBits", 892)         -- "Pass the Test of Friendship"
+							evt.Subtract("QBits", 2059)         -- "Pass the Test of Friendship"
 							evt.MoveToMap{X = -6781, Y = 792, Z = 57, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D25.blv"}
 							return
 						end
@@ -279,21 +279,3 @@ evt.map[502] = function()
 	evt.Set("Eradicated", 0)
 end
 
-	-- fix so that friends will fight with dragons & hydras
-	function events.AfterLoadMap()
-		LocalHostileTxt()
-		local nameids = {}
-		for k, v in Map.Monsters do
-			if v.NameId ~= 0 then
-				table.insert(nameids, (v.Id + 2):div(3))
-			end
-		end
-		for _, m in ipairs(nameids) do
-			for i, v in Game.HostileTxt do
-				if not table.find(nameids, i) then
-					Game.HostileTxt[m][i] = 4
-					Game.HostileTxt[i][m] = 4
-				end
-			end
-		end
-	end

@@ -486,8 +486,8 @@ evt.map[454] = function()
 		if i == 1 then
 			evt.Set("MapVar29", 5)
 		else
-			evt.Set("MapVar29", 0)
 			evt.SpeakNPC(461)         -- "Lunius Shador"
+			evt.Set("MapVar29", 0)
 		end
 	end
 end
@@ -554,18 +554,18 @@ end
 
 Game.MapEvtLines:RemoveEvent(503)
 evt.map[503] = function()
-	if not evt.Cmp("QBits", 874) then         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
+	if not evt.Cmp("QBits", 2041) then         -- " Enter the Treasury in Deja, find the key and enter the Vault, retrieve the Control Cube, and return to Robert the Wise in Celeste."
 		evt.StatusText(18)         -- "The Treasury is locked"
-	elseif evt.Cmp("QBits", 890) then         -- Vilx
+	elseif evt.Cmp("QBits", 2057) then         -- Vilx
 		evt.MoveToMap{X = 442, Y = -1112, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 9, Name = "MDT10.blv"}
-	elseif evt.Cmp("QBits", 889) then         -- Bimbasto
-		evt.Set("QBits", 890)         -- Vilx
-		evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
+	elseif evt.Cmp("QBits", 2056) then         -- Bimbasto
 		evt.SpeakNPC(374)         -- "Sir Vilx of Stone City"
+		evt.Set("QBits", 2057)         -- Vilx
+		evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
 	else
-		evt.Set("QBits", 889)         -- Bimbasto
-		evt.Set("NPCs", 373)         -- "Duke Bimbasto"
 		evt.SpeakNPC(373)         -- "Duke Bimbasto"
+		evt.Set("QBits", 2056)         -- Bimbasto
+		evt.Set("NPCs", 373)         -- "Duke Bimbasto"
 	end
 end
 
@@ -578,12 +578,14 @@ evt.map[504] = function()
 	evt.MoveToMap{X = 190, Y = 4946, Z = -511, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 397, Icon = 9, Name = "7d15.blv"}         -- "Watchtower 6"
 end
 
+
+
 --[[ MMMerge additions ]]--
 
 -- Deyja
 
 function events.AfterLoadMap()
-	Party.QBits[940] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[820] = true	-- DDMapBuff
 
 	LocalHostileTxt()
 	Game.HostileTxt[91][0] = 0

@@ -49,7 +49,7 @@ evt.hint[2] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 863) then         -- Three Use
+	if evt.Cmp("QBits", 2030) then         -- Three Use
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -4721, Y = -10652, Z = 833, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -5159, Y = -10152, Z = 833, -- ERROR: Not found
@@ -67,12 +67,12 @@ NPCGroup = 563, unk = 0}
 		Game.NPC[355].Events[0] = 0         -- "BDJ the Coding Wizard"
 		Game.NPC[355].Events[1] = 0         -- "BDJ the Coding Wizard"
 		Game.NPC[355].Events[2] = 0         -- "BDJ the Coding Wizard"
-		evt.Set("QBits", 863)         -- Three Use
+		evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
+		evt.Set("QBits", 2030)         -- Three Use
 		evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
 		Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
 		evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
-		evt.Subtract("QBits", 868)         -- 0
-		evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
+		evt.Subtract("QBits", 2035)         -- 0
 	end
 end
 
@@ -94,9 +94,9 @@ evt.hint[5] = evt.str[11]  -- "Phasing Brazier of Succor "
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 878) then         -- 0
+	if not evt.Cmp("QBits", 2045) then         -- 0
 		evt.Add("HP", 300)
-		evt.Set("QBits", 878)         -- 0
+		evt.Set("QBits", 2045)         -- 0
 	end
 end
 
@@ -398,10 +398,10 @@ evt.hint[376] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 864) then         -- Four Use
+	if evt.Cmp("QBits", 2031) then         -- Four Use
 		goto _22
 	end
-	evt.Set("QBits", 864)         -- Four Use
+	evt.Set("QBits", 2031)         -- Four Use
 ::_3::
 	evt.Subtract("Inventory", 223)         -- "Magic Potion"
 	if evt.Cmp("Inventory", 223) then         -- "Magic Potion"
@@ -460,7 +460,7 @@ NPCGroup = 563, unk = 0}
 	NPCGroup = 563, unk = 0}
 	evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4606, Y = -1643, Z = 833, -- ERROR: Not found
 	NPCGroup = 563, unk = 0}
-	evt.Subtract("QBits", 878)         -- 0
+	evt.Subtract("QBits", 2045)         -- 0
 end
 
 evt.hint[501] = evt.str[9]  -- "The Killing Zone"

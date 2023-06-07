@@ -119,78 +119,78 @@ evt.hint[12] = evt.str[12]  -- "Promotion Brazier"
 Game.MapEvtLines:RemoveEvent(12)
 evt.map[12] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 861) then         -- One Use
+	if not evt.Cmp("QBits", 2028) then         -- One Use
 		evt.StatusText(20)         -- "Only BDJ can activate this Brazier."
 		return
 	end
-	evt.Subtract("QBits", 861)         -- One Use
-	if evt.Cmp("QBits", 850) then         -- BDJ Final
-		evt.Set("QBits", 860)         -- Final
+	evt.Subtract("QBits", 2028)         -- One Use
+	if evt.Cmp("QBits", 2017) then         -- BDJ Final
+		evt.Set("QBits", 2027)         -- Final
 		evt.ForPlayer(3)
-	elseif evt.Cmp("QBits", 849) then         -- BDJ 3
-		evt.Set("QBits", 850)         -- BDJ Final
+	elseif evt.Cmp("QBits", 2016) then         -- BDJ 3
+		evt.Set("QBits", 2017)         -- BDJ Final
 		evt.ForPlayer(2)
-	elseif evt.Cmp("QBits", 848) then         -- BDJ 2
-		evt.Set("QBits", 849)         -- BDJ 3
+	elseif evt.Cmp("QBits", 2015) then         -- BDJ 2
+		evt.Set("QBits", 2016)         -- BDJ 3
 		evt.ForPlayer(1)
 	else
-		evt.Set("QBits", 848)         -- BDJ 2
+		evt.Set("QBits", 2015)         -- BDJ 2
 		evt.ForPlayer(0)
 	end
-	if evt.Cmp("QBits", 851) then         -- Sorcerer
+	if evt.Cmp("QBits", 2018) then         -- Sorcerer
 		evt.Add("BaseIntellect", 20)
 		evt.Set("ClassIs", const.Class.ArchMage)
-		evt.Subtract("QBits", 851)         -- Sorcerer
+		evt.Subtract("QBits", 2018)         -- Sorcerer
 	else
-		if evt.Cmp("QBits", 852) then         -- Cleric
+		if evt.Cmp("QBits", 2019) then         -- Cleric
 			evt.Add("BasePersonality", 20)
 			evt.Set("ClassIs", const.Class.PriestLight)
-			evt.Subtract("QBits", 852)         -- Cleric
+			evt.Subtract("QBits", 2019)         -- Cleric
 			goto _78
 		end
-		if evt.Cmp("QBits", 853) then         -- Fighter
+		if evt.Cmp("QBits", 2020) then         -- Fighter
 			evt.Add("BaseEndurance", 15)
 			evt.Add("BaseMight", 5)
 			evt.Set("ClassIs", const.Class.Champion)
-			evt.Subtract("QBits", 853)         -- Fighter
+			evt.Subtract("QBits", 2020)         -- Fighter
 			goto _78
 		end
-		if evt.Cmp("QBits", 854) then         -- Paladin
+		if evt.Cmp("QBits", 2021) then         -- Paladin
 			evt.Add("BasePersonality", 5)
 			evt.Add("BaseEndurance", 10)
 			evt.Add("BaseMight", 5)
 			evt.Set("ClassIs", const.Class.Hero)
-			evt.Subtract("QBits", 854)         -- Paladin
+			evt.Subtract("QBits", 2021)         -- Paladin
 			goto _78
 		end
-		if evt.Cmp("QBits", 855) then         -- Monk
+		if evt.Cmp("QBits", 2022) then         -- Monk
 			evt.Add("BaseEndurance", 10)
 			evt.Add("BaseMight", 10)
 			evt.Set("ClassIs", const.Class.Master)
-			evt.Subtract("QBits", 855)         -- Monk
+			evt.Subtract("QBits", 2022)         -- Monk
 			goto _78
 		end
-		if evt.Cmp("QBits", 856) then         -- Thief
+		if evt.Cmp("QBits", 2023) then         -- Thief
 			evt.Add("BaseLuck", 20)
 			evt.Set("ClassIs", const.Class.Spy)
-			evt.Subtract("QBits", 856)         -- Thief
+			evt.Subtract("QBits", 2023)         -- Thief
 			goto _78
 		end
-		if evt.Cmp("QBits", 857) then         -- Ranger
+		if evt.Cmp("QBits", 2024) then         -- Ranger
 			evt.Add("BaseEndurance", 10)
 			evt.Add("BaseMight", 10)
 			evt.Set("ClassIs", const.Class.RangerLord)
-			evt.Subtract("QBits", 857)         -- Ranger
-		elseif evt.Cmp("QBits", 858) then         -- Archer
+			evt.Subtract("QBits", 2024)         -- Ranger
+		elseif evt.Cmp("QBits", 2025) then         -- Archer
 			evt.Add("BaseSpeed", 15)
 			evt.Add("BaseIntellect", 5)
 			evt.Set("ClassIs", const.Class.MasterArcher)
-			evt.Subtract("QBits", 858)         -- Archer
+			evt.Subtract("QBits", 2025)         -- Archer
 		else
 			evt.Add("BaseIntellect", 10)
 			evt.Add("BasePersonality", 10)
 			evt.Set("ClassIs", const.Class.ArchDruid)
-			evt.Subtract("QBits", 859)         -- Druid
+			evt.Subtract("QBits", 2026)         -- Druid
 		end
 	end
 	if not evt.Cmp("FireSkill", 8) then
@@ -198,7 +198,7 @@ evt.map[12] = function()
 	end
 ::_78::
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 860) then         -- Final
+	if evt.Cmp("QBits", 2027) then         -- Final
 		Game.NPC[1279].Events[0] = 837         -- "The Coding Wizard" : "Let's Continue."
 	else
 		evt.StatusText(21)         -- "Return to the Coding Wizard."
@@ -490,7 +490,7 @@ evt.hint[376] = evt.str[22]  -- "Summon the Coding Wizard"
 Game.MapEvtLines:RemoveEvent(376)
 evt.map[376] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 862) then         -- Two Use
+	if not evt.Cmp("QBits", 2029) then         -- Two Use
 		evt.SetTexture{Facet = 1, Name = "solid01"}
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
@@ -499,7 +499,7 @@ evt.map[376] = function()
 
 Now what can I do for you?" ]]
 	end
-	evt.Set("QBits", 862)         -- Two Use
+	evt.Set("QBits", 2029)         -- Two Use
 end
 
 evt.hint[451] = evt.str[16]  -- "Take a Drink"
@@ -527,7 +527,7 @@ Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.ForPlayer("All")
 	if evt.Cmp("Inventory", 1578) then         -- "VORI Password"
-		evt.Set("QBits", 875)         -- Eradicated
+		evt.Set("QBits", 2042)         -- Eradicated
 		evt.Set("Eradicated", 0)
 	else
 		evt.StatusText(9)         -- "You need the pasword to enter Vori."

@@ -116,14 +116,14 @@ evt.hint[35] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(35)
 evt.map[35] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 883) then         -- Dwarven Messenger Once
+	if not evt.Cmp("QBits", 2050) then         -- Dwarven Messenger Once
 		if evt.Cmp("Awards", 120) then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
-			evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set("QBits", 883)         -- Dwarven Messenger Once
-			evt.Subtract("QBits", 880)         -- Barrow Normal
-			evt.Set("Counter2", 0)
 			evt.SpeakNPC(366)         -- "Messenger"
+			evt.Set("QBits", 2048)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 2050)         -- Dwarven Messenger Once
+			evt.Subtract("QBits", 2047)         -- Barrow Normal
+			evt.Set("Counter2", 0)
 		end
 	end
 end
@@ -414,7 +414,7 @@ end
 evt.hint[312] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(312)
 evt.map[312] = function()
-	evt.MoveToMap{X = 17656, Y = -20704, Z = 326, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+	evt.MoveToMap{X = 17656, Y = -20704, Z = 800, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 end
 
 evt.hint[313] = evt.str[100]  -- ""
@@ -621,15 +621,12 @@ evt.map[503] = function()
 	evt.MoveToMap{X = -6781, Y = 792, Z = 57, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7D25.blv"}
 end
 
-evt.hint[318] = evt.str[100]  -- ""
-	evt.map[318] = function()
-		evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-	end
+
 
 --[[ MMMerge additions ]]--
 
 -- The Bracada Desert
 
 function events.AfterLoadMap()
-	Party.QBits[941] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[821] = true	-- DDMapBuff
 end

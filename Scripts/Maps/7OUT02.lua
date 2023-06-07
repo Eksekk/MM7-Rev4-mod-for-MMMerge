@@ -83,9 +83,9 @@ table.copy(TXT, evt.str, true)
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 796) then         -- Beginning of Festival
-		evt.Subtract("QBits", 796)         -- Beginning of Festival
-		evt.Set("QBits", 806)         -- Return to EI
+	if evt.Cmp("QBits", 1963) then         -- Beginning of Festival
+		evt.Subtract("QBits", 1963)         -- Beginning of Festival
+		evt.Set("QBits", 1973)         -- Return to EI
 		evt.SpeakNPC(345)         -- "Wren Wilder"
 	end
 end
@@ -423,7 +423,7 @@ end
 evt.hint[38] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(38)
 evt.map[38] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 875) then         -- Eradicated
+	if evt.Cmp("QBits", 2042) then         -- Eradicated
 		evt.SpeakNPC(364)         -- "Operator"
 	end
 end
@@ -435,7 +435,7 @@ Game.MapEvtLines:RemoveEvent(39)
 evt.map[39] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
 	if not evt.Cmp("Awards", 123) then         -- "Completed the MM7Rev4mod Game!!"
-		if evt.Cmp("QBits", 886) then         -- End Game
+		if evt.Cmp("QBits", 2053) then         -- End Game
 			evt.SetNPCGreeting{NPC = 365, Greeting = 147}         -- "Count ZERO" : "Magic Shop"
 			evt.SpeakNPC(365)         -- "Count ZERO"
 			evt.Set("Awards", 123)         -- "Completed the MM7Rev4mod Game!!"
@@ -463,8 +463,8 @@ evt.map[50] = function()  -- function events.LoadMap()
 			if evt.Cmp("Counter5", 1008) then
 				evt.Set("Counter5", 0)
 				evt.Add("Inventory", 1506)         -- "Message from Mr. Stantley"
-				evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
 				evt.SpeakNPC(437)         -- "Messenger"
+				evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
 			end
 			return
 		end
@@ -509,14 +509,14 @@ Timer(evt.map[51].last, 7.5*const.Minute)
 evt.hint[52] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(52)
 evt.map[52] = function()  -- function events.LoadMap()
-	if not evt.Cmp("QBits", 888) then         -- LG 1-time
-		if evt.Cmp("QBits", 868) then         -- 0
+	if not evt.Cmp("QBits", 2055) then         -- LG 1-time
+		if evt.Cmp("QBits", 2035) then         -- 0
 			evt.SetNPCGreeting{NPC = 357, Greeting = 263}         -- "Lord Godwinson" : "Let us press on,my friends!"
 			evt.SpeakNPC(357)         -- "Lord Godwinson"
 			evt.Set("NPCs", 357)         -- "Lord Godwinson"
 			evt.MoveNPC{NPC = 1283, HouseId = 0}         -- "Lord Godwinson"
 			Game.NPC[357].Events[0] = 846         -- "Lord Godwinson" : "Coding Wizard Quest"
-			evt.Set("QBits", 888)         -- LG 1-time
+			evt.Set("QBits", 2055)         -- LG 1-time
 		end
 	end
 end
@@ -874,7 +874,7 @@ evt.hint[221] = evt.str[53]  -- "Altar"
 Game.MapEvtLines:RemoveEvent(221)
 evt.map[221] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 868) then         -- 0
+	if not evt.Cmp("QBits", 2035) then         -- 0
 		evt.StatusText(54)         -- "You Pray"
 		return
 	end
@@ -1339,7 +1339,7 @@ evt.HouseDoor(268, 1125)  -- "Torrent's"
 evt.hint[302] = evt.str[31]  -- "Enter the White Cliff Caves"
 Game.MapEvtLines:RemoveEvent(302)
 evt.map[302] = function()
-	if evt.Cmp("QBits", 836) then         -- White Cliff Cave Permission
+	if evt.Cmp("QBits", 2003) then         -- White Cliff Cave Permission
 		evt.MoveToMap{X = 1344, Y = -256, Z = -107, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 391, Icon = 3, Name = "7D21.blv"}         -- "White Cliff Caves"
 	else
 		evt.StatusText(23)         -- "It's too dangerous to enter the cave at this time."
@@ -1351,7 +1351,7 @@ end
 -- Harmondale
 
 function events.AfterLoadMap()
-	Party.QBits[937] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[817] = true	-- DDMapBuff
 end
 
 -- Choose Judge quest

@@ -98,9 +98,9 @@ evt.hint[5] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(5)
 evt.map[5] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 884) then         -- Barrow Create Monsters Once
-		if evt.Cmp("QBits", 881) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set("QBits", 884)         -- Barrow Create Monsters Once
+	if not evt.Cmp("QBits", 2051) then         -- Barrow Create Monsters Once
+		if evt.Cmp("QBits", 2048) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 2051)         -- Barrow Create Monsters Once
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = -22146, Y = 5899, Z = 0, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -16576, Y = 11844, Z = 0, -- ERROR: Not found
@@ -122,7 +122,7 @@ NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 10, X = 17875, Y = 6342, Z = 0, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		else
-			evt.Set("QBits", 880)         -- Barrow Normal
+			evt.Set("QBits", 2047)         -- Barrow Normal
 		end
 	end
 end
@@ -133,9 +133,9 @@ evt.hint[10] = evt.str[16]  -- "Geppetto’s thermos"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 833) then         -- Gepetto's Thermos
-		evt.Set("QBits", 833)         -- Gepetto's Thermos
-		giveFreeSkill(const.Skills.Repair, 7, const.Expert)
+	if not evt.Cmp("QBits", 2000) then         -- Gepetto's Thermos
+		evt.Set("QBits", 2000)         -- Gepetto's Thermos
+		evt.Set("RepairSkill", 71)
 	end
 end
 
@@ -502,28 +502,28 @@ evt.hint[501] = evt.str[30]  -- "Enter Stone City"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 880) then         -- Barrow Normal
+	if evt.Cmp("QBits", 2047) then         -- Barrow Normal
 		goto _5
 	end
 	if evt.Cmp("Counter2", 180) then
 		goto _18
 	end
-	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+	if evt.Cmp("QBits", 2049) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
 		if evt.Cmp("Counter2", 304) then
 			goto _18
 		end
 		if evt.Cmp("Inventory", 1075) then         -- "Plague Elixir"
 			goto _5
 		end
-	elseif not evt.Cmp("QBits", 881) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+	elseif not evt.Cmp("QBits", 2048) then         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 		goto _5
 	elseif evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
 		evt.SetNPCGreeting{NPC = 398, Greeting = 143}         -- "Hothfarr IX" : "Have you brought a cure yet?"
-		evt.Set("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-		evt.Subtract("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+		evt.SpeakNPC(398)         -- "Hothfarr IX"
+		evt.Set("QBits", 2049)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+		evt.Subtract("QBits", 2048)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
 		evt.ForPlayer("All")
 		evt.Set("Counter2", 0)
-		evt.SpeakNPC(398)         -- "Hothfarr IX"
 		return
 	end
 	evt.StatusText(20)         -- "The Gates are Locked"
@@ -532,8 +532,8 @@ evt.map[501] = function()
 	evt.MoveToMap{X = 256, Y = -4992, Z = 33, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 408, Icon = 2, Name = "7D24.blv"}         -- "Stone City"
 	do return end
 ::_18::
-	evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!
-	evt.SpeakNPC(369)         -- "Doom Bearer
+	evt.SpeakNPC(369)         -- "Doom Bearer"
+	evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!"
 end
 
 evt.hint[502] = evt.str[32]  -- "Enter Mansion"
@@ -560,11 +560,13 @@ evt.map[505] = function()
 	evt.MoveToMap{X = -1045, Y = 1249, Z = 0, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "MDK03.blv"}
 end
 
+
+
 --[[ MMMerge additions ]]--
 
 -- The Barrow Downs
 
 function events.AfterLoadMap()
-	Party.QBits[946] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[826] = true	-- DDMapBuff
 end
 

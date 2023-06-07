@@ -561,7 +561,7 @@ end
 -- Tatalia
 
 function events.AfterLoadMap()
-	Party.QBits[948] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[828] = true	-- DDMapBuff
 end
 
 ----------------------------------------

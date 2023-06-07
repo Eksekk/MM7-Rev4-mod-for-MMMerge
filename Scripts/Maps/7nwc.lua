@@ -23,7 +23,7 @@ evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
-	if evt.Cmp("QBits", 805) then         -- Return to NWC
+	if evt.Cmp("QBits", 1972) then         -- Return to NWC
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.SetDoorState{Id = 73, State = 1}
 		evt.SetDoorState{Id = 74, State = 1}
@@ -412,8 +412,8 @@ end
 Game.MapEvtLines:RemoveEvent(75)
 evt.map[75] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 797) then         -- NWC Switch1
-		evt.Set("QBits", 798)         -- NWC Switch2
+	if evt.Cmp("QBits", 1964) then         -- NWC Switch1
+		evt.Set("QBits", 1965)         -- NWC Switch2
 		evt.SetDoorState{Id = 74, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -423,8 +423,8 @@ end
 Game.MapEvtLines:RemoveEvent(76)
 evt.map[76] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 799) then         -- NWC Switch3
-		evt.Set("QBits", 800)         -- NWC Switch4
+	if evt.Cmp("QBits", 1966) then         -- NWC Switch3
+		evt.Set("QBits", 1967)         -- NWC Switch4
 		evt.SetDoorState{Id = 75, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -434,8 +434,8 @@ end
 Game.MapEvtLines:RemoveEvent(77)
 evt.map[77] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 800) then         -- NWC Switch4
-		evt.Set("QBits", 801)         -- NWC Switch5
+	if evt.Cmp("QBits", 1967) then         -- NWC Switch4
+		evt.Set("QBits", 1968)         -- NWC Switch5
 		evt.SetDoorState{Id = 76, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -445,8 +445,8 @@ end
 Game.MapEvtLines:RemoveEvent(78)
 evt.map[78] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 802) then         -- NWC Switch6
-		evt.Set("QBits", 803)         -- NWC Tele Bit
+	if evt.Cmp("QBits", 1969) then         -- NWC Switch6
+		evt.Set("QBits", 1970)         -- NWC Tele Bit
 		evt.SetDoorState{Id = 77, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -456,8 +456,8 @@ end
 Game.MapEvtLines:RemoveEvent(79)
 evt.map[79] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 798) then         -- NWC Switch2
-		evt.Set("QBits", 799)         -- NWC Switch3
+	if evt.Cmp("QBits", 1965) then         -- NWC Switch2
+		evt.Set("QBits", 1966)         -- NWC Switch3
 		evt.SetDoorState{Id = 78, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -467,8 +467,8 @@ end
 Game.MapEvtLines:RemoveEvent(80)
 evt.map[80] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 801) then         -- NWC Switch5
-		evt.Set("QBits", 802)         -- NWC Switch6
+	if evt.Cmp("QBits", 1968) then         -- NWC Switch5
+		evt.Set("QBits", 1969)         -- NWC Switch6
 		evt.SetDoorState{Id = 79, State = 1}
 	else
 		evt.StatusText(9)         -- "The lever won't budge"
@@ -478,18 +478,18 @@ end
 Game.MapEvtLines:RemoveEvent(81)
 evt.map[81] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 805) then         -- Return to NWC
+	if evt.Cmp("QBits", 1972) then         -- Return to NWC
 		return
 	end
-	if evt.Cmp("QBits", 803) then         -- NWC Tele Bit
+	if evt.Cmp("QBits", 1970) then         -- NWC Tele Bit
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.MoveToMap{X = 2752, Y = 13056, Z = -1376, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
 		return
 	end
-	if evt.Cmp("QBits", 797) then         -- NWC Switch1
+	if evt.Cmp("QBits", 1964) then         -- NWC Switch1
 		return
 	end
-	evt.Set("QBits", 797)         -- NWC Switch1
+	evt.Set("QBits", 1964)         -- NWC Switch1
 	evt.SetDoorState{Id = 71, State = 1}
 	evt.SetDoorState{Id = 72, State = 1}
 	if not evt.Cmp("QBits", 611) then         -- Chose the path of Light
@@ -664,9 +664,9 @@ end
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 805) then         -- Return to NWC
+	if evt.Cmp("QBits", 1972) then         -- Return to NWC
 		if evt.CheckMonstersKilled{CheckType = 1, Id = 56, Count = 0} then
-			evt.Set("QBits", 814)         -- Small House only Once
+			evt.Set("QBits", 1981)         -- Small House only Once
 			evt.MoveToMap{X = -15360, Y = 2956, Z = 129, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "mdt15.blv"}
 		else
 			evt.StatusText(12)         -- "You must kill all hostiles in order to leave the temple."

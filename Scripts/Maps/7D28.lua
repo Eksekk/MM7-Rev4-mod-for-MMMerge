@@ -28,14 +28,14 @@ table.copy(TXT, evt.str, true)
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 876) then         -- 0
+	if evt.Cmp("QBits", 2043) then         -- 0
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 1, Count = 10, X = -3290, Y = 2529, Z = -96, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 2, X = -3328, Y = 2529, Z = -96, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 6, X = -3290, Y = 2389, Z = -96, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
-	elseif evt.Cmp("QBits", 877) then         -- 0
+	elseif evt.Cmp("QBits", 2044) then         -- 0
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 2, Count = 10, X = -3290, Y = 2529, Z = -96, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 2, X = -3328, Y = 2529, Z = -96, -- ERROR: Not found
@@ -52,9 +52,9 @@ events.LoadMap = evt.map[1].last
 evt.hint[101] = evt.str[1]  -- ""
 Game.MapEvtLines:RemoveEvent(101)
 evt.map[101] = function()
-	if evt.Cmp("QBits", 876) then         -- 0
+	if evt.Cmp("QBits", 2043) then         -- 0
 		evt.MoveToMap{X = -13812, Y = 16974, Z = 6656, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "out12.odm"}
-	elseif evt.Cmp("QBits", 877) then         -- 0
+	elseif evt.Cmp("QBits", 2044) then         -- 0
 		evt.MoveToMap{X = -7747, Y = 15880, Z = 6977, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "out12.odm"}
 	else
 		evt.MoveToMap{X = 13839, Y = 16367, Z = 169, Direction = 1, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out01.Odm"}

@@ -72,7 +72,7 @@ evt.hint[2] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+	if evt.Cmp("QBits", 2049) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = true}         -- "Generic Monster Group for Dungeons"
 		evt.Set("DiseasedRed", 0)
 	end
@@ -112,8 +112,8 @@ evt.hint[10] = evt.str[15]  -- "Shirley's Astral Elixir"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 846) then         -- 1-time stone city
-		evt.Set("QBits", 846)         -- 1-time stone city
+	if not evt.Cmp("QBits", 2013) then         -- 1-time stone city
+		evt.Set("QBits", 2013)         -- 1-time stone city
 		evt.Set("PerceptionSkill", 70)
 	end
 end

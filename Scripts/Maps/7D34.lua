@@ -49,8 +49,8 @@ evt.hint[10] = evt.str[15]  -- "Professor Dumbledore’s Grog "
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 847) then         -- BDJ 1
-		evt.Set("QBits", 847)         -- BDJ 1
+	if not evt.Cmp("QBits", 2014) then         -- BDJ 1
+		evt.Set("QBits", 2014)         -- BDJ 1
 		evt.Set("LearningSkill", 70)
 	end
 end

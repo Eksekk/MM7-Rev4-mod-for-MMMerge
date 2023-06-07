@@ -81,7 +81,7 @@ evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.Add("QBits", 721)         -- Celeste - Town Portal
-	if evt.Cmp("QBits", 805) then         -- Return to NWC
+	if evt.Cmp("QBits", 1972) then         -- Return to NWC
 		goto _15
 	end
 	if not evt.Cmp("QBits", 611) then         -- Chose the path of Light
@@ -117,15 +117,15 @@ evt.hint[2] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(2)
 evt.map[2] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 837) then         -- Resurectra
+	if not evt.Cmp("QBits", 2004) then         -- Resurectra
 		if evt.Cmp("BlasterSkill", 1) then
-			evt.Set("QBits", 837)         -- Resurectra
+			evt.Set("QBits", 2004)         -- Resurectra
 			evt.SetNPCGreeting{NPC = 358, Greeting = 136}         --[[ "Resurectra" : "Ah, our Heroes have returned!  Excellent accomplishment!  Erathia will always be in your debt.
 
 However, we still have work to do in order to triumph in our endeavors.  After you have healed and rested, see Robert the Wise for you next assignment.  He can be found in the Hostel across the way from Sir Caneghem." ]]
+			evt.SpeakNPC(358)         -- "Resurectra"
 			evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
 			Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"
-			evt.SpeakNPC(358)         -- "Resurectra"
 		end
 	end
 end
@@ -446,6 +446,7 @@ end
 
 Game.MapEvtLines:RemoveEvent(504)
 evt.HouseDoor(504, 316)  -- "Temple of Light"
+
 
 --[[ MMMerge additions ]]--
 

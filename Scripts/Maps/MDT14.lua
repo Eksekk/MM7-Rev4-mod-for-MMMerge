@@ -46,8 +46,8 @@ evt.hint[10] = evt.str[15]  -- "Antonio’s Venetian Sauce"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 832) then         -- 1-TIME LEARNING
-		evt.Set("QBits", 832)         -- 1-TIME LEARNING
+	if not evt.Cmp("QBits", 1999) then         -- 1-TIME LEARNING
+		evt.Set("QBits", 1999)         -- 1-TIME LEARNING
 		evt.Add("MerchantSkill", 8)
 	end
 end

@@ -111,8 +111,8 @@ evt.hint[15] = evt.str[13]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(15)
 evt.map[15] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 844) then         -- 1-time baa
-		evt.Set("QBits", 844)         -- 1-time baa
+	if not evt.Cmp("QBits", 2011) then         -- 1-time baa
+		evt.Set("QBits", 2011)         -- 1-time baa
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
@@ -130,8 +130,8 @@ evt.hint[16] = evt.str[15]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(16)
 evt.map[16] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 845) then         -- 1-time baa
-		evt.Set("QBits", 845)         -- 1-time baa
+	if not evt.Cmp("QBits", 2012) then         -- 1-time baa
+		evt.Set("QBits", 2012)         -- 1-time baa
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
@@ -152,10 +152,10 @@ evt.hint[17] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(17)
 evt.map[17] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 844) then         -- 1-time baa
+	if evt.Cmp("QBits", 2011) then         -- 1-time baa
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch07"}
 	end
-	if evt.Cmp("QBits", 845) then         -- 1-time baa
+	if evt.Cmp("QBits", 2012) then         -- 1-time baa
 		evt.SetSprite{SpriteId = 15, Visible = 1, Name = "torch07"}
 	end
 end

@@ -32,7 +32,7 @@ evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 873) then         -- mESSENGER ONE-TIME
+	if evt.Cmp("QBits", 2040) then         -- mESSENGER ONE-TIME
 		evt.Set("MapVar4", 0)
 		evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
 		evt.SetMonGroupBit{NPCGroup = 55, Bit = const.MonsterBits.Hostile, On = false}         -- "Guards"
@@ -460,7 +460,7 @@ end
 evt.house[416] = 217  -- "Throne Room"
 Game.MapEvtLines:RemoveEvent(416)
 evt.map[416] = function()
-	if evt.Cmp("QBits", 873) then         -- mESSENGER ONE-TIME
+	if evt.Cmp("QBits", 2040) then         -- mESSENGER ONE-TIME
 		evt.EnterHouse(217)         -- "Throne Room"
 	else
 		evt.FaceAnimation{Player = "Current", Animation = 18}

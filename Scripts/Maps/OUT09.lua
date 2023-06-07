@@ -88,7 +88,7 @@ Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
 	evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 886) then         -- End Game
+	if evt.Cmp("QBits", 2053) then         -- End Game
 		evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
 	end
 end
@@ -374,7 +374,7 @@ end
 evt.map[6] = TownPortalControls.DimDoorEvent
 
 function events.AfterLoadMap()
-	Party.QBits[944] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[824] = true	-- DDMapBuff
 
 	local function DimDoor()
 		if 1500 > math.sqrt((-5121-Party.X)^2 + (98-Party.Y)^2) then

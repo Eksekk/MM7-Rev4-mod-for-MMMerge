@@ -354,6 +354,7 @@ evt.map[401] = function()  -- function events.LoadMap()
 	if not evt.Cmp("QBits", 649) then         -- Artifact Messenger only happens once
 		if evt.Cmp("Counter3", 1344) then
 			if not evt.Cmp("Counter3", 2016) then
+				evt.SpeakNPC(412)         -- "Messenger"
 				evt.Add("Inventory", 1502)         -- "Message from Erathia"
 				evt.Set("QBits", 649)         -- Artifact Messenger only happens once
 				evt.Set("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
@@ -365,7 +366,6 @@ evt.map[401] = function()  -- function events.LoadMap()
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 30, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 9, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
 				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
-				evt.SpeakNPC(412)         -- "Messenger"
 			end
 		end
 	end
@@ -698,6 +698,8 @@ evt.map[503] = function()
 	evt.StatusText(21)         -- "This Door is Locked"
 end
 
+
+
 --[[ MMMerge additions ]]--
 
 -- The Tularean Forest
@@ -705,7 +707,7 @@ local MF = Merge.Functions
 
 function events.AfterLoadMap()
 	Party.QBits[719] = true	-- TP Buff Tularean Forest
-	Party.QBits[939] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[819] = true	-- DDMapBuff
 end
 
 -- Town Portal fountain

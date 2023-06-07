@@ -32,8 +32,8 @@ evt.map[1] = function()  -- function events.LoadMap()
 		evt.SetDoorState{Id = 25, State = 0}
 		evt.SetDoorState{Id = 26, State = 0}
 	end
-	evt.SetMonGroupBit{NPCGroup = 56, -- ERROR: Const not found
-	Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
+	evt.SetMonGroupBit{NPCGroup = 5, -- ERROR: Const not found
+Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
 end
 
 events.LoadMap = evt.map[1].last
@@ -207,3 +207,4 @@ evt.map[502] = function()
 		evt.MoveToMap{X = 28, Y = -1374, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D13.blv"}
 	end
 end
+

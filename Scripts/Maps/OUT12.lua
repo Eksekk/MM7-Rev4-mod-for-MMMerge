@@ -333,14 +333,14 @@ end
 evt.hint[503] = evt.str[32]  -- "Enter the Cave"
 Game.MapEvtLines:RemoveEvent(503)
 evt.map[503] = function()
-	evt.Set("QBits", 876)         -- 0
+	evt.Set("QBits", 2043)         -- 0
 	evt.MoveToMap{X = 752, Y = 2229, Z = 1, Direction = 1012, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D28.Blv"}
 end
 
 evt.hint[504] = evt.str[32]  -- "Enter the Cave"
 Game.MapEvtLines:RemoveEvent(504)
 evt.map[504] = function()
-	evt.Set("QBits", 877)         -- 0
+	evt.Set("QBits", 2044)         -- 0
 	evt.MoveToMap{X = 752, Y = 2229, Z = 1, Direction = 1012, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "7D28.Blv"}
 end
 
@@ -381,5 +381,5 @@ end
 
 function events.AfterLoadMap()
 	coroutine.resume(coroutine.create(event1))
-	Party.QBits[947] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[827] = true	-- DDMapBuff
 end

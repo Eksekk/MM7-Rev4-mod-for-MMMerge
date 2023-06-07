@@ -60,9 +60,9 @@ evt.hint[10] = evt.str[12]  -- "Strange Torch"
 Game.MapEvtLines:RemoveEvent(10)
 evt.map[10] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 840) then         -- Titan Sprite C
+	if not evt.Cmp("QBits", 2007) then         -- Titan Sprite C
 		evt.Add("AirResistance", 10)
-		evt.Set("QBits", 840)         -- Titan Sprite C
+		evt.Set("QBits", 2007)         -- Titan Sprite C
 		evt.SetSprite{SpriteId = 12, Visible = 1, Name = "torch01"}
 	end
 end
@@ -72,9 +72,9 @@ evt.hint[11] = evt.str[11]  -- "Strange Torch"
 Game.MapEvtLines:RemoveEvent(11)
 evt.map[11] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 839) then         -- Titan Sprite B
+	if not evt.Cmp("QBits", 2006) then         -- Titan Sprite B
 		evt.Add("AirResistance", 10)
-		evt.Set("QBits", 839)         -- Titan Sprite B
+		evt.Set("QBits", 2006)         -- Titan Sprite B
 		evt.SetSprite{SpriteId = 11, Visible = 1, Name = "torch01"}
 	end
 end
@@ -84,11 +84,11 @@ evt.hint[12] = evt.str[13]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(12)
 evt.map[12] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 841) then         -- Titan Sprite D
+	if not evt.Cmp("QBits", 2008) then         -- Titan Sprite D
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
-		evt.Set("QBits", 841)         -- Titan Sprite D
+		evt.Set("QBits", 2008)         -- Titan Sprite D
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch01"}
 	end
 end
@@ -103,11 +103,11 @@ evt.hint[13] = evt.str[13]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(13)
 evt.map[13] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 841) then         -- Titan Sprite D
+	if not evt.Cmp("QBits", 2008) then         -- Titan Sprite D
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
-		evt.Set("QBits", 841)         -- Titan Sprite D
+		evt.Set("QBits", 2008)         -- Titan Sprite D
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch01"}
 	end
 end
@@ -122,11 +122,11 @@ evt.hint[14] = evt.str[13]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(14)
 evt.map[14] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 841) then         -- Titan Sprite D
+	if not evt.Cmp("QBits", 2008) then         -- Titan Sprite D
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
-		evt.Set("QBits", 841)         -- Titan Sprite D
+		evt.Set("QBits", 2008)         -- Titan Sprite D
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch01"}
 	end
 end
@@ -141,11 +141,11 @@ evt.hint[15] = evt.str[13]  -- "Cleric's Totem"
 Game.MapEvtLines:RemoveEvent(15)
 evt.map[15] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 841) then         -- Titan Sprite D
+	if not evt.Cmp("QBits", 2008) then         -- Titan Sprite D
 		evt.Add("MindResistance", 20)
 		evt.Add("BodyResistance", 20)
 		evt.Add("LightResistance", 20)
-		evt.Set("QBits", 841)         -- Titan Sprite D
+		evt.Set("QBits", 2008)         -- Titan Sprite D
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch01"}
 	end
 end
@@ -160,13 +160,13 @@ evt.hint[16] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(16)
 evt.map[16] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 839) then         -- Titan Sprite B
+	if evt.Cmp("QBits", 2006) then         -- Titan Sprite B
 		evt.SetSprite{SpriteId = 11, Visible = 1, Name = "torch01"}
 	end
-	if evt.Cmp("QBits", 840) then         -- Titan Sprite C
+	if evt.Cmp("QBits", 2007) then         -- Titan Sprite C
 		evt.SetSprite{SpriteId = 12, Visible = 1, Name = "torch01"}
 	end
-	if evt.Cmp("QBits", 841) then         -- Titan Sprite D
+	if evt.Cmp("QBits", 2008) then         -- Titan Sprite D
 		evt.SetSprite{SpriteId = 13, Visible = 1, Name = "torch01"}
 	end
 end

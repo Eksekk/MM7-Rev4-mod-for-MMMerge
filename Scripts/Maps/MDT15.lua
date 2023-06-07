@@ -27,42 +27,42 @@ table.copy(TXT, evt.str, true)
 
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if not evt.Cmp("QBits", 815) then         -- Reward
-		if not evt.Cmp("QBits", 814) then         -- Small House only Once
+	if not evt.Cmp("QBits", 1982) then         -- Reward
+		if not evt.Cmp("QBits", 1981) then         -- Small House only Once
 			if evt.Cmp("QBits", 611) then         -- Chose the path of Light
-				evt.Set("QBits", 814)         -- Small House only Once
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
+				evt.Set("QBits", 1981)         -- Small House only Once
 				evt.SpeakNPC(762)         -- "Maximus"
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
 			elseif evt.Cmp("QBits", 612) then         -- Chose the path of Dark
-				evt.Set("QBits", 814)         -- Small House only Once
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
-				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-				NPCGroup = 1587, unk = 0}
+				evt.Set("QBits", 1981)         -- Small House only Once
 				evt.SpeakNPC(724)         -- "Sir Carneghem"
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
+				evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
+NPCGroup = 1587, unk = 0}
 			end
 		end
 	end
@@ -89,7 +89,7 @@ end
 evt.hint[176] = evt.str[3]  -- "Chest"
 Game.MapEvtLines:RemoveEvent(176)
 evt.map[176] = function()
-	if evt.Cmp("QBits", 815) then         -- Reward
+	if evt.Cmp("QBits", 1982) then         -- Reward
 		evt.OpenChest(1)
 	else
 		evt.StatusText(15)         -- "The chest is locked"
@@ -207,7 +207,7 @@ end
 evt.hint[195] = evt.str[1]  -- "Door"
 Game.MapEvtLines:RemoveEvent(195)
 evt.map[195] = function()
-	if evt.Cmp("QBits", 815) then         -- Reward
+	if evt.Cmp("QBits", 1982) then         -- Reward
 		evt.OpenChest(0)
 	else
 		evt.StatusText(15)         -- "The chest is locked"
@@ -221,11 +221,12 @@ end
 
 Game.MapEvtLines:RemoveEvent(502)
 evt.map[502] = function()
-	if not evt.Cmp("QBits", 879) then         -- 0
+	if not evt.Cmp("QBits", 2046) then         -- 0
 		evt.MoveNPC{NPC = 424, HouseId = 1071}         -- "Maximus" -> "Hostel"
 		Game.NPC[424].Events[0] = 0         -- "Maximus"
 		Game.NPC[424].Events[1] = 878         -- "Maximus" : "Congratulations!"
-		evt.Set("QBits", 879)         -- 0
+		evt.Set("QBits", 2046)         -- 0
 	end
 	evt.MoveToMap{X = -7745, Y = -6673, Z = 65, Direction = 2047, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 8, Name = "7D26.blv"}
 end
+

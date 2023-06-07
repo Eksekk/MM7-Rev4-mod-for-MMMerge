@@ -109,7 +109,7 @@ events.LoadMap = evt.map[26].last
 evt.hint[37] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 806) then         -- Return to EI
+	if evt.Cmp("QBits", 1973) then         -- Return to EI
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 3244, Y = 9265, Z = 900, -- ERROR: Not found
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 2, X = 4406, Y = 8851, Z = 900, -- ERROR: Not found
@@ -148,8 +148,8 @@ NPCGroup = 563, unk = 0}
 NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 3, X = 12205, Y = 4919, Z = 170, -- ERROR: Not found
 NPCGroup = 2098, unk = 0}
-		evt.Subtract("QBits", 806)         -- Return to EI
 		evt.SpeakNPC(356)         -- "Sally"
+		evt.Subtract("QBits", 1973)         -- Return to EI
 	end
 end
 
@@ -212,8 +212,8 @@ evt.hint[110] = evt.str[4]  -- "Drink from the Well"
 Game.MapEvtLines:RemoveEvent(110)
 evt.map[110] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 828) then         -- 1-time EI Well
-		evt.Set("QBits", 828)         -- 1-time EI Well
+	if not evt.Cmp("QBits", 1995) then         -- 1-time EI Well
+		evt.Set("QBits", 1995)         -- 1-time EI Well
 		evt.Add("BaseEndurance", 32)
 		evt.Add("SkillPoints", 5)
 	elseif evt.Cmp("FireResBonus", 50) then
@@ -531,7 +531,7 @@ evt.map[573] = function()
 		evt.Set("FireSkill", 8)
 	end
 	evt.ForPlayer("All")
-	evt.Subtract("QBits", 784)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
+	evt.Subtract("QBits", 1951)         -- "Find the Lost Scroll of Wonka and return it to Blayze on Emerald Island."
 	evt.Subtract("Inventory", 1540)         -- "Lost Scroll of Wonka"
 	evt.Add("Awards", 129)         -- "Recovered the Lost Scroll of  Wonka"
 	Game.NPC[478].Events[1] = 0         -- "Blayze "
@@ -569,31 +569,14 @@ evt.map[575] = function()
 	end
 end
 
-	-- starting QBits
-	evt.map[100] = function()  -- function events.LoadMap()
-		local add = true
-		for qb = 513, 519 do
-			if Party.QBits[qb] then
-				add = false
-				break
-			end
-		end
-		if add then
-			for qb = 513, 518 do
-				evt.Add("QBits", qb) -- evt to show flash on PC faces
-			end
-			evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
-		end
-	end
 
-	events.LoadMap = evt.map[100].last
 
 --[[ MMMerge additions ]]--
 
 -- Emerald Island
 
 function events.AfterLoadMap()
-	Party.QBits[936] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[816] = true	-- DDMapBuff
 end
 
 -- Remove arcomage from Emerald Island's taverns

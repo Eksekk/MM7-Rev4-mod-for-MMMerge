@@ -428,7 +428,8 @@ Dark      %d]]
 	
 	-- damage
 	mem.autohook(0x4259C4, function(d)
-		d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
+		-- TODO: broken in the vault (crash)
+		--d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
 		--debug.Message(d.eax)
 	end)
 	

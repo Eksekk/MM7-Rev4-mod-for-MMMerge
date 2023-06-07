@@ -18,21 +18,8 @@ function rev4m.mapScripts()
 	{
 		-- different table because I failed and edited a processed script
 		-- The Gauntlet
-		-- fix evt.SpeakNPC
 		["d08.lua"] = 
 		{
-			[[evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"
-			evt.Set("QBits", 863)         -- Three Use
-			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
-			evt.Subtract("QBits", 868)         -- 0]],
-			[[evt.Set("QBits", 863)         -- Three Use
-			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			Game.NPC[357].Events[1] = 1172         -- "Lord Godwinson" : "Now that's what I call 'fun'!"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
-			evt.Subtract("QBits", 868)         -- 0
-			evt.SpeakNPC(355)         -- "BDJ the Coding Wizard"]],
 			
 			[[evt.Subtract("Inventory", 1134)         -- "Lloyd's Beacon"
 		if evt.Cmp("Inventory", 1134) then         -- "Lloyd's Beacon"
@@ -62,7 +49,7 @@ function rev4m.mapScripts()
 	NPCGroup = 563, unk = 0}
 			evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4606, Y = -1643, Z = 833, -- ERROR: Not found
 	NPCGroup = 563, unk = 0}
-			evt.Subtract("QBits", 878)         -- 0
+			evt.Subtract("QBits", 2045)         -- 0
 		end]],
 		[[evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Hostile, On = true}         -- "Group walkers in the Tularean forest"
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 8, X = -668, Y = 6965, Z = -384, -- ERROR: Not found
@@ -79,7 +66,7 @@ function rev4m.mapScripts()
 	NPCGroup = 563, unk = 0}
 		evt.SummonMonsters{TypeIndexInMapStats = 1, Level = 3, Count = 5, X = -4606, Y = -1643, Z = 833, -- ERROR: Not found
 	NPCGroup = 563, unk = 0}
-		evt.Subtract("QBits", 878)         -- 0]]
+		evt.Subtract("QBits", 2045)         -- 0]]
 		},
 		-- Lincoln
 		-- delegate exit event to Merge script
@@ -106,16 +93,6 @@ function rev4m.mapScripts()
 		end
 		evt.StatusText(20)         -- "You must all be wearing your wetsuits to exit the ship"
 	end]], ""},
-		-- Celeste
-		-- fix evt.SpeakNPC
-		["d25.lua"] =
-		{[[evt.SpeakNPC(358)         -- "Resurectra"
-				evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
-				Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"]],
-		[[evt.MoveNPC{NPC = 422, HouseId = 1065}         -- "Robert the Wise" -> "Hostel"
-				Game.NPC[422].Events[0] = 947         -- "Robert the Wise" : "Control Cube"
-				evt.SpeakNPC(358)         -- "Resurectra"]]
-		},
 		-- Colony Zod
 		-- remove buggy script which is replaced in Merge anyways
 		["d27.lua"] = {[[evt.map[376] = function()
@@ -130,16 +107,7 @@ function rev4m.mapScripts()
 		end
 	end
 	]], ""},
-		-- Emerald Island
-		["out01.lua"] =
-		{
-		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(356)         -- "Sally"
-			evt.Subtract("QBits", 806)         -- Return to EI]],
-			[[evt.Subtract("QBits", 806)         -- Return to EI
-			evt.SpeakNPC(356)         -- "Sally"]]},
 		-- Harmondale
-		-- Harmondale teleportal hub
 		["out02.lua"] =
 		{
 		-- remove original castle harmondale enter event, as it's replaced in Merge
@@ -162,113 +130,6 @@ function rev4m.mapScripts()
 			evt.Set("QBits", 644)         -- Butler only shows up once (area 2)
 		end
 	end]], "",
-		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(437)         -- "Messenger"
-					evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."]],
-		[[evt.Add("QBits", 693)         -- "Go to the Mercenary Guild in Tatalia and talk to Niles Stantley within two weeks."
-					evt.SpeakNPC(437)         -- "Messenger"]],},
-
-		-- Erathia
-		["out03.lua"] = {
-		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(366)         -- "Messenger"
-				evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)]],
-		[[evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)
-				evt.SpeakNPC(366)         -- "Messenger"]],
-
-		[[evt.SpeakNPC(412)         -- "Messenger"
-				Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
-				evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
-				evt.Set("QBits", 873)         -- mESSENGER ONE-TIME]],
-		[[Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
-				evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
-				evt.Set("QBits", 873)         -- mESSENGER ONE-TIME
-				evt.SpeakNPC(412)         -- "Messenger"]]},
-		-- Tularean Forest
-		-- fix evt.SpeakNPC
-		["out04.lua"] = 
-		{[[evt.SpeakNPC(412)         -- "Messenger"
-					evt.Add("Inventory", 1502)         -- "Message from Erathia"
-					evt.Set("QBits", 649)         -- Artifact Messenger only happens once
-					evt.Set("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-					evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = false}
-					evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = false}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 3, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 5, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 30, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 9, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}]],
-		[[evt.Add("Inventory", 1502)         -- "Message from Erathia"
-					evt.Set("QBits", 649)         -- Artifact Messenger only happens once
-					evt.Set("QBits", 591)         -- "Retrieve Gryphonheart's Trumpet from the battle in the Tularean Forest and return it to whichever side you choose."
-					evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Untouchable, On = false}
-					evt.SetFacetBit{Id = 1, Bit = const.FacetBits.Invisible, On = false}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 3, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 5, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 30, X = -15752, Y = 21272, Z = 3273, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 9, X = -14000, Y = 18576, Z = 4250, NPCGroup = 51, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -16016, Y = 19280, Z = 3284, NPCGroup = 51, unk = 0}
-					evt.SpeakNPC(412)         -- "Messenger"]]},
-		-- Deyja
-		-- fix evt.SpeakNPC
-		["out05.lua"] = 
-		{[[evt.SpeakNPC(461)         -- "Lunius Shador"
-				evt.Set("MapVar29", 0)]],
-		[[evt.Set("MapVar29", 0)
-				evt.SpeakNPC(461)         -- "Lunius Shador"]],
-		[[evt.SpeakNPC(374)         -- "Sir Vilx of Stone City"
-			evt.Set("QBits", 890)         -- Vilx
-			evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"]],
-		[[evt.Set("QBits", 890)         -- Vilx
-			evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
-			evt.SpeakNPC(374)         -- "Sir Vilx of Stone City"]],
-		[[evt.SpeakNPC(373)         -- "Duke Bimbasto"
-			evt.Set("QBits", 889)         -- Bimbasto
-			evt.Set("NPCs", 373)         -- "Duke Bimbasto"]],
-		[[evt.Set("QBits", 889)         -- Bimbasto
-			evt.Set("NPCs", 373)         -- "Duke Bimbasto"
-			evt.SpeakNPC(373)         -- "Duke Bimbasto"]]
-		},
-		-- Bracada Desert
-		["out06.lua"] =
-		{
-			-- fix evt.SpeakNPC
-			[[evt.SpeakNPC(366)         -- "Messenger"
-				evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)]],
-			[[evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-				evt.Set("QBits", 883)         -- Dwarven Messenger Once
-				evt.Subtract("QBits", 880)         -- Barrow Normal
-				evt.Set("Counter2", 0)
-				evt.SpeakNPC(366)         -- "Messenger"]]
-		},
-		-- Barrow Downs
-		["out11.lua"] = {
-		-- fix evt.SpeakNPC
-		[[evt.SpeakNPC(398)         -- "Hothfarr IX"
-			evt.Set("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-			evt.Subtract("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.ForPlayer("All")
-			evt.Set("Counter2", 0)]],
-		[[evt.Set("QBits", 882)         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
-			evt.Subtract("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.ForPlayer("All")
-			evt.Set("Counter2", 0)
-			evt.SpeakNPC(398)         -- "Hothfarr IX"]],
-		[[evt.SpeakNPC(369)         -- "Doom Bearer"
-		evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!"]],
-		[[evt.Set("Awards", 124)         -- "Inducted into the Erathian Hall of Shame!
-		evt.SpeakNPC(369)         -- "Doom Bearer]]
 		},
 
 		-- The Strange Temple
@@ -278,98 +139,12 @@ function rev4m.mapScripts()
 		},
 		
 		-- The Vault
-		-- fix MMExtension bugs where script stops executing after evt.SpeakNPC
 		["mdt12.lua"] = 
-		{[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
-			evt.SetNPCGreeting{NPC = 360, Greeting = 151}         -- "Zedd True Shot" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 376, Greeting = 151}         -- "Pascal the Mad Mage" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 373, Greeting = 151}         -- "Duke Bimbasto" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 374, Greeting = 151}         -- "Sir Vilx of Stone City" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 359, Greeting = 151}         -- "Baron BunGleau" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 357, Greeting = 151}         -- "Lord Godwinson" : "What a glorious day for victory, my friends!."
-			evt.Set("NPCs", 360)         -- "Zedd True Shot"
-			evt.Set("NPCs", 357)         -- "Lord Godwinson"
-			evt.Set("NPCs", 359)         -- "Baron BunGleau"
-			evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
-			evt.Set("NPCs", 373)         -- "Duke Bimbasto"
-			evt.Set("NPCs", 376)         -- "Pascal the Mad Mage"
-			evt.Set("QBits", 891)         -- Exit 1-time Cave 1 Vault]]
-				,
-				[[evt.SetNPCGreeting{NPC = 360, Greeting = 151}         -- "Zedd True Shot" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 376, Greeting = 151}         -- "Pascal the Mad Mage" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 373, Greeting = 151}         -- "Duke Bimbasto" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 374, Greeting = 151}         -- "Sir Vilx of Stone City" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 359, Greeting = 151}         -- "Baron BunGleau" : "What a glorious day for victory, my friends!."
-			evt.SetNPCGreeting{NPC = 357, Greeting = 151}         -- "Lord Godwinson" : "What a glorious day for victory, my friends!."
-			evt.Set("NPCs", 360)         -- "Zedd True Shot"
-			evt.Set("NPCs", 357)         -- "Lord Godwinson"
-			evt.Set("NPCs", 359)         -- "Baron BunGleau"
-			evt.Set("NPCs", 374)         -- "Sir Vilx of Stone City"
-			evt.Set("NPCs", 373)         -- "Duke Bimbasto"
-			evt.Set("NPCs", 376)         -- "Pascal the Mad Mage"
-			evt.Set("QBits", 891)         -- Exit 1-time Cave 1 Vault
-			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]
-				,
-				[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
-			evt.Set("QBits", 892)         -- "Pass the Test of Friendship"
-			evt.Subtract("NPCs", 360)         -- "Zedd True Shot"
-			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			evt.Subtract("NPCs", 359)         -- "Baron BunGleau"
-			evt.Subtract("NPCs", 374)         -- "Sir Vilx of Stone City"
-			evt.Subtract("NPCs", 373)         -- "Duke Bimbasto"
-			evt.Subtract("NPCs", 376)         -- "Pascal the Mad Mage"
-			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for M1"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
-			evt.SetMonGroupBit{NPCGroup = 59, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for M3"
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
-			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Hostile, On = false}         -- "Southern Village Group in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Hostile, On = false}         -- "Main village in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for M1"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Invisible, On = false}         -- "Group fo M2"
-			evt.SetMonGroupBit{NPCGroup = 59, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for M3"
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
-			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = false}         -- "Southern Village Group in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Invisible, On = false}         -- "Main village in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			Game.NPC[360].Events[1] = 790         -- "Zedd True Shot" : "Let's Go!"
-			Game.NPC[373].Events[1] = 876         -- "Duke Bimbasto" : "Let's Go!"
-			Game.NPC[374].Events[1] = 877         -- "Sir Vilx of Stone City" : "Let's Go!"
-			Game.NPC[376].Events[1] = 884         -- "Pascal the Mad Mage" : "Let's Go!"
-			Game.NPC[359].Events[1] = 885         -- "Baron BunGleau" : "Let's Go!"
-			Game.NPC[357].Events[1] = 886         -- "Lord Godwinson" : "Let's Go!"
-			Game.NPC[1279].Events[0] = 1174         -- "The Coding Wizard" : "A word of Caution!"
-			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}]],
-			[[evt.Set("QBits", 892)         -- "Pass the Test of Friendship"
-			evt.Subtract("NPCs", 360)         -- "Zedd True Shot"
-			evt.Subtract("NPCs", 357)         -- "Lord Godwinson"
-			evt.Subtract("NPCs", 359)         -- "Baron BunGleau"
-			evt.Subtract("NPCs", 374)         -- "Sir Vilx of Stone City"
-			evt.Subtract("NPCs", 373)         -- "Duke Bimbasto"
-			evt.Subtract("NPCs", 376)         -- "Pascal the Mad Mage"
-			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for M1"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Hostile, On = false}         -- "Group fo M2"
-			evt.SetMonGroupBit{NPCGroup = 59, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for M3"
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Hostile, On = false}         -- "Group for Malwick's Assc."
-			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Hostile, On = false}         -- "Southern Village Group in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Hostile, On = false}         -- "Main village in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 57, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for M1"
-			evt.SetMonGroupBit{NPCGroup = 58, Bit = const.MonsterBits.Invisible, On = false}         -- "Group fo M2"
-			evt.SetMonGroupBit{NPCGroup = 59, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for M3"
-			evt.SetMonGroupBit{NPCGroup = 60, Bit = const.MonsterBits.Invisible, On = false}         -- "Group for Malwick's Assc."
-			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Invisible, On = false}         -- "Southern Village Group in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Invisible, On = false}         -- "Main village in Harmondy"
-			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
-			Game.NPC[360].Events[1] = 790         -- "Zedd True Shot" : "Let's Go!"
-			Game.NPC[373].Events[1] = 876         -- "Duke Bimbasto" : "Let's Go!"
-			Game.NPC[374].Events[1] = 877         -- "Sir Vilx of Stone City" : "Let's Go!"
-			Game.NPC[376].Events[1] = 884         -- "Pascal the Mad Mage" : "Let's Go!"
-			Game.NPC[359].Events[1] = 885         -- "Baron BunGleau" : "Let's Go!"
-			Game.NPC[357].Events[1] = 886         -- "Lord Godwinson" : "Let's Go!"
-			Game.NPC[1279].Events[0] = 1174         -- "The Coding Wizard" : "A word of Caution!"
-			evt.MoveToMap{X = -54, Y = 3470, Z = 0, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
-			evt.SpeakNPC(1279)         -- "The Coding Wizard"]],
+		{
+			-- KEEPING AS A COMMENT FOR APOSTROPH INFO
 			-- need ansi encoding (windows 1252 for vscode) to correctly represent these funny apostrophes
 			-- "detect encoding" in settings needs to be on
+			--[=[
 			[[evt.SpeakNPC(1279)         -- "The Coding Wizard"
 			evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
@@ -378,71 +153,9 @@ function rev4m.mapScripts()
 			[[evt.Set("Awards", 128)         -- "Hall of Shame Award ‘Unfaithful Friends’"
 			evt.Subtract("Inventory", 1477)         -- "Control Cube"
 			evt.Set("Eradicated", 0)
-			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]},
-			-- The Small House
-			-- fix evt.SpeakNPC
-			["mdt15.lua"] =
-			{
-			[[evt.SpeakNPC(762)         -- "Maximus"
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}]],
-			[[evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 3, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SpeakNPC(762)         -- "Maximus"]],
-			[[evt.SpeakNPC(724)         -- "Sir Carneghem"
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}]],
-			[[evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = 3, Y = 3042, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 718, Y = 2956, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = -646, Y = 2889, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = 0, Y = 3500, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 3, Count = 10, X = -31, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 2, Count = 10, X = 597, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-					evt.SummonMonsters{TypeIndexInMapStats = 2, Level = 1, Count = 10, X = -624, Y = 1900, Z = 0, -- ERROR: Not found
-	NPCGroup = 1587, unk = 0}
-						evt.SpeakNPC(724)         -- "Sir Carneghem"]]}
+			evt.SpeakNPC(1279)         -- "The Coding Wizard"]]
+			]=]
+		},
 	}
 
 	local patchesMerge =
@@ -488,37 +201,6 @@ end]], ""},
 
 	local additions =
 	{
-		["out01.lua"] =
-		{
-		-- Emerald Island
-		-- add QBits and show movie on arrival
-	-- old patch, kept just in case
-	--[=[
-	evt.map[100] = function()  -- function events.LoadMap()
-		if not evt.Cmp("QBits", 519) then         -- Finished Scavenger Hunt
-			if not evt.Cmp("QBits", 518) then         -- "Return a wealthy hat to the Judge on Emerald Island."
-				if not evt.Cmp("QBits", 517) then         -- "Return a musical instrument to the Judge on Emerald Island."
-					if not evt.Cmp("QBits", 516) then         -- "Return a floor tile to the Judge on Emerald Island."
-						if not evt.Cmp("QBits", 515) then         -- "Return a longbow to the Judge on Emerald Island."
-							if not evt.Cmp("QBits", 514) then         -- "Return a seashell to the Judge on Emerald Island."
-								if not evt.Cmp("QBits", 513) then         -- "Return a red potion to the Judge on Emerald Island."
-									evt.Add("QBits", 518)         -- "Return a wealthy hat to the Judge on Emerald Island."
-									evt.Add("QBits", 517)         -- "Return a musical instrument to the Judge on Emerald Island."
-									evt.Add("QBits", 516)         -- "Return a floor tile to the Judge on Emerald Island."
-									evt.Add("QBits", 515)         -- "Return a longbow to the Judge on Emerald Island."
-									evt.Add("QBits", 514)         -- "Return a seashell to the Judge on Emerald Island."
-									evt.Add("QBits", 513)         -- "Return a red potion to the Judge on Emerald Island."
-									evt.ShowMovie{DoubleSize = 1, Name = "\"intro post\""}
-								end
-							end
-						end
-					end
-				end
-			end
-		end
-	end
-
-	events.LoadMap = evt.map[100].last]=]},
 		-- Coding Fortress
 		-- make BDJ invisible by default
 		-- make BDJ hostile on save game reload/lloyd back to dungeon
@@ -622,22 +304,9 @@ end]], ""},
 				end
 			end
 		end
-		
-		-- convert DDMapBuffs
-		--[[
-		local done
-		content, done = content:gsub("Party%.QBits%[(%d+)%] = true	%-%- DDMapBuff", function(buff)
-			buff = tonumber(buff)
-			return ("Party.QBits[%d] = true	-- DDMapBuff, changed for rev4 for merge"):format(getDDMapBuff(buff))
-		end)
-		if done ~= 1 and name:find("out") ~= nil then
-			print("Outdoor map " .. name .. ", no DDMapBuff replacement made - check this")
-		end
-		]]
 		content = content:replace("Game.MapEvtLines.Count = 0  -- Deactivate all standard events", "-- REMOVED BY REV4 FOR MERGE\n-- Game.MapEvtLines.Count = 0  -- Deactivate all standard events")
 		io.save(rev4m.path.processedRev4Scripts .. getFileName(path.name(i)), content)
 	end
-	--rev4m.ddMapBuffs() -- process maps not modified in rev4
 end
 
 rev4m = rev4m or {}
@@ -645,13 +314,6 @@ function rev4m.globalScripts()
 	local content = io.load(rev4m.path.rev4GlobalLua)
 
 	local replacements = table.copy(rev4m.scriptReplacements)
-
-	--[[ USEFUL STUFF
-	shows event id when event is triggered on the map
-	function events.EvtMap(evtId, seq)
-		Message(tostring(evtId))
-	end
-	--]]
 
 	for regex, fun in pairs(replacements) do
 		content = content:gsub(regex, fun)
@@ -684,23 +346,19 @@ function rev4m.globalScripts()
 			evt.Set("FireSkill", 72)
 		end]] ] = [[giveFreeSkill(const.Skills.Fire, 8, const.Expert, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 end)]],
 	-- don't need sparkles, as later there's evt.Add("Experience")
-	[ [[if not evt.Cmp("QBits", 807) then         -- Water
-			if not evt.Cmp("QBits", 808) then         -- Fire
-				if not evt.Cmp("QBits", 809) then         -- Air
-					if not evt.Cmp("QBits", 810) then         -- Earth
+	[ [[if not evt.Cmp("QBits", 1974) then         -- Water
+			if not evt.Cmp("QBits", 1975) then         -- Fire
+				if not evt.Cmp("QBits", 1976) then         -- Air
+					if not evt.Cmp("QBits", 1977) then         -- Earth
 						return
 					end
 				end
 			end
-		end]] ] = [[if not evt.Cmp("QBits", 807) or not evt.Cmp("QBits", 808) or not evt.Cmp("QBits", 809) or not evt.Cmp("QBits", 810) then
+		end]] ] = [[if not evt.Cmp("QBits", 1974) or not evt.Cmp("QBits", 1975) or not evt.Cmp("QBits", 1976) or not evt.Cmp("QBits", 1977) then
 			return
 		end]],
 		[ [[evt.Set("DarkSkill", 136)]] ] = [[-- evt.Set("DarkSkill", 136) -- given in "global/ZRev4 for Merge.lua" file]],
 		[ [[evt.Set("LightSkill", 136)]] ] = [[-- evt.Set("LightSkill", 136)]],
-		-- [ [[evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]] ] =
-		-- [[evt.SetNPCGreeting{NPC = 388, Greeting = 370} -- Halfgild Wynac
-		-- evt.Subtract("QBits", 811)         -- "Clear out the Strange Temple,  retrieve the ancient weapons, and return to Maximus in The Pit"]],
-		--
 		
 		[ [[evt.MoveNPC{NPC = 60, -- ERROR: Not found
 	HouseId = 999}         -- "Drathen Keldin"]] ] = "",

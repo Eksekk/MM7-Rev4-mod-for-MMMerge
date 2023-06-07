@@ -162,7 +162,7 @@ evt.map[32] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
 	if not evt.CheckSeason(1) then
 		evt.MoveNPC{NPC = 1281, HouseId = 0}         -- "EAO the Lector"
-	elseif evt.Cmp("QBits", 866) then         -- 0
+	elseif evt.Cmp("QBits", 2033) then         -- 0
 		evt.MoveNPC{NPC = 1281, HouseId = 940}         -- "EAO the Lector" -> "Lector's Retreat"
 		Game.NPC[1281].Events[0] = 852         -- "EAO the Lector" : "Can you tell us about The Gauntlet?"
 	end
@@ -174,14 +174,14 @@ evt.hint[33] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(33)
 evt.map[33] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 883) then         -- Dwarven Messenger Once
+	if not evt.Cmp("QBits", 2050) then         -- Dwarven Messenger Once
 		if evt.Cmp("Awards", 120) then         -- "Completed Coding Wizard Quest"
 			evt.SetNPCGreeting{NPC = 366, Greeting = 142}         -- "Messenger" : ""
-			evt.Set("QBits", 881)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
-			evt.Set("QBits", 883)         -- Dwarven Messenger Once
-			evt.Subtract("QBits", 880)         -- Barrow Normal
-			evt.Set("Counter2", 0)
 			evt.SpeakNPC(366)         -- "Messenger"
+			evt.Set("QBits", 2048)         -- "Raise the siege of Stone City by killing all creatures in the Barrow Downs within one week and then proceed to King Hothffar for your reward."
+			evt.Set("QBits", 2050)         -- Dwarven Messenger Once
+			evt.Subtract("QBits", 2047)         -- Barrow Normal
+			evt.Set("Counter2", 0)
 		end
 	end
 end
@@ -191,7 +191,7 @@ events.LoadMap = evt.map[33].last
 evt.hint[34] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(34)
 evt.map[34] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+	if evt.Cmp("QBits", 2049) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
 		Game.NPC[371].Events[1] = 1173         -- "Myrta Bumblebee" : "Buy Speed Boost Potent"
 		evt.SetMonGroupBit{NPCGroup = 66, Bit = const.MonsterBits.Invisible, On = false}         -- "Group walkers in the Tularean forest"
 	else
@@ -229,8 +229,8 @@ evt.hint[37] = evt.str[16]  -- "Brianna's Brandy"
 Game.MapEvtLines:RemoveEvent(37)
 evt.map[37] = function()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 843) then         -- 1-time Erathia
-		evt.Set("QBits", 843)         -- 1-time Erathia
+	if not evt.Cmp("QBits", 2010) then         -- 1-time Erathia
+		evt.Set("QBits", 2010)         -- 1-time Erathia
 		evt.Set("IdentifyItemSkill", 70)
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
@@ -240,7 +240,7 @@ evt.hint[38] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(38)
 evt.map[38] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if evt.Cmp("QBits", 843) then         -- 1-time Erathia
+	if evt.Cmp("QBits", 2010) then         -- 1-time Erathia
 		evt.SetSprite{SpriteId = 16, Visible = 1, Name = "sp57"}
 	end
 end
@@ -251,13 +251,13 @@ evt.hint[39] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(39)
 evt.map[39] = function()  -- function events.LoadMap()
 	evt.ForPlayer("All")
-	if not evt.Cmp("QBits", 873) then         -- mESSENGER ONE-TIME
+	if not evt.Cmp("QBits", 2040) then         -- mESSENGER ONE-TIME
 		if evt.Cmp("QBits", 719) then         -- Erathia - Town Portal
 			evt.SetNPCGreeting{NPC = 412, Greeting = 133}         -- "Messenger" : "Welcome to Emerald Island.  I will be your guide during your stay here.  From time to time I will appear to tell you about something you're about to see to help you understand your New World.  If you tire of my messages (I won't be offended if you do), just click on my portrait to talk to me then click on 'Tour Off' to silence me.  "
+			evt.SpeakNPC(412)         -- "Messenger"
 			Game.NPC[408].Events[0] = 946         -- "Queen Catherine" : "The Kennel"
 			evt.SetNPCGreeting{NPC = 408, Greeting = 134}         -- "Queen Catherine" : "Have you returned with the Journal of Experiments?"
-			evt.Set("QBits", 873)         -- mESSENGER ONE-TIME
-			evt.SpeakNPC(412)         -- "Messenger"
+			evt.Set("QBits", 2040)         -- mESSENGER ONE-TIME
 		end
 	end
 end
@@ -973,6 +973,7 @@ end
 -- ERROR: Invalid command size: 510:4 (Subtract)
 -- ERROR: Invalid command size: 510:5 (Add)
 
+
 --[[ MMMerge additions ]]--
 
 -- Erathia
@@ -992,7 +993,7 @@ local CCTimers = {}
 
 function events.AfterLoadMap()
 	Party.QBits[720] = true	-- TP Buff Erathia
-	Party.QBits[938] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[818] = true	-- DDMapBuff
 	if not (mapvars.GotAdvertisment or Party.QBits[519]) then
 
 		CCTimers.Catch = function()

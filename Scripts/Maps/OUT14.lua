@@ -82,7 +82,7 @@ table.copy(TXT, evt.str, true)
 evt.hint[1] = evt.str[100]  -- ""
 Game.MapEvtLines:RemoveEvent(1)
 evt.map[1] = function()  -- function events.LoadMap()
-	if evt.Cmp("QBits", 882) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
+	if evt.Cmp("QBits", 2049) then         -- "Obtain Plague Elixir from Lucid Apple in Avlee and deliver it to King Hothffar in Stone City within two days."
 		Game.NPC[547].Events[1] = 1202         -- "Lucid Apple" : "We need your help!"
 	end
 end
@@ -674,7 +674,7 @@ end
 -- Avlee
 
 function events.AfterLoadMap()
-	Party.QBits[949] = true	-- DDMapBuff, changed for rev4 for merge
+	Party.QBits[829] = true	-- DDMapBuff
 end
 
 function events.WalkToMap(t)
@@ -684,7 +684,7 @@ function events.WalkToMap(t)
 		for i,v in Party do
 			if v.ItemArmor == 0 or v.Items[v.ItemArmor].Number ~= 1406 then
 				if not evt[i].Cmp{"Inventory", 1406} then
-					if Party.QBits[642] or Party.QBits[643] or Party.QBits[980] then
+					if Party.QBits[642] or Party.QBits[643] or Party.QBits[783] then
 						Game.ShowStatusText("You must all be wearing your wetsuits!")
 					end
 					return

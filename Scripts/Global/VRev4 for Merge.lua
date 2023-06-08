@@ -154,6 +154,7 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			t.TransId = val
 		end
 	end
+
 	local function replaceEnterEvent(num, t)
 		Game.MapEvtLines:RemoveEvent(num)
 		evt.map[num].clear()
@@ -161,6 +162,7 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 			evt.MoveToMap(t)
 		end
 	end
+
 	local oldPlacemonWromthrax, oldPlacemonMegaDragon
 	function events.AfterLoadMap()
 		if Map.Name == "7out04.odm" then -- Tularean Forest
@@ -237,100 +239,6 @@ if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
 	-- check maps in rev4 and merge: timer with evt.MoveToMap and
 	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
 	-- as debug message (write to file?)
-end
-
-if not Rev4ForMergeMapstatsBoosted then
-	Rev4ForMergeMapstatsBoosted = true
-	function events.BeforeLoadMap()
-		-- boost mapstats spawns depending on difficulty
-		for i, v in Game.MapStats do
-			local indexes = ({"Mon1Low", "Mon1Hi", "Mon2Low", "Mon2Hi", "Mon3Low", "Mon3Hi"})
-			for j = 1, 5, 2 do
-				local idx = indexes[j]
-				local idx2 = indexes[j + 1]
-				if --[[v[idx] > 0 and ]]v[idx2] > 0 and v[idx] ~= v[idx2] then -- I once adopted a rule that when both spawn values are equal, no boost happens
-				-- idk why, but I'll preserve it to not break anything
-					v[idx] = v[idx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5)) -- 2 = Antagarich
-					v[idx2] = v[idx2] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5))
-				end
-			end
-		end
-		Game.MapStats[70].Tres = 4 -- Barrow Downs
-		events.Remove("BeforeLoadMap", 1) -- should only run once, general won't work because I need TownPortalControls.MapOfContinent
-	end
-end
-
-if not isEasy() then
-	if Merge.ModSettings.Rev4ForMergeNerfDamage == 1 then
-		function events.CalcDamageToMonster(t)
-			-- TODO: WhoHitMonster, if monster then don't reduce damage
-			-- TODO: <del>anything can hit oozes for 1 now</del> (same probably applies with medusas and spells)
-			local m = 1
-			-- handle monsters immune to t.DamageKind
-			if t.Monster.Resistances[t.DamageKind] and t.Monster.Resistances[t.DamageKind] == const.MonsterImmune then
-				m = 0
-			end
-			t.Result = math.max(m, isMedium() and math.round(t.Result * 0.85) or math.round(t.Result * 0.70))
-		end
-	end
-	
-	-- reduce gold gains from monsters and gold piles
-	if Merge.ModSettings.Rev4ForMergeNerfGoldGains == 1 then
-		function events.BeforeGotGold(t)
-			t.Amount = isMedium() and math.round(t.Amount * 0.75) or math.round(t.Amount * 0.50)
-		end
-	end
-end
-
---[[ double the gold gains from monsters, they're not enough IMO, now killing monsters will be worth it
--- (larger values used because previous difficulty restriction reduces gold from monsters too, and I'm not skilled enough to make it work only with gold piles)
-if Merge.ModSettings.Rev4ForMergeBoostCorpseGold == 1 then
-	function events.PickCorpse(t)
-		t.Monster.TreasureDiceCount = math.round(t.Monster.TreasureDiceCount * (isEasy() and 2 or (isMedium() and (8 / 3) or 4)))
-	end
-end]]
-
-function refundSkillpoints(skill, freeSkillLevel)
-	for _, pl in Party do
-		local s, m = SplitSkill(pl.Skills[skill])
-		local level = math.min(s, freeSkillLevel)
-		if level >= 2 then
-			local refund = level * (level + 1) / 2 - 1
-			pl.SkillPoints = pl.SkillPoints + refund
-		end
-	end
-end
-
-local reqSkill = {1, 4, 7, 10}
-function giveFreeSkill(skill, level, mastery, check)
-	if Merge.ModSettings.Rev4ForMergeNerfSkillBoosts == 1 then
-		if isMedium() then
-			level = math.max(reqSkill[mastery], level - 1)
-			--level = math.max(1, level - 1)
-		elseif isHard() then
-			level = math.max(reqSkill[mastery], level - 3)
-			--level = math.max(1, level - 3)
-		end
-	end
-	local benefit = false
-	if Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1 then
-		refundSkillpoints(skill, level)
-	end
-	for i, pl in Party do
-		if check and type(check) == "function" and not check(pl) then
-			goto continue
-		end
-		local s, m = SplitSkill(pl.Skills[skill])
-		if level > s or mastery > m or (s >= 2 and Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1) then
-			benefit = true
-			evt[i].Add("Experience", 0) -- make sparkle sound and animation
-			pl.Skills[skill] = JoinSkill(math.max(level, s), math.max(m, mastery))
-		end
-		::continue::
-	end
-	if not benefit then
-		Game.ShowStatusText("You received the bonus but didn't benefit from it")
-	end
 end
 
 evt.global[878] = function()

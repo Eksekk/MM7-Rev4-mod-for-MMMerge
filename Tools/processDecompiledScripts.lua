@@ -178,8 +178,6 @@ evt.map[503] = function()
 	end
 
 end]], ""},
-		--["out14.lua"] = {"Party.QBits[783]", "Party.QBits[980]"},
-		--["hive.lua"] = {"Party.QBits[784]", "Party.QBits[981]"},
 		-- Barrow Downs
 		-- remove conflicting Stone City enter event
 		["out11.lua"] = {
@@ -278,7 +276,6 @@ end]], ""},
 		
 		if patchesAfter[name] ~= nil then
 			for i = 1, #patchesAfter[name], 2 do
-				--content, done = content:replace(patchesAfter[name][i], patchesAfter[name][i + 1])
 				content, done = content:replaceIndent(patchesAfter[name][i], patchesAfter[name][i + 1])
 				if done == 0 then
 					patchFailure("patchesAfter", patchesAfter[name][i])

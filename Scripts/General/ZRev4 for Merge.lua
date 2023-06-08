@@ -1,21 +1,18 @@
 local MS = Merge.ModSettings
 local IMMUNE_MONSTER_RESISTANCE = 200
 
-if MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
-	-- Temple in a bottle
-	evt.UseItemEffects[1452] = function(Target, Item, PlayerId)
-		ExitCurrentScreen(false, true)
-		evt.MoveToMap{0,0,0,0,0,0,0,0,"7nwcorig.blv"}
-		return 0
-	end
+-- Temple in a bottle
+evt.UseItemEffects[1452] = function(Target, Item, PlayerId)
+	ExitCurrentScreen(false, true)
+	evt.MoveToMap{0,0,0,0,0,0,0,0,"7nwcorig.blv"}
+	return 0
 end
 
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * BDJ quest
-* Fill in mana/health regen items for MS.Rev4ForMergeManaHealthRegenStacking
-* Make balance changes like of the Gods, of the Doom, leather more resistances optional
+* Make balance changes like of the Gods, of the Doom, leather more resistances optional - remaining texts
 
 ---- important ----
 * Dispel immunity enchantment (note: more item classes have spcitems than stditems)
@@ -274,6 +271,18 @@ end)
 
 local monsterRightclickDataBuf = 0x5DF0E0
 
+local function moveLeft(amount)
+	local buf = mem.string(monsterRightclickDataBuf)
+	local pos = buf:find(string.char(9))
+	if not pos then return end
+	-- next 3 bytes describe shift to the right (in ascii), so we need to decrease it
+	local replacement = tostring(tonumber(buf:sub(pos + 1, pos + 3)) - amount)
+	if replacement:len() < 3 then
+		replacement = string.rep("0", 3 - replacement:len()) .. replacement
+	end
+	mem.copy(monsterRightclickDataBuf + pos, replacement)
+end
+
 -- show spell skill in monster right click info
 
 local showSpellSkill = function(skillOffset, lenOffset)
@@ -335,6 +344,11 @@ mem.autohook(0x41E70C, function(d)
 	local str = "Bonus\f00000\t" .. shift .. "?"
 	
 	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+end)
+
+local chanceSumDataStart
+mem.autohook2(0x4547A8, function(d)
+	chanceSumDataStart = d.esi
 end)
 
 -- dark/light resistances!
@@ -815,11 +829,6 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 	mem.asmpatch(0x48D501, "call absolute " .. nerfDrainsp)
 end
 
-local GMDesc = "Skill * 4 added to Elemental (Fire/Earth/Air/Water) Resistances."
-function events.GameInitialized2()
-	mem.u4[0x5E4A54] = mem.topointer(GMDesc)
-end
-
 -- buff single-element resistance spells (10 fixed + 2/3/4/5 per skill point)
 
 local resistanceSpells = {3, 14, 25, 36, 58, 69}
@@ -861,29 +870,12 @@ function getItemBonusSum(pl, bonus, customItems)
 	return val
 end
 
-local function moveLeft(amount)
-	local buf = mem.string(monsterRightclickDataBuf)
-	local pos = buf:find(string.char(9))
-	if not pos then return end
-	-- next 3 bytes describe shift to the right (in ascii), so we need to decrease it
-	local replacement = tostring(tonumber(buf:sub(pos + 1, pos + 3)) - amount)
-	if replacement:len() < 3 then
-		replacement = string.rep("0", 3 - replacement:len()) .. replacement
-	end
-	mem.copy(monsterRightclickDataBuf + pos, replacement)
-end
-
 if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	-- for i = 0, 137 do evt.GiveItem{Strength = 6, Type = const.ItemType.Ring} end
 	--[[local stdItemsDataStart
 	mem.autohook2(0x4546EC, function(d)
 		stdItemsDataStart = d.eax
 	end)]]
-
-	local chanceSumDataStart
-	mem.autohook2(0x4547A8, function(d)
-		chanceSumDataStart = d.esi
-	end)
 	
 	-- const.Damage
 	local damageTypeToPenetrationBonus = {[const.Damage.Fire] = 0, [const.Damage.Air] = 1, [const.Damage.Water] = 2, [const.Damage.Earth] = 3,
@@ -1159,7 +1151,7 @@ function giveFreeSkill(skill, level, mastery, check)
 			--level = math.max(1, level - 2)
 		end
 	end
-	
+
 	if Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1 then
 		refundSkillpoints(skill, level)
 	end
@@ -1178,5 +1170,47 @@ function giveFreeSkill(skill, level, mastery, check)
 	end
 	if not benefit then
 		Game.ShowStatusText("You received the bonus but didn't benefit from it")
+	end
+end
+
+if MS.Rev4ForMergeMiscBalanceChanges == 1 then
+	function events.CalcStatBonusBySkills(t)
+		-- make GM leather actually give decent resistances
+		if t.Stat >= const.Stats.FireResistance and t.Stat <= const.Stats.EarthResistance then
+			local s, m = SplitSkill(t.Player.Skills[const.Skills.Leather])
+			if m == const.GM and t.Player.ItemArmor ~= 0 then
+				for item, slot in t.Player:EnumActiveItems(false) do
+					if slot == const.ItemSlot.Armor and item:T().Skill == const.Skills.Leather then
+						t.Result = t.Result + s * 3
+						break
+					end
+				end
+			end
+		end
+	end
+
+	local GMDesc = "Skill * 4 added to Elemental (Fire/Earth/Air/Water) Resistances."
+	function events.GameInitialized2()
+		mem.u4[0x5E4A54] = mem.topointer(GMDesc)
+	end
+
+	function events.CalcStatBonusByItems(t)
+		-- boost "of Doom" to not be garbage
+		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
+			for item, slot in t.Player:EnumActiveItems(false) do
+				if item.Bonus2 == 42 then
+					t.Result = t.Result + 4
+				end
+			end
+		end
+		
+		-- make "of the Gods" actually deserve D rating and 3000 gold price (it still sucks for spellcasters though)
+		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.Luck then
+			for item, slot in t.Player:EnumActiveItems(false) do
+				if item.Bonus2 == 2 then
+					t.Result = t.Result + 15
+				end
+			end
+		end
 	end
 end

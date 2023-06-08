@@ -319,7 +319,7 @@ function events.MonsterKilled(mon, index, handler)
 		ss.tryRemoveSpawnedMonster(mon)
 	end
 end
-if MS.Rev4ForMergeActivateExtraQuests == 1 and MS.Rev4ForMergeDuplicateModdedDungeons == 1 then
+if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	-- chests, ground items?
 	-- randomized monster spells, monster bonuses
 	function events.BeforeLoadMap()
@@ -679,7 +679,9 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
-			CanShow = function() return vars.Quests[questID] ~= "Done" and not NPCFollowers.NPCInGroup(NpcToRescue) end,
+			CanShow = function()
+				return vars.Quests[questId] ~= "Done" and not NPCFollowers.NPCInGroup(NpcToRescue) and not QData.guardsKilled
+			end,
 			"The Rescue",
 			"Thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
 		}
@@ -702,7 +704,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			CanShow = function()
 				return QData.guardsKilled
 					and not NPCFollowers.NPCInGroup(NpcToRescue)
-					and vars.Quests[questID] ~= "Done"
+					and vars.Quests[questId] ~= "Done"
 			end,
 			Ungive = function()
 				NPCFollowers.Add(NpcToRescue)
@@ -715,7 +717,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
-			CanShow = function() return vars.Quests[questID] == "Done" end,
+			CanShow = function() return vars.Quests[questId] == "Done" end,
 			"The Rescue",
 			"Thanks again for rescuing me! You are true heroes and have done your people a great favor."
 		}
@@ -766,11 +768,11 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				if not evt.All.Cmp("Inventory", cellKey) then
 					Game.ShowStatusText("It's locked.")
 					return
-				elseif NPCFollowers.NPCInGroup(NpcToRescue) or vars.Quests[questID] == "Done" then
+				elseif NPCFollowers.NPCInGroup(NpcToRescue) or vars.Quests[questId] == "Done" then
 					Game.ShowStatusText("It's empty.")
 					return
 				end
-				evt.SpeakNPC{Id = NpcToRescue}
+				evt.SpeakNPC{NPC = NpcToRescue}
 			end
 			if not cmpSetMapvarBool("questSetup") then
 				-- spawn item near castle navan door
@@ -819,7 +821,16 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 				mapvars.aliveGuards = guards
 				evt.SetMonGroupBit(255, const.MonsterBits.Hostile, true)
 
-				-- wyverns todo
+				-- wyverns guarding switch
+				local function wyvern(mon)
+					monUtils.hp(mon, 3)
+					monUtils.spells(mon, const.Spells.PoisonSpray, 40, JoinSkill(7, const.Master))
+					monUtils.resists(mon, 15)
+					monUtils.rewards(mon, 10, -3, 5)
+				end
+
+				pseudoSpawnpoint{monster = 121, x = -6542, y = 10041, z = 648, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
+				pseudoSpawnpoint{monster = 121, x = -8033, y = 10290, z = 638, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
 			end
 			-- fixme: when quests are disabled, killing guards won't count
 			function events.MonsterKilled(mon, index)

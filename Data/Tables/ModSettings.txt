@@ -50,13 +50,11 @@ SpellsHasteSingleWeakNonFail	1
 SpellsHourHasteSingleWeakNonFail	1
 Rev4ForMergeActivateExtraQuests	1
 UseOriginalGenieLamps	1
-Rev4ForMergeDuplicateModdedDungeons	1
 Rev4ForMergeDifficulty	2
 Rev4ForMergeRefundSkillpoints	1
 Rev4ForMergeNerfMeditationSPRegen	1
 Rev4ForMergeNerfDamage	1
 Rev4ForMergeNerfGoldGains	1
-Rev4ForMergeBoostCorpseGold	1
 Rev4ForMergeNerfSkillBoosts	1
 Rev4ForMergeRemoveFreeEndgameItems	1
 Rev4ForMergeExtraMonsterSpawns	1
@@ -66,3 +64,4 @@ Rev4ForMergeAddResistancePenetration	1
 Rev4ForMergeRemakeIdentifyMonster	1
 Rev4ForMergeAddDarkLightResistances	1
 Rev4ForMergeAddBosses	1
+Rev4ForMergeMiscBalanceChanges	1

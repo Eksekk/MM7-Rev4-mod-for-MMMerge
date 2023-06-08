@@ -138,108 +138,106 @@ function TownPortalControls.MapOfContinent(Map)
 	end
 end
 
-if Merge.ModSettings.Rev4ForMergeDuplicateModdedDungeons == 1 then
-	local correctTexts =
-	{
-		["7d08orig.blv"] = 394,
-		["7d12orig.blv"] = 395,
-		["mdt09orig.blv"] = 8,
-		--["mdt12orig.blv"] = ,
-		--["7nwcorig.blv"] = 
-		
-	}
-	function events.GetTransitionText(t)
-		local val = correctTexts[t.EnterMap:lower()]
-		if val then
-			t.TransId = val
-		end
-	end
-
-	local function replaceEnterEvent(num, t)
-		Game.MapEvtLines:RemoveEvent(num)
-		evt.map[num].clear()
-		evt.map[num] = function()
-			evt.MoveToMap(t)
-		end
-	end
-
-	local oldPlacemonWromthrax, oldPlacemonMegaDragon
-	function events.AfterLoadMap()
-		if Map.Name == "7out04.odm" then -- Tularean Forest
-			-- Tularean Caves
-			replaceEnterEvent(502, {X = 2071, Y = 448, Z = 1, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 394, Icon = 3, Name = "7d08orig.blv"})
-			-- Clanker's Lab
-			replaceEnterEvent(503, {X = 0, Y = -709, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 395, Icon = 9, Name = "7d12orig.blv"})
-		elseif Map.Name == "7d32.blv" then -- Castle Navan
-			-- exit to Tularean Caves
-			replaceEnterEvent(502, {X = -3257, Y = -12544, Z = 833, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7d08orig.blv"})
-		elseif Map.Name == "7d08orig.blv" then -- Duplicated Tularean Caves
-			
-		elseif Map.Name == "7out13.odm" then -- Tatalia
-			replaceEnterEvent(505, {X = -2568, Y = -143, Z = 97, Direction = 257, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt09orig.blv"})
-		elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
-			-- always make Wromthrax visible
-			Game.MapEvtLines:RemoveEvent(1)
-			evt.map[1].clear()
-			evt.map[1] = function()
-				evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
-			end
-			oldPlacemonWromthrax = Game.PlaceMonTxt[117]
-			Game.PlaceMonTxt[117] = "Wromthrax"
-			
-			-- shut up Quixote
-			Game.MapEvtLines:RemoveEvent(376)
-			evt.map[376].clear()
-		elseif Map.Name == "out12.odm" then -- The Land of the Giants
-			-- Dragon Caves (Eofol) entrances
-			replaceEnterEvent(503, {X = -54, Y = 3470, Z = 1, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
-			replaceEnterEvent(504, {X = 19341, Y = 21323, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
-		elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-			oldPlacemonMegaDragon = Game.PlaceMonTxt[118]
-			Game.PlaceMonTxt[118] = "Mega-Dragon"
-		elseif Map.Name == "7d28.blv" then -- The Dragon's Lair (on Emerald Island)
-			-- remove monster spawning
-			Game.MapEvtLines:RemoveEvent(1)
-			evt.map[1].clear()
-			-- always exit to Emerald Island
-			replaceEnterEvent(101, {X = 13839, Y = 16367, Z = 169, Direction = 1, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out01.Odm"})
-		elseif Map.Name == "7out15.odm" and not mapvars.placedTempleInABottle then -- Shoals
-			-- place Temple in a Bottle in chest
-			for i, item in Map.Chests[0].Items do
-				if item.Number == 0 then
-					item.Number = 1452
-					mapvars.placedTempleInABottle = true
-					break
-				end
-			end
-		end
-		function events.LeaveMap()
-			if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
-				Game.PlaceMonTxt[117] = oldPlacemonWromthrax
-			elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-				Game.PlaceMonTxt[118] = oldPlacemonMegaDragon
-			end
-		end
-	end
-	-- tularean forest tularean caves and clanker's lab entrances, tularean caves remove loren event
-	-- castle navan tularean caves exit
-	-- tatalia wromthrax's cave, entering, remove quixote event and add removing invisibility from orig, change wromthrax's name?
-	-- dragon's caves in eofol: two entrances in odm, remove dragon spawning from EI morcarack's cave, turn off exit to eofol, don't add qbits
-	-- create temple in a bottle in shoals when using duplicated dungeons
-
-	-- search for map file names in newest merge's scripts directory
-	-- add new mapstats entries handling to TownPortalControls.MapOfContinent from TownPortalSwitches, call original if not new entry
-
-	-- fort riverstride delete plans item
-
-	-- difficulty monster damage, skill barrels skill level, selling prices, deleting strong items (randomize items in removed chest's contents), new spawns, max npcs hired at the same time
-	-- DARK AND LIGHT RESISTANCE! sources which I can probably program into the game: altars in Tularean Forest and Deyja (one light, other dark), cauldrons, day of protection, elemental totems, cleric totems, harmondale prison phasing cauldron
-	-- GM shield reduce damage by 25% (elemental mod)
+local correctTexts =
+{
+	["7d08orig.blv"] = 394,
+	["7d12orig.blv"] = 395,
+	["mdt09orig.blv"] = 8,
+	--["mdt12orig.blv"] = ,
+	--["7nwcorig.blv"] = 
 	
-	-- check maps in rev4 and merge: timer with evt.MoveToMap and
-	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
-	-- as debug message (write to file?)
+}
+function events.GetTransitionText(t)
+	local val = correctTexts[t.EnterMap:lower()]
+	if val then
+		t.TransId = val
+	end
 end
+
+local function replaceEnterEvent(num, t)
+	Game.MapEvtLines:RemoveEvent(num)
+	evt.map[num].clear()
+	evt.map[num] = function()
+		evt.MoveToMap(t)
+	end
+end
+
+local oldPlacemonWromthrax, oldPlacemonMegaDragon
+function events.AfterLoadMap()
+	if Map.Name == "7out04.odm" then -- Tularean Forest
+		-- Tularean Caves
+		replaceEnterEvent(502, {X = 2071, Y = 448, Z = 1, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 394, Icon = 3, Name = "7d08orig.blv"})
+		-- Clanker's Lab
+		replaceEnterEvent(503, {X = 0, Y = -709, Z = 1, Direction = 512, LookAngle = 0, SpeedZ = 0, HouseId = 395, Icon = 9, Name = "7d12orig.blv"})
+	elseif Map.Name == "7d32.blv" then -- Castle Navan
+		-- exit to Tularean Caves
+		replaceEnterEvent(502, {X = -3257, Y = -12544, Z = 833, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7d08orig.blv"})
+	elseif Map.Name == "7d08orig.blv" then -- Duplicated Tularean Caves
+		
+	elseif Map.Name == "7out13.odm" then -- Tatalia
+		replaceEnterEvent(505, {X = -2568, Y = -143, Z = 97, Direction = 257, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt09orig.blv"})
+	elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
+		-- always make Wromthrax visible
+		Game.MapEvtLines:RemoveEvent(1)
+		evt.map[1].clear()
+		evt.map[1] = function()
+			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
+		end
+		oldPlacemonWromthrax = Game.PlaceMonTxt[117]
+		Game.PlaceMonTxt[117] = "Wromthrax"
+		
+		-- shut up Quixote
+		Game.MapEvtLines:RemoveEvent(376)
+		evt.map[376].clear()
+	elseif Map.Name == "out12.odm" then -- The Land of the Giants
+		-- Dragon Caves (Eofol) entrances
+		replaceEnterEvent(503, {X = -54, Y = 3470, Z = 1, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
+		replaceEnterEvent(504, {X = 19341, Y = 21323, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
+	elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
+		oldPlacemonMegaDragon = Game.PlaceMonTxt[118]
+		Game.PlaceMonTxt[118] = "Mega-Dragon"
+	elseif Map.Name == "7d28.blv" then -- The Dragon's Lair (on Emerald Island)
+		-- remove monster spawning
+		Game.MapEvtLines:RemoveEvent(1)
+		evt.map[1].clear()
+		-- always exit to Emerald Island
+		replaceEnterEvent(101, {X = 13839, Y = 16367, Z = 169, Direction = 1, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out01.Odm"})
+	elseif Map.Name == "7out15.odm" and not mapvars.placedTempleInABottle then -- Shoals
+		-- place Temple in a Bottle in chest
+		for i, item in Map.Chests[0].Items do
+			if item.Number == 0 then
+				item.Number = 1452
+				mapvars.placedTempleInABottle = true
+				break
+			end
+		end
+	end
+	function events.LeaveMap()
+		if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
+			Game.PlaceMonTxt[117] = oldPlacemonWromthrax
+		elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
+			Game.PlaceMonTxt[118] = oldPlacemonMegaDragon
+		end
+	end
+end
+-- tularean forest tularean caves and clanker's lab entrances, tularean caves remove loren event
+-- castle navan tularean caves exit
+-- tatalia wromthrax's cave, entering, remove quixote event and add removing invisibility from orig, change wromthrax's name?
+-- dragon's caves in eofol: two entrances in odm, remove dragon spawning from EI morcarack's cave, turn off exit to eofol, don't add qbits
+-- create temple in a bottle in shoals when using duplicated dungeons
+
+-- search for map file names in newest merge's scripts directory
+-- add new mapstats entries handling to TownPortalControls.MapOfContinent from TownPortalSwitches, call original if not new entry
+
+-- fort riverstride delete plans item
+
+-- difficulty monster damage, skill barrels skill level, selling prices, deleting strong items (randomize items in removed chest's contents), new spawns, max npcs hired at the same time
+-- DARK AND LIGHT RESISTANCE! sources which I can probably program into the game: altars in Tularean Forest and Deyja (one light, other dark), cauldrons, day of protection, elemental totems, cleric totems, harmondale prison phasing cauldron
+-- GM shield reduce damage by 25% (elemental mod)
+
+-- check maps in rev4 and merge: timer with evt.MoveToMap and
+-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
+-- as debug message (write to file?)
 
 evt.global[878] = function()
 	giveFreeSkill(const.Skills.Dark, 8, const.Master, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 or pl.Skills[const.Skills.Body] ~= 0 end)
@@ -432,7 +430,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			for i, v in ipairs(makeHostile) do
 				evt.SetMonGroupBit{NPCGroup = v, Bit = const.MonsterBits.Hostile, On = true}
 			end
-			events.Remove(1)
+			events.Remove("AfterLoadMap", 1)
 		end
 		local hp, rewards, spells = monUtils.hp, monUtils.rewards, monUtils.spells
 		
@@ -614,71 +612,73 @@ end
 
 -- remove most free endgame items
 
---[=[ pretty-print chest contents in editor in Rev4
-for k, v in pairs(Editor.State.Chests) do
-	if #v.Items > 0 then
-		print("Chest " .. k - 1)
-		for i, v in pairs(v.Items) do
-			local d
-			if type(v) == "number" and v >= 0 then
-				v2 = getItem(v)
-				d = v2 .. "\t" .. Game.ItemsTxt[v].Name
-			elseif v.Number and v.Number >= 0 then
-				v = table.copy(v)
-				local n = v.Number
-				v.Number = getItem(v.Number)
-				d = Game.ItemsTxt[n].Name .. "\n" .. dump(v)
-			else
-				d = dump(v)
+-- pretty-print chest contents in editor in Rev4
+local function rev4ChestDump()
+	for k, v in pairs(Editor.State.Chests) do
+		if #v.Items > 0 then
+			print("Chest " .. k - 1)
+			for i, v in pairs(v.Items) do
+				local d
+				if type(v) == "number" and v >= 0 then
+					v2 = getItem(v)
+					d = v2 .. "\t" .. Game.ItemsTxt[v].Name
+				elseif v.Number and v.Number >= 0 then
+					v = table.copy(v)
+					local n = v.Number
+					v.Number = getItem(v.Number)
+					d = Game.ItemsTxt[n].Name .. "\n" .. dump(v)
+				else
+					d = dump(v)
+				end
+				print(i, d)
 			end
-			print(i, d)
 		end
 	end
 end
 
 -- in editor in Merge
-for k, v in pairs(Editor.State.Chests) do
-	if #v.Items > 0 then
-		print("Chest " .. k - 1)
-		for i, v in pairs(v.Items) do
-			local d
-			if type(v) == "number" and v >= 0 then
-				d = v .. "\t" .. Game.ItemsTxt[v].Name
-			elseif v.Number and v.Number >= 0 then
-				d = Game.ItemsTxt[v.Number].Name .. "\n" .. dump(v)
-			else
-				d = dump(v)
+local function mergeChestDump()
+	for k, v in pairs(Editor.State.Chests) do
+		if #v.Items > 0 then
+			print("Chest " .. k - 1)
+			for i, v in pairs(v.Items) do
+				local d
+				if type(v) == "number" and v >= 0 then
+					d = v .. "\t" .. Game.ItemsTxt[v].Name
+				elseif v.Number and v.Number >= 0 then
+					d = Game.ItemsTxt[v.Number].Name .. "\n" .. dump(v)
+				else
+					d = dump(v)
+				end
+				print(i, d)
 			end
-			print(i, d)
 		end
 	end
 end
 
 -- copy-paste from rev4 to merge
-for k, v in pairs(Editor.State.Chests) do
-	if #v.Items > 0 then
-		print("Chest " .. k - 1)
-		for i, v in pairs(v.Items) do
-			local d
-			if type(v) == "number" and v >= 0 then
-				v2 = getItem(v)
-				d = v2 .. "\t" .. Game.ItemsTxt[v].Name
-			elseif v.Number and v.Number >= 0 then
-				v = table.copy(v)
-				local n = v.Number
-				v.Number = getItem(v.Number)
-				d = --[[Game.ItemsTxt[n].Name .. "\n" .. ]]dump(v)
-			else
-				d = dump(v)
+local function chestsRev4ToMerge()
+	for k, v in pairs(Editor.State.Chests) do
+		if #v.Items > 0 then
+			print("Chest " .. k - 1)
+			for i, v in pairs(v.Items) do
+				local d
+				if type(v) == "number" and v >= 0 then
+					v2 = getItem(v)
+					d = v2 .. "\t" .. Game.ItemsTxt[v].Name
+				elseif v.Number and v.Number >= 0 then
+					v = table.copy(v)
+					local n = v.Number
+					v.Number = getItem(v.Number)
+					d = --[[Game.ItemsTxt[n].Name .. "\n" .. ]]dump(v)
+				else
+					d = dump(v)
+				end
+				print(d)
 			end
-			print(d)
 		end
 	end
 end
-]=]
---[=[
-
-]=]
 
 if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 then
 	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
@@ -703,19 +703,6 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 		end
 		if not mapvars.Rev4ForMergeEndgameItemsRemoved then
 			if Map.Name == "7out01.odm" then -- Emerald Island
-			--[[0	1448	Horseshoe
-				1	856	Supreme Flail
-				2	1001	Gold
-				3	807	Duelist Blade
-				4	1012	Poppysnaps
-				5	845	Longbow
-				6	1012	Poppysnaps
-				7	1007	Phirna Root
-				8	872	Royal Leather
-				9	1448	Horseshoe
-				10	848	Griffin Bow
-				11	253	Divine Cure
-				12	1448	Horseshoe--]]
 				removeOrReplace({{id = 3, level = 2, itemType = const.ItemType.Sword}, {id = 10, level = 2, itemType = const.ItemType.Bow}})
 				if isHard() then
 					removeOrReplace({{id = 1, level = 2, itemType = const.ItemType.Mace}})
@@ -732,8 +719,6 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 			elseif Map.Name == "7out04.odm" then -- Tularean Forest
 				removeOrReplace({{id = 109, level = 4, itemType = const.ItemType.Sword}})
 			elseif Map.Name == "7out05.odm" then -- Deyja
-			--[[36	267	Pure Endurance
-				37	268	Pure Personality]]
 				removeOrReplace({{id = 37, level = 3, itemType = const.ItemType.Potion}})
 				if isHard() then
 					removeOrReplace({{id = 36, level = 3, itemType = const.ItemType.Potion}})
@@ -841,8 +826,8 @@ if MS.Rev4ForMergeManaHealthRegenStacking == 1 then
 	function events.RegenTick(pl)
 		local manaRegenSpcBonuses = {38, 47, 55, 66}
 		local healthRegenSpcBonuses = {37, 44, 50, 54, 66}
-		local manaRegenItems = {} -- TODO
-		local healthRegenItems = {} -- TODO
+		local manaRegenItems = {513, 1331, 1334, 1439} -- TODO
+		local healthRegenItems = {509, 520, 1331, 1337, 1439, 2027} -- TODO
 		local manaCount, healthCount = 0, 0
 		for item, slot in pl:EnumActiveItems(false) do
 			if table.find(manaRegenSpcBonuses, item.Bonus2) or table.find(manaRegenItems, item.Number) then
@@ -860,41 +845,6 @@ if MS.Rev4ForMergeManaHealthRegenStacking == 1 then
 		if healthAdd > 0 then
 			local FHP = pl:GetFullHP()
 			pl.HP = math.min(math.max(FHP, pl.HP), pl.HP + healthAdd)
-		end
-	end
-end
-
-function events.CalcStatBonusBySkills(t)
-	-- make GM leather actually give decent resistances
-	if t.Stat >= const.Stats.FireResistance and t.Stat <= const.Stats.EarthResistance then
-		local s, m = SplitSkill(t.Player.Skills[const.Skills.Leather])
-		if m == const.GM and t.Player.ItemArmor ~= 0 then
-			for item, slot in t.Player:EnumActiveItems(false) do
-				if slot == const.ItemSlot.Armor and item:T().Skill == const.Skills.Leather then
-					t.Result = t.Result + s * 3
-					break
-				end
-			end
-		end
-	end
-end
-
-function events.CalcStatBonusByItems(t)	
-	-- boost "of Doom" to not be garbage
-	if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
-		for item, slot in t.Player:EnumActiveItems(false) do
-			if item.Bonus2 == 42 then
-				t.Result = t.Result + 4
-			end
-		end
-	end
-	
-	-- make "of the Gods" actually deserve D rating and 3000 gold price (it still sucks for spellcasters though)
-	if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.Luck then
-		for item, slot in t.Player:EnumActiveItems(false) do
-			if item.Bonus2 == 2 then
-				t.Result = t.Result + 15
-			end
 		end
 	end
 end

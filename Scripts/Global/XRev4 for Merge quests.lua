@@ -974,10 +974,9 @@ do
 	function branches.brazier()
 		return "BDJ_brazier"
 	end
-	QuestNPC = 1279 -- BDJ
-	local npcCopy = QuestNPC
+	local npc = 1279 -- BDJ
 	function events.EnterNPC(id)
-		if id == npcCopy then
+		if id == npc then
 			if not Q.branch then
 				myQuestBranch(branches.welcome())
 			else
@@ -985,8 +984,9 @@ do
 			end
 		end
 	end
+
 	function events.CanExitNPC(id)
-		if id == npcCopy then
+		if id == npc then
 			t.Allow = true
 		end
 	end
@@ -1079,12 +1079,17 @@ do
 		nextPlayer()
 	end
 
+	local function checkShow() -- check if topics should be shown, because BDJ also appears in The Vault and probably The Gauntlet
+		return Map.Name == "7d12.blv"
+	end
+
 	NPCTopic
 	{
 		Game.NPCTopic[getGlobalEvent(48)],
 		Game.NPCText[getMessage(71)],
 		Slot = 0,
 		Branch = branches.welcome(),
+		CanShow = checkShow,
 		Ungive = function()
 			--debug.Message(QuestBranch())
 			myQuestBranch(branches.welcome2())
@@ -1101,6 +1106,7 @@ do
 		Game.NPCText[getMessage(72)],
 		Slot = 0,
 		Branch = branches.welcome2(),
+		CanShow = checkShow,
 		Ungive = nextPlayer
 	}
 
@@ -1115,7 +1121,8 @@ do
 				local base = getClassEntry(pl.Class)
 				myQuestBranch(branches.chooseClass(base))
 			end,
-			Branch = branches.newProfession(i)
+			Branch = branches.newProfession(i),
+			CanShow = checkShow,
 		}
 	end
 
@@ -1126,6 +1133,7 @@ do
 				Game.NPCText[getMessage(41)],
 				Slot = i - 1,
 				Branch = branches.chooseClass(classId),
+				CanShow = checkShow,
 				Ungive = function()
 					Q.currentClass = data[i]
 					myQuestBranch(branches.brazier())
@@ -1138,6 +1146,7 @@ do
 			Game.NPCText[getMessage(267)],
 			Slot = 3,
 			Branch = branches.chooseClass(classId),
+			CanShow = checkShow,
 			Ungive = nextPlayer
 		}
 	end
@@ -1149,6 +1158,7 @@ do
 		Game.NPCText[getMessage(87)],
 		Slot = 0,
 		Branch = branches.finished_confirm(),
+		CanShow = checkShow,
 		Ungive = function()
 			myQuestBranch(branches.noTopics())
 			--[[

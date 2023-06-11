@@ -9,14 +9,16 @@ end)
 -- runs as one of first handlers for "LoadMap" event
 local function replaceMapEvent(num, func, onload, hint)
     events.Remove("LoadMap", evt.map[num].last)
-    Game.MapEvtLines:RemoveEvent(num)
     evt.map[num].clear()
-    if onload then
-        func()
-    else
-        evt.map[num] = func
-        if hint then
-            evt.hint[num] = hint
+    if func then -- allow removing only lua event by passing "false"
+        Game.MapEvtLines:RemoveEvent(num)
+        if onload then
+            func()
+        else
+            evt.map[num] = func
+            if hint then
+                evt.hint[num] = hint
+            end
         end
     end
 end
@@ -155,8 +157,6 @@ patches = {
         end, true)
     end,
 
-    -- THOSE BELOW ARE NOT TESTED --
-
     -- Stone City
     -- perception skill barrel
     ["7d24.blv"] = function()
@@ -171,7 +171,7 @@ patches = {
     -- Colony Zod
     -- delegate exit event to EVT file so it doesn't crash the game (bugfix)
     ["7d27.blv"] = function()
-        replaceMapEvent(501, function() end)
+        replaceMapEvent(501, false)
     end,
 
     -- Castle Harmondale
@@ -196,7 +196,7 @@ patches = {
         end)
     end,
 
-    -- one of the barrows
+    -- barrow IV, fix npc group not found error
     ["mdk02.blv"] = function()
         replaceMapEvent(1, function()  -- function events.LoadMap()
             if evt.Cmp("QBits", getQuestBit(192)) then         -- Turn on map in mdkXX(Dwarven Barrow)
@@ -230,6 +230,8 @@ patches = {
             events.Remove("AfterLoadMap", 1) -- just in case
         end
     end,
+
+    -- THOSE BELOW ARE NOT TESTED --
 
     -- OUTDOOR --
 

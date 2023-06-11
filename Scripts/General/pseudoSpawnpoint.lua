@@ -29,9 +29,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 	else
 		-- pack all arguments into a table
 		t.monster = monster
-		t.x = x
-		t.y = y
-		t.z = z
+		t.x, t.y, t.z = x, y, z
 		t.count = count
 		t.powerChances = powerChances
 		t.radius = radius
@@ -135,18 +133,16 @@ function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 	if type(item) == "table" then
 		t = item -- user passed table with arguments instead of item
 	else
-		t.Item, t.item = item, item
-		t.X, t.x = x, x
-		t.Y, t.y = y, y
-		t.Z, t.z = z, z
-		t.Count, t.count = count, count
-		t.Radius, t.radius = radius, radius
-		t.level, t.Level = level, level
-		t.typ, t.Typ = typ, typ
+		t.item = item
+		t.x, t.y, t.z = x, y, z
+		t.count = count
+		t.radius = radius
+		t.level = level
+		t.typ = typ
 	end
 	t.count = t.count or 1
 	t.radius = t.radius or 64
-	assert(t.item and t.x and t.y and t.z and true or nil)
+	assert((t.item or t.level) and t.x and t.y and t.z)
 	
 	local toCreate = random(getMinMaxCount(t.count))
 	
@@ -155,7 +151,6 @@ function pseudoSpawnpointItem(item, x, y, z, count, radius, level, typ)
 		local x, y, z
 		local spawnAttempts = 0
 		while true do
-			-- https://stackoverflow.com/questions/9879258/how-can-i-generate-random-points-on-a-circles-circumference-in-javascript
 			local angle = random() * math.pi * 2
 			local xadd = math.cos(angle) * random(1, t.radius)
 			local yadd = math.sin(angle) * random(1, t.radius)

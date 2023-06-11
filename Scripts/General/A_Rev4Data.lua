@@ -241,13 +241,6 @@ table.copy(-- replacements specific to map scripts
         item = tonumber(item)
         return ("evt.SetMonsterItem{Monster = %d, Item = %d, Has = %s}"):format(monster, getItem(item), has)
     end,
-    --[[["evt%.SetNPCGreeting%{NPC = (%d+), Greeting = (%d+)%}"] =
-    function(npc, greeting)
-        npc = tonumber(npc)
-        greeting = tonumber(greeting)
-        return ("evt.SetNPCGreeting{NPC = %d, Greeting = %d}"):format(getNPC(npc), getGreeting(greeting))
-    end--]]
-
     ["evt%.map%[(%d+)%] = function"] =
     function(event)
         event = tonumber(event)

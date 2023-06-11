@@ -196,4 +196,5 @@
 195	Pascal's Minions
 196	Clanker's Puppet
 197	Jailer
-198	0
+198	Infernal troglodyte
+197	0

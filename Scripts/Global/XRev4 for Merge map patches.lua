@@ -109,7 +109,7 @@ patches = {
             end
         end)
     end,
-    
+
     -- Wine Cellar
     -- require actually killing the vampire (don't unconditionally set QBit on map leave)
     ["7d16.blv"] = function()
@@ -117,8 +117,6 @@ patches = {
             evt.MoveToMap{X = 8216, Y = -10619, Z = 289, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 1, Name = getFileName("Out13.odm")}
         end)
     end,
-
-    -- THOSE BELOW ARE NOT TESTED --
     
     -- Hall Under the Hill
     -- fix one tree setSprite
@@ -156,6 +154,8 @@ patches = {
             end
         end, true)
     end,
+
+    -- THOSE BELOW ARE NOT TESTED --
 
     -- Stone City
     -- perception skill barrel
@@ -287,6 +287,7 @@ patches = {
                 evt.StatusText(54)         -- "You Pray"
                 return
             end
+            evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
             while evt.Cmp("Inventory", getItem(223)) do         -- "Magic Potion"
                 evt.Subtract("Inventory", getItem(223))         -- "Magic Potion"
             end
@@ -305,7 +306,6 @@ patches = {
             -- dispel magic
             dispelMagic()
             evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
-            evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
         end)
     end,
     -- Erathia

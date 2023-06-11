@@ -406,7 +406,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 			end
 			
 			-- no chests, so let's just scatter a bunch of highest-lvl items
-			pseudoSpawnpointItem{item = 1, x = 14557, y = 5769, z = -127, count = 35, radius = 4096, level = 6}
+			pseudoSpawnpointItem{x = 14557, y = 5769, z = -127, count = 35, radius = 4096, level = 6}
 			
 			-- one-time spawnpoints
 			-- knights
@@ -438,7 +438,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 		
 		if not vars.WromthraxCaveQuest.PortalDeactivated then
 			Timer(sp.spawn, const.Minute * diffsel(30, 25, 20), Game.Time, true)
-			function rem()
+			local function rem()
 				RemoveTimer(sp.spawn)
 				events.Remove("LeaveMap", rem)
 				events.Remove("LeaveGame", rem)
@@ -588,7 +588,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			
 			-- miniboss: Clanker's Puppet, mage
 			-- changing stats here works, because he is summoned before bolster happens
-			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = "1-1", powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
+			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = 1, powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
 			wiz.FullHP = wiz.FullHP * diffsel(3, 4, 5)
 			wiz.HP = wiz.FullHP
 			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
@@ -611,18 +611,13 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			for chestID = 1, 14 do
 				local fifth, sixth = false, false
 				for i, item in Map.Chests[chestID].Items do
+					if sixth and fifth then break end
 					if item.Number == 0 and not sixth then
 						item:Randomize(6)
 						sixth = true
-						if fifth then
-							break
-						end
 					elseif item.Number == 0 and not fifth then
 						item:Randomize(5)
 						fifth = true
-						if sixth then
-							break
-						end
 					end
 				end
 			end
@@ -937,12 +932,14 @@ do
 	function bdjtest()
 		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
 		function events.AfterLoadMap()
-			kill()
-			Sleep(500)
-			for i in Map.Doors do
-				evt.SetDoorState{Id = i, State = 2}
-			end
-			events.Remove("AfterLoadMap", 1)
+			cocall(function()
+				kill()
+				Sleep(500)
+				for i in Map.Doors do
+					evt.SetDoorState{Id = i, State = 2}
+				end
+				events.Remove("AfterLoadMap", 1)
+			end)
 		end
 	end
 

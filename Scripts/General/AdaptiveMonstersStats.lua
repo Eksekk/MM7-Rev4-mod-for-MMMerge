@@ -882,9 +882,7 @@ local function Init()
 		end
 		-- fix monsters summoned after initial bolster not having their stats restored to normal after map exit or savegame reload
 		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
-		if boostSummons then
-			restoreMonsterParams(mon, OriginalMonstersTxt[Id])
-		end
+		restoreMonsterParams(mon, OriginalMonstersTxt[Id])
 		-- callback to allow modifying monster "base stats" before saving them to restore later
 		events.call("SummonMonster", mon, boostSummons)
 
@@ -892,11 +890,6 @@ local function Init()
 			if boostSummons then
 				local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
 				if MapSettings then
-					--[[if not ReadyMons[Id] then -- only boost when monster wasn't prepared before
-						-- (otherwise you'd summon with boosted stats from Game.MonstersTxt and then boost again!)
-						PrepareTxtMon(Id)
-						PrepareMapMon(mon)
-					end]]
 					-- create data if first monster of type
 					if not ReadyMons[Id] then
 						PrepareTxtMon(Id)
@@ -1077,16 +1070,6 @@ local function BolsterMonsters()
 		end
 	end
 
-	--[[for i, v in Game.MonstersTxt do
-		local meta = getmetatable(v)
-		local newindex = meta.__newindex
-		function meta.__newindex(t, k, v)
-			if k == "Spell2Skill" and v == 0 then
-				debug.Message(t:GetIndex(), debug.traceback())
-			end
-			newindex(t, k, v)
-		end
-	end ]]
 	PrepareTxtMon(t, false)
 
 	if Game.UseMonsterBolster then

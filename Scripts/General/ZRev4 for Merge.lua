@@ -478,18 +478,6 @@ function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves i
 	end
 end
 
-function events.GameInitialized2()
-	-- changed resistance spell descriptions
-	-- for i, v in ipairs({3, 14, 25, 36, 58, 69}) do local sp = Game.SpellsTxt[v]; print(dump(sp)) end
-	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do
-		local sp = Game.SpellsTxt[v]
-		sp.Description = sp.Description:gsub("(your skill)", string.format("%d + %d * %%1", 10, 2))
-		for i, idx in ipairs({"Normal", "Expert", "Master", "GM"}) do
-			sp[idx] = sp[idx]:gsub("%d point", string.format("%d + %d point", 10, i + 1))
-		end
-	end
-end
-
 -- QUESTS IN SCHOOL OF SORCERY AND BREEDING PIT (maybe make completing one a condition for completing other for extra variety?)
 
 -- writing information about map objects to file
@@ -541,23 +529,23 @@ function mergeMapItemsDump()
 		end
 		Timer(fn, 1, false) -- timer is removed on next map load
 	end
+end
 
-	function changeChestItem(chest, index, item)
-		local chestItem = Map.Chests[chest].Items[index]
-		if type(item) == "number" then
-			chestItem.Number = item
-			return true
-		elseif type(item) == "table" and not item.level then
-			for k, v in pairs(item) do
-				chestItem[k] = v
-			end
-			return true
-		elseif type(item) == "table" and item.level then
-			chestItem:Randomize(item.level, item.type or const.ItemType.Any)
-			return true
+function changeChestItem(chest, index, item)
+	local chestItem = Map.Chests[chest].Items[index]
+	if type(item) == "number" then
+		chestItem.Number = item
+		return true
+	elseif type(item) == "table" and not item.level then
+		for k, v in pairs(item) do
+			chestItem[k] = v
 		end
-		return false
+		return true
+	elseif type(item) == "table" and item.level then
+		chestItem:Randomize(item.level, item.type or const.ItemType.Any)
+		return true
 	end
+	return false
 end
 
 function addChestItem(chest, item)
@@ -586,11 +574,11 @@ end
 function dispelMagic()
 	for i, pl in Party do
 		for buffid, buff in pl.SpellBuffs do
-			mem.call(0x455E3C, 1, Party[i].SpellBuffs[buffid]["?ptr"])
+			mem.call(0x455E3C, 1, buff["?ptr"])
 		end
 	end
 	for i, buff in Party.SpellBuffs do
-		mem.call(0x455E3C, 1, Party.SpellBuffs[i]["?ptr"])
+		mem.call(0x455E3C, 1, buff["?ptr"])
 	end
 end
 
@@ -830,6 +818,16 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 end
 
 -- buff single-element resistance spells (10 fixed + 2/3/4/5 per skill point)
+function events.GameInitialized2()
+	-- changed resistance spell descriptions
+	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do
+		local sp = Game.SpellsTxt[v]
+		sp.Description = sp.Description:gsub("(your skill)", string.format("%d + %d * %%1", 10, 2))
+		for i, idx in ipairs({"Normal", "Expert", "Master", "GM"}) do
+			sp[idx] = sp[idx]:gsub("%d point", string.format("%d + %d point", 10, i + 1))
+		end
+	end
+end
 
 local resistanceSpells = {3, 14, 25, 36, 58, 69}
 
@@ -881,7 +879,6 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	local damageTypeToPenetrationBonus = {[const.Damage.Fire] = 0, [const.Damage.Air] = 1, [const.Damage.Water] = 2, [const.Damage.Earth] = 3,
 		[const.Damage.Spirit] = 4, [const.Damage.Mind] = 5, [const.Damage.Body] = 6, [const.Damage.Light] = 7, [const.Damage.Dark] = 8}
 	
-	table.insert(addTextFunctions, function(pl)
 		local template = [[Spell resistance penetration
 Fire      %d
 Air      %d
@@ -892,16 +889,16 @@ Mind      %d
 Body      %d
 Light      %d
 Dark      %d]]
+	table.insert(addTextFunctions, function(pl)
 		local t = {}
 		for bonus = 60, 68 do
 			table.insert(t, getItemBonusSum(pl, bonus))
 		end
 		return string.format(template, unpack(t))
 	end)
+
 	-- allow res pen items to generate
 	function events.GameInitialized2()
-		-- local entrySize = 4 + 4 + 9 * 1
-		-- Arm	 Shld	 Helm	 Belt	 Cape	 Gaunt	 Boot	 Ring	 Amul
 		local indexes = {"Arm", "Shld", "Helm", "Belt", "Cape", "Gaunt", "Boot", "Ring", "Amul"}
 		local values = {0, 0, 5, 5, 10, 15, 5, 10, 10}
 		for stdBonus = 59, 67 do
@@ -917,9 +914,6 @@ Dark      %d]]
 		end
 		mem.IgnoreProtection(false)
 	end
-	
-	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
-		const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
 		
 	function getEffectiveResistance(mon, pl, damageType)
 		local res = mon.Resistances[damageType] or 0
@@ -1002,6 +996,9 @@ Dark      %d]]
 	
 	local i = 1
 	
+	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
+		const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
+	
 	mem.autohook(0x41E8A0, function(d)
 		local pl = Party.CurrentPlayer
 		-- move resistance values a little to the left (default is 070)
@@ -1083,24 +1080,21 @@ end
 
 -- boost mapstats spawns depending on difficulty
 -- this is forced change because Merge makes game intrinsically easier with 5th PC
-if not Rev4ForMergeMapstatsBoosted then
-	Rev4ForMergeMapstatsBoosted = true
-	function events.BeforeLoadMap()
-		for i, v in Game.MapStats do
-			local indexes = {"Mon1Low", "Mon1Hi", "Mon2Low", "Mon2Hi", "Mon3Low", "Mon3Hi"}
-			for j = 1, 5, 2 do
-				local minIdx = indexes[j]
-				local maxIdx = indexes[j + 1]
-				if --[[v[idx] > 0 and ]]v[maxIdx] > 0 and v[minIdx] ~= v[maxIdx] then -- I once adopted a rule that when both spawn values are equal, no boost happens
-				-- idk why, but I'll preserve it to not break anything
-					v[minIdx] = v[minIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5)) -- 2 = Antagarich
-					v[maxIdx] = v[maxIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5))
-				end
+function events.BeforeLoadMap()
+	for i, v in Game.MapStats do
+		local indexes = {"Mon1Low", "Mon1Hi", "Mon2Low", "Mon2Hi", "Mon3Low", "Mon3Hi"}
+		for j = 1, 5, 2 do
+			local minIdx = indexes[j]
+			local maxIdx = indexes[j + 1]
+			if --[[v[idx] > 0 and ]]v[maxIdx] > 0 and v[minIdx] ~= v[maxIdx] then -- I once adopted a rule that when both spawn values are equal, no boost happens
+			-- idk why, but I'll preserve it to not break anything
+				v[minIdx] = v[minIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5)) -- 2 = Antagarich
+				v[maxIdx] = v[maxIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5))
 			end
 		end
-		Game.MapStats[70].Tres = 4 -- Barrow Downs
-		events.Remove("BeforeLoadMap", 1) -- should only run once, general won't work because I need TownPortalControls.MapOfContinent
 	end
+	Game.MapStats[70].Tres = 4 -- Barrow Downs
+	events.Remove("BeforeLoadMap", 1) -- should only run once, general won't work because I need TownPortalControls.MapOfContinent
 end
 
 if not isEasy() then

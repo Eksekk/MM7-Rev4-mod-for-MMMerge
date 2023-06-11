@@ -432,7 +432,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			end
 			events.Remove("AfterLoadMap", 1)
 		end
-		local hp, rewards, spells = monUtils.hp, monUtils.rewards, monUtils.spells
+		local hp, rewards, spells, resists = monUtils.hp, monUtils.rewards, monUtils.spells, monUtils.resists
 		
 		mapvars.Rev4ForMergeBossesSpawned = true
 		
@@ -516,7 +516,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			hostile(mon)
 			mon.Attack1.DamageDiceCount = math.round(mon.Attack1.DamageDiceCount * diffsel(2, 2.5, 3))
 			spells(mon, const.Spells.IceBolt, 50, JoinSkill(diffsel(10, 13, 16), const.GM))
-			boostResistances(mon, {20, 20, 20, 20, 0, 0, 0, 20, 20, 20})
+			resists(mon, {20, 20, 20, 20, 0, 0, 0, 20, 20, 20})
 			rewards(mon, 25, -4, 10)
 		elseif Map.Name == "7d25.blv" then -- Celeste
 			
@@ -852,4 +852,10 @@ end
 function events.GetShopSellPriceMul(t)
 	if isEasy() then return end
 	t.Multiplier = isMedium() and 0.75 or 0.5
+end
+
+-- for testing
+function events.NewGameMap()
+	Game.UseMonsterBolster = false
+	god()
 end

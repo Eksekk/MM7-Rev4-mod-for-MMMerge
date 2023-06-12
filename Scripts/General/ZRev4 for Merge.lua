@@ -287,7 +287,6 @@ end
 
 local showSpellSkill = function(skillOffset, lenOffset)
 	return function(d)
-		mem.prot(true)
 		-- move spells info to the left
 		moveLeft(10)
 		local afterSpellName = monsterRightclickDataBuf
@@ -301,11 +300,34 @@ local showSpellSkill = function(skillOffset, lenOffset)
 		mem.copy(afterSpellName, add)
 		mem.u1[afterSpellName + add:len()] = 0 -- null terminator
 		mem.u4[0x19F93C + lenOffset] = mem.u4[0x19F93C + lenOffset] + add:len() -- update length of row
-		mem.prot(false)
 	end
 end
 mem.autohook(0x41E673, showSpellSkill(0x6E, 0))
-mem.autohook(0x41E6C1, showSpellSkill(0x70, 4))
+mem.autohook(0x41E6C7, showSpellSkill(0x70, 4))
+
+
+-- show "spell" text if monster has only second spell
+mem.asmpatch(0x41E6B5, [[
+	push ebx
+	cmp byte [ebp-0x2D],bl ; has first spell? (bl is 0)
+	jne @normal
+	push dword ptr [ebp-0x18] ; "spells" or "spell"
+	push 0x4F407C ; format string with "spell"
+	jmp @call
+	@normal:
+	push 0x4F406C ; format string without "spell"
+	@call:
+	push esi
+	call absolute 0x4D9F10 ; process formatted string
+	cmp byte [ebp-0x2D],bl
+	jnz @less
+	add esp, 0x14
+	jmp @end
+	@less:
+	add esp, 0x10
+	@end:
+	mov ecx,dword [ebp-0x8]
+]], 0x12)
 
 -- show level in monster right click info (requires novice ID monster)
 mem.autohook(0x41E3A3, function(d)
@@ -1206,5 +1228,14 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 				end
 			end
 		end
+	end
+end
+
+-- for testing
+function events.NewGameMap()
+	function events.AfterLoadMap()
+		Game.UseMonsterBolster = false
+		god()
+		events.Remove("AfterLoadMap", 1)
 	end
 end

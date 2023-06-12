@@ -853,9 +853,3 @@ function events.GetShopSellPriceMul(t)
 	if isEasy() then return end
 	t.Multiplier = isMedium() and 0.75 or 0.5
 end
-
--- for testing
-function events.NewGameMap()
-	Game.UseMonsterBolster = false
-	god()
-end

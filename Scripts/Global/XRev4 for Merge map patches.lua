@@ -231,8 +231,6 @@ patches = {
         end
     end,
 
-    -- THOSE BELOW ARE NOT TESTED --
-
     -- OUTDOOR --
 
     -- Emerald Island
@@ -281,6 +279,8 @@ patches = {
                 evt.EnterHouse(925)
             end
         end)
+    
+    -- THOSE BELOW ARE NOT TESTED --
 
         -- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members
 		replaceMapEvent(221, function()

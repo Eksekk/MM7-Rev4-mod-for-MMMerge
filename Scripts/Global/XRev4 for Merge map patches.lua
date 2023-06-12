@@ -54,11 +54,6 @@ patches = {
             end
         end, true)
 
-        --[[
-            evt.MoveToMap{X = -3970, Y =
-  5025, Z = 
-  -95, Name = "7d06.blv"}
-  ]]
         -- merchant barrel
         replaceMapEvent(10, function()
             evt.ForPlayer("All")
@@ -312,7 +307,7 @@ patches = {
     end,
     -- Erathia
     ["7out03.odm"] = function()
-        -- fix small bug in town portal code
+        -- fix small bug in town portal code (scroll was subtracted before autosave, so if you loaded it you still lost the scroll)
         replaceMapEvent(35, function()
             evt.ForPlayer("All")
             if evt.Cmp("Inventory", getItem(737)) then         -- "Town Portal Pass"

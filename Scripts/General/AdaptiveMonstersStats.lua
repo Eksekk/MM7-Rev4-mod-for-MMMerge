@@ -464,7 +464,7 @@ local function PrepareMapMon(mon)
 	if Game.UseMonsterBolster then
 		-- Base stats
 		
-		-- formulas 1
+		-- formulas
 		local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
 		local PartyLevel
 		if MapSettings then
@@ -474,8 +474,14 @@ local function PrepareMapMon(mon)
 		end
 		
 		Formulas = Game.Bolster.Formulas
+		MonKind = ceil(mon.Id/3)
+		local Formula = Formulas[MonKind] or Formulas["def"]
 		
-		-- ~formulas1
+		local function getFormulaOrDefault(stat)
+			return Formula[stat] or Formulas["def"][stat]
+		end
+		
+		-- ~formulas
 
 		--if mon.NameId ~= 123 then -- Q
 			if mon.HP > 0 then
@@ -514,13 +520,6 @@ local function PrepareMapMon(mon)
 		mon.Spell = SpellReplace[mon.Spell] or mon.Spell
 		mon.Spell2 = SpellReplace[mon.Spell2] or mon.Spell2
 
-		-- formulas2
-		local Formula = Formulas[MonKind] or Formulas["def"]
-		
-		local function getFormulaOrDefault(stat)
-			return Formula[stat] or Formulas["def"][stat]
-		end
-		-- ~formulas2
 		-- Base spells
 		-- FIXME: -- this code occasionally reduces spell skill/mastery if there is custom boss with high skill
 		-- this is fixed, but bolster still won't make their skill higher, as it probably should

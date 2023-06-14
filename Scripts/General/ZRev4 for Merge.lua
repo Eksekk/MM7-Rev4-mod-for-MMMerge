@@ -15,7 +15,7 @@ IMPORTANCE CATEGORIES:
 * Make balance changes like of the Gods, of the Doom, leather more resistances optional - remaining texts
 
 ---- important ----
-* Dispel immunity enchantment (note: more item classes have spcitems than stditems)
+* Make dispel immunity enchantment optional
 * Bosses
 * Boost weapon boosting potions
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
@@ -373,46 +373,53 @@ end)
 -- item bonuses
 do
 	local stdChanceSumDataStart, spcChanceSumDataStart
-	mem.autohook2(0x4547A8, function(d)
+	mem.autohook(0x4547A8, function(d)
 		stdChanceSumDataStart = d.esi
+		-- for debugging
+		--[[
+		StdItemChances = mem.struct(function(define)
+			define[stdChanceSumDataStart].array(9).u4("val")
+		end):new(0)
+		]]
 	end)
-	mem.autohook2(0x4549C3, function(d)
+	mem.autohook(0x4549C9, function(d)
 		spcChanceSumDataStart = d.esi
+		--[[
+		SpcItemChances = mem.struct(function(define)
+			define[spcChanceSumDataStart].array(12).u4("val")
+		end):new(0)
+		]]
 	end)
 
-	-- Arm	 Shld	 Helm	 Belt	 Cape	 Gaunt	 Boot	 Ring	 Amul
-	function changeStdItemsChances(t)
+	function changeItemsEnchantmentChances(t, spc, absolute)
 		local addChances = {}
-		for stdBonus, data in pairs(t) do
-			assert(#data == 9, "Invalid number of std items chances")
+		local gameArray = spc and Game.SpcItemsTxt or Game.StdItemsTxt
+		for bonus, data in pairs(t) do
+			assert(#data == (spc and 12 or 9), string.format("Invalid number of %s items chances", spc and "spc" or "std"))
 			for i, value in ipairs(data) do
-				local val = Game.StdItemsTxt[stdBonus].ChanceForSlot[i - 1]
-				Game.StdItemsTxt[stdBonus].ChanceForSlot[i - 1] = assert(val + value > 0, "Cannot have std item chance below 0")
-				addChances[i - 1] = (addChances[i - 1] or 0) + value - val
+				local old = gameArray[bonus].ChanceForSlot[i - 1]
+				local base = absolute and 0 or old
+				assert(base + value >= 0, string.format("Cannot have %s item chance below 0", spc and "spc" or "std"))
+				gameArray[bonus].ChanceForSlot[i - 1] = base + value
+				addChances[i - 1] = (addChances[i - 1] or 0) + value - old
 			end
 		end
 		-- correct chance sums, otherwise items won't generate
-		for i = 0, 8 do
-			mem.u4[stdChanceSumDataStart + i * 4] = mem.u4[stdChanceSumDataStart + i * 4] + addChances[i]
+		local dataStart = spc and spcChanceSumDataStart or stdChanceSumDataStart
+		local limit = spc and 11 or 8
+		for i = 0, limit do
+			mem.u4[dataStart + i * 4] = mem.u4[dataStart + i * 4] + addChances[i]
 		end
 	end
 
+	-- Arm	 Shld	 Helm	 Belt	 Cape	 Gaunt	 Boot	 Ring	 Amul
+	function changeStdItemsChances(t, absolute)
+		changeItemsEnchantmentChances(t, false, absolute)
+	end
+
 	-- W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
-	function changeSpcItemsChances(t)
-		local addChances = {}
-		for spcBonus, data in pairs(t) do
-			assert(#data == 12, "Invalid number of spc items chances")
-			for i, value in ipairs(data) do
-				local val = Game.SpcItemsTxt[spcBonus].ChanceForSlot[i - 1]
-				assert(val + value > 0, "Cannot have spc item chance below 0")
-				Game.SpcItemsTxt[spcBonus].ChanceForSlot[i - 1] = val + value
-				addChances[i - 1] = (addChances[i - 1] or 0) + (value - val)
-			end
-		end
-		-- correct chance sums, otherwise items won't generate
-		for i = 0, 11 do
-			mem.u4[spcChanceSumDataStart + i * 4] = mem.u4[spcChanceSumDataStart + i * 4] + addChances[i]
-		end
+	function changeSpcItemsChances(t, absolute)
+		changeItemsEnchantmentChances(t, true, absolute)
 	end
 end
 
@@ -500,7 +507,7 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 		for stdBonus = 68, 69 do
 			change[stdBonus] = values
 		end
-		changeStdItemsChances(change)
+		changeStdItemsChances(change, true)
 	end
 	
 	-- add way to check new resistances
@@ -685,6 +692,13 @@ mem.autohook(0x405560, function(d)
 		return true
 	end
 end)
+
+-- item enchantment chances
+function events.GameInitialized2()
+	--W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
+	local change = {[rev4m.const.spcBonuses.permanence] = {0, 0, 0, 10, 20, 5, 5, 5, 5, 5, 15, 15}}
+	changeSpcItemsChances(change, true)
+end
 
 -- increase stat breakpoint rewards
 do
@@ -1007,7 +1021,7 @@ Dark      %d]]
 		for stdBonus = 59, 67 do
 			change[stdBonus] = values
 		end
-		changeStdItemsChances(change)
+		changeStdItemsChances(change, true)
 	end
 		
 	function getEffectiveResistance(mon, pl, damageType)
@@ -1305,10 +1319,13 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 end
 
 -- for testing
-function events.NewGameMap()
-	function events.AfterLoadMap()
+function events.BeforeNewGameAutosave()
+	--function events.AfterLoadMap()
 		Game.UseMonsterBolster = false
 		god()
-		events.Remove("AfterLoadMap", 1)
-	end
+		--events.Remove("AfterLoadMap", 1)
+	--end
 end
+
+-- testing spc bonuses generation
+-- for i = 1, 100 do evt.GiveItem{Strength = 5, Type = const.ItemType.Ring} end; local count = 0; for i, item in Party[0].Items do if item.Bonus2 == rev4m.const.spcBonuses.permanence + 1 then count = count + 1 end end; print(count)

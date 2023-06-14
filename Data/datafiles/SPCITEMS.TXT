@@ -3,7 +3,7 @@ Special Bonuses by Group
 Bonus Stat	Name Add	W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul	Value	Lvl	Description fo special Bonuses and values			
 
  +10 to all Resistances.	of Protection	0	0	0	10	10	10	0	10	0	0	10	10	1000	B	(+10) on all four resistances			
- +25 to all Seven Statistics.	of The Gods	5	5	5	10	10	10	10	10	10	10	10	10	3000	D	(+25) on all 7 stats			
+ +10 to all Seven Statistics.	of The Gods	5	5	5	10	10	10	10	10	10	10	10	10	3000	D	(+10) on all 7 stats			
 Explosive Impact!	of Carnage	0	0	10	0	0	0	0	0	0	0	0	0	5000	D	"projectile explodes (fireball radius,dmg=weapdmg)"			
 Adds 3-4 points of Cold damage.	of Cold	20	20	20	0	0	0	0	0	0	0	0	0	500	A	(3-4) cold damage			
 Adds 6-8 points of Cold damage.	of Frost	20	20	20	0	0	0	0	0	0	0	0	0	1000	C	(6-8) cold damage			
@@ -43,7 +43,7 @@ Regenerate Spell points over time.	of Mana	0	0	0	10	0	10	10	10	10	0	10	10	1000	B
 Double Damage vs. Ogres	Ogre Slaying	20	20	20	0	0	0	0	0	0	0	0	0	X 2	A	"X 2 damage vs Ogres, Ogre Magi, Trolls, Troll Peasants, and Cyclops"
 Double damage vs Dragons	Dragon Slaying	20	20	20	0	0	0	0	0	0	0	0	0	X 2	A	X 2 damage vs all dragons
 Drain Hit Points from target and Increased Weapon speed.	of Darkness	5	5	5	0	0	0	0	0	0	0	0	0	X 3	D	"(-20) pts on weapon speed, Vampiric"
-" +5 to Seven Stats, HP, SP, Armor, Resistances."	of Doom	10	10	10	10	10	10	10	10	10	10	10	10	750	B	"(+5) 7stats,hpts,spts,AC,4 resistances"
+" +1 to Seven Stats, HP, SP, Armor, Resistances."	of Doom	10	10	10	10	10	10	10	10	10	10	10	10	750	B	"(+1) 7stats,hpts,spts,AC,4 resistances"
 " +10 to Endurance, Armor, Hit points."	of Earth	10	10	10	10	10	10	10	10	10	10	10	10	2000	D	"End (+10), AC (+10), HP (+10)"
  +10 Hit points and Regenerate Hit points over time.	of Life	0	0	0	10	10	10	10	10	10	10	10	10	2000	D	"HP (+10), Regen hpts"
  +5 Speed and Accuracy.	Rogues'	10	10	10	5	5	5	10	20	20	20	10	10	500	A	"Speed (+5), Acc (+5)"

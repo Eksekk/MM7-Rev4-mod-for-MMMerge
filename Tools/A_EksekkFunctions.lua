@@ -85,6 +85,21 @@ function item(id)
 	evt.GiveItem{Id = mapIdsToItemNames[id] or id}
 end
 
+-- gives ring with spc bonus with "NameAdd" matching provided text
+function spcBonus(what)
+	what = what:lower()
+	for i, spc in Game.SpcItemsTxt do
+		if spc.NameAdd:lower():match(what) then
+			evt.GiveItem{Type = const.ItemType.Ring, Strength = 5}
+			Mouse.Item.Bonus = 0
+			Mouse.Item.Bonus2 = i + 1
+			Mouse:ReleaseItem()
+			return true
+		end
+	end
+	error(string.format("%q doesn't match any NameAdd", what))
+end
+
 function increaseSpawnsInMapstats(infile, outfile, s, e, howMuch)
 	local t = LoadBasicTextTable(infile, 0)
 	for i = s, e do

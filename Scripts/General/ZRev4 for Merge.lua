@@ -15,7 +15,6 @@ IMPORTANCE CATEGORIES:
 * Make balance changes like of the Gods, of the Doom, leather more resistances optional - remaining texts
 
 ---- important ----
-* Make dispel immunity enchantment optional
 * Bosses
 * Boost weapon boosting potions
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
@@ -39,11 +38,9 @@ IMPORTANCE CATEGORIES:
 * Fort Riverstride delete plans item
 * Difficulty: max npcs hired at the same time
 * Day of Protection giving a bit of dark/light resistance
-* Add more spells to randomGiveSpell function
 * make fire aura always work with permanent enchantments (elemental mod)
 * Character creation screen enhancements
 * Additional topics in service houses + USE THEM
-* USE NEUTONM'S NEW DUNGEON
 * Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 * Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
 
@@ -102,13 +99,17 @@ local spells =
 {
 	{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
 	{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
+	{Spell = 15, Skill = 12, Mastery = const.Master, Chance = 40}, -- Sparks
 	{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
 	{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
+	{Spell = const.Spells.IceBolt, Skill = 8, Mastery = const.GM, Chance = 50},
+	{Spell = 32, Skill = 8, Mastery = const.Master, Chance = 20}, -- Ice Blast
 	{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
 	{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
 	{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
 	{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
 	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
+	{Spell = const.Spells.ToxicCloud, Skill = 6, Mastery = const.GM, Chance = 30},
 }
 
 local function randomGiveSpell(mon, useSpells)
@@ -664,6 +665,9 @@ function playerHasSpcBonus(pl, bonus)
 end
 
 function isPartyImmuneToDispel()
+	if MS.Rev4ForMergeEnableDispelImmunityEnchantment ~= 1 then
+		return false
+	end
 	local count = 0
 	for i, pl in Party do
 		if playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1) then -- + 1 because first bonus is 1 (0 is no bonus)
@@ -676,6 +680,9 @@ function isPartyImmuneToDispel()
 end
 
 function isPlayerImmuneToDispel(pl)
+	if MS.Rev4ForMergeEnableDispelImmunityEnchantment ~= 1 then
+		return false -- vanilla still applies roll for personality & intellect
+	end
 	return playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1)
 end
 
@@ -694,10 +701,12 @@ mem.autohook(0x405560, function(d)
 end)
 
 -- item enchantment chances
-function events.GameInitialized2()
-	--W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
-	local change = {[rev4m.const.spcBonuses.permanence] = {0, 0, 0, 10, 20, 5, 5, 5, 5, 5, 15, 15}}
-	changeSpcItemsChances(change, true)
+if MS.Rev4ForMergeEnableDispelImmunityEnchantment == 1 then
+	function events.GameInitialized2()
+		--W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
+		local change = {[rev4m.const.spcBonuses.permanence] = {0, 0, 0, 10, 20, 5, 5, 5, 5, 5, 15, 15}}
+		changeSpcItemsChances(change, true)
+	end
 end
 
 -- increase stat breakpoint rewards
@@ -872,9 +881,9 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	{
 		"The identify monster skill is applied when you right-click on a monster. If you have high enough skill, all information about the monster will be revealed. It also allows you to perform critical hits with melee/ranged attacks and spells.",
 		"Critical hit chance: 2%, extra damage: skill + 9%",
-		"Critical hit chance: 5%, extra damage: skill * 2 + 9%",
-		"Critical hit chance: 10%, extra damage: skill * 3 + 9%",
-		"Critical hit chance: 20%, extra damage: skill * 5 + 9%"
+		"Critical hit chance: 5%, extra damage: skill*2 + 9%",
+		"Critical hit chance: 10%, extra damage: skill*3 + 9%",
+		"Critical hit chance: 20%, extra damage: skill*5 + 9%"
 	}
 	
 	function events.GameInitialized2()
@@ -1292,11 +1301,6 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		end
 	end
 
-	local GMDesc = "Skill * 4 added to Elemental (Fire/Earth/Air/Water) Resistances."
-	function events.GameInitialized2()
-		mem.u4[0x5E4A54] = mem.topointer(GMDesc)
-	end
-
 	function events.CalcStatBonusByItems(t)
 		-- boost "of Doom" to not be garbage
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
@@ -1316,15 +1320,19 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 			end
 		end
 	end
+
+	local GMDesc = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
+	function events.GameInitialized2()
+		mem.u4[0x5E4A54] = mem.topointer(GMDesc)
+		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the god
+		Game.SpcItemsTxt[41].BonusStat = "+5 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
+	end
 end
 
 -- for testing
 function events.BeforeNewGameAutosave()
-	--function events.AfterLoadMap()
-		Game.UseMonsterBolster = false
-		god()
-		--events.Remove("AfterLoadMap", 1)
-	--end
+	Game.UseMonsterBolster = false
+	god()
 end
 
 -- testing spc bonuses generation

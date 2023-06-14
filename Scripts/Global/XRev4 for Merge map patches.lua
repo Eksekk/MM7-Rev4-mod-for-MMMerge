@@ -301,7 +301,7 @@ patches = {
             evt.ForPlayer("All")
             -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
             -- dispel magic
-            dispelMagic()
+            dispelMagic(true) -- for now unblockable, not sure if should be blockable
             evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
         end)
     end,

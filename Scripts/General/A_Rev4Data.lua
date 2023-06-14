@@ -1,6 +1,9 @@
 -- will contain various consts which were previously in separate scripts
 rev4m = rev4m or {}
 rev4m.const = rev4m.const or {}
+rev4m.const.firstNewSpcBonus = 178
+rev4m.const.spcBonuses = rev4m.const.spcBonuses or {}
+rev4m.const.spcBonuses.permanence = rev4m.const.firstNewSpcBonus
 rev4m.path = rev4m.path or {}
 -- all paths are relative to game folder
 rev4m.path.mergeMapScripts = "merge map scripts\\" -- not decompiled, but found in Scripts/Maps only

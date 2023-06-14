@@ -21,6 +21,7 @@ IMPORTANCE CATEGORIES:
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Boost some of statistics' effects (if boosted breakpoints active, then less)
 * Tularean Caves quest
+* spell damage opt-out
 
 ---- good to have ----
 * Extra spawns in dungeons
@@ -368,10 +369,52 @@ mem.autohook(0x41E70C, function(d)
 	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
-local chanceSumDataStart
-mem.autohook2(0x4547A8, function(d)
-	chanceSumDataStart = d.esi
-end)
+
+-- item bonuses
+do
+	local stdChanceSumDataStart, spcChanceSumDataStart
+	mem.autohook2(0x4547A8, function(d)
+		stdChanceSumDataStart = d.esi
+	end)
+	mem.autohook2(0x4549C3, function(d)
+		spcChanceSumDataStart = d.esi
+	end)
+
+	-- Arm	 Shld	 Helm	 Belt	 Cape	 Gaunt	 Boot	 Ring	 Amul
+	function changeStdItemsChances(t)
+		local addChances = {}
+		for stdBonus, data in pairs(t) do
+			assert(#data == 9, "Invalid number of std items chances")
+			for i, value in ipairs(data) do
+				local val = Game.StdItemsTxt[stdBonus].ChanceForSlot[i - 1]
+				Game.StdItemsTxt[stdBonus].ChanceForSlot[i - 1] = assert(val + value > 0, "Cannot have std item chance below 0")
+				addChances[i - 1] = (addChances[i - 1] or 0) + value - val
+			end
+		end
+		-- correct chance sums, otherwise items won't generate
+		for i = 0, 8 do
+			mem.u4[stdChanceSumDataStart + i * 4] = mem.u4[stdChanceSumDataStart + i * 4] + addChances[i]
+		end
+	end
+
+	-- W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
+	function changeSpcItemsChances(t)
+		local addChances = {}
+		for spcBonus, data in pairs(t) do
+			assert(#data == 12, "Invalid number of spc items chances")
+			for i, value in ipairs(data) do
+				local val = Game.SpcItemsTxt[spcBonus].ChanceForSlot[i - 1]
+				assert(val + value > 0, "Cannot have spc item chance below 0")
+				Game.SpcItemsTxt[spcBonus].ChanceForSlot[i - 1] = val + value
+				addChances[i - 1] = (addChances[i - 1] or 0) + (value - val)
+			end
+		end
+		-- correct chance sums, otherwise items won't generate
+		for i = 0, 11 do
+			mem.u4[spcChanceSumDataStart + i * 4] = mem.u4[spcChanceSumDataStart + i * 4] + addChances[i]
+		end
+	end
+end
 
 -- dark/light resistances!
 
@@ -452,20 +495,12 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	
 	-- item bonuses
 	function events.GameInitialized2()
-		-- Arm	 Shld	 Helm	 Belt	 Cape	 Gaunt	 Boot	 Ring	 Amul
-		local indexes = {"Arm", "Shld", "Helm", "Belt", "Cape", "Gaunt", "Boot", "Ring", "Amul"}
 		local values = {10, 10, 5, 0, 10, 15, 5, 10, 10}
+		local change = {}
 		for stdBonus = 68, 69 do
-			for i, v in ipairs(indexes) do
-				Game.StdItemsTxt[stdBonus][v] = values[i]
-			end
+			change[stdBonus] = values
 		end
-		-- correct chance sums, otherwise items won't generate
-		mem.IgnoreProtection(true)
-		for i = 1, 9 do
-			mem.u4[chanceSumDataStart + (i - 1) * 4] = mem.u4[chanceSumDataStart + (i - 1) * 4] + 2 * values[i]
-		end
-		mem.IgnoreProtection(false)
+		changeStdItemsChances(change)
 	end
 	
 	-- add way to check new resistances
@@ -593,18 +628,63 @@ function removeChestItem(chest, index)
 	return true
 end
 
-function dispelMagic()
+function dispelMagic(unblockable)
 	for i, pl in Party do
-		for buffid, buff in pl.SpellBuffs do
-			mem.call(0x455E3C, 1, buff["?ptr"])
+		if unblockable or not isPlayerImmuneToDispel(pl) then
+			for buffid, buff in pl.SpellBuffs do
+				mem.call(0x455E3C, 1, buff["?ptr"])
+			end
 		end
 	end
-	for i, buff in Party.SpellBuffs do
-		mem.call(0x455E3C, 1, buff["?ptr"])
+	if unblockable or not isPartyImmuneToDispel() then
+		for i, buff in Party.SpellBuffs do
+			mem.call(0x455E3C, 1, buff["?ptr"])
+		end
 	end
 end
 
 -- BALANCE CHANGES
+
+-- dispel immunity enchantment
+
+-- there is built-in function for that in game code, but I don't want to search for MM8 version
+function playerHasSpcBonus(pl, bonus)
+	for item, slot in pl:EnumActiveItems() do
+		if item.Bonus2 == bonus then
+			return true
+		end
+	end
+end
+
+function isPartyImmuneToDispel()
+	local count = 0
+	for i, pl in Party do
+		if playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1) then -- + 1 because first bonus is 1 (0 is no bonus)
+			count = count + 1
+		end
+	end
+	-- (bonus count / party size)% chance of being immune to dispel
+	local roll = math.random(1, Party.Count)
+	return roll <= count
+end
+
+function isPlayerImmuneToDispel(pl)
+	return playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1)
+end
+
+mem.autohook(0x40553A, function(d)
+	if isPartyImmuneToDispel() then
+		d:push(0x405551)
+		return true
+	end
+end)
+
+mem.autohook(0x405560, function(d)
+	if isPlayerImmuneToDispel(Party[mem.u4[d.ebp + 0x10]]) then
+		d:push(0x4055C9)
+		return true
+	end
+end)
 
 -- increase stat breakpoint rewards
 do
@@ -727,10 +807,11 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	local critShootMsg = "%s critically shoots %s for %lu points!" .. string.char(0)
 	local critKillMsg = "%s critically inflicts %lu points killing %s!" .. string.char(0)
 	
+	local critChances = {2, 5, 10, 20}
 	local function isCrit(pl, damage)
 		local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
 		if s == 0 then return false end
-		local chance = ({2, 5, 10, 20})[m]
+		local chance = critChances[m]
 		local roll = math.random(1, 100)
 		if roll <= chance then
 			local skillDamageMul = ({1, 2, 3, 5})[m]
@@ -921,20 +1002,12 @@ Dark      %d]]
 
 	-- allow res pen items to generate
 	function events.GameInitialized2()
-		local indexes = {"Arm", "Shld", "Helm", "Belt", "Cape", "Gaunt", "Boot", "Ring", "Amul"}
 		local values = {0, 0, 5, 5, 10, 15, 5, 10, 10}
+		local change = {}
 		for stdBonus = 59, 67 do
-			for i, v in ipairs(indexes) do
-				Game.StdItemsTxt[stdBonus][v] = values[i]
-				-- mem.u1[stdItemsDataStart + stdBonus * entrySize + 8 + (i - 1)] = values[i]
-			end
+			change[stdBonus] = values
 		end
-		-- correct chance sums, otherwise items won't generate
-		mem.IgnoreProtection(true)
-		for i = 1, 9 do
-			mem.u4[chanceSumDataStart + (i - 1) * 4] = mem.u4[chanceSumDataStart + (i - 1) * 4] + 9 * values[i]
-		end
-		mem.IgnoreProtection(false)
+		changeStdItemsChances(change)
 	end
 		
 	function getEffectiveResistance(mon, pl, damageType)

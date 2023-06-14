@@ -1,4 +1,4 @@
-
+do return end -- disabled because not finished yet
 local newHouseTopics =
 {
 	[const.HouseType.Tavern] =

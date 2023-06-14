@@ -52,7 +52,7 @@ function events.GameInitialized2()
 	end
 end
 
-function mtm(str)
+function mtm(str, x, y, z)
 	-- show error instead of crashing game
 	local s1, s2 = path.setext(str:lower(), ".odm"), path.setext(str:lower(), ".blv")
 
@@ -61,7 +61,10 @@ function mtm(str)
 		fileNameByMapName[str:lower()]
 		or fileNames[table.find(fileNames, s1)]
 		or fileNames[table.find(fileNames, s2)],
-		"Invalid map name")
+		"Invalid map name"),
+		X = x or nil,
+		Y = y or nil,
+		Z = z or nil,
 	}
 end
 

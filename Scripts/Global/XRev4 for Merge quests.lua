@@ -661,6 +661,24 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 
 	-- IMPORTANT NOTE: files in Scripts/Localization directory break npc texts
 	do
+		--[[
+			test progress:
+			* key spawns - working
+			* no key = locked door - working
+			* no quest = refuse topic - working
+			* jailers not killed = cannot escape - working
+			* key, quest, jailers killed = can go topic, join topic - working
+			* in party = empty cell - working
+			* quest done = empty cell - working
+
+			* jailers fighting with other monsters - fixed
+			* GIVE TEXT GLITCHES - fixed, need to remove all indent from lines and preferably remove newlines from begin and end
+			* complete text not shown (ReloadHouse) - disabled that call and it's working well enough
+		]]
+
+		-- cell
+		-- x = 12045, y = 1385, z = 1089
+		-- X = 12045, Y = 1385, Z = 1089
 		local cellKey = 979
 		local jailerNameId = placemonAdditionalStart + 1
 		local NpcToRescue = 1286
@@ -670,12 +688,23 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		local questId = "TulareanCavesRescuePrisoner"
 		local QData = tget(vars, questId)
 		
-		-- imprisoned and guards alive topic
+		-- quest not taken topic
 		NPCTopic{
 			NPC = NpcToRescue,
 			Slot = 0,
 			CanShow = function()
-				return vars.Quests[questId] ~= "Done" and not NPCFollowers.NPCInGroup(NpcToRescue) and not QData.guardsKilled
+				return not vars.Quests[questId]
+			end,
+			"The Rescue",
+			"You clearly aren't elves, but you might still be allied with them. I don't think I can trust you.",
+		}
+
+		-- quest taken, guards alive topic
+		NPCTopic{
+			NPC = NpcToRescue,
+			Slot = 0,
+			CanShow = function()
+				return vars.Quests[questId] ~= nil and vars.Quests[questId] ~= "Done" and not NPCFollowers.NPCInGroup(NpcToRescue) and not QData.guardsKilled
 			end,
 			"The Rescue",
 			"Thank god finally someone came! We can't escape while guards are alive, we'll probably be killed in the process."
@@ -686,7 +715,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			NPC = NpcToRescue,
 			Slot = 0,
 			CanShow = function()
-				return NPCFollowers.NPCInGroup(NpcToRescue) or QData.guardsKilled
+				return vars.Quests[questId] ~= nil and NPCFollowers.NPCInGroup(NpcToRescue) or QData.guardsKilled
 			end,
 			"The Escape",
 			"We can go now! Please don't waste too much time, we'll probably get some 'tail' from the elves, if you know what I mean."
@@ -697,7 +726,8 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			NPC = NpcToRescue,
 			Slot = 1,
 			CanShow = function()
-				return QData.guardsKilled
+				return vars.Quests[questId] ~= nil
+					and QData.guardsKilled
 					and not NPCFollowers.NPCInGroup(NpcToRescue)
 					and vars.Quests[questId] ~= "Done"
 			end,
@@ -722,32 +752,30 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			NPC = 588, -- Matric Bowes in Harmondale (he's kinda hidden, he resides in house behind weapon/armor shop),
 			-- I always wanted his location to be starting point of an amazing quest
 			Slot = 2,
-			Experience = 75000,
+			Experience = 50000,
 			Gold = 13000,
 			--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
 			CheckDone = function()
 				return NPCFollowers.NPCInGroup(NpcToRescue)
 			end,
-			Done = function()
+			Done = function(t)
 				NPCFollowers.Remove(NpcToRescue)
 				evt.MoveNPC{NPC = NpcToRescue, HouseId = questGiverHouseId}
-				ReloadHouse()
+				--ReloadHouse() -- doesn't show "Done" text
+				--Message(t.Texts.Done)
 			end,
 			Texts = {
 				Topic = "Quest",
 				TopicDone = false,
-				Give = [[I'm glad you've come here. I need your help desperately. See, my best friend Bradley Clark is also a very important person (he is one of human ambassadors who have dealt with elves). That's not as fortunate as it might seem, because elves have kidnapped and imprisoned him! Since then, I've fallen into deep sorrow. I can't take the fact my best friend is no longer here with me, and what's worse, he suffers or maybe even is tortured for information!
+				Give = [[I'm glad you've come here. I need your help desperately. See, my best friend Bradley Clark is also a very important person (one of human ambassadors who have dealt with elves). That's not as fortunate as it might seem, because elves have kidnapped and imprisoned him! I've fallen into deep sorrow. My best friend is no longer here with me, and what's worse, he suffers or maybe even is tortured for information!
 				
-	I've had a private spy hired to investigate this kidnapping, and he reported he's almost sure my friend is kept in Tularean Caves in the forest. There's a connection with the caves from Elvish castle, but our spy was unable to open the way. We have theorized that maybe you need to arrive from the other side. Whatever, even if the locked door can be bypassed, you shouldn't take this route. You'll have entire legion of elves mad at you.
+I've had a spy hired to investigate this kidnapping, and he reported my friend is probably kept in Tularean Caves in the forest. There's a connection with the caves from Elvish castle, but the route was blocked. We have theorized that maybe you need to arrive from the other side. Whatever, you shouldn't take this route anyways. You'll have entire legion of elves mad at you.
 
-	The rescue still won't be easy. You can't escape with him until the route is mostly safe, and I'm almost positive you'll need to find a key first (they probably don't keep such important prisoners unlocked).
-
-	Can you do it? You'll be greatly rewarded for your services.]],
+The rescue won't be easy. You can't escape with him until the route is mostly safe, and I'm almost sure you'll need to find a key first (they probably don't keep prisoners unlocked). Can you do it? You'll be greatly rewarded for your services.]],
 				Undone = "What went wrong? Were guards too sturdy or you couldn't find the key? I'm sure it is in the caverns, you'll find it eventually.",
-				Done = [[My god, you've actually did it? My friend owes you his life, and you have lifetime of my gratitude. Was the escape mission difficult? [Bradley Clark tells Matric about your epic encounter with guards]. Hah, so not only you managed it, you also did it in such amazing style?
+				Done = [[My god, you actually did it? My friend owes you his life, and you have lifetime of my gratitude. Was the escape mission difficult? [Bradley Clark tells Matric about your epic encounter with guards]. Hah, so not only you managed it, you also did it in such amazing style?
 				
-	Not only did you help me and my friend, but also dealt very heavy blow to the elves. I hope you will enjoy your reward.
-				]],
+Not only did you help me and my friend, but also dealt very heavy blow to the elves. I hope you will enjoy your reward.]],
 				
 				Quest = "Rescue Bradley Clark from Tularean Caverns and return to Matric Bowes in Harmondale.",
 				Award = "Rescued Bradley Clark"
@@ -792,12 +820,12 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 					end
 				end
 				-- pillar room
-				pseudoSpawnpoint{monster = 250, x = 9084, y = 7435, z = -29, count = 4, powerChances = {33, 33, 34}, transform = warrior(3)}
-				pseudoSpawnpoint{monster = 250, x = 7947, y = 6682, z = -68, count = 4, powerChances = {33, 33, 34}, transform = warrior(3)}
+				pseudoSpawnpoint{monster = 250, x = 9084, y = 7435, z = -29, count = 4, powerChances = {33, 33, 34}, transform = warrior(3), group = 51}
+				pseudoSpawnpoint{monster = 250, x = 7947, y = 6682, z = -68, count = 4, powerChances = {33, 33, 34}, transform = warrior(3), group = 51}
 
 				-- cell slope
-				pseudoSpawnpoint{monster = 250, x = 12228, y = 4095, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2)}
-				pseudoSpawnpoint{monster = 250, x = 11791, y = 3998, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2)}
+				pseudoSpawnpoint{monster = 250, x = 12228, y = 4095, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2), group = 51}
+				pseudoSpawnpoint{monster = 250, x = 11791, y = 3998, z = 622, count = 2, powerChances = {0, 0, 100}, transform = warrior(2), group = 51}
 
 				-- archers
 				local function archer(lev)
@@ -810,11 +838,11 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 					end
 				end
 				-- cell slope
-				pseudoSpawnpoint{monster = 247, x = 11441, y = 5474, z = 315, count = "2-3", powerChances = {40, 40, 20}, transform = archer(3)}
-				pseudoSpawnpoint{monster = 247, x = 12171, y = 2951, z = 795, count = "2-3", powerChances = {20, 50, 30}, transform = archer(2)}
+				pseudoSpawnpoint{monster = 247, x = 11441, y = 5474, z = 315, count = "2-3", powerChances = {40, 40, 20}, transform = archer(3), group = 51}
+				pseudoSpawnpoint{monster = 247, x = 12171, y = 2951, z = 795, count = "2-3", powerChances = {20, 50, 30}, transform = archer(2), group = 51}
 				
 				mapvars.aliveGuards = guards
-				evt.SetMonGroupBit(255, const.MonsterBits.Hostile, true)
+				evt.SetMonGroupBit(51, const.MonsterBits.Hostile, true)
 
 				-- wyverns guarding switch
 				local function wyvern(mon)
@@ -826,9 +854,10 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 
 				pseudoSpawnpoint{monster = 121, x = -6542, y = 10041, z = 648, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
 				pseudoSpawnpoint{monster = 121, x = -8033, y = 10290, z = 638, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
+				evt.SetMonGroupBit(255, const.MonsterBits.Hostile, true)
 			end
 			-- fixme: when quests are disabled, killing guards won't count
-			function events.MonsterKilled(mon, index)
+			local function checkKilled(mon, index)
 				local i = table.find(mapvars.aliveGuards, index)
 				if i then
 					table.remove(mapvars.aliveGuards, i)
@@ -836,6 +865,10 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 						QData.guardsKilled = true
 					end
 				end
+			end
+			events.MonsterKilled = checkKilled
+			function events.LeaveMap()
+				events.Remove("MonsterKilled", checkKilled) -- is not removed with script unload (after tp to harmondale) for some reason
 			end
 		end
 	end

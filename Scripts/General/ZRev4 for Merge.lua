@@ -12,14 +12,12 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * BDJ quest
-* Make balance changes like of the Gods, of the Doom, leather more resistances optional - remaining texts
 
 ---- important ----
 * Bosses
 * Boost weapon boosting potions
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Boost some of statistics' effects (if boosted breakpoints active, then less)
-* Tularean Caves quest
 * spell damage opt-out
 
 ---- good to have ----
@@ -1331,8 +1329,8 @@ end
 
 -- for testing
 function events.BeforeNewGameAutosave()
-	Game.UseMonsterBolster = false
-	god()
+	Game.UseMonsterBolster = false -- TODO: not working
+	god() -- god script needs to be in General directory
 end
 
 -- testing spc bonuses generation

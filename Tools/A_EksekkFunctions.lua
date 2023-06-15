@@ -543,3 +543,30 @@ function printBitValues(combined, bitDesc)
 	end
 	print(table.concat(t, "\r\n"))
 end
+
+function mtarget()
+	local t = Mouse:GetTarget()
+	local i = t.Index
+	if t.Kind == 0 then
+		return
+	elseif t.Kind == 1 then
+		return Map.Doors[i], i
+	elseif t.Kind == 2 then
+		return Map.Objects[i], i
+	elseif t.Kind == 3 then
+		return Map.Monsters[i], i
+	elseif t.Kind == 4 then
+		return Party[i], i
+	elseif t.Kind == 5 then
+		return Map.Sprites[i], i
+	elseif t.Kind == 6 then
+		if Map.IsOutdoor() then
+			return Map.Models[i:div(64)].Facets[i % 64], i:div(64), i % 64
+		else
+			return Map.Facets[i], i
+		end
+	elseif t.Kind == 7 then
+		return Map.Lights[i], i
+	end
+	error("Invalid mouse target")
+end

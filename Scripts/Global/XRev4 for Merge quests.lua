@@ -289,7 +289,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 end
 
 local cleared -- needed to not save twice on leaving map (first time from LeaveMap, clearing table,
-			  -- and second time from BeforeSaveGame, overriding correct table with empty one)
+			  -- and second time from BeforeSaveGame (autosave?), overriding correct table with empty one)
 function events.LoadMap()
 	cleared = false
 	for _, ss in ipairs(sharedSpawnpoints) do

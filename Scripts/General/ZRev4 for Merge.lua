@@ -1322,7 +1322,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 	local GMDesc = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
 	function events.GameInitialized2()
 		mem.u4[0x5E4A54] = mem.topointer(GMDesc)
-		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the god
+		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+5 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 	end
 end

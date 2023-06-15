@@ -383,8 +383,8 @@ function events.LoadMap() -- needs to be before bolster function in General/Adap
 			pseudoSpawnpoint{monster = 397, x = -13785, y = 19617, z = 961, count = diffsel("4-7", "6-10", "9-14"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 56}
 			
 			-- scatter some items near spider hell
-			pseudoSpawnpointItem{item = 1, x = 8945, y = -14763, z = 1, count = 8, radius = 2048, level = 4} -- effective 3-4 on Tres 4 (General/ZRev4 for Merge.lua)
-			pseudoSpawnpointItem{item = 1, x = 1873, y = -1833, z = 0, count = 16, radius = 1024, level = 5} -- effective 4 on Tres 4
+			pseudoSpawnpointItem{x = 8945, y = -14763, z = 1, count = 8, radius = 2048, level = 4} -- effective 3-4 on Tres 4 (General/ZRev4 for Merge.lua)
+			pseudoSpawnpointItem{x = 1873, y = -1833, z = 0, count = 16, radius = 1024, level = 5} -- effective 4 on Tres 4
 			
 		elseif Map.Name == "7out13.odm" then -- Tatalia
 			-- Hydras near obelisk, idea from MM7 Reimagined
@@ -687,7 +687,11 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 	local function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves item look on map unchanged
 		if Merge.ModSettings.Rev4ForMergeRandomizeRemovedItems == 1 then
 			local obj = Map.Objects[id]
+			local mapStats = Game.MapStats[Map.MapStatsIndex]
+			local old = mapStats.Tres
+			mapStats.Tres = 6 -- hack to make treasure levels directly correspond to real treasure levels
 			obj.Item:Randomize(level, typ)
+			mapStats.Tres = old
 			obj.Type = Game.ItemsTxt[obj.Item.Number].SpriteIndex
 			obj.TypeIndex = Game.ItemsTxt[obj.Item.Number].SpriteIndex
 		else
@@ -705,7 +709,7 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 			if Map.Name == "7out01.odm" then -- Emerald Island
 				removeOrReplace({{id = 3, level = 2, itemType = const.ItemType.Sword}, {id = 10, level = 2, itemType = const.ItemType.Bow}})
 				if isHard() then
-					removeOrReplace({{id = 1, level = 2, itemType = const.ItemType.Mace}})
+					removeOrReplace({{id = 1, level = 2, itemType = const.ItemType.Mace}, {id = 8, level = 3, itemType = const.ItemType.Leather}})
 					--Map.Objects[2].Item.Bonus2 = 700 -- down from 1700
 				end
 				-- chests

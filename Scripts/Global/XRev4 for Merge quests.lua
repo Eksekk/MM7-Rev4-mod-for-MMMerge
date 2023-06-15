@@ -885,6 +885,27 @@ end
 -- enter npc: set quest branch
 -- save quest branch in vars when switching
 do
+	function bdjtest()
+		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
+		function events.AfterLoadMap()
+			events.Remove("AfterLoadMap", 1)
+			cocall(function() -- doing this in coroutine allows using "Sleep()"
+				kill()
+				Sleep(50)
+				for i in Map.Doors do
+					evt.SetDoorState{Id = i, State = 2}
+				end
+			end)
+		end
+	end
+	
+	function debugClasses(a, b, c, d, e)
+		local t = {a, b, c, d, e}
+		for i, classStr in ipairs(t) do
+			Party[i - 1].Class = assert(const.Class[classStr], string.format("Invalid class string %q", classStr))
+		end
+	end
+
 	local cc = const.Class
 	local mt = getmetatable(const.Class) or {}
 	local oldIndex = mt.__index or function() end
@@ -906,10 +927,10 @@ do
 		[cc.Deerslayer] = {{cc.Pioneer}, {cc.Pathfinder}},
 		[cc.Dragon] = {{cc.FlightLeader}, {cc.GreatWyrm}},
 		[cc.Druid] = {{cc.GreatDruid}, {l = cc.ArchDruid, d = cc.Warlock, cc.MasterDruid}, MM7 = true},
-		[cc.Knight] = {{cc.Cavalier}, {l = cc.Champion, d = cc.BlackKnight, cc.Templar}, MM7 = true},
+		[cc.Knight] = {{cc.Cavalier}, {l = cc.Templar, d = cc.BlackKnight, cc.Champion}, MM7 = true},
 		[cc.Minotaur] = {{cc.MinotaurHeadsman}, {cc.MinotaurLord}},
 		[cc.Monk] = {{cc.InitiateMonk}, {l = cc.MasterMonk, d = cc.Ninja}, MM7 = true},
-		[cc.Paladin] = {{cc.Crusader}, {l = cc.Hero, d = cc.Villain}, MM7 = true},
+		[cc.Paladin] = {{cc.Crusader}, {l = cc.Hero, d = cc.Villain, cc.Justiciar}, MM7 = true},
 		[cc.Ranger] = {{cc.Hunter}, {l = cc.RangerLord, d = cc.BountyHunter}, MM7 = true},
 		[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
 		[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
@@ -980,7 +1001,7 @@ do
 		local findClass = function(v) return v == classId end
 		for class, promos in pairs(classes) do
 			if 
-				(type(class) == "table" and table.findIf(class, findClass) or type(class) == "number" and class == classId)
+				(type(class) == "table" and table.findIf(class, findClass) or (type(class) == "number" and class == classId))
 				or table.findIf(promos[1], findClass)
 				or table.findIf(promos[2], findClass)
 			then
@@ -990,15 +1011,20 @@ do
 		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
 	end
 
+	-- find base class used in class change chart
 	function findBaseClassInChart(class)
+		if type(class) == "table" then
+			local _
+			_, class = next(class)
+		end
 		local base = getClassEntry(class)
-		if type(base) == "table" then -- find base class used in class change chart
+		if type(base) == "table" then
 			local base2 = base[table.findIf(base, function(v, k) return classChangeChart[v] end)]
 			base = base2
 		end
 		return base
 	end
-
+	
 	local branches = {}
 	function branches.chooseClass(id)
 		return "BDJ_class_" .. id
@@ -1020,27 +1046,6 @@ do
 	end
 	function branches.brazier()
 		return "BDJ_brazier"
-	end
-
-	function bdjtest()
-		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
-		function events.AfterLoadMap()
-			cocall(function()
-				kill()
-				Sleep(50)
-				for i in Map.Doors do
-					evt.SetDoorState{Id = i, State = 2}
-				end
-				events.Remove("AfterLoadMap", 1)
-			end)
-		end
-	end
-	
-	function debugClasses(a, b, c, d, e)
-		local t = {a, b, c, d, e}
-		for i, classStr in ipairs(t) do
-			Party[i - 1].Class = assert(const.Class[classStr], "Invalid class string")
-		end
 	end
 
 	-- IMPORTANT
@@ -1147,18 +1152,11 @@ do
 			error(string.format("Couldn't find class tier for class %d (%q)", pl.Class, invClass[pl.Class]))
 		end
 
-		-- find stat bonuses for class
-		local bonus
-		for class, bonuses in pairs(classChangeStatBonuses) do
-			if (type(baseClass) == "number" and baseClass == class)
-				or (type(baseClass) == "table" and table.find(baseClass, class))
-			then
-				bonus = bonuses
-				break
-			end
-		end
-		bonus = bonus or {}
-		for id, add in pairs(bonus) do
+		-- stat bonuses for class
+		-- for now every class should have bonus
+		local cls = assert(findBaseClassInChart(newClass), dump(newClass))
+		local err = string.format("Couldn't find stat bonuses for class %d (%q)", cls, invClass[cls])
+		for id, add in pairs(assert(classChangeStatBonuses[cls], err)) do
 			pl.Stats[id].Base = pl.Stats[id].Base + add
 		end
 		Game.ShowStatusText(evt.str[21])

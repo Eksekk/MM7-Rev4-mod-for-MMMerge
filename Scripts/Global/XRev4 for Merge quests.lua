@@ -393,7 +393,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
 				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = wrom.X, wrom.Y, wrom.Z, XYZ(wrom)
 				wrom.HP, wrom.FullHP = math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1)), math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1))
-				wrom.Group = 255
+				wrom.Group = 255 -- allied with spawnpoint monsters
 				wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
 				wrom.Spell2, wrom.Spell2Chance, wrom.Spell2Skill = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 8, const.GM)
 				monUtils.boostResistances(wrom, diffsel(10, 30, 50))
@@ -962,29 +962,6 @@ do
 	}
 	getmetatable(cc).__index = oldIndex
 
-	function bdjtest()
-		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
-		function events.AfterLoadMap()
-			cocall(function()
-				kill()
-				Sleep(500)
-				for i in Map.Doors do
-					evt.SetDoorState{Id = i, State = 2}
-				end
-				events.Remove("AfterLoadMap", 1)
-			end)
-		end
-	end
-
-	-- IMPORTANT
-	-- normal event shouldn't be assigned (by default or through event)
-
-	local Q = tget(vars, "bdjClassChangeQuest")
-	rev4m.bdjQ = Q
-	local function myQuestBranch(str)
-		Q.branch = str
-		QuestBranch(str, true)
-	end
 	local branches = {}
 	function branches.chooseClass(id)
 		return "BDJ_class_" .. id
@@ -1007,30 +984,64 @@ do
 	function branches.brazier()
 		return "BDJ_brazier"
 	end
-	local npc = 1279 -- BDJ
+
+	function bdjtest()
+		evt.MoveToMap{Name = "7d12.blv", X = 2753, Y = 773, Z = 193}
+		function events.AfterLoadMap()
+			cocall(function()
+				kill()
+				Sleep(50)
+				for i in Map.Doors do
+					evt.SetDoorState{Id = i, State = 2}
+				end
+				events.Remove("AfterLoadMap", 1)
+			end)
+		end
+	end
+	
+	function debugClasses(a, b, c, d, e)
+		local t = {a, b, c, d, e}
+		for i, classStr in ipairs(t) do
+			Party[i - 1].Class = assert(const.Class[classStr], "Invalid class string")
+		end
+	end
+
+	-- IMPORTANT
+	-- normal event shouldn't be assigned (by default or through event)
+
+	local Q = tget(vars, "bdjClassChangeQuest")
+	rev4m.bdjQ = Q
+	local function myQuestBranch(str)
+		Q.branch = str
+		QuestBranch(str, true)
+	end
+	local bdjNpcId = 1279 -- BDJ
+	QuestNPC = bdjNpcId
+	local nextPlayer
 	function events.EnterNPC(id)
-		if id == npc then
+		if id == bdjNpcId and Map.Name == "7d12.blv" then -- shouldn't hurt, but just in case start only inside Coding Fortress
 			if not Q.branch then
 				myQuestBranch(branches.welcome())
-			else
-				--QuestBranch(Q.branch, true)
+			elseif Q.nextPlayer then
+				nextPlayer()
+				Q.nextPlayer = nil
 			end
 		end
 	end
 
 	function events.CanExitNPC(id)
-		if id == npc then
+		if id == bdjNpcId then
 			t.Allow = true
 		end
 	end
 
-	local function nextPlayer()
+	function nextPlayer() -- call only from NPC dialog - uses GetCurrentNPC() which is nil when not in NPC dialog
 		Q.currentPlayer = (Q.currentPlayer or -1) + 1
 		if Q.currentPlayer > Party.High then
 			myQuestBranch(branches.finished_confirm())
 		else
-			Q.currentClass = -1
 			myQuestBranch(branches.newProfession(Q.currentPlayer))
+			Q.currentClass = -1
 		end
 	end
 
@@ -1074,10 +1085,12 @@ do
 			return
 		end
 		local destinationClass = Q.currentClass
-		local pl = Party[Q.currentPlayer or 0]
+		local index = Q.currentPlayer or 0
+		local pl = Party[index]
 		local tier = getClassTier(pl.Class)
 		local baseClassId, baseClassPromos = getClassEntry(pl.Class)
 		local newClassId, newClassPromos = getClassEntry(destinationClass)
+		evt.ForPlayer(index) -- set evt.Player to act on correct one
 		if tier == 0 then
 			evt.Set("ClassIs", newClassId)
 		elseif tier == 1 then
@@ -1109,7 +1122,9 @@ do
 			pl.Stats[id].Base = pl.Stats[id].Base + add
 		end
 		Game.ShowStatusText(evt.str[21])
-		nextPlayer()
+		-- nextPlayer()
+		Q.nextPlayer = true
+		Q.currentClass = -1
 	end
 
 	local function checkShow() -- check if topics should be shown, because BDJ also appears in The Vault and probably The Gauntlet
@@ -1124,7 +1139,6 @@ do
 		Branch = branches.welcome(),
 		CanShow = checkShow,
 		Ungive = function()
-			--debug.Message(QuestBranch())
 			myQuestBranch(branches.welcome2())
 			-- evt.SetNPCTopic{NPC = getNPC(456), Index = 0, Event = getGlobalEvent(49)}         -- "The Coding Wizard" : "How does this work?"
 			evt.MoveNPC{NPC = getNPC(460), HouseId = getHouseID(470)}         -- "Lord Godwinson" -> "Godwinson Estate"

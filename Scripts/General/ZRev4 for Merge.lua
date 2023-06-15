@@ -12,6 +12,9 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * BDJ quest
+* bdj doesn't turn hostile, also deal with angel in harmondale
+* verify and fix lich quest and other quests except those tested recently
+* with bolster, reloading map after hurting enemies might refill their health - fix
 
 ---- important ----
 * Bosses

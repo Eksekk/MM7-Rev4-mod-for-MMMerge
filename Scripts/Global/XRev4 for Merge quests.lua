@@ -900,9 +900,9 @@ do
 
 	local classes =
 	{
-		-- class = {{first promo classes}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
+		-- (class or {(l = light, d = dark, others)}) = {{first promo classes(l = light, d = dark, others)}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
 		[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
-		[cc.Cleric] = {{cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},
+		[{l = cc.AcolyteLight, d = AcolyteDark, cc.Cleric}] = {{l = cc.ClericLight, d = cc.ClericDark, cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},
 		[cc.Deerslayer] = {{cc.Pioneer}, {cc.Pathfinder}},
 		[cc.Dragon] = {{cc.FlightLeader}, {cc.GreatWyrm}},
 		[cc.Druid] = {{cc.GreatDruid}, {l = cc.ArchDruid, d = cc.Warlock, cc.MasterDruid}, MM7 = true},
@@ -914,10 +914,9 @@ do
 		[cc.Thief] = {{cc.Rogue}, {l = cc.Spy, d = cc.Assassin, cc.Robber}, MM7 = true},
 		[cc.Barbarian] = {{cc.Berserker}, {cc.Warmonger}},
 		[cc.Vampire] = {{cc.ElderVampire}, {cc.Nosferatu}},
-		[cc.Sorcerer] = {{cc.Wizard}, {l = cc.ArchMage, d = cc.MasterNecromancer, cc.MasterWizard}, MM7 = true},
+		[{l = cc.ApprenticeMage, d = cc.DarkAdept, cc.Sorcerer}] = {{l = cc.Mage, d = cc.Necromancer, cc.Wizard}, {l = cc.ArchMage, d = cc.MasterNecromancer, cc.MasterWizard}, MM7 = true},
 		--[cc.] = {{cc.}, {l = cc., d = cc., cc.}},
 	}
-	classes[cc.Necromancer] = classes[cc.Sorcerer]
 
 	local classChangeChart =
 	{
@@ -961,6 +960,44 @@ do
 		[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
 	}
 	getmetatable(cc).__index = oldIndex
+
+	local function getClassTier(classId)
+		local findClass = function(v) return v == classId end
+		for k, v in pairs(classes) do
+			if type(k) == "table" and table.findIf(k, findClass) or type(k) == "number" and k == classId then
+				return 0
+			elseif table.findIf(v[1], findClass) then
+				return 1
+			elseif table.findIf(v[2], findClass) then
+				return 2
+			end
+		end
+		error(string.format("Invalid class %d", classId))
+	end
+
+	local invClass = table.invert(cc)
+	local function getClassEntry(classId)
+		local findClass = function(v) return v == classId end
+		for class, promos in pairs(classes) do
+			if 
+				(type(class) == "table" and table.findIf(class, findClass) or type(class) == "number" and class == classId)
+				or table.findIf(promos[1], findClass)
+				or table.findIf(promos[2], findClass)
+			then
+				return class, promos
+			end
+		end
+		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
+	end
+
+	function findBaseClassInChart(class)
+		local base = getClassEntry(class)
+		if type(base) == "table" then -- find base class used in class change chart
+			local base2 = base[table.findIf(base, function(v, k) return classChangeChart[v] end)]
+			base = base2
+		end
+		return base
+	end
 
 	local branches = {}
 	function branches.chooseClass(id)
@@ -1044,29 +1081,6 @@ do
 			Q.currentClass = -1
 		end
 	end
-
-	local function getClassTier(classId)
-		for k, v in pairs(classes) do
-			if k == classId then
-				return 0
-			elseif table.find(v[1], classId) then
-				return 1
-			elseif table.findIf(v[2], function(v) return v == classId end) then
-				return 2
-			end
-		end
-		error(string.format("Invalid class %d", classId))
-	end
-
-	local invClass = table.invert(cc)
-	local function getClassEntry(classId)
-		for class, promos in pairs(classes) do
-			if class == classId or table.find(promos[1], classId) or table.findIf(promos[2], function(v) return v == classId end) then
-				return class, promos
-			end
-		end
-		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
-	end
 	
 	local brazierAction
 
@@ -1088,37 +1102,63 @@ do
 		local index = Q.currentPlayer or 0
 		local pl = Party[index]
 		local tier = getClassTier(pl.Class)
-		local baseClassId, baseClassPromos = getClassEntry(pl.Class)
-		local newClassId, newClassPromos = getClassEntry(destinationClass)
-		evt.ForPlayer(index) -- set evt.Player to act on correct one
-		if tier == 0 then
-			evt.Set("ClassIs", newClassId)
-		elseif tier == 1 then
-			evt.Set("ClassIs", newClassPromos[1][1])
-		elseif tier == 2 then
-			local finalBase, finalNew = baseClassPromos[2], newClassPromos[2]
-			if baseClassPromos.MM7 then
-				if newClassPromos.MM7 then
-					-- MM7 to MM7 - try to convert
-					if finalBase.l == pl.Class and finalNew.l then
-						evt.Set("ClassIs", finalNew.l)
-					elseif finalBase.d == pl.Class and finalNew.d then
-						evt.Set("ClassIs", finalNew.d)
+		local baseClass, baseClassPromos = getClassEntry(pl.Class)
+		local newClass, newClassPromos = getClassEntry(destinationClass)
+		local baseMM7, newMM7 = baseClassPromos.MM7, newClassPromos.MM7
+
+		local function doClassChange(baseClassPromos, newClassPromos)
+			-- table wrap if single class (number)
+			if type(baseClassPromos) == "number" then
+				baseClassPromos = {baseClassPromos}
+			end
+			if type(newClassPromos) == "number" then
+				newClassPromos = {newClassPromos}
+			end
+			local errorMsg = string.format("Couldn't find appropriate class to change into for class %d (%q)", pl.Class, invClass[pl.Class])
+			if baseMM7 then
+				if newMM7 then
+					-- MM7 to MM7 - try to convert according to path
+					if baseClassPromos.l == pl.Class and newClassPromos.l then
+						evt.Set("ClassIs", newClassPromos.l)
+					elseif baseClassPromos.d == pl.Class and newClassPromos.d then
+						evt.Set("ClassIs", newClassPromos.d)
 					else
-						evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+						evt.Set("ClassIs", newClassPromos[1] or error(errorMsg, 2))
 					end
 				else
-					-- MM7 to not MM7 - pick first available
-					evt.Set("ClassIs", finalNew[1] or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+					-- MM7 to not MM7 - pick first available, preferring neutral
+					evt.Set("ClassIs", newClassPromos[1] or newClassPromos.l or newClassPromos.d or error(errorMsg, 2))
 				end
 			else
-				-- (not MM7 to MM7) or (not MM7 to not MM7) - pick neutral (first available)
-				evt.Set("ClassIs", finalNew[1] or finalNew.l or finalNew.d or error(string.format("Class %d (%q)", pl.Class, invClass[pl.Class])))
+				-- (not MM7 to MM7) or (not MM7 to not MM7) - pick first available, preferring neutral
+				evt.Set("ClassIs", newClassPromos[1] or newClassPromos.l or newClassPromos.d or error(errorMsg, 2))
 			end
-		else
-			error(string.format("Class %d (%q)", baseClassId, invClass[baseClassId]))
 		end
-		for id, add in pairs(classChangeStatBonuses[newClassId] or {}) do
+
+		evt.ForPlayer(index) -- set evt.Player to act on correct one
+
+		if tier == 0 then
+			doClassChange(baseClass, newClass)
+		elseif tier == 1 then
+			doClassChange(baseClassPromos[1], newClassPromos[1])
+		elseif tier == 2 then
+			doClassChange(baseClassPromos[2], newClassPromos[2])
+		else
+			error(string.format("Couldn't find class tier for class %d (%q)", pl.Class, invClass[pl.Class]))
+		end
+
+		-- find stat bonuses for class
+		local bonus
+		for class, bonuses in pairs(classChangeStatBonuses) do
+			if (type(baseClass) == "number" and baseClass == class)
+				or (type(baseClass) == "table" and table.find(baseClass, class))
+			then
+				bonus = bonuses
+				break
+			end
+		end
+		bonus = bonus or {}
+		for id, add in pairs(bonus) do
 			pl.Stats[id].Base = pl.Stats[id].Base + add
 		end
 		Game.ShowStatusText(evt.str[21])
@@ -1165,8 +1205,7 @@ do
 			Slot = 0,
 			Ungive = function()
 				local pl = Party[Q.currentPlayer or 0]
-				local base = getClassEntry(pl.Class)
-				myQuestBranch(branches.chooseClass(base))
+				myQuestBranch(branches.chooseClass(findBaseClassInChart(pl.Class)))
 			end,
 			Branch = branches.newProfession(i),
 			CanShow = checkShow,

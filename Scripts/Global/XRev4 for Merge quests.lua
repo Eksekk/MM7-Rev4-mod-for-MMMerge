@@ -115,74 +115,97 @@ end
 
 -- boost spiders level/experience/hit radius?
 
+-- shared spawnpoints
+
+-- contains new function only
 sharedSpawnpoint = {}
+-- contains actual spawnpoints
 sharedSpawnpoints = {}
+
 local function monClass(Id)
 	if not Id then return end
 	return (Id + 2):div(3)
 end
-function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
+
+local validSettings = {"RandomSpawnpointOrder", "ExactSpawnMin", "ExactSpawnMax", "DivideAcrossAllSpawnpoints"}
+local function validateSettings(settings)
+	for k, v in pairs(settings) do
+		if not table.find(validSettings, k) then
+			error(string.format("Invalid spawnpoint setting %q", k), 3)
+		end
+	end
+end
+
+function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
+	-- thought about shared metatable and data inside spawnpoint itself, but I would probably lose excellent
+	-- aquamarine colouring of upvalues which makes script easier to understand :(
 	if not mapname or not spawnpointId then error("Invalid parameters passed to sharedSpawnpoint.new function") end
 	local MAX_SPAWNED_AT_ONCE = diffsel(4, 6, 8)
 	local ret = {}
-	local spawns = {}
-	local maxSpawnByType = {}
+	local spawnpoints = {}
+	local maxSpawnByClass = {}
 	local spawned = {}
-	local settings = {}
+	settings = settings or {}
+	validateSettings(settings)
 	local transforms = {}
 	local class = monClass(monster)
 	if class and max then
-		maxSpawnByType[class] = max
+		maxSpawnByClass[class] = max
 	end
+
 	function ret.setSpawnSettings(s)
 		settings = table.copy(s)
+		validateSettings(settings)
 	end
+
 	function ret.saveSpawnedMonsters()
 		if Map.Name ~= mapname then return end
 		mapvars.SharedSpawnpointMonsters = mapvars.SharedSpawnpointMonsters or {}
 		mapvars.SharedSpawnpointMonsters[spawnpointId] = {}
 		for class, monArray in pairs(spawned) do
-			mapvars.SharedSpawnpointMonsters[spawnpointId][class] = mapvars.SharedSpawnpointMonsters[spawnpointId][class] or {}
+			local sp = tget(mapvars.SharedSpawnpointMonsters[spawnpointId], class)
 			for _, mon in ipairs(monArray) do
-				table.insert(mapvars.SharedSpawnpointMonsters[spawnpointId][class], mon:GetIndex())
+				table.insert(sp[class], mon:GetIndex())
 			end
 		end
 	end
+	
 	function ret.loadSpawnedMonsters()
 		if Map.Name ~= mapname then return end
 		mapvars.SharedSpawnpointMonsters = mapvars.SharedSpawnpointMonsters or {}
 		local entry = mapvars.SharedSpawnpointMonsters[spawnpointId]
 		if not entry then
 			return
-		elseif Map.Refilled then
-			mapvars.SharedSpawnpointMonsters[spawnpointId] = {}
-			return
 		end
 		for class, mapMonIds in pairs(entry) do
 			for _, mapMonId in ipairs(mapMonIds) do
-				if mapMonId < Map.Monsters["count"] then
+				if mapMonId < Map.Monsters.count then
 					local mon = Map.Monsters[mapMonId]
-					spawned[class] = spawned[class] or {}
-					table.insert(spawned[class], mon)
+					table.insert(tget(spawned, class), mon)
 				end
 			end
 		end
 	end
+
 	function ret.addSpawnpoint(data)
 		if type(data) ~= "table" then error("Argument passed to sharedSpawnpoint.addSpawnpoint() isn't a table") end
 		local class = monClass(data.monster)
-		spawns[class] = spawns[class] or {}
-		table.insert(spawns[class], data)
+		table.insert(tget(spawnpoints, class), data)
 	end
+
+	-- set maximum spawned count for passed monster's class
 	function ret.setMax(mon, max)
-		maxSpawnByType[monClass(mon)] = max
+		maxSpawnByClass[monClass(mon)] = max
 	end
+
+	-- default max spawned monsters count, used if setMax is not called
 	function ret.setDefaultMax(max)
 		MAX_SPAWNED_AT_ONCE = max
 	end
+
+	-- each monster class has similar maximum
 	function ret.spawn()
-		local monsterSpawnpoints, class
-		local function spawn2()
+		local function spawnSingleClass(monsterSpawnpoints, class)
 			if Map.Name ~= mapname then
 				error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name), 3)
 			end
@@ -202,7 +225,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 			end
 			for _, index in ipairs(randOrder) do
 				local spawn = monsterSpawnpoints[index]
-				local canSpawn = (maxSpawnByType[class] or MAX_SPAWNED_AT_ONCE) - #(spawned[class] or {})
+				local canSpawn = (maxSpawnByClass[class] or MAX_SPAWNED_AT_ONCE) - #(spawned[class] or {})
 				local maxInOneSpawn = canSpawn
 				local minInOneSpawn = 1
 				if settings.ExactSpawnMin then
@@ -241,7 +264,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 				canSpawn = canSpawn - #mons
 			end
 		end
-		for k, v in pairs(spawns) do
+		for k, v in pairs(spawnpoints) do
 			class = k
 			monsterSpawnpoints = v
 			spawn2()
@@ -268,9 +291,9 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 	function ret.clearSpawns(monster)
 		local class = monClass(monster)
 		if class then
-			spawns[class] = {}
+			spawnpoints[class] = {}
 		else
-			spawns = {}
+			spawnpoints = {}
 		end
 	end
 	ret.clearAllSpawns = ret.clearSpawns
@@ -289,7 +312,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max)
 end
 
 local cleared -- needed to not save twice on leaving map (first time from LeaveMap, clearing table,
-			  -- and second time from BeforeSaveGame (autosave?), overriding correct table with empty one)
+				-- and second time from BeforeSaveGame (autosave?), overriding correct table with empty one)
 function events.LoadMap()
 	cleared = false
 	for _, ss in ipairs(sharedSpawnpoints) do
@@ -319,6 +342,7 @@ function events.MonsterKilled(mon, index, handler)
 		ss.tryRemoveSpawnedMonster(mon)
 	end
 end
+
 if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	-- chests, ground items?
 	-- randomized monster spells, monster bonuses

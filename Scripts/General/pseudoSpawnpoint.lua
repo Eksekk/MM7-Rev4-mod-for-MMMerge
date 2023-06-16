@@ -352,10 +352,8 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 				canSpawn = canSpawn - #mons
 			end
 		end
-		for k, v in pairs(spawnpoints) do
-			class = k
-			monsterSpawnpoints = v
-			spawn2()
+		for class, spawnpointTable in pairs(spawnpoints) do
+			spawnSingleClass(spawnpointTable, class)
 		end
 	end
 	function ret.getSpawnedMonsters(monster)

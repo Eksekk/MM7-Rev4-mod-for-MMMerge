@@ -13,6 +13,8 @@ end
 -- The Gauntlet
 -- store town portal QBits on map enter and restore on map leave
 
+-- TEST IT
+
 function rev4m.storeGauntletQBits()
 	if rev4m.bdjQ and rev4m.bdjQ.done then return end
 	vars.TheGauntletQBits = vars.TheGauntletQBits or {}

@@ -278,31 +278,44 @@ patches = {
     -- THOSE BELOW ARE NOT TESTED --
 
         -- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members
+        local eventAdded -- don't add multiple times
 		replaceMapEvent(221, function()
             evt.ForPlayer("All")
             if not evt.Cmp("QBits", getQuestBit(356)) then         -- 0
                 evt.StatusText(54)         -- "You Pray"
                 return
             end
+            if not eventAdded then
+                eventAdded = true
+                -- wrapping in load map because doesn't work without it (code below moveToMap isn't ever executed), and if it were at the bottom, other code
+                -- (in this case removing some stuff and dispel) would be run even if player declines move. In original Rev4 it ran every time, but I find that annoying
+                function events.LoadMap()
+                    events.Remove("LoadMap", 1)
+                    if Map.Name ~= "7d08.blv" then return end
+                    for _, potion in ipairs{getItem(223), 1767} do        -- "Magic Potion"
+                        while evt.Cmp("Inventory", potion) do
+                            evt.Subtract("Inventory", potion)
+                        end
+                    end
+                    for _, scroll in ipairs({332, getItem(332), 1834}) do
+                        while evt.Cmp("Inventory", scroll) do
+                            evt.Subtract("Inventory", scroll)
+                        end
+                    end
+                    for _, pl in Party do
+                        if pl.Skills[const.Skills.Fire] ~= 0 then
+                            pl.SP = 0
+                        end
+                    end
+                    evt.ForPlayer("All")
+                    -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
+                    -- dispel magic
+                    dispelMagic(true) -- for now unblockable, not sure if should be blockable
+                    -- handled in Global/VRev4 for Merge.lua
+                    -- evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
+                end
+            end
             evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
-            while evt.Cmp("Inventory", getItem(223)) do         -- "Magic Potion"
-                evt.Subtract("Inventory", getItem(223))         -- "Magic Potion"
-            end
-            for _, scroll in ipairs({332, getItem(332), 1834}) do
-                while evt.Cmp("Inventory", scroll) do
-                    evt.Subtract("Inventory", scroll)
-                end
-            end
-            for _, pl in Party do
-                if pl.Skills[const.Skills.Fire] ~= 0 then
-                    pl.SP = 0
-                end
-            end
-            evt.ForPlayer("All")
-            -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
-            -- dispel magic
-            dispelMagic(true) -- for now unblockable, not sure if should be blockable
-            evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
         end)
     end,
     -- Erathia

@@ -205,7 +205,7 @@ end
 
 -- shared spawnpoints
 
--- contains new function only
+-- contains only new() function
 sharedSpawnpoint = {}
 -- contains actual spawnpoints
 sharedSpawnpoints = {}
@@ -424,4 +424,17 @@ local save = function(clear)
 			ss.saveSpawnedMonsters()
 			if clear then
 				cleared = true
-				ss.clearSpawne
+				ss.clearSpawnedTable()
+			end
+		end
+	end
+end
+
+events.LeaveMap = save(true)
+events.BeforeSaveGame = save(false)
+
+function events.MonsterKilled(mon)
+	for _, ss in ipairs(sharedSpawnpoints) do
+		ss.tryRemoveSpawnedMonster(mon)
+	end
+end

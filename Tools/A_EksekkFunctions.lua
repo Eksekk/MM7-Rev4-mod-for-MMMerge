@@ -570,3 +570,8 @@ function mtarget()
 	end
 	error("Invalid mouse target")
 end
+
+local max, min = math.max, math.min
+function math.clamp(num, low, high)
+	return math.max(math.min(num, high), low)
+end

@@ -15,6 +15,9 @@ IMPORTANCE CATEGORIES:
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * verify and fix lich quest and other quests except those tested recently
 * with bolster, reloading map after hurting enemies might refill their health - fix
+* verify all map patches in dedicated file
+
+-- those below are not needed for "first release" --
 
 ---- important ----
 * Bosses
@@ -22,6 +25,7 @@ IMPORTANCE CATEGORIES:
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Boost some of statistics' effects (if boosted breakpoints active, then less)
 * spell damage opt-out
+* reduce buffs recovery if out of combat
 
 ---- good to have ----
 * Extra spawns in dungeons

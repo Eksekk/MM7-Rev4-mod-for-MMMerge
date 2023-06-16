@@ -293,10 +293,10 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 
 	-- each monster class has similar maximum
 	function ret.spawn()
+		if Map.Name ~= mapname then
+			error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name), 2)
+		end
 		local function spawnSingleClass(monsterSpawnpoints, class)
-			if Map.Name ~= mapname then
-				error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name), 3)
-			end
 			if #monsterSpawnpoints == 0 then return end
 			local randOrder = {}
 			if settings.RandomSpawnpointOrder then
@@ -311,25 +311,27 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 					randOrder[i] = i
 				end
 			end
+			local canSpawn = (maxSpawnByClass[class] or MAX_SPAWNED_AT_ONCE) - #(spawned[class] or {})
 			for _, index in ipairs(randOrder) do
-				local spawn = monsterSpawnpoints[index]
-				local canSpawn = (maxSpawnByClass[class] or MAX_SPAWNED_AT_ONCE) - #(spawned[class] or {})
+				local spawnpoint = monsterSpawnpoints[index]
 				local maxInOneSpawn = canSpawn
 				local minInOneSpawn = 1
+				-- there can spawn fewer monsters than ExactSpawnMin if there are not enough monsters to spawn fully
 				if settings.ExactSpawnMin then
-					local min, max = getRange(spawn.count)
-					minInOneSpawn = min
+					local min = getMinMaxCount(spawnpoint.count)
+					minInOneSpawn = math.min(min, canSpawn) -- no more than can spawn
 				end
 				if settings.ExactSpawnMax then
-					local min, max = getRange(spawn.count)
-					maxInOneSpawn = max
+					local _, max = getMinMaxCount(spawnpoint.count)
+					maxInOneSpawn = math.min(max, canSpawn) -- no more than can spawn
 				end
+				-- clamp?
+				assert(minInOneSpawn <= maxInOneSpawn, string.format("Invalid range %q", dump(spawnpoint.count)))
 				if settings.DivideAcrossAllSpawnpoints then
-					maxInOneSpawn = math.ceil(canSpawn / #monsterSpawnpoints)
+					-- no less that 1 and no less than min
+					maxInOneSpawn = math.max(math.ceil(canSpawn / #monsterSpawnpoints), 1, minInOneSpawn)
 				end
-				local max = math.min(canSpawn, maxInOneSpawn)
-				if max <= 0 then return end
-				local oldTransform = spawn.transform
+				local oldTransform = spawnpoint.transform
 				local function newTransform(mon)
 					if oldTransform then
 						oldTransform(mon)
@@ -339,33 +341,37 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 						f(mon)
 					end
 				end
-				spawn.transform = newTransform
-				local oldC = spawn.count
-				spawn.count = minInOneSpawn == max and max or (tostring(minInOneSpawn) .. "-" .. tostring(max))
-				local mons = pseudoSpawnpoint(spawn)
-				spawn.count, spawn.transform = oldC, oldTransform
+				spawnpoint.transform = newTransform
+				local oldC = spawnpoint.count
+				spawnpoint.count = minInOneSpawn == maxInOneSpawn and maxInOneSpawn or {minInOneSpawn, maxInOneSpawn}
+				local mons = pseudoSpawnpoint(spawnpoint)
+				spawnpoint.count, spawnpoint.transform = oldC, oldTransform
 				for i, v in ipairs(mons) do
 					local class = monClass(v.Id)
-					spawned[class] = spawned[class] or {}
-					table.insert(spawned[class], mons[i])
+					table.insert(tget(spawned, class), mons[i])
 				end
 				canSpawn = canSpawn - #mons
+				if canSpawn == 0 then return end
 			end
 		end
+
 		for class, spawnpointTable in pairs(spawnpoints) do
 			spawnSingleClass(spawnpointTable, class)
 		end
 	end
+
 	function ret.getSpawnedMonsters(monster)
+		if mapname ~= Map.Name then return end
 		local class = monClass(monster)
 		return class and spawned[class] or spawned
 	end
+	ret.getAllSpawnedMonsters = ret.getSpawnedMonsters
+
 	function ret.tryRemoveSpawnedMonster(mon)
 		if mapname ~= Map.Name then return end
 		if mon then
 			local class = monClass(mon.Id)
-			spawned[class] = spawned[class] or {}
-			local index = table.find(spawned[class], mon)
+			local index = table.find(tget(spawned, class), mon)
 			if index then
 				table.remove(spawned[class], index)
 			end
@@ -373,8 +379,9 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 			spawned = {}
 		end
 	end
-	ret.tryRemoveAllSpawnedMonsters = ret.tryRemoveSpawnedMonster
-	function ret.clearSpawns(monster)
+	ret.removeAllSpawnedMonsters = ret.tryRemoveSpawnedMonster
+
+	function ret.clearSpawnpoints(monster)
 		local class = monClass(monster)
 		if class then
 			spawnpoints[class] = {}
@@ -382,13 +389,16 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 			spawnpoints = {}
 		end
 	end
-	ret.clearAllSpawns = ret.clearSpawns
+	ret.clearAllSpawnpoints = ret.clearSpawnpoints
+
 	function ret.getMap()
 		return mapname
 	end
+
 	function ret.setTransform(mon, fn)
 		transforms[monClass(mon)] = fn
 	end
+
 	function ret.clearSpawnedTable()
 		spawned = {}
 	end
@@ -414,17 +424,4 @@ local save = function(clear)
 			ss.saveSpawnedMonsters()
 			if clear then
 				cleared = true
-				ss.clearSpawnedTable()
-			end
-		end
-	end
-end
-
-events.LeaveMap = save(true)
-events.BeforeSaveGame = save(false)
-
-function events.MonsterKilled(mon, index, handler)
-	for _, ss in ipairs(sharedSpawnpoints) do
-		ss.tryRemoveSpawnedMonster(mon)
-	end
-end
+				ss.clearSpawne

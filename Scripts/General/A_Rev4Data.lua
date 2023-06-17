@@ -4,6 +4,17 @@ rev4m.const = rev4m.const or {}
 rev4m.const.firstNewSpcBonus = 178
 rev4m.const.spcBonuses = rev4m.const.spcBonuses or {}
 rev4m.const.spcBonuses.permanence = rev4m.const.firstNewSpcBonus
+
+rev4m.const.firstNewPlaceMon = 196
+do
+    local p = rev4m.const.firstNewPlaceMon
+    rev4m.placeMon = {
+        clankerWizard = p,
+        tulareanJailer = p + 1,
+        infernalTroglodyte = p + 2,
+        deyjaNecro = p + 3,
+    }
+end
 rev4m.path = rev4m.path or {}
 -- all paths are relative to game folder
 rev4m.path.mergeMapScripts = "merge map scripts\\" -- not decompiled, but found in Scripts/Maps only

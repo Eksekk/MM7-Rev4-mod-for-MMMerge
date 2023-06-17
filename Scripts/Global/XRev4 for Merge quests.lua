@@ -390,7 +390,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
-			wiz.NameId = placemonAdditionalStart
+			wiz.NameId = rev4m.placeMon.clankerWizard
 			wiz.Experience = wiz.Experience * 25
 			wiz.Special = 1 -- shoot
 			wiz.SpecialC = 5 -- x5
@@ -476,7 +476,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		-- x = 12045, y = 1385, z = 1089
 		-- X = 12045, Y = 1385, Z = 1089
 		local cellKey = 979
-		local jailerNameId = placemonAdditionalStart + 1
+		local jailerNameId = rev4m.placeMon.tulareanJailer
 		local NpcToRescue = 1286
 		assert(Game.NPCDataTxt[NpcToRescue].Name == "Bradley Clark")
 		local questGiverHouseId = 1105

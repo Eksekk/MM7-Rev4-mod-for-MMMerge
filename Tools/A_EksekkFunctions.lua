@@ -573,5 +573,6 @@ end
 
 local max, min = math.max, math.min
 function math.clamp(num, low, high)
-	return math.max(math.min(num, high), low)
+	return max(min(num, high), low)
 end
+getmetatable(1).__index.clamp = math.clamp

@@ -1,7 +1,5 @@
 local MS = Merge.ModSettings
 
-placemonAdditionalStart = 196
-
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
 function events.CanCastTownPortal(t)
 	if t.CanCast and Merge.Functions.GetContinent() == 2 then -- Antagarich
@@ -94,7 +92,7 @@ end
 NPCTopic
 {
 	Branch = "Rev4ForMergeHarmondaleTeleportalHubFirstPartOfLocations",
-	Ungive = function() QuestBranch("Rev4ForMergeHarmondaleTeleportalHubSecondPartOfLocations") end,
+	Ungive = function() QuestBranchScreen("Rev4ForMergeHarmondaleTeleportalHubSecondPartOfLocations") end,
 	Slot = 3,
 	NPC = hubNPCID,
 	"More destinations"
@@ -206,13 +204,8 @@ function events.AfterLoadMap()
 		replaceEnterEvent(101, {X = 13839, Y = 16367, Z = 169, Direction = 1, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 4, Name = "7Out01.Odm"})
 	elseif Map.Name == "7out15.odm" and not mapvars.placedTempleInABottle then -- Shoals
 		-- place Temple in a Bottle in chest
-		for i, item in Map.Chests[0].Items do
-			if item.Number == 0 then
-				item.Number = 1452
-				mapvars.placedTempleInABottle = true
-				break
-			end
-		end
+		assert(addChestItem(0, 1452), "Couldn't add temple in a bottle to chest")
+		mapvars.placedTempleInABottle = true
 	end
 	function events.LeaveMap()
 		if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
@@ -222,14 +215,6 @@ function events.AfterLoadMap()
 		end
 	end
 end
--- tularean forest tularean caves and clanker's lab entrances, tularean caves remove loren event
--- castle navan tularean caves exit
--- tatalia wromthrax's cave, entering, remove quixote event and add removing invisibility from orig, change wromthrax's name?
--- dragon's caves in eofol: two entrances in odm, remove dragon spawning from EI morcarack's cave, turn off exit to eofol, don't add qbits
--- create temple in a bottle in shoals when using duplicated dungeons
-
--- search for map file names in newest merge's scripts directory
--- add new mapstats entries handling to TownPortalControls.MapOfContinent from TownPortalSwitches, call original if not new entry
 
 -- fort riverstride delete plans item
 
@@ -246,7 +231,7 @@ evt.global[878] = function()
 end
 
 -- spawn monsters
-function events.LoadMap() -- needs to be before bolster function in General/AdaptiveMonstersStats.lua
+function events.LoadMap()
 	if difficulty == const.Difficulty.Easy or Merge.ModSettings.Rev4ForMergeExtraMonsterSpawns ~= 1 then
 		mapvars.Rev4ForMergeMonstersSpawned = true
 		return
@@ -264,6 +249,8 @@ function events.LoadMap() -- needs to be before bolster function in General/Adap
 			-- human archers
 			pseudoSpawnpoint{monster = 202, x = -7417, y = -3007, z = 2176, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 63}
 			pseudoSpawnpoint{monster = 202, x = -7350, y = -8517, z = 640, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 63}
+
+			------------------
 			
 			-- skelly guards on road to Barrow Downs
 			pseudoSpawnpoint{monster = 397, x = -1395, y = -20740, z = 1, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 61}
@@ -426,15 +413,16 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		end
 		local makeHostile = {}
 		local function hostile(mon)
-			table.insert(makeHostile, mon.Group)
+			table.insert(makeHostile, mon:GetIndex())
 		end
 		function events.AfterLoadMap() -- need AfterLoadMap to override some map scripts setting monsters to friendly
 			for i, v in ipairs(makeHostile) do
-				evt.SetMonGroupBit{NPCGroup = v, Bit = const.MonsterBits.Hostile, On = true}
+				evt.SetMonsterBit{Monster = v, Bit = const.MonsterBits.Hostile, On = true}
 			end
 			events.Remove("AfterLoadMap", 1)
 		end
 		local hp, rewards, spells, resists = monUtils.hp, monUtils.rewards, monUtils.spells, monUtils.resists
+		local damage, addDamage = monUtils.damage, monUtils.addDamage
 		
 		mapvars.Rev4ForMergeBossesSpawned = true
 		
@@ -447,7 +435,15 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "7out04.odm" then -- The Tularean Forest
 			
 		elseif Map.Name == "7out05.odm" then -- Deyja
-			
+			-- necro
+			local mon = pseudoSpawnpoint{monster = 307, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 100, 0}, radius = 256, group = 56}[1]
+			mon.NameId = rev4m.placeMon.deyjaNecro
+			hp(mon, 3)
+			resists(mon, 15)
+			spells(mon, nil, nil, nil, const.Spells.AcidBurst, 30, JoinSkill(10, const.Master))
+			addDamage(mon, 0, 0, 20)
+			rewards(mon, 10, {-5, const.ItemType.Ring, 100}, 5)
+
 		elseif Map.Name == "7out06.odm" then -- The Bracada Desert
 			
 		elseif Map.Name == "out09.odm" then -- Evenmorn Island
@@ -513,7 +509,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "7d24.blv" then -- Stone City
 			-- idea from MM7 Reimagined
 			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64}[1]
-			mon.NameId = placemonAdditionalStart + 3
+			mon.NameId = rev4m.placeMon.infernalTroglodyte
 			hp(mon, diffsel(5, 6, 8))
 			hostile(mon)
 			mon.Attack1.DamageDiceCount = math.round(mon.Attack1.DamageDiceCount * diffsel(2, 2.5, 3))

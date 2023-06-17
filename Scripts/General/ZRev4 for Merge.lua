@@ -16,6 +16,7 @@ IMPORTANCE CATEGORIES:
 * verify and fix lich quest and other quests except those tested recently
 * with bolster, reloading map after hurting enemies might refill their health - fix
 * verify all map patches in dedicated file
+* check if move to map doesn't cause any important code to not execute in rev4 scripts
 
 -- those below are not needed for "first release" --
 
@@ -176,6 +177,40 @@ local function randomBoostResists(mon)
 	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
 end
 monUtils.randomBoostResists = randomBoostResists
+
+local function getDamageFromString(str)
+	str = str:gsub(" ", "")
+	local countStr, sidesStr = str:match("(%d+)d(%d+)")
+	assert(countStr, "Couldn't find dice count")
+	assert(sidesStr, "Couldn't find dice sides")
+	local add
+	local plusPos = str:find("%+")
+	if plusPos then
+		add = tonumber(str:match("(%d+)", plusPos + 1))
+	end
+	return tonumber(countStr), tonumber(sidesStr), add
+end
+
+function monUtils.damage(mon, s1, s2)
+	if s1 then
+		local count, sides, add = getDamageFromString(s1)
+		mon.Attack1.DamageDiceCount, mon.Attack1.DamageDiceSides, mon.Attack1.DamageAdd = count, sides, add or mon.Attack1.DamageAdd
+	end
+	if s2 then
+		local count, sides, add = getDamageFromString(s1)
+		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd = count, sides, add or mon.Attack2.DamageAdd
+	end
+end
+
+function monUtils.addDamage(mon, count1, sides1, add1, count2, sides2, add2)
+	mon.Attack1.DamageDiceCount, mon.Attack1.DamageDiceSides, mon.Attack1.DamageAdd
+		= mon.Attack1.DamageDiceCount + count1, mon.Attack1.DamageDiceSides + sides1, mon.Attack1.DamageAdd + add1
+	
+	if count2 then
+		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd
+			= mon.Attack2.DamageDiceCount + count2, mon.Attack2.DamageDiceSides + sides2, mon.Attack2.DamageAdd + add2
+	end
+end
 
 local addTextFunctions = {}
 

@@ -56,10 +56,14 @@ IF I WANNA REALLY CHALLENGE MYSELF:
      freeze, feeblemind, turn to stone
 ]]
 
-monUtils = {}		
-function monUtils.hp(mon, mul)
+monUtils = {}
+function monUtils.hpMul(mon, mul)
 	mon.FullHP = math.round(mon.FullHP * mul)
 	mon.HP = mon.FullHP
+end
+
+function monUtils.hp(mon, hp)
+	mon.FullHP, mon.HP = hp, hp
 end
 
 local function rItem(mon, item, chance, typ)
@@ -82,12 +86,12 @@ function monUtils.rewards(mon, expMul, item, moneyMul)
 	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * moneyMul)
 end
 
-function monUtils.spells(mon, sp1, ch1, sk1, sp2, ch2, sk2)
+function monUtils.spells(mon, sp1, sk1, ch1, sp2, sk2, ch2)
 	if sp1 then
-		mon.Spell, mon.SpellChance, mon.SpellSkill = sp1, ch1, sk1
+		mon.Spell, mon.SpellSkill, mon.SpellChance = sp1, sk1, ch1
 	end
 	if sp2 then
-		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = sp2, ch2, sk2
+		mon.Spell2, mon.Spell2Skill, mon.Spell2Chance = sp2, sk2, ch2
 	end
 end
 
@@ -180,7 +184,7 @@ monUtils.randomBoostResists = randomBoostResists
 
 local function getDamageFromString(str)
 	str = str:gsub(" ", "")
-	local countStr, sidesStr = str:match("(%d+)d(%d+)")
+	local countStr, sidesStr = str:match("(%d+)[dD](%d+)")
 	assert(countStr, "Couldn't find dice count")
 	assert(sidesStr, "Couldn't find dice sides")
 	local add
@@ -194,11 +198,11 @@ end
 function monUtils.damage(mon, s1, s2)
 	if s1 then
 		local count, sides, add = getDamageFromString(s1)
-		mon.Attack1.DamageDiceCount, mon.Attack1.DamageDiceSides, mon.Attack1.DamageAdd = count, sides, add or mon.Attack1.DamageAdd
+		mon.Attack1.DamageDiceCount, mon.Attack1.DamageDiceSides, mon.Attack1.DamageAdd = count, sides, add or 0
 	end
 	if s2 then
 		local count, sides, add = getDamageFromString(s1)
-		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd = count, sides, add or mon.Attack2.DamageAdd
+		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd = count, sides, add or 0
 	end
 end
 
@@ -210,6 +214,10 @@ function monUtils.addDamage(mon, count1, sides1, add1, count2, sides2, add2)
 		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd
 			= mon.Attack2.DamageDiceCount + count2, mon.Attack2.DamageDiceSides + sides2, mon.Attack2.DamageAdd + add2
 	end
+end
+
+function monUtils.acMul(mon, mul)
+	mon.ArmorClass = math.round(mon.ArmorClass * mul)
 end
 
 local addTextFunctions = {}
@@ -1371,8 +1379,17 @@ end
 
 -- for testing
 function events.BeforeNewGameAutosave()
-	Game.UseMonsterBolster = false -- TODO: not working
 	god() -- god script needs to be in General directory
+	for i, pl in Party do
+		pl.QuickSpell = const.Spells.Fireball
+	end
+end
+
+function events.AfterLoadMap()
+	if not vars.bolsterDisabled and Map.Name == "7out01.odm" then
+		vars.bolsterDisabled = true
+		Game.UseMonsterBolster = false
+	end
 end
 
 -- testing spc bonuses generation

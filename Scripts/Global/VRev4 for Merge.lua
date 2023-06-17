@@ -407,10 +407,12 @@ end
 
 -- Bosses
 if MS.Rev4ForMergeAddBosses == 1 then
-	function events.LoadMap() -- need to execute before bolster happens
+	function events.LoadMap()
 		if mapvars.Rev4ForMergeBossesSpawned then
 			return
 		end
+		mapvars.Rev4ForMergeBossesSpawned = true
+		
 		local makeHostile = {}
 		local function hostile(mon)
 			table.insert(makeHostile, mon:GetIndex())
@@ -421,10 +423,8 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			end
 			events.Remove("AfterLoadMap", 1)
 		end
-		local hp, rewards, spells, resists = monUtils.hp, monUtils.rewards, monUtils.spells, monUtils.resists
-		local damage, addDamage = monUtils.damage, monUtils.addDamage
-		
-		mapvars.Rev4ForMergeBossesSpawned = true
+		local hp, hpMul, rewards, spells, resists = monUtils.hp, monUtils.hpMul, monUtils.rewards, monUtils.spells, monUtils.resists
+		local damage, addDamage, acMul = monUtils.damage, monUtils.addDamage, monUtils.acMul
 		
 		if Map.Name == "7out01.odm" then -- Emerald Island
 			
@@ -438,9 +438,9 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			-- necro
 			local mon = pseudoSpawnpoint{monster = 307, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 100, 0}, radius = 256, group = 56}[1]
 			mon.NameId = rev4m.placeMon.deyjaNecro
-			hp(mon, 3)
+			hpMul(mon, 3)
 			resists(mon, 15)
-			spells(mon, nil, nil, nil, const.Spells.AcidBurst, 30, JoinSkill(10, const.Master))
+			spells(mon, nil, nil, nil, const.Spells.AcidBurst, JoinSkill(10, const.Master), 30)
 			addDamage(mon, 0, 0, 20)
 			rewards(mon, 10, {-5, const.ItemType.Ring, 100}, 5)
 
@@ -493,7 +493,16 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "7d16.blv" then -- The Wine Cellar
 			-- BOOST SUPER VAMPIRE
 		elseif Map.Name == "7d17.blv" then -- The Tidewater Caverns
-			
+			-- derelict adventurer
+			local mon = pseudoSpawnpoint{monster = 403, x = 270, y = 7671, z = 992, count = 1, powerChances = {0, 0, 100}, radius = 256, group = 56}[1]
+			mon.NameId = rev4m.placeMon.derelictAdventurer
+			hostile(mon)
+			mon.ArmorClass = 40
+			hpMul(mon, 4)
+			damage(mon, diffsel("5d6+5", "5d6+10", "5d6+15"))
+			resists(mon, 10)
+			spells(mon, const.Spells.IceBolt, JoinSkill(8, const.Master), 25)
+			rewards(mon, 5, nil, 10)
 		elseif Map.Name == "7d18.blv" then -- Lord Markham's Manor
 			
 		elseif Map.Name == "7d19.blv" then -- Grand Temple of the Moon
@@ -508,12 +517,12 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			
 		elseif Map.Name == "7d24.blv" then -- Stone City
 			-- idea from MM7 Reimagined
-			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64}[1]
+			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64}[1] -- FIXME: group?
 			mon.NameId = rev4m.placeMon.infernalTroglodyte
-			hp(mon, diffsel(5, 6, 8))
+			hpMul(mon, diffsel(5, 6, 8))
 			hostile(mon)
 			mon.Attack1.DamageDiceCount = math.round(mon.Attack1.DamageDiceCount * diffsel(2, 2.5, 3))
-			spells(mon, const.Spells.IceBolt, 50, JoinSkill(diffsel(10, 13, 16), const.GM))
+			spells(mon, const.Spells.IceBolt, JoinSkill(diffsel(10, 13, 16), const.GM), 50)
 			resists(mon, {20, 20, 20, 20, 0, 0, 0, 20, 20, 20})
 			rewards(mon, 25, -4, 10)
 		elseif Map.Name == "7d25.blv" then -- Celeste
@@ -541,7 +550,12 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "7d36.blv" then -- Tunnels to Eeofol
 			
 		elseif Map.Name == "7d37.blv" then -- The Haunted Mansion
-			
+			-- primordial barrow wight
+			local mon = pseudoSpawnpoint{monster = 421, x = 56, y = 1072, z = -72, count = 1, powerChances = {0, 0, 100}, radius = 256, group = 56}[1]
+			mon.NameId = rev4m.placeMon.primordialBarrowWight
+			hpMul(mon, diffsel(2, 2.5, 3))
+			addDamage(mon, 1, 2, diffsel(3, 5, 7))
+			rewards(mon, 1, -5, 10)
 		elseif Map.Name == "mdk01.blv" then -- Barrow VII
 			
 		elseif Map.Name == "mdk02.blv" then -- Barrow IV

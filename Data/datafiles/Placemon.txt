@@ -198,8 +198,8 @@
 197	Jailer
 198	Infernal troglodyte
 199	Oviozhul The Vivisector
-200	Placeholder
-201	Placeholder
+200	Primordial Barrow Wight
+201	Derelict Adventurer
 202	Placeholder
 203	Placeholder
 204	Placeholder

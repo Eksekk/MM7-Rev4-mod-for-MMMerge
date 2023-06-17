@@ -31,6 +31,8 @@ Hard introduces (see above how to disable specific changes):
 
 Note: by default item removal function replaces them with appropriate-leveled item of same type. If you wish to annihilate them completely instead, change Rev4ForMergeRandomizeRemovedItems to anything other than 1.
 
+In addition, I added bosses to some game areas, which are just single stronger monsters than usual of their kind. They are here mainly to make debuff spells, such as slow, shrinking ray, dark grasp, useful. They are affected by difficulty, lower difficulty will cause some of their stats to be weaker. If you want to disable them, the option to set to 0 is Rev4ForMergeAddBosses.
+
 ## Other balance-affecting changes
 * Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.
 * Stat breakpoint rewards are increased in this mod. Now it's much more worth it to pump stats, and artifacts like "+100 might" might actually be useful. Of course, if this option is enabled, Day of the Gods is nerfed. Still will be useful though. Change Rev4ForMergeChangeStatisticBreakpoints to anything other than 1 to disable.

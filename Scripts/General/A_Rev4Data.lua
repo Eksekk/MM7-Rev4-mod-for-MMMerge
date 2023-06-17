@@ -13,6 +13,8 @@ do
         tulareanJailer = p + 1,
         infernalTroglodyte = p + 2,
         deyjaNecro = p + 3,
+        primordialBarrowWight = p + 4,
+        derelictAdventurer = p + 5,
     }
 end
 rev4m.path = rev4m.path or {}

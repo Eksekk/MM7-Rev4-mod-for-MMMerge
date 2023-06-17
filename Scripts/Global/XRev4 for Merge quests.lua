@@ -188,7 +188,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				local wrom = Map.Monsters[WromthraxId]
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
 				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = wrom.X, wrom.Y, wrom.Z, XYZ(wrom)
-				wrom.HP, wrom.FullHP = math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1)), math.round(wrom.FullHP * diffsel(1.2, 1.6, 2.1))
+				monUtils.hpMul(wrom, diffsel(1.2, 1.6, 2.1))
 				wrom.Group = 255 -- allied with spawnpoint monsters
 				wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
 				wrom.Spell2, wrom.Spell2Chance, wrom.Spell2Skill = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 8, const.GM)
@@ -385,8 +385,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			-- miniboss: Clanker's Puppet, mage
 			-- changing stats here works, because he is summoned before bolster happens
 			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = 1, powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
-			wiz.FullHP = wiz.FullHP * diffsel(3, 4, 5)
-			wiz.HP = wiz.FullHP
+			monUtils.hpMul(wiz, diffsel(3, 4, 5))
 			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
@@ -599,7 +598,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 
 				-- elven warrior guards
 				pseudoSpawnpoint{monster = 250, x = -4849, y = -9421, z = 703, powerChances = {20, 20, 60}, count = 6, transform = function(mon)
-					monUtils.hp(mon, 2)
+					monUtils.hpMul(mon, 2)
 					monUtils.rewards(mon, 8, nil, 4)
 				end}
 
@@ -610,7 +609,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 					return function(mon)
 						table.insert(guards, mon:GetIndex())
 						mon.NameId = jailerNameId
-						monUtils.hp(mon, lev)
+						monUtils.hpMul(mon, lev)
 						monUtils.rewards(mon, 5 + lev * 2, -4, lev)
 						mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + lev * 3
 					end
@@ -628,7 +627,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 					return function(mon)
 						table.insert(guards, mon:GetIndex())
 						mon.NameId = jailerNameId
-						monUtils.hp(mon, lev)
+						monUtils.hpMul(mon, lev)
 						monUtils.rewards(mon, lev * 4, -4, lev)
 						mon.Attack1.DamageDiceSides = math.round(mon.Attack1.DamageDiceSides * (1 + 0.1 * lev))
 					end
@@ -642,8 +641,8 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 
 				-- wyverns guarding switch
 				local function wyvern(mon)
-					monUtils.hp(mon, 3)
-					monUtils.spells(mon, const.Spells.PoisonSpray, 40, JoinSkill(7, const.Master))
+					monUtils.hpMul(mon, 3)
+					monUtils.spells(mon, const.Spells.PoisonSpray, JoinSkill(7, const.Master), 40)
 					monUtils.resists(mon, 15)
 					monUtils.rewards(mon, 10, -3, 5)
 				end

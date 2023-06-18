@@ -227,7 +227,28 @@ end
 function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 	-- thought about shared metatable and data inside spawnpoint itself, but I would probably lose excellent
 	-- aquamarine colouring of upvalues which makes script easier to understand :(
-	if not mapname or not spawnpointId then error("Invalid parameters passed to sharedSpawnpoint.new function") end
+	if not mapname or not spawnpointId then
+		error("map name or spawnpoint id arguments not present")
+	end
+
+	-- handling duplicated spawnpoints when reloading global scripts can be done in multiple ways:
+	-- 1. on leave map, leave game and load savegame (new event) clear spawnpoints - would clear those not in global/maps too
+	-- 2. use events.InternalBeforeLoadMap for above - same disclaimer + it's internal event which might change
+	-- 3. create script in global folder which is loaded first to clear all spawnpoints - same disclaimer as above
+	-- 4. either of first two points and using debug.getinfo here, to find whether global/maps script is creating spawnpoint - potentially wouldn't work if global script calls function in general to create spawnpoint
+	-- 5. when spawnpoint exists, just replace it. Disadvantage - might be slower, because spawnpoint would still trigger monsterKilled event.
+	-- Can't simply return old one, because initialization code will run again and add spawnpoints etc., which would duplicate them. Could provide a function
+	-- sharedSpawnpoint.getOrCreate(), but I'm not keen on that idea - dynamic changes to spawnpoint wouldn't be registered. Or function sharedSpawnpoint.isSpawnpointCreated(mapname, id)
+	-- I chose fifth option
+
+	local oldIndex = table.findIf(sharedSpawnpoints, function(sp) return sp.getId() == spawnpointId end)
+	if oldIndex then
+		if sharedSpawnpoints[oldIndex].getMap() ~= mapname then
+			debug.Message(string.format("Warning: replaced spawnpoint %q with one for different map: old = %q, new = %q", spawnpointId, sharedSpawnpoints[oldIndex].getMap(), mapname))
+		end
+		table.remove(sharedSpawnpoints, oldIndex)
+	end
+
 	local MAX_SPAWNED_AT_ONCE = diffsel(4, 6, 8)
 	local ret = {}
 	local spawnpoints = {}
@@ -239,6 +260,10 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 	local class = monClass(monster)
 	if class and max then
 		maxSpawnByClass[class] = max
+	end
+
+	function ret.getId()
+		return spawnpointId
 	end
 
 	function ret.setSpawnSettings(s)
@@ -253,13 +278,14 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 		for class, monArray in pairs(spawned) do
 			local sp = tget(mapvars.SharedSpawnpointMonsters[spawnpointId], class)
 			for _, mon in ipairs(monArray) do
-				table.insert(sp[class], mon:GetIndex())
+				table.insert(sp, mon:GetIndex())
 			end
 		end
 	end
 	
 	function ret.loadSpawnedMonsters()
 		if Map.Name ~= mapname then return end
+		spawned = {}
 		mapvars.SharedSpawnpointMonsters = mapvars.SharedSpawnpointMonsters or {}
 		local entry = mapvars.SharedSpawnpointMonsters[spawnpointId]
 		if not entry then
@@ -312,6 +338,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 				end
 			end
 			local canSpawn = (maxSpawnByClass[class] or MAX_SPAWNED_AT_ONCE) - #(spawned[class] or {})
+			if canSpawn == 0 then return end
 			for _, index in ipairs(randOrder) do
 				local spawnpoint = monsterSpawnpoints[index]
 				local maxInOneSpawn = canSpawn
@@ -351,6 +378,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 					table.insert(tget(spawned, class), mons[i])
 				end
 				canSpawn = canSpawn - #mons
+				assert(canSpawn >= 0)
 				if canSpawn == 0 then return end
 			end
 		end
@@ -361,7 +389,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 	end
 
 	function ret.getSpawnedMonsters(monster)
-		if mapname ~= Map.Name then return end
+		--if mapname ~= Map.Name then return end
 		local class = monClass(monster)
 		return class and spawned[class] or spawned
 	end
@@ -402,36 +430,55 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 	function ret.clearSpawnedTable()
 		spawned = {}
 	end
+
+	ret.loadSpawnedMonsters() -- in case spawnpoint had monsters in mapvars, and was replaced after events.LoadMap, so loading wasn't done
 	
 	table.insert(sharedSpawnpoints, ret)
 	return ret
 end
 
-local cleared -- needed to not save twice on leaving map (first time from LeaveMap, clearing table,
-				-- and second time from BeforeSaveGame (autosave?), overriding correct table with empty one)
-function events.LoadMap()
-	cleared = false
+-- what events get called on:
+-- 1. leaving map: beforesavegame (autosave), then leave map
+-- 2. saving game: beforesavegame
+
+-- to test, write function writing out map monster indexes of spawned monsters, then call it multiple times (for example after saving,
+-- leaving map, loading spawned monsters, visiting unrelated map in between)
+
+function showIndexes()
+	local content = {}
+	for _, ss in pairs(sharedSpawnpoints) do
+		local ind = {}
+		for class, monTable in pairs(ss.getSpawnedMonsters()) do
+			for i, mon in pairs(monTable) do
+				ind[#ind + 1] = mon:GetIndex()
+			end
+		end
+		table.sort(ind)
+		table.insert(ind, 1, string.format("Spawnpoint %q", ss.getId()))
+		content[#content + 1] = table.concat(ind, "\n")
+	end
+	debug.Message(table.concat(content, "\n\n\n"))
+end
+
+-- even before load map happens after global scripts are loaded, need to use leave map
+-- LEAVE MAP IS NOT CALLED WHEN LOADING SAVEGAME WHEN PLAYING
+--function events.LeaveMap()
+--	sharedSpawnpoints = {}
+--end
+
+function events.BeforeSaveGame()
 	for _, ss in ipairs(sharedSpawnpoints) do
+		ss.saveSpawnedMonsters()
+	end
+end
+
+function events.LoadMap()
+	for _, ss in ipairs(sharedSpawnpoints) do
+		ss.clearSpawnedTable()
 		ss.loadSpawnedMonsters()
 		--debug.Message(dump(ss.getSpawnedMonsters(), 2))
 	end
 end
-
-local save = function(clear)
-	return function()
-		if cleared then return end
-		for _, ss in ipairs(sharedSpawnpoints) do
-			ss.saveSpawnedMonsters()
-			if clear then
-				cleared = true
-				ss.clearSpawnedTable()
-			end
-		end
-	end
-end
-
-events.LeaveMap = save(true)
-events.BeforeSaveGame = save(false)
 
 function events.MonsterKilled(mon)
 	for _, ss in ipairs(sharedSpawnpoints) do

@@ -274,8 +274,6 @@ patches = {
                 evt.EnterHouse(925)
             end
         end)
-    
-    -- THOSE BELOW ARE NOT TESTED --
 
         -- fix the Gauntlet script to subtract MM6/MM8 scrolls as well, and remove SP from all party members
         local eventAdded -- don't add multiple times
@@ -318,6 +316,7 @@ patches = {
             evt.MoveToMap{X = -3257, Y = -12544, Z = 833, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = getFileName("D08.blv")}
         end)
     end,
+
     -- Erathia
     ["7out03.odm"] = function()
         -- fix small bug in town portal code (scroll was subtracted before autosave, so if you loaded it you still lost the scroll)

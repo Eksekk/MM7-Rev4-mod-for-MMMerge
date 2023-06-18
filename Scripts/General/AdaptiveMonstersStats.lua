@@ -485,7 +485,10 @@ local function PrepareMapMon(mon)
 
 		--if mon.NameId ~= 123 then -- Q
 			if mon.HP > 0 then
-				local hitPointPercentage = mon.HP / mon.FullHP
+				local oldMonFullHP = tget(mapvars, "oldMonFullHP")
+				-- is not set if map is loaded for first time (maybe after respawn too)
+				local hitPointPercentage = oldMonFullHP[mon:GetIndex()] and (mon.HP / oldMonFullHP[mon:GetIndex()]) or 1
+				oldMonFullHP[mon:GetIndex()] = nil
 				local scaled = floor(scaleParam("FullHP", maxI2, true) * hitPointPercentage)
 				mon.HP = max(min(scaled, maxI2), 1)
 			end
@@ -581,7 +584,21 @@ local function PrepareMapMon(mon)
 	]]
 	oldMonBackup.Experience = mon.Experience
 	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
-	vars.lastVisitedMap = Map.Name
+end
+
+-- save old monster full HP to restore when loading saved game
+-- (old properties are cleared before PrepareMapMon runs)
+
+local function saveOldMonHP()
+	mapvars.oldMonFullHP = {}
+	for i, mon in Map.Monsters do
+		mapvars.oldMonFullHP[i] = mon.FullHP
+	end
+end
+events.BeforeSaveGame = saveOldMonHP
+
+function events.LeaveMap()
+	mapvars.oldMonFullHP = {} -- clear old hp if leaving map (NOT loading saved game)
 end
 
 local eventTypes = {"Before", "", "After"}
@@ -1079,6 +1096,7 @@ local function BolsterMonsters()
 		end
 		boostSummons = true
 	end
+	vars.lastVisitedMap = Map.Name
 end
 Game.BolsterMonsters = function()
 	restore()

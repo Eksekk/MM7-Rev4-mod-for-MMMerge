@@ -11,12 +11,10 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* BDJ quest
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * verify and fix lich quest and other quests except those tested recently
-* with bolster, reloading map after hurting enemies might refill their health - fix
-* verify all map patches in dedicated file
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
+* fix resistance hook
 
 -- those below are not needed for "first release" --
 
@@ -1104,6 +1102,7 @@ Dark      %d]]
 	
 	-- debuff chance
 	-- TODO: slow etc.
+	--[[ broken too...
 	mem.autohook(0x425ABD, function(d)
 		-- apparently this function can be called with entirely different meaning set of arguments...
 		-- oldEbp is needed for mass fear, obj for shrinking ray
@@ -1129,6 +1128,7 @@ Dark      %d]]
 		d.eax = getEffectiveResistance(mon, pl, mem.u4[d.ebp + 0xC])
 		--debug.Message(d.eax)
 	end)
+	]]
 	
 	local playerIdx, attackingPlayer, monsterIdx, attackedMonster
 	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses (?))

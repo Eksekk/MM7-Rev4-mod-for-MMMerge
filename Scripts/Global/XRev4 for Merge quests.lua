@@ -124,9 +124,9 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	
 	local sp = sharedSpawnpoint.new("mdt09orig.blv", "WromthraxCaveQuest")
 	sp.setSpawnSettings{["RandomSpawnpointOrder"] = 1, ["DivideAcrossAllSpawnpoints"] = 1}
-	sp.addSpawnpoint{monster = 154, x = 18285, y = 7348, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
-	sp.addSpawnpoint{monster = 154, x = 15760, y = 3873, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
-	sp.addSpawnpoint{monster = 154, x = 15002, y = 6179, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
+	sp.addSpawnpoint{monster = 154, x = 18285, y = 7348, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512, group = 56}
+	sp.addSpawnpoint{monster = 154, x = 15760, y = 3873, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512, group = 56}
+	sp.addSpawnpoint{monster = 154, x = 15002, y = 6179, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512, group = 56}
 	sp.setMax(154, diffsel(8, 10, 12))
 	sp.setTransform(154, function(mon)
 		monUtils.randomBoostResists(mon)
@@ -134,8 +134,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 		mon.TreasureDiceCount = mon.TreasureDiceCount * 3
 	end)
 	
-	sp.addSpawnpoint{monster = 151, x = 16058, y = 8317, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
-	sp.addSpawnpoint{monster = 151, x = 16913, y = 4169, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512}
+	sp.addSpawnpoint{monster = 151, x = 16058, y = 8317, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512, group = 56}
+	sp.addSpawnpoint{monster = 151, x = 16913, y = 4169, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 512, group = 56}
 	sp.setMax(151, diffsel(3, 5, 7))
 	sp.setTransform(151, function(mon)
 		monUtils.randomBoostResists(mon)
@@ -144,7 +144,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 		mon.TreasureDiceCount = mon.TreasureDiceCount * 3
 	end)
 	
-	sp.addSpawnpoint({monster = 145, x = 13493, y = 2928, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 1024})
+	sp.addSpawnpoint{monster = 145, x = 13493, y = 2928, z = -127, powerChances = diffsel({70, 20, 10}, {50, 25, 25}, {30, 30, 40}), radius = 1024, group = 56}
 	sp.setMax(145, diffsel(3, 4, 6))
 	sp.setTransform(145, monUtils.randomBoostResists)
 	
@@ -154,8 +154,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	vars.WromthraxCaveQuest = vars.WromthraxCaveQuest or {}
 	function events.AfterLoadMap() -- need to execute after binding map monsters with spawnpoints that spawned them
 		if Map.Name ~= "mdt09orig.blv" then return end
-		if not vars.WromthraxCaveQuest.Setup then
-			vars.WromthraxCaveQuest.Setup = true
+		mapvars.WromthraxCaveQuest = mapvars.WromthraxCaveQuest or {}
+		if not cmpSetMapvarBool(mapvars.WromthraxCaveQuest, "Setup") then
 			for i, v in Map.FacetData do
 				if v.Id == PORTAL_FACET_INDEX then
 					vars.WromthraxCaveQuest.OldBitmapIds = vars.WromthraxCaveQuest.OldBitmapIds or {}
@@ -189,7 +189,6 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
 				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = wrom.X, wrom.Y, wrom.Z, XYZ(wrom)
 				monUtils.hpMul(wrom, diffsel(1.2, 1.6, 2.1))
-				wrom.Group = 255 -- allied with spawnpoint monsters
 				wrom.Spell, wrom.SpellChance, wrom.SpellSkill = const.Spells.IceBlast, (difficulty + 1) * 10, JoinSkill((difficulty + 1) * 5, const.GM)
 				wrom.Spell2, wrom.Spell2Chance, wrom.Spell2Skill = const.Spells.PowerCure, (difficulty + 1) * 15, JoinSkill((difficulty + 1) * 8, const.GM)
 				monUtils.boostResistances(wrom, diffsel(10, 30, 50))
@@ -206,8 +205,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 			
 			-- one-time spawnpoints
 			-- knights
-			local n = pseudoSpawnpoint{monster = 154, x = 9418, y = 9879, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
-			n = table.join(n, pseudoSpawnpoint{monster = 154, x = 10281, y = 2911, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096})
+			local n = pseudoSpawnpoint{monster = 154, x = 9418, y = 9879, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096, group = 56}
+			n = table.join(n, pseudoSpawnpoint{monster = 154, x = 10281, y = 2911, z = -127, count = diffsel("3-6", "5-9", "8-13"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096, group = 56})
 			for i, v in ipairs(n) do
 				monUtils.randomBoostResists(v)
 				monUtils.randomGiveSpell(v)
@@ -216,7 +215,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 			end
 			
 			-- nightmares
-			n = pseudoSpawnpoint{monster = 151, x = 7073, y = 3927, z = -127, count = diffsel("2-4", "4-7", "6-10"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
+			n = pseudoSpawnpoint{monster = 151, x = 7073, y = 3927, z = -127, count = diffsel("2-4", "4-7", "6-10"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096, group = 56}
 			for i, v in ipairs(n) do
 				monUtils.randomBoostResists(v)
 				v.PhysResistance = 150
@@ -225,7 +224,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 			end
 			
 			-- "MM8 behemoths"
-			n = pseudoSpawnpoint{monster = 145, x = 11704, y = 6109, z = 65, count = diffsel("2-4", "4-7", "7-11"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096}
+			n = pseudoSpawnpoint{monster = 145, x = 11704, y = 6109, z = 65, count = diffsel("2-4", "4-7", "7-11"), powerChances = diffsel({60, 30, 10}, {50, 25, 25},  {34, 33, 33}), radius = 4096, group = 56}
 			for i, v in ipairs(n) do
 				monUtils.randomBoostResists(v)
 				--randomGiveElementalAttack(v)
@@ -284,7 +283,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	
 	KillMonstersQuest{
 		questID,
-		{Map = "mdt09orig.blv", Group = 255},
+		{Map = "mdt09orig.blv", Group = 56},
 		CheckDone = function() return vars.WromthraxCaveQuest.PortalDeactivated end, -- kill monsters part is handled by MMExt
 		NPC = 779, -- Rawn Talreish in Erathia (house with a pillar in front of it)
 		Slot = 3,

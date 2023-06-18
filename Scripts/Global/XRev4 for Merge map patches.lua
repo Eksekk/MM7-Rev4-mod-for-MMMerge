@@ -201,6 +201,14 @@ patches = {
             evt.SetMonGroupBit{NPCGroup = getNpcGroup(5), Bit = const.MonsterBits.Hostile + 0x40000 + const.MonsterBits.NoFlee + const.MonsterBits.Invisible, On = false}         -- "Generic Monster Group for Dungeons"
         end, true)
     end,
+
+    -- Wromthrax's Cave
+    ["mdt09orig.blv"] = function()
+        -- always make wromthrax visible
+        replaceMapEvent(1, function()
+            evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
+        end, true)
+    end,
     
 	-- The Vault
     ["mdt12.blv"] = function()

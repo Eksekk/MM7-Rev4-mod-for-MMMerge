@@ -388,8 +388,9 @@ local env = {
 	random			= random
 	}
 	
-
-local function ProcessFormula(Formula, Default, monId)
+-- addVariables is used in PrepareMapMon, because if a monster in txt doesn't have spells, but when modified individually gets them,
+-- SpellSkill and SpellMastery aren't defined, because PrepareTxtMon skips setting it (it's nil)
+local function ProcessFormula(Formula, Default, monId, addVariables)
 	local f = Formula and assert(loadstring(Formula))
 
 	if type(f) == "function" then
@@ -410,6 +411,9 @@ local function ProcessFormula(Formula, Default, monId)
 			env.MapSettings 	= MapSettings
 			env.MoveSpeed		= MoveSpeed
 		else
+			if addVariables then
+				table.copy(addVariables, formulaVariables[monId])
+			end
 			assert(tlen(formulaVariables[monId]) == 15)
 			table.copy(formulaVariables[monId], env, true)
 		end
@@ -544,8 +548,9 @@ local function PrepareMapMon(mon)
 			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
 				oldMonBackup[skillKey] = mon[skillKey]
 				local SpellSkill, SpellMastery = SplitSkill(mon[skillKey])
-				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill, mon.Id)
-				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery, mon.Id)
+				local ov = {SpellSkill = SpellSkill, SpellMastery = SpellMastery}
+				Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill, mon.Id, ov)
+				Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), SpellMastery, mon.Id, ov)
 				mon[skillKey] = JoinSkill(math.max(SpellSkill, Skill), math.max(SpellMastery, Mas))
 			end
 		end
@@ -736,6 +741,8 @@ local function PrepareTxtMon(i, OnlyThis)
 		MonsterLevel	= GetAvgLevel(monId)
 		BolStep 		= min(floor(PartyLevel/MonsterLevel), 4)
 
+		SpellSkill, SpellMastery = nil, nil -- unset from previous monster
+
 		local Formula = Formulas[MonKind] or Formulas["def"]
 		local function getFormulaOrDefault(stat)
 			return Formula[stat] or Formulas["def"][stat]
@@ -764,6 +771,7 @@ local function PrepareTxtMon(i, OnlyThis)
 
 			-- Base spells
 
+			-- wromthrax in txt doesn't have spells, so his formula variables are missing spell skill and spell mastery
 			local Skill, Mas
 			if mon.Spell > 0 then
 				SpellSkill, SpellMastery = SplitSkill(mon.SpellSkill)
@@ -802,8 +810,6 @@ local function PrepareTxtMon(i, OnlyThis)
 			local SkillByMas = {1,4,7,10}
 			local Mas = Style == 3 and 2 or 1
 			local Skill = SkillByMas[Mas]
-			
-			local bug = false
 			
 			SpellSkill, SpellMastery = Skill, Mas
 			Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), SpellSkill)

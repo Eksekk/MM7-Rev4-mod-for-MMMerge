@@ -178,11 +178,7 @@ function events.AfterLoadMap()
 		replaceEnterEvent(505, {X = -2568, Y = -143, Z = 97, Direction = 257, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt09orig.blv"})
 	elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
 		-- always make Wromthrax visible
-		Game.MapEvtLines:RemoveEvent(1)
-		evt.map[1].clear()
-		evt.map[1] = function()
-			evt.SetMonGroupBit{NPCGroup = 56, Bit = const.MonsterBits.Invisible, On = false}
-		end
+		-- handled in map patches file
 		oldPlacemonWromthrax = Game.PlaceMonTxt[117]
 		Game.PlaceMonTxt[117] = "Wromthrax"
 		
@@ -207,6 +203,8 @@ function events.AfterLoadMap()
 		assert(addChestItem(0, 1452), "Couldn't add temple in a bottle to chest")
 		mapvars.placedTempleInABottle = true
 	end
+
+	-- FIXME: when loading savegame in different location and maybe when exiting game to main menu, mapstats entries won't be restored
 	function events.LeaveMap()
 		if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
 			Game.PlaceMonTxt[117] = oldPlacemonWromthrax

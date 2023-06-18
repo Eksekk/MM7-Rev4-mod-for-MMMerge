@@ -321,9 +321,13 @@ function mergeArraysShallowCopy(t1, t2, inplace) -- handles duplicate keys
 	return tt
 end
 
-function getUpvalue(f, name)
+function getUpvalue(f, name, ...)
 	local n, v = debug.findupvalue(f, name)
-	return v
+	if select("#", ...) > 0 then
+		return getUpvalue(v, ...)
+	else
+		return v
+	end
 end
 
 function upvalueDump(f) -- dump() doesn't work

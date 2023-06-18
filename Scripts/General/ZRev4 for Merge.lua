@@ -1132,10 +1132,19 @@ Dark      %d]]
 	
 	local playerIdx, attackingPlayer, monsterIdx, attackedMonster
 	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses (?))
-	mem.autohook(0x4372C1, function(d)
-		playerIdx, attackingPlayer = internal.GetPlayer(mem.u4[d.ebp - 0x8])
-		monsterIdx, attackedMonster = internal.GetMonster(d.esi)
-	end)
+	do
+		local old = mem.hooks[0x425951]
+		local new = mem.autohook(0x4372C1, function(d)
+			local aptr = mem.u4[d.ebp - 0x8]
+			if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
+				playerIdx, attackingPlayer = internal.GetPlayer()
+			else
+				playerIdx, attackingPlayer = nil, nil
+			end
+			monsterIdx, attackedMonster = internal.GetMonster(mem.u4[d.esp])
+		end)
+		mem.hooks[new] = old
+	end
 	
 	--[[
 	0x4259C4: cmp eax,FDE8
@@ -1145,7 +1154,7 @@ Dark      %d]]
 			  lea esi,dword ptr ds:[edx+eax+1E]
 	--]]
 	-- need to manually compute with our function because:
-	-- 1) if resistance becomes less that 0xFDE8, it would count as simply very very high resistance
+	-- 1) if resistance becomes less than 0xFDE8, it would count as simply very very high resistance
 	-- 2) edx contains day of protection bonus, but if we didn't add it in our hook, we could have situation where
 	-- monster was immune, reduced resistance is like FCE8 (const.MonsterBonus - 1), which is effective 199
 	-- and after adding day of prot it would be for example 235, instead of full immunity
@@ -1154,7 +1163,7 @@ Dark      %d]]
 	-- damage
 	mem.autohook(0x4259C4, function(d)
 		-- TODO: broken in the vault (crash)
-		--d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
+		d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
 		--debug.Message(d.eax)
 	end)
 	

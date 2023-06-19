@@ -154,8 +154,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	vars.WromthraxCaveQuest = vars.WromthraxCaveQuest or {}
 	function events.AfterLoadMap() -- need to execute after binding map monsters with spawnpoints that spawned them
 		if Map.Name ~= "mdt09orig.blv" then return end
-		mapvars.WromthraxCaveQuest = mapvars.WromthraxCaveQuest or {}
-		if not cmpSetMapvarBool(mapvars.WromthraxCaveQuest, "Setup") then
+		if not cmpSetMapvarBool("WromthraxCaveQuestSetup") then
 			for i, v in Map.FacetData do
 				if v.Id == PORTAL_FACET_INDEX then
 					vars.WromthraxCaveQuest.OldBitmapIds = vars.WromthraxCaveQuest.OldBitmapIds or {}

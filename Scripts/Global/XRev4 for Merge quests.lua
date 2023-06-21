@@ -664,98 +664,10 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 	end
 
 	-- GM dark magic quest
-
-	-- functions from scripts/global/PromotionTopics.lua
-
-	local MF, MM, MS, MT = Merge.Functions, Merge.ModSettings, Merge.Settings, Merge.Tables
-	local CPA = const.PromoAwards
-	local max, min = math.max, math.min
-	local strformat, strlower = string.format, string.lower
-
-	local LichAppearance = {
-	[const.Race.Dwarf]		= {[0] = {Portrait = 65, Voice = 26}, [1] = {Portrait = 66, Voice = 27}},
-	[const.Race.Dragon]		= {[0] = {Portrait = 67, Voice = 28}, [1] = {Portrait = 67, Voice = 28}},
-	[const.Race.Minotaur]	= {[0] = {Portrait = 69, Voice = 67}, [1] = {Portrait = 69, Voice = 67}},
-	[const.Race.Troll]	= {[0] = {Portrait = 75, Voice = 72}, [1] = {Portrait = 75, Voice = 72}},
-	default					= {[0] = {Portrait = 26, Voice = 26}, [1] = {Portrait = 27, Voice = 27}}
-	}
-
-	local function SetLichAppearance(i, v)
-		local player = v
-		if v.Class == const.Class.MasterNecromancer then
-			local Race = GetCharRace(v)
-
-			if MS.Conversions.PreserveRaceOnLichPromotion == 1
-					and Game.Races[Race].Kind == const.RaceKind.Undead then
-				if MS.Races.MaxMaturity > 0 then
-					Log(Merge.Log.Info, "Lich promotion: only improve maturity of undead kind race")
-					local maturity = player.Attrs.Maturity or 0
-					-- FIXME
-					player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-				else
-					Log(Merge.Log.Info, "Lich promotion: do not convert undead kind race")
-				end
-			elseif MS.Conversions.PreserveRaceOnLichPromotion == 2 then
-				Log(Merge.Log.Info, "Lich promotion: keep current race")
-			else
-				Log(Merge.Log.Info, "Lich promotion: convert race")
-				local CurPortrait = Game.CharacterPortraits[v.Face]
-				local CurSex = CurPortrait.DefSex
-
-				if Game.Races[Race].Family ~= const.RaceFamily.Undead
-						and Game.Races[Race].Family ~= const.RaceFamily.Ghost then
-					local NewFace = LichAppearance[Game.Races[Race].BaseRace]
-							or LichAppearance.default
-					NewFace = NewFace[CurSex]
-
-					local new_race
-
-					new_race = table.filter(Game.Races, 0,
-						"BaseRace", "=", Game.Races[Race].BaseRace,
-						"Family", "=", const.RaceFamily.Undead
-						)[1].Id
-
-					if new_race and new_race >= 0 then
-						player.Attrs.Race = new_race
-						if MS.Races.MaxMaturity > 0 then
-							-- FIXME
-							player.Attrs.Maturity = min(2, MS.Races.MaxMaturity)
-						end
-					end
-
-					player.Face = NewFace.Portrait
-					if MS.Conversions.KeepVoiceOnRaceConversion == 1 then
-						Log(Merge.Log.Info, "Lich Promotion: keep current voice")
-					else
-						v.Voice = NewFace.Voice
-					end
-					SetCharFace(i, NewFace.Portrait)
-				end
-
-				-- Consider not to increase overbuffed lich resistances
-				for j = 0, 3 do
-					v.Resistances[j].Base = max(v.Resistances[j].Base, 20)
-				end
-
-				local RepSkill = SplitSkill(v.Skills[26])
-				if RepSkill > 0 then
-					local CR = 0
-					for i = 1, RepSkill do
-						CR = CR + i
-					end
-					v.SkillPoints = v.SkillPoints + CR - 1
-					v.Skills[26] = 0
-				end
-			end
-		end
-	end
-
-	-- end of functions from scripts/global/PromotionTopics.lua
-
-	local DMGM_QuestNPC = 388 -- Halfgild Wynac
-	local ShardOfManaItemId = 980
-	local questID = "MM7_LichAndDarkMagicGM"
-	if Merge.ModSettings.Rev4ForMergeActivateExtraQuests == 1 then
+	do
+		local DMGM_QuestNPC = 388 -- Halfgild Wynac
+		local ShardOfManaItemId = 980
+		local questID = "MM7_LichAndDarkMagicGM"
 		local function makeGMDarkLearnableIfQuestCompleted()
 			if vars.Quests[questID] == "Done" then
 				Game.Classes.Skills[const.Class.PriestLight][const.Skills.Dark] = const.GM
@@ -771,13 +683,6 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			Slot = 0,
 			NPC = DMGM_QuestNPC,
 			CheckGive = function()
-				--[[for _, pl in Party do
-					local s, m = SplitSkill(pl.Skills[const.Skills.Dark])
-					if m >= const.Master then
-						return true
-					end
-				end
-				return false--]]
 				return Party.QBits[1619]	-- Promoted to Wizard
 				and evt[0].Cmp("Awards", 119)         -- "Declared Heroes of Erathia"
 			end,
@@ -842,9 +747,6 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			}
 		}
 		
-		--[[evt.MoveNPC{DMGM_QuestNPC, 1073} -- Halfgild Wynac
-		evt.SetNPCGreeting{DMGM_QuestNPC, 369}--]]
-		
 		function events.LoadMap()
 			local npc = Game.NPC[DMGM_QuestNPC]
 			if npc.House ~= 1073 then
@@ -858,12 +760,8 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			makeGMDarkLearnableIfQuestCompleted()
 			
 			local function placeShardOfMana(chestID)
-				for i, item in Map.Chests[chestID].Items do
-					if item.Number == 0 then
-						item.Number = ShardOfManaItemId
-						mapvars.PlacedShardOfMana = true
-						break
-					end
+				if not mapvars.PlacedShardOfMana then
+					addChestItem(chestID, ShardOfManaItemId)
 				end
 			end
 				
@@ -877,18 +775,11 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				placeShardOfMana(2)
 			elseif Map.Name == "d02.blv" and (not mapvars.PlacedJars or mapvars.PlacedJars < 5) then -- the maze
 				mapvars.PlacedJars = mapvars.PlacedJars or 0
-				for i, item in Map.Chests[5].Items do
-					if item.Number == 0 then
-						item.Number = 1417
-						mapvars.PlacedJars = mapvars.PlacedJars + 1
-						if mapvars.PlacedJars >= 5 then
-							break
-						end
-					end
+				while mapvars.PlacedJars < 5 do
+					addChestItem(5, 1417) -- jar
+					mapvars.PlacedJars = mapvars.PlacedJars + 1
 				end
 			end
-			--elseif
-			
 		end
 
 		--[[-- remove dark magic learning from dark guilds

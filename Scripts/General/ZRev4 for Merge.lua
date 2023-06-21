@@ -15,7 +15,7 @@ IMPORTANCE CATEGORIES:
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * verify and fix lich quest and other quests except those tested recently
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
-* fix resistancek
+* fix resistance hook
 
 -- those below are not needed for "first release" --
 

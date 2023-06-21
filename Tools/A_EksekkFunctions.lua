@@ -55,12 +55,14 @@ end
 function mtm(str, x, y, z)
 	-- show error instead of crashing game
 	local s1, s2 = path.setext(str:lower(), ".odm"), path.setext(str:lower(), ".blv")
+	local zero = not str or str:match("^0")
 
 	--assert(mapFileNamesToNames[s1] or table.find(fileNames, s1), "Invalid map name")
 	return evt.MoveToMap{Name = assert(
 		fileNameByMapName[str:lower()]
 		or fileNames[table.find(fileNames, s1)]
-		or fileNames[table.find(fileNames, s2)],
+		or fileNames[table.find(fileNames, s2)]
+		or zero and "0",
 		"Invalid map name"),
 		X = x or nil,
 		Y = y or nil,

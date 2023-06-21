@@ -771,7 +771,7 @@ do
 		[cc.Dragon] = {[cs.Might] = 5, [cs.Endurance] = 15},
 		[cc.Minotaur] = {[cs.Personality] = 10, [cs.Might] = 10},
 		[cc.Barbarian] = {[cs.Endurance] = 20},
-		[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Intellect] = 5},
+		[cc.Vampire] = {[cs.Speed] = 10, [cs.Accuracy] = 5, [cs.Personality] = 5},
 	}
 	getmetatable(cc).__index = oldIndex
 

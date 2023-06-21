@@ -1,3 +1,4 @@
+local u1, u4 = mem.u1, mem.u4
 local MS = Merge.ModSettings
 local IMMUNE_MONSTER_RESISTANCE = 200
 
@@ -14,7 +15,7 @@ IMPORTANCE CATEGORIES:
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * verify and fix lich quest and other quests except those tested recently
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
-* fix resistance hook
+* fix resistancek
 
 -- those below are not needed for "first release" --
 
@@ -176,7 +177,7 @@ end
 monUtils.randomGiveElementalAttack = randomGiveElementalAttack
 
 local function randomBoostResists(mon)
-	boostResistances(mon, math.random(3, diffsel(6, 8, 10)) * 5)
+	boostResistances(mon, math.random(1, diffsel(3, 5, 7)) * 5)
 end
 monUtils.randomBoostResists = randomBoostResists
 
@@ -218,6 +219,7 @@ function monUtils.acMul(mon, mul)
 	mon.ArmorClass = math.round(mon.ArmorClass * mul)
 end
 
+-- contains functions f(pl), which receive player as argument and return text which is shown in "extra attributes" tooltip
 local addTextFunctions = {}
 
 local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor
@@ -338,24 +340,26 @@ local showSpellSkill = function(skillOffset, lenOffset)
 	return function(d)
 		-- move spells info to the left
 		moveLeft(10)
-		local afterSpellName = monsterRightclickDataBuf
-		while mem.u1[afterSpellName] ~= 0xA and mem.u1[afterSpellName] ~= 0 do
-			afterSpellName = afterSpellName + 1
+		local str = mem.string(monsterRightclickDataBuf)
+		local newline = str:find(string.char(0xA))
+		if newline then
+			newline = newline - 1
 		end
-		local monsterData = mem.u4[d.ebp - 0x10]
+		local afterSpellName = monsterRightclickDataBuf + (newline or str:len())
+		local monsterData = u4[d.ebp - 0x10]
 		local skill = mem.u2[monsterData + skillOffset]
 		local s, m = SplitSkill(skill)
 		local add = " " .. s .. (masteryLetters[m] or "None") .. "\n" -- "None" is for situations where monster had 0 spell skill so game doesn't crash, yes this happened during development (a bug obviously)
 		mem.copy(afterSpellName, add)
-		mem.u1[afterSpellName + add:len()] = 0 -- null terminator
-		mem.u4[0x19F93C + lenOffset] = mem.u4[0x19F93C + lenOffset] + add:len() -- update length of row
+		u1[afterSpellName + add:len()] = 0 -- null terminator
+		u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() -- update length of row
 	end
 end
 mem.autohook(0x41E673, showSpellSkill(0x6E, 0))
 mem.autohook(0x41E6C7, showSpellSkill(0x70, 4))
 
 -- show "spell" text if monster has only second spell
--- (if he has also first one, text is shown automatically)
+-- (if he has first one or both, text is shown automatically)
 mem.asmpatch(0x41E6B6, [[
 	cmp byte [ebp-0x2D],bl ; has first spell? (bl is 0)
 	jne @normal
@@ -379,19 +383,19 @@ mem.asmpatch(0x41E6B6, [[
 
 -- show level in monster right click info (requires novice ID monster)
 mem.autohook(0x41E3A3, function(d)
-	local monsterData = mem.u4[d.ebp - 0x10]
-	local level = mem.u1[monsterData + 0x34]
+	local monsterData = u4[d.ebp - 0x10]
+	local level = u1[monsterData + 0x34]
 	local str = "Level\f00000\t046" .. level
 	
 	-- writeTextInTooltip, fastcall, args: ?, tooltip, x, y, ?, text, ?, ?, ?
-	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 86, 0xC4, mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 86, 0xC4, u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
 -- if you don't have required skill
 mem.autohook(0x41E40C, function(d)
 	local str = "Level\f00000\t046?"
 	
-	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 86, 0xC4, mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 86, 0xC4, u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
 -- show bonus in monster right click info (requires master ID monster)
@@ -399,25 +403,24 @@ local shift = tostring(MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70
 shift = string.rep("0", 3 - shift:len()) .. shift
 local invBonus = table.invert(const.MonsterBonus)
 mem.autohook(0x41E62D, function(d)
-	local monsterData = mem.u4[d.ebp - 0x10]
+	local monsterData = u4[d.ebp - 0x10]
 	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
-	local bonus, mul = mem.u1[monsterData + 0x3F], mem.u1[monsterData + 0x40]
+	local bonus, mul = u1[monsterData + 0x3F], u1[monsterData + 0x40]
 	local str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
 	
-	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
 -- if you don't have required skill
 mem.autohook(0x41E70C, function(d)
-	local monsterData = mem.u4[d.ebp - 0x10]
+	local monsterData = u4[d.ebp - 0x10]
 	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
 	local str = "Bonus\f00000\t" .. shift .. "?"
 	
-	mem.call(0x44A50F, 2, mem.u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), mem.u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
+	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
-
--- item bonuses
+-- dynamically change item bonuses frequency
 do
 	local stdChanceSumDataStart, spcChanceSumDataStart
 	mem.autohook(0x4547A8, function(d)
@@ -438,7 +441,7 @@ do
 		]]
 	end)
 
-	function changeItemsEnchantmentChances(t, spc, absolute)
+	local function changeItemsEnchantmentChances(t, spc, absolute)
 		local addChances = {}
 		local gameArray = spc and Game.SpcItemsTxt or Game.StdItemsTxt
 		for bonus, data in pairs(t) do
@@ -455,7 +458,7 @@ do
 		local dataStart = spc and spcChanceSumDataStart or stdChanceSumDataStart
 		local limit = spc and 11 or 8
 		for i = 0, limit do
-			mem.u4[dataStart + i * 4] = mem.u4[dataStart + i * 4] + addChances[i]
+			u4[dataStart + i * 4] = u4[dataStart + i * 4] + addChances[i]
 		end
 	end
 
@@ -473,22 +476,33 @@ end
 -- dark/light resistances!
 
 function getLightRes(pl, temp)
-	return mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)] + (not temp and getItemBonusSum(pl, 69) or 0) + (temp and getLightRes(pl, false) or 0)
+	return mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)]
+		+ (not temp and getItemBonusSum(pl, 69) or 0)
+		+ (temp and getLightRes(pl, false) or 0)
 end
+
 function getDarkRes(pl, temp)
-	return mem.i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)] + (not temp and getItemBonusSum(pl, 70) or 0) + (temp and getDarkRes(pl, false) or 0)
+	return mem.i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)]
+		+ (not temp and getItemBonusSum(pl, 70) or 0)
+		+ (temp and getDarkRes(pl, false) or 0)
 end
+
 function addLightRes(pl, amount, temp)
-	mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)] = math.max(0, mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)] + amount)
+	local p = pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)
+	mem.i2[p] = math.max(0, mem.i2[p] + amount)
 end
+
 function addDarkRes(pl, amount, temp)
-	mem.i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)] = math.max(0, mem.i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)] + amount)
+	local p = pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)
+	mem.i2[p] = math.max(0, mem.i2[p] + amount)
 end
+
 function addLightResAll(amount, temp)
 	for _, pl in Party do
 		addLightRes(pl, amount, temp)
 	end
 end
+
 function addDarkResAll(amount, temp)
 	for _, pl in Party do
 		addDarkRes(pl, amount, temp)
@@ -496,7 +510,6 @@ function addDarkResAll(amount, temp)
 end
 
 if MS.Rev4ForMergeAddDarkLightResistances == 1 then
-	
 	-- hook to make game respect item dark/light resistance bonuses
 	mem.autohook(0x48DF74, function(d)
 		if d.edi == const.Damage.Light or d.edi == const.Damage.Dark then
@@ -510,12 +523,11 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	end)
 	
 	-- add sources of new resistances
-
-	function events.LoadMap()
+	
+    function events.AfterLoadMap()
 		if Map.Name == "7out04.odm" then -- Tularean Forest
-			Game.MapEvtLines:RemoveEvent(452)
-			evt.map[452].clear()
-			evt.map[452] = function()
+			-- altar also gives light resistance (my addition)
+			replaceMapEvent(452, function()
 				if evt.Cmp{"PlayerBits", Value = 25} then
 					Game.ShowStatusText("You Pray")
 				else
@@ -526,11 +538,10 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 					evt.Add{"PlayerBits", Value = 25}
 					Game.ShowStatusText("+10 Water, Fire, Air and Light resistances (permanent)")
 				end
-			end
+			end)
 		elseif Map.Name == "7out05.odm" then -- Deyja
-			Game.MapEvtLines:RemoveEvent(452)
-			evt.map[452].clear()
-			evt.map[452] = function()
+			-- altar also gives dark resistance (my addition)
+			replaceMapEvent(452, function()
 				if evt.Cmp{"PlayerBits", Value = 26} then
 					Game.ShowStatusText("You Pray")
 				else
@@ -541,10 +552,10 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 					evt.Add{"PlayerBits", Value = 26}
 					Game.ShowStatusText("+10 Mind, Earth, Body and Dark resistances (permanent)")
 				end
-			end
+			end)
 		end
 	end
-	
+
 	-- cauldrons are handled in Structs/After/GlobalEventsNewHandler.lua
 	
 	-- item bonuses
@@ -558,9 +569,8 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	end
 	
 	-- add way to check new resistances
-	
+	local template = "Extra resistances\nLight resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
 	table.insert(addTextFunctions, function(pl)
-		local template = "Extra resistances\nLight resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
 		local tempL, permL, tempD, permD = getLightRes(pl, true), getLightRes(pl, false), getDarkRes(pl, true), getDarkRes(pl, false)
 		local aboveBaseL, aboveBaseD = tempL > permL, tempD > permD
 		return string.format(template, aboveBaseL and strGreen or "", tempL, aboveBaseL and strDefaultColor or "", permL,
@@ -579,7 +589,7 @@ else
 end
 
 function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves item look on map unchanged
-	if Merge.ModSettings.Rev4ForMergeRandomizeRemovedItems == 1 then
+	if MS.Rev4ForMergeRandomizeRemovedItems == 1 then
 		local obj = Map.Objects[id]
 		obj.Item:Randomize(level, typ)
 		obj.Type = Game.ItemsTxt[obj.Item.Number].SpriteIndex
@@ -682,6 +692,20 @@ function removeChestItem(chest, index)
 	return true
 end
 
+function findAndRemoveChestItem(chest, itemNumber, all)
+	local found = false
+	for i, item in Map.Chests[chest].Items do
+		if item.Number == itemNumber then
+			removeChestItem(chest, i)
+			found = true
+			if not all then
+				return true
+			end
+		end
+	end
+	return found
+end
+
 function dispelMagic(unblockable)
 	for i, pl in Party do
 		if unblockable or not isPlayerImmuneToDispel(pl) then
@@ -740,7 +764,7 @@ mem.autohook(0x40553A, function(d)
 end)
 
 mem.autohook(0x405560, function(d)
-	if isPlayerImmuneToDispel(Party[mem.u4[d.ebp + 0x10]]) then
+	if isPlayerImmuneToDispel(Party[u4[d.ebp + 0x10]]) then
 		d:push(0x4055C9)
 		return true
 	end
@@ -898,7 +922,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	
 	local crit, dmg = false
 	local function critProcHook(d)
-		local i, pl = internal.GetPlayer(mem.u4[d.ebp - 0x8])
+		local i, pl = internal.GetPlayer(u4[d.ebp - 0x8])
 		crit, dmg = isCrit(pl, d.eax)
 		if not crit then return end
 		d.eax = dmg
@@ -909,17 +933,17 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	
 	mem.autohook(0x4376AC, function(d)
 		if not crit then return end
-		local addr, result = mem.u4[d.esp + 4]
-		if addr == mem.u4[0x6016D8] then -- attack
+		local addr, result = u4[d.esp + 4]
+		if addr == u4[0x6016D8] then -- attack
 			result = mem.topointer(critAttackMsg)
-		elseif addr == mem.u4[0x60173C] then -- shoot
+		elseif addr == u4[0x60173C] then -- shoot
 			result = mem.topointer(critShootMsg)
-		elseif addr == mem.u4[0x601704] then -- kill
+		elseif addr == u4[0x601704] then -- kill
 			result = mem.topointer(critKillMsg)
 		else
 			error("Unknown attack message type")
 		end
-		mem.u4[d.esp + 4] = result
+		u4[d.esp + 4] = result
 		crit = false
 	end)
 	
@@ -934,7 +958,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	
 	function events.GameInitialized2()
 		for i, v in ipairs({0x5E4D38, 0x5E4C98, 0x5E4BF8, 0x5E4B58, 0x5E4AB8}) do
-			mem.u4[v] = mem.topointer(IdMonsterDescriptions[i])
+			u4[v] = mem.topointer(IdMonsterDescriptions[i])
 		end
 	end
 else -- only makes identify monster shared skill, no other changes
@@ -1102,12 +1126,11 @@ Dark      %d]]
 	
 	-- debuff chance
 	-- TODO: slow etc.
-	--[[ broken too...
 	mem.autohook(0x425ABD, function(d)
 		-- apparently this function can be called with entirely different meaning set of arguments...
 		-- oldEbp is needed for mass fear, obj for shrinking ray
-		local oldEbp = mem.u4[d.esp]
-		local playerAddr = mem.u4[oldEbp - 0x1C]
+		local oldEbp = u4[d.esp]
+		local playerAddr = u4[oldEbp - 0x1C]
 		local pl 
 		for i = 0, 49 do
 			if Party.PlayersArray[i]["?ptr"] == playerAddr then
@@ -1115,36 +1138,33 @@ Dark      %d]]
 			end
 		end
 		if not pl then
-			local obj = mem.u4[d.esp + 0x10]
-			local owner = mem.u4[obj + 0x58]
+			local obj = u4[d.esp + 0x10]
+			local owner = u4[obj + 0x58]
 			local type = owner % 8
 			if type ~= const.ObjectRefKind.Party then
 				return
 			end
 			pl = Party.PlayersArray[(owner - type) / 8]
 		end
-		local monsterAddr = mem.u4[d.ebp + 0x8]
+		local monsterAddr = u4[d.ebp + 0x8]
 		local i, mon = internal.GetMonster(monsterAddr)
-		d.eax = getEffectiveResistance(mon, pl, mem.u4[d.ebp + 0xC])
+		d.eax = getEffectiveResistance(mon, pl, u4[d.ebp + 0xC])
 		--debug.Message(d.eax)
 	end)
-	]]
 	
 	local playerIdx, attackingPlayer, monsterIdx, attackedMonster
-	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses (?))
-	do
-		local old = mem.hooks[0x425951]
-		local new = mem.autohook(0x4372C1, function(d)
-			local aptr = mem.u4[d.ebp - 0x8]
-			if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
-				playerIdx, attackingPlayer = internal.GetPlayer()
-			else
-				playerIdx, attackingPlayer = nil, nil
-			end
-			monsterIdx, attackedMonster = internal.GetMonster(mem.u4[d.esp])
-		end)
-		mem.hooks[new] = old
-	end
+	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
+	-- move mmextension hook elsewhere, because after hookfunction is entered I don't see a way to reliably get attacker (u4[d.ebp - 8]) anymore
+	-- could patch about 10-12 places to get it without moving, but I'm too lazy
+	mem.autohook(0x425951, function(d)
+		local aptr = u4[d.ebp - 0x8]
+		if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
+			playerIdx, attackingPlayer = internal.GetPlayer(aptr)
+		else
+			playerIdx, attackingPlayer = nil, nil
+		end
+		monsterIdx, attackedMonster = internal.GetMonster(u4[d.esp + 0x4])
+	end)
 	
 	--[[
 	0x4259C4: cmp eax,FDE8
@@ -1162,9 +1182,9 @@ Dark      %d]]
 	
 	-- damage
 	mem.autohook(0x4259C4, function(d)
-		-- TODO: broken in the vault (crash)
-		d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
-		--debug.Message(d.eax)
+		if attackingPlayer then
+			d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
+		end
 	end)
 	
 	mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
@@ -1190,7 +1210,7 @@ Dark      %d]]
 		end
 		if pl < 0 then i = i + 1; return end -- skip if no player selected
 		local damageType = resOrder[i]
-		local monsterPtr = mem.u4[d.ebp - 0x10]
+		local monsterPtr = u4[d.ebp - 0x10]
 		local id, mon = internal.GetMonster(monsterPtr)
 		local newRes = getEffectiveResistance(mon, Party[pl], damageType)
 		local buf = mem.string(monsterRightclickDataBuf)
@@ -1229,7 +1249,7 @@ Dark      %d]]
 			elseif less and newRes == 0 then
 				replacement = strRed .. "None" .. strDefaultColor .. " / " .. (immune and ("I" .. IMMUNE_MONSTER_RESISTANCE) or oldRes)
 			elseif changed then
-				replacement = (greater and strGreen or strRed) .. newRes .. (changed and strDefaultColor or "") .. " / " .. (stripImmunity and ("I" .. IMMUNE_MONSTER_RESISTANCE) or oldRes)
+				replacement = (greater and strGreen or strRed) .. newRes .. strDefaultColor .. " / " .. (stripImmunity and ("I" .. IMMUNE_MONSTER_RESISTANCE) or oldRes)
 			end
 			if replacement then
 				mem.copy(monsterRightclickDataBuf + pos - 1, replacement .. string.char(0))
@@ -1380,7 +1400,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 
 	local GMDesc = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
 	function events.GameInitialized2()
-		mem.u4[0x5E4A54] = mem.topointer(GMDesc)
+		u4[0x5E4A54] = mem.topointer(GMDesc)
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+5 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 	end

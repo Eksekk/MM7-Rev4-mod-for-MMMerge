@@ -1,3 +1,4 @@
+local MS = Merge.ModSettings
 local patches
 -- very important to use AddFirst("LoadMap") to remove all original handlers
 -- "BeforeLoadMap()" wouldn't remove them (because they aren't loaded yet), and normal "LoadMap()" (not AddFirst("LoadMap")) would allow "OnLoadMap" events to run
@@ -7,7 +8,7 @@ events.AddFirst("LoadMap", function()
 end)
 
 -- runs as one of first handlers for "LoadMap" event
-local function replaceMapEvent(num, func, onload, hint)
+function replaceMapEvent(num, func, onload, hint)
     events.Remove("LoadMap", evt.map[num].last)
     evt.map[num].clear()
     if func then -- allow removing only lua event by passing "false"
@@ -65,9 +66,9 @@ patches = {
         end)
     end,
     -- Titan's Stronghold
-    -- correct dispel magic on map load (asshole mechanic, but let's preserve it)
     ["7d09.blv"] = function()
         replaceMapEvent(1, function()
+            -- correct dispel magic on map load (asshole mechanic, but let's preserve it)
             -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 21, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
             -- dispel magic
             dispelMagic()
@@ -94,8 +95,8 @@ patches = {
     end,
 
     -- Zokarr's Tomb
-    -- fix barrow VI enter coordinates
     ["7d13.blv"] = function()
+        -- fix barrow VI enter coordinates
         replaceMapEvent(501, function()
             local i
             i = Game.Rand() % 6
@@ -108,16 +109,16 @@ patches = {
     end,
 
     -- Wine Cellar
-    -- require actually killing the vampire (don't unconditionally set QBit on map leave)
     ["7d16.blv"] = function()
+        -- require actually killing the vampire (don't unconditionally set QBit on map leave)
         replaceMapEvent(501, function()
             evt.MoveToMap{X = 8216, Y = -10619, Z = 289, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 1, Name = getFileName("Out13.odm")}
         end)
     end,
     
     -- Hall Under the Hill
-    -- fix one tree setSprite
     ["7d22.blv"] = function()
+        -- fix one tree setSprite
         replaceMapEvent(460, function()  -- function events.LoadMap()
             if evt.Cmp("MapVar50", 1) then
                 evt.SetSprite{SpriteId = 51, Visible = 1, Name = "tree37"}
@@ -153,8 +154,8 @@ patches = {
     end,
 
     -- Stone City
-    -- perception skill barrel
     ["7d24.blv"] = function()
+        -- perception skill barrel
         replaceMapEvent(10, function()
             if not evt.Cmp("QBits", getQuestBit(334)) then         -- 1-time stone city
                 evt.Set("QBits", getQuestBit(334))         -- 1-time stone city
@@ -164,14 +165,14 @@ patches = {
     end,
 
     -- Colony Zod
-    -- delegate exit event to EVT file so it doesn't crash the game (bugfix)
     ["7d27.blv"] = function()
+        -- delegate exit event to EVT file so it doesn't crash the game (bugfix)
         replaceMapEvent(501, false)
     end,
 
     -- Castle Harmondale
-	-- bodybuilding skill barrel
 	["7d29.blv"] = function()
+        -- bodybuilding skill barrel
         replaceMapEvent(37, function()
             if not evt.Cmp("QBits", getQuestBit(317)) then         -- 1-time Castle Harm
                 evt.Set("QBits", getQuestBit(317))         -- 1-time Castle Harm
@@ -181,8 +182,8 @@ patches = {
     end,
     
     -- Red Dwarf Mines
-    -- Learning skill barrel
     ["7d34.blv"] = function()
+        -- Learning skill barrel
         replaceMapEvent(10, function()
             if not evt.Cmp("QBits", getQuestBit(335)) then         -- BDJ 1
                 evt.Set("QBits", getQuestBit(335))         -- BDJ 1
@@ -191,8 +192,9 @@ patches = {
         end)
     end,
 
-    -- barrow IV, fix npc group not found error
+    -- Barrow IV
     ["mdk02.blv"] = function()
+        -- fix npc group not found error
         replaceMapEvent(1, function()  -- function events.LoadMap()
             if evt.Cmp("QBits", getQuestBit(192)) then         -- Turn on map in mdkXX(Dwarven Barrow)
                 evt.SetDoorState{Id = 25, State = 0}
@@ -237,8 +239,8 @@ patches = {
     -- OUTDOOR --
 
     -- Emerald Island
-	-- fix for different NPCs talking (QBit wasn't set originally)
 	["7out01.odm"] = function()
+        -- fix for different NPCs talking (QBit wasn't set originally)
 		replaceMapEvent(200, function()
             if not evt.Cmp("QBits", getQuestBit(17)) then         -- No more docent babble
                 evt.Set("QBits", getQuestBit(17))         -- No more docent babble
@@ -265,9 +267,9 @@ patches = {
         , true)
     end,
 
-    -- Harmondale
-    -- Harmondale teleportal hub
+    -- harmondale
     ["7out02.odm"] = function()
+        -- Harmondale teleportal hub
         replaceMapEvent(218, function()
             local hasKey = false
             for i = 0, 4 do
@@ -317,6 +319,7 @@ patches = {
                     -- doesn't work -- evt.CastSpell{Spell = 80, Mastery = const.GM, Skill = 53, FromX = 0, FromY = 0, FromZ = 0, ToX = 0, ToY = 0, ToZ = 0}         -- "Dispel Magic"
                     -- dispel magic
                     dispelMagic(true) -- for now unblockable, not sure if should be blockable
+
                     -- handled in Global/VRev4 for Merge.lua
                     -- evt.Subtract("QBits", getQuestBit(206))         -- Harmondale - Town Portal
                 end
@@ -346,6 +349,7 @@ patches = {
                 evt.StatusText(22)         -- "You need a town portal pass!"
             end
         end)
+
         -- brianna's brandy (identify item tea)
         replaceMapEvent(37, function()
             evt.ForPlayer("All")
@@ -356,6 +360,7 @@ patches = {
             end
         end)
     end,
+
     -- Bracada Desert
 	["7out06.odm"] = function()
         -- fix dock teleporter to teleport you on the ground
@@ -368,9 +373,10 @@ patches = {
             evt.MoveToMap{X = -14125, Y = -7638, Z = 1345, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
         end, nil, evt.str[100])
     end,
+
     -- Barrow Downs
-	-- repair tea
 	["out11.odm"] = function()
+        -- repair tea
         replaceMapEvent(10, function()
             evt.ForPlayer("All")
             if not evt.Cmp("QBits", getQuestBit(321)) then         -- Gepetto's Thermos

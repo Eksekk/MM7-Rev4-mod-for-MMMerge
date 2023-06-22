@@ -29,6 +29,7 @@ IMPORTANCE CATEGORIES:
 * reduce buffs recovery if out of combat
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * Difficulty: max npcs hired at the same time
+* redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
 
 ---- good to have ----
 * Extra spawns in dungeons

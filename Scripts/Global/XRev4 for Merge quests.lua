@@ -311,7 +311,7 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 	-- could be alchemy GM, but he already manages one quest in Rev4
 	-- bring back pristine Phoenix Feather, pristine Dragon Turtle Fang and pristine Unicorn Horn
 
-	-- TODO: this item in conjunction with reagents is way too powerful reward
+	-- FIXME: this item in conjunction with reagents is way too powerful reward
 	local rewardItem = 1394 -- Mog'Draxar
 	local itemIDs = {982, 983, 984}
 	local questID = "ClankersLabCollectPowerfulReagents"

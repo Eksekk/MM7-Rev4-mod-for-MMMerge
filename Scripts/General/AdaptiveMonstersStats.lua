@@ -637,6 +637,11 @@ local function checkMonster(index)
 	return true
 end
 
+-- update monsters indexes in mapvars when they are changed by shrinking table, otherwise they could refer to invalid monsters
+function events.ShrinkMapMonstersTable(t)
+	updateMonsterIndexes(mapvars, "oldMons", t)
+end
+
 local function restore()
 	if Editor and Editor.WorkMode then return end
 	if not mapvars.oldMons then return end

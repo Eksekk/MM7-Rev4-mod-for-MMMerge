@@ -362,3 +362,15 @@ end)
 s.TileMap = mapStr
 Editor.NeedStateSync()
 ]]
+
+function updateMonsterIndexes(tbl, monsterTableKey, indexes)
+    debug.Message("Indexes to change:", dump(indexes))
+    local changedIndexes = {}
+    local c = 0
+    for from, to in pairs(indexes) do
+        changedIndexes[to] = tbl[monsterTableKey][from]
+        c = c + 1
+    end
+    tbl[monsterTableKey] = changedIndexes
+    debug.Message(string.format("Changed monster indexes: %d, Map.Monsters size: %d, file: %q", c, Map.Monsters.Count, debug.FunctionFile(debug.getinfo(2, "f").func)))
+end

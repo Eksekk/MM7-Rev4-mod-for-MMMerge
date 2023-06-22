@@ -699,6 +699,7 @@
 	function events.LoadMap(WasInGame)
 		local lim = Map.Monsters.limit
 		if WasInGame and Map.Monsters.count >= lim then
+			local changedIndexes = {}
 			local MonsToKeep = {}
 			local size = Map.Monsters[0]["?size"]
 
@@ -710,11 +711,13 @@
 
 			for i,v in ipairs(MonsToKeep) do
 				if i ~= v + 1 then
+					changedIndexes[v] = i - 1
 					mem.copy(Map.Monsters[i-1]["?ptr"], Map.Monsters[v]["?ptr"], size)
 				end
 			end
 
 			Map.Monsters.count = math.min(#MonsToKeep, lim)
+			events.call("ShrinkMapMonstersTable", changedIndexes)
 		end
 	end
 

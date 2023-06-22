@@ -403,6 +403,23 @@ function events.LoadMap()
 	mapvars.Rev4ForMergeMonstersSpawned = true
 end
 
+-- allow changing per-monster size
+local monsterSizeMultipliers = tget(mapvars, "changedMonsterSizes")
+function events.ShrinkMapMonstersTable(t)
+	updateMonsterIndexes(mapvars, "changedMonsterSizes", t)
+end
+
+function events.MonsterSpriteScale(t)
+	local s = monsterSizeMultipliers[t.Monster:GetIndex()]
+	if s then
+		s.Scale = math.round(s.Scale * s)
+	end
+end
+
+function multiplyMonsterSize(mon, scale)
+	monsterSizeMultipliers[type(mon) == "number" and mon or mon:GetIndex()] = scale
+end
+
 -- Bosses
 if MS.Rev4ForMergeAddBosses == 1 then
 	function events.LoadMap()
@@ -522,7 +539,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			mon.Attack1.DamageDiceCount = math.round(mon.Attack1.DamageDiceCount * diffsel(2, 2.5, 3))
 			spells(mon, const.Spells.IceBolt, JoinSkill(diffsel(10, 13, 16), const.GM), 50)
 			resists(mon, {20, 20, 20, 20, 0, 0, 0, 20, 20, 20})
-			rewards(mon, 25, -4, 10)
+			rewards(mon, 20, -4, 8)
 		elseif Map.Name == "7d25.blv" then -- Celeste
 			
 		elseif Map.Name == "7d26.blv" then -- The Pit
@@ -840,8 +857,8 @@ if MS.Rev4ForMergeManaHealthRegenStacking == 1 then
 	function events.RegenTick(pl)
 		local manaRegenSpcBonuses = {38, 47, 55, 66}
 		local healthRegenSpcBonuses = {37, 44, 50, 54, 66}
-		local manaRegenItems = {513, 1331, 1334, 1439} -- TODO
-		local healthRegenItems = {509, 520, 1331, 1337, 1439, 2027} -- TODO
+		local manaRegenItems = {513, 1331, 1334, 1439}
+		local healthRegenItems = {509, 520, 1331, 1337, 1439, 2027}
 		local manaCount, healthCount = 0, 0
 		for item, slot in pl:EnumActiveItems(false) do
 			if table.find(manaRegenSpcBonuses, item.Bonus2) or table.find(manaRegenItems, item.Number) then

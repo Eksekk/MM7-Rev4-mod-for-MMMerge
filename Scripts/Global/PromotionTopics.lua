@@ -610,6 +610,16 @@ local function mm_generate_promo_quests_undead(t)
 	}
 end
 
+rev4m = rev4m or {}
+rev4m.lich = rev4m.lich or {}
+rev4m.lich.CPA = CPA
+rev4m.lich.promo_award_cont = promo_award_cont
+rev4m.lich.can_convert_to_undead = can_convert_to_undead
+rev4m.lich.promote_class = promote_class
+rev4m.lich.promo_award_cont = promo_award_cont
+rev4m.lich.SetLichAppearance = SetLichAppearance
+rev4m.lich.convert_class_race = convert_class_race
+
 --------------------------------------------
 ---- 		ENROTH PROMOTIONS			----
 --------------------------------------------

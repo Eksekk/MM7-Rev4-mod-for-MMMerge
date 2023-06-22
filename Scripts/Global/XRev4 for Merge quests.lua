@@ -1,4 +1,4 @@
-local MS = Merge.ModSettings
+local MS, format = Merge.ModSettings, string.format
 if not _G.getQuestBit then
 	error("Data conversion functions are undefined")
 end
@@ -684,7 +684,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			NPC = DMGM_QuestNPC,
 			CheckGive = function()
 				return Party.QBits[1619]	-- Promoted to Wizard
-				and evt[0].Cmp("Awards", 119)         -- "Declared Heroes of Erathia"
+					and evt[0].Cmp("Awards", 119)         -- "Declared Heroes of Erathia"
 			end,
 			CheckDone = function()
 				local count = 0
@@ -703,6 +703,14 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				end
 				return not sorcNoJar and count >= 4
 			end,
+			--[[
+				
+mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
+	Name2 = "PowerLich", Ver = 7, Seq = 1, Slot = 0, Slot2 = 0, QBit = 1009,
+	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2, Greet = 194,
+	Exp = 40000, Item = 1417, Sell = Game.ItemsTxt[1417].Value,
+	SuccessTxt = 2744, FailTxt = 2743, SellTxt = 2698})
+			]]
 			Done = function()
 				for i = 1, 4 do
 					evt.Subtract("Inventory", ShardOfManaItemId)
@@ -711,12 +719,39 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				
 				Party.QBits[1623] = true		-- Promoted to Lich
 				Party.QBits[1624] = true		-- Promoted to Honorary Lich
-				for i, pl in Party do
-					evt.ForPlayer(i)
+
+				local MF = Merge.Functions
+				local MT = Merge.Tables
+				for k, pl in Party do
 					if pl.Class == const.Class.ArchMage then
 						pl.Class = const.Class.MasterNecromancer
 						SetLichAppearance(i, pl)
 						evt.Subtract("Inventory", 1417)
+					end
+					local player = Party[k]
+					evt.ForPlayer(k)
+					local new_race = rev4m.lich.can_convert_to_undead(player)
+					if new_race == 0 then
+						rev4m.lich.promote_class({Class = class,
+							Award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"],
+							Race = player.Attrs.Race, Maturity = 2})
+					elseif new_race > 0 then
+						local orig_race = player.Attrs.Race
+						if not table.find(MT.ClassPromotionsInv[class] or {}, player.Class)
+								and not player.Class == class then
+							return
+						end
+						if not rev4m.lich.convert_class_race({Class = class,
+								Award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"],
+								ToRace = new_race, Maturity = 2, Exp = exp2,
+								SameClass = true}) then
+							return
+						end
+						SetLichAppearance(k, player, orig_race)
+						-- Consider not to increase overbuffed lich resistances
+						for j = 0, 3 do
+							player.Resistances[j].Base = max(player.Resistances[j].Base, 20)
+						end
 					end
 				end
 				makeGMDarkLearnableIfQuestCompleted()
@@ -760,18 +795,18 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			makeGMDarkLearnableIfQuestCompleted()
 			
 			local function placeShardOfMana(chestID)
-				if not mapvars.PlacedShardOfMana then
+				if not cmpSetMapvarBool("PlacedShardOfMana") then
 					addChestItem(chestID, ShardOfManaItemId)
 				end
 			end
-				
-			if Map.Name == "out10.odm" and not mapvars.PlacedShardOfMana then -- nighon
+			
+			if Map.Name == "out10.odm" then -- nighon
 				placeShardOfMana(5)
-			elseif Map.Name == "out11.odm" and not mapvars.PlacedShardOfMana then -- barrow downs
+			elseif Map.Name == "out11.odm" then -- barrow downs
 				placeShardOfMana(3)
-			elseif Map.Name == "7d31.blv" and not mapvars.PlacedShardOfMana then -- fort riverstride
+			elseif Map.Name == "7d31.blv" then -- fort riverstride
 				placeShardOfMana(18)
-			elseif Map.Name == "7d22.blv" and not mapvars.PlacedShardOfMana then -- hall under the hill
+			elseif Map.Name == "7d22.blv" then -- hall under the hill
 				placeShardOfMana(2)
 			elseif Map.Name == "d02.blv" and (not mapvars.PlacedJars or mapvars.PlacedJars < 5) then -- the maze
 				mapvars.PlacedJars = mapvars.PlacedJars or 0
@@ -1021,9 +1056,7 @@ do
 	function events.AfterLoadMap()
 		if Map.Name == "7d12.blv" then
 			-- Promotion Brazier
-			Game.MapEvtLines:RemoveEvent(12)
-			evt.map[12].clear()
-			evt.map[12] = brazierAction
+			replaceMapEvent(12, brazierAction)
 		end
 	end
 

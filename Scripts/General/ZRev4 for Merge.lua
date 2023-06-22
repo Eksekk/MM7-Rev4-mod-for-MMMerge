@@ -1,4 +1,4 @@
-local u1, u4 = mem.u1, mem.u4
+local u1, u2, u4, i1, i2, i4, autohook, autohook2 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i3, mem.autohook, mem.autohook2
 local MS = Merge.ModSettings
 local IMMUNE_MONSTER_RESISTANCE = 200
 
@@ -12,10 +12,11 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* bdj doesn't turn hostile, also deal with angel in harmondale
 * verify and fix lich quest and other quests except those tested recently
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
 * fix resistance hook
+* deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
+* check if town portal is blocked correctly on gauntlet enter and restored afterwards
 
 -- those below are not needed for "first release" --
 
@@ -26,6 +27,8 @@ IMPORTANCE CATEGORIES:
 * Boost some of statistics' effects (if boosted breakpoints active, then less)
 * spell damage opt-out
 * reduce buffs recovery if out of combat
+* bdj doesn't turn hostile, also deal with angel in harmondale
+* Difficulty: max npcs hired at the same time
 
 ---- good to have ----
 * Extra spawns in dungeons
@@ -35,18 +38,17 @@ IMPORTANCE CATEGORIES:
 * School of Sorcery and Breeding Pit quests
 * Create script for moving editor state from MM7 to Merge (using updated events, monsters, items etc.), then
 	dry run it and see if I included all changes (almost everything was done manually)
+* Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 
 
 ---- minor ----
 * Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
 * Boost loot in the Gauntlet?
 * Fort Riverstride delete plans item
-* Difficulty: max npcs hired at the same time
 * Day of Protection giving a bit of dark/light resistance
 * make fire aura always work with permanent enchantments (elemental mod)
 * Character creation screen enhancements
 * Additional topics in service houses + USE THEM
-* Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 * Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
 
 
@@ -156,6 +158,7 @@ monUtils.randomGiveSpell = randomGiveSpell
 
 local function randomGiveElementalAttack(mon)
 	local a1, a2 = mon.Attack1, mon.Attack2
+	-- FIXME: maybe should compare to 0?
 	if a1 then
 		if a2 then
 			return
@@ -347,16 +350,17 @@ local showSpellSkill = function(skillOffset, lenOffset)
 		end
 		local afterSpellName = monsterRightclickDataBuf + (newline or str:len())
 		local monsterData = u4[d.ebp - 0x10]
-		local skill = mem.u2[monsterData + skillOffset]
+		local skill = u2[monsterData + skillOffset]
 		local s, m = SplitSkill(skill)
 		local add = " " .. s .. (masteryLetters[m] or "None") .. "\n" -- "None" is for situations where monster had 0 spell skill so game doesn't crash, yes this happened during development (a bug obviously)
 		mem.copy(afterSpellName, add)
 		u1[afterSpellName + add:len()] = 0 -- null terminator
+		-- fixme: broken? sometimes we replace newline, not add it. Also maybe not needed?
 		u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() -- update length of row
 	end
 end
-mem.autohook(0x41E673, showSpellSkill(0x6E, 0))
-mem.autohook(0x41E6C7, showSpellSkill(0x70, 4))
+autohook(0x41E673, showSpellSkill(0x6E, 0))
+autohook(0x41E6C7, showSpellSkill(0x70, 4))
 
 -- show "spell" text if monster has only second spell
 -- (if he has first one or both, text is shown automatically)
@@ -382,7 +386,7 @@ mem.asmpatch(0x41E6B6, [[
 ]], 0x11)
 
 -- show level in monster right click info (requires novice ID monster)
-mem.autohook(0x41E3A3, function(d)
+autohook(0x41E3A3, function(d)
 	local monsterData = u4[d.ebp - 0x10]
 	local level = u1[monsterData + 0x34]
 	local str = "Level\f00000\t046" .. level
@@ -392,7 +396,7 @@ mem.autohook(0x41E3A3, function(d)
 end)
 
 -- if you don't have required skill
-mem.autohook(0x41E40C, function(d)
+autohook(0x41E40C, function(d)
 	local str = "Level\f00000\t046?"
 	
 	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 86, 0xC4, u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
@@ -402,9 +406,9 @@ end)
 local shift = tostring(MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
 shift = string.rep("0", 3 - shift:len()) .. shift
 local invBonus = table.invert(const.MonsterBonus)
-mem.autohook(0x41E62D, function(d)
+autohook(0x41E62D, function(d)
 	local monsterData = u4[d.ebp - 0x10]
-	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
+	local hasBothSpells = u2[monsterData + 0x6E] > 0 and u2[monsterData + 0x70] > 0
 	local bonus, mul = u1[monsterData + 0x3F], u1[monsterData + 0x40]
 	local str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
 	
@@ -412,18 +416,35 @@ mem.autohook(0x41E62D, function(d)
 end)
 
 -- if you don't have required skill
-mem.autohook(0x41E70C, function(d)
+autohook(0x41E70C, function(d)
 	local monsterData = u4[d.ebp - 0x10]
-	local hasBothSpells = mem.u2[monsterData + 0x6E] > 0 and mem.u2[monsterData + 0x70] > 0
+	local hasBothSpells = u2[monsterData + 0x6E] > 0 and u2[monsterData + 0x70] > 0
 	local str = "Bonus\f00000\t" .. shift .. "?"
 	
 	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
 end)
 
+local function getSFTItem(p)
+	local i = (p - Game.SFTBin.Frames["?ptr"]) / Game.SFTBin.Frames[0]["?size"]
+	return Game.SFTBin.Frames[i]
+end
+--1BC51406 edi
+-- cosmetic change: some monsters (mainly bosses) can be larger
+
+local scaleHook = function(d)
+	local t = {Scale = d.eax, Frame = getSFTItem(d.ebx)}
+	t.MonsterIndex, t.Monster = internal.GetMonster(d.edi - 0x9A)
+	events.call("MonsterSpriteScale", t)
+	d.eax = t.Scale
+end
+
+autohook2(0x47AC26, scaleHook)
+autohook2(0x47AC46, scaleHook)
+
 -- dynamically change item bonuses frequency
 do
 	local stdChanceSumDataStart, spcChanceSumDataStart
-	mem.autohook(0x4547A8, function(d)
+	autohook(0x4547A8, function(d)
 		stdChanceSumDataStart = d.esi
 		-- for debugging
 		--[[
@@ -432,7 +453,7 @@ do
 		end):new(0)
 		]]
 	end)
-	mem.autohook(0x4549C9, function(d)
+	autohook(0x4549C9, function(d)
 		spcChanceSumDataStart = d.esi
 		--[[
 		SpcItemChances = mem.struct(function(define)
@@ -476,25 +497,25 @@ end
 -- dark/light resistances!
 
 function getLightRes(pl, temp)
-	return mem.i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)]
+	return i2[pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)]
 		+ (not temp and getItemBonusSum(pl, 69) or 0)
 		+ (temp and getLightRes(pl, false) or 0)
 end
 
 function getDarkRes(pl, temp)
-	return mem.i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)]
+	return i2[pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)]
 		+ (not temp and getItemBonusSum(pl, 70) or 0)
 		+ (temp and getDarkRes(pl, false) or 0)
 end
 
 function addLightRes(pl, amount, temp)
 	local p = pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)
-	mem.i2[p] = math.max(0, mem.i2[p] + amount)
+	i2[p] = math.max(0, i2[p] + amount)
 end
 
 function addDarkRes(pl, amount, temp)
 	local p = pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)
-	mem.i2[p] = math.max(0, mem.i2[p] + amount)
+	i2[p] = math.max(0, i2[p] + amount)
 end
 
 function addLightResAll(amount, temp)
@@ -511,7 +532,7 @@ end
 
 if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	-- hook to make game respect item dark/light resistance bonuses
-	mem.autohook(0x48DF74, function(d)
+	autohook(0x48DF74, function(d)
 		if d.edi == const.Damage.Light or d.edi == const.Damage.Dark then
 			local i, pl = internal.GetPlayer(d.esi)
 			if d.edi == const.Damage.Light then
@@ -581,7 +602,7 @@ else
 	-- but there's nothing in the game that raises them, so because I modify them in save game,
 	-- I have to override them with 0, otherwise you could resist dark/light
 	-- with ModSettings option turned off
-	mem.autohook2(0x48DF74, function(d)
+	autohook2(0x48DF74, function(d)
 		if d.edi == const.Damage.Light or d.edi == const.Damage.Dark then
 			d.eax = 0
 		end
@@ -756,14 +777,14 @@ function isPlayerImmuneToDispel(pl)
 	return playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1)
 end
 
-mem.autohook(0x40553A, function(d)
+autohook(0x40553A, function(d)
 	if isPartyImmuneToDispel() then
 		d:push(0x405551)
 		return true
 	end
 end)
 
-mem.autohook(0x405560, function(d)
+autohook(0x405560, function(d)
 	if isPlayerImmuneToDispel(Party[u4[d.ebp + 0x10]]) then
 		d:push(0x4055C9)
 		return true
@@ -927,11 +948,11 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		if not crit then return end
 		d.eax = dmg
 	end
-	mem.autohook2(0x43703F, critProcHook) -- shoot (ranged)
-	mem.autohook2(0x437148, critProcHook) -- spell
-	mem.autohook2(0x437243, critProcHook) -- melee attack
+	autohook2(0x43703F, critProcHook) -- shoot (ranged)
+	autohook2(0x437148, critProcHook) -- spell
+	autohook2(0x437243, critProcHook) -- melee attack
 	
-	mem.autohook(0x4376AC, function(d)
+	autohook(0x4376AC, function(d)
 		if not crit then return end
 		local addr, result = u4[d.esp + 4]
 		if addr == u4[0x6016D8] then -- attack
@@ -1067,7 +1088,7 @@ end
 if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	-- for i = 0, 137 do evt.GiveItem{Strength = 6, Type = const.ItemType.Ring} end
 	--[[local stdItemsDataStart
-	mem.autohook2(0x4546EC, function(d)
+	autohook2(0x4546EC, function(d)
 		stdItemsDataStart = d.eax
 	end)]]
 	
@@ -1126,7 +1147,7 @@ Dark      %d]]
 	
 	-- debuff chance
 	-- TODO: slow etc.
-	mem.autohook(0x425ABD, function(d)
+	autohook(0x425ABD, function(d)
 		-- apparently this function can be called with entirely different meaning set of arguments...
 		-- oldEbp is needed for mass fear, obj for shrinking ray
 		local oldEbp = u4[d.esp]
@@ -1156,7 +1177,7 @@ Dark      %d]]
 	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
 	-- move mmextension hook elsewhere, because after hookfunction is entered I don't see a way to reliably get attacker (u4[d.ebp - 8]) anymore
 	-- could patch about 10-12 places to get it without moving, but I'm too lazy
-	mem.autohook(0x425951, function(d)
+	autohook(0x425951, function(d)
 		local aptr = u4[d.ebp - 0x8]
 		if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
 			playerIdx, attackingPlayer = internal.GetPlayer(aptr)
@@ -1181,7 +1202,7 @@ Dark      %d]]
 	-- 3) if we hooked last line only, immune monster would be immune no matter what (jump would be always taken, no matter penetration level)
 	
 	-- damage
-	mem.autohook(0x4259C4, function(d)
+	autohook(0x4259C4, function(d)
 		if attackingPlayer then
 			d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
 		end
@@ -1194,7 +1215,7 @@ Dark      %d]]
 	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
 		const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
 	
-	mem.autohook(0x41E8A0, function(d)
+	autohook(0x41E8A0, function(d)
 		local pl = Party.CurrentPlayer
 		-- move resistance values a little to the left (default is 070)
 		moveLeft(20)
@@ -1214,7 +1235,7 @@ Dark      %d]]
 		local id, mon = internal.GetMonster(monsterPtr)
 		local newRes = getEffectiveResistance(mon, Party[pl], damageType)
 		local buf = mem.string(monsterRightclickDataBuf)
-		local oldRes = mem.u2[monsterPtr + 0x50 + (i - 1) * 2]
+		local oldRes = u2[monsterPtr + 0x50 + (i - 1) * 2]
 		local strToFind = tostring(oldRes)
 		local immune = oldRes == const.MonsterImmune
 		if immune then
@@ -1259,7 +1280,7 @@ Dark      %d]]
 	end)
 	
 	-- move resistances to the left if you don't have skill
-	mem.autohook(0x41E8F5, function(d)
+	autohook(0x41E8F5, function(d)
 		moveLeft(20)
 		if i == 10 then
 			i = 1

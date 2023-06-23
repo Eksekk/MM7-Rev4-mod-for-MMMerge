@@ -717,7 +717,7 @@
 			end
 
 			Map.Monsters.count = math.min(#MonsToKeep, lim)
-			events.call("ShrinkMapMonstersTable", changedIndexes)
+			events.call("MapMonstersIndexesChanged", changedIndexes)
 		end
 	end
 

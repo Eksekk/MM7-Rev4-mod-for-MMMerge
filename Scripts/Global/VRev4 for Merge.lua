@@ -404,15 +404,19 @@ function events.LoadMap()
 end
 
 -- allow changing per-monster size
-local monsterSizeMultipliers = tget(mapvars, "changedMonsterSizes")
-function events.ShrinkMapMonstersTable(t)
+local monsterSizeMultipliers
+function events.BeforeLoadMap()
+	monsterSizeMultipliers = tget(mapvars, "changedMonsterSizes")
+end
+
+function events.MapMonstersIndexesChanged(t)
 	updateMonsterIndexes(mapvars, "changedMonsterSizes", t)
 end
 
 function events.MonsterSpriteScale(t)
 	local s = monsterSizeMultipliers[t.Monster:GetIndex()]
 	if s then
-		s.Scale = math.round(s.Scale * s)
+		t.Scale = math.round(t.Scale * s)
 	end
 end
 

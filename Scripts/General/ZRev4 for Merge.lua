@@ -22,6 +22,7 @@ IMPORTANCE CATEGORIES:
 
 ---- important ----
 * Bosses
+* limit GM to final promotion only, and M to final/first promotion only
 * Boost weapon boosting potions
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Boost some of statistics' effects (if boosted breakpoints active, then less)
@@ -429,9 +430,8 @@ local function getSFTItem(p)
 	local i = (p - Game.SFTBin.Frames["?ptr"]) / Game.SFTBin.Frames[0]["?size"]
 	return Game.SFTBin.Frames[i]
 end
---1BC51406 edi
--- cosmetic change: some monsters (mainly bosses) can be larger
 
+-- cosmetic change: some monsters (mainly bosses) can be larger
 local scaleHook = function(d)
 	local t = {Scale = d.eax, Frame = getSFTItem(d.ebx)}
 	t.MonsterIndex, t.Monster = internal.GetMonster(d.edi - 0x9A)
@@ -615,7 +615,7 @@ function randomizeAndSetCorrectType(id, level, typ) -- just Randomize() leaves i
 		local obj = Map.Objects[id]
 		obj.Item:Randomize(level, typ)
 		obj.Type = Game.ItemsTxt[obj.Item.Number].SpriteIndex
-		obj.TypeIndex = Game.ItemsTxt[obj.Item.Number].SpriteIndex
+		obj.TypeIndex = obj.Type
 	else
 		Map.RemoveObject(id)
 	end
@@ -1433,6 +1433,12 @@ function events.BeforeNewGameAutosave()
 	god() -- god script needs to be in General directory
 	for i, pl in Party do
 		pl.QuickSpell = const.Spells.Fireball
+		for stat = const.Stats.Might, const.Stats.Luck do
+			pl.Stats[stat].Base = 500
+		end
+		for res in pl.Resistances do
+			pl.Resistances[res].Base = 500
+		end
 	end
 end
 

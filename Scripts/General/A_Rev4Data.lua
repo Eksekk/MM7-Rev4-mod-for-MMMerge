@@ -364,13 +364,20 @@ Editor.NeedStateSync()
 ]]
 
 function updateMonsterIndexes(tbl, monsterTableKey, indexes)
-    debug.Message("Indexes to change:", dump(indexes))
-    local changedIndexes = {}
-    local c = 0
-    for from, to in pairs(indexes) do
-        changedIndexes[to] = tbl[monsterTableKey][from]
-        c = c + 1
+    if tbl[monsterTableKey] then
+        --debug.Message("Indexes to change:", dump(indexes))
+        local changedIndexes = {}
+        local c = 0
+        -- TODO: check if all indexes from old table were changed
+        for from, to in pairs(indexes) do
+            if tbl[monsterTableKey][from] then
+                changedIndexes[to] = tbl[monsterTableKey][from]
+                c = c + 1
+            end
+        end
+        -- don't assign directly to not break existing references to index table
+        table.clear(tbl[monsterTableKey])
+        table.copy(changedIndexes, tbl[monsterTableKey], true)
+        --debug.Message(string.format("Changed monster indexes: %d, Map.Monsters size: %d, file: %q", c, Map.Monsters.Count, debug.FunctionFile(debug.getinfo(2, "f").func)))
     end
-    tbl[monsterTableKey] = changedIndexes
-    debug.Message(string.format("Changed monster indexes: %d, Map.Monsters size: %d, file: %q", c, Map.Monsters.Count, debug.FunctionFile(debug.getinfo(2, "f").func)))
 end

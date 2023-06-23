@@ -425,6 +425,19 @@ local function ProcessFormula(Formula, Default, monId, addVariables)
 	end
 	return Default
 end
+	
+local maxI1, maxI2, maxI4, maxI8, maxU1, maxU2, maxU4, maxU8 = 127, 32767, 2147483647,
+	9223372036854775807, 255, 65535, 4294967295, 18446744073709551615
+
+local function calcNewCurrentHp(oldFullHP, newFullHP, hp)
+	if hp > 0 then
+		local hitPointPercentage = oldFullHP and min(hp / oldFullHP, 1) or 1
+		local scaled = floor(newFullHP * hitPointPercentage)
+		return max(min(scaled, maxI2), 1)
+	else
+		return 0
+	end
+end
 
 local SpellReplace = {[81] = 87}
 local function PrepareMapMon(mon)
@@ -461,9 +474,6 @@ local function PrepareMapMon(mon)
 			monster[part] = min(maxVal, txt[part])
 		end
 	end
-	
-	local maxI1, maxI2, maxI4, maxI8, maxU1, maxU2, maxU4, maxU8 = 127, 32767, 2147483647,
-		9223372036854775807, 255, 65535, 4294967295, 18446744073709551615
 
 	if Game.UseMonsterBolster then
 		-- Base stats
@@ -488,14 +498,9 @@ local function PrepareMapMon(mon)
 		-- ~formulas
 
 		--if mon.NameId ~= 123 then -- Q
-			if mon.HP > 0 then
-				local oldMonFullHP = tget(mapvars, "oldMonFullHP")
-				-- is not set if map is loaded for first time (maybe after respawn too)
-				local hitPointPercentage = oldMonFullHP[mon:GetIndex()] and (mon.HP / oldMonFullHP[mon:GetIndex()]) or 1
-				oldMonFullHP[mon:GetIndex()] = nil
-				local scaled = floor(scaleParam("FullHP", maxI2, true) * hitPointPercentage)
-				mon.HP = max(min(scaled, maxI2), 1)
-			end
+			local oldMonFullHP = tget(mapvars, "oldMonFullHP")
+			mon.HP = calcNewCurrentHp(oldMonFullHP[mon:GetIndex()], scaleParam("FullHP", maxI2, true), mon.HP)
+			oldMonFullHP[mon:GetIndex()] = nil
 			scaleParam("FullHP", maxI2)
 		--end
 
@@ -594,13 +599,13 @@ end
 -- save old monster full HP to restore when loading saved game
 -- (old properties are cleared before PrepareMapMon runs)
 
-local function saveOldMonHP()
+local function saveOldMonFullHP()
 	mapvars.oldMonFullHP = {}
 	for i, mon in Map.Monsters do
 		mapvars.oldMonFullHP[i] = mon.FullHP
 	end
 end
-events.BeforeSaveGame = saveOldMonHP
+events.BeforeSaveGame = saveOldMonFullHP
 
 function events.LeaveMap()
 	mapvars.oldMonFullHP = {} -- clear old hp if leaving map (NOT loading saved game)
@@ -615,10 +620,21 @@ for i, v in ipairs(eventTypes) do
 	end
 end
 
+-- recent problem (fixed now):
+-- enter with bolster: hp increased, old full hp saved in mapvars
+-- 1. reenter map with bolster: hp = full hp, preparemapmon runs, hp is 100% of new full hp
+-- 2. reenter map without bolster: hp = old full hp, restore runs, hp > full hp
+-- 3. reload savegame without bolster: hp = old hp, restore runs, maybe hp > full hp
+-- 4. reload savegame with bolster: hp = old hp, restore old full hp, preparemapmon runs, percentage = hp / old full hp, hp = percentage * new full hp
+
 local function restoreMonster(index, props)
 	if type(props) == "table" and index >= 0 and index <= Map.Monsters.High then
 		for k, v in pairs(props) do
 			local mon = Map.Monsters[index]
+			-- if bolster is active, PrepareMapMon() will adjust current HP
+			if k == "FullHP" and not Game.UseMonsterBolster then
+				mon.HP = calcNewCurrentHp(mon.FullHP, props.FullHP, mon.HP)
+			end
 			local parts = string.split(k, "%.")
 			for j = 1, #parts - 1 do
 				local part = parts[j]
@@ -638,8 +654,9 @@ local function checkMonster(index)
 end
 
 -- update monsters indexes in mapvars when they are changed by shrinking table, otherwise they could refer to invalid monsters
-function events.ShrinkMapMonstersTable(t)
+function events.MapMonstersIndexesChanged(t)
 	updateMonsterIndexes(mapvars, "oldMons", t)
+	updateMonsterIndexes(mapvars, "oldMonFullHP", t)
 end
 
 local function restore()
@@ -944,6 +961,7 @@ local function Init()
 	end
 
 	-- Boost summons
+	-- FIXME!!! monsters summoned after this hook (for example evt.SummonMonsters) obviously don't have their old properties stored, so stats grow exponentially
 	mem.autohook2(0x44d4b1, function(d)
 		if Game.UseMonsterBolster and not ReadyMons[d.esi] then
 			local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
@@ -1110,6 +1128,7 @@ local function BolsterMonsters()
 	vars.lastVisitedMap = Map.Name
 end
 Game.BolsterMonsters = function()
+	saveOldMonFullHP() -- if Game.BolsterMonsters() is rerun without reloading savegame - since old hp is cleared after PrepareMapMon, "hp percentage" would be 1, refilling all monsters' HP
 	restore()
 	BolsterMonsters()
 end

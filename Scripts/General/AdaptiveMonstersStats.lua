@@ -430,6 +430,7 @@ local maxI1, maxI2, maxI4, maxI8, maxU1, maxU2, maxU4, maxU8 = 127, 32767, 21474
 	9223372036854775807, 255, 65535, 4294967295, 18446744073709551615
 
 local function calcNewCurrentHp(oldFullHP, newFullHP, hp)
+	debug.Message(oldFullHP, newFullHP, hp)
 	if hp > 0 then
 		local hitPointPercentage = oldFullHP and min(hp / oldFullHP, 1) or 1
 		local scaled = floor(newFullHP * hitPointPercentage)
@@ -607,8 +608,11 @@ local function saveOldMonFullHP()
 end
 events.BeforeSaveGame = saveOldMonFullHP
 
+-- when leaving game, first leave map runs and zeroes
 function events.LeaveMap()
+	--debug.Message("leaveMap", tlen(mapvars.oldMonFullHP))
 	mapvars.oldMonFullHP = {} -- clear old hp if leaving map (NOT loading saved game)
+	OriginalMonstersTxt = nil
 end
 
 local eventTypes = {"Before", "", "After"}
@@ -892,7 +896,7 @@ local function PrepareTxtMon(i, OnlyThis)
 
 end
 
-local boostSummons = false -- this will get set to true after performing initial bolster, because I summon monsters
+local bolsterPerformed = false -- this will get set to true after performing initial bolster, because I summon monsters
 	-- before that, and we don't want to boost them twice
 
 -- variables that keep track of what to restore from unboosted monsters.txt when summoning
@@ -916,6 +920,30 @@ local function Init()
 	ProcessBolsterTxt()
 	Game.Bolster.ReloadTxt = ProcessBolsterTxt
 
+	local function onMonsterSummoned(mon, eventName, ...)
+		-- fix monsters summoned after initial bolster not having their stats restored to normal after map exit or savegame reload
+		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
+		if bolsterPerformed then -- if original monsters txt exists
+			restoreMonsterParams(mon, OriginalMonstersTxt[mon.Id])
+		end
+		-- callback to allow modifying monster "base stats" before saving them to restore later
+		events.call(eventName, mon, bolsterPerformed, ...)
+
+		if not (Editor and Editor.WorkMode) then
+			if bolsterPerformed then
+				local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
+				if MapSettings then
+					-- create data if first monster of type
+					if not ReadyMons[mon.Id] then
+						PrepareTxtMon(mon.Id)
+					end
+					-- bolster. Note that this will run only after initial bolster (see "if bolsterPerformed then")
+					PrepareMapMon(mon)
+				end
+			end
+		end
+	end
+
 	local StdSummonMonster = SummonMonster
 
 	function SummonMonster(Id, ...)
@@ -924,31 +952,14 @@ local function Init()
 		if not mon then
 			return
 		end
-		-- fix monsters summoned after initial bolster not having their stats restored to normal after map exit or savegame reload
-		-- (because they are summoned with boosted monsters.txt in effect, so that are their "default stats")
-		restoreMonsterParams(mon, OriginalMonstersTxt[Id])
-		-- callback to allow modifying monster "base stats" before saving them to restore later
-		events.call("SummonMonster", mon, boostSummons)
 
-		if not (Editor and Editor.WorkMode) then
-			if boostSummons then
-				local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
-				if MapSettings then
-					-- create data if first monster of type
-					if not ReadyMons[Id] then
-						PrepareTxtMon(Id)
-					end
-					-- bolster. Note that this will run only after initial bolster (see "if boostSummons then")
-					PrepareMapMon(mon)
-				end
-			end
-		end
+		onMonsterSummoned(mon, "SummonMonster")
 
 		return mon, i
 	end
 	
 	function events.BeforeLoadMap()
-		boostSummons = false
+		bolsterPerformed = false
 	end
 
 	-- Set monster kind check
@@ -960,8 +971,13 @@ local function Init()
 		end
 	end
 
+	-- evt.SummonMonsters
+	mem.autohook(0x44D0DA, function(d)
+		local mon = structs.MapMonster:new(d.esi)
+		onMonsterSummoned(mon, "EvtSummonMonster")
+	end)
+
 	-- Boost summons
-	-- FIXME!!! monsters summoned after this hook (for example evt.SummonMonsters) obviously don't have their old properties stored, so stats grow exponentially
 	mem.autohook2(0x44d4b1, function(d)
 		if Game.UseMonsterBolster and not ReadyMons[d.esi] then
 			local MapSettings = Game.Bolster.Maps[Map.MapStatsIndex]
@@ -975,6 +991,12 @@ local function Init()
 				end
 			end
 		end
+	end)
+
+	mem.autohook2(0x44D70A, function(d)
+		local mon = structs.MapMonster:new(d.esi)
+		local summoner = structs.MapMonster:new(d.ebx)
+		onMonsterSummoned(mon, "MonsterSummonMonster", summoner)
 	end)
 
 	-- Arena monsters generation
@@ -1123,7 +1145,7 @@ local function BolsterMonsters()
 				PrepareMapMon(v)
 			end
 		end
-		boostSummons = true
+		bolsterPerformed = true
 	end
 	vars.lastVisitedMap = Map.Name
 end

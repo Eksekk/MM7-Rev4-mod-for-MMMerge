@@ -33,6 +33,8 @@ Note: by default item removal function replaces them with appropriate-leveled it
 
 In addition, I added bosses to some game areas, which are just single stronger monsters than usual of their kind. They are here mainly to make debuff spells, such as slow, shrinking ray, dark grasp, useful. They are affected by difficulty, lower difficulty will cause some of their stats to be weaker. If you want to disable them, the option to set to 0 is Rev4ForMergeAddBosses.
 
+To compensate for difficulty a bit and allow stronger overall builds than on easy, experience gained from monsters is increased by 15% on medium and by 30% on hard.
+
 ## Other balance-affecting changes
 * I added dark and light resistance item bonuses. They technically already worked, but nothing increased them. Hopefully clearing the Pit now won't be such headache :) Option to disable is Rev4ForMergeAddDarkLightResistances
 * Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.

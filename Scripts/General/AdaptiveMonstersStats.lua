@@ -430,7 +430,6 @@ local maxI1, maxI2, maxI4, maxI8, maxU1, maxU2, maxU4, maxU8 = 127, 32767, 21474
 	9223372036854775807, 255, 65535, 4294967295, 18446744073709551615
 
 local function calcNewCurrentHp(oldFullHP, newFullHP, hp)
-	debug.Message(oldFullHP, newFullHP, hp)
 	if hp > 0 then
 		local hitPointPercentage = oldFullHP and min(hp / oldFullHP, 1) or 1
 		local scaled = floor(newFullHP * hitPointPercentage)
@@ -476,7 +475,7 @@ local function PrepareMapMon(mon)
 		end
 	end
 
-	if Game.UseMonsterBolster then
+	if vars.ExtraSettings.UseMonsterBolster then
 		-- Base stats
 		
 		-- formulas
@@ -498,12 +497,10 @@ local function PrepareMapMon(mon)
 		
 		-- ~formulas
 
-		--if mon.NameId ~= 123 then -- Q
-			local oldMonFullHP = tget(mapvars, "oldMonFullHP")
-			mon.HP = calcNewCurrentHp(oldMonFullHP[mon:GetIndex()], scaleParam("FullHP", maxI2, true), mon.HP)
-			oldMonFullHP[mon:GetIndex()] = nil
-			scaleParam("FullHP", maxI2)
-		--end
+		local oldMonFullHP = tget(mapvars, "oldMonFullHP")
+		mon.HP = calcNewCurrentHp(oldMonFullHP[mon:GetIndex()], scaleParam("FullHP", maxI2, true), mon.HP)
+		oldMonFullHP[mon:GetIndex()] = nil
+		scaleParam("FullHP", maxI2)
 
 		scaleParam("ArmorClass", maxI4)
 		scaleParam("MoveSpeed", maxI4)
@@ -610,7 +607,6 @@ events.BeforeSaveGame = saveOldMonFullHP
 
 -- when leaving game, first leave map runs and zeroes
 function events.LeaveMap()
-	--debug.Message("leaveMap", tlen(mapvars.oldMonFullHP))
 	mapvars.oldMonFullHP = {} -- clear old hp if leaving map (NOT loading saved game)
 	OriginalMonstersTxt = nil
 end
@@ -636,7 +632,9 @@ local function restoreMonster(index, props)
 		for k, v in pairs(props) do
 			local mon = Map.Monsters[index]
 			-- if bolster is active, PrepareMapMon() will adjust current HP
-			if k == "FullHP" and not Game.UseMonsterBolster then
+			-- BUG! Game.UseMonsterBolster is nil when params are restored (first ever load map)
+			-- use vars instead
+			if k == "FullHP" and not vars.ExtraSettings.UseMonsterBolster then
 				mon.HP = calcNewCurrentHp(mon.FullHP, props.FullHP, mon.HP)
 			end
 			local parts = string.split(k, "%.")

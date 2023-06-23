@@ -1430,6 +1430,14 @@ end
 
 -- for testing
 function events.BeforeNewGameAutosave()
+	tget(vars, "ExtraSettings").UseMonsterBolster = true
+	-- allow F5 for quicksave
+	vars.ExtraSettings.QSKeybinds = {
+		[117] = 1, -- F6
+		[118] = 1, -- F7
+		[119] = 1, -- F8
+		[121] = 1, -- F10
+	}
 	god() -- god script needs to be in General directory
 	for i, pl in Party do
 		pl.QuickSpell = const.Spells.Fireball
@@ -1439,13 +1447,6 @@ function events.BeforeNewGameAutosave()
 		for res in pl.Resistances do
 			pl.Resistances[res].Base = 500
 		end
-	end
-end
-
-function events.AfterLoadMap()
-	if not vars.bolsterDisabled and Map.Name == "7out01.odm" then
-		vars.bolsterDisabled = true
-		Game.UseMonsterBolster = false
 	end
 end
 

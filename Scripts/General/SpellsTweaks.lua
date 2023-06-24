@@ -74,7 +74,6 @@ mem.autohook2(0x437713, function(d)
 	local Player = GetPlayer(d.ebx)
 	local Mon = GetMonster(d.esi)
 	local Skill, Mastery = SplitSkill(Player:GetSkill(const.Skills.Earth))
-
 	if CanApplySpell(Skill, Mastery, _G.getEffectiveResistance(Mon, Player, const.Damage.Earth)) then
 		d.eax = 1
 	else

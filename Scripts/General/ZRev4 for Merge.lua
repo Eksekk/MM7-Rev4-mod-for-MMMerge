@@ -1,4 +1,4 @@
-local u1, u2, u4, i1, i2, i4, autohook, autohook2 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i3, mem.autohook, mem.autohook2
+local u1, u2, u4, i1, i2, i4, autohook, autohook2 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4, mem.autohook, mem.autohook2
 local MS = Merge.ModSettings
 local IMMUNE_MONSTER_RESISTANCE = 200
 
@@ -14,13 +14,12 @@ IMPORTANCE CATEGORIES:
 ---- very important ----
 * verify and fix lich quest and other quests except those tested recently
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
-* fix resistance hook
-* deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
-* ADAPTIVE HANDLE REPLICATED MONSTERS (SPECIAL 4)
+* ADAPTIVE HANDLE REPLICATED MONSTERS (NEW SPECIAL 4)
 
 -- those below are not needed for "first release" --
 
 ---- important ----
+* deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * limit GM to final promotion only, and M to final/first promotion only
 * Boost weapon boosting potions
@@ -1088,14 +1087,11 @@ end
 
 if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	-- for i = 0, 137 do evt.GiveItem{Strength = 6, Type = const.ItemType.Ring} end
-	--[[local stdItemsDataStart
-	autohook2(0x4546EC, function(d)
-		stdItemsDataStart = d.eax
-	end)]]
 	
+	local cd = const.Damage
 	-- const.Damage
-	local damageTypeToPenetrationBonus = {[const.Damage.Fire] = 0, [const.Damage.Air] = 1, [const.Damage.Water] = 2, [const.Damage.Earth] = 3,
-		[const.Damage.Spirit] = 4, [const.Damage.Mind] = 5, [const.Damage.Body] = 6, [const.Damage.Light] = 7, [const.Damage.Dark] = 8}
+	local damageTypeToPenetrationBonus = {[cd.Fire] = 0, [cd.Air] = 1, [cd.Water] = 2, [cd.Earth] = 3,
+		[cd.Spirit] = 4, [cd.Mind] = 5, [cd.Body] = 6, [cd.Light] = 7, [cd.Dark] = 8}
 	
 		local template = [[Spell resistance penetration
 Fire      %d
@@ -1124,9 +1120,11 @@ Dark      %d]]
 		end
 		changeStdItemsChances(change, true)
 	end
+	local invDamage = table.invert(const.Damage)
 	
 	function getEffectiveResistance(mon, pl, damageType)
 		local res = mon.Resistances[damageType] or 0
+		--local initial = res
 		local immune = res == const.MonsterImmune
 		local bonus = damageTypeToPenetrationBonus[damageType]
 		if bonus then
@@ -1143,14 +1141,15 @@ Dark      %d]]
 			local reduction = const.MonsterImmune - math.max(res, 0)
 			res = IMMUNE_MONSTER_RESISTANCE - reduction
 		end
-		return math.max(math.min(res, const.MonsterImmune), 0)
+		local val = math.max(math.min(res, const.MonsterImmune), 0)
+		--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, invDamage[damageType]))
+		return val
 	end
 
 	-- CalcHitByEffect()
 	do 
 		local playerIdx, attackingPlayer
 
-		-- skipped: destroy undead, control undead
 		local spellQueueHooks = {
 			0x42A7FA, -- berserk
 			0x42AB01, -- mass fear
@@ -1195,14 +1194,17 @@ Dark      %d]]
 
 		autohook(0x425ABD, function(d)
 			if attackingPlayer then
+				local initial = d.eax
 				local monsterAddr = u4[d.ebp + 0x8]
 				local i, mon = internal.GetMonster(monsterAddr)
 				d.eax = getEffectiveResistance(mon, attackingPlayer, u4[d.ebp + 0xC])
-				--debug.Message(d.eax)
+				attackingPlayer = nil
+				--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, invDamage[damageType]))
 			end
 		end)
 	end
 
+	-- damage
 	do
 		local playerIdx, attackingPlayer, monsterIdx, attackedMonster
 		-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
@@ -1232,7 +1234,6 @@ Dark      %d]]
 		-- and after adding day of prot it would be for example 235, instead of full immunity
 		-- 3) if we hooked last line only, immune monster would be immune no matter what (jump would be always taken, no matter penetration level)
 		
-		-- damage
 		autohook(0x4259C4, function(d)
 			if attackingPlayer then
 				d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
@@ -1240,6 +1241,7 @@ Dark      %d]]
 		end)
 		
 		mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
+		-- fix darkfire bolt to use penetration when deciding resistance?
 	end
 	
 	local i = 1

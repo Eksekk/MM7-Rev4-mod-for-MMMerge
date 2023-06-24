@@ -16,7 +16,7 @@ IMPORTANCE CATEGORIES:
 * check if move to map doesn't cause any important code to not execute in rev4 scripts
 * fix resistance hook
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
-* check if town portal is blocked correctly on gauntlet enter and restored afterwards
+* ADAPTIVE HANDLE REPLICATED MONSTERS (SPECIAL 4)
 
 -- those below are not needed for "first release" --
 
@@ -1124,7 +1124,7 @@ Dark      %d]]
 		end
 		changeStdItemsChances(change, true)
 	end
-		
+	
 	function getEffectiveResistance(mon, pl, damageType)
 		local res = mon.Resistances[damageType] or 0
 		local immune = res == const.MonsterImmune
@@ -1145,71 +1145,102 @@ Dark      %d]]
 		end
 		return math.max(math.min(res, const.MonsterImmune), 0)
 	end
-	
-	-- debuff chance
-	-- TODO: slow etc.
-	autohook(0x425ABD, function(d)
-		-- apparently this function can be called with entirely different meaning set of arguments...
-		-- oldEbp is needed for mass fear, obj for shrinking ray
-		local oldEbp = u4[d.esp]
-		local playerAddr = u4[oldEbp - 0x1C]
-		local pl 
-		for i = 0, 49 do
-			if Party.PlayersArray[i]["?ptr"] == playerAddr then
-				pl = Party.PlayersArray[i]
+
+	-- CalcHitByEffect()
+	do 
+		local playerIdx, attackingPlayer
+
+		-- skipped: destroy undead, control undead
+		local spellQueueHooks = {
+			0x42A7FA, -- berserk
+			0x42AB01, -- mass fear
+			0x42A8F8, -- enslave
+			0x42703A, -- charm
+			0x426E91, -- paralyze
+			0x42CF4C, -- dragon fear
+		}
+
+		local function h()
+			-- FIXME: Party or Party.PlayersArray?
+			attackingPlayer = Party[u2[0x51D822]]
+		end
+
+		for _, addr in ipairs(spellQueueHooks) do
+			autohook(addr, h)
+		end
+
+		local function objectHook(stackOffset)
+			return function(d)
+				local obj = u4[d.esp + stackOffset]
+				local owner = i4[obj + 0x58]
+				if owner % 8 == const.ObjectRefKind.Party then
+					attackingPlayer = Party.PlayersArray[owner:div(8)]
+				else
+					attackingPlayer = nil
+				end
 			end
 		end
-		if not pl then
-			local obj = u4[d.esp + 0x10]
-			local owner = u4[obj + 0x58]
-			local type = owner % 8
-			if type ~= const.ObjectRefKind.Party then
-				return
+
+		autohook(0x46AF51, objectHook(0xC)) -- dark grasp
+		autohook(0x46A5C1, objectHook(0x8)) -- shrinking ray
+		autohook(0x46B304, objectHook(0xC)) -- blind
+		autohook(0x46B54D, objectHook(0xC)) -- vampire charm
+
+		-- Snake (artifact sword)
+		autohook(0x4373EC, function(d)
+			playerIdx, attackingPlayer = internal.GetPlayer(d.ebp - 0x8)
+		end)
+
+		-- stun, slow, mass distortion and control undead done in General/SpellsTweaks.lua
+
+		autohook(0x425ABD, function(d)
+			if attackingPlayer then
+				local monsterAddr = u4[d.ebp + 0x8]
+				local i, mon = internal.GetMonster(monsterAddr)
+				d.eax = getEffectiveResistance(mon, attackingPlayer, u4[d.ebp + 0xC])
+				--debug.Message(d.eax)
 			end
-			pl = Party.PlayersArray[(owner - type) / 8]
-		end
-		local monsterAddr = u4[d.ebp + 0x8]
-		local i, mon = internal.GetMonster(monsterAddr)
-		d.eax = getEffectiveResistance(mon, pl, u4[d.ebp + 0xC])
-		--debug.Message(d.eax)
-	end)
-	
-	local playerIdx, attackingPlayer, monsterIdx, attackedMonster
-	-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
-	-- move mmextension hook elsewhere, because after hookfunction is entered I don't see a way to reliably get attacker (u4[d.ebp - 8]) anymore
-	-- could patch about 10-12 places to get it without moving, but I'm too lazy
-	autohook(0x425951, function(d)
-		local aptr = u4[d.ebp - 0x8]
-		if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
-			playerIdx, attackingPlayer = internal.GetPlayer(aptr)
-		else
-			playerIdx, attackingPlayer = nil, nil
-		end
-		monsterIdx, attackedMonster = internal.GetMonster(u4[d.esp + 0x4])
-	end)
-	
-	--[[
-	0x4259C4: cmp eax,FDE8
-			  jl mm8.4259CF
-			  xor eax,eax
-			  jmp mm8.425A1E
-			  lea esi,dword ptr ds:[edx+eax+1E]
-	--]]
-	-- need to manually compute with our function because:
-	-- 1) if resistance becomes less than 0xFDE8, it would count as simply very very high resistance
-	-- 2) edx contains day of protection bonus, but if we didn't add it in our hook, we could have situation where
-	-- monster was immune, reduced resistance is like FCE8 (const.MonsterBonus - 1), which is effective 199
-	-- and after adding day of prot it would be for example 235, instead of full immunity
-	-- 3) if we hooked last line only, immune monster would be immune no matter what (jump would be always taken, no matter penetration level)
-	
-	-- damage
-	autohook(0x4259C4, function(d)
-		if attackingPlayer then
-			d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
-		end
-	end)
-	
-	mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
+		end)
+	end
+
+	do
+		local playerIdx, attackingPlayer, monsterIdx, attackedMonster
+		-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
+		-- move mmextension hook elsewhere, because after hookfunction is entered I don't see a way to reliably get attacker (u4[d.ebp - 8]) anymore
+		-- could patch about 10-12 places to get it without moving, but I'm too lazy
+		autohook(0x425951, function(d)
+			local aptr = u4[d.ebp - 0x8]
+			if aptr >= Party.PlayersArray["?ptr"] and aptr <= Party.PlayersArray["?ptr"] + Party.PlayersArray["?size"] then
+				playerIdx, attackingPlayer = internal.GetPlayer(aptr)
+			else
+				playerIdx, attackingPlayer = nil, nil
+			end
+			monsterIdx, attackedMonster = internal.GetMonster(u4[d.esp + 0x4])
+		end)
+		
+		--[[
+		0x4259C4: cmp eax,FDE8
+				jl mm8.4259CF
+				xor eax,eax
+				jmp mm8.425A1E
+				lea esi,dword ptr ds:[edx+eax+1E]
+		--]]
+		-- need to manually compute with our function because:
+		-- 1) if resistance becomes less than 0xFDE8, it would count as simply very very high resistance
+		-- 2) edx contains day of protection bonus, but if we didn't add it in our hook, we could have situation where
+		-- monster was immune, reduced resistance is like FCE8 (const.MonsterBonus - 1), which is effective 199
+		-- and after adding day of prot it would be for example 235, instead of full immunity
+		-- 3) if we hooked last line only, immune monster would be immune no matter what (jump would be always taken, no matter penetration level)
+		
+		-- damage
+		autohook(0x4259C4, function(d)
+			if attackingPlayer then
+				d.eax = getEffectiveResistance(attackedMonster, attackingPlayer, d.esi)
+			end
+		end)
+		
+		mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
+	end
 	
 	local i = 1
 	
@@ -1293,6 +1324,10 @@ Dark      %d]]
 		end
 		i = i + 1
 	end)
+else
+	function getEffectiveResistance(mon, pl, damageType)
+		return mon.Resistances[damageType] or 0
+	end
 end
 
 -- boost mapstats spawns depending on difficulty
@@ -1305,8 +1340,8 @@ function events.BeforeLoadMap()
 			local maxIdx = indexes[j + 1]
 			if --[[v[idx] > 0 and ]]v[maxIdx] > 0 and v[minIdx] ~= v[maxIdx] then -- I once adopted a rule that when both spawn values are equal, no boost happens
 			-- idk why, but I'll preserve it to not break anything
-				v[minIdx] = v[minIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5)) -- 2 = Antagarich
-				v[maxIdx] = v[maxIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(0, 1, 1) or diffsel(1, 3, 5))
+				v[minIdx] = v[minIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(1, 2, 3) or diffsel(2, 3, 5)) -- 2 = Antagarich
+				v[maxIdx] = v[maxIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(1, 2, 3) or diffsel(2, 3, 5))
 			end
 		end
 	end

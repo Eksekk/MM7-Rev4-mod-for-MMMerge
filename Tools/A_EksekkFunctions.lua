@@ -60,6 +60,7 @@ function mtm(str, x, y, z)
 	--assert(mapFileNamesToNames[s1] or table.find(fileNames, s1), "Invalid map name")
 	return evt.MoveToMap{Name = assert(
 		fileNameByMapName[str:lower()]
+		or fileNameByMapName["the " .. str:lower()]
 		or fileNames[table.find(fileNames, s1)]
 		or fileNames[table.find(fileNames, s2)]
 		or zero and "0",

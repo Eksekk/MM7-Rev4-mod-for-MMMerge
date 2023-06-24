@@ -11,22 +11,20 @@ end
 -- The Gauntlet
 -- store town portal QBits on map enter and restore on map leave
 
--- TEST IT
-
 function rev4m.storeGauntletQBits()
 	if rev4m.bdjQ and rev4m.bdjQ.done then return end
 	vars.TheGauntletQBits = vars.TheGauntletQBits or {}
-	for i = 0, 2 do
-		if vars.TheGauntletQBits[i] == nil then
+	if not next(vars.TheGauntletQBits) then
+		for i = 0, 2 do
 			vars.TheGauntletQBits[i] = Party.QBits[i + getQuestBit(206)]
 			Party.QBits[i + getQuestBit(206)] = false
 		end
-   	end
+	end
 end
 
 function rev4m.restoreGauntletQBits()
 	for i = 0, 2 do
-		Party.QBits[i + getQuestBit(206)] = vars.TheGauntletQBits and vars.TheGauntletQBits[i + getQuestBit(206)] or false
+		Party.QBits[i + getQuestBit(206)] = vars.TheGauntletQBits and vars.TheGauntletQBits[i] or false
    	end
 end
 

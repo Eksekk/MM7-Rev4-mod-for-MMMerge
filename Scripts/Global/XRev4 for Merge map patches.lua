@@ -164,6 +164,28 @@ patches = {
         end)
     end,
 
+    -- Celeste
+    ["7d25.blv"] = function()
+        -- fix fall to bracada event to properly randomize location (replicate fix from elemental mod)
+        replaceMapEvent(451, function()
+            local i = Game.Rand() % 6
+            local bracada = getFileName("out06.odm")
+            if i == 1 then
+                evt.MoveToMap{X = 9185, Y = 18564, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = bracada}
+            elseif i == 2 then
+                evt.MoveToMap{X = -2815, Y = 1288, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = bracada}
+            elseif i == 3 then
+                evt.MoveToMap{X = -11883, Y = 8667, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = bracada}
+            elseif i == 4 then
+                evt.MoveToMap{X = -22231, Y = 13145, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = bracada}
+            elseif i == 5 then
+                evt.MoveToMap{X = -12770, Y = 18344, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = bracada}
+            else
+                evt.MoveToMap{X = 8146, Y = 4379, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
+            end
+        end)
+    end,
+
     -- Colony Zod
     ["7d27.blv"] = function()
         -- delegate exit event to EVT file so it doesn't crash the game (bugfix)

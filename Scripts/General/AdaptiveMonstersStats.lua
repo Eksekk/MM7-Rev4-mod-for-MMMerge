@@ -898,11 +898,11 @@ local bolsterPerformed = false -- this will get set to true after performing ini
 	-- before that, and we don't want to boost them twice
 
 -- variables that keep track of what to restore from unboosted monsters.txt when summoning
-local restoreParams = {"FullHP", "ArmorClass", "Attack2Chance", "Spell", "Spell2", "SpellSkill", "Spell2Skill", "SpellChance", "Spell2Chance", "MoveSpeed", "SpecialA", "SpecialB", "SpecialC", "SpecialD"}
+local restoreParams = {"FullHP", "HP", "ArmorClass", "Attack2Chance", "Spell", "Spell2", "SpellSkill", "Spell2Skill", "SpellChance", "Spell2Chance", "MoveSpeed", "SpecialA", "SpecialB", "SpecialC", "SpecialD"}
 local restoreAttacks = {"Attack1", "Attack2"}
 local restoreAttackParams = {"DamageDiceCount", "DamageDiceSides", "DamageAdd", "Type", "Missile"}
 
-local function restoreMonsterParams(mon, txt)
+function restoreMonsterParams(mon, txt)
 	for _, par in ipairs(restoreParams) do
 		mon[par] = assert(txt[par])
 	end
@@ -1150,6 +1150,7 @@ end
 Game.BolsterMonsters = function()
 	saveOldMonFullHP() -- if Game.BolsterMonsters() is rerun without reloading savegame - since old hp is cleared after PrepareMapMon, "hp percentage" would be 1, refilling all monsters' HP
 	restore()
+	bolsterPerformed = false -- just in case
 	BolsterMonsters()
 end
 

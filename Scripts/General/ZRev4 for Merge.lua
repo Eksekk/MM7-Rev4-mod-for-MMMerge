@@ -13,12 +13,11 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * verify and fix lich quest and other quests except those tested recently
-* check if move to map doesn't cause any important code to not execute in rev4 scripts
-* ADAPTIVE HANDLE REPLICATED MONSTERS (NEW SPECIAL 4)
 
 -- those below are not needed for "first release" --
 
 ---- important ----
+* nerf paralyze?
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * limit GM to final promotion only, and M to final/first promotion only
@@ -43,6 +42,7 @@ IMPORTANCE CATEGORIES:
 
 
 ---- minor ----
+* fix event 502 in d08.lua (doesn't cast torch light)
 * Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
 * Boost loot in the Gauntlet?
 * Fort Riverstride delete plans item

@@ -13,6 +13,7 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * verify and fix lich quest and other quests except those tested recently
+* lich quest, remove jars from walls of mist if they're present
 
 -- those below are not needed for "first release" --
 
@@ -98,8 +99,9 @@ function monUtils.spells(mon, sp1, sk1, ch1, sp2, sk2, ch2)
 end
 
 local function boostResistances(mon, amount)
-	for i, v in ipairs({const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth, const.Damage.Spirit, const.Damage.Mind,
-		const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}) do
+	local cd = const.Damage
+	for i, v in ipairs({cd.Fire, cd.Air, cd.Water, cd.Earth, cd.Spirit, cd.Mind,
+		cd.Body, cd.Light, cd.Dark, cd.Phys}) do
 		mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
 	end
 end
@@ -801,7 +803,7 @@ if MS.Rev4ForMergeEnableDispelImmunityEnchantment == 1 then
 end
 
 -- increase stat breakpoint rewards
-do
+if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
 	local vals = {
 		500, 52,
 		400, 42,
@@ -842,29 +844,27 @@ do
 		3, -5,
 		0, -6
 	}
-
-	if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
-		function events.GetStatisticEffect(t)
-			for i = 1, #vals - 2, 2 do
-				if t.Value >= vals[i] then
-					t.Result = vals[i + 1]
-					return
-				end
+	
+	function events.GetStatisticEffect(t)
+		for i = 1, #vals - 2, 2 do
+			if t.Value >= vals[i] then
+				t.Result = vals[i + 1]
+				return
 			end
-			t.Result = vals[#vals]
 		end
+		t.Result = vals[#vals]
+	end
 
-		-- nerf day of the gods
-		local powers = {1, 2, 2, 3} -- per skill
-		local bonuses = {3, 3, 15, 15}
-		function events.PlayerSpellVar(t)
-			--{Spell = 33, VarNum = 3, Value = d.eax, Mastery = u4[0x51791C]}
-			if t.Spell == const.Spells.DayOfTheGods then
-				if t.VarNum == 3 then -- per skill
-					t.Value = assert(powers[t.Mastery])
-				elseif t.VarNum == 4 then -- const
-					t.Value = assert(bonuses[t.Mastery])
-				end
+	-- nerf day of the gods
+	local powers = {1, 2, 2, 3} -- per skill
+	local bonuses = {3, 3, 15, 15}
+	function events.PlayerSpellVar(t)
+		--{Spell = 33, VarNum = 3, Value = d.eax, Mastery = u4[0x51791C]}
+		if t.Spell == const.Spells.DayOfTheGods then
+			if t.VarNum == 3 then -- per skill
+				t.Value = assert(powers[t.Mastery])
+			elseif t.VarNum == 4 then -- const
+				t.Value = assert(bonuses[t.Mastery])
 			end
 		end
 	end
@@ -922,13 +922,14 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	local critKillMsg = "%s critically inflicts %lu points killing %s!" .. string.char(0)
 	
 	local critChances = {2, 5, 10, 20}
+	local skillDamageMultipliers = {1, 2, 3, 5}
 	local function isCrit(pl, damage)
 		local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
 		if s == 0 then return false end
 		local chance = critChances[m]
 		local roll = math.random(1, 100)
 		if roll <= chance then
-			local skillDamageMul = ({1, 2, 3, 5})[m]
+			local skillDamageMul = assert(skillDamageMultipliers[m])
 			local maxBonus = 0
 			for item, slot in pl:EnumActiveItems(false) do
 				if item.Bonus == 21 then
@@ -1187,7 +1188,7 @@ Dark      %d]]
 
 		-- Snake (artifact sword)
 		autohook(0x4373EC, function(d)
-			playerIdx, attackingPlayer = internal.GetPlayer(d.ebp - 0x8)
+			playerIdx, attackingPlayer = internal.GetPlayer(u4[d.ebp - 0x8])
 		end)
 
 		-- stun, slow, mass distortion and control undead done in General/SpellsTweaks.lua
@@ -1199,7 +1200,7 @@ Dark      %d]]
 				local i, mon = internal.GetMonster(monsterAddr)
 				d.eax = getEffectiveResistance(mon, attackingPlayer, u4[d.ebp + 0xC])
 				attackingPlayer = nil
-				--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, invDamage[damageType]))
+				--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, u4[d.ebp + 0xC]))
 			end
 		end)
 	end
@@ -1246,8 +1247,8 @@ Dark      %d]]
 	
 	local i = 1
 	
-	local resOrder = {const.Damage.Fire, const.Damage.Air, const.Damage.Water, const.Damage.Earth,
-		const.Damage.Mind, const.Damage.Spirit, const.Damage.Body, const.Damage.Light, const.Damage.Dark, const.Damage.Phys}
+	local resOrder = {cd.Fire, cd.Air, cd.Water, cd.Earth,
+		cd.Mind, cd.Spirit, cd.Body, cd.Light, cd.Dark, cd.Phys}
 	
 	autohook(0x41E8A0, function(d)
 		local pl = Party.CurrentPlayer

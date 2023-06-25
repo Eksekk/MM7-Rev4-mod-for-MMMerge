@@ -676,22 +676,34 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				Game.Classes.Skills[const.Class.PriestLight][const.Skills.Dark] = 0
 			end
 		end
+
+		local MF = Merge.Functions
+		local MT = Merge.Tables
+		local MM = Merge.ModSettings
+		-- maybe required for revamp promotion system?
+		if not table.find(MT.ClassPromotionsInv[const.Class.MasterNecromancer], const.Class.ArchMage) then
+			table.insert(MT.ClassPromotionsInv[const.Class.MasterNecromancer], const.Class.ArchMage)
+		end
+		if not table.find(tget(MT.ClassPromotions, const.Class.ArchMage), const.Class.MasterNecromancer) then
+			table.insert(MT.ClassPromotions[const.Class.ArchMage], const.Class.MasterNecromancer)
+		end
+
 		Quest{
 			questID,
-			Gold = 25000,
-			Exp = 125000,
+			Gold = 12000,
+			Exp = 80000,
 			Slot = 0,
 			NPC = DMGM_QuestNPC,
 			CheckGive = function()
-				return Party.QBits[1619]	-- Promoted to Wizard
+				return (Party.QBits[1621]	-- Promoted to Archmage
+						or Party.QBits[1622])	-- Promoted to Honorary Archmage
 					and evt[0].Cmp("Awards", 119)         -- "Declared Heroes of Erathia"
 			end,
 			CheckDone = function()
 				local count = 0
 				local sorcNoJar = false
 				for i, pl in Party do
-					evt.ForPlayer(i)
-					if pl.Class == const.Class.ArchMage and not evt.Cmp("Inventory", 1417) then
+					if pl.Class == const.Class.ArchMage and not evt[i].Cmp("Inventory", 1417) then
 						sorcNoJar = true
 						break
 					end
@@ -703,14 +715,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				end
 				return not sorcNoJar and count >= 4
 			end,
-			--[[
-				
-mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
-	Name2 = "PowerLich", Ver = 7, Seq = 1, Slot = 0, Slot2 = 0, QBit = 1009,
-	RaceFamily = {const.RaceFamily.Undead, const.RaceFamily.Ghost}, Maturity = 2, Greet = 194,
-	Exp = 40000, Item = 1417, Sell = Game.ItemsTxt[1417].Value,
-	SuccessTxt = 2744, FailTxt = 2743, SellTxt = 2698})
-			]]
+
 			Done = function()
 				for i = 1, 4 do
 					evt.Subtract("Inventory", ShardOfManaItemId)
@@ -720,39 +725,63 @@ mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
 				Party.QBits[1623] = true		-- Promoted to Lich
 				Party.QBits[1624] = true		-- Promoted to Honorary Lich
 
-				local MF = Merge.Functions
-				local MT = Merge.Tables
-				for k, pl in Party do
-					if pl.Class == const.Class.ArchMage then
-						pl.Class = const.Class.MasterNecromancer
-						SetLichAppearance(i, pl)
-						evt.Subtract("Inventory", 1417)
+				--[[
+					Adapted code from General/PromotionTopics.lua and Structs/18_MergeFunctions.lua
+
+					Changes from default code:
+					* skipped code which reduced skills (refunding skillpoints) and unlearned spells
+					* skipped race stuff
+					* removed message, experience reward etc. - I handle this myself
+
+					This and other promo quests will get redone properly in the future (for example, allowing to
+					promote independently of completing quest like in other Merge promos)
+				]]
+
+				local function doMaturity(player)
+					local from_maturity = player.Attrs.Maturity or 0
+					local maturity = 2
+					if MM.Races and MM.Races.MaxMaturity then
+						if MM.Races.MaxMaturity == 1 then
+							if maturity == 1 then
+								maturity = from_maturity
+							elseif maturity > 1 then
+								maturity = 1
+							end
+						elseif maturity > MM.Races.MaxMaturity then
+							maturity = MM.Races.MaxMaturity
+						end
 					end
+					player.Attrs.Maturity = maturity
+				end
+				
+				for k, pl in Party do
+					evt[k].Subtract("Inventory", 1417)
+					local class = const.Class.MasterNecromancer
 					local player = Party[k]
 					evt.ForPlayer(k)
+					local award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"]
 					local new_race = rev4m.lich.can_convert_to_undead(player)
 					if new_race == 0 then
-						rev4m.lich.promote_class({Class = class,
-							Award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"],
-							Race = player.Attrs.Race, Maturity = 2})
+						player.Attrs.PromoAwards[t.Award] = true
+						doMaturity(player)
+						player.Class = class
 					elseif new_race > 0 then
 						local orig_race = player.Attrs.Race
-						if not table.find(MT.ClassPromotionsInv[class] or {}, player.Class)
-								and not player.Class == class then
-							return
+						if player.Class ~= const.Class.ArchMage then
+							goto noPromo
 						end
-						if not rev4m.lich.convert_class_race({Class = class,
-								Award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"],
-								ToRace = new_race, Maturity = 2, Exp = exp2,
-								SameClass = true}) then
-							return
-						end
-						SetLichAppearance(k, player, orig_race)
+						player.Attrs.PromoAwards[t.Award] = true
+						doMaturity(player)
+						player.Class = class
+						t.Player.Attrs.Race = new_race
+
+						rev4m.lich.SetLichAppearance(k, player, orig_race)
 						-- Consider not to increase overbuffed lich resistances
 						for j = 0, 3 do
-							player.Resistances[j].Base = max(player.Resistances[j].Base, 20)
+							player.Resistances[j].Base = math.max(player.Resistances[j].Base, 20)
 						end
 					end
+					::noPromo::
 				end
 				makeGMDarkLearnableIfQuestCompleted()
 			end,
@@ -762,9 +791,9 @@ mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
 				TopicDone = false,
 				Give = [[So you have decided to seek the path of true darkness. Very well then, you've come to a good teacher. Unfortunately I teach only the best of students, so you will first need to show your worth.
 				
-	For the starters, you'll of course need to gather a soul jar for each sorcerer that wants to be lichified. If I recall correctly, warlocks of nighon might have some, and they foolishly hid them in the Maze, thinking we can't get to them. Well, as you'll prove to them, we can.
+For the starters, you'll of course need to gather a soul jar for each sorcerer that wants to be lichified. If I recall correctly, warlocks of nighon might have some, and they foolishly hid them in the Maze, thinking we can't get to them. Well, as you'll prove to them, we can.
 				
-	The second task is a personal favor for me. I need to prepare a spell far exceeding my capabilities, and a way to increase these capabilities is with Shards of Mana, which are scattered around the world. I'll need at least 4 of them. I can't give you the locations - if I could, I'd go get them myself. So keep looking.]],
+The second task is a personal favor for me. I need to prepare a spell far exceeding my capabilities, and a way to increase these capabilities is with Shards of Mana, which are scattered around the world. I'll need at least 4 of them. I can't give you the locations - if I could, I'd go get them myself. So keep looking.]],
 				Done = "So you managed to do this all? Outstanding. I thought my requirements would deter everyone, well, I was wrong. You can now learn grandmaster dark magic from me (priests of the light can do it too!), and all sorcerers are now liches.",
 				Undone = "I know the tasks might seem daunting, but once you set your mind to it they are possible. Also remember, each sorcerer (ArchMage) must have a jar in his inventory.",
 				
@@ -773,7 +802,7 @@ mm_generate_promo_quests_undead({QuestNPC = 388, Name = "MasterNecromancer",
 				GreetGiven = "Have you done what I requested?",
 				GreetDone = "Welcome back, my best students. How are you doing with your newfound power?",
 				
-				Ungive = "You are not ready yet.",
+				Ungive = "You are not ready yet. Make sure you've gone as far your path as you can.",
 				
 				After = "Welcome back, my best students. How are you doing with your newfound power?",
 				

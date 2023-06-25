@@ -440,7 +440,7 @@ local function calcNewCurrentHp(oldFullHP, newFullHP, hp)
 end
 
 local SpellReplace = {[81] = 87}
-local function PrepareMapMon(mon)
+function PrepareMapMon(mon)
 
 	local TxtMon		= Game.MonstersTxt[mon.Id]
 	local MonSettings	= Game.Bolster.Monsters[mon.Id]
@@ -627,7 +627,8 @@ end
 -- 3. reload savegame without bolster: hp = old hp, restore runs, maybe hp > full hp
 -- 4. reload savegame with bolster: hp = old hp, restore old full hp, preparemapmon runs, percentage = hp / old full hp, hp = percentage * new full hp
 
-local function restoreMonster(index, props)
+function restoreMonster(index, props)
+	props = props or tget(mapvars, "oldMons", index, "properties")
 	if type(props) == "table" and index >= 0 and index <= Map.Monsters.High then
 		for k, v in pairs(props) do
 			local mon = Map.Monsters[index]
@@ -894,11 +895,11 @@ local function PrepareTxtMon(i, OnlyThis)
 
 end
 
-local bolsterPerformed = false -- this will get set to true after performing initial bolster, because I summon monsters
+bolsterPerformed = false -- this will get set to true after performing initial bolster, because I summon monsters
 	-- before that, and we don't want to boost them twice
 
 -- variables that keep track of what to restore from unboosted monsters.txt when summoning
-local restoreParams = {"FullHP", "HP", "ArmorClass", "Attack2Chance", "Spell", "Spell2", "SpellSkill", "Spell2Skill", "SpellChance", "Spell2Chance", "MoveSpeed", "SpecialA", "SpecialB", "SpecialC", "SpecialD"}
+local restoreParams = {"FullHP", "ArmorClass", "Attack2Chance", "Spell", "Spell2", "SpellSkill", "Spell2Skill", "SpellChance", "Spell2Chance", "MoveSpeed", "SpecialA", "SpecialB", "SpecialC", "SpecialD"}
 local restoreAttacks = {"Attack1", "Attack2"}
 local restoreAttackParams = {"DamageDiceCount", "DamageDiceSides", "DamageAdd", "Type", "Missile"}
 
@@ -911,7 +912,10 @@ function restoreMonsterParams(mon, txt)
 			mon[attack][par] = assert(txt[attack][par])
 		end
 	end
+	mon.HP = mon.FullHP
 end
+
+-- TODO: monsters existing, but boosted after initial bolster lose their boosted stats on restore
 
 local function Init()
 
@@ -1147,12 +1151,16 @@ local function BolsterMonsters()
 	end
 	vars.lastVisitedMap = Map.Name
 end
+
+--[[ TODO: broken, rerunning if bolster enabled after initial bolster does nothing,
+	and after turning bolster off, HP isn't adjusted to max HP
 Game.BolsterMonsters = function()
 	saveOldMonFullHP() -- if Game.BolsterMonsters() is rerun without reloading savegame - since old hp is cleared after PrepareMapMon, "hp percentage" would be 1, refilling all monsters' HP
 	restore()
 	bolsterPerformed = false -- just in case
 	BolsterMonsters()
 end
+]]
 
 function events.AfterLoadMap()
 	if Editor and Editor.WorkMode then

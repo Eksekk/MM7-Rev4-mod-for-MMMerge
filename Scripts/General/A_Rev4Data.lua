@@ -9,12 +9,14 @@ rev4m.const.firstNewPlaceMon = 196
 do
     local p = rev4m.const.firstNewPlaceMon
     rev4m.placeMon = {
-        clankerWizard = p,
-        tulareanJailer = p + 1,
-        infernalTroglodyte = p + 2,
-        deyjaNecro = p + 3,
-        primordialBarrowWight = p + 4,
-        derelictAdventurer = p + 5,
+        wromthrax = p,
+        megaDragon = p + 1,
+        clankerWizard = p + 2,
+        tulareanJailer = p + 3,
+        infernalTroglodyte = p + 4,
+        deyjaNecro = p + 5,
+        primordialBarrowWight = p + 6,
+        derelictAdventurer = p + 7,
     }
 end
 rev4m.path = rev4m.path or {}
@@ -368,7 +370,6 @@ function updateMonsterIndexes(tbl, monsterTableKey, indexes)
         --debug.Message("Indexes to change:", dump(indexes))
         local changedIndexes = {}
         local c = 0
-        -- TODO: check if all indexes from old table were changed
         for from, to in pairs(indexes) do
             if tbl[monsterTableKey][from] then
                 changedIndexes[to] = tbl[monsterTableKey][from]

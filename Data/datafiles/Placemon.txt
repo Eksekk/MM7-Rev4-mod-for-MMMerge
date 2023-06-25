@@ -194,6 +194,8 @@
 193	Baron BunGleau
 194	Jester's Spawn
 195	Pascal's Minions
+196	Wromthrax
+197	Mega-Dragon
 196	Clanker's Puppet
 197	Jailer
 198	Infernal troglodyte

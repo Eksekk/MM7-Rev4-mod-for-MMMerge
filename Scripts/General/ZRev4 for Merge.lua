@@ -161,9 +161,8 @@ monUtils.randomGiveSpell = randomGiveSpell
 
 local function randomGiveElementalAttack(mon)
 	local a1, a2 = mon.Attack1, mon.Attack2
-	-- FIXME: maybe should compare to 0?
-	if a1 then
-		if a2 then
+	if a1.DamageDiceCount ~= 0 then
+		if a2.DamageDiceCount ~= 0 then
 			return
 		end
 		a2.Type = math.random(0, 7)
@@ -358,8 +357,9 @@ local showSpellSkill = function(skillOffset, lenOffset)
 		local add = " " .. s .. (masteryLetters[m] or "None") .. "\n" -- "None" is for situations where monster had 0 spell skill so game doesn't crash, yes this happened during development (a bug obviously)
 		mem.copy(afterSpellName, add)
 		u1[afterSpellName + add:len()] = 0 -- null terminator
-		-- fixme: broken? sometimes we replace newline, not add it. Also maybe not needed?
-		u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() -- update length of row
+		-- fixme: maybe not needed?
+		-- if we replace newline, not add it, subtract 1 character
+		u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() - (newline and 1 or 0) -- update length of row
 	end
 end
 autohook(0x41E673, showSpellSkill(0x6E, 0))
@@ -1050,21 +1050,14 @@ end
 local resistanceSpells = {3, 14, 25, 36, 58, 69}
 
 function events.PlayerSpellVar(t)
-	-- fixme: only one varnum
 	if table.find(resistanceSpells, t.Spell) then
-		t.Value = t.Value + 1
+		if t.VarNum == 3 then
+			t.Value = t.Value + 1 -- per level
+		elseif t.VarNum == 4 then
+			t.Value = 10 -- bonus
+		end
 	end
 end
-
--- SpellsExtra provides only skill multiplier, and I want to increase it by 10 always
-local incRes = mem.asmproc([[
-	add dword [ss:ebp - 0x4], 0xA
-	cmp ecx, 3
-	je absolute 0x4274B8
-	jmp absolute 0x427472
-]])
-
-mem.asmpatch(0x42746D, "jmp absolute " .. incRes)
 
 -- remove multilooting "bug"
 if MS.Rev4ForMergeRemoveMultilooting == 1 then
@@ -1161,8 +1154,7 @@ Dark      %d]]
 		}
 
 		local function h()
-			-- FIXME: Party or Party.PlayersArray?
-			attackingPlayer = Party[u2[0x51D822]]
+			attackingPlayer = Party.PlayersArray[u2[0x51D822]]
 		end
 
 		for _, addr in ipairs(spellQueueHooks) do

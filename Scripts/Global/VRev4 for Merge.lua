@@ -177,8 +177,12 @@ function events.AfterLoadMap()
 	elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
 		-- always make Wromthrax visible
 		-- handled in map patches file
-		oldPlacemonWromthrax = Game.PlaceMonTxt[117]
-		Game.PlaceMonTxt[117] = "Wromthrax"
+		for i, mon in Map.Monsters do
+			if mon.NameId == 117 then -- wromthrax
+				mon.NameId = rev4m.placeMon.wromthrax
+				break
+			end
+		end
 		
 		-- shut up Quixote
 		Game.MapEvtLines:RemoveEvent(376)
@@ -188,8 +192,12 @@ function events.AfterLoadMap()
 		replaceEnterEvent(503, {X = -54, Y = 3470, Z = 1, Direction = 1536, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
 		replaceEnterEvent(504, {X = 19341, Y = 21323, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt12orig.blv"})
 	elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-		oldPlacemonMegaDragon = Game.PlaceMonTxt[118]
-		Game.PlaceMonTxt[118] = "Mega-Dragon"
+		for i, mon in Map.Monsters do
+			if mon.NameId == 118 then -- wromthrax
+				mon.NameId = rev4m.placeMon.megaDragon
+				break
+			end
+		end
 	elseif Map.Name == "7d28.blv" then -- The Dragon's Lair (on Emerald Island)
 		-- remove monster spawning
 		Game.MapEvtLines:RemoveEvent(1)
@@ -200,15 +208,6 @@ function events.AfterLoadMap()
 		-- place Temple in a Bottle in chest
 		assert(addChestItem(0, 1452), "Couldn't add temple in a bottle to chest")
 		mapvars.placedTempleInABottle = true
-	end
-
-	-- FIXME: when loading savegame in different location and maybe when exiting game to main menu, mapstats entries won't be restored
-	function events.LeaveMap()
-		if Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
-			Game.PlaceMonTxt[117] = oldPlacemonWromthrax
-		elseif Map.Name == "mdt12orig.blv" then -- Duplicated Dragon Caves
-			Game.PlaceMonTxt[118] = oldPlacemonMegaDragon
-		end
 	end
 end
 
@@ -534,7 +533,7 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			
 		elseif Map.Name == "7d24.blv" then -- Stone City
 			-- idea from MM7 Reimagined
-			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64}[1] -- FIXME: group?
+			local mon = pseudoSpawnpoint{monster = 412, x = -9248, y = 3548, z = -1391, count = 1, powerChances = {0, 0, 100}, radius = 64, group = 51}[1]
 			mon.NameId = rev4m.placeMon.infernalTroglodyte
 			hpMul(mon, diffsel(5, 6, 8))
 			hostile(mon)

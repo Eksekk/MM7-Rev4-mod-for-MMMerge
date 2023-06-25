@@ -7,8 +7,8 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	KillMonstersQuest {
 		questID,
 		{Map = "7d31.blv", Group = {56, 57, 58}},
-		Gold = 10000,
-		Experience = 35000,
+		Gold = 4000,
+		Experience = 32000,
 		NPC = 771,
 		Slot = 2,
 		--Quest = REV4_FOR_MERGE_QUEST_INDEX,
@@ -163,27 +163,17 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				end
 			end
 			
-			--[[local function randomizeAndSetCorrectType(obj, level, typ) -- override general function, because we don't want to remove items
-				debug.Message(obj.Item.Number)
-				obj.Item:Randomize(level, typ)
-				debug.Message(obj.Item.Number)
-				obj.Type = Game.ItemsTxt[obj.Item.Number].SpriteIndex
-				obj.TypeIndex = Game.ItemsTxt[obj.Item.Number].SpriteIndex
-			end
-			for i, v in Map.Objects do
-				if v.Item and v.Item.Number ~= 0 then
-					randomizeAndSetCorrectType(v, 6)
-				end
-			end]]
-			
 			local WromthraxId -- could be assumed 0 because he is the only monster on the map, but just in case I'll do a loop
 			for k, v in Map.Monsters do
-				if v.NameId == 117 then
+				if v.NameId == rev4m.placeMon.wromthrax then
 					WromthraxId = k
 					break
 				end
 			end
 			if WromthraxId then
+				if _G.bolsterPerformed then
+					restoreMonster(WromthraxId)
+				end
 				local wrom = Map.Monsters[WromthraxId]
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
 				wrom.StartX, wrom.StartY, wrom.StartZ, wrom.GuardX, wrom.GuardY, wrom.GuardZ = wrom.X, wrom.Y, wrom.Z, XYZ(wrom)
@@ -193,6 +183,10 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				monUtils.boostResistances(wrom, diffsel(10, 30, 50))
 				wrom.Attack1.DamageAdd = diffsel(20, 25, 30)
 				wrom.TreasureDiceCount = wrom.TreasureDiceCount * 3
+				if _G.bolsterPerformed then
+					PrepareMapMon(wrom)
+				end
+
 				evt.SetMonsterItem{Monster = WromthraxId, Item = DARK_TALISMAN_ID, Has = true}
 			else
 				-- killed before enabling extra quests
@@ -312,6 +306,7 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 	-- bring back pristine Phoenix Feather, pristine Dragon Turtle Fang and pristine Unicorn Horn
 
 	-- FIXME: this item in conjunction with reagents is way too powerful reward
+	-- keep for another quest
 	local rewardItem = 1394 -- Mog'Draxar
 	local itemIDs = {982, 983, 984}
 	local questID = "ClankersLabCollectPowerfulReagents"
@@ -319,8 +314,8 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 		questID,
 		NPC = 546, -- Elzbet Winterspoon in Nighon
 		Slot = 2,
-		Experience = 125000,
-		Gold = 25000,
+		Experience = 60000,
+		Gold = 8000,
 		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 2,
 		CheckDone = function()
 			for i = 1, 3 do
@@ -341,7 +336,8 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 					evt.GiveItem{Id = 1006 + j}
 				end
 			end
-			evt.GiveItem{Id = rewardItem}
+			-- keep for another quest
+			--evt.GiveItem{Id = rewardItem}
 		end,
 		Texts = {
 			Topic = "Quest",
@@ -480,6 +476,12 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 		
 		local questId = "TulareanCavesRescuePrisoner"
 		local QData = tget(vars, questId)
+
+		function events.EnterNPC(id)
+			if id == NpcToRescue and Map.Name == "7d08orig.blv" then
+				QData.guardsKilled = evt.CheckMonstersKilled{CheckType = 4, Id = rev4m.placeMon.tulareanJailer, Count = 0}
+			end
+		end
 		
 		-- quest not taken topic
 		NPCTopic{
@@ -508,7 +510,10 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			NPC = NpcToRescue,
 			Slot = 0,
 			CanShow = function()
-				return vars.Quests[questId] ~= nil and NPCFollowers.NPCInGroup(NpcToRescue) or QData.guardsKilled
+				return vars.Quests[questId] ~= nil
+					and vars.Quests[questId] ~= "Done"
+					and (NPCFollowers.NPCInGroup(NpcToRescue)
+						or QData.guardsKilled)
 			end,
 			"The Escape",
 			"We can go now! Please don't waste too much time, we'll probably get some 'tail' from the elves, if you know what I mean."
@@ -545,8 +550,8 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			NPC = 588, -- Matric Bowes in Harmondale (he's kinda hidden, he resides in house behind weapon/armor shop),
 			-- I always wanted his location to be starting point of an amazing quest
 			Slot = 2,
-			Experience = 50000,
-			Gold = 13000,
+			Experience = 30000,
+			Gold = 5000,
 			--Quest = REV4_FOR_MERGE_QUEST_INDEX + 3,
 			CheckDone = function()
 				return NPCFollowers.NPCInGroup(NpcToRescue)
@@ -645,20 +650,6 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 				pseudoSpawnpoint{monster = 121, x = -6542, y = 10041, z = 648, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
 				pseudoSpawnpoint{monster = 121, x = -8033, y = 10290, z = 638, count = 1, powerChances = {0, 100, 0}, transform = wyvern}
 				evt.SetMonGroupBit(255, const.MonsterBits.Hostile, true)
-			end
-			-- fixme: when quests are disabled, killing guards won't count
-			local function checkKilled(mon, index)
-				local i = table.find(mapvars.aliveGuards, index)
-				if i then
-					table.remove(mapvars.aliveGuards, i)
-					if #mapvars.aliveGuards == 0 then
-						QData.guardsKilled = true
-					end
-				end
-			end
-			events.MonsterKilled = checkKilled
-			function events.LeaveMap()
-				events.Remove("MonsterKilled", checkKilled) -- is not removed with script unload (after tp to harmondale) for some reason
 			end
 		end
 	end

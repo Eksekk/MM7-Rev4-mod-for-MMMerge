@@ -842,7 +842,8 @@ local function LostItTopic()
 end
 
 evt.Global[1358]	= LostItTopic
-evt.Global[889]		= LostItTopic
+-- REV4M change
+-- evt.Global[889]	= LostItTopic
 Game.NPC[314].EventA = 889
 
 ----------------------------------------

@@ -706,7 +706,7 @@ end
 local MF = Merge.Functions
 
 function events.AfterLoadMap()
-	Party.QBits[719] = true	-- TP Buff Tularean Forest
+	-- Party.QBits[719] = true	-- TP Buff Tularean Forest
 	Party.QBits[819] = true	-- DDMapBuff
 end
 
@@ -740,4 +740,3 @@ function events.AfterLoadMap()
 		end
 	end
 end
-

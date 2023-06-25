@@ -811,7 +811,7 @@ end
 
 Game.MapEvtLines:RemoveEvent(377)
 function events.LoadMap()
-	Party.QBits[718] = true	-- TP Buff Harmondale
+	-- Party.QBits[718] = true	-- TP Buff Harmondale
 	if Party.QBits[526] and Party.QBits[695] and not (Party.QBits[696] or Party.QBits[702]) then
 		evt.SetMonGroupBit{60, const.MonsterBits.Hostile, true}
 		evt.SetMonGroupBit{60, const.MonsterBits.Invisible, false}
@@ -823,4 +823,3 @@ function events.LoadMap()
 		evt.SetMonGroupBit{60, const.MonsterBits.Invisible, true}
 	end
 end
-

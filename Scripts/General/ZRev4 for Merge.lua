@@ -13,13 +13,17 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
+* nerf faerie ring?
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
 * rocs in tularean (obelisk) are not hostile
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
 * shield spell text still says that spell is bugged
+* couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
 -- those below are not needed for "first release" --
+
+* HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
 * remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
@@ -35,6 +39,7 @@ playthrough notes:
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * Difficulty: max npcs hired at the same time
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
+* technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
 * Extra spawns in dungeons

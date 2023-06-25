@@ -992,7 +992,7 @@ end
 local CCTimers = {}
 
 function events.AfterLoadMap()
-	Party.QBits[720] = true	-- TP Buff Erathia
+	-- Party.QBits[720] = true	-- TP Buff Erathia
 	Party.QBits[818] = true	-- DDMapBuff
 	if not (mapvars.GotAdvertisment or Party.QBits[519]) then
 

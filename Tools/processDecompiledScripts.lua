@@ -160,6 +160,18 @@ function rev4m.mapScripts()
 
 	local patchesMerge =
 	{
+		-- Castle Harmondale
+		-- don't set TP buffs automatically
+		["d29.lua"] = {
+			"Party.QBits[718] = true	-- TP Buff Harmondale",
+			"-- Party.QBits[718] = true	-- TP Buff Harmondale"
+		},
+		-- Erathia
+		["out03.lua"] = {
+			-- disable auto town portal buff
+			"Party.QBits[720] = true	-- TP Buff Erathia",
+			"-- Party.QBits[720] = true	-- TP Buff Erathia"
+		},
 		-- Tularean Forest
 		-- remove event which is replaced in rev4
 		["out04.lua"] = {[[
@@ -177,7 +189,9 @@ evt.map[503] = function()
 		evt.MoveToMap{0,-709,1,512,0,0,395,9,"7d12.blv"}
 	end
 
-end]], ""},
+end]], "",
+	-- don't set TP QBit
+	"Party.QBits[719] = true	-- TP Buff Tularean Forest", "-- Party.QBits[719] = true	-- TP Buff Tularean Forest"},
 		-- Barrow Downs
 		-- remove conflicting Stone City enter event
 		["out11.lua"] = {

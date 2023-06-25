@@ -592,6 +592,8 @@ function PrepareMapMon(mon)
 	]]
 	oldMonBackup.Experience = mon.Experience
 	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
+	oldMonBackup.TreasureDiceCount = mon.TreasureDiceCount
+	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * diffsel(1, 4/3, 2)) -- make monster gold relatively constant on every difficulty
 end
 
 -- save old monster full HP to restore when loading saved game
@@ -1141,14 +1143,14 @@ local function BolsterMonsters()
 
 	PrepareTxtMon(t, false)
 
-	if Game.UseMonsterBolster then
+	--if Game.UseMonsterBolster then
 		for i,v in Map.Monsters do
 			if v.Id > 0 and v.Id < Game.MonstersTxt.Limit then
 				PrepareMapMon(v)
 			end
 		end
 		bolsterPerformed = true
-	end
+	--end
 	vars.lastVisitedMap = Map.Name
 end
 

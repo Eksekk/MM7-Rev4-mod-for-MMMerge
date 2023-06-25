@@ -235,8 +235,8 @@ function events.LoadMap()
 		if Map.Name == "7out02.odm" then -- Harmondale
 			-- ideas from MM7 Refilled
 			-- elves
-			pseudoSpawnpoint{monster = 247, x = 12389, y = 14730, z = 1225, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 62}
-			pseudoSpawnpoint{monster = 247, x = 16442, y = 16059, z = 1731, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 62}
+			pseudoSpawnpoint{monster = 247, x = 12389, y = 14730, z = 1225, count = diffsel("1-3", "3-5", "5-7"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 62}
+			pseudoSpawnpoint{monster = 247, x = 16442, y = 16059, z = 1731, count = diffsel("1-3", "3-5", "5-7"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 256, group = 62}
 			
 			-- dragonflies
 			pseudoSpawnpoint{monster = 226, x = 21040, y = -6884, z = 673, count = diffsel("5-8", "7-11", "10-15"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 62}

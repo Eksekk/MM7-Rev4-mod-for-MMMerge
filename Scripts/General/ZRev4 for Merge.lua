@@ -12,7 +12,13 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
+* if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
 
+playthrough notes:
+* map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
+* rocs in tularean (obelisk) are not hostile
+* mortie ottin has "courier delivery" topic even when courier quests aren't started
+* shield spell text still says that spell is bugged
 -- those below are not needed for "first release" --
 
 ---- important ----
@@ -31,7 +37,6 @@ IMPORTANCE CATEGORIES:
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
 
 ---- good to have ----
-* make alchemy add 2 * skill to potion strength (only base skill, bonuses are * 1)
 * Extra spawns in dungeons
 * Changed main questline?
 * Restore trumpet quest
@@ -878,6 +883,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		local maxS, maxM = 0, 0
 		for _, pl in Party do
 			if pl:IsConscious() then
+				-- TODO: make skill and mastery joined together?
 				local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
 				-- id monster bonus
 				local maxBonus = 0
@@ -898,8 +904,8 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	mem.asmpatch(0x41E07F, [[
 		cmp ecx, 4
 		jae @show
-		mov ecx,dword [ss:ebp-0x10]
-		movzx ecx,byte [ds:ecx+0x34]
+		mov ecx,dword [ss:ebp-0x10] ; monster
+		movzx ecx,byte [ds:ecx+0x34] ; level
 		cmp eax,ecx
 		jb @dontshow
 		@show:
@@ -1040,9 +1046,9 @@ function events.GameInitialized2()
 	-- changed resistance spell descriptions
 	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do
 		local sp = Game.SpellsTxt[v]
-		sp.Description = sp.Description:gsub("(your skill)", string.format("%d + %d * %%1", 10, 2))
+		sp.Description = sp.Description:gsub("(your skill)", string.format("%d + %d * %%1", 5, 2))
 		for i, idx in ipairs({"Normal", "Expert", "Master", "GM"}) do
-			sp[idx] = sp[idx]:gsub("%d point", string.format("%d + %d point", 10, i + 1))
+			sp[idx] = sp[idx]:gsub("%d point", string.format("%d + %d point", 5, i + 1))
 		end
 	end
 end
@@ -1054,7 +1060,7 @@ function events.PlayerSpellVar(t)
 		if t.VarNum == 3 then
 			t.Value = t.Value + 1 -- per level
 		elseif t.VarNum == 4 then
-			t.Value = 10 -- bonus
+			t.Value = 5 -- bonus
 		end
 	end
 end
@@ -1471,8 +1477,9 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 end
 
 -- for testing
+--[[
 function events.BeforeNewGameAutosave()
-	tget(vars, "ExtraSettings").UseMonsterBolster = true
+	tget(vars, "ExtraSettings").UseMonsterBolster = false
 	-- allow F5 for quicksave
 	vars.ExtraSettings.QSKeybinds = {
 		[117] = 1, -- F6
@@ -1491,6 +1498,7 @@ function events.BeforeNewGameAutosave()
 		end
 	end
 end
+]]
 
 -- testing spc bonuses generation
 -- for i = 1, 100 do evt.GiveItem{Strength = 5, Type = const.ItemType.Ring} end; local count = 0; for i, item in Party[0].Items do if item.Bonus2 == rev4m.const.spcBonuses.permanence + 1 then count = count + 1 end end; print(count)

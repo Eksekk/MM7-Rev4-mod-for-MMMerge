@@ -906,6 +906,11 @@ do
 
 	local classes =
 	{
+		-- knight
+		-- ranger
+		-- cleric
+		-- sorcerer
+		-- druid
 		-- (class or {(l = light, d = dark, others)}) = {{first promo classes(l = light, d = dark, others)}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
 		[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
 		[{l = cc.AcolyteLight, d = AcolyteDark, cc.Cleric}] = {{l = cc.ClericLight, d = cc.ClericDark, cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},

@@ -16,6 +16,7 @@ IMPORTANCE CATEGORIES:
 -- those below are not needed for "first release" --
 
 ---- important ----
+* remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
 * nerf paralyze?
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
@@ -30,6 +31,7 @@ IMPORTANCE CATEGORIES:
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
 
 ---- good to have ----
+* make alchemy add 2 * skill to potion strength (only base skill, bonuses are * 1)
 * Extra spawns in dungeons
 * Changed main questline?
 * Restore trumpet quest
@@ -210,11 +212,11 @@ end
 
 function monUtils.addDamage(mon, count1, sides1, add1, count2, sides2, add2)
 	mon.Attack1.DamageDiceCount, mon.Attack1.DamageDiceSides, mon.Attack1.DamageAdd
-		= mon.Attack1.DamageDiceCount + count1, mon.Attack1.DamageDiceSides + sides1, mon.Attack1.DamageAdd + add1
+		= mon.Attack1.DamageDiceCount + (count1 or 0), mon.Attack1.DamageDiceSides + (sides1 or 0), mon.Attack1.DamageAdd + (add1 or 0)
 	
 	if count2 then
 		mon.Attack2.DamageDiceCount, mon.Attack2.DamageDiceSides, mon.Attack2.DamageAdd
-			= mon.Attack2.DamageDiceCount + count2, mon.Attack2.DamageDiceSides + sides2, mon.Attack2.DamageAdd + add2
+			= mon.Attack2.DamageDiceCount + (count2 or 0), mon.Attack2.DamageDiceSides + (sides2 or 0), mon.Attack2.DamageAdd + (add2 or 0)
 	end
 end
 
@@ -1409,6 +1411,18 @@ function giveFreeSkill(skill, level, mastery, check)
 	end
 	if not benefit then
 		Game.ShowStatusText("You received the bonus but didn't benefit from it")
+	end
+end
+
+-- boost base alchemy skill
+if MS.Rev4ForMergeBoostBaseAlchemySkill == 1 then
+	function events.GetSkill(t)
+		if t.Skill == const.Skills.Alchemy then
+			local sk = t.Player.Skills[const.Skills.Alchemy]
+			if sk > 0 then
+				t.Result = t.Result + sk
+			end
+		end
 	end
 end
 

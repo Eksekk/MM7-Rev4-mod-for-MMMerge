@@ -422,7 +422,8 @@ function multiplyMonsterSize(mon, scale)
 end
 
 -- Bosses
-if MS.Rev4ForMergeAddBosses == 1 then
+if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in AfterLoadMap)
+-- could be after, but changing properties would need to be wrapped in transform function passed to pseudoSpawnpoint
 	function events.LoadMap()
 		if mapvars.Rev4ForMergeBossesSpawned then
 			return
@@ -459,7 +460,6 @@ if MS.Rev4ForMergeAddBosses == 1 then
 			spells(mon, nil, nil, nil, const.Spells.AcidBurst, JoinSkill(10, const.Master), 30)
 			addDamage(mon, 0, 0, 20)
 			rewards(mon, 10, {-5, const.ItemType.Ring, 100}, 5)
-
 		elseif Map.Name == "7out06.odm" then -- The Bracada Desert
 			
 		elseif Map.Name == "out09.odm" then -- Evenmorn Island
@@ -469,7 +469,14 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "out11.odm" then -- The Barrow Downs
 			
 		elseif Map.Name == "out12.odm" then -- The Land of the Giants
-			
+			-- The Oldest Titan
+			local mon = pseudoSpawnpoint{monster = 409, x = 6020, y = -3299, z = 1169, count = 1, powerChances = {0, 0, 100}, radius = 64, group = 51}[1]
+			mon.NameId = rev4m.placeMon.theOldestTitan
+			hpMul(mon, diffsel(2, 3, 3.5))
+			resists(mon, 20)
+			addDamage(mon, 2, 5)
+			acMul(mon, diffsel(1.2, 1.3, 1.4))
+			rewards(mon, 8, -7, 4)
 		elseif Map.Name == "7out13.odm" then -- Tatalia
 			
 		elseif Map.Name == "out14.odm" then -- Avlee
@@ -477,7 +484,14 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "7out15.odm" then -- Shoals
 			
 		elseif Map.Name == "d01.blv" then -- The Erathian Sewers
-			
+			-- Master Thief Advisor
+			local mon = pseudoSpawnpoint{monster = 256, x = 1105, y = 13164, z = -563, count = 1, powerChances = {0, 100, 0}, radius = 64, group = 0}[1]
+			mon.NameId = rev4m.placeMon.masterThiefAdvisor
+			hpMul(mon, diffsel(2, 2.5, 3))
+			resists(mon, 10)
+			damage(mon, diffsel("2d4+10", "3d4+8", "4d4+6"))
+			rewards(mon, 5, -3, 2)
+			spells(mon, const.Spells.FireBolt, JoinSkill(7, const.Expert), 30)
 		elseif Map.Name == "d02.blv" then -- The Maze
 			
 		elseif Map.Name == "d03.blv" then -- Castle Gloaming
@@ -611,7 +625,13 @@ if MS.Rev4ForMergeAddBosses == 1 then
 		elseif Map.Name == "mdt12.blv" then -- The Vault
 			
 		elseif Map.Name == "mdt14.blv" then -- The Bandit Caves
-			
+			-- Unrelenting Soldier
+			local mon = pseudoSpawnpoint{monster = 193, x = 1751, y = 35, z = -44, count = 1, powerChances = {100, 0, 0}, radius = 64, group = 56}[1]
+			mon.NameId = rev4m.placeMon.unrelentingSoldier
+			addDamage(mon, 1, 1, diffsel(0, 2, 4))
+			hpMul(mon, diffsel(2, 2.25, 2.5))
+			resists(mon, 5)
+			rewards(mon, 5, {-2, 100, const.ItemType.Sword}, 2)
 		elseif Map.Name == "mdt15.blv" then -- The Small House
 			
 		elseif Map.Name == "t01.blv" then -- Temple of the Light
@@ -737,19 +757,19 @@ if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 th
 			if Map.Name == "7out01.odm" then -- Emerald Island
 				removeOrReplace({{id = 3, level = 2, itemType = const.ItemType.Sword}, {id = 10, level = 2, itemType = const.ItemType.Bow}})
 				if isHard() then
-					removeOrReplace({{id = 1, level = 2, itemType = const.ItemType.Mace}, {id = 8, level = 3, itemType = const.ItemType.Leather}})
+					removeOrReplace({{id = 1, level = 2, itemType = const.ItemType.Mace}, {id = 8, level = 2, itemType = const.ItemType.Leather}})
 					--Map.Objects[2].Item.Bonus2 = 700 -- down from 1700
 				end
 				-- chests
 			elseif Map.Name == "7out02.odm" then -- Harmondale
-				removeOrReplace({{id = 2, level = 4, itemType = const.ItemType.Amulet}})
+				removeOrReplace({{id = 2, level = 3, itemType = const.ItemType.Amulet}})
 				if MS.Rev4ForMergeRemoveBowsOfCarnage == 1 then
 					-- it's a delicate issue, so I'll require additional check to remove these bows
-					removeOrReplace({{id = 1, level = 4, itemType = const.ItemType.Bow}})
+					removeOrReplace({{id = 1, level = 3, itemType = const.ItemType.Bow}})
 				end
 				-- chests
 			elseif Map.Name == "7out04.odm" then -- Tularean Forest
-				removeOrReplace({{id = 109, level = 4, itemType = const.ItemType.Sword}})
+				removeOrReplace({{id = 109, level = 2, itemType = const.ItemType.Sword}})
 			elseif Map.Name == "7out05.odm" then -- Deyja
 				removeOrReplace({{id = 37, level = 3, itemType = const.ItemType.Potion}})
 				if isHard() then

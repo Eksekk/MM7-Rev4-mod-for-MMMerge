@@ -66,3 +66,4 @@ Rev4ForMergeAddDarkLightResistances	1
 Rev4ForMergeAddBosses	1
 Rev4ForMergeMiscBalanceChanges	1
 Rev4ForMergeEnableDispelImmunityEnchantment	1
+Rev4ForMergeBoostBaseAlchemySkill	1

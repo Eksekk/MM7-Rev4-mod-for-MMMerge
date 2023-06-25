@@ -50,6 +50,7 @@ To compensate for difficulty a bit and allow stronger overall builds than on eas
 * "of Doom" enchantment now gives five times the bonus it was assigned. Hopefully this will sometimes make player consider using it rather than always selling like I did. Option to disable as above.
 * "of the Gods" now gives +25 to all stats.
 * You can remove multilooting "bug". To do so, set Rev4ForMergeRemoveMultilooting to 1.
+* Base alchemy skill is boosted to add 2 * skill to potion strength. Item/NPC bonuses are still counted * 1. This is done to make investing in alchemy skill more useful (mastery alone is useful already). To disable, change Rev4ForMergeBoostBaseAlchemySkill to 0.
 
 ## Other changes
 * Genie lamps have default behavior from MM7 in this mod. I found out that randomizing it meant, for me personally, that I need to savescum for skill points. Other rewards were just not interesting enough. If you prefer Merge behavior, change option "UseOriginalGenieLamps" to something other than 1.

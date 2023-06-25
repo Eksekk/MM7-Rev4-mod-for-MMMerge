@@ -202,9 +202,9 @@
 199	Oviozhul The Vivisector
 200	Primordial Barrow Wight
 201	Derelict Adventurer
-202	Placeholder
-203	Placeholder
-204	Placeholder
+202	Unrelenting Soldier
+203	Master Thief Advisor
+204	The Oldest Titan
 205	Placeholder
 206	Placeholder
 207	Placeholder

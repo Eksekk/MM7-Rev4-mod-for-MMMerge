@@ -17,6 +17,9 @@ do
         deyjaNecro = p + 5,
         primordialBarrowWight = p + 6,
         derelictAdventurer = p + 7,
+        unrelentingSoldier = p + 8,
+        masterThiefAdvisor = p + 9,
+        theOldestTitan = p + 10,
     }
 end
 rev4m.path = rev4m.path or {}

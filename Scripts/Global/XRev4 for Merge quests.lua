@@ -688,6 +688,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			table.insert(MT.ClassPromotions[const.Class.ArchMage], const.Class.MasterNecromancer)
 		end
 
+		-- TODO: allow class change also for master wizards etc.
 		Quest{
 			questID,
 			Gold = 12000,
@@ -701,10 +702,10 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 			end,
 			CheckDone = function()
 				local count = 0
-				local sorcNoJar = false
+				local meetRequirements = true
 				for i, pl in Party do
-					if pl.Class == const.Class.ArchMage and not evt[i].Cmp("Inventory", 1417) then
-						sorcNoJar = true
+					if (pl.Class == const.Class.ArchMage and not evt[i].Cmp("Inventory", 1417)) then
+						meetRequirements = false
 						break
 					end
 					for i, item in pl.Items do
@@ -713,7 +714,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 						end
 					end
 				end
-				return not sorcNoJar and count >= 4
+				return meetRequirements and count >= 4
 			end,
 
 			Done = function()
@@ -730,7 +731,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 
 					Changes from default code:
 					* skipped code which reduced skills (refunding skillpoints) and unlearned spells
-					* skipped race stuff
+					* skipped some race stuff
 					* removed message, experience reward etc. - I handle this myself
 
 					This and other promo quests will get redone properly in the future (for example, allowing to
@@ -762,7 +763,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 					local award = rev4m.lich.CPA[rev4m.lich.promo_award_cont[7] .. "PowerLich"]
 					local new_race = rev4m.lich.can_convert_to_undead(player)
 					if new_race == 0 then
-						player.Attrs.PromoAwards[t.Award] = true
+						player.Attrs.PromoAwards[award] = true
 						doMaturity(player)
 						player.Class = class
 					elseif new_race > 0 then
@@ -770,10 +771,10 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 						if player.Class ~= const.Class.ArchMage then
 							goto noPromo
 						end
-						player.Attrs.PromoAwards[t.Award] = true
+						player.Attrs.PromoAwards[award] = true
 						doMaturity(player)
 						player.Class = class
-						t.Player.Attrs.Race = new_race
+						player.Attrs.Race = new_race
 
 						rev4m.lich.SetLichAppearance(k, player, orig_race)
 						-- Consider not to increase overbuffed lich resistances
@@ -975,7 +976,7 @@ do
 	}
 	getmetatable(cc).__index = oldIndex
 
-	local function getClassTier(classId)
+	function getClassTier(classId)
 		local findClass = function(v) return v == classId end
 		for k, v in pairs(classes) do
 			if type(k) == "table" and table.findIf(k, findClass) or type(k) == "number" and k == classId then

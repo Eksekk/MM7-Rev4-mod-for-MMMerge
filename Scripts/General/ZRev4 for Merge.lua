@@ -12,8 +12,6 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* verify and fix lich quest and other quests except those tested recently
-* lich quest, remove jars from walls of mist if they're present
 
 -- those below are not needed for "first release" --
 

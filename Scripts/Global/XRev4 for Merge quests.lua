@@ -172,7 +172,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 			end
 			if WromthraxId then
 				if _G.bolsterPerformed then
-					restoreMonster(WromthraxId)
+					_G.restoreMonster(WromthraxId)
 				end
 				local wrom = Map.Monsters[WromthraxId]
 				XYZ(wrom, 17477, 6215, -127) -- move him deeper into the cave, where he'll be protected by his legions of monsters
@@ -184,7 +184,7 @@ if MS.Rev4ForMergeActivateExtraQuests == 1 then
 				wrom.Attack1.DamageAdd = diffsel(20, 25, 30)
 				wrom.TreasureDiceCount = wrom.TreasureDiceCount * 3
 				if _G.bolsterPerformed then
-					PrepareMapMon(wrom)
+					_G.PrepareMapMon(wrom)
 				end
 
 				evt.SetMonsterItem{Monster = WromthraxId, Item = DARK_TALISMAN_ID, Has = true}
@@ -361,8 +361,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 	function events.LoadMap()
 		if Map.Name ~= "7d12orig.blv" then return end
 		
-		if not mapvars.ClankersLabSetup then
-			mapvars.ClankersLabSetup = true
+		if not cmpSetMapvarBool("ClankersLabSetup") then
 			-- genies
 			pseudoSpawnpoint{monster = 265, x = 14, y = 179, z = 1, count = diffsel("1-3", "2-4", "4-5"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 512, group = 56}
 			pseudoSpawnpoint{monster = 265, x = 677, y = 2844, z = 385, count = diffsel("1-3", "2-4", "4-5"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 512, group = 56}
@@ -379,8 +378,8 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			-- miniboss: Clanker's Puppet, mage
 			-- changing stats here works, because he is summoned before bolster happens
 			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = 1, powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
-			monUtils.hpMul(wiz, diffsel(3, 4, 5))
-			monUtils.boostResistances(wiz, diffsel(40, 60, 80))
+			monUtils.hpMul(wiz, diffsel(2.5, 3.5, 4.5))
+			monUtils.boostResistances(wiz, diffsel(20, 40, 60))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
 			wiz.NameId = rev4m.placeMon.clankerWizard
@@ -906,11 +905,6 @@ do
 
 	local classes =
 	{
-		-- knight
-		-- ranger
-		-- cleric
-		-- sorcerer
-		-- druid
 		-- (class or {(l = light, d = dark, others)}) = {{first promo classes(l = light, d = dark, others)}, {second promo classes(l = light, d = dark, others)}, if class from MM7 then \"MM7\" = true}, MM7 flag is only used for correct light/dark/neutral path behavior
 		[cc.Archer] = {{cc.WarriorMage}, {l = cc.MasterArcher, d = cc.Sniper, cc.BattleMage}, MM7 = true},
 		[{l = cc.AcolyteLight, d = AcolyteDark, cc.Cleric}] = {{l = cc.ClericLight, d = cc.ClericDark, cc.Priest}, {l = cc.PriestLight, d = cc.PriestDark, cc.HighPriest}, MM7 = true},

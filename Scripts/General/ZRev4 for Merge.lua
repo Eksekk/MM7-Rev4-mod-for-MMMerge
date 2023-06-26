@@ -13,7 +13,9 @@ end
 IMPORTANCE CATEGORIES:
 ---- very important ----
 * if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
-* nerf faerie ring?
+* bolster in general, two todos are there
+* nerf faerie ring (and ghost ring)?
+* boost stone skin?
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -21,6 +23,10 @@ playthrough notes:
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
 * shield spell text still says that spell is bugged
 * couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
+* hostile map npcs and crossbowmen in tatalia without doing anything
+* move erathian sewers boss - gets killed by mobs
+* castle harmondale door at the top to upper level is opened - missing doors?, also shadow bugs
+* courier quests further bugged - some people you need to talk to behave as if you already visited objective giver. Perhaps lack of evt.Cmp("Inventory", ...)?
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
@@ -1370,7 +1376,8 @@ if not isEasy() then
 		end
 	end
 	
-	-- reduce gold gains from monsters and gold piles
+	-- reduce gold gains from monsters, gold piles and evt.Add rewards (quests, wells etc.)
+	-- gold penalty for monsters is nullified in General/AdaptiveMonstersStats.lua, because it'd be way too low
 	if Merge.ModSettings.Rev4ForMergeNerfGoldGains == 1 then
 		function events.BeforeGotGold(t)
 			t.Amount = isMedium() and math.round(t.Amount * 0.75) or math.round(t.Amount * 0.50)

@@ -1,6 +1,9 @@
 # MM7-Rev4-mod-for-MMMerge
 A conversion of MM7 Rev4 mod for MMMerge with additional optional features
 
+# Disclaimer
+Currently the mod is targeted towards playing one party the entire time (not changing any members). If you try to mix and match players, you won't be able to get [free skills/promotions/class change] second time, only first time will work. Sorry. This is a major limitation and will change in the future.
+
 # Changes from vanilla rev4
 I added some new features, mainly intended to introduce some new content and balance a few things, as well as add few features that I always wanted to add.
 
@@ -11,7 +14,7 @@ The mod features difficulty levels! You can choose to have harder game if you'd 
 
 Most difficulty elements (as well as my own additions to the game) can be overridden and disabled by ModSettings.txt, so you can fine-tune your experience. 
 
-Easy will be mostly like vanilla (only with slightly increased mapstats spawns due to five players in party and other changes making game easier).
+Easy will be mostly like vanilla (only with slightly increased mapstats spawns due to five players in party and other changes making game easier). At least, that is the intended result, now it's probably easier than vanilla rev4 (if we exclude carnage bows from the equation).
 
 Medium introduces:
 * less powerful free skill boosts. They make up some of the flavor of Rev4 for me, but the difficulty decrease is too high. Change Rev4ForMergeNerfSkillBoosts option to anything other than 1 to disable this.
@@ -19,7 +22,7 @@ Medium introduces:
 * meditation SP regen is nerfed from mastery + floor(skill / 10) to mastery - 2 + floor(skill / 10) (mastery starts with Novice on 1, and then increases by 1), and only if you actually have at least master meditation. Change Rev4ForMergeNerfMeditationSPRegen option to anything other than 1 to disable this.
 * all damage to monsters is decreased by 15% (set Rev4ForMergeNerfDamage option to anything other than 1 to disable it).
 * Most maps have extra monster spawns, usually guarding most of currently free to explore locations. Note: some spawns are very difficult and are not intended to be fought right away. It's perfectly fine to just grab the loot and run away. Change Rev4ForMergeExtraMonsterSpawns option to anything other than 1 to disable.
-* Most of gold gains (selling/gold piles/monster loot) is reduced to 75% of original value.
+* Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 75% of original value.
 
 Hard introduces (see above how to disable specific changes):
 * even less powerful free skill boosts.
@@ -27,9 +30,9 @@ Hard introduces (see above how to disable specific changes):
 * meditation SP regen is completely removed.
 * all damage to monsters decreased by 30%.
 * extra monster spawns create more and stronger monsters than on Normal.
-* Most of gold gains (selling/gold piles/monster loot) is reduced to 50% of original value.
+* Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 50% of original value.
 
-Note: by default item removal function replaces them with appropriate-leveled item of same type. If you wish to annihilate them completely instead, change Rev4ForMergeRandomizeRemovedItems to anything other than 1.
+Note: by default item removal function replaces them with appropriate-leveled item of same type, still a bit stronger than what you would find normally, but not endgame-leveled. If you wish to annihilate them completely instead, change Rev4ForMergeRandomizeRemovedItems to anything other than 1.
 
 In addition, I added bosses to some game areas, which are just single stronger monsters than usual of their kind. They are here mainly to make debuff spells, such as slow, shrinking ray, dark grasp, useful. They are affected by difficulty, lower difficulty will cause some of their stats to be weaker. If you want to disable them, the option to set to 0 is Rev4ForMergeAddBosses.
 
@@ -48,7 +51,7 @@ To compensate for difficulty a bit and allow stronger overall builds than on eas
 * DrainSP effect is nerfed in this mod, I found it too obnoxious. Now it reduces your mana by 25% of maximum each time it is applied, not less than zero, instead of zeroing it completely. The option to disable it is Rev4ForMergeNerfDrainSp.
 * GM leather now gives skill * 4 elemental resistances. That hopefully will make GM actually worth getting. ModSettings option to disable: Rev4ForMergeMiscBalanceChanges
 * "of Doom" enchantment now gives five times the bonus it was assigned. Hopefully this will sometimes make player consider using it rather than always selling like I did. Option to disable as above.
-* "of the Gods" now gives +25 to all stats.
+* "of the Gods" now gives +25 to all stats. Option to disable as above.
 * You can remove multilooting "bug". To do so, set Rev4ForMergeRemoveMultilooting to 1.
 * Base alchemy skill is boosted to add 2 * skill to potion strength. Item/NPC bonuses are still counted * 1. This is done to make investing in alchemy skill more useful (mastery alone is useful already). To disable, change Rev4ForMergeBoostBaseAlchemySkill to 0.
 

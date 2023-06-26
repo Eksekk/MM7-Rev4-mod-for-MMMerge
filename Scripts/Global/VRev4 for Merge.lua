@@ -248,7 +248,7 @@ function events.LoadMap()
 			------------------
 			
 			-- skelly guards on road to Barrow Downs
-			pseudoSpawnpoint{monster = 397, x = -1395, y = -20740, z = 1, count = diffsel("2-4", "4-6", "6-8"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 61}
+			pseudoSpawnpoint{monster = 397, x = -1395, y = -20740, z = 1, count = diffsel("4-6", "7-10", "9-15"), powerChances = diffsel({70, 20, 10}, {50, 30, 20}, {34, 33, 33}), radius = 1024, group = 61}
 			
 			evt.SetMonGroupBit{NPCGroup = 62, Bit = const.MonsterBits.Hostile, On = true}
 			evt.SetMonGroupBit{NPCGroup = 63, Bit = const.MonsterBits.Hostile, On = true}
@@ -257,7 +257,7 @@ function events.LoadMap()
 			pseudoSpawnpoint{monster = 253, x = 7187, y = -836, z = 865, count = isMedium() and "10-15" or "20-30", powerChances = isMedium() and {70, 20, 10} or {50, 25, 25}, radius = 1024, group = 57}
 			
 			-- leather fighters, idea once again from MM7 Refilled
-			pseudoSpawnpoint{monster = 256, x = 5756, y = -7091, z = 928, count = isMedium() and "5-8" or "10-15", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
+			pseudoSpawnpoint{monster = 256, x = 5756, y = -7091, z = 928, count = isMedium() and "6-9" or "11-16", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
 			
 			-- plate fighters
 			pseudoSpawnpoint{monster = 259, x = 3687, y = -16928, z = 1006, count = isMedium() and "2-3" or "4-6", powerChances = isMedium() and {70, 30, 0} or {60, 30, 10}, radius = 4096, group = 57}
@@ -269,13 +269,13 @@ function events.LoadMap()
 			pseudoSpawnpoint{monster = 280, x = 21997, y = -10825, z = 3104, count = isMedium() and "3-5" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 57}
 			
 			-- goblins near harmondale road (idea from MM7 Refilled)
-			pseudoSpawnpoint{monster = 271, x = 19654, y = 6288, z = 3936, count = isMedium() and "8-12" or "11-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
+			pseudoSpawnpoint{monster = 271, x = 18654, y = -1290, z = 3936, count = isMedium() and "8-12" or "11-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
 			
 			-- thieves near bandits' caverns (idea from MM7 Refilled)
-			pseudoSpawnpoint{monster = 406, x = 18162, y = 6898, z = 2901, count = isMedium() and "6-9" or "8-13", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
+			pseudoSpawnpoint{monster = 406, x = 18162, y = 6898, z = 2901, count = isMedium() and "8-11" or "10-15", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 57}
 			
 			-- monks aiding robbers (idea also from MM7 Refilled)
-			pseudoSpawnpoint{monster = 304, x = 19412, y = 13127, z = 3994, count = isMedium() and "5-8" or "9-13", powerChances = isMedium() and {70, 25, 5} or {55, 35, 10}, radius = 2048, group = 57}
+			pseudoSpawnpoint{monster = 304, x = 19412, y = 13127, z = 3994, count = isMedium() and "6-9" or "10-14", powerChances = isMedium() and {70, 25, 5} or {55, 35, 10}, radius = 2048, group = 57}
 			
 			-- powerful plate fighter guarding fort riverstride, idea as usual from MM7 Refilled
 			pseudoSpawnpoint{monster = 259, x = 10391, y = -1963, z = 1571, count = isMedium() and 1 or 2, powerChances = {0, 0, 100}, radius = 64, group = 57, exactZ = true}
@@ -446,7 +446,7 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 		if Map.Name == "7out01.odm" then -- Emerald Island
 			
 		elseif Map.Name == "7out02.odm" then -- Harmondale
-			
+			-- troll near white cliff caverns
 		elseif Map.Name == "7out03.odm" then -- Erathia
 			
 		elseif Map.Name == "7out04.odm" then -- The Tularean Forest

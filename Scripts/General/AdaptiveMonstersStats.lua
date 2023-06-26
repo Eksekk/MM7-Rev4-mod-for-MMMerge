@@ -917,7 +917,7 @@ function restoreMonsterParams(mon, txt)
 	mon.HP = mon.FullHP
 end
 
--- TODO: monsters existing, but boosted after initial bolster lose their boosted stats on restore
+-- TODO: monsters existing, but boosted after initial bolster lose their boosted stats on restore, unless RestoreMonster and then PrepareMapMon is used
 
 local function Init()
 

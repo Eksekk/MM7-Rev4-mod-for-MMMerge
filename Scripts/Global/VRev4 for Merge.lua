@@ -583,7 +583,7 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 			-- primordial barrow wight
 			local mon = pseudoSpawnpoint{monster = 421, x = 56, y = 1072, z = -72, count = 1, powerChances = {0, 0, 100}, radius = 256, group = 56}[1]
 			mon.NameId = rev4m.placeMon.primordialBarrowWight
-			hpMul(mon, diffsel(2, 2.5, 3))
+			hpMul(mon, diffsel(3, 3.5, 4))
 			addDamage(mon, 1, 2, diffsel(3, 5, 7))
 			rewards(mon, 1, -5, 10)
 		elseif Map.Name == "mdk01.blv" then -- Barrow VII
@@ -628,10 +628,10 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 			-- Unrelenting Soldier
 			local mon = pseudoSpawnpoint{monster = 193, x = 1751, y = 35, z = -44, count = 1, powerChances = {100, 0, 0}, radius = 64, group = 56}[1]
 			mon.NameId = rev4m.placeMon.unrelentingSoldier
-			addDamage(mon, 1, 1, diffsel(0, 2, 4))
-			hpMul(mon, diffsel(2, 2.25, 2.5))
-			resists(mon, 5)
-			rewards(mon, 5, {-2, 100, const.ItemType.Sword}, 2)
+			addDamage(mon, 2, 2, diffsel(2, 4, 6))
+			hpMul(mon, diffsel(4, 4.25, 4.5))
+			resists(mon, 20)
+			rewards(mon, 10, {-4, 100, const.ItemType.Sword}, 2)
 		elseif Map.Name == "mdt15.blv" then -- The Small House
 			
 		elseif Map.Name == "t01.blv" then -- Temple of the Light

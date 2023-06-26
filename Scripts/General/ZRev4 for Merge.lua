@@ -16,10 +16,11 @@ IMPORTANCE CATEGORIES:
 * bolster in general, two todos are there
 * nerf faerie ring (and ghost ring)?
 * boost stone skin?
+* spawn something near tularean caverns
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
-* rocs in tularean (obelisk) are not hostile
+* rocs in tularean (obelisk) are not hostile - AFTER RELOAD, map script? or mm8 reload bug where attacking monsters turns them friendly after reload
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
 * shield spell text still says that spell is bugged
 * couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
@@ -27,11 +28,15 @@ playthrough notes:
 * move erathian sewers boss - gets killed by mobs
 * castle harmondale door at the top to upper level is opened - missing doors?, also shadow bugs
 * courier quests further bugged - some people you need to talk to behave as if you already visited objective giver. Perhaps lack of evt.Cmp("Inventory", ...)?
+* quixote quest still shows up
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
+* titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
+* boost perception
+* remove thieves stealing and buff their stats a bit to compensate?
 * remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
 * nerf paralyze?
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park

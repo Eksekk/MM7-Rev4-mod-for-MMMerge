@@ -59,7 +59,7 @@ playthrough notes:
 
 ---- good to have ----
 * bdj doesn't turn hostile, also deal with angel in harmondale
-* reduce buffs recovery if out of combat
+* EASIER OPTION DONE: reduce buffs recovery if out of combat (better but harder option: allow ctrl-casting to affect whole party)
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Extra spawns in dungeons
 * Changed main questline?
@@ -1112,6 +1112,51 @@ if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 			mon.ArmorClass = mon.ArmorClass + power
 		end
 
+	end
+end
+
+-- reduce buffs recovery if out of combat
+if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
+	local cs = const.Spells
+	local newRecoveryValues = {
+		[cs.FireResistance] = 40,
+		[cs.AirResistance] = 40,
+		[cs.WaterResistance] = 40,
+		[cs.EarthResistance] = 40,
+		[cs.MindResistance] = 40,
+		[cs.BodyResistance] = 40,
+		[cs.FireAura] = 40,
+		[cs.Haste] = 40,
+		[cs.FireResistance] = 40,
+		[cs.Immolation] = 40,
+		[cs.FeatherFall] = 40,
+		[cs.Shield] = 40,
+		[cs.Invisibility] = 60,
+		-- fly and water walk skipped intentionally
+		[cs.EnchantItem] = 60,
+		[cs.StoneSkin] = 40,
+		[cs.Bless] = 40,
+		[cs.Preservation] = 40,
+		[cs.Heroism] = 40,
+		[cs.Regeneration] = 40,
+		[cs.Hammerhands] = 40,
+		[cs.ProtectionFromMagic] = 40,
+		[cs.DayOfTheGods] = 120,
+		[cs.DayOfProtection] = 120,
+		[cs.HourOfPower] = 120,
+		[cs.PainReflection] = 40,
+		[cs.Glamour] = 40,
+		[cs.TravelersBoon] = 40,
+		[cs.Levitate] = 40,
+		[cs.Mistform] = 40,
+		-- dragon flight skipped intentionally
+	}
+
+	function events.SpellCostRecovery(t)
+		--local t = {Spell = d.ecx, SkillMastery = d.edx, Caster = d.eax, Cost = d.esi, Recovery = d.edi}
+		if not Party.EnemyDetectorRed and not Party.EnemyDetectorYellow then
+			t.Recovery = newRecoveryValues[t.Spell] or t.Recovery
+		end
 	end
 end
 

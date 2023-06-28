@@ -70,3 +70,4 @@ Rev4ForMergeEnableDispelImmunityEnchantment	1
 Rev4ForMergeEnableCurseImmunityEnchantment	1
 Rev4ForMergeBoostBaseAlchemySkill	1
 Rev4ForMergeRemoveMonsterStealing	1
+Rev4ForMergeReduceBuffsRecoveryOutOfCombat	1

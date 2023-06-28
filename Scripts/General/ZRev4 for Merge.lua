@@ -20,6 +20,7 @@ IMPORTANCE CATEGORIES:
 * spawn something near tularean caverns
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies
 * mod settings option to reduce extra mapstats spawns a bit
+* buff most buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -47,7 +48,6 @@ playthrough notes:
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
 * boost perception
-* remove thieves stealing and buff their stats a bit to compensate?
 * remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
 * nerf paralyze?
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
@@ -1081,10 +1081,32 @@ end
 -- remove stealing and buff monster stats to compensate
 if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 	function events.GameInitialized2()
-		-- mm7 thieves
 		for power = 1, 3 do
-			local mon = Game.MonstersTxt
+			-- mm7 thieves
+			local mon = Game.MonstersTxt[406 + power - 1]
+			assert(mon.Bonus == const.MonsterBonus.Steal)
+			mon.Bonus = 0
+			mon.FullHP = round(mon.FullHP * 1.1)
+			mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + power
+			mon.ArmorClass = mon.ArmorClass + power
+			
+			-- cutpurses
+			if power <= 2 then
+				mon = Game.MonstersTxt[601 + power - 1]
+				assert(mon.Bonus == const.MonsterBonus.Steal)
+				mon.Bonus = 0
+				mon.FullHP = mon.FullHP + power
+				mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + power
+			end
+			-- mm6 thieves
+			mon = Game.MonstersTxt[637 + power - 1]
+			assert(mon.Bonus == const.MonsterBonus.Steal)
+			mon.Bonus = 0
+			mon.FullHP = round(mon.FullHP * 1.1)
+			mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + power
+			mon.ArmorClass = mon.ArmorClass + power
 		end
+
 	end
 end
 
@@ -1525,6 +1547,17 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		end
 	end
 
+	-- buff stoneskin
+	function events.CalcStatBonusByMagic(t)
+		if t.Stat == const.Stats.ArmorClass then
+			local buff = t.Player.SpellBuffs[const.PlayerBuff.Stoneskin]
+			if buff.ExpireTime > Game.Time then
+				assert(buff.Power >= 5, format("Stoneskin power is less that 5, player index: %d", t.PlayerIndex))
+				t.Result = t.Result + buff.Power - 5 -- 5 is constant, the rest is hopefully through earth skill
+			end
+		end
+	end
+
 	function events.CalcStatBonusByItems(t)
 		-- boost "of Doom" to not be garbage
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
@@ -1550,6 +1583,10 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		u4[0x5E4A54] = mem.topointer(GMDesc)
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
+		local count
+		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]
+		spellEntry.Description, count = spellEntry.Description:gsub("5 %+ 1", "5 %+ 2")
+		assert(count == 1, "Couldn't change stone skin spell description")
 	end
 end
 

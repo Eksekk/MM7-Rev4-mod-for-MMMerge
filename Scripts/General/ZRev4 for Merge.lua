@@ -19,7 +19,7 @@ IMPORTANCE CATEGORIES:
 * spawn something near tularean caverns
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * mod settings option to reduce extra mapstats spawns a bit
-* buff most buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
+* buff most player-buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -47,14 +47,14 @@ playthrough notes:
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
 * boost perception
 * remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
-* nerf paralyze?
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * limit GM to final promotion only, and M to final/first promotion only
 * Boost weapon boosting potions
 * Boost some of statistics' effects (if boosted breakpoints active, then less); personality & intellect - boost spell damage?
 * spell damage opt-out
-* redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
+* redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion like in default Merge quests
+* as above, but also include free skill barrels and NPC free skills (dark master/fire expert)
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
@@ -953,6 +953,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		for _, pl in Party do
 			if pl:IsConscious() then
 				-- TODO: make skill and mastery joined together?
+				-- TODO: doesn't take into account items "of Identifying". Use difference between pl:GetSkill() call and base value to auto calculate item and/or follower bonus?
 				local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
 				-- id monster bonus
 				local maxBonus = 0
@@ -1540,7 +1541,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 	function events.CalcStatBonusBySkills(t)
 		-- make GM leather actually give decent resistances
 		if t.Stat >= const.Stats.FireResistance and t.Stat <= const.Stats.EarthResistance then
-			local s, m = SplitSkill(t.Player.Skills[const.Skills.Leather])
+			local s, m = SplitSkill(t.Player:GetSkill(const.Skills.Leather))
 			if m == const.GM and t.Player.ItemArmor ~= 0 then
 				for item, slot in t.Player:EnumActiveItems(false) do
 					if slot == const.ItemSlot.Armor and item:T().Skill == const.Skills.Leather then
@@ -1552,14 +1553,13 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		end
 	end
 
-	-- buff stoneskin
-	function events.CalcStatBonusByMagic(t)
-		if t.Stat == const.Stats.ArmorClass then
-			local buff = t.Player.SpellBuffs[const.PlayerBuff.Stoneskin]
-			if buff.ExpireTime > Game.Time then
-				assert(buff.Power >= 5, format("Stoneskin power is less that 5, player index: %d", t.PlayerIndex))
-				t.Result = t.Result + buff.Power - 5 -- 5 is constant, the rest is hopefully through earth skill
-			end
+	function events.PlayerSpellVar(t)
+		-- buff stoneskin
+		if t.Spell == const.Spells.StoneSkin and t.VarNum == 3 then -- armor per skill
+			t.Value = 2
+		-- nerf paralyze
+		elseif t.Spell == const.Spells.Paralyze and t.VarNum == 1 then -- duration per skill
+			t.Value = 60 -- 1 minute instead of 3
 		end
 	end
 
@@ -1588,10 +1588,15 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		u4[0x5E4A54] = mem.topointer(GMDesc)
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
+
 		local count
 		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]
 		spellEntry.Description, count = spellEntry.Description:gsub("5 %+ 1 point", "5 %+ 2 points")
 		assert(count == 1, "Couldn't change stone skin spell description")
+
+		spellEntry = Game.SpellsTxt[const.Spells.Paralyze]
+		spellEntry.Description, count = spellEntry.Description:gsub("3 minutes", "1 minute")
+		assert(count == 1, "Couldn't change paralyze spell description")
 	end
 end
 

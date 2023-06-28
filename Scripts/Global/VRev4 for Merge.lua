@@ -220,7 +220,6 @@ end
 -- check maps in rev4 and merge: timer with evt.MoveToMap and
 -- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
 -- as debug message (write to file?)
-
 evt.global[878] = function()
 	giveFreeSkill(const.Skills.Dark, 8, const.Master, function(pl) return pl.Skills[const.Skills.Fire] ~= 0 or pl.Skills[const.Skills.Body] ~= 0 end)
 end
@@ -305,10 +304,10 @@ function events.LoadMap()
 			evt.SetMonGroupBit{NPCGroup = 61, Bit = const.MonsterBits.Hostile, On = true}
 		elseif Map.Name == "7out05.odm" then -- Deyja
 			-- wights near town and chest
-			pseudoSpawnpoint{monster = 421, x = -8863, y = 19828, z = 3073, count = isMedium() and "3-5" or "4-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
+			pseudoSpawnpoint{monster = 421, x = -8863, y = 19828, z = 3073, count = isMedium() and "5-7" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
 			
 			-- same, but near golem chest
-			pseudoSpawnpoint{monster = 421, x = 22048, y = 8490, z = 3165, count = isMedium() and "3-5" or "4-7", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
+			pseudoSpawnpoint{monster = 421, x = 22048, y = 8490, z = 3165, count = isMedium() and "5-7" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 56}
 			
 			-- necros
 			pseudoSpawnpoint{monster = 307, x = -6041, y = -12719, z = 2326, count = isMedium() and "3-5" or "5-7", powerChances = isMedium() and {70, 30, 0} or {50, 50, 0}, radius = 4096, group = 56}

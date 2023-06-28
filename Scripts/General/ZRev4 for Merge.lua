@@ -1,6 +1,7 @@
 local u1, u2, u4, i1, i2, i4, autohook, autohook2 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4, mem.autohook, mem.autohook2
+local max, min, round = math.max, math.min, math.round
+local format = string.format
 local MS = Merge.ModSettings
-local IMMUNE_MONSTER_RESISTANCE = 200
 
 -- Temple in a bottle
 evt.UseItemEffects[1452] = function(Target, Item, PlayerId)
@@ -17,6 +18,8 @@ IMPORTANCE CATEGORIES:
 * nerf faerie ring (and ghost ring)?
 * boost stone skin?
 * spawn something near tularean caverns
+* turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies
+* mod settings option to reduce extra mapstats spawns a bit
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -28,12 +31,20 @@ playthrough notes:
 * move erathian sewers boss - gets killed by mobs
 * castle harmondale door at the top to upper level is opened - missing doors?, also shadow bugs
 * courier quests further bugged - some people you need to talk to behave as if you already visited objective giver. Perhaps lack of evt.Cmp("Inventory", ...)?
-* quixote quest still shows up
+* barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
+* other barrows as well, mainly those with literally hundreds of mobs in a small space due to mapstats boosts and of course bats
+* barrow VIII has wrong textures
+* too good items in chests in barrow II?
+* barrow levers wrong textures?
+* harmondale carnage bow was not removed
+
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
+* bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
+* avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
 * boost perception
 * remove thieves stealing and buff their stats a bit to compensate?
@@ -43,25 +54,26 @@ playthrough notes:
 * Bosses
 * limit GM to final promotion only, and M to final/first promotion only
 * Boost weapon boosting potions
-* Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
-* Boost some of statistics' effects (if boosted breakpoints active, then less)
+* Boost some of statistics' effects (if boosted breakpoints active, then less); personality & intellect - boost spell damage?
 * spell damage opt-out
-* reduce buffs recovery if out of combat
-* bdj doesn't turn hostile, also deal with angel in harmondale
 * Difficulty: max npcs hired at the same time
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* bdj doesn't turn hostile, also deal with angel in harmondale
+* reduce buffs recovery if out of combat
+* Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
 * Extra spawns in dungeons
 * Changed main questline?
 * Restore trumpet quest
 * Castle Navan quest (and make treasury door open after getting/completing light knight promo)
 * School of Sorcery and Breeding Pit quests
+* school of sorcery and castle navan quests connected?
 * Create script for moving editor state from MM7 to Merge (using updated events, monsters, items etc.), then
 	dry run it and see if I included all changes (almost everything was done manually)
 * Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
-
+* talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
 * fix event 502 in d08.lua (doesn't cast torch light)
@@ -82,7 +94,7 @@ IF I WANNA REALLY CHALLENGE MYSELF:
 
 monUtils = {}
 function monUtils.hpMul(mon, mul)
-	mon.FullHP = math.round(mon.FullHP * mul)
+	mon.FullHP = round(mon.FullHP * mul)
 	mon.HP = mon.FullHP
 end
 
@@ -101,13 +113,13 @@ local function rItem(mon, item, chance, typ)
 end
 
 function monUtils.rewards(mon, expMul, item, moneyMul)
-	mon.Experience = math.round(mon.Experience * expMul)
+	mon.Experience = round(mon.Experience * expMul)
 	if type(item) == "table" then
 		rItem(mon, unpack(item))
 	else
 		rItem(mon, item)
 	end
-	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * moneyMul)
+	mon.TreasureDiceCount = round(mon.TreasureDiceCount * moneyMul)
 end
 
 function monUtils.spells(mon, sp1, sk1, ch1, sp2, sk2, ch2)
@@ -123,7 +135,7 @@ local function boostResistances(mon, amount)
 	local cd = const.Damage
 	for i, v in ipairs({cd.Fire, cd.Air, cd.Water, cd.Earth, cd.Spirit, cd.Mind,
 		cd.Body, cd.Light, cd.Dark, cd.Phys}) do
-		mon.Resistances[v] = math.min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
+		mon.Resistances[v] = min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
 	end
 end
 
@@ -242,7 +254,7 @@ function monUtils.addDamage(mon, count1, sides1, add1, count2, sides2, add2)
 end
 
 function monUtils.acMul(mon, mul)
-	mon.ArmorClass = math.round(mon.ArmorClass * mul)
+	mon.ArmorClass = round(mon.ArmorClass * mul)
 end
 
 -- contains functions f(pl), which receive player as argument and return text which is shown in "extra attributes" tooltip
@@ -309,7 +321,7 @@ local btnExtraData = CustomUI.CreateButton{
 		extraDataText.Active = not extraDataText.Active
 	end,
 }
-	
+
 function events.AfterLoadMap()
 	if #addTextFunctions == 0 then
 		extraAttributesText.Active = false
@@ -338,7 +350,7 @@ mem.hook(0x4B66C6, function(d)
 	events.call("GetShopSellPriceMul", t)
 	local amount = d.esi
 	if t.Multiplier ~= 1 then
-		amount = math.round(amount * t.Multiplier)
+		amount = round(amount * t.Multiplier)
 	end
 	d.eax = amount > 1 and amount or 0
 end)
@@ -489,11 +501,11 @@ do
 		local addChances = {}
 		local gameArray = spc and Game.SpcItemsTxt or Game.StdItemsTxt
 		for bonus, data in pairs(t) do
-			assert(#data == (spc and 12 or 9), string.format("Invalid number of %s items chances", spc and "spc" or "std"))
+			assert(#data == (spc and 12 or 9), format("Invalid number of %s items chances", spc and "spc" or "std"))
 			for i, value in ipairs(data) do
 				local old = gameArray[bonus].ChanceForSlot[i - 1]
 				local base = absolute and 0 or old
-				assert(base + value >= 0, string.format("Cannot have %s item chance below 0", spc and "spc" or "std"))
+				assert(base + value >= 0, format("Cannot have %s item chance below 0", spc and "spc" or "std"))
 				gameArray[bonus].ChanceForSlot[i - 1] = base + value
 				addChances[i - 1] = (addChances[i - 1] or 0) + value - old
 			end
@@ -517,6 +529,16 @@ do
 	end
 end
 
+-- of course it is hardcoded
+autohook2(0x453E32, function(d)
+	local t = {ItemBonusId = d.eax, Result = false}
+	events.call("SpcBonusIsPrefix", t)
+	if t.Result then
+		d:push(0x453EA2)
+		return true
+	end
+end)
+
 -- dark/light resistances!
 
 function getLightRes(pl, temp)
@@ -533,12 +555,12 @@ end
 
 function addLightRes(pl, amount, temp)
 	local p = pl["?ptr"] + (temp and 0x1A30 or 0x1A1A)
-	i2[p] = math.max(0, i2[p] + amount)
+	i2[p] = max(0, i2[p] + amount)
 end
 
 function addDarkRes(pl, amount, temp)
 	local p = pl["?ptr"] + (temp and 0x1A32 or 0x1A1C)
-	i2[p] = math.max(0, i2[p] + amount)
+	i2[p] = max(0, i2[p] + amount)
 end
 
 function addLightResAll(amount, temp)
@@ -578,7 +600,7 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 					evt.Add{"WaterResistance", Value = 10}
 					evt.Add{"FireResistance", Value = 10}
 					evt.Add{"AirResistance", Value = 10}
-					addLightRes(Party[math.max(Game.CurrentPlayer, 0)], 10)
+					addLightRes(Party[max(Game.CurrentPlayer, 0)], 10)
 					evt.Add{"PlayerBits", Value = 25}
 					Game.ShowStatusText("+10 Water, Fire, Air and Light resistances (permanent)")
 				end
@@ -592,7 +614,7 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 					evt.Add{"MindResistance", Value = 10}
 					evt.Add{"EarthResistance", Value = 10}
 					evt.Add{"BodyResistance", Value = 10}
-					addDarkRes(Party[math.max(Game.CurrentPlayer, 0)], 10)
+					addDarkRes(Party[max(Game.CurrentPlayer, 0)], 10)
 					evt.Add{"PlayerBits", Value = 26}
 					Game.ShowStatusText("+10 Mind, Earth, Body and Dark resistances (permanent)")
 				end
@@ -617,7 +639,7 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	table.insert(addTextFunctions, function(pl)
 		local tempL, permL, tempD, permD = getLightRes(pl, true), getLightRes(pl, false), getDarkRes(pl, true), getDarkRes(pl, false)
 		local aboveBaseL, aboveBaseD = tempL > permL, tempD > permD
-		return string.format(template, aboveBaseL and strGreen or "", tempL, aboveBaseL and strDefaultColor or "", permL,
+		return format(template, aboveBaseL and strGreen or "", tempL, aboveBaseL and strDefaultColor or "", permL,
 									 aboveBaseD and strGreen or "", tempD, aboveBaseD and strDefaultColor or "", permD)
 	end)
 else
@@ -664,7 +686,7 @@ function mergeMapItemsDump()
 			for k, v in Map.Objects do
 				if v.Item then
 					--table.insert(t, {k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name})
-					table.insert(outT, string.format("%s\t%d\t%d\t%s\t%d\t%d\t%d", Game.MapStats[prevI].FileName:lower(), k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name, v.X, v.Y, v.Z))
+					table.insert(outT, format("%s\t%d\t%d\t%s\t%d\t%d\t%d", Game.MapStats[prevI].FileName:lower(), k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name, v.X, v.Y, v.Z))
 				end
 			end
 		else
@@ -713,11 +735,16 @@ function changeChestItem(chest, index, item)
 	return false
 end
 
-function addChestItem(chest, item)
+function addChestItem(chest, item, count)
+	count = count or 1
+	local added = 0
 	for i, chestItem in Map.Chests[chest].Items do
 		if chestItem.Number == 0 then
 			changeChestItem(chest, i, item)
-			return true
+			added = added + 1
+			if added >= count then
+				return true
+			end
 		end
 	end
 	return false
@@ -800,25 +827,47 @@ function isPlayerImmuneToDispel(pl)
 	return playerHasSpcBonus(pl, rev4m.const.spcBonuses.permanence + 1)
 end
 
-autohook(0x40553A, function(d)
-	if isPartyImmuneToDispel() then
-		d:push(0x405551)
-		return true
-	end
-end)
+do
+	local change = {} -- will contain enchantment chances to change
 
-autohook(0x405560, function(d)
-	if isPlayerImmuneToDispel(Party[u4[d.ebp + 0x10]]) then
-		d:push(0x4055C9)
-		return true
-	end
-end)
+	if MS.Rev4ForMergeEnableDispelImmunityEnchantment == 1 then
+		change[rev4m.const.spcBonuses.permanence] = {0, 0, 0, 10, 20, 5, 5, 5, 5, 5, 15, 15}
+		
+		autohook(0x40553A, function(d)
+			if isPartyImmuneToDispel() then
+				d:push(0x405551)
+				return true
+			end
+		end)
 
--- item enchantment chances
-if MS.Rev4ForMergeEnableDispelImmunityEnchantment == 1 then
+		autohook(0x405560, function(d)
+			if isPlayerImmuneToDispel(Party[u4[d.ebp + 0x10]]) then
+				d:push(0x4055C9)
+				return true
+			end
+		end)
+	end
+
+	-- curse immunity enchantment
+	if MS.Rev4ForMergeEnableCurseImmunityEnchantment == 1 then
+		change[rev4m.const.spcBonuses.blessed] = {5, 5, 0, 10, 10, 5, 5, 5, 5, 5, 10, 5}
+
+		function events.DoBadThingToPlayer(t)
+			if t.Thing == const.MonsterBonus.Curse and playerHasSpcBonus(t.Player, rev4m.const.spcBonuses.blessed + 1) then
+				t.Allow = false
+			end
+		end
+
+		function events.SpcBonusIsPrefix(t)
+			if t.ItemBonusId == rev4m.const.spcBonuses.blessed + 1 then
+				t.Result = true
+			end
+		end
+	end
+
+	-- item enchantment chances
 	function events.GameInitialized2()
 		--W1	W2	Miss	Arm	Shld	Helm	Belt	Cape	Gaunt	Boot	Ring	Amul
-		local change = {[rev4m.const.spcBonuses.permanence] = {0, 0, 0, 10, 20, 5, 5, 5, 5, 5, 15, 15}}
 		changeSpcItemsChances(change, true)
 	end
 end
@@ -905,13 +954,13 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 				local maxBonus = 0
 				for item, slot in pl:EnumActiveItems(false) do
 					if item.Bonus == 21 then
-						maxBonus = math.max(maxBonus, item.BonusStrength)
+						maxBonus = max(maxBonus, item.BonusStrength)
 					end
 				end
 				if s * 4 + maxBonus > maxS then
 					maxS = s * 4 + maxBonus
 				end
-				maxM = math.max(maxM, m)
+				maxM = max(maxM, m)
 			end
 		end
 		d.eax, d.ecx = maxS, maxM
@@ -955,10 +1004,10 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 			local maxBonus = 0
 			for item, slot in pl:EnumActiveItems(false) do
 				if item.Bonus == 21 then
-					maxBonus = math.max(maxBonus, item.BonusStrength)
+					maxBonus = max(maxBonus, item.BonusStrength)
 				end
 			end
-			return true, math.round(damage * (1 + (s * skillDamageMul + 9 + maxBonus) / 100))
+			return true, round(damage * (1 + (s * skillDamageMul + 9 + maxBonus) / 100))
 		else
 			return false
 		end
@@ -1016,17 +1065,27 @@ else -- only makes identify monster shared skill, no other changes
 				local maxBonus = 0
 				for item, slot in pl:EnumActiveItems(false) do
 					if item.Bonus == 21 then
-						maxBonus = math.max(maxBonus, item.BonusStrength)
+						maxBonus = max(maxBonus, item.BonusStrength)
 					end
 				end
 				if s + maxBonus > maxS then
 					maxS = s + maxBonus
 				end
-				maxM = math.max(maxM, m)
+				maxM = max(maxM, m)
 			end
 		end
 		d.edi, d.eax = maxS, maxM
 	end)
+end
+
+-- remove stealing and buff monster stats to compensate
+if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
+	function events.GameInitialized2()
+		-- mm7 thieves
+		for power = 1, 3 do
+			local mon = Game.MonstersTxt
+		end
+	end
 end
 
 if MS.Rev4ForMergeNerfDrainSp == 1 then
@@ -1062,9 +1121,9 @@ function events.GameInitialized2()
 	-- changed resistance spell descriptions
 	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do
 		local sp = Game.SpellsTxt[v]
-		sp.Description = sp.Description:gsub("(your skill)", string.format("%d + %d * %%1", 5, 2))
+		sp.Description = sp.Description:gsub("(your skill)", format("%d + %d * %%1", 5, 2))
 		for i, idx in ipairs({"Normal", "Expert", "Master", "GM"}) do
-			sp[idx] = sp[idx]:gsub("%d point", string.format("%d + %d point", 5, i + 1))
+			sp[idx] = sp[idx]:gsub("%d point", format("%d + %d point", 5, i + 1))
 		end
 	end
 end
@@ -1124,7 +1183,7 @@ Dark      %d]]
 		for bonus = 60, 68 do
 			table.insert(t, getItemBonusSum(pl, bonus))
 		end
-		return string.format(template, unpack(t))
+		return format(template, unpack(t))
 	end)
 
 	-- allow res pen items to generate
@@ -1138,6 +1197,7 @@ Dark      %d]]
 	end
 	local invDamage = table.invert(const.Damage)
 	
+	local IMMUNE_MONSTER_RESISTANCE = 200
 	function getEffectiveResistance(mon, pl, damageType)
 		local res = mon.Resistances[damageType] or 0
 		--local initial = res
@@ -1153,12 +1213,12 @@ Dark      %d]]
 				res = res + buff.Power
 			end
 		end
-		if immune and math.max(res, 0) < const.MonsterImmune then
-			local reduction = const.MonsterImmune - math.max(res, 0)
+		if immune and max(res, 0) < const.MonsterImmune then
+			local reduction = const.MonsterImmune - max(res, 0)
 			res = IMMUNE_MONSTER_RESISTANCE - reduction
 		end
-		local val = math.max(math.min(res, const.MonsterImmune), 0)
-		--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, invDamage[damageType]))
+		local val = max(min(res, const.MonsterImmune), 0)
+		--debug.Message(format("Old: %d, new: %d, damage type: %q", initial, val, invDamage[damageType]))
 		return val
 	end
 
@@ -1214,12 +1274,12 @@ Dark      %d]]
 				local i, mon = internal.GetMonster(monsterAddr)
 				d.eax = getEffectiveResistance(mon, attackingPlayer, u4[d.ebp + 0xC])
 				attackingPlayer = nil
-				--debug.Message(string.format("Old: %d, new: %d, damage type: %q", initial, val, u4[d.ebp + 0xC]))
+				--debug.Message(format("Old: %d, new: %d, damage type: %q", initial, val, u4[d.ebp + 0xC]))
 			end
 		end)
 	end
 
-	-- damage
+	-- damage spells
 	do
 		local playerIdx, attackingPlayer, monsterIdx, attackedMonster
 		-- get player&monster with another hook to not rely on assumption that MMExt stack addresses won't change (hookfunction buries old stack addresses)
@@ -1377,7 +1437,7 @@ if not isEasy() then
 			if t.Monster.Resistances[t.DamageKind] and t.Monster.Resistances[t.DamageKind] == const.MonsterImmune then
 				m = 0
 			end
-			t.Result = math.max(m, isMedium() and math.round(t.Result * 0.85) or math.round(t.Result * 0.70))
+			t.Result = max(m, isMedium() and round(t.Result * 0.85) or round(t.Result * 0.70))
 		end
 	end
 	
@@ -1385,7 +1445,7 @@ if not isEasy() then
 	-- gold penalty for monsters is nullified in General/AdaptiveMonstersStats.lua, because it'd be way too low
 	if Merge.ModSettings.Rev4ForMergeNerfGoldGains == 1 then
 		function events.BeforeGotGold(t)
-			t.Amount = isMedium() and math.round(t.Amount * 0.75) or math.round(t.Amount * 0.50)
+			t.Amount = isMedium() and round(t.Amount * 0.75) or round(t.Amount * 0.50)
 		end
 	end
 end
@@ -1394,7 +1454,7 @@ end
 function refundSkillpoints(skill, freeSkillLevel)
 	for _, pl in Party do
 		local s, m = SplitSkill(pl.Skills[skill])
-		local level = math.min(s, freeSkillLevel)
+		local level = min(s, freeSkillLevel)
 		if level >= 2 then
 			local refund = level * (level + 1) / 2 - 1
 			pl.SkillPoints = pl.SkillPoints + refund
@@ -1408,11 +1468,11 @@ local reqSkill = {1, 4, 7, 10}
 function giveFreeSkill(skill, level, mastery, check)
 	if Merge.ModSettings.Rev4ForMergeNerfSkillBoosts == 1 then
 		if isMedium() then
-			level = math.max(reqSkill[mastery], level - 1)
-			--level = math.max(1, level - 1)
+			level = max(reqSkill[mastery], level - 1)
+			--level = max(1, level - 1)
 		elseif isHard() then
-			level = math.max(reqSkill[mastery], level - 2)
-			--level = math.max(1, level - 2)
+			level = max(reqSkill[mastery], level - 2)
+			--level = max(1, level - 2)
 		end
 	end
 
@@ -1428,7 +1488,7 @@ function giveFreeSkill(skill, level, mastery, check)
 		if level > s or mastery > m or (s >= 2 and Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1) then
 			benefit = true
 			evt[i].Add("Experience", 0) -- make sparkle sound and animation
-			pl.Skills[skill] = JoinSkill(math.max(level, s), math.max(m, mastery))
+			pl.Skills[skill] = JoinSkill(max(level, s), max(m, mastery))
 		end
 		::continue::
 	end
@@ -1470,7 +1530,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
 			for item, slot in t.Player:EnumActiveItems(false) do
 				if item.Bonus2 == 42 then
-					t.Result = t.Result + 4
+					t.Result = t.Result + 2
 				end
 			end
 		end
@@ -1489,7 +1549,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 	function events.GameInitialized2()
 		u4[0x5E4A54] = mem.topointer(GMDesc)
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
-		Game.SpcItemsTxt[41].BonusStat = "+5 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
+		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 	end
 end
 

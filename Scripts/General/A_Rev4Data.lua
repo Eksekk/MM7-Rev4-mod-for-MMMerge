@@ -4,6 +4,7 @@ rev4m.const = rev4m.const or {}
 rev4m.const.firstNewSpcBonus = 178
 rev4m.const.spcBonuses = rev4m.const.spcBonuses or {}
 rev4m.const.spcBonuses.permanence = rev4m.const.firstNewSpcBonus
+rev4m.const.spcBonuses.blessed = rev4m.const.firstNewSpcBonus + 1
 
 rev4m.const.firstNewPlaceMon = 196
 do

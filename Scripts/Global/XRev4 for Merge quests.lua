@@ -830,10 +830,8 @@ The second task is a personal favor for me. I need to prepare a spell far exceed
 				placeShardOfMana(2)
 			elseif Map.Name == "d02.blv" and (not mapvars.PlacedJars or mapvars.PlacedJars < 5) then -- the maze
 				mapvars.PlacedJars = mapvars.PlacedJars or 0
-				while mapvars.PlacedJars < 5 do
-					addChestItem(5, 1417) -- jar
-					mapvars.PlacedJars = mapvars.PlacedJars + 1
-				end
+				assert(addChestItem(5, 1417, 5 - mapvars.PlacedJars)) -- jar
+				mapvars.PlacedJars = 5
 			end
 		end
 

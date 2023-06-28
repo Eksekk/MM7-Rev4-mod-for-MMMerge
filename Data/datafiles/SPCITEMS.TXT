@@ -180,7 +180,8 @@ Placeholder	of Placeholding	0	0	0	0	0	0	0	0	0	0	0	0	500	A	Placeholder
 Placeholder	of Placeholding	0	0	0	0	0	0	0	0	0	0	0	0	500	A	Placeholder
 Placeholder	of Placeholding	0	0	0	0	0	0	0	0	0	0	0	0	500	A	Placeholder
 Placeholder	of Placeholding	0	0	0	0	0	0	0	0	0	0	0	0	500	A	Placeholder
-Immunity to Dispel Magic.	of Permanence	0	0	0	0	0	0	0	0	0	0	0	0	2000	C	Immunity to Dispel Magic
+Wearer resistant to Dispel Magic.	of Permanence	0	0	0	0	0	0	0	0	0	0	0	0	2000	C	immune to dispel magic
+Wearer resistant to Curse.	Blessed	0	0	0	0	0	0	0	0	0	0	0	0	1000	B	immune to curse condition
 
 		505	505	505	345	315	310	245	305	200	185	375	370			
 

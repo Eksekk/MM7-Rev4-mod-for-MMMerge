@@ -16,9 +16,8 @@ IMPORTANCE CATEGORIES:
 * if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
 * bolster in general, two todos are there
 * nerf faerie ring (and ghost ring)?
-* boost stone skin?
 * spawn something near tularean caverns
-* turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies
+* turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * mod settings option to reduce extra mapstats spawns a bit
 * buff most buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
 
@@ -26,7 +25,6 @@ playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
 * rocs in tularean (obelisk) are not hostile - AFTER RELOAD, map script? or mm8 reload bug where attacking monsters turns them friendly after reload
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
-* shield spell text still says that spell is bugged
 * couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
 * hostile map npcs and crossbowmen in tatalia without doing anything
 * move erathian sewers boss - gets killed by mobs
@@ -37,7 +35,7 @@ playthrough notes:
 * barrow VIII has wrong textures
 * too good items in chests in barrow II?
 * barrow levers wrong textures?
-* harmondale carnage bow was not removed
+* harmondale carnage bow was not removed - ??? works fine in new game
 
 -- those below are not needed for "first release" --
 
@@ -56,7 +54,6 @@ playthrough notes:
 * Boost weapon boosting potions
 * Boost some of statistics' effects (if boosted breakpoints active, then less); personality & intellect - boost spell damage?
 * spell damage opt-out
-* Difficulty: max npcs hired at the same time
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
@@ -794,6 +791,13 @@ end
 
 -- BALANCE CHANGES
 
+-- max NPCs hired at the same time
+do
+	local i, val = debug.findupvalue(NPCFollowers.HireNPC, "MaxHirelings")
+	-- 4/3/2 by default
+	debug.setupvalue(NPCFollowers.HireNPC, i, diffsel(val, max(val - 1, 1), max(val - 2, 1)))
+end
+
 -- dispel immunity enchantment
 
 -- there is built-in function for that in game code, but I don't want to search for MM8 version
@@ -1523,9 +1527,10 @@ end
 if MS.Rev4ForMergeBoostBaseAlchemySkill == 1 then
 	function events.GetSkill(t)
 		if t.Skill == const.Skills.Alchemy then
-			local sk = t.Player.Skills[const.Skills.Alchemy]
-			if sk > 0 then
-				t.Result = t.Result + sk
+			local lev = SplitSkill(t.Player.Skills[const.Skills.Alchemy])
+			if lev > 0 then
+				local rs, rm = SplitSkill(t.Result)
+				t.Result = JoinSkill(rs + lev, rm)
 			end
 		end
 	end
@@ -1585,7 +1590,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 		local count
 		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]
-		spellEntry.Description, count = spellEntry.Description:gsub("5 %+ 1", "5 %+ 2")
+		spellEntry.Description, count = spellEntry.Description:gsub("5 %+ 1 point", "5 %+ 2 points")
 		assert(count == 1, "Couldn't change stone skin spell description")
 	end
 end

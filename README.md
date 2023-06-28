@@ -24,6 +24,7 @@ Medium introduces:
 * Most maps have extra monster spawns, usually guarding most of currently free to explore locations. Note: some spawns are very difficult and are not intended to be fought right away. It's perfectly fine to just grab the loot and run away. Change Rev4ForMergeExtraMonsterSpawns option to anything other than 1 to disable.
 * Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 75% of original value.
 * Normal map spawnpoints spawn more monsters.
+* You can hire only 3 NPCs at the same time instead of 4.
 
 Hard introduces (see above how to disable specific changes):
 * even less powerful free skill boosts.
@@ -33,6 +34,7 @@ Hard introduces (see above how to disable specific changes):
 * extra monster spawns create more and stronger monsters than on Normal.
 * Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 50% of original value.
 * Normal map spawnpoints spawn even more monsters.
+* You can hire only 2 NPCs at the same time instead of 4.
 
 Note: by default item removal function replaces them with appropriate-leveled item of same type, still a bit stronger than what you would find normally, but not endgame-leveled. If you wish to annihilate them completely instead, change Rev4ForMergeRandomizeRemovedItems to anything other than 1.
 

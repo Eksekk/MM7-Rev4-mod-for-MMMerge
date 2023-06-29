@@ -15,10 +15,8 @@ IMPORTANCE CATEGORIES:
 ---- very important ----
 * if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
 * bolster in general, two todos are there
-* nerf faerie ring (and ghost ring)?
 * spawn something near tularean caverns
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
-* buff most player-buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 
 playthrough notes:
@@ -47,7 +45,6 @@ playthrough notes:
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
 * boost perception
-* remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * Boost weapon boosting potions
@@ -1102,6 +1099,15 @@ else -- only makes identify monster shared skill, no other changes
 	end)
 end
 
+-- nerf Faerie Ring and Ghost Ring (they now have only artifact-like bonus, ideally they'd have normal, but I couldn't hook into ExtraArtifacts.lua upvalues, and don't
+-- want to modify it directly)
+function events.GameInitialized2()
+	assert(Game.ItemsTxt[1347].Name == "Ghost Ring")
+	Game.ItemsTxt[1347].Bonus2 = 0
+	assert(Game.ItemsTxt[1348].Name == "Faerie Ring")
+	Game.ItemsTxt[1348].Bonus2 = 0
+end
+
 -- remove stealing and buff monster stats to compensate
 if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 	function events.GameInitialized2()
@@ -1130,7 +1136,20 @@ if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 			mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + power
 			mon.ArmorClass = mon.ArmorClass + power
 		end
+	end
+end
 
+-- buff player-buffing potions (5 + floor(power / 4))
+do
+	local buffAddresses = {0x466C75, 0x466CA1, 0x466D29, } -- heroism, bless, stoneskin
+	for _, addr in ipairs(buffAddresses) do
+		mem.asmpatch(addr, [[
+			fild dword [ebp-0xC]
+			mov eax,dword [0xB7CA68] ; potion power
+			shr eax, 2
+			add eax, 5
+			push eax
+		]])
 	end
 end
 

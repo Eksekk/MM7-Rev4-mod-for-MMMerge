@@ -160,7 +160,6 @@ local function replaceEnterEvent(num, t)
 	end
 end
 
-local oldPlacemonWromthrax, oldPlacemonMegaDragon
 function events.AfterLoadMap()
 	if Map.Name == "7out04.odm" then -- Tularean Forest
 		-- Tularean Caves
@@ -172,11 +171,26 @@ function events.AfterLoadMap()
 		replaceEnterEvent(502, {X = -3257, Y = -12544, Z = 833, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7d08orig.blv"})
 	elseif Map.Name == "7d08orig.blv" then -- Duplicated Tularean Caves
 		
+	elseif Map.Name == "7d12orig.blv" then -- Duplicated Clanker's Laboratory
+		-- remove clanker's amulet from evil eye, there is one in School of Sorcery
+		local clankersAmulet = 1339
+		if not cmpSetMapvarBool("clankersAmuletRemoved") then
+			local removed
+			for i, mon in Map.Monsters do
+				if mon.Item == clankersAmulet then
+					mon.Item = 0
+					removed = true
+					break
+				end
+			end
+			assert(removed, "Couldn't remove Clanker's Amulet from Evil Eye")
+		end
 	elseif Map.Name == "7out13.odm" then -- Tatalia
 		replaceEnterEvent(505, {X = -2568, Y = -143, Z = 97, Direction = 257, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "mdt09orig.blv"})
 	elseif Map.Name == "mdt09orig.blv" then -- Duplicated Wromthrax's Cave
 		-- always make Wromthrax visible
 		-- handled in map patches file
+
 		for i, mon in Map.Monsters do
 			if mon.NameId == 117 then -- wromthrax
 				mon.NameId = rev4m.placeMon.wromthrax

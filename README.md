@@ -53,6 +53,7 @@ Note: currently this usually means that these changes just affect balance, **not
 * Mana and hit points regeneration items now stack linearly, with each item providing larger bonus and including previous bonuses (they are +1 regen/+2 regen/+3 regen etc.) This makes them much more useful, especially if you use higher difficulty (less meditation regen). Set Rev4ForMergeManaHealthRegenStacking to anything other than 1 to disable.
 * "of Doom" enchantment now gives three times the bonus it was assigned. Hopefully this will sometimes make player consider using it rather than always selling like I did. ModSettings option to disable: Rev4ForMergeMiscBalanceChanges.
 * "of the Gods" now gives +25 to all stats. Option to disable as above.
+* Heroism, Bless and Stoneskin potions have been buffed. Now instead of 5 effect they provide 5 + floor(power / 4). Hopefully this will make them more usable.
 
 **Spells**:
 * Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.
@@ -86,6 +87,9 @@ I added five new quests:
 * There's also one requiring duplicated dungeons (more info below) to be enabled. You can guess what that means. It's intended for lategame, even at the level of killing Xenofex. You'll probably be able to experience an epic battle like the one already included in base Rev4 (and without severe annoyances like dispel magic or drainSP, unless I will add item bonuses protecting from them)
 * The fourth quest also requires duplicated dungeons, and is given in Nighon. Intended for midgame-lategame.
 * The fifth quest again requires duplicating dungeons and is given in Harmondale. Intended for midgame.
+
+# Changes from vanilla Merge/Revamp
+* Ghost Ring and Faerie Ring now only give +50% bonus instead of 100%. That was definitely too OP.
 
 # Some notes
 * Disarm trap expert only learnable in Erathian Sewers only applies to Antagarich RN, but I might change it in the future (it's easy to do), the same situation is with fire expert and master elemental magics (on Antagarich most require completing quest first, on other continents they don't).

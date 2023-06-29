@@ -76,7 +76,8 @@ playthrough notes:
 ---- minor ----
 * praying at tatalia altar displays message "home portal"
 * fix event 502 in d08.lua (doesn't cast torch light)
-* Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
+* Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring) - tried to fix, didn't work, all layers tested and either
+	button is in front or doesn't show at all
 * Boost loot in the Gauntlet?
 * Fort Riverstride delete plans item
 * Day of Protection giving a bit of dark/light resistance

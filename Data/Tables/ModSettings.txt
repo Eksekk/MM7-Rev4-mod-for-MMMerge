@@ -71,3 +71,6 @@ Rev4ForMergeEnableCurseImmunityEnchantment	1
 Rev4ForMergeBoostBaseAlchemySkill	1
 Rev4ForMergeRemoveMonsterStealing	1
 Rev4ForMergeReduceBuffsRecoveryOutOfCombat	1
+Rev4ForMergeSmallerMapstatsSpawnIncrease	0
+Rev4ForMergeDecreaseMaxHiredNpcAmount	1
+Rev4ForMergeRestrictMasteries	1

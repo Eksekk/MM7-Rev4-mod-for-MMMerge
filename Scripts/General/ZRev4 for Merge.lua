@@ -18,12 +18,12 @@ IMPORTANCE CATEGORIES:
 * nerf faerie ring (and ghost ring)?
 * spawn something near tularean caverns
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
-* mod settings option to reduce extra mapstats spawns a bit
 * buff most player-buffing potions like heroism and bless, hardcoded 5 is way too small bonus, something like 5 + [power:div(4)]? (Haste should be skipped, it's op already, maybe even nerf it)
+* if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
-* rocs in tularean (obelisk) are not hostile - AFTER RELOAD, map script? or mm8 reload bug where attacking monsters turns them friendly after reload
+* rocs in tularean (obelisk) are not hostile - AFTER RELOAD, map script? or mm8 reload bug where attacking friendly monsters turns them friendly again after reload
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
 * couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
 * hostile map npcs and crossbowmen in tatalia without doing anything
@@ -42,6 +42,7 @@ playthrough notes:
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
+* optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
@@ -49,15 +50,15 @@ playthrough notes:
 * remove extra clanker's amulet from duplicated dungeon (there is one in School of Sorcery)
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
-* limit GM to final promotion only, and M to final/first promotion only
 * Boost weapon boosting potions
 * Boost some of statistics' effects (if boosted breakpoints active, then less); personality & intellect - boost spell damage?
 * spell damage opt-out
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion like in default Merge quests
-* as above, but also include free skill barrels and NPC free skills (dark master/fire expert)
+* as above, but for free skill barrels and NPC free skills (dark master/fire expert)
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* disable wands generating without any charges
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * EASIER OPTION DONE: reduce buffs recovery if out of combat (better but harder option: allow ctrl-casting to affect whole party)
 * Add diffsels for all extra monster spawns and then make option to always spawn monsters, even in easy mode (disabled by default)
@@ -73,6 +74,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* praying at tatalia altar displays message "home portal"
 * fix event 502 in d08.lua (doesn't cast torch light)
 * Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring)
 * Boost loot in the Gauntlet?
@@ -128,66 +130,67 @@ function monUtils.spells(mon, sp1, sk1, ch1, sp2, sk2, ch2)
 	end
 end
 
-local function boostResistances(mon, amount)
+do
 	local cd = const.Damage
-	for i, v in ipairs({cd.Fire, cd.Air, cd.Water, cd.Earth, cd.Spirit, cd.Mind,
-		cd.Body, cd.Light, cd.Dark, cd.Phys}) do
-		mon.Resistances[v] = min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
+	function monUtils.boostResistances(mon, amount)
+		for i, v in ipairs({cd.Fire, cd.Air, cd.Water, cd.Earth, cd.Spirit, cd.Mind,
+			cd.Body, cd.Light, cd.Dark, cd.Phys}) do
+			mon.Resistances[v] = min(const.MonsterImmune, mon.Resistances[v] + (type(amount) == "table" and amount[i] or amount))
+		end
 	end
+	monUtils.resists = monUtils.boostResistances
 end
 
-monUtils.boostResistances = boostResistances
-monUtils.resists = boostResistances
+do
+	local spells =
+	{
+		{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
+		{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
+		{Spell = 15, Skill = 12, Mastery = const.Master, Chance = 40}, -- Sparks
+		{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
+		{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
+		{Spell = const.Spells.IceBolt, Skill = 8, Mastery = const.GM, Chance = 50},
+		{Spell = 32, Skill = 8, Mastery = const.Master, Chance = 20}, -- Ice Blast
+		{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
+		{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
+		{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
+		{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
+		{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
+		{Spell = const.Spells.ToxicCloud, Skill = 6, Mastery = const.GM, Chance = 30},
+	}
 
-local spells =
-{
-	{Spell = 2, Skill = 12, Mastery = const.GM, Chance = 50}, -- Fire Bolt
-	{Spell = 11, Skill = 4, Mastery = const.GM, Chance = 30}, -- Incinerate
-	{Spell = 15, Skill = 12, Mastery = const.Master, Chance = 40}, -- Sparks
-	{Spell = 18, Skill = 7, Mastery = const.GM, Chance = 40}, -- Lightning Bolt
-	{Spell = 24, Skill = 12, Mastery = const.Master, Chance = 50}, -- Poison Spray
-	{Spell = const.Spells.IceBolt, Skill = 8, Mastery = const.GM, Chance = 50},
-	{Spell = 32, Skill = 8, Mastery = const.Master, Chance = 20}, -- Ice Blast
-	{Spell = 37, Skill = 10, Mastery = const.GM, Chance = 50}, -- Deadly Swarm
-	{Spell = 39, Skill = 10, Mastery = const.GM, Chance = 40}, -- Blades
-	{Spell = 59, Skill = 7, Mastery = const.GM, Chance = 50}, -- Mind Blast
-	{Spell = 65, Skill = 7, Mastery = const.GM, Chance = 30}, -- Psychic Shock
-	{Spell = 76, Skill = 4, Mastery = const.GM, Chance = 30}, -- Flying Fist
-	{Spell = const.Spells.ToxicCloud, Skill = 6, Mastery = const.GM, Chance = 30},
-}
-
-local function randomGiveSpell(mon, useSpells)
-	useSpells = useSpells or spells
-	local roll = math.random(0, 2)
-	if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
-		return
-	end
-	local i = math.random(1, #useSpells)
-	local firstSpell = useSpells[i]
-	local addedFirst = false
-	if mon.Spell == 0 then
-		mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-		addedFirst = true
-	end
-	if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
-		return
-	end
-	if not addedFirst then
+	function monUtils.randomGiveSpell(mon, useSpells)
+		useSpells = useSpells or spells
+		local roll = math.random(0, 2)
+		if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
+			return
+		end
+		local i = math.random(1, #useSpells)
+		local firstSpell = useSpells[i]
+		local addedFirst = false
+		if mon.Spell == 0 then
+			mon.Spell, mon.SpellChance, mon.SpellSkill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+			addedFirst = true
+		end
+		if (roll <= 1 and addedFirst) or mon.Spell2 ~= 0 then
+			return
+		end
+		if not addedFirst then
+			local j
+			repeat
+				j = math.random(1, #useSpells)
+			until mon.Spell ~= useSpells[j].Spell
+			mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
+			return
+		end
 		local j
 		repeat
 			j = math.random(1, #useSpells)
-		until mon.Spell ~= useSpells[j].Spell
-		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
-		return
+		until firstSpell.Spell ~= useSpells[j].Spell
+		local secondSpell = useSpells[j]
+		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
 	end
-	local j
-	repeat
-		j = math.random(1, #useSpells)
-	until firstSpell.Spell ~= useSpells[j].Spell
-	local secondSpell = useSpells[j]
-	mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
 end
-monUtils.randomGiveSpell = randomGiveSpell
 
 local function randomGiveElementalAttack(mon)
 	local a1, a2 = mon.Attack1, mon.Attack2
@@ -299,7 +302,7 @@ local btnExtraData = CustomUI.CreateButton{
 	DynLoad = true,
 	X =	275,
 	Y =	33,
-	--Masked = true,
+	Masked = true,
 	Condition = function(t)
 		local show = Game.CurrentCharScreen == const.CharScreens.Stats
 		if show and Game.CurrentPlayer >= 0 then
@@ -367,6 +370,8 @@ local function moveLeft(amount)
 	end
 	mem.copy(monsterRightclickDataBuf + pos, replacement)
 end
+
+-- monster rightclick tooltip changes
 
 -- show spell skill in monster right click info
 
@@ -671,8 +676,8 @@ end
 function mergeMapItemsDump()
 	local file = io.open("Output map items merge.txt", "wb")
 	local prevI
-	i = 62
-	outT = {"Map name\tObject id\tItem number\tItem name\tX\tY\tZ"}
+	local i = 62
+	local outT = {"Map name\tObject id\tItem number\tItem name\tX\tY\tZ"}
 	local first = true
 	function fn()
 		if Game.CurrentScreen ~= const.Screens.Game then return end
@@ -790,9 +795,22 @@ function dispelMagic(unblockable)
 end
 
 -- BALANCE CHANGES
+-- restrict GM to 2nd promotion only, and M to 1st or 2nd (without promotion you can get at most expert)
+if MS.Rev4ForMergeRestrictMasteries == 1 then
+	function events.GameInitialized2()
+		for classId, skills in Game.Classes.Skills do
+			local tier = assert(Game.ClassesExtra[classId].Step)
+			local maxMastery = tier + 2
+			for skillId, val in skills do
+				skills[skillId] = min(val, maxMastery)
+			end
+		end
+		--events.Remove("BeforeLoadMap", 1)
+	end
+end
 
 -- max NPCs hired at the same time
-do
+if MS.Rev4ForMergeDecreaseMaxHiredNpcAmount == 1 then
 	local i, val = debug.findupvalue(NPCFollowers.HireNPC, "MaxHirelings")
 	-- 4/3/2 by default
 	debug.setupvalue(NPCFollowers.HireNPC, i, diffsel(val, max(val - 1, 1), max(val - 2, 1)))
@@ -1482,15 +1500,19 @@ end
 -- boost mapstats spawns depending on difficulty
 -- this is forced change because Merge makes game intrinsically easier with 5th PC
 function events.BeforeLoadMap()
+	local indexes = {"Mon1Low", "Mon1Hi", "Mon2Low", "Mon2Hi", "Mon3Low", "Mon3Hi"}
 	for i, v in Game.MapStats do
-		local indexes = {"Mon1Low", "Mon1Hi", "Mon2Low", "Mon2Hi", "Mon3Low", "Mon3Hi"}
+		local inc = TownPortalControls.MapOfContinent(i) == 2 and diffsel(1, 2, 3) or diffsel(2, 3, 5) -- 2 = Antagarich
+		if MS.Rev4ForMergeSmallerMapstatsSpawnIncrease == 1 then
+			inc = inc - 1
+		end
 		for j = 1, 5, 2 do
 			local minIdx = indexes[j]
 			local maxIdx = indexes[j + 1]
 			if --[[v[idx] > 0 and ]]v[maxIdx] > 0 and v[minIdx] ~= v[maxIdx] then -- I once adopted a rule that when both spawn values are equal, no boost happens
 			-- idk why, but I'll preserve it to not break anything
-				v[minIdx] = v[minIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(1, 2, 3) or diffsel(2, 3, 5)) -- 2 = Antagarich
-				v[maxIdx] = v[maxIdx] + (TownPortalControls.MapOfContinent(i) == 2 and diffsel(1, 2, 3) or diffsel(2, 3, 5))
+				v[minIdx] = v[minIdx] + inc
+				v[maxIdx] = v[maxIdx] + inc
 			end
 		end
 	end

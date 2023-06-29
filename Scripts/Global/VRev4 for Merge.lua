@@ -424,10 +424,9 @@ end
 if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in AfterLoadMap)
 -- could be after, but changing properties would need to be wrapped in transform function passed to pseudoSpawnpoint
 	function events.LoadMap()
-		if mapvars.Rev4ForMergeBossesSpawned then
+		if cmpSetMapvarBool("Rev4ForMergeBossesSpawned") then
 			return
 		end
-		mapvars.Rev4ForMergeBossesSpawned = true
 		
 		local makeHostile = {}
 		local function hostile(mon)
@@ -472,7 +471,7 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 			local mon = pseudoSpawnpoint{monster = 409, x = 6020, y = -3299, z = 1169, count = 1, powerChances = {0, 0, 100}, radius = 64, group = 51}[1]
 			mon.NameId = rev4m.placeMon.theOldestTitan
 			hpMul(mon, diffsel(2, 3, 3.5))
-			resists(mon, 20)
+			resists(mon, 40)
 			addDamage(mon, 2, 5)
 			acMul(mon, diffsel(1.2, 1.3, 1.4))
 			rewards(mon, 8, -7, 4)
@@ -488,7 +487,7 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 			mon.NameId = rev4m.placeMon.masterThiefAdvisor
 			hpMul(mon, diffsel(2, 2.5, 3))
 			resists(mon, 10)
-			damage(mon, diffsel("2d4+10", "3d4+8", "4d4+6"))
+			damage(mon, diffsel("2d4+10", "3d4+10", "4d4+10"))
 			rewards(mon, 5, -3, 2)
 			spells(mon, const.Spells.FireBolt, JoinSkill(7, const.Expert), 30)
 		elseif Map.Name == "d02.blv" then -- The Maze
@@ -727,7 +726,7 @@ local function chestsRev4ToMerge()
 	end
 end
 
-if not isEasy() and Merge.ModSettings.Rev4ForMergeRemoveFreeEndgameItems == 1 then
+if not isEasy() and MS.Rev4ForMergeRemoveFreeEndgameItems == 1 then
 	-- for k, v in Map.Objects do if v.Item then print(k, v.Item.Number, Game.ItemsTxt[v.Item.Number].Name) end end
 	-- defined in file General/ZRev4 for Merge.lua
 	-- local function randomizeAndSetCorrectType(id, level, typ)

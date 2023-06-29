@@ -23,8 +23,8 @@ Medium introduces:
 * all damage to monsters is decreased by 15% (set Rev4ForMergeNerfDamage option to anything other than 1 to disable it).
 * Most maps have extra monster spawns, usually guarding most of currently free to explore locations. Note: some spawns are very difficult and are not intended to be fought right away. It's perfectly fine to just grab the loot and run away. Change Rev4ForMergeExtraMonsterSpawns option to anything other than 1 to disable.
 * Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 75% of original value.
-* Normal map spawnpoints spawn more monsters.
-* You can hire only 3 NPCs at the same time instead of 4.
+* Normal map spawnpoints spawn more monsters. You can lower the amount a bit by setting Rev4ForMergeSmallerMapstatsSpawnIncrease to 1 (but still more will spawn than on easy).
+* You can hire only 3 NPCs at the same time instead of 4. To always allow 4, set Rev4ForMergeDecreaseMaxHiredNpcAmount to 0.
 
 Hard introduces (see above how to disable specific changes):
 * even less powerful free skill boosts.
@@ -33,7 +33,7 @@ Hard introduces (see above how to disable specific changes):
 * all damage to monsters decreased by 30%.
 * extra monster spawns create more and stronger monsters than on Normal.
 * Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 50% of original value.
-* Normal map spawnpoints spawn even more monsters.
+* Normal map spawnpoints spawn even more monsters. See above about option to set smaller spawns.
 * You can hire only 2 NPCs at the same time instead of 4.
 
 Note: by default item removal function replaces them with appropriate-leveled item of same type, still a bit stronger than what you would find normally, but not endgame-leveled. If you wish to annihilate them completely instead, change Rev4ForMergeRandomizeRemovedItems to anything other than 1.
@@ -43,6 +43,7 @@ In addition, I added bosses to some game areas, which are just single stronger m
 To compensate for difficulty a bit and allow stronger overall builds than on easy, experience gained from monsters is increased by 15% on medium and by 30% on hard.
 
 ## Other balance-affecting changes
+Note: currently this usually means that these changes just affect balance, **not** necessarily make things more balanced ;) I plan to fix this eventually.
 
 **Item bonuses**:
 * I added dark and light resistance item bonuses. They technically already worked, but nothing increased them. Hopefully clearing the Pit now won't be such headache :) Option to disable is Rev4ForMergeAddDarkLightResistances
@@ -52,7 +53,6 @@ To compensate for difficulty a bit and allow stronger overall builds than on eas
 * Mana and hit points regeneration items now stack linearly, with each item providing larger bonus and including previous bonuses (they are +1 regen/+2 regen/+3 regen etc.) This makes them much more useful, especially if you use higher difficulty (less meditation regen). Set Rev4ForMergeManaHealthRegenStacking to anything other than 1 to disable.
 * "of Doom" enchantment now gives three times the bonus it was assigned. Hopefully this will sometimes make player consider using it rather than always selling like I did. ModSettings option to disable: Rev4ForMergeMiscBalanceChanges.
 * "of the Gods" now gives +25 to all stats. Option to disable as above.
-* GM leather now gives skill * 4 elemental resistances. That hopefully will make GM actually worth getting. Option to disable as above.
 
 **Spells**:
 * Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.
@@ -62,6 +62,8 @@ To compensate for difficulty a bit and allow stronger overall builds than on eas
 **Skills**
 * Identify monster is completely remade in this mod. Not only you can always see full info, even on novice (if you have the skill), you also have increased chance per skill point to be able to. I changed that because ID monster being possibly useful only on GM annoyed me. Also, the highest skill level will be shared, so character with 1 skill or even without will still be able to identify if there's someone in party with enough skill level (or GM, which makes ID always work). You'll also be able to see reduced resistances (only for the identifying character!), if you enable resistance penetration, and skill/mastery of spells the monster casts. But the main selling point is, you'll now be able to perform critical hits by having ID monster! The chance is fixed and depends on mastery, and damage bonus depends on skill, mastery, and skill bonus (+IDMonster items). Note that in this case skill sharing (taking into account the highest among party) won't work, because it would obviously be OP (I don't know if it isn't OP already, will check that in the playthrough). So, now you have a reason to pursue ID monster on all characters! Obviously, this can be disabled with Rev4ForMergeRemakeIdentifyMonster option (put anything different than 1). ID monster mechanics will be as in vanilla, with few small differences: skill level and mastery will still be shared, extended spell info will be displayed and, if you enabled them, reduced resistances as well.
 * Base alchemy skill is boosted to add 2 * skill to potion strength. Item/NPC bonuses are still counted * 1. This is done to make investing in alchemy skill more useful (mastery alone is useful already). To disable, change Rev4ForMergeBoostBaseAlchemySkill to 0.
+* GM masteries are restricted to second promotion only, and M to first or second. That means before any promotion the max mastery you can learn will usually be Expert. To disable, set Rev4ForMergeRestrictMasteries to 0.
+* GM leather now gives skill * 4 elemental resistances. That hopefully will make GM actually worth getting. Option to disable as above. Option to disable is Rev4ForMergeMiscBalanceChanges.
 
 **Monsters**
 * DrainSP effect is nerfed in this mod, I found it too obnoxious. Now it reduces your mana by 25% of maximum each time it is applied, not less than zero, instead of zeroing it completely. The option to disable it is Rev4ForMergeNerfDrainSp.

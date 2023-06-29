@@ -592,8 +592,10 @@ function PrepareMapMon(mon)
 	]]
 	oldMonBackup.Experience = mon.Experience
 	mon.Experience = math.round(mon.Experience * diffsel(1, 1.15, 1.3))
-	oldMonBackup.TreasureDiceCount = mon.TreasureDiceCount
-	mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * diffsel(1, 4/3, 2)) -- make monster gold relatively constant on every difficulty
+	if Merge.ModSettings.Rev4ForMergeNerfGoldGains == 1 then
+		oldMonBackup.TreasureDiceCount = mon.TreasureDiceCount
+		mon.TreasureDiceCount = math.round(mon.TreasureDiceCount * diffsel(1, 4/3, 2)) -- make monster gold relatively constant on every difficulty
+	end
 end
 
 -- save old monster full HP to restore when loading saved game

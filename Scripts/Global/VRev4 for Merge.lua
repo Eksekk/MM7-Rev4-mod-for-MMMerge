@@ -917,3 +917,13 @@ function events.GetShopSellPriceMul(t)
 	if isEasy() then return end
 	t.Multiplier = isMedium() and 0.75 or 0.5
 end
+
+-- nerf Faerie Ring and Ghost Ring (they now have only normal spcbonus instead of normal spcbonus AND artifact bonus)
+do
+	local i, ArtifactBonuses = debug.findupvalue(Game.CountItemBonuses, "ArtifactBonuses")
+	assert(ArtifactBonuses)
+	assert(tlen(ArtifactBonuses[1347].SpellBonus) == 1) -- Ghost ring
+	ArtifactBonuses[1347].SpellBonus = nil
+	assert(tlen(ArtifactBonuses[1348].SpellBonus) == 1) -- Faerie ring
+	ArtifactBonuses[1348].SpellBonus = nil
+end

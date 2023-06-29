@@ -1099,15 +1099,6 @@ else -- only makes identify monster shared skill, no other changes
 	end)
 end
 
--- nerf Faerie Ring and Ghost Ring (they now have only artifact-like bonus, ideally they'd have normal, but I couldn't hook into ExtraArtifacts.lua upvalues, and don't
--- want to modify it directly)
-function events.GameInitialized2()
-	assert(Game.ItemsTxt[1347].Name == "Ghost Ring")
-	Game.ItemsTxt[1347].Bonus2 = 0
-	assert(Game.ItemsTxt[1348].Name == "Faerie Ring")
-	Game.ItemsTxt[1348].Bonus2 = 0
-end
-
 -- remove stealing and buff monster stats to compensate
 if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 	function events.GameInitialized2()

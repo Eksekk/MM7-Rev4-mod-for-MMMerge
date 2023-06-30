@@ -1,4 +1,6 @@
 local MS = Merge.ModSettings
+local pseudoSpawnpoint, replaceMapEvent = _G.pseudoSpawnpoint, _G.replaceMapEvent
+local changeChestItem, addChestItem, removeChestItem, findAndRemoveChestItem = _G.changeChestItem, _G.addChestItem, _G.removeChestItem, _G.findAndRemoveChestItem
 
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
 function events.CanCastTownPortal(t)
@@ -145,6 +147,7 @@ local correctTexts =
 	--["7nwcorig.blv"] = 
 	
 }
+
 function events.GetTransitionText(t)
 	local val = correctTexts[t.EnterMap:lower()]
 	if val then
@@ -153,11 +156,9 @@ function events.GetTransitionText(t)
 end
 
 local function replaceEnterEvent(num, t)
-	Game.MapEvtLines:RemoveEvent(num)
-	evt.map[num].clear()
-	evt.map[num] = function()
+	replaceMapEvent(num, function()
 		evt.MoveToMap(t)
-	end
+	end)
 end
 
 function events.AfterLoadMap()
@@ -497,13 +498,13 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 			
 		elseif Map.Name == "d01.blv" then -- The Erathian Sewers
 			-- Master Thief Advisor
-			local mon = pseudoSpawnpoint{monster = 256, x = 1105, y = 13164, z = -563, count = 1, powerChances = {0, 100, 0}, radius = 64, group = 0}[1]
+			local mon = pseudoSpawnpoint{monster = 256, x = 483, y = 14893, z = -55, count = 1, powerChances = {0, 100, 0}, radius = 64, group = 51}[1]
 			mon.NameId = rev4m.placeMon.masterThiefAdvisor
-			hpMul(mon, diffsel(2, 2.5, 3))
-			resists(mon, 10)
-			damage(mon, diffsel("2d4+10", "3d4+10", "4d4+10"))
-			rewards(mon, 5, -3, 2)
-			spells(mon, const.Spells.FireBolt, JoinSkill(7, const.Expert), 30)
+			hpMul(mon, diffsel(4, 4.5, 5))
+			resists(mon, {20, 20, 20, 20, 20, 20, 20, 0, 0, 0})
+			damage(mon, diffsel("3d4+10", "4d4+10", "5d4+10"))
+			rewards(mon, 5, {-3, 100, const.ItemType.Sword}, 2)
+			spells(mon, const.Spells.FireBolt, JoinSkill(diffsel(7, 9, 11), const.Expert), 40)
 		elseif Map.Name == "d02.blv" then -- The Maze
 			
 		elseif Map.Name == "d03.blv" then -- Castle Gloaming
@@ -919,6 +920,7 @@ function events.GetShopSellPriceMul(t)
 end
 
 -- nerf Faerie Ring and Ghost Ring (they now have only normal spcbonus instead of normal spcbonus AND artifact bonus)
+-- Ghost ring still has free preservation, but it's much harder to obtain than faerie ring so it may stay
 do
 	local i, ArtifactBonuses = debug.findupvalue(Game.CountItemBonuses, "ArtifactBonuses")
 	assert(ArtifactBonuses)

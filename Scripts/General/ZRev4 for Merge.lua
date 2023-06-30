@@ -25,7 +25,6 @@ playthrough notes:
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
 * couldn't complete pipes quest on first visit to faerie king, walking into his radius second time worked
 * hostile map npcs and crossbowmen in tatalia without doing anything
-* move erathian sewers boss - gets killed by mobs
 * castle harmondale door at the top to upper level is opened - missing doors?, also shadow bugs
 * courier quests further bugged - some people you need to talk to behave as if you already visited objective giver. Perhaps lack of evt.Cmp("Inventory", ...)?
 * barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
@@ -1217,7 +1216,7 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 	mem.asmpatch(0x48D501, "call absolute " .. nerfDrainsp)
 end
 
--- buff single-element resistance spells (10 fixed + 2/3/4/5 per skill point)
+-- buff single-element resistance spells (5 fixed + 2/3/4/5 per skill point)
 function events.GameInitialized2()
 	-- changed resistance spell descriptions
 	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do

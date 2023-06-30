@@ -40,7 +40,7 @@ playthrough notes:
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
-* GM cure weakness should work on whole party
+* GM cure weakness and remove fear should work on whole party
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
@@ -276,7 +276,7 @@ local extraAttributesText = CustomUI.CreateText{
 	end
 }
 
-extraDataText = CustomUI.CreateText{
+local extraDataText = CustomUI.CreateText{
 	Text = "",
 	X = 110,
 	Y = 100,

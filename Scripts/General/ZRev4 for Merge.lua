@@ -1587,7 +1587,7 @@ function giveFreeSkill(skill, level, mastery, check)
 		end
 	end
 
-	if Merge.ModSettings.Rev4ForMergeRefundSkillpoints == 1 then
+	if MS.Rev4ForMergeRefundSkillpoints == 1 then
 		refundSkillpoints(skill, level)
 	end
 	local benefit = false
@@ -1626,13 +1626,9 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		-- make GM leather actually give decent resistances
 		if t.Stat >= const.Stats.FireResistance and t.Stat <= const.Stats.EarthResistance then
 			local s, m = SplitSkill(t.Player:GetSkill(const.Skills.Leather))
-			if m == const.GM and t.Player.ItemArmor ~= 0 then
-				for item, slot in t.Player:EnumActiveItems(false) do
-					if slot == const.ItemSlot.Armor and item:T().Skill == const.Skills.Leather then
-						t.Result = t.Result + s * 3
-						break
-					end
-				end
+			local item = t.Player:GetActiveItem(const.ItemSlot.Armor)
+			if m == const.GM and item and item:T().Skill == const.Skills.Leather then
+				t.Result = t.Result + s * 3
 			end
 		end
 	end
@@ -1683,6 +1679,19 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		assert(count == 1, "Couldn't change paralyze spell description")
 	end
 end
+
+-- try to write down which values correspond to which actions, probably fruitless if mmext didn't expose them (might be complicated),
+-- but I want to try anyways
+
+const.Actions = {
+	SelectSpellTarget = 0x40,
+	ClickSpellbookSpell = 0x51,
+	MouseOverCharacter = 0x59,
+	OpenSpellbook = 0x64,
+	-- can be click, press 1-5, and can be on currently selected player
+	-- after clicking, game calls function to process casted spell (in case player was clicked on to cast on him)
+	SwitchCharacter = 0x69, -- param: player index from 1
+}
 
 -- for testing
 --[[

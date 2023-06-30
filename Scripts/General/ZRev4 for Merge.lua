@@ -255,7 +255,7 @@ function monUtils.acMul(mon, mul)
 end
 
 -- contains functions f(pl), which receive player as argument and return text which is shown in "extra attributes" tooltip
-local addTextFunctions = {}
+local addTextFunctions = tget(rev4m, "addTextFunctions")
 
 local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to understand StrColor
 local strRed = "\f63488"
@@ -273,11 +273,11 @@ local extraAttributesText = CustomUI.CreateText{
 	end
 }
 
-local extraDataText = CustomUI.CreateText{
+extraDataText = CustomUI.CreateText{
 	Text = "",
 	X = 110,
 	Y = 100,
-	Width = 300,
+	Width = 350,
 	Screen = const.Screens.Inventory,
 	Active = false,
 	Condition = function(t)
@@ -309,6 +309,10 @@ local btnExtraData = CustomUI.CreateButton{
 				text = text .. v(pl) .. (i ~= #addTextFunctions and "\n\n" or "")
 			end
 			extraDataText.Text = text
+			--debug.Message(format("%q", text))
+			--local LinesCount = table.maxn(string.split(text, "\n"))
+			--debug.Message(LinesCount)
+			--extraDataText.Ht = 16*LinesCount*2
 		else
 			extraDataText.Active = false
 		end
@@ -634,7 +638,7 @@ if MS.Rev4ForMergeAddDarkLightResistances == 1 then
 	end
 	
 	-- add way to check new resistances
-	local template = "Extra resistances\nLight resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
+	local template = "\f30316Extra resistances\f00000\nLight resistance      %s%d%s / %d\nDark resistance      %s%d%s / %d"
 	table.insert(addTextFunctions, function(pl)
 		local tempL, permL, tempD, permD = getLightRes(pl, true), getLightRes(pl, false), getDarkRes(pl, true), getDarkRes(pl, false)
 		local aboveBaseL, aboveBaseD = tempL > permL, tempD > permD
@@ -1268,7 +1272,7 @@ if MS.Rev4ForMergeAddResistancePenetration == 1 then
 	local damageTypeToPenetrationBonus = {[cd.Fire] = 0, [cd.Air] = 1, [cd.Water] = 2, [cd.Earth] = 3,
 		[cd.Spirit] = 4, [cd.Mind] = 5, [cd.Body] = 6, [cd.Light] = 7, [cd.Dark] = 8}
 	
-		local template = [[Spell resistance penetration
+		local template = "\f43421Spell resistance penetration\f00000\r\n" .. [[
 Fire      %d
 Air      %d
 Water      %d

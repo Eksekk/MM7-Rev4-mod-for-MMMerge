@@ -174,12 +174,23 @@ local function getRange(str)
 	return min, max
 end
 
+local function calcStatDamageMul(pl)
+	local stats = pl:GetIntellect() + pl:GetPersonality()
+	return 0.01 * (stats / 10) -- every 10 points gives extra 1% damage
+end
+
 local function calcStatDamageBonus(pl, damage)
 	if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellDamage == 1 then
-		local stats = pl:GetFullIntellect() + pl:GetFullPersonality()
-		damage = damage + math.round(damage * 0.01 * (stats / 10)) -- every 10 points gives extra 1% damage
+		damage = damage + math.round(damage * calcStatDamageMul(pl))
 	end
 	return damage
+end
+
+if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellDamage == 1 then
+	table.insert(tget(rev4m, "addTextFunctions"), function(pl)
+		local percentage = calcStatDamageMul(pl) * 100
+		return string.format("Extra spell damage from personality\r\n and intellect: %.1f%%", percentage)
+	end)
 end
 
 function events.CalcSpellDamage(t)

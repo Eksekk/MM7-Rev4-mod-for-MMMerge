@@ -47,7 +47,7 @@ playthrough notes:
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * Boost weapon boosting potions
-* Boost some of statistics' effects (if boosted breakpoints active, then less); personality & intellect - boost spell damage?
+* Boost some of statistics' effects (if boosted breakpoints active, then less)
 * spell damage opt-out
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion like in default Merge quests
 * as above, but for free skill barrels and NPC free skills (dark master/fire expert)

@@ -1,3 +1,4 @@
+local MS = Merge.ModSettings
 local spellsDamage =
 {
 	[2] = -- Fire Bolt
@@ -173,22 +174,38 @@ local function getRange(str)
 	return min, max
 end
 
+local function calcStatDamageBonus(pl, damage)
+	if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellDamage == 1 then
+		local stats = pl:GetFullIntellect() + pl:GetFullPersonality()
+		damage = damage + math.round(damage * 0.01 * (stats / 10)) -- every 10 points gives extra 1% damage
+	end
+	return damage
+end
+
 function events.CalcSpellDamage(t)
 	local entry = spellsDamage[t.Spell]
-	if not entry then return end
-	local s, m = SplitSkill(t.Skill)
-	if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
-		local min, max = getRange(entry.DamagePerSkill)
-		t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
-	else
-		local entry2 = nil
-		while m <= const.GM and not entry2 do
-			entry2 = entry[m]
-			m = m + 1
+	if entry then
+		local s, m = SplitSkill(t.Skill)
+		if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
+			local min, max = getRange(entry.DamagePerSkill)
+			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
+		else
+			local entry2 = nil
+			while m <= const.GM and not entry2 do
+				entry2 = entry[m]
+				m = m + 1
+			end
+			assert(entry2)
+			entry = entry2
+			local min, max = getRange(entry.DamagePerSkill)
+			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
 		end
-		assert(entry2)
-		entry = entry2
-		local min, max = getRange(entry.DamagePerSkill)
-		t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
 	end
+
+	-- stat damage bonus
+	local data = WhoHitMonster()
+	if data and data.Player then
+		t.Result = calcStatDamageBonus(data.Player, t.Result)
+	end
+	return
 end

@@ -402,12 +402,12 @@ end
 evt.hint[505] = evt.str[2]  -- "Leave Thunderfist Mountain"
 Game.MapEvtLines:RemoveEvent(505)
 evt.map[505] = function()
-	evt.MoveToMap{X = 9350, Y = -1010, Z = 1, Direction = 744, LookAngle = 0, SpeedZ = 0, HouseId = -1, Icon = 3, Name = "7D35.blv"}         -- "Nighon Tunnels"
+	evt.MoveToMap{X = 9350, Y = -1010, Z = 1, Direction = 744, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D35.blv"}         -- "Nighon Tunnels"
 end
 
 evt.hint[506] = evt.str[2]  -- "Leave Thunderfist Mountain"
 Game.MapEvtLines:RemoveEvent(506)
 evt.map[506] = function()
-	evt.MoveToMap{X = -437, Y = -1078, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = -1, Icon = 3, Name = "7D36.blv"}         -- "Tunnels to Eeofol"
+	evt.MoveToMap{X = -437, Y = -1078, Z = 1, Direction = 256, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D36.blv"}         -- "Tunnels to Eeofol"
 end
 

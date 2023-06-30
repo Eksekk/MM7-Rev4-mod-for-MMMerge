@@ -309,7 +309,7 @@ Timer(evt.map[456].last, 3.5*const.Minute)
 evt.hint[501] = evt.str[2]  -- "Leave the Cave"
 Game.MapEvtLines:RemoveEvent(501)
 evt.map[501] = function()
-	evt.MoveToMap{X = -4324, Y = 1811, Z = 3905, Direction = 172, LookAngle = 0, SpeedZ = 0, HouseId = -1, Icon = 3, Name = "7D07.blv"}         -- "Thunderfist Mountain"
+	evt.MoveToMap{X = -4324, Y = 1811, Z = 3905, Direction = 172, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 3, Name = "7D07.blv"}         -- "Thunderfist Mountain"
 end
 
 evt.hint[502] = evt.str[2]  -- "Leave the Cave"

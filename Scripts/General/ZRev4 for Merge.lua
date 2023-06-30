@@ -33,12 +33,14 @@ playthrough notes:
 * too good items in chests in barrow II?
 * barrow levers wrong textures?
 * harmondale carnage bow was not removed - ??? works fine in new game
+* travelling to harmondale from EI (second time) breaks interface
 
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
+* GM cure weakness should work on whole party
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
@@ -70,6 +72,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* Grayface patch introduces different transition text for nighon tunnels -> thunderfist mountain, include it?
 * praying at tatalia altar displays message "home portal"
 * fix event 502 in d08.lua (doesn't cast torch light)
 * Extra data attribute text & button are in front of tooltips (for example rightclick over a character's ring) - tried to fix, didn't work, all layers tested and either

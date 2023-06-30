@@ -99,3 +99,12 @@ I added five new quests:
 * This mod incorporates some optional fixes from GrayFace's patch, namely fixes Bracada teleporters so instead of two teleporting to temple one teleports to shops. Also dock teleporter is fixed to teleport on the ground so you don't take fall damage upon moving forward.
 * Since Rev4 uses some item graphics&descriptions from MM8/MM6, when using it in Merge some items would be duplicated. I opted for restoring original MM7 look&description in such cases.
 * Harmondale Teleportal Hub is made modern and less cumbersome to use. Now it might be faster to actually use the hub than stables, because it doesn't anymore require key juggling to get to desired location - you can select it directly.
+
+# Credits
+* '''cthscr''' (helping me in various issues)
+* CognitiveDesign (helping me in various issues)
+* GrayFace (helping me in various issues). This mod also makes heavy use of various tools for MM6-8 modding made by Grayface (especially scripting).
+* kromz (playtesting and bug hunting)
+* some ideas <del>stolen from</del> inspired by Elemental Mod for MM7, MM7 Reimagined and MM7 Refilled for the Merge
+
+Big thank you to everyone on this list, without you this mod couldn't be created!

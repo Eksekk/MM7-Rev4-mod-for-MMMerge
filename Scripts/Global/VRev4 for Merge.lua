@@ -92,7 +92,7 @@ end
 NPCTopic
 {
 	Branch = "Rev4ForMergeHarmondaleTeleportalHubFirstPartOfLocations",
-	Ungive = function() QuestBranchScreen("Rev4ForMergeHarmondaleTeleportalHubSecondPartOfLocations") end,
+	Ungive = function() QuestBranch("Rev4ForMergeHarmondaleTeleportalHubSecondPartOfLocations") end,
 	Slot = 3,
 	NPC = hubNPCID,
 	"More destinations"

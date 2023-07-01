@@ -68,6 +68,7 @@ Note: currently this usually means that these changes just affect balance, **not
 * Base alchemy skill is boosted to add 2 * skill to potion strength. Item/NPC bonuses are still counted * 1. This is done to make investing in alchemy skill more useful (mastery alone is useful already). To disable, change Rev4ForMergeBoostBaseAlchemySkill to 0.
 * GM masteries are restricted to second promotion only, and M to first or second. That means before any promotion the max mastery you can learn will usually be Expert. To disable, set Rev4ForMergeRestrictMasteries to 0.
 * GM leather now gives skill * 4 elemental resistances. That hopefully will make GM actually worth getting. Option to disable as above. Option to disable is Rev4ForMergeMiscBalanceChanges.
+* Perception now gives you a chance to completely avoid being affected by monster bonuses (only for the character that has the skill). Chance increases both with skill and mastery. Some example chances: 1 Novice = 5.5%, 4 Expert = 22%, 7 Master = 41.86%, 10 Grandmaster = 64.33%, 19 Grandmaster = 98.68%. Skill bonuses are factored in, but only as if they were on Novice. To disable, set Rev4ForMergeBoostPerception to 0.
 
 **Monsters**
 * DrainSP effect is nerfed in this mod, I found it too obnoxious. Now it reduces your mana by 25% of maximum each time it is applied, not less than zero, instead of zeroing it completely. The option to disable it is Rev4ForMergeNerfDrainSp.

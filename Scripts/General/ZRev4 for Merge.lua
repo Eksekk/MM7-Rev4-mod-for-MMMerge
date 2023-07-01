@@ -1,6 +1,6 @@
 local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
 local hook, autohook, autohook2, asmpatch = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch
-local max, min, round = math.max, math.min, math.round
+local max, min, round, random = math.max, math.min, math.round, math.random
 local format = string.format
 local MS = Merge.ModSettings
 
@@ -48,7 +48,6 @@ playthrough notes:
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
-* boost perception - GIVES CHANCE TO AVOID MONSTER BONUS
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * Boost weapon boosting potions
@@ -108,24 +107,26 @@ function monUtils.hp(mon, hp)
 	mon.FullHP, mon.HP = hp, hp
 end
 
-local function rItem(mon, item, chance, typ)
-	if item then
-		if item >= 0 then
-			evt.SetMonsterItem{Monster = mon:GetIndex(), Item = item, Has = true}
-		else
-			mon.TreasureItemLevel, mon.TreasureItemPercent, mon.TreasureItemType = -item, chance or 100, typ or const.ItemType.Any
+do
+	local function rItem(mon, item, chance, typ)
+		if item then
+			if item >= 0 then
+				evt.SetMonsterItem{Monster = mon:GetIndex(), Item = item, Has = true}
+			else
+				mon.TreasureItemLevel, mon.TreasureItemPercent, mon.TreasureItemType = -item, chance or 100, typ or const.ItemType.Any
+			end
 		end
 	end
-end
 
-function monUtils.rewards(mon, expMul, item, moneyMul)
-	mon.Experience = round(mon.Experience * expMul)
-	if type(item) == "table" then
-		rItem(mon, unpack(item))
-	else
-		rItem(mon, item)
+	function monUtils.rewards(mon, expMul, item, moneyMul)
+		mon.Experience = round(mon.Experience * expMul)
+		if type(item) == "table" then
+			rItem(mon, unpack(item))
+		else
+			rItem(mon, item)
+		end
+		mon.TreasureDiceCount = round(mon.TreasureDiceCount * moneyMul)
 	end
-	mon.TreasureDiceCount = round(mon.TreasureDiceCount * moneyMul)
 end
 
 function monUtils.spells(mon, sp1, sk1, ch1, sp2, sk2, ch2)
@@ -168,11 +169,11 @@ do
 
 	function monUtils.randomGiveSpell(mon, useSpells)
 		useSpells = useSpells or spells
-		local roll = math.random(0, 2)
+		local roll = random(0, 2)
 		if roll == 0 or (mon.Spell ~= 0 and mon.Spell2 ~= 0) then
 			return
 		end
-		local i = math.random(1, #useSpells)
+		local i = random(1, #useSpells)
 		local firstSpell = useSpells[i]
 		local addedFirst = false
 		if mon.Spell == 0 then
@@ -185,14 +186,14 @@ do
 		if not addedFirst then
 			local j
 			repeat
-				j = math.random(1, #useSpells)
+				j = random(1, #useSpells)
 			until mon.Spell ~= useSpells[j].Spell
 			mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = firstSpell.Spell, firstSpell.Chance or 30, JoinSkill(firstSpell.Skill, firstSpell.Mastery)
 			return
 		end
 		local j
 		repeat
-			j = math.random(1, #useSpells)
+			j = random(1, #useSpells)
 		until firstSpell.Spell ~= useSpells[j].Spell
 		local secondSpell = useSpells[j]
 		mon.Spell2, mon.Spell2Chance, mon.Spell2Skill = secondSpell.Spell, secondSpell.Chance or 30, JoinSkill(secondSpell.Skill, secondSpell.Mastery)
@@ -205,24 +206,24 @@ local function randomGiveElementalAttack(mon)
 		if a2.DamageDiceCount ~= 0 then
 			return
 		end
-		a2.Type = math.random(0, 7)
+		a2.Type = random(0, 7)
 		if a2.Type > 3 then
-			a2.Type = math.random(9, 10)
+			a2.Type = random(9, 10)
 		end
-		a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
+		a2.DamageDiceCount, a2.DamageDiceSides, a2.DamageAdd, a2.Missile = random(3, diffsel(3, 4, 5)), random(3, diffsel(3, 4, 5)), random(2, diffsel(5, 7, 10)) * 3, a2.Type + 3
 		mon.Attack2Chance = 50
 		return
 	end
-	a1.Type = math.random(0, 7)
+	a1.Type = random(0, 7)
 	if a1.Type > 3 then
-		a1.Type = math.random(9, 10)
+		a1.Type = random(9, 10)
 	end
-	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = math.random(3, diffsel(3, 4, 5)), math.random(3, diffsel(3, 4, 5)), math.random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
+	a1.DamageDiceCount, a1.DamageDiceSides, a1.DamageAdd, a1.Missile = random(3, diffsel(3, 4, 5)), random(3, diffsel(3, 4, 5)), random(2, diffsel(5, 7, 10)) * 3, a1.Type + 3
 end
 monUtils.randomGiveElementalAttack = randomGiveElementalAttack
 
 local function randomBoostResists(mon)
-	boostResistances(mon, math.random(1, diffsel(3, 5, 7)) * 5)
+	boostResistances(mon, random(1, diffsel(3, 5, 7)) * 5)
 end
 monUtils.randomBoostResists = randomBoostResists
 
@@ -822,11 +823,21 @@ end
 -- perception gives chance to avoid monster bonuses
 -- alternative way: make it increase item drop chance, as in elemental mod
 if MS.Rev4ForMergeBoostPerception == 1 then
-	function events.DoBadThingToPlayer(t)
-		local skillBase, masteryBase = SplitSkill(t.Player.Skills[const.Skills.Perception])
-		local skillFull, masteryFull = SplitSkill(t.Player:GetSkill(const.Skills.Perception))
+	local function bonusPercentageChance(pl)
+		local skillBase, masteryBase = SplitSkill(pl.Skills[const.Skills.Perception])
+		local skillFull, masteryFull = SplitSkill(pl:GetSkill(const.Skills.Perception))
 		local skillBonus = skillFull - skillBase
 
+		-- multiplying by masteryFull takes advantage of "increases skill mastery" bonuses
+		-- only inherent skill level is multiplied, skill bonus counts as on Novice
+		local chance = skillBase * masteryFull + skillBonus
+		assert(chance > 0) -- shouldn't be run at all if player doesn't have skill
+		-- random formula I made
+		local percentChance = (5.5 * chance / (chance ^ (1/3)))
+		return percentChance
+	end
+	
+	function events.DoBadThingToPlayer(t)
 		local playerIndex
 		for i, pl in Party do
 			if pl.RosterBitIndex == t.Player.RosterBitIndex then
@@ -834,14 +845,11 @@ if MS.Rev4ForMergeBoostPerception == 1 then
 				break
 			end
 		end
-
-		-- multiplying by masteryFull takes advantage of "increases skill mastery" bonuses
-		-- only inherent skill level is multiplied, skill bonus counts as on Novice
-		local chance = skillBase * masteryFull + skillBonus
-		-- random formula I made
-		local percentChance = (5.5 * chance / (chance ^ (1/3))) / 100
-		local msg = format("player %d, chance '%d', percent chance '%.2f'", playerIndex, chance, percentChance)
-		if math.random() <= percentChance then
+		local chance = bonusPercentageChance(t.Player)
+		if chance <= 0 then return end
+		local chance01 = chance / 100
+		local msg = format("player %d, chance '%.2f'", playerIndex, chance01)
+		if random() <= chance01 then
 			t.Allow = false
 			msg = msg .. ", avoided"
 			Game.ShowStatusText(format("%s avoids monster special effect", t.Player.Name))
@@ -856,6 +864,16 @@ if MS.Rev4ForMergeBoostPerception == 1 then
 		Game.SkillDescriptions[const.Skills.Perception] = "The perception skill gives your characters a chance to notice hidden doors and traps, avoid damage from traps when they are triggered, and avoid monsters' special effects (chance increases with skill and mastery). At expert and master levels, your characters will notice more. Grandmasters will see all hidden objects."
 		Game.SkillDescriptionsNovice[const.Skills.Perception] = "Skill increases chance to avoid traps, notice treasures and avoid monster bonuses"
 		Game.SkillDescriptionsGM[const.Skills.Perception] = "100% success to notice secrets and avoid trap damage. Highest chance to avoid monster bonuses."
+	end
+
+	-- rightclick information
+	function events.BuildSkillInformationBox(t)
+		if t.Skill == const.Skills.Perception then
+			local chance = bonusPercentageChance(t.Player)
+			local str = t.IncludesBonus and "\n\n" or "\n"
+			str = str .. format("Chance to avoid monster special effects: %.2f%%", chance)
+			t.ExtraText = str
+		end
 	end
 end
 
@@ -888,7 +906,7 @@ function isPartyImmuneToDispel()
 		end
 	end
 	-- (bonus count / party size)% chance of being immune to dispel
-	local roll = math.random(1, Party.Count)
+	local roll = random(1, Party.Count)
 	return roll <= count
 end
 
@@ -1071,7 +1089,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
 		if s == 0 then return false end
 		local chance = critChances[m]
-		local roll = math.random(1, 100)
+		local roll = random(1, 100)
 		if roll <= chance then
 			local skillDamageMul = assert(skillDamageMultipliers[m])
 			local maxBonus = 0

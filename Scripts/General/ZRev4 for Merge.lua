@@ -48,7 +48,7 @@ playthrough notes:
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
 * titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
-* boost perception
+* boost perception - GIVES CHANCE TO AVOID MONSTER BONUS
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * Boost weapon boosting potions
@@ -59,6 +59,7 @@ playthrough notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* localizations for my new texts (for example identify monster descriptions)?
 * ENHANCED STAT TOOLTIPS: show what contributes to stat (for example might: well bonus 20, day of the gods 35, base 15, items 60, condition -30, potion 90) plus other relevant info
 	(examples: rightclick hp show hp from endurance, body building, items; resistance show average damage reduction)
 * show more spell info on buff rightclick (mainly power)
@@ -815,7 +816,35 @@ if MS.Rev4ForMergeRestrictMasteries == 1 then
 				skills[skillId] = min(val, maxMastery)
 			end
 		end
-		--events.Remove("BeforeLoadMap", 1)
+	end
+end
+
+-- perception gives chance to avoid monster bonuses
+-- alternative way: make it increase item drop chance, as in elemental mod
+if MS.Rev4ForMergeBoostPerception == 1 then
+	function events.DoBadThingToPlayer(t)
+		local skillBase, masteryBase = SplitSkill(t.Player.Skills[const.Skills.Perception])
+		local skillFull, masteryFull = SplitSkill(t.Player:GetSkill(const.Skills.Perception))
+		local skillBonus = skillFull - skillBase
+
+		-- multiplying by masteryFull takes advantage of "increases skill mastery" bonuses
+		-- only inherent skill level is multiplied, skill bonus counts as on Novice
+		local chance = skillBase * masteryFull + skillBonus
+		debug.Message(chance)
+		-- random formula I made
+		local percentChance = (5.5 * chance / (x ^ (1/3))) / 100
+		if math.random() <= percentChance then
+			debug.Message(format("chance '%d', percent chance '%.2f', avoided", chance, percentChance))
+			t.Allow = false
+			--Game.ShowStatusText("")
+		end
+	end
+
+	-- skill descriptions
+	function events.GameInitialized2()
+		Game.SkillDescriptions[const.Skills.Perception] = "The perception skill gives your characters a chance to notice hidden doors and traps, avoid damage from traps when they are triggered, and avoid monsters' special effects (chance increases with skill and mastery). At expert and master levels, your characters will notice more. Grandmasters will see all hidden objects."
+		Game.SkillDescriptionsNovice[const.Skills.Perception] = "Skill increases chance to avoid traps, notice treasures and avoid monster bonuses"
+		Game.SkillDescriptionsGM[const.Skills.Perception] = "100% success to notice secrets and avoid trap damage. Highest chance to avoid monster bonuses."
 	end
 end
 
@@ -1075,7 +1104,6 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	
 	local IdMonsterDescriptions =
 	{
-		"The identify monster skill is applied when you right-click on a monster. If you have high enough skill, all information about the monster will be revealed. It also allows you to perform critical hits with melee/ranged attacks and spells.",
 		"Critical hit chance: 2%, extra damage: skill + 9%",
 		"Critical hit chance: 5%, extra damage: skill*2 + 9%",
 		"Critical hit chance: 10%, extra damage: skill*3 + 9%",
@@ -1083,8 +1111,10 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	}
 	
 	function events.GameInitialized2()
-		for i, v in ipairs({0x5E4D38, 0x5E4C98, 0x5E4BF8, 0x5E4B58, 0x5E4AB8}) do
-			u4[v] = mem.topointer(IdMonsterDescriptions[i])
+		Game.SkillDescriptions[const.Skills.IdentifyMonster] = "The identify monster skill is applied when you right-click on a monster. If you have high enough skill, all information about the monster will be revealed. It also allows you to perform critical hits with melee/ranged attacks and spells."
+		for i = const.Novice, const.GM do
+			local descKey = "SkillDescriptions" .. select(i, "Novice", "Expert", "Master", "GM")
+			Game[descKey][const.Skills.IdentifyMonster] = IdMonsterDescriptions[i]
 		end
 	end
 else -- only makes identify monster shared skill, no other changes
@@ -1695,9 +1725,8 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		end
 	end
 
-	local GMDesc = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
 	function events.GameInitialized2()
-		u4[0x5E4A54] = mem.topointer(GMDesc)
+		Game.SkillDescriptionsGM[const.Skills.Leather] = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 

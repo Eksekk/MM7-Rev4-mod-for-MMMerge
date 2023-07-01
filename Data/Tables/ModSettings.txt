@@ -75,3 +75,4 @@ Rev4ForMergeSmallerMapstatsSpawnIncrease	0
 Rev4ForMergeDecreaseMaxHiredNpcAmount	1
 Rev4ForMergeRestrictMasteries	1
 Rev4ForMergeIntellectPersonalityIncreaseSpellDamage	1
+Rev4ForMergeBoostPerception	1

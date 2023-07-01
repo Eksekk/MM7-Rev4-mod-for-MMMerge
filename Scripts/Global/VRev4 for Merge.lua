@@ -337,6 +337,46 @@ function events.LoadMap()
 				pseudoSpawnpoint{monster = 409, x = -20563, y = -11665, z = 969, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
 				pseudoSpawnpoint{monster = 409, x = -6940, y = -21192, z = 1, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
 				pseudoSpawnpoint{monster = 409, x = 19043, y = -9014, z = 148, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
+
+				-- Bones surrounding them, idea also from MM7 Reimagined
+				-- NOTE: SUMMONED SPRITES DISAPPEAR AFTER RESPAWN
+
+				--[[
+				local constData = {monster = 409, count = "2-3", powerChances = {70, 30, 0}, radius = 512, group = 61}
+				local locs = {{x = -20563, y = -11665, z = 969}, {x = -6940, y = -21192, z = 1}, {x = 19043, y = -9014, z = 148}}
+				-- Titans near lamps, idea from MM7 Reimagined
+				for i, loc in ipairs(locs) do
+					table.copy(loc, constData, true)
+					pseudoSpawnpoint(constData)
+				end
+
+				-- Bones surrounding them, idea also from MM7 Reimagined
+				-- NOTE: SUMMONED SPRITES DISAPPEAR AFTER RESPAWN
+				local spriteOffsets = {
+					{
+						{x = 500, y = 200}, {x = -100, y = -50}, {x = -234, y = -400}, {x = 126, y = 0}
+					},
+					{
+						{x = 340, y = 250}, {x = -120, y = -355}, {x = 0, y = 278}, {x = 700, y = -20}
+					},
+					{
+						{x = -70, y = 344}, {x = -222, y = 140}, {x = -399, y = 70}, {x = 0, y = -320}
+					},
+				}
+
+				local bones, skull = "7dec18", "7dec20"
+				for i, titanGroups in ipairs(spriteOffsets) do
+					for j, offset in ipairs(titanGroups) do
+						local loc = table.copy(locs[i])
+						table.foreach(loc, function(t)
+							t.x = t.x - (offset.x or 0)
+							t.y = t.y - (offset.y or 0)
+						end)
+						local name = j % 2 == 1 and bones or skull
+						CreateSprite(name, loc.x, loc.y, locs[i].z)
+					end
+				end
+				]]
 			end
 			-- oozes near dwarf mines, idea from MM7 Refilled
 			pseudoSpawnpoint{monster = 310, x = 21484, y = 13715, z = 0, count = isMedium() and "5-8" or "8-12", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 512, group = 61}

@@ -1193,6 +1193,30 @@ if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
 			t.Recovery = newRecoveryValues[t.Spell] or t.Recovery
 		end
 	end
+	
+	-- regeneration and some other spells apparently have hardcoded recovery delay which is applied after target is selected, but before spell is casted
+	local patched = {}
+	for _, addr in ipairs{0x430A8E, 0x430B49} do
+		table.insert(patched, mem.asmpatch(addr, [[
+			nop
+			nop
+			nop
+			nop
+			nop
+			push ecx
+		]]))
+	end
+
+	local function recoveryHook(d)
+		local val = 0x12C
+		if not Party.EnemyDetectorRed and not Party.EnemyDetectorYellow then
+			val = newRecoveryValues[u2[0x51D820]] or val
+		end
+		d.ecx = val
+	end
+	for _, addr in ipairs(patched) do
+		mem.hook(addr, recoveryHook)
+	end
 end
 
 if MS.Rev4ForMergeNerfDrainSp == 1 then
@@ -1682,9 +1706,9 @@ end
 
 -- try to write down which values correspond to which actions, probably fruitless if mmext didn't expose them (might be complicated),
 -- but I want to try anyways
-
+-- JUMPTABLE: 0x42EEAB
 const.Actions = {
-	SelectSpellTarget = 0x40,
+	SelectSpellTarget = 0x40, -- is not triggered by heal - maybe only spells which can be casted only on PCs?
 	ClickSpellbookSpell = 0x51,
 	MouseOverCharacter = 0x59,
 	OpenSpellbook = 0x64,

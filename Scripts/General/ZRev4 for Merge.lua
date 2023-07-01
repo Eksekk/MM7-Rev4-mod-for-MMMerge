@@ -1660,16 +1660,10 @@ if MS.Rev4ForMergeBoostBaseAlchemySkill == 1 then
 end
 
 if MS.Rev4ForMergeMiscBalanceChanges == 1 then
-	function events.CalcStatBonusBySkills(t)
-		-- make GM leather actually give decent resistances
-		if t.Stat >= const.Stats.FireResistance and t.Stat <= const.Stats.EarthResistance then
-			local s, m = SplitSkill(t.Player:GetSkill(const.Skills.Leather))
-			local item = t.Player:GetActiveItem(const.ItemSlot.Armor)
-			if m == const.GM and item and item:T().Skill == const.Skills.Leather then
-				t.Result = t.Result + s * 3
-			end
-		end
-	end
+	-- make GM leather actually give decent resistances (skill * 4 instead of skill * 1)
+	mem.asmhook2(0x48DDBF, [[
+		shl ebp, 2
+	]])
 
 	function events.PlayerSpellVar(t)
 		-- buff stoneskin

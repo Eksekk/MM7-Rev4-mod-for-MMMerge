@@ -103,7 +103,7 @@ I added five new quests:
 * Harmondale Teleportal Hub is made modern and less cumbersome to use. Now it might be faster to actually use the hub than stables, because it doesn't anymore require key juggling to get to desired location - you can select it directly.
 
 # Credits
-* '''cthscr''' (helping me in various issues)
+* **cthscr** (helping me in various issues)
 * CognitiveDesign (helping me in various issues)
 * GrayFace (helping me in various issues). This mod also makes heavy use of various tools for MM6-8 modding made by Grayface (especially scripting).
 * kromz (playtesting and bug hunting)

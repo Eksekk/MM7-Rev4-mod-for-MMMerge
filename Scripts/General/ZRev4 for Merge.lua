@@ -1,4 +1,5 @@
-local u1, u2, u4, i1, i2, i4, autohook, autohook2 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4, mem.autohook, mem.autohook2
+local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
+local hook, autohook, autohook2, asmpatch = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch
 local max, min, round = math.max, math.min, math.round
 local format = string.format
 local MS = Merge.ModSettings
@@ -18,6 +19,7 @@ IMPORTANCE CATEGORIES:
 * spawn something near tularean caverns
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
+* some chests (like in Tidewater Caverns) still have broken texture UV in editor???
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -41,6 +43,7 @@ playthrough notes:
 
 ---- important ----
 * GM cure weakness and remove fear should work on whole party
+* also some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
@@ -56,6 +59,9 @@ playthrough notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* ENHANCED STAT TOOLTIPS: show what contributes to stat (for example might: well bonus 20, day of the gods 35, base 15, items 60, condition -30, potion 90) plus other relevant info
+	(examples: rightclick hp show hp from endurance, body building, items; resistance show average damage reduction)
+* show more spell info on buff rightclick (mainly power)
 * disable wands generating without any charges
 * bdj doesn't turn hostile, also deal with angel in harmondale
 * EASIER OPTION DONE: reduce buffs recovery if out of combat (better but harder option: allow ctrl-casting to affect whole party)
@@ -341,7 +347,7 @@ end
 -- for 500 gold item)
 
 -- disable short jump (it will be processed in event handler function)
-mem.asmpatch(0x4B66C6, [[
+asmpatch(0x4B66C6, [[
 	nop
 	nop
 	nop
@@ -349,7 +355,7 @@ mem.asmpatch(0x4B66C6, [[
 	nop
 	nop
 ]])
-mem.hook(0x4B66C6, function(d)
+hook(0x4B66C6, function(d)
 	local t = {Multiplier = 1}
 	events.call("GetShopSellPriceMul", t)
 	local amount = d.esi
@@ -406,7 +412,7 @@ autohook(0x41E6C7, showSpellSkill(0x70, 4))
 
 -- show "spell" text if monster has only second spell
 -- (if he has first one or both, text is shown automatically)
-mem.asmpatch(0x41E6B6, [[
+asmpatch(0x41E6B6, [[
 	cmp byte [ebp-0x2D],bl ; has first spell? (bl is 0)
 	jne @normal
 	push dword ptr [ebp-0x18] ; "spells" or "spell"
@@ -970,7 +976,7 @@ end
 -- identify monster gives ability to do critical hits
 if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	mem.nop2(0x41E07A, 0x41E0EF)
-	mem.hook(0x41E07A, function(d)
+	hook(0x41E07A, function(d)
 		local maxS, maxM = 0, 0
 		for _, pl in Party do
 			if pl:IsConscious() then
@@ -993,7 +999,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		d.eax, d.ecx = maxS, maxM
 	end)
 
-	mem.asmpatch(0x41E07F, [[
+	asmpatch(0x41E07F, [[
 		cmp ecx, 4
 		jae @show
 		mov ecx,dword [ss:ebp-0x10] ; monster
@@ -1013,7 +1019,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	]], 0x70)
 	
 	-- skip small chunk of code taken care of by our hook function
-	mem.asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
+	asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
 	
 	local critAttackMsg = "%s critically hits %s for %lu damage!" .. string.char(0)
 	local critShootMsg = "%s critically shoots %s for %lu points!" .. string.char(0)
@@ -1083,7 +1089,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	end
 else -- only makes identify monster shared skill, no other changes
 	mem.nop2(0x41E07A, 0x41E086)
-	mem.hook(0x41E07A, function(d)
+	hook(0x41E07A, function(d)
 		local maxS, maxM = 0, 0
 		for _, pl in Party do
 			if pl:IsConscious() then
@@ -1136,15 +1142,23 @@ if MS.Rev4ForMergeRemoveMonsterStealing == 1 then
 	end
 end
 
--- buff player-buffing potions (5 + floor(power / 4))
+-- buff player-buffing potions (5 + ceil(power / 3))
 do
 	local buffAddresses = {0x466C75, 0x466CA1, 0x466D29, } -- heroism, bless, stoneskin
 	for _, addr in ipairs(buffAddresses) do
-		mem.asmpatch(addr, [[
+		asmpatch(addr, [[
 			fild dword [ebp-0xC]
-			mov eax,dword [0xB7CA68] ; potion power
-			shr eax, 2
+			push ebx
+			mov ebx, 3
+			mov eax, dword [0xB7CA68] ; potion power
+			cdq
+			idiv ebx
+			pop ebx
 			add eax, 5
+			test edx, edx
+			jz @noInc
+			inc eax
+			@noInc:
 			push eax
 		]])
 	end
@@ -1197,7 +1211,7 @@ if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
 	-- regeneration and some other spells apparently have hardcoded recovery delay which is applied after target is selected, but before spell is casted
 	local patched = {}
 	for _, addr in ipairs{0x430A8E, 0x430B49} do
-		table.insert(patched, mem.asmpatch(addr, [[
+		table.insert(patched, asmpatch(addr, [[
 			nop
 			nop
 			nop
@@ -1215,7 +1229,7 @@ if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
 		d.ecx = val
 	end
 	for _, addr in ipairs(patched) do
-		mem.hook(addr, recoveryHook)
+		hook(addr, recoveryHook)
 	end
 end
 
@@ -1244,7 +1258,7 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 		pop eax
 		ret
 	]])
-	mem.asmpatch(0x48D501, "call absolute " .. nerfDrainsp)
+	asmpatch(0x48D501, "call absolute " .. nerfDrainsp)
 end
 
 -- buff single-element resistance spells (5 fixed + 2/3/4/5 per skill point)
@@ -1446,7 +1460,7 @@ Dark      %d]]
 			end
 		end)
 		
-		mem.asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
+		asmpatch(0x4259CF, "lea esi,dword ptr [ds:eax+0x1E]")
 		-- fix darkfire bolt to use penetration when deciding resistance?
 	end
 	
@@ -1716,7 +1730,7 @@ const.Actions = {
 	-- after clicking, game calls function to process casted spell (in case player was clicked on to cast on him)
 	SwitchCharacter = 0x69, -- param: player index from 1
 }
-
+  
 -- for testing
 --[[
 function events.BeforeNewGameAutosave()

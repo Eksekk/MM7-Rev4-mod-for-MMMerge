@@ -53,11 +53,13 @@ Note: currently this usually means that these changes just affect balance, **not
 * Mana and hit points regeneration items now stack linearly, with each item providing larger bonus and including previous bonuses (they are +1 regen/+2 regen/+3 regen etc.) This makes them much more useful, especially if you use higher difficulty (less meditation regen). Set Rev4ForMergeManaHealthRegenStacking to anything other than 1 to disable.
 * "of Doom" enchantment now gives three times the bonus it was assigned. Hopefully this will sometimes make player consider using it rather than always selling like I did. ModSettings option to disable: Rev4ForMergeMiscBalanceChanges.
 * "of the Gods" now gives +25 to all stats. Option to disable as above.
-* Heroism, Bless and Stoneskin potions have been buffed. Now instead of 5 effect they provide 5 + floor(power / 4). Hopefully this will make them more usable.
+* Heroism, Bless and Stoneskin potions have been buffed. Now instead of 5 effect they provide 5 + ceil(power / 3). Hopefully this will make them more usable.
 
 **Spells**:
 * Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.
 * Some spells are also buffed. Stoneskin now gives 5 + 2 AC points per skill. Hopefully it will be more enticing to use now. To disable, use option Rev4ForMergeMiscBalanceChanges.
+* Resistances are buffed from 1/2/3/4 per skill to 5 + 2/3/4/5 per skill. Hopefully this will make them usable even before you have expert and not fall off in the endgame. (Day of protection is not boosted currently)
+* Paralyze duration is nerfed from 3min/skill to 1min/skill.
 * Most buff spells and Enchant Item have reduced recovery values if you're out of combat (enemy detector is green). This is mainly a QoL feature to allow quickly buffing up before fight. Set Rev4ForMergeReduceBuffsRecoveryOutOfCombat to 0 to disable.
 * Spell damage is slightly increased by intellect and personality (exact formula is: every 10 points in sum of those stats adds 1% damage). Set Rev4ForMergeIntellectPersonalityIncreaseSpellDamage to 0 to disable.
 

@@ -81,14 +81,37 @@ end
 
 local mapIdsToItemNames = {}
 
+local invItemType = table.invert(const.ItemType)
+
 function events.GameInitialized2()
 	for i, entry in Game.ItemsTxt do
-		mapIdsToItemNames[entry.Name:lower()] = i
+		local stat = entry.EquipStat + 1
+		table.insert(tget(mapIdsToItemNames, entry.Name:lower()), {id = i, typeName = invItemType[stat]:lower()})
 	end
 end
 
-function item(id)
-	evt.GiveItem{Id = mapIdsToItemNames[id] or id}
+function item(what, typ, props)
+	local item
+	if type(what) == "number" then
+		item = what
+	else
+		local find = table.findIf(mapIdsToItemNames[what:lower()] or {}, function(data)
+			if not typ then return true end
+			if data.typeName:find(typ:lower(), nil, true) then
+				return true
+			end
+		end)
+		if find then
+			item = mapIdsToItemNames[what][find].id
+		end
+	end
+	if not item then
+		error(string.format("Couldn't find item %q", what) .. (typ and string.format(", type %q", typ) or ""))
+	end
+	evt.GiveItem{Id = item}
+	for k, v in pairs(props or {}) do
+		Mouse.Item[k] = v
+	end
 end
 
 -- gives ring with spc bonus with "NameAdd" matching provided text

@@ -827,17 +827,28 @@ if MS.Rev4ForMergeBoostPerception == 1 then
 		local skillFull, masteryFull = SplitSkill(t.Player:GetSkill(const.Skills.Perception))
 		local skillBonus = skillFull - skillBase
 
+		local playerIndex
+		for i, pl in Party do
+			if pl.RosterBitIndex == t.Player.RosterBitIndex then
+				playerIndex = i
+				break
+			end
+		end
+
 		-- multiplying by masteryFull takes advantage of "increases skill mastery" bonuses
 		-- only inherent skill level is multiplied, skill bonus counts as on Novice
 		local chance = skillBase * masteryFull + skillBonus
-		debug.Message(chance)
 		-- random formula I made
-		local percentChance = (5.5 * chance / (x ^ (1/3))) / 100
+		local percentChance = (5.5 * chance / (chance ^ (1/3))) / 100
+		local msg = format("player %d, chance '%d', percent chance '%.2f'", playerIndex, chance, percentChance)
 		if math.random() <= percentChance then
-			debug.Message(format("chance '%d', percent chance '%.2f', avoided", chance, percentChance))
 			t.Allow = false
-			--Game.ShowStatusText("")
+			msg = msg .. ", avoided"
+			Game.ShowStatusText(format("%s avoids monster special effect", t.Player.Name))
+		else
+			msg = msg .. ", not avoided"
 		end
+		--debug.Message(msg)
 	end
 
 	-- skill descriptions

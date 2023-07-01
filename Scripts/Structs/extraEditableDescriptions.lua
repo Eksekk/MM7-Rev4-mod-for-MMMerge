@@ -21,7 +21,7 @@ local function tooltipHook(includesBonus)
         if #text > 0 then
             local destination = d.esi
             if not includesBonus then
-                text = "\f00000" .. text -- remove color, if bonus is not printed, "color tag" is not closed
+                text = "\f00000" .. text -- remove color (if bonus is not printed, "color tag" is not closed)
             end
             mem.copy(destination + mem.string(destination):len(), text .. "\0")
         end

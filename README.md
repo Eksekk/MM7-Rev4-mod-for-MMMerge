@@ -43,7 +43,7 @@ In addition, I added bosses to some game areas, which are just single stronger m
 To compensate for difficulty a bit and allow stronger overall builds than on easy, experience gained from monsters is increased by 15% on medium and by 30% on hard.
 
 ## Other balance-affecting changes
-Note: currently this usually means that these changes just affect balance, **not** necessarily make things more balanced ;) I plan to fix this eventually.
+Note: currently this usually means that these changes just affect balance, **not necessarily** make things more balanced ;) I plan to fix this eventually.
 
 **Item bonuses**:
 * I added dark and light resistance item bonuses. They technically already worked, but nothing increased them. Hopefully clearing the Pit now won't be such headache :) Option to disable is Rev4ForMergeAddDarkLightResistances

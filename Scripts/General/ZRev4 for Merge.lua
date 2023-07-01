@@ -20,6 +20,21 @@ IMPORTANCE CATEGORIES:
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
+* warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
+* move spell changes to change spell damage file (and rename it to something like "spell changes")?
+* intellect&personality affect also healing?
+* more healing spells like in maw mod?
+
+-- extemporary fix for huge spell skill:
+for i, mon in Map.Monsters do
+	for _, k in ipairs{"Spell", "Spell2"} do
+		local skillKey = k .. "Skill"
+		local s, m = SplitSkill(mon[skillKey])
+		if s > 63 then
+			mon[skillKey] = JoinSkill(mon[skillKey] % 64, math.min(4, mon[skillKey]:div(64) + 1))
+		end
+	end
+end
 
 playthrough notes:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
@@ -42,6 +57,8 @@ playthrough notes:
 * HIRE MYSTIC - +3 to all spell skills
 
 ---- important ----
+* priests near church of the moon fought with some mobs
+* buff resurrection
 * GM cure weakness and remove fear should work on whole party
 * also some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
@@ -58,6 +75,8 @@ playthrough notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* scatter some items (thematical - a ring of dragon eyes, several low-tier rings, random spellbook etc.) near some monster spawns or empty areas (if latter, items should be weaker)?
+* gm mind resist providing (near?)immunity to insane? same with earth res and stone etc.
 * localizations for my new texts (for example identify monster descriptions)?
 * ENHANCED STAT TOOLTIPS: show what contributes to stat (for example might: well bonus 20, day of the gods 35, base 15, items 60, condition -30, potion 90) plus other relevant info
 	(examples: rightclick hp show hp from endurance, body building, items; resistance show average damage reduction)
@@ -78,6 +97,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* allow GM merchant to get above maximum sell price due to difficulty??
 * Grayface patch introduces different transition text for nighon tunnels -> thunderfist mountain, include it?
 * praying at tatalia altar displays message "home portal"
 * fix event 502 in d08.lua (doesn't cast torch light)

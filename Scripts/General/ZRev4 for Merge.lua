@@ -1050,6 +1050,16 @@ if MS.Rev4ForMergeChangeStatisticBreakpoints == 1 then
 	end
 end
 
+-- show statistic effect
+function events.BuildStatInformationBox(t)
+	if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.Luck then
+		local fname = "Get" .. Game.StatsNames[t.Stat]
+		local stat = t.Player[fname](t.Player) -- call function
+		local effect = Game.GetStatisticEffect(stat)
+		t.Text = t.Text .. string.format("\n\nCurrent statistic effect: %d", effect)
+	end
+end
+
 -- always show full info if you have required skill, no matter the id monster mastery
 -- identify monster gives ability to do critical hits
 if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then

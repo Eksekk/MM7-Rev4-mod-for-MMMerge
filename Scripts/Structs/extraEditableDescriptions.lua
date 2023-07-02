@@ -30,3 +30,34 @@ end
 --function events.BuildSkillInformationBox(t) if t.Skill == const.Skills.Armsmaster then t.ExtraText = "\n\nThis is armsmaster"; else t.ExtraText = "\n\nThis is not armsmaster" end end
 mem.autohook2(0x4174C5, tooltipHook(true), 8)
 mem.autohook2(0x417648, tooltipHook(false), 8)
+
+-- build stat description box
+mem.hookcall(0x417BA5, 2, 0, function(d, def, headerPtr, textPtr)
+    local header, text = mem.string(headerPtr), mem.string(textPtr)
+    local t = {Stat = u4[d.ebp - 8], Header = header, Text = text}
+    assert(Game.CurrentPlayer ~= -1)
+    t.Player = Party[Game.CurrentPlayer]
+    events.call("BuildStatInformationBox", t)
+    local changedHeader, changedText = t.Header ~= header, t.Text ~= text
+    if changedHeader then
+        local len = #t.Header
+        headerPtr = mem.allocMM(len + 1)
+        mem.copy(headerPtr, t.Header)
+        u1[headerPtr + len] = 0
+    end
+    if changedText then
+        local len = #t.Text
+        textPtr = mem.allocMM(len + 1)
+        mem.copy(textPtr, t.Text)
+        u1[textPtr + len] = 0
+    end
+
+    def(headerPtr, textPtr)
+
+    if changedHeader then
+        mem.freeMM(headerPtr)
+    end
+    if changedText then
+        mem.freeMM(textPtr)
+    end
+end)

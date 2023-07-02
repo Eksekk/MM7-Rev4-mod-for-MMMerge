@@ -14,7 +14,7 @@ end
 -- build skill information box
 local function tooltipHook(includesBonus)
     return function(d)
-        local t = {ExtraText = "", IncludesBonus = true, Skill = u4[d.esp + 4]}
+        local t = {ExtraText = "", IncludesBonus = includesBonus, Skill = u4[d.esp + 4]}
         t.PlayerIndex, t.Player = internal.GetPlayer(u4[d.ebp - 4])
         events.call("BuildSkillInformationBox", t)
         local text = t.ExtraText

@@ -1,6 +1,6 @@
 local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
 local hook, autohook, autohook2, asmpatch = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch
-local max, min, round, random = math.max, math.min, math.round, math.random
+local max, min, floor, ceil, round, random = math.max, math.min, math.floor, math.ceil, math.round, math.random
 local format = string.format
 local MS = Merge.ModSettings
 
@@ -224,6 +224,83 @@ function events.CalcSpellDamage(t)
 	local data = WhoHitMonster()
 	if data and data.Player then
 		t.Result = calcStatDamageBonus(data.Player, t.Result)
+	end
+end
+
+local function getSpellQueueData(ptr)
+	local t = {Spell = i2[ptr], Caster = Party.PlayersArray[i2[ptr + 2]]}
+	t.SpellSchool = ceil(t.Spell / 11)
+	local flags = u2[ptr + 8]
+	if flags:And(0x10) ~= 0 then -- caster is target
+		t.Caster = Party.PlayersArray[i2[ptr + 4]]
+	end
+	if flags:And(1) ~= 0 then
+		t.FromScroll = true
+		t.Skill, t.Mastery = SplitSkill(u2[ptr + 0xA])
+	else
+		t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
+	end
+	t.TargetIndex, t.Target = internal.GetPlayer(playerPtr)
+	return t
+end
+
+-- HEALING HOOKS --
+mem.hookfunction(0x48FA06, 1, 3, function(d, def, playerPtr, cond, timeLow, timeHigh)
+	local t = getSpellQueueData(d.ebx)
+	events.call("RemoveConditionBySpell", t)
+	def(playerPtr, cond, timeLow, timeHigh)
+	events.call("AfterRemoveConditionBySpell", t)
+end)
+
+if MS.Rev4ForMergeChangeHealingSpells == 1 then
+	function events.AfterRemoveConditionBySpell(t)
+		local t1 = table.copy(t)
+		t1.Amount = 0
+		events.call("HealingSpellPower", t1)
+	end
+
+	local healingSpellPowers =
+	{
+		[const.Spells.CureInsanity] =
+		{
+			[const.Master] =
+			{
+				FixedMin = 10, FixedMax = 30, VariableMin = 3, variableMax = 5,
+			},
+			[const.GM] =
+			{
+				FixedMin = 10, FixedMax = 30, VariableMin = 3, variableMax = 5,
+			}
+		},
+		[const.Spells.CureDisease] =
+		{
+			[const.Master] = 
+			{
+				FixedMin = 25, FixedMax = 45, VariableMin = 2, VariableMax = 4,
+			},
+			[const.GM] = 
+			{
+				FixedMin = 25, FixedMax = 45, VariableMin = 2, VariableMax = 4,
+			},
+		}
+	}
+
+	local function calcHealingSpellPower(spell, caster, skill, mastery, amount)
+		local entry = healingSpellPowers[spell]
+		if not entry then return amount end
+		entry = entry[mastery]
+		if not entry then return amount end
+		local vmin, vmax, fmin, fmax = (entry.VariableMin or 0), (entry.VariableMax or 0), (entry.FixedMin or 0), (entry.FixedMin or 0)
+		assert(vmin >= 0 and vmin <= vmax)
+		amount = Randoms(vmin, vmax, skill)
+		assert(fmin >= 0 and fmin <= fmax)
+		amount = amount + math.random(fmin, fmax)
+		-- TODO: intellect & personality bonus
+		return amount
+	end
+
+	function events.HealingSpellPower(t)
+		t.Amount = calcHealingSpellPower(t.Spell, t.Caster, t.Skill, t.Mastery, t.Amount)
 	end
 end
 

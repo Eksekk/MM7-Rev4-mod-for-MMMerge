@@ -22,7 +22,6 @@ IMPORTANCE CATEGORIES:
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
 * and Temple of the Sun has it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
-* move spell changes to change spell damage file (and rename it to something like "spell changes")?
 * intellect&personality affect also healing?
 * more healing spells like in maw mod?
 

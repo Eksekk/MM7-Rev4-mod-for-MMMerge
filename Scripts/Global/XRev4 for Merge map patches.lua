@@ -1,10 +1,14 @@
 local MS = Merge.ModSettings
 local patches
+local globalPatch
 -- very important to use AddFirst("LoadMap") to remove all original handlers
 -- "BeforeLoadMap()" wouldn't remove them (because they aren't loaded yet), and normal "LoadMap()" (not AddFirst("LoadMap")) would allow "OnLoadMap" events to run
 events.AddFirst("LoadMap", function()
     local patch = patches[Map.Name]
     patch = patch and patch()
+    if globalPatch then
+        globalPatch()
+    end
 end)
 
 -- runs as one of first handlers for "LoadMap" event
@@ -22,6 +26,37 @@ function replaceMapEvent(num, func, onload, hint)
             end
         end
     end
+end
+
+function replaceGlobalEvent(num, func)
+    events.Remove("LoadMap", evt.global[num].last)
+    evt.global[num].clear()
+    if func then -- allow removing only lua event by passing "false"
+        Game.GlobalEvtLines:RemoveEvent(num)
+        if onload then
+            func()
+        else
+            evt.global[num] = func
+        end
+    end
+end
+
+function globalPatch()
+    -- second and any next boat trip doesn't play movie
+    replaceGlobalEvent(getGlobalEvent(33), function()
+        evt.SetMessage(getMessage(43))         -- "Good job, mates!  We'll be heading off for Harmondale right now.  Congratulations."
+        evt.Subtract("QBits", getQuestBit(16))         -- "Find the missing contestants on Emerald Island and bring back proof to Lord Markham."
+        evt.SetNPCTopic{NPC = getNPC(1), Index = 3, Event = 0}         -- "Lord Markham"
+        evt.Add("History1", 0)
+        evt.Add("History2", 0)
+        evt.MoveNPC{NPC = getNPC(1), HouseId = getHouseID(275)}         -- "Lord Markham" -> "Lord Markham's Chamber"
+        evt.SetNPCGreeting{NPC = getNPC(1), Greeting = getGreeting(205)}         -- "Lord Markham" : "Hmmph.  You don't actually expect me to act as though you really were a noble, do you?  Once a peasant, always a peasant, that's what my mother used to say.  Really, could you use the servant's entrance next time you stop by?  It really is embarrassing to have you dusty, mud spattered peasants coming in through the front door.  What will the neighbors think?"
+        if not Party.QBits[getQuestBit(136)] then         -- Party doesn't come back to Out01 temple anymore
+            evt.ShowMovie{DoubleSize = 1, ExitCurrentScreen = true, Name = "pcout01 "}
+        end
+        evt.Add("QBits", getQuestBit(136))         -- Party doesn't come back to Out01 temple anymore
+        evt.MoveToMap{X = -17331, Y = 12547, Z = 465, Direction = 1024, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = getFileName("Out02.odm")}
+    end)
 end
 
 patches = {

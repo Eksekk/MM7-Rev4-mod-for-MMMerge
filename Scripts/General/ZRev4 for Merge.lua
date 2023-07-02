@@ -20,6 +20,7 @@ IMPORTANCE CATEGORIES:
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
+* and Temple of the Sun has it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * move spell changes to change spell damage file (and rename it to something like "spell changes")?
 * intellect&personality affect also healing?
@@ -96,6 +97,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* show some animation when monster effect is avoided with perception?
 * allow GM merchant to get above maximum sell price due to difficulty??
 * Grayface patch introduces different transition text for nighon tunnels -> thunderfist mountain, include it?
 * praying at tatalia altar displays message "home portal"

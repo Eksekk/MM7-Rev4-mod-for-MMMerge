@@ -1,4 +1,11 @@
+local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
+local hook, autohook, autohook2, asmpatch = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch
+local max, min, round, random = math.max, math.min, math.round, math.random
+local format = string.format
 local MS = Merge.ModSettings
+
+-- INCREASED DAMAGE --
+
 local spellsDamage =
 {
 	[2] = -- Fire Bolt
@@ -218,5 +225,93 @@ function events.CalcSpellDamage(t)
 	if data and data.Player then
 		t.Result = calcStatDamageBonus(data.Player, t.Result)
 	end
-	return
+end
+
+-- OTHER CHANGES --
+
+if MS.Rev4ForMergeMiscSpellChanges == 1 then
+	function events.PlayerSpellVar(t)
+		-- buff stoneskin
+		if t.Spell == const.Spells.StoneSkin and t.VarNum == 3 then -- armor per skill
+			t.Value = 2
+		-- nerf paralyze
+		elseif t.Spell == const.Spells.Paralyze and t.VarNum == 1 then -- duration per skill
+			t.Value = 60 -- 1 minute instead of 3
+		end
+	end
+
+	-- cure weakness affects whole party on GM --
+
+	mem.nop(0x42AE5B) -- disable skipping if target is not weak
+
+	-- skip select target screen on GM
+	mem.prot(true)
+	u1[0x425EE2] = 8 -- tweak jumptable
+	mem.prot()
+
+	-- replace gm code with one that acts on all players
+	local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
+	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE}
+
+	-- show animation
+	spellHookManager.asmpatch(0x42AE25, [[
+		push edi
+		xor edi, edi
+		cmp dword [ebp - 4], esi
+		je @call
+		mov di, word [ebx + 4] ; if not GM, affect only actual target
+
+		@call:
+		mov ecx,dword ptr [0x75CE00]
+		push edi
+		xor eax,eax
+		mov ax,word ptr [ebx]
+		push eax
+		call absolute 0x42D747
+		mov ecx,eax
+		call absolute %showAnimation%
+
+		; exit conditions
+		cmp dword [ebp - 4], esi
+		jne @exit ; not GM
+		inc edi
+		cmp edi, dword [%partySize%]
+		jb @call
+
+		@exit:
+		pop edi
+	]], 0x1F)
+
+	-- cure
+	spellHookManager.asmpatch(0x42AE67, [[
+		push esi
+		xor esi, esi
+
+		@cure:
+		push esi
+		mov ecx, edi
+		call absolute %getPlayerPtr%
+		xor ecx, ecx
+		mov dword ptr [eax+8], ecx
+		mov dword ptr [eax+0xC], ecx
+
+		inc esi
+		cmp esi, dword[%partySize%]
+		jb @cure
+
+		pop esi
+	]], 0x12)
+
+	function events.GameInitialized2()
+		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"
+
+		local count
+		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]
+		spellEntry.Description, count = spellEntry.Description:gsub("5 %+ 1 point", "5 %+ 2 points")
+		assert(count == 1, "Couldn't change stone skin spell description")
+
+		spellEntry = Game.SpellsTxt[const.Spells.Paralyze]
+		spellEntry.Description, count = spellEntry.Description:gsub("3 minutes", "1 minute")
+		assert(count == 1, "Couldn't change paralyze spell description")
+	end
 end

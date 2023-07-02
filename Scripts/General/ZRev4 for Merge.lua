@@ -1243,75 +1243,6 @@ do
 	end
 end
 
--- reduce buffs recovery if out of combat
-if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
-	local cs = const.Spells
-	local newRecoveryValues = {
-		[cs.FireResistance] = 40,
-		[cs.AirResistance] = 40,
-		[cs.WaterResistance] = 40,
-		[cs.EarthResistance] = 40,
-		[cs.MindResistance] = 40,
-		[cs.BodyResistance] = 40,
-		[cs.FireAura] = 40,
-		[cs.Haste] = 40,
-		[cs.FireResistance] = 40,
-		[cs.Immolation] = 40,
-		[cs.FeatherFall] = 40,
-		[cs.Shield] = 40,
-		[cs.Invisibility] = 60,
-		-- fly and water walk skipped intentionally
-		[cs.EnchantItem] = 60,
-		[cs.StoneSkin] = 40,
-		[cs.Bless] = 40,
-		[cs.Preservation] = 40,
-		[cs.Heroism] = 40,
-		[cs.Regeneration] = 40,
-		[cs.Hammerhands] = 40,
-		[cs.ProtectionFromMagic] = 40,
-		[cs.DayOfTheGods] = 120,
-		[cs.DayOfProtection] = 120,
-		[cs.HourOfPower] = 120,
-		[cs.PainReflection] = 40,
-		[cs.Glamour] = 40,
-		[cs.TravelersBoon] = 40,
-		[cs.Levitate] = 40,
-		[cs.Mistform] = 40,
-		-- dragon flight skipped intentionally
-	}
-
-	function events.SpellCostRecovery(t)
-		--local t = {Spell = d.ecx, SkillMastery = d.edx, Caster = d.eax, Cost = d.esi, Recovery = d.edi}
-		if not Party.EnemyDetectorRed and not Party.EnemyDetectorYellow then
-			t.Recovery = newRecoveryValues[t.Spell] or t.Recovery
-		end
-	end
-	
-	-- regeneration and some other spells apparently have hardcoded recovery delay which is applied after target is selected, but before spell is casted
-	local patched = {}
-	for _, addr in ipairs{0x430A8E, 0x430B49} do
-		table.insert(patched, asmpatch(addr, [[
-			nop
-			nop
-			nop
-			nop
-			nop
-			push ecx
-		]]))
-	end
-
-	local function recoveryHook(d)
-		local val = 0x12C
-		if not Party.EnemyDetectorRed and not Party.EnemyDetectorYellow then
-			val = newRecoveryValues[u2[0x51D820]] or val
-		end
-		d.ecx = val
-	end
-	for _, addr in ipairs(patched) do
-		hook(addr, recoveryHook)
-	end
-end
-
 if MS.Rev4ForMergeNerfDrainSp == 1 then
 	-- remove maxMana / 4 per drainsp instead of zeroing
 	-- no reason to use asm function over lua, except for increasing asm skills :)
@@ -1338,30 +1269,6 @@ if MS.Rev4ForMergeNerfDrainSp == 1 then
 		ret
 	]])
 	asmpatch(0x48D501, "call absolute " .. nerfDrainsp)
-end
-
--- buff single-element resistance spells (5 fixed + 2/3/4/5 per skill point)
-function events.GameInitialized2()
-	-- changed resistance spell descriptions
-	for i, v in ipairs({3, 14, 25, 36, 58, 69}) do
-		local sp = Game.SpellsTxt[v]
-		sp.Description = sp.Description:gsub("(your skill)", format("%d + %d * %%1", 5, 2))
-		for i, idx in ipairs({"Normal", "Expert", "Master", "GM"}) do
-			sp[idx] = sp[idx]:gsub("%d point", format("%d + %d point", 5, i + 1))
-		end
-	end
-end
-
-local resistanceSpells = {3, 14, 25, 36, 58, 69}
-
-function events.PlayerSpellVar(t)
-	if table.find(resistanceSpells, t.Spell) then
-		if t.VarNum == 3 then
-			t.Value = t.Value + 1 -- per level
-		elseif t.VarNum == 4 then
-			t.Value = 5 -- bonus
-		end
-	end
 end
 
 -- remove multilooting "bug"
@@ -1754,7 +1661,7 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 			end
 		end
 		
-		-- make "of the Gods" actually deserve D rating and 3000 gold price (it still sucks for spellcasters though)
+		-- make "of the Gods" actually deserve D rating and 3000 gold price
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.Luck then
 			for item, slot in t.Player:EnumActiveItems(false) do
 				if item.Bonus2 == 2 then

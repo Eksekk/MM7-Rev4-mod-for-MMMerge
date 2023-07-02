@@ -55,7 +55,6 @@ playthrough notes:
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
-
 ---- important ----
 * priests near church of the moon fought with some mobs
 * buff resurrection
@@ -426,7 +425,8 @@ local showSpellSkill = function(skillOffset, lenOffset)
 		u1[afterSpellName + add:len()] = 0 -- null terminator
 		-- fixme: maybe not needed?
 		-- if we replace newline, not add it, subtract 1 character
-		u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() - (newline and 1 or 0) -- update length of row
+		-- if enabling again, use esp addressing
+		-- u4[0x19F93C + lenOffset] = u4[0x19F93C + lenOffset] + add:len() - (newline and 1 or 0) -- update length of row
 	end
 end
 autohook(0x41E673, showSpellSkill(0x6E, 0))
@@ -1754,6 +1754,84 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		end
 	end
 
+	-- cure weakness affects whole party on GM
+	mem.nop(0x42AE5B) -- disable skipping if target is not weak
+
+	local params = mem.StaticAlloc(12)
+	HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06, spell = 0x51D820,
+		caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cond = params, timeLow = params + 4, timeHigh = params + 8,
+		cureWeakness = 0x43, party = 0xB20E90}--[=[.asmpatch(0x4297F3, [[
+		mov eax, [esp]
+		mov [%cond%], eax
+		mov eax, [esp + 4]
+		mov [%timeLow%], eax
+		mov eax, [esp + 8]
+		mov [%timeHigh%], eax
+
+		push esi
+		push edi
+		sub esp, 4
+		mov byte [esp], 1 ; affect single character?
+
+		; check for cure weakness and GM body
+		mov ax, word[%spell%]
+		cmp ax, %cureWeakness%
+		jne @single
+
+		; find party index of casting player
+		mov ax, word [%caster%]
+		xor edx, edx
+		@findPlayer:
+		mov ecx, dword[%rosterIds% + edx * 4]
+		cmp cx, ax
+		je @exitFind
+		inc edx
+		jmp @findPlayer
+
+		@exitFind:
+		push edx
+		mov ecx, %party%
+		call absolute %getPlayerPtr%
+		movzx eax, word [eax + 0x378 + 18 * 2] ; body skill
+		push eax
+		call absolute %getSkillMastery%
+		cmp eax, 4
+		jb @single
+		and byte [esp], 0
+		@single:
+		
+		mov esi, dword [%partySize%]
+		mov edi, 0 ; counter
+
+		@loop:
+
+		; if single character, skip if roster id doesn't match
+		test byte [esp], 0xFF
+		je @alwaysAffect
+		cmp di, word[%target%]
+		jne @nextIteration
+
+		@alwaysAffect:
+		push edi
+		mov ecx, %party%
+		call absolute %getPlayerPtr%
+		mov ecx, eax
+		push dword [%timeHigh%]
+		push dword [%timeLow%]
+		push dword [%cond%]
+		call absolute %removeCond%
+
+		@nextIteration:
+		inc edi
+		cmp edi, esi
+		jl @loop
+
+		@end:
+		add esp, 4
+		pop edi
+		pop esi
+	]], 19)]=]
+
 	function events.CalcStatBonusByItems(t)
 		-- boost "of Doom" to not be garbage
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
@@ -1801,6 +1879,8 @@ const.Actions = {
 	-- can be click, press 1-5, and can be on currently selected player
 	-- after clicking, game calls function to process casted spell (in case player was clicked on to cast on him)
 	SwitchCharacter = 0x69, -- param: player index from 1
+
+	SwitchScreenToTargetSelection = 0x89, -- ?
 }
   
 -- for testing

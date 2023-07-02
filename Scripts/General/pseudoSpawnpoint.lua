@@ -283,7 +283,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 		end
 	end
 	
-	function ret.loadSpawnedMonsters()
+	local function loadSpawnedMonsters()
 		if Map.Name ~= mapname then return end
 		spawned = {}
 		mapvars.SharedSpawnpointMonsters = mapvars.SharedSpawnpointMonsters or {}
@@ -300,6 +300,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 			end
 		end
 	end
+	ret.loadSpawnedMonsters = loadSpawnedMonsters
 
 	function ret.addSpawnpoint(data)
 		if type(data) ~= "table" then error("Argument passed to sharedSpawnpoint.addSpawnpoint() isn't a table") end
@@ -321,6 +322,18 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 	function ret.spawn()
 		if Map.Name ~= mapname then
 			error(string.format("Tried to spawn monsters while on different map. Destination map: %s, current map: %s", mapname, Map.Name), 2)
+		end
+		local count = 0
+		table.foreach(spawned, function(mons)
+			count = count + tlen(mons)
+		end)
+		if count == 0 then
+			loadSpawnedMonsters()
+			count = 0
+			table.foreach(spawned, function(mons)
+				count = count + tlen(mons)
+			end)
+			Log(Merge.Log.Warning, "SharedSpawnpoint[%q, %q]: Loading monsters inside spawn function, new count %d", mapname, spawnpointId, count)
 		end
 		local function spawnSingleClass(monsterSpawnpoints, class)
 			if #monsterSpawnpoints == 0 then return end
@@ -431,7 +444,7 @@ function sharedSpawnpoint.new(mapname, spawnpointId, monster, max, settings)
 		spawned = {}
 	end
 
-	ret.loadSpawnedMonsters() -- in case spawnpoint had monsters in mapvars, and was replaced after events.LoadMap, so loading wasn't done
+	loadSpawnedMonsters() -- in case spawnpoint had monsters in mapvars, and was replaced after events.LoadMap, so loading wasn't done
 	
 	table.insert(sharedSpawnpoints, ret)
 	return ret

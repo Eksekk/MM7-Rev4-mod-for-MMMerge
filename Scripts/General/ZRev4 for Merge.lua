@@ -1744,94 +1744,6 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		shl ebp, 2
 	]])
 
-	function events.PlayerSpellVar(t)
-		-- buff stoneskin
-		if t.Spell == const.Spells.StoneSkin and t.VarNum == 3 then -- armor per skill
-			t.Value = 2
-		-- nerf paralyze
-		elseif t.Spell == const.Spells.Paralyze and t.VarNum == 1 then -- duration per skill
-			t.Value = 60 -- 1 minute instead of 3
-		end
-	end
-
-	-- cure weakness affects whole party on GM
-	mem.nop(0x42AE5B) -- disable skipping if target is not weak
-
-	local params = mem.StaticAlloc(12)
-	HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06, spell = 0x51D820,
-		caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cond = params, timeLow = params + 4, timeHigh = params + 8,
-		cureWeakness = 0x43, party = 0xB20E90}--[=[.asmpatch(0x4297F3, [[
-		mov eax, [esp]
-		mov [%cond%], eax
-		mov eax, [esp + 4]
-		mov [%timeLow%], eax
-		mov eax, [esp + 8]
-		mov [%timeHigh%], eax
-
-		push esi
-		push edi
-		sub esp, 4
-		mov byte [esp], 1 ; affect single character?
-
-		; check for cure weakness and GM body
-		mov ax, word[%spell%]
-		cmp ax, %cureWeakness%
-		jne @single
-
-		; find party index of casting player
-		mov ax, word [%caster%]
-		xor edx, edx
-		@findPlayer:
-		mov ecx, dword[%rosterIds% + edx * 4]
-		cmp cx, ax
-		je @exitFind
-		inc edx
-		jmp @findPlayer
-
-		@exitFind:
-		push edx
-		mov ecx, %party%
-		call absolute %getPlayerPtr%
-		movzx eax, word [eax + 0x378 + 18 * 2] ; body skill
-		push eax
-		call absolute %getSkillMastery%
-		cmp eax, 4
-		jb @single
-		and byte [esp], 0
-		@single:
-		
-		mov esi, dword [%partySize%]
-		mov edi, 0 ; counter
-
-		@loop:
-
-		; if single character, skip if roster id doesn't match
-		test byte [esp], 0xFF
-		je @alwaysAffect
-		cmp di, word[%target%]
-		jne @nextIteration
-
-		@alwaysAffect:
-		push edi
-		mov ecx, %party%
-		call absolute %getPlayerPtr%
-		mov ecx, eax
-		push dword [%timeHigh%]
-		push dword [%timeLow%]
-		push dword [%cond%]
-		call absolute %removeCond%
-
-		@nextIteration:
-		inc edi
-		cmp edi, esi
-		jl @loop
-
-		@end:
-		add esp, 4
-		pop edi
-		pop esi
-	]], 19)]=]
-
 	function events.CalcStatBonusByItems(t)
 		-- boost "of Doom" to not be garbage
 		if t.Stat >= const.Stats.Might and t.Stat <= const.Stats.BodyResistance then
@@ -1856,6 +1768,82 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		Game.SkillDescriptionsGM[const.Skills.Leather] = "Skill*4 added to Elemental (Fire/Earth/Air/Water) Resistances."
 		Game.SpcItemsTxt[1].BonusStat = "+25 to all Seven Statistics." -- of the gods
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
+	end
+end
+
+if MS.Rev4ForMergeMiscSpellChanges == 1 then
+	function events.PlayerSpellVar(t)
+		-- buff stoneskin
+		if t.Spell == const.Spells.StoneSkin and t.VarNum == 3 then -- armor per skill
+			t.Value = 2
+		-- nerf paralyze
+		elseif t.Spell == const.Spells.Paralyze and t.VarNum == 1 then -- duration per skill
+			t.Value = 60 -- 1 minute instead of 3
+		end
+	end
+
+	-- cure weakness affects whole party on GM --
+
+	mem.nop(0x42AE5B) -- disable skipping if target is not weak
+
+	-- skip select target screen on GM
+	mem.prot(true)
+	u1[0x425EE2] = 8 -- tweak jumptable
+	mem.prot()
+
+	-- replace gm code with one that acts on all players
+	local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
+	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE}
+
+	spellHookManager.asmpatch(0x42AE25, [[
+		push edi
+		xor edi, edi
+		cmp dword [ebp - 4], esi
+		je @call
+		mov di, word [ebx + 4] ; if not GM, affect only actual target
+
+		@call:
+		mov ecx,dword ptr [0x75CE00]
+		push edi
+		xor eax,eax
+		mov ax,word ptr [ebx]
+		push eax
+		call absolute 0x42D747
+		mov ecx,eax
+		call absolute %showAnimation%
+
+		; exit conditions
+		cmp dword [ebp - 4], esi
+		jne @exit ; not GM
+		inc edi
+		cmp edi, dword [%partySize%]
+		jb @call
+
+		@exit:
+		pop edi
+	]], 0x1F)
+
+	spellHookManager.asmpatch(0x42AE67, [[
+		push esi
+		xor esi, esi
+
+		@cure:
+		push esi
+		mov ecx, edi
+		call absolute %getPlayerPtr%
+		xor ecx, ecx
+		mov dword ptr [eax+8], ecx
+		mov dword ptr [eax+0xC], ecx
+
+		inc esi
+		cmp esi, dword[%partySize%]
+		jb @cure
+
+		pop esi
+	]], 0x12)
+
+	function events.GameInitialized2()
+		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with one cast"
 
 		local count
 		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]

@@ -964,30 +964,16 @@ do
 	}
 	getmetatable(cc).__index = oldIndex
 
-	function getClassTier(classId)
-		local findClass = function(v) return v == classId end
-		for k, v in pairs(classes) do
-			if type(k) == "table" and table.findIf(k, findClass) or type(k) == "number" and k == classId then
-				return 0
-			elseif table.findIf(v[1], findClass) then
-				return 1
-			elseif table.findIf(v[2], findClass) then
-				return 2
-			end
-		end
-		error(string.format("Invalid class %d", classId))
-	end
-
 	local invClass = table.invert(cc)
 	local function getClassEntry(classId)
 		local findClass = function(v) return v == classId end
 		for class, promos in pairs(classes) do
-			if 
-				(type(class) == "table" and table.findIf(class, findClass) or (type(class) == "number" and class == classId))
-				or table.findIf(promos[1], findClass)
-				or table.findIf(promos[2], findClass)
-			then
-				return class, promos
+			if (type(class) == "table" and table.findIf(class, findClass) or (type(class) == "number" and class == classId)) then
+				return class, promos, 0
+			elseif table.findIf(promos[1], findClass) then
+				return class, promos, 1
+			elseif table.findIf(promos[2], findClass) then
+				return class, promos, 2
 			end
 		end
 		error(string.format("Can't find base class for class %d (%q)", classId, invClass[classId]), 2)
@@ -1086,8 +1072,7 @@ do
 		local destinationClass = Q.currentClass
 		local index = Q.currentPlayer or 0
 		local pl = Party[index]
-		local tier = getClassTier(pl.Class)
-		local baseClass, baseClassPromos = getClassEntry(pl.Class)
+		local baseClass, baseClassPromos, baseClassTier = getClassEntry(pl.Class)
 		local newClass, newClassPromos = getClassEntry(destinationClass)
 		local baseMM7, newMM7 = baseClassPromos.MM7, newClassPromos.MM7
 
@@ -1122,11 +1107,11 @@ do
 
 		evt.ForPlayer(index) -- set evt.Player to act on correct one
 
-		if tier == 0 then
+		if baseClassTier == 0 then
 			doClassChange(baseClass, newClass)
-		elseif tier == 1 then
+		elseif baseClassTier == 1 then
 			doClassChange(baseClassPromos[1], newClassPromos[1])
-		elseif tier == 2 then
+		elseif baseClassTier == 2 then
 			doClassChange(baseClassPromos[2], newClassPromos[2])
 		else
 			error(string.format("Couldn't find class tier for class %d (%q)", pl.Class, invClass[pl.Class]))

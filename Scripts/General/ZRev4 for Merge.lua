@@ -22,8 +22,7 @@ IMPORTANCE CATEGORIES:
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
 * and Temple of the Sun has it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
-* intellect&personality affect also healing?
-* more healing spells like in maw mod?
+* test bdj quest if works correctly after tier function removal
 
 -- extemporary fix for huge spell skill:
 for i, mon in Map.Monsters do
@@ -56,6 +55,8 @@ playthrough notes:
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* more healing spells like in maw mod?
+* intellect&personality affect also healing?
 * priests near church of the moon fought with some mobs
 * buff resurrection
 * GM cure weakness and remove fear should work on whole party

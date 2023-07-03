@@ -6,6 +6,7 @@ function getQuestBit(questBit)
 	end
 	return questBit + add
 end
+getQBit = getQuestBit
 
 function getNPC(npc)
 	-- entries from 447 onwards are added at the end due to lack of space

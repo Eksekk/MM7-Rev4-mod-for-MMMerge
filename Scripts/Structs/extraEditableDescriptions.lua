@@ -1,12 +1,23 @@
 local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
+
+local skillsCount = 39
+function structs.f.SkillMasteryDescriptions(define)
+    local skipAmount = (skillsCount + 1) * 4
+    define[0].EditPChar("GM")
+    [skipAmount].EditPChar("Master")
+    [skipAmount*2].EditPChar("Expert")
+    [skipAmount*3].EditPChar("Novice")
+    .size = 4
+end
+
 local oldGame = structs.f.GameStructure
 function structs.f.GameStructure(define, ...)
     oldGame(define, ...)
-    local skillsHigh = 38
-    define[0x5E4A30].array(0, skillsHigh + 1).EditPChar("SkillDescriptionsGM")
-    define[0x5E4AD0].array(0, skillsHigh + 1).EditPChar("SkillDescriptionsMaster")
-    define[0x5E4B70].array(0, skillsHigh + 1).EditPChar("SkillDescriptionsExpert")
-    define[0x5E4C10].array(0, skillsHigh + 1).EditPChar("SkillDescriptionsNovice")
+    define[0x5E4A30].array(0, skillsCount).struct(structs.SkillMasteryDescriptions)("SkillMasteryDescriptions")
+    define[0x5E4A30].array(0, skillsCount).EditPChar("SkillDescriptionsGM")
+    define[0x5E4AD0].array(0, skillsCount).EditPChar("SkillDescriptionsMaster")
+    define[0x5E4B70].array(0, skillsCount).EditPChar("SkillDescriptionsExpert")
+    define[0x5E4C10].array(0, skillsCount).EditPChar("SkillDescriptionsNovice")
     --define[0x5E4CB0].array(0, skillsHigh + 1).EditPChar("SkillDescriptions")
     -- some stat descriptions: 0x5E4D50
 end

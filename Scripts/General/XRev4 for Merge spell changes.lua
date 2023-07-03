@@ -236,18 +236,19 @@ local function getSpellQueueData(spellQueuePtr, targetPtr)
 	if flags:And(0x10) ~= 0 then -- caster is target
 		t.Caster = Party.PlayersArray[i2[spellQueuePtr + 4]]
 	end
+
 	if flags:And(1) ~= 0 then
 		t.FromScroll = true
 		t.Skill, t.Mastery = SplitSkill(u2[spellQueuePtr + 0xA])
 	else
 		t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
 	end
+
 	if targetPtr then
-		-- roster id, not index in party
-		t.TargetIndex, t.Target = internal.GetPlayer(targetPtr)
+		t.TargetRosterId, t.Target = internal.GetPlayer(targetPtr)
 	else
 		local pl = Party[i2[spellQueuePtr + 4]]
-		t.TargetIndex, t.Target = pl:GetIndex(), pl
+		t.TargetRosterId, t.Target = pl:GetIndex(), pl
 	end
 	return t
 end
@@ -278,17 +279,13 @@ local function callHealingEvent(d, def, targetPtr, amount)
 	t.Amount = amount or 0
 	events.call("HealingSpellPower", t)
 	if t.Amount > 0 then
-		if type(def) == "function" then -- autohook passes code address as second argument
+		if type(def) == "function" then -- autohook passes code address (number) as second argument
 			def(targetPtr, t.Amount)
 		else
 			t.Target:AddHP(t.Amount)
 		end
 	end
 end
---[[
-local function spellAddHpHook(d, def, playerPtr, amount)
-	callHealingEvent(d, def, playerPtr, amount)
-end]]
 
 mem.hookcall(0x42AF62, 1, 1, callHealingEvent)
 mem.hookcall(0x42B494, 1, 1, callHealingEvent)
@@ -332,7 +329,7 @@ do
 end
 
 -- SHARED LIFE OVERFLOW FIX --
--- TODO: call healing event and modify total pool
+-- TODO: replace original code with new function, also call healing event and modify total pool
 
 function randomizeHP()
 	for i, pl in Party do
@@ -410,7 +407,6 @@ function doSharedLife(amount)
 end
 
 if MS.Rev4ForMergeChangeHealingSpells == 1 then
-
 	local healingSpellPowers =
 	{
 		[const.Spells.CureInsanity] =
@@ -490,10 +486,16 @@ if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
 		[cs.DayOfProtection] = 120,
 		[cs.HourOfPower] = 120,
 		[cs.PainReflection] = 40,
+		--[[ hardcoded values, because const.Spells is wrong here in current mmext
 		[cs.Glamour] = 40,
 		[cs.TravelersBoon] = 40,
 		[cs.Levitate] = 40,
 		[cs.Mistform] = 40,
+		]]
+		[100] = 40, -- order same as above
+		[101] = 40,
+		[112] = 40,
+		[114] = 40,
 		-- dragon flight skipped intentionally
 	}
 
@@ -564,24 +566,65 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		end
 	end
 
-	-- cure weakness affects whole party on GM --
+	-- cure weakness and remove fear affect whole party on GM --
 
 	mem.nop(0x42AE5B) -- disable skipping if target is not weak
+	mem.nop(0x42A57E) -- like above, but afraid
 
-	-- skip select target screen on GM
-	mem.prot(true)
-	u1[0x425EE2] = 8 -- tweak jumptable
-	mem.prot()
+	-- remove fear and cure weakness: skip select on GM
+	-- TODO: if max time to cure is 0 from SpellsExtra.txt, spell will be treated as GM by code, but target selection will still be required
+	HookManager{skillBeforeFirstMagic = const.Skills.Plate, removeFear = 0x39, cureWeakness = 0x43,
+		getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F}.asmhook(0x425C5F, [[
+		push ebx
+		mov ebx, eax ; player ptr
+
+		; get school of currently casted spell
+		movzx eax, word [ebp - 0x14] ; id
+		xor edx, edx
+		cmp eax, %removeFear%
+		sete cl
+		or dl, cl
+		cmp eax, %cureWeakness%
+		sete cl
+		or dl, cl
+		je @end ; not spell which affects whole party on GM
+
+		; just found out there's Merge.Offsets.GetSpellSkillId as well, but I'm gonna write my own version for fun
+		mov ecx, 11
+		cdq
+		idiv ecx
+		test edx, edx ; math.ceil - if remainder > 0 then increment
+		jz @noIncrement
+		inc eax
+		@noIncrement:
+		add eax, %skillBeforeFirstMagic%
+
+		; test mastery
+		mov ecx, ebx
+		push eax
+		call absolute %getSkill%
+		mov ecx, eax
+		call absolute %getSkillMastery0%
+		cmp eax, 4
+		jb @end
+
+		; disable select target flag
+		mov eax, 2
+		xor dword [ebp + 0xC], eax
+
+		@end:
+		pop ebx
+	]])
 
 	-- replace gm code with one that acts on all players
 	local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
 	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE}
 
 	-- show animation
-	spellHookManager.asmpatch(0x42AE25, [[
+	local animationPatch = [[
 		push edi
 		xor edi, edi
-		cmp dword [ebp - 4], esi
+		%gmCheck%
 		je @call
 		mov di, word [ebx + 4] ; if not GM, affect only actual target
 
@@ -596,7 +639,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		call absolute %showAnimation%
 
 		; exit conditions
-		cmp dword [ebp - 4], esi
+		%gmCheck%
 		jne @exit ; not GM
 		inc edi
 		cmp edi, dword [%partySize%]
@@ -604,30 +647,45 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 		@exit:
 		pop edi
-	]], 0x1F)
+	]]
 
 	-- cure
-	spellHookManager.asmpatch(0x42AE67, [[
+	local curePatch = [[
 		push esi
 		xor esi, esi
 
 		@cure:
 		push esi
-		mov ecx, edi
+		mov ecx, %party%
 		call absolute %getPlayerPtr%
 		xor ecx, ecx
-		mov dword ptr [eax+8], ecx
-		mov dword ptr [eax+0xC], ecx
+		mov dword ptr [eax+%condOffset%], ecx
+		mov dword ptr [eax+%condOffset% + 4], ecx
 
 		inc esi
 		cmp esi, dword[%partySize%]
 		jb @cure
 
 		pop esi
-	]], 0x12)
+	]]
+
+	-- animation
+	spellHookManager.ref.gmCheck = "cmp dword [ebp - 4], esi"
+	spellHookManager.asmpatch(0x42AE25, animationPatch, 0x1F)
+
+	-- cure
+	spellHookManager.ref.condOffset = 8
+	spellHookManager.asmpatch(0x42AE67, curePatch, 0x12)
+
+	-- same for remove fear
+	spellHookManager.ref.gmCheck = "test dword [ebp - 4], 0xFFFFFFFF"
+	spellHookManager.asmpatch(0x42A54A, animationPatch, 0x1F)
+	spellHookManager.ref.condOffset = 0x18
+	spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 
 	function events.GameInitialized2()
 		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"
+		Game.SpellsTxt[const.Spells.RemoveFear].GM = Game.SpellsTxt[const.Spells.RemoveFear].GM .. ". Affects whole party with single cast"
 
 		local count
 		local spellEntry = Game.SpellsTxt[const.Spells.StoneSkin]

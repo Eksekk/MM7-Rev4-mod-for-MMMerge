@@ -227,37 +227,189 @@ function events.CalcSpellDamage(t)
 	end
 end
 
-local function getSpellQueueData(ptr)
-	local t = {Spell = i2[ptr], Caster = Party.PlayersArray[i2[ptr + 2]]}
+-- HEALING HOOKS --
+
+local function getSpellQueueData(spellQueuePtr, targetPtr)
+	local t = {Spell = i2[spellQueuePtr], Caster = Party.PlayersArray[i2[spellQueuePtr + 2]]}
 	t.SpellSchool = ceil(t.Spell / 11)
-	local flags = u2[ptr + 8]
+	local flags = u2[spellQueuePtr + 8]
 	if flags:And(0x10) ~= 0 then -- caster is target
-		t.Caster = Party.PlayersArray[i2[ptr + 4]]
+		t.Caster = Party.PlayersArray[i2[spellQueuePtr + 4]]
 	end
 	if flags:And(1) ~= 0 then
 		t.FromScroll = true
-		t.Skill, t.Mastery = SplitSkill(u2[ptr + 0xA])
+		t.Skill, t.Mastery = SplitSkill(u2[spellQueuePtr + 0xA])
 	else
 		t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
 	end
-	t.TargetIndex, t.Target = internal.GetPlayer(playerPtr)
+	if targetPtr then
+		-- roster id, not index in party
+		t.TargetIndex, t.Target = internal.GetPlayer(targetPtr)
+	else
+		local pl = Party[i2[spellQueuePtr + 4]]
+		t.TargetIndex, t.Target = pl:GetIndex(), pl
+	end
 	return t
 end
 
--- HEALING HOOKS --
-mem.hookfunction(0x48FA06, 1, 3, function(d, def, playerPtr, cond, timeLow, timeHigh)
-	local t = getSpellQueueData(d.ebx)
+mem.hookfunction(0x48FA06, 1, 3, function(d, def, targetPtr, cond, timeLow, timeHigh)
+	local t = getSpellQueueData(d.ebx, targetPtr)
 	events.call("RemoveConditionBySpell", t)
-	def(playerPtr, cond, timeLow, timeHigh)
+	def(targetPtr, cond, timeLow, timeHigh)
 	events.call("AfterRemoveConditionBySpell", t)
 end)
 
-if MS.Rev4ForMergeChangeHealingSpells == 1 then
-	function events.AfterRemoveConditionBySpell(t)
-		local t1 = table.copy(t)
-		t1.Amount = 0
-		events.call("HealingSpellPower", t1)
+function events.AfterRemoveConditionBySpell(t) -- after to allow to add hp when curing eradication/dead (before wouldn't work)
+	local t1 = table.copy(t)
+	t1.Amount = 0
+	events.call("HealingSpellPower", t1)
+	if t1.Amount > 0 then
+		t1.Target:AddHP(t1.Amount)
 	end
+end
+
+-- call def or method
+-- use player ptr or target in queue
+
+-- either def and use player ptr, or method and index in queue
+
+local function callHealingEvent(d, def, targetPtr, amount)
+	local t = getSpellQueueData(d.ebx, targetPtr)
+	t.Amount = amount or 0
+	events.call("HealingSpellPower", t)
+	if t.Amount > 0 then
+		if type(def) == "function" then -- autohook passes code address as second argument
+			def(targetPtr, t.Amount)
+		else
+			t.Target:AddHP(t.Amount)
+		end
+	end
+end
+--[[
+local function spellAddHpHook(d, def, playerPtr, amount)
+	callHealingEvent(d, def, playerPtr, amount)
+end]]
+
+mem.hookcall(0x42AF62, 1, 1, callHealingEvent)
+mem.hookcall(0x42B494, 1, 1, callHealingEvent)
+
+-- don't skip cure insanity code and don't add weakness if char is not insane
+-- also remaining resurrection and raise dead and maybe others
+do
+	local addWeakness = mem.StaticAlloc(1)
+	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = 0x42C200}
+	
+	-- don't skip the code
+	hooks.asmpatch(0x42ABC1, [[
+		setne cl
+		mov byte [%addWeakness%], cl
+	]])
+
+	-- don't show animation if not needed
+	hooks.asmpatch(0x42ABD9, [[
+		test byte [%addWeakness%], 1
+		jz absolute 0x42ABF1
+		movsx eax,word ptr [ebx+4]
+	]], 6)
+
+	-- call healing event if mastery is GM
+	autohook(0x42ABF7, callHealingEvent)
+
+	-- don't add weakness if mastery is GM
+	hooks.asmhook2(0x42AC03, [[
+		test byte [%addWeakness%], 1
+		jz absolute %castSuccessful%
+	]])
+
+	-- don't add weakness if mastery is below GM (also check for right spell, because iirc resurrection also causes weakness and might also use this code)
+	hooks.asmhook(0x42A128, [[
+		cmp word [ebx + 2], 0x40
+		jne @notCureInsanity
+		test byte [%addWeakness%], 1
+		jz absolute %castSuccessful%
+		@notCureInsanity:
+	]])
+end
+
+-- SHARED LIFE OVERFLOW FIX --
+-- TODO: call healing event and modify total pool
+
+function randomizeHP()
+	for i, pl in Party do
+		pl.HP = math.random(1, pl:GetFullHP())
+	end
+end
+
+function doSharedLife(amount)
+	-- for each iteration, try to top up lowest HP deficit party member, increasing others' HP along the way
+	local function shouldParticipate(pl)
+		return pl.Dead == 0 and pl.Eradicated == 0 and pl.Stoned == 0 -- as in default code
+	end
+
+	local activePlayers = {}
+	local fullHPs = {}
+	amount = amount or 0
+	for i, pl in Party do
+		if shouldParticipate(pl) then
+			table.insert(activePlayers, pl)
+			fullHPs[pl:GetIndex()] = pl:GetFullHP()
+			amount = amount + pl.HP
+			pl.HP = 0
+		end
+	end
+	local affectedPlayers = table.copy(activePlayers)
+	local pool = amount
+	local steps = 0
+	while amount > 0 and #activePlayers > 0 do
+		steps = steps + 1
+		local minDeficit = math.huge
+		for i, pl in ipairs(activePlayers) do
+			local def = fullHPs[pl:GetIndex()] - pl.HP
+			if def > 0 then
+				minDeficit = min(minDeficit, def)
+			end
+		end
+
+		local part = minDeficit
+		if minDeficit * #activePlayers > amount then
+			part = floor(amount / #activePlayers)
+		end
+
+		amount = amount - part * #activePlayers
+
+		local newPlayers = {}
+		for i, pl in ipairs(activePlayers) do
+			pl.HP = pl.HP + part
+			if part == 0 and amount > 0 then
+				pl.HP = pl.HP + 1
+				amount = amount - 1
+			end
+			if pl.HP ~= fullHPs[pl:GetIndex()] then
+				table.insert(newPlayers, pl)
+			end
+			--if free and pl.HP < fullHPs[i] then
+			--	pl.HP = pl.HP + 1
+			--end
+		end
+		activePlayers = newPlayers
+	end
+	local result = 0
+	local everyoneFull = true
+	for i, pl in ipairs(affectedPlayers) do
+		result = result + pl.HP
+		if pl.HP > 0 then
+			pl.Unconscious = 0
+		end
+		if pl.HP ~= pl:GetFullHP() then
+			everyoneFull = false
+		end
+	end
+	assert((pool == result) or everyoneFull, format("Pool %d, result %d, everyoneFull: %s", pool, result, everyoneFull))
+	printf("Steps: %d", steps)
+	--debug.Message(format("%d HP left", amount))
+end
+
+if MS.Rev4ForMergeChangeHealingSpells == 1 then
 
 	local healingSpellPowers =
 	{
@@ -265,11 +417,11 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 		{
 			[const.Master] =
 			{
-				FixedMin = 10, FixedMax = 30, VariableMin = 3, variableMax = 5,
+				FixedMin = 10, FixedMax = 30, VariableMin = 3, VariableMax = 5,
 			},
 			[const.GM] =
 			{
-				FixedMin = 10, FixedMax = 30, VariableMin = 3, variableMax = 5,
+				FixedMin = 10, FixedMax = 30, VariableMin = 3, VariableMax = 5,
 			}
 		},
 		[const.Spells.CureDisease] =
@@ -285,12 +437,14 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 		}
 	}
 
+	-- SPELL DESCRIPTIONS
+
 	local function calcHealingSpellPower(spell, caster, skill, mastery, amount)
 		local entry = healingSpellPowers[spell]
 		if not entry then return amount end
 		entry = entry[mastery]
 		if not entry then return amount end
-		local vmin, vmax, fmin, fmax = (entry.VariableMin or 0), (entry.VariableMax or 0), (entry.FixedMin or 0), (entry.FixedMin or 0)
+		local vmin, vmax, fmin, fmax = (entry.VariableMin or 0), (entry.VariableMax or 0), (entry.FixedMin or 0), (entry.FixedMax or 0)
 		assert(vmin >= 0 and vmin <= vmax)
 		amount = Randoms(vmin, vmax, skill)
 		assert(fmin >= 0 and fmin <= fmax)

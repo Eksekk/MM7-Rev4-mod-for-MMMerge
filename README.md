@@ -21,7 +21,7 @@ Medium introduces:
 * removing some of endgame items just lying on the ground or being in chest on starting maps. Also a part of flavor, see above. Change Rev4ForMergeRemoveFreeEndgameItems option to anything other than 1 to disable this.
 * meditation SP regen is nerfed from mastery + floor(skill / 10) to mastery - 2 + floor(skill / 10) (mastery starts with Novice on 1, and then increases by 1), and only if you actually have at least master meditation. Change Rev4ForMergeNerfMeditationSPRegen option to anything other than 1 to disable this.
 * all damage to monsters is decreased by 15% (set Rev4ForMergeNerfDamage option to anything other than 1 to disable it).
-* Most maps have extra monster spawns, usually guarding most of currently free to explore locations. Note: some spawns are very difficult and are not intended to be fought right away. It's perfectly fine to just grab the loot and run away. Change Rev4ForMergeExtraMonsterSpawns option to anything other than 1 to disable.
+* Most MM7 outdoor maps have extra monster spawns, usually guarding most of currently free to explore locations. Note: some spawns are very difficult and are not intended to be fought right away. It's perfectly fine to just grab the loot and run away. Change Rev4ForMergeExtraMonsterSpawns option to anything other than 1 to disable.
 * Most of gold gains (selling/gold piles/quest rewards/wells) is reduced to 75% of original value.
 * Normal map spawnpoints spawn more monsters. You can lower the amount a bit by setting Rev4ForMergeSmallerMapstatsSpawnIncrease to 1 (but still more will spawn than on easy).
 * You can hire only 3 NPCs at the same time instead of 4. To always allow 4, set Rev4ForMergeDecreaseMaxHiredNpcAmount to 0.
@@ -112,6 +112,6 @@ I added five new quests:
 * CognitiveDesign (helping me in various issues)
 * GrayFace (helping me in various issues). This mod also makes heavy use of various tools for MM6-8 modding made by Grayface (especially scripting).
 * kromz (playtesting and bug hunting)
-* some ideas <del>stolen from</del> inspired by Elemental Mod for MM7, MM7 Reimagined and MM7 Refilled for the Merge
+* some ideas <del>stolen from</del> inspired by [https://www.celestialheavens.com/forum/10/17167](Elemental Mod for MM7), [https://www.celestialheavens.com/forum/10/17225](MM7 Reimagined) and [https://www.celestialheavens.com/forum/10/17218](MM7 Refilled for the Merge)
 
 Big thank you to everyone on this list, without you this mod couldn't be created!

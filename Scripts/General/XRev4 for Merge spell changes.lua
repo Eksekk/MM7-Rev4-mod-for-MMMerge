@@ -175,11 +175,11 @@ local function calcStatSpellPowerMul(pl)
 	return 0.01 * (stats / 10) -- every 10 points gives extra 1% effect
 end
 
-local function calcStatSpellEffectBonus(pl, damage)
+local function calcStatSpellEffectBonus(pl, effectValue)
 	if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
-		damage = damage + round(damage * calcStatSpellPowerMul(pl))
+		effectValue = effectValue + round(effectValue * calcStatSpellPowerMul(pl))
 	end
-	return damage
+	return effectValue
 end
 
 if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
@@ -217,6 +217,7 @@ function events.CalcSpellDamage(t)
 end
 
 -- HEALING HOOKS --
+-- idea from MAW mod for MM6 --
 
 local function getSpellQueueData(spellQueuePtr, targetPtr)
 	local t = {Spell = i2[spellQueuePtr], Caster = Party.PlayersArray[i2[spellQueuePtr + 2]]}
@@ -289,7 +290,7 @@ local castSuccessfulAddr = 0x42C200
 -- also remaining resurrection and raise dead and maybe others
 do
 	local addWeakness = mem.StaticAlloc(1)
-	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = castSuccessfulAddr}
+	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity}
 	
 	-- don't skip the code
 	hooks.asmpatch(0x42ABC1, [[
@@ -315,7 +316,7 @@ do
 
 	-- don't add weakness if mastery is below GM (also check for right spell, because iirc resurrection also causes weakness and might also use this code)
 	hooks.asmhook(0x42A128, [[
-		cmp word [ebx + 2], 0x40
+		cmp word [ebx + 2], %cureInsanity%
 		jne @notCureInsanity
 		test byte [%addWeakness%], 1
 		jz absolute %castSuccessful%
@@ -374,7 +375,7 @@ if MS.Rev4ForMergeFixSharedLifeOverflow == 1 then
 
 			local part = minDeficit
 			if minDeficit * #activePlayers > amount then
-				part = floor(amount / #activePlayers)
+				part = amount:div(#activePlayers)
 			end
 
 			amount = amount - part * #activePlayers
@@ -487,7 +488,18 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 		}
 	}
 
-	-- SPELL DESCRIPTIONS
+	-- stuff to make event work for GM status cures
+	-- cure paralysis
+	mem.nop(0x42A4C2) -- always call the code
+	autohook(0x42A4CE, callHealingEvent) -- call healing event for GM
+
+	-- cure poison
+	asmpatch(0x42AFC8, "mov edi, 0xB20E90\njmp short " .. 0x42B00D- 0x42AFC8) -- always call the code
+	autohook(0x42B013, callHealingEvent)
+
+	-- cure disease
+	asmpatch(0x42B342, "mov edi, 0xB20E90\njmp short " .. 0x42B387 - 0x42B342)
+	autohook(0x42B38D, callHealingEvent)
 
 	local function getSpellMasteryHealingData(spell, mastery)
 		local entry = healingSpellPowers[spell]
@@ -677,7 +689,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 	-- remove fear and cure weakness: skip select on GM
 	-- TODO: if max time to cure is 0 from SpellsExtra.txt, spell will be treated as GM by code, but target selection will still be required
-	HookManager{skillBeforeFirstMagic = const.Skills.Plate, removeFear = 0x39, cureWeakness = 0x43,
+	HookManager{skillBeforeFirstMagic = const.Skills.Plate, removeFear = const.Spells.RemoveFear, cureWeakness = const.Spells.CureWeakness,
 		getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F}.asmhook(0x425C5F, [[
 		push ebx
 		mov ebx, eax ; player ptr
@@ -713,8 +725,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		jb @end
 
 		; disable select target flag
-		mov eax, 2
-		xor dword [ebp + 0xC], eax
+		xor dword [ebp + 0xC], 2
 
 		@end:
 		pop ebx
@@ -793,7 +804,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	spellHookManager.ref.gmCheck = "cmp dword [ebp - 4], esi"
 	spellHookManager.asmpatch(0x42AE25, animationPatch, 0x1F)
 
-	--getU(events.HealingSpellPower.last, "calcHealingSpellPower", "getSpellMasteryHealingData", "healingSpellPowers")[const.Spells.CureWeakness] = {[const.GM] = {FixedMin = 5, FixedMax = 20}}
 	-- cure
 	spellHookManager.ref.condOffset = 8
 	local addr = spellHookManager.asmpatch(0x42AE67, curePatch, 0x12)
@@ -803,7 +813,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	spellHookManager.ref.gmCheck = "test dword [ebp - 4], 0xFFFFFFFF"
 	spellHookManager.asmpatch(0x42A54A, animationPatch, 0x1F)
 	spellHookManager.ref.condOffset = 0x18
-	local addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
+	addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
 	function events.GameInitialized2()

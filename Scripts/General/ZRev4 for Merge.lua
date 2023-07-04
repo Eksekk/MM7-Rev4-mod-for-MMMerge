@@ -16,7 +16,7 @@ IMPORTANCE CATEGORIES:
 ---- very important ----
 * spawn something near tularean caverns
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
-* and Temple of the Sun has it broken even ingame
+* and Temple of the Sun and Haunted Mansion have it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * test bdj quest if works correctly after tier function removal
 
@@ -46,35 +46,36 @@ playthrough notes:
 * barrow levers wrong textures?
 * harmondale carnage bow was not removed - ??? works fine in new game
 * travelling to harmondale from EI (second time) breaks interface
+* monsters hostile after entering celeste for first time, fix in editor?
 
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* probably lower reputation you get from troglodyte quest (but without that training would be very expensive)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
+* bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * bolster in general, two todos are there, but not terribly important
-* more healing spells like in maw mod?
-* intellect&personality affect also healing?
 * priests near church of the moon fought with some mobs
 * buff resurrection
-* GM cure weakness and remove fear should work on whole party
-* also some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
+* some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
-* bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is
-* titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined?
+* titans in bracada desert surrounded by dynamically spawned bones (sprites), as in mm7 reimagined? WARNING: see Grayface reference about SanitySpritesCount, 
+	can cause problems when adding sprites dynamically
 * deal with literally all my changes except difficulty making game easier - on medium/hard it should still be harder, but easy will be walk in the park
 * Bosses
 * Boost weapon boosting potions
-* Boost some of statistics' effects (if boosted breakpoints active, then less)
+* Boost some of statistics' effects (if boosted breakpoints active, then less) - int/per done
 * spell damage opt-out
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion like in default Merge quests
 * as above, but for free skill barrels and NPC free skills (dark master/fire expert)
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
-* scatter some items (thematical - a ring of dragon eyes, several low-tier rings, random spellbook etc.) near some monster spawns or empty areas (if latter, items should be weaker)?
+* shared merchant skill for buying and selling (training, learning skills, healing in temple - nope)
+* scatter some items (thematical - a ring of dragon eyes, several low-tier rings, random spellbook etc.) near some monster spawns or empty areas (if latter, items should be weaker)
 * gm mind resist providing (near?)immunity to insane? same with earth res and stone etc.
 * localizations for my new texts (for example identify monster descriptions)?
 * ENHANCED STAT TOOLTIPS: show what contributes to stat (for example might: well bonus 20, day of the gods 35, base 15, items 60, condition -30, potion 90) plus other relevant info
@@ -96,6 +97,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* haunted mansion no transition text
 * show some animation when monster effect is avoided with perception?
 * allow GM merchant to get above maximum sell price due to difficulty??
 * Grayface patch introduces different transition text for nighon tunnels -> thunderfist mountain, include it?

@@ -219,6 +219,42 @@ patches = {
                 evt.MoveToMap{X = 8146, Y = 4379, Z = 3700, Direction = 0, LookAngle = 0, SpeedZ = 0, HouseId = 0, Icon = 0, Name = "0"}
             end
         end)
+
+        -- temporary fix for monsters in Celeste being hostile on first enter
+        replaceMapEvent(1, function()  -- function events.LoadMap()
+            evt.Add("QBits", getQBit(209))         -- Celeste - Town Portal
+            if evt.Cmp("QBits", getQBit(293)) then         -- Return to NWC
+                goto _15
+            end
+            if not evt.Cmp("QBits", getQBit(99)) then         -- Chose the path of Light
+                goto _7
+            end
+            if evt.Cmp("QBits", getQBit(270)) then         -- Your friends are mad at you 
+                if not evt.Cmp("Counter10", 720) then
+                    goto _7
+                end
+                evt.Subtract("QBits", getQBit(270))         -- Your friends are mad at you 
+                evt.Set("MapVar4", 0)
+                goto _15
+            end
+            if not evt.Cmp("MapVar4", 2) then
+                -- my addition - unset hostility bit if no "transgression" performed
+                evt.SetMonGroupBit{NPCGroup = getNpcGroup(5), Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
+                evt.SetMonGroupBit{NPCGroup = getNpcGroup(4), Bit = const.MonsterBits.Hostile, On = false}         -- "Guards"
+                return
+            end
+        ::_8::
+            evt.SetMonGroupBit{NPCGroup = getNpcGroup(5), Bit = const.MonsterBits.Hostile, On = true}         -- "Generic Monster Group for Dungeons"
+            evt.SetMonGroupBit{NPCGroup = getNpcGroup(4), Bit = const.MonsterBits.Hostile, On = true}         -- "Guards"
+            do return end
+        ::_15::
+            evt.SetMonGroupBit{NPCGroup = getNpcGroup(5), Bit = const.MonsterBits.Hostile, On = false}         -- "Generic Monster Group for Dungeons"
+            evt.SetMonGroupBit{NPCGroup = getNpcGroup(4), Bit = const.MonsterBits.Hostile, On = false}         -- "Guards"
+            do return end
+        ::_7::
+            evt.Set("MapVar4", 2)
+            goto _8
+        end, true)
     end,
 
     -- Colony Zod

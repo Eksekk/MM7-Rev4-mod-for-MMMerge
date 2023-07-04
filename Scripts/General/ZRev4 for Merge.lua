@@ -14,11 +14,7 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* if bolster is disabled, extra experience and gold won't be applied - probably will work, need to test
-* bolster in general, two todos are there
 * spawn something near tularean caverns
-* turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
-* if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
 * and Temple of the Sun has it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
@@ -55,6 +51,9 @@ playthrough notes:
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
+* turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
+* bolster in general, two todos are there, but not terribly important
 * more healing spells like in maw mod?
 * intellect&personality affect also healing?
 * priests near church of the moon fought with some mobs

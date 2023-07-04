@@ -165,38 +165,27 @@ local spellsDamage =
 local function Randoms(min, max, count)
 	local r = 0
 	for i = 1, count do
-		r = r + math.random(min, max)
+		r = r + random(min, max)
 	end
 	return r
 end
 
-local lookupTable = {}
-local function getRange(str)
-	if lookupTable[str] then return lookupTable[str][1], lookupTable[str][2] end
-	local min, max = str:match("(%d+)%-(%d+)")
-	min = tonumber(min)
-	max = tonumber(max)
-	assert(min ~= nil and max ~= nil)
-	lookupTable[str] = {min, max}
-	return min, max
-end
-
-local function calcStatDamageMul(pl)
+local function calcStatSpellPowerMul(pl)
 	local stats = pl:GetIntellect() + pl:GetPersonality()
-	return 0.01 * (stats / 10) -- every 10 points gives extra 1% damage
+	return 0.01 * (stats / 10) -- every 10 points gives extra 1% effect
 end
 
-local function calcStatDamageBonus(pl, damage)
-	if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellDamage == 1 then
-		damage = damage + math.round(damage * calcStatDamageMul(pl))
+local function calcStatSpellEffectBonus(pl, damage)
+	if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
+		damage = damage + round(damage * calcStatSpellPowerMul(pl))
 	end
 	return damage
 end
 
-if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellDamage == 1 then
+if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
 	table.insert(tget(rev4m, "addTextFunctions"), function(pl)
-		local percentage = calcStatDamageMul(pl) * 100
-		return string.format("Extra spell damage from personality\r\n and intellect: %.1f%%", percentage)
+		local percentage = calcStatSpellPowerMul(pl) * 100
+		return string.format("Extra spell effect from personality\r\n and intellect: %.1f%%", percentage)
 	end)
 end
 
@@ -205,7 +194,7 @@ function events.CalcSpellDamage(t)
 	if entry then
 		local s, m = SplitSkill(t.Skill)
 		if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
-			local min, max = getRange(entry.DamagePerSkill)
+			local min, max = _G.getRange(entry.DamagePerSkill)
 			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
 		else
 			local entry2 = nil
@@ -215,7 +204,7 @@ function events.CalcSpellDamage(t)
 			end
 			assert(entry2)
 			entry = entry2
-			local min, max = getRange(entry.DamagePerSkill)
+			local min, max = _G.getRange(entry.DamagePerSkill)
 			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
 		end
 	end
@@ -223,7 +212,7 @@ function events.CalcSpellDamage(t)
 	-- stat damage bonus
 	local data = WhoHitMonster()
 	if data and data.Player then
-		t.Result = calcStatDamageBonus(data.Player, t.Result)
+		t.Result = calcStatSpellEffectBonus(data.Player, t.Result)
 	end
 end
 
@@ -333,7 +322,7 @@ end
 
 function randomizeHP()
 	for i, pl in Party do
-		pl.HP = math.random(1, pl:GetFullHP())
+		pl.HP = random(1, pl:GetFullHP())
 	end
 end
 
@@ -384,9 +373,6 @@ function doSharedLife(amount)
 			if pl.HP ~= fullHPs[pl:GetIndex()] then
 				table.insert(newPlayers, pl)
 			end
-			--if free and pl.HP < fullHPs[i] then
-			--	pl.HP = pl.HP + 1
-			--end
 		end
 		activePlayers = newPlayers
 	end
@@ -413,7 +399,7 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 		{
 			[const.Master] =
 			{
-				FixedMin = 10, FixedMax = 30, VariableMin = 3, VariableMax = 5,
+				FixedMin = 10, FixedMax = 30, VariableMin = 2, VariableMax = 4,
 			},
 			[const.GM] =
 			{
@@ -424,28 +410,108 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 		{
 			[const.Master] = 
 			{
-				FixedMin = 25, FixedMax = 45, VariableMin = 2, VariableMax = 4,
+				FixedMin = 25, FixedMax = 45, VariableMin = 1, VariableMax = 2,
 			},
 			[const.GM] = 
 			{
-				FixedMin = 25, FixedMax = 45, VariableMin = 2, VariableMax = 4,
+				FixedMin = 25, FixedMax = 45, VariableMin = 2, VariableMax = 3,
+			},
+		},
+		[const.Spells.CurePoison] =
+		{
+			[const.Expert] = 
+			{
+				FixedMin = 5, FixedMax = 8, VariableMin = 1, VariableMax = 1,
+			},
+			[const.Master] = 
+			{
+				FixedMin = 7, FixedMax = 10, VariableMin = 1, VariableMax = 2,
+			},
+			[const.GM] = 
+			{
+				FixedMin = 8, FixedMax = 13, VariableMin = 2, VariableMax = 3,
+			},
+		},
+		[const.Spells.CureParalysis] =
+		{
+			[const.Expert] = 
+			{
+				FixedMin = 5, FixedMax = 5, VariableMin = 1, VariableMax = 1,
+			},
+			[const.Master] = 
+			{
+				FixedMin = 5, FixedMax = 10, VariableMin = 1, VariableMax = 2,
+			},
+			[const.GM] = 
+			{
+				FixedMin = 10, FixedMax = 15, VariableMin = 2, VariableMax = 3,
 			},
 		}
 	}
 
 	-- SPELL DESCRIPTIONS
 
-	local function calcHealingSpellPower(spell, caster, skill, mastery, amount)
+	local function getSpellMasteryHealingData(spell, mastery)
 		local entry = healingSpellPowers[spell]
-		if not entry then return amount end
+		if not entry then return end
 		entry = entry[mastery]
-		if not entry then return amount end
+		if not entry then return end
 		local vmin, vmax, fmin, fmax = (entry.VariableMin or 0), (entry.VariableMax or 0), (entry.FixedMin or 0), (entry.FixedMax or 0)
+		return vmin, vmax, fmin, fmax
+	end
+
+	-- returns [string or nil if both params are 0], [whether single or none parameter was used]
+	local function getRangeStr(min, max)
+		if min ~= 0 and max ~= 0 and min ~= max then
+			return format("%d-%d", min, max)
+		elseif min ~= 0 or max ~= 0 then
+			return tostring(min ~= 0 and min or max), true
+		end
+	end
+
+	function events.GameInitialized2()
+		local txt = Game.SpellsTxt
+		for spellId in Game.SpellsTxt do
+			local spellTxt = txt[spellId]
+			local addedAny
+			for mastery = const.Novice, const.GM do
+				local vmin, vmax, fmin, fmax = getSpellMasteryHealingData(spellId, mastery)
+				if vmin then
+					local variableStr, variableSingle = getRangeStr(vmin, vmax)
+					local fixedStr, fixedSingle = getRangeStr(fmin, fmax)
+
+					local finalStr = ""
+					if fixedStr and variableStr then
+						finalStr = format(". Heals %s points + %s per skill", fixedStr, variableStr)
+					elseif fixedStr then
+						finalStr = format(". Heals %s points", fixedStr)
+					elseif variableStr then
+						finalStr = format(". Heals %s points per skill", variableStr)
+					end
+					if finalStr then
+						local key = select(mastery, "Normal", "Expert", "Master", "GM")
+						spellTxt[key] = spellTxt[key] .. finalStr
+						addedAny = true
+					end
+				end
+			end
+			if addedAny then
+				spellTxt.Description = spellTxt.Description .. " The spell also heals some hit points."
+			end
+		end
+	end
+
+	local function calcHealingSpellPower(spell, caster, skill, mastery, amount)
+		local vmin, vmax, fmin, fmax = getSpellMasteryHealingData(spell, mastery)
+		if not vmin then
+			amount = calcStatSpellEffectBonus(caster, amount)
+			return amount
+		end
 		assert(vmin >= 0 and vmin <= vmax)
 		amount = Randoms(vmin, vmax, skill)
 		assert(fmin >= 0 and fmin <= fmax)
-		amount = amount + math.random(fmin, fmax)
-		-- TODO: intellect & personality bonus
+		amount = amount + random(fmin or 0, fmax or 0) -- or 0 to satisfy my vscode lua extension
+		amount = calcStatSpellEffectBonus(caster, amount)
 		return amount
 	end
 

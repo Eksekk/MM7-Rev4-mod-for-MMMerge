@@ -283,11 +283,13 @@ end
 mem.hookcall(0x42AF62, 1, 1, callHealingEvent)
 mem.hookcall(0x42B494, 1, 1, callHealingEvent)
 
+local castSuccessfulAddr = 0x42C200
+
 -- don't skip cure insanity code and don't add weakness if char is not insane
 -- also remaining resurrection and raise dead and maybe others
 do
 	local addWeakness = mem.StaticAlloc(1)
-	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = 0x42C200}
+	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = castSuccessfulAddr}
 	
 	-- don't skip the code
 	hooks.asmpatch(0x42ABC1, [[
@@ -324,76 +326,108 @@ end
 -- SHARED LIFE OVERFLOW FIX --
 -- TODO: replace original code with new function, also call healing event and modify total pool
 
-function randomizeHP()
+local function getPartyIndex(player)
 	for i, pl in Party do
-		pl.HP = random(1, pl:GetFullHP())
+		if pl == player then
+			return i
+		end
 	end
 end
 
-function doSharedLife(amount)
-	-- for each iteration, try to top up lowest HP deficit party member, increasing others' HP along the way
-	local function shouldParticipate(pl)
-		return pl.Dead == 0 and pl.Eradicated == 0 and pl.Stoned == 0 -- as in default code
-	end
-
-	local activePlayers = {}
-	local fullHPs = {}
-	amount = amount or 0
-	for i, pl in Party do
-		if shouldParticipate(pl) then
-			table.insert(activePlayers, pl)
-			fullHPs[pl:GetIndex()] = pl:GetFullHP()
-			amount = amount + pl.HP
-			pl.HP = 0
+if MS.Rev4ForMergeFixSharedLifeOverflow == 1 then
+	function randomizeHP()
+		for i, pl in Party do
+			pl.HP = random(1, pl:GetFullHP())
 		end
 	end
-	local affectedPlayers = table.copy(activePlayers)
-	local pool = amount
-	local steps = 0
-	while amount > 0 and #activePlayers > 0 do
-		steps = steps + 1
-		local minDeficit = math.huge
-		for i, pl in ipairs(activePlayers) do
-			local def = fullHPs[pl:GetIndex()] - pl.HP
-			if def > 0 then
-				minDeficit = min(minDeficit, def)
+
+	-- TODO: test very negative amounts (like -50000), they asserted previously
+	function doSharedLife(amount)
+		-- for each iteration, try to top up lowest HP deficit party member, increasing others' HP along the way
+		local function shouldParticipate(pl)
+			return pl.Dead == 0 and pl.Eradicated == 0 and pl.Stoned == 0 -- as in default code
+		end
+
+		local activePlayers = {}
+		local fullHPs = {}
+		amount = amount or 0
+		for i, pl in Party do
+			if shouldParticipate(pl) then
+				table.insert(activePlayers, pl)
+				fullHPs[pl:GetIndex()] = pl:GetFullHP()
+				amount = amount + pl.HP
+				pl.HP = 0
 			end
 		end
-
-		local part = minDeficit
-		if minDeficit * #activePlayers > amount then
-			part = floor(amount / #activePlayers)
-		end
-
-		amount = amount - part * #activePlayers
-
-		local newPlayers = {}
-		for i, pl in ipairs(activePlayers) do
-			pl.HP = pl.HP + part
-			if part == 0 and amount > 0 then
-				pl.HP = pl.HP + 1
-				amount = amount - 1
+		local affectedPlayers = table.copy(activePlayers)
+		local pool = amount
+		local steps = 0
+		while amount > 0 and #activePlayers > 0 do
+			steps = steps + 1
+			local minDeficit = math.huge
+			for i, pl in ipairs(activePlayers) do
+				local def = fullHPs[pl:GetIndex()] - pl.HP
+				if def > 0 then
+					minDeficit = min(minDeficit, def)
+				end
 			end
-			if pl.HP ~= fullHPs[pl:GetIndex()] then
-				table.insert(newPlayers, pl)
+
+			local part = minDeficit
+			if minDeficit * #activePlayers > amount then
+				part = floor(amount / #activePlayers)
+			end
+
+			amount = amount - part * #activePlayers
+
+			local newPlayers = {}
+			for i, pl in ipairs(activePlayers) do
+				pl.HP = pl.HP + part
+				if part == 0 and amount > 0 then
+					pl.HP = pl.HP + 1
+					amount = amount - 1
+				end
+				if pl.HP ~= fullHPs[pl:GetIndex()] then
+					table.insert(newPlayers, pl)
+				end
+			end
+			activePlayers = newPlayers
+		end
+		local result = 0
+		local everyoneFull = true
+		for i, pl in ipairs(affectedPlayers) do
+			result = result + pl.HP
+			if pl.HP > 0 then
+				pl.Unconscious = 0
+			end
+			if pl.HP ~= pl:GetFullHP() then
+				everyoneFull = false
 			end
 		end
-		activePlayers = newPlayers
+		assert((pool == result) or everyoneFull, format("Pool %d, result %d, everyoneFull: %s", pool, result, everyoneFull))
+		printf("Steps: %d", steps)
+		return affectedPlayers
+		--debug.Message(format("%d HP left", amount))
 	end
-	local result = 0
-	local everyoneFull = true
-	for i, pl in ipairs(affectedPlayers) do
-		result = result + pl.HP
-		if pl.HP > 0 then
-			pl.Unconscious = 0
+
+	-- replace shared life code with my own
+	hook(0x42A171, function(d)
+		local amount = u4[d.ebp - 4]
+		local t = getSpellQueueData(d.ebx)
+		t.Amount = amount
+		events.call("HealingSpellPower", t)
+		local affectedPlayers = doSharedLife(t.Amount)
+		for i, pl in ipairs(affectedPlayers) do
+			mem.call(0x4A6FCE, 1, mem.call(0x42D747, 1, u4[0x75CE00]), const.Spells.SharedLife, getPartyIndex(pl)) -- show animation
 		end
-		if pl.HP ~= pl:GetFullHP() then
-			everyoneFull = false
-		end
-	end
-	assert((pool == result) or everyoneFull, format("Pool %d, result %d, everyoneFull: %s", pool, result, everyoneFull))
-	printf("Steps: %d", steps)
-	--debug.Message(format("%d HP left", amount))
+	end)
+	asmpatch(0x42A176, "jmp absolute " .. castSuccessfulAddr)
+else
+	autohook(0x42A158, function(d)
+		local t = getSpellQueueData(d.ebx)
+		t.Amount = d.edi
+		events.call("HealingSpellPower", t)
+		d.edi = t.Amount
+	end)
 end
 
 if MS.Rev4ForMergeChangeHealingSpells == 1 then

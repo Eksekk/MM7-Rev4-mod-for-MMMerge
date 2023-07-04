@@ -78,3 +78,4 @@ Rev4ForMergeIntellectPersonalityIncreaseSpellEffect	1
 Rev4ForMergeBoostPerception	1
 Rev4ForMergeMiscSpellChanges	1
 Rev4ForMergeChangeHealingSpells	1
+Rev4ForMergeFixSharedLifeOverflow	1

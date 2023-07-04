@@ -112,6 +112,6 @@ I added five new quests:
 * CognitiveDesign (helping me in various issues)
 * GrayFace (helping me in various issues). This mod also makes heavy use of various tools for MM6-8 modding made by Grayface (especially scripting).
 * kromz (playtesting and bug hunting)
-* some ideas <del>stolen from</del> inspired by [https://www.celestialheavens.com/forum/10/17167](Elemental Mod for MM7), [https://www.celestialheavens.com/forum/10/17225](MM7 Reimagined) and [https://www.celestialheavens.com/forum/10/17218](MM7 Refilled for the Merge)
+* some ideas <del>stolen from</del> inspired by [Elemental Mod for MM7](https://www.celestialheavens.com/forum/10/17167), [MM7 Reimagined](https://www.celestialheavens.com/forum/10/17225), [MM7 Refilled for the Merge](https://www.celestialheavens.com/forum/10/17218) and [MAW mod for MM6](https://www.celestialheavens.com/forum/10/17617)
 
 Big thank you to everyone on this list, without you this mod couldn't be created!

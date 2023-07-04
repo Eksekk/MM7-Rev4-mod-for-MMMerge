@@ -234,7 +234,11 @@ local function getSpellQueueData(spellQueuePtr, targetPtr)
 	end
 
 	if targetPtr then
-		t.TargetRosterId, t.Target = internal.GetPlayer(targetPtr)
+		if type(targetPtr) == "number" then
+			t.TargetRosterId, t.Target = internal.GetPlayer(targetPtr)
+		else
+			t.TargetRosterId, t.Target = targetPtr:GetIndex(), targetPtr
+		end
 	else
 		local pl = Party[i2[spellQueuePtr + 4]]
 		t.TargetRosterId, t.Target = pl:GetIndex(), pl
@@ -269,7 +273,7 @@ local function callHealingEvent(d, def, targetPtr, amount)
 	events.call("HealingSpellPower", t)
 	if t.Amount > 0 then
 		if type(def) == "function" then -- autohook passes code address (number) as second argument
-			def(targetPtr, t.Amount)
+			def(type(targetPtr) == "table" and targetPtr["?ptr"] or targetPtr, t.Amount)
 		else
 			t.Target:AddHP(t.Amount)
 		end
@@ -682,6 +686,10 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		pop ebx
 	]])
 
+	local function callHealingEventWrapper(d)
+		callHealingEvent(d, nil, Party[d.edi])
+	end
+
 	-- replace gm code with one that acts on all players
 	local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
 	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE}
@@ -717,6 +725,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 	-- cure
 	local curePatch = [[
+		push edi
 		push esi
 		xor esi, esi
 
@@ -727,27 +736,41 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		xor ecx, ecx
 		mov dword ptr [eax+%condOffset%], ecx
 		mov dword ptr [eax+%condOffset% + 4], ecx
+		
+		; place for hook to call healing event
+		mov edi, esi
+		nop
+		nop
+		nop
+		nop
+		nop
 
 		inc esi
 		cmp esi, dword[%partySize%]
 		jb @cure
 
 		pop esi
+		pop edi
 	]]
+
+	local NOP = string.char(0x90)
 
 	-- animation
 	spellHookManager.ref.gmCheck = "cmp dword [ebp - 4], esi"
 	spellHookManager.asmpatch(0x42AE25, animationPatch, 0x1F)
 
+	--getU(events.HealingSpellPower.last, "calcHealingSpellPower", "getSpellMasteryHealingData", "healingSpellPowers")[const.Spells.CureWeakness] = {[const.GM] = {FixedMin = 5, FixedMax = 20}}
 	-- cure
 	spellHookManager.ref.condOffset = 8
-	spellHookManager.asmpatch(0x42AE67, curePatch, 0x12)
+	local addr = spellHookManager.asmpatch(0x42AE67, curePatch, 0x12)
+	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
 	-- same for remove fear
 	spellHookManager.ref.gmCheck = "test dword [ebp - 4], 0xFFFFFFFF"
 	spellHookManager.asmpatch(0x42A54A, animationPatch, 0x1F)
 	spellHookManager.ref.condOffset = 0x18
-	spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
+	local addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
+	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
 	function events.GameInitialized2()
 		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"

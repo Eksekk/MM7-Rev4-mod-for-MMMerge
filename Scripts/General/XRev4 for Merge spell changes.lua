@@ -194,8 +194,8 @@ function events.CalcSpellDamage(t)
 	if entry then
 		local s, m = SplitSkill(t.Skill)
 		if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
-			local min, max = _G.getRange(entry.DamagePerSkill)
-			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
+			local minVal, maxVal = _G.getRange(entry.DamagePerSkill)
+			t.Result = (entry.DamageBase or 0) + Randoms(minVal, maxVal, s)
 		else
 			local entry2 = nil
 			while m <= const.GM and not entry2 do
@@ -204,8 +204,8 @@ function events.CalcSpellDamage(t)
 			end
 			assert(entry2)
 			entry = entry2
-			local min, max = _G.getRange(entry.DamagePerSkill)
-			t.Result = (entry.DamageBase or 0) + Randoms(min, max, s)
+			local minVal, maxVal = _G.getRange(entry.DamagePerSkill)
+			t.Result = (entry.DamageBase or 0) + Randoms(minVal, maxVal, s)
 		end
 	end
 
@@ -494,7 +494,7 @@ if MS.Rev4ForMergeChangeHealingSpells == 1 then
 	autohook(0x42A4CE, callHealingEvent) -- call healing event for GM
 
 	-- cure poison
-	asmpatch(0x42AFC8, "mov edi, 0xB20E90\njmp short " .. 0x42B00D- 0x42AFC8) -- always call the code
+	asmpatch(0x42AFC8, "mov edi, 0xB20E90\njmp short " .. 0x42B00D - 0x42AFC8) -- always call the code
 	autohook(0x42B013, callHealingEvent)
 
 	-- cure disease

@@ -303,7 +303,11 @@ function events.LoadMap()
 			pseudoSpawnpoint{monster = 226, x = 5679, y = 4262, z = 1407, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 2048, group = 61}
 			
 			-- water elementals near high magic presence place
-			pseudoSpawnpoint{monster = 244, x = 15743, y = -10792, z = 60, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 61}
+			pseudoSpawnpoint{monster = 244, x = 15743, y = -10792, z = 60, count = isMedium() and "5-10" or "10-18", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 1024, group = 61, maxSpawnAttempts = 50}
+			
+			-- initiates of the sword near Tularean Caverns
+			-- idea from MM7 Refilled, but I lowered the spawn amount because it was ridiculous there (30 lowest tier)
+			pseudoSpawnpoint{monster = 259, x = -15187, y = 19217, z = 3667, count = diffsel("2-4", "3-6", "4-8"), powerChances = diffsel({100, 0, 0}, {80, 20, 0}, {60, 30, 10}), radius = 1024, group = 61}
 			
 			-- water elementals near shoreline with good reagents
 			pseudoSpawnpoint{monster = 244, x = -15629, y = 11100, z = 1151, count = isMedium() and "3-5" or "6-8", powerChances = isMedium() and {60, 30, 10} or {34, 33, 33}, radius = 4096, group = 61}

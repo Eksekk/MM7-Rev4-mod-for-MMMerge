@@ -51,6 +51,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 		end
 		local x, y, z
 		local spawnAttempts = 0
+		local maxAttempts = t.maxSpawnAttempts or 20
 		local failReasons = {}
 		while true do
 			-- generate random point in a circle centered on provided xy and with provided radius
@@ -75,7 +76,7 @@ function pseudoSpawnpoint(monster, x, y, z, count, powerChances, radius, group, 
 				end
 			end
 			spawnAttempts = spawnAttempts + 1
-			if spawnAttempts >= 20 then
+			if spawnAttempts >= maxAttempts then
 				local t2 = {}
 				for i, v in ipairs(failReasons) do
 					table.insert(t2, string.format("%d:	reason: %s		x: %d	y: %d	z: %d", i, unpack(v)))

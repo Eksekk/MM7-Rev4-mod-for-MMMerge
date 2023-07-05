@@ -52,6 +52,8 @@ playthrough notes:
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* add option to disable removing monster immunity
+* some monsters having some resistance penetration (new special)?
 * probably lower reputation you get from troglodyte quest (but without that training would be very expensive)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
@@ -1072,17 +1074,12 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		for _, pl in Party do
 			if pl:IsConscious() then
 				-- TODO: make skill and mastery joined together?
-				-- TODO: doesn't take into account items "of Identifying". Use difference between pl:GetSkill() call and base value to auto calculate item and/or follower bonus?
-				local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
+				local BS, BM = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
+				local FS, FM = SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster))
 				-- id monster bonus
-				local maxBonus = 0
-				for item, slot in pl:EnumActiveItems(false) do
-					if item.Bonus == 21 then
-						maxBonus = max(maxBonus, item.BonusStrength)
-					end
-				end
-				if s * 4 + maxBonus > maxS then
-					maxS = s * 4 + maxBonus
+				local bonus = FS - BS
+				if s * 4 + bonus > maxS then
+					maxS = s * 4 + bonus
 				end
 				maxM = max(maxM, m)
 			end

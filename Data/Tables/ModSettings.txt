@@ -77,6 +77,7 @@ Rev4ForMergeDecreaseMaxHiredNpcAmount	1
 Rev4ForMergeRestrictMasteries	1
 Rev4ForMergeIntellectPersonalityIncreaseSpellEffect	1
 Rev4ForMergeBoostPerception	1
+Rev4ForMergeChangeSpellDamage	1
 Rev4ForMergeMiscSpellChanges	1
-Rev4ForMergeChangeHealingSpells	1
+Rev4ForMergeChangeSpellHealing	1
 Rev4ForMergeFixSharedLifeOverflow	1

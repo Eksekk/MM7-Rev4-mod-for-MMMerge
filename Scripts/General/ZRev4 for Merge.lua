@@ -18,6 +18,7 @@ IMPORTANCE CATEGORIES:
 * and Temple of the Sun and Haunted Mansion have it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * test bdj quest if works correctly after tier function removal
+* move extra attributes text and button somewhere (above dismiss button?) - name can be 32 characters long
 
 -- extemporary fix for huge spell skill:
 for i, mon in Map.Monsters do
@@ -42,7 +43,6 @@ playthrough notes:
 * other barrows as well, mainly those with literally hundreds of mobs in a small space due to mapstats boosts and of course bats
 * barrow VIII has wrong textures
 * too good items in chests in barrow II?
-* barrow levers wrong textures?
 * harmondale carnage bow was not removed - ??? works fine in new game
 * travelling to harmondale from EI (second time) breaks interface
 * monsters hostile after entering celeste for first time, fix in editor?
@@ -51,6 +51,7 @@ playthrough notes:
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* slightly boost loot in fort riverstride
 * some monsters having some resistance penetration (new special)?
 * probably lower reputation you get from troglodyte quest (but without that training would be very expensive)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal

@@ -677,7 +677,8 @@ local function restore()
 	mapvars.oldMons = nil
 end
 
-events.AddFirst("LoadMap", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
+-- LoadMapScripts instead of LoadMap, because when loading map in editor, Editor.WorkMode is false when LoadMap runs (???)
+events.AddFirst("LoadMapScripts", restore) -- can't be BeforeLoadMap, because Map.Monsters isn't initialized yet
 
 -- instantly restores dead monsters, in case Map.Monsters is shrunk (MiscTweaks.lua has something like that)
 -- otherwise index in mapvars might refer to invalid, or even worse, another monster than originally saved

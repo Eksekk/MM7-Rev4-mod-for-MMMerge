@@ -10,6 +10,13 @@ function events.CanCastTownPortal(t)
 	end
 end
 
+-- disable lloyd's beacon in the strange temple before doing archmage quest (in vanilla rev4 you had no way of having it there)
+function events.CanCastLloyd()
+	if not evt.Cmp{"QBits", Value = getQBit(206)} and Merge.Functions.GetContinent() == 2 then         -- Harmondale - Town Portal
+		return false
+	end
+end
+
 -- The Gauntlet
 -- store town portal QBits on map enter and restore on map leave
 
@@ -572,7 +579,14 @@ if MS.Rev4ForMergeAddBosses == 1 then -- need to be before bolster happens (in A
 		elseif Map.Name == "7d12.blv" then -- The Coding Fortress
 			
 		elseif Map.Name == "7d13.blv" then -- Zokarr's Tomb
-			
+			-- Zokarr's Guardian
+			local mon = pseudoSpawnpoint{monster = 277, x = 620, y = 1633, z = -511, count = 1, powerChances = {0, 100, 0}, radius = 64, group = 56}[1]
+			mon.NameId = rev4m.placeMon.zokarrsGuardian
+			hpMul(mon, diffsel(1, 2, 3))
+			addDamage(mon, nil, nil, nil, 2, 2, 4)
+			mon.SpecialC = diffsel(5, 10, 15) -- more explosion damage
+			spells(mon, const.Spells.DeadlySwarm, JoinSkill(diffsel(5, 7, 10), const.GM), 35, const.Spells.Bless, JoinSkill(10, const.Expert), 15)
+			rewards(mon, 10, -6, 5)
 		elseif Map.Name == "7d14.blv" then -- The School of Sorcery
 			
 		elseif Map.Name == "7d15.blv" then -- Watchtower 6

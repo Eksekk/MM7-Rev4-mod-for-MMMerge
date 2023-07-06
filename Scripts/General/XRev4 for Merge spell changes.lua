@@ -4,164 +4,6 @@ local max, min, floor, ceil, round, random = math.max, math.min, math.floor, mat
 local format = string.format
 local MS = Merge.ModSettings
 
--- INCREASED DAMAGE --
-
-local spellsDamage =
-{
-	[2] = -- Fire Bolt
-	{
-		DamageBase = 6,
-		DamagePerSkill = "1-4"
-	},
-	[6] = -- Fireball
-	{
-		DamagePerSkill = "1-8"
-	},
-	[7] = -- Fire Spike
-	{
-		[const.GM] = {DamagePerSkill = "1-12"},
-		[const.Master] = {DamagePerSkill = "1-10"},
-		[const.Expert] = {DamagePerSkill = "1-8"},
-		[const.Novice] = {DamagePerSkill = "1-8"}
-	},
-	[8] = -- Immolation
-	{
-		DamagePerSkill = "1-7"
-	},
-	[10] = -- Inferno
-	{
-		DamageBase = 17,
-		DamagePerSkill = "2-2"
-	},
-	[11] = -- Incinerate
-	{
-		DamageBase = 25,
-		DamagePerSkill = "5-20"
-	},
-	[15] = -- Sparks
-	{
-		DamageBase = 2,
-		DamagePerSkill = "1-2"
-	},
-	[18] = -- Lightning Bolt
-	{
-		DamagePerSkill = "1-10"
-	},
-	[20] = -- Implosion
-	{
-		DamageBase = 20,
-		DamagePerSkill = "1-13"
-	},
-	[24] = -- Poison Spray
-	{
-		DamageBase = 5,
-		DamagePerSkill = "1-3"
-	},
-	[26] = -- Ice Bolt
-	{
-		DamageBase = 10,
-		DamagePerSkill = "1-5"
-	},
-	[29] = -- Acid Burst
-	{
-		DamageBase = 12,
-		DamagePerSkill = "1-11"
-	},
-	[32] = -- Ice Blast
-	{
-		DamageBase = 15,
-		DamagePerSkill = "1-7"
-	},
-	[37] = -- Deadly Swarm
-	{
-		DamageBase = 10,
-		DamagePerSkill = "1-5"
-	},
-	[39] = -- Blades
-	{
-		DamagePerSkill = "1-10"
-	},
-	[41] = -- Rock Blast
-	{
-		DamageBase = 20,
-		DamagePerSkill = "1-10"
-	},
-	[43] = -- Death Blossom
-	{
-		DamageBase = 20,
-		DamagePerSkill = "2-5"
-	},
-	[52] = -- Spirit Lash
-	{
-		DamageBase = 15,
-		DamagePerSkill = "3-10"
-	},
-	[59] = -- Mind Blast
-	{
-		DamageBase = 6,
-		DamagePerSkill = "1-4"
-	},
-	[65] = -- Psychic Shock
-	{
-		DamageBase = 20,
-		DamagePerSkill = "1-14"
-	},
-	[70] = -- Harm
-	{
-		DamageBase = 15,
-		DamagePerSkill = "1-3"
-	},
-	[76] = -- Flying Fist
-	{
-		DamageBase = 40,
-		DamagePerSkill = "1-10"
-	},
-	[78] = -- Light Bolt
-	{
-		DamagePerSkill = "1-6"
-	},
-	[79] = -- Destroy Undead
-	{
-		DamageBase = 20,
-		DamagePerSkill = "1-20"
-	},
-	[84] = -- Prismatic Light
-	{
-		DamageBase = 25,
-		DamagePerSkill = "1-2"
-	},
-	[87] = -- Sunray
-	{
-		DamageBase = 40,
-		DamagePerSkill = "10-22"
-	},
-	[90] = -- Toxic Cloud
-	{
-		DamageBase = 35,
-		DamagePerSkill = "1-12"
-	},
-	[93] = -- Shrapmetal
-	{
-		DamagePerSkill = "1-7"
-	},
-	[97] = -- Dragon Breath
-	{
-		DamageBase = 25,
-		DamagePerSkill = "10-25"
-	},
-	[103] = -- Darkfire Bolt
-	{
-		DamagePerSkill = "5-19"
-	},
-	[111] = -- Life Drain
-	{
-		[const.GM] = {DamagePerSkill = "1-8", DamageBase = 15},
-		[const.Master] = {DamagePerSkill = "1-6", DamageBase = 10},
-		[const.Expert] = {DamagePerSkill = "1-4", DamageBase = 6},
-		[const.Novice] = {DamagePerSkill = "1-4", DamageBase = 6}
-	}
-}
-
 local function Randoms(min, max, count)
 	local r = 0
 	for i = 1, count do
@@ -169,6 +11,8 @@ local function Randoms(min, max, count)
 	end
 	return r
 end
+
+-- INTELLECT & PERSONALITY --
 
 local function calcStatSpellPowerMul(pl)
 	local stats = pl:GetIntellect() + pl:GetPersonality()
@@ -189,14 +33,170 @@ if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
 	end)
 end
 
-function events.CalcSpellDamage(t)
-	local entry = spellsDamage[t.Spell]
-	if entry then
-		local s, m = SplitSkill(t.Skill)
-		if entry.DamagePerSkill then -- isn't split into mastery-dependent damage
-			local minVal, maxVal = _G.getRange(entry.DamagePerSkill)
-			t.Result = (entry.DamageBase or 0) + Randoms(minVal, maxVal, s)
-		else
+-- INCREASED DAMAGE --
+if MS.Rev4ForMergeChangeSpellDamage == 1 then
+	local spellsDamage =
+	{
+		[2] = -- Fire Bolt
+		{
+			DamageBase = 6,
+			DamagePerSkill = "1-4"
+		},
+		[6] = -- Fireball
+		{
+			DamagePerSkill = "1-7"
+		},
+		[7] = -- Fire Spike
+		{
+			[const.GM] = {DamagePerSkill = "1-12"},
+			[const.Master] = {DamagePerSkill = "1-10"},
+			[const.Expert] = {DamagePerSkill = "1-8"},
+			[const.Novice] = {DamagePerSkill = "1-8"}
+		},
+		[8] = -- Immolation
+		{
+			DamagePerSkill = "1-7"
+		},
+		[10] = -- Inferno
+		{
+			DamageBase = 17,
+			DamagePerSkill = "2-2"
+		},
+		[11] = -- Incinerate
+		{
+			DamageBase = 25,
+			DamagePerSkill = "5-20"
+		},
+		[15] = -- Sparks
+		{
+			DamageBase = 2,
+			DamagePerSkill = "1-2"
+		},
+		[18] = -- Lightning Bolt
+		{
+			DamagePerSkill = "1-10"
+		},
+		[20] = -- Implosion
+		{
+			DamageBase = 20,
+			DamagePerSkill = "1-13"
+		},
+		[24] = -- Poison Spray
+		{
+			DamageBase = 5,
+			DamagePerSkill = "1-3"
+		},
+		[26] = -- Ice Bolt
+		{
+			DamageBase = 10,
+			DamagePerSkill = "1-5"
+		},
+		[29] = -- Acid Burst
+		{
+			DamageBase = 12,
+			DamagePerSkill = "1-11"
+		},
+		[32] = -- Ice Blast
+		{
+			DamageBase = 15,
+			DamagePerSkill = "1-7"
+		},
+		[37] = -- Deadly Swarm
+		{
+			DamageBase = 10,
+			DamagePerSkill = "1-5"
+		},
+		[39] = -- Blades
+		{
+			DamagePerSkill = "1-10"
+		},
+		[41] = -- Rock Blast
+		{
+			DamageBase = 20,
+			DamagePerSkill = "1-10"
+		},
+		[43] = -- Death Blossom
+		{
+			DamageBase = 20,
+			DamagePerSkill = "2-5"
+		},
+		[52] = -- Spirit Lash
+		{
+			DamageBase = 15,
+			DamagePerSkill = "3-10"
+		},
+		[59] = -- Mind Blast
+		{
+			DamageBase = 6,
+			DamagePerSkill = "1-4"
+		},
+		[65] = -- Psychic Shock
+		{
+			DamageBase = 20,
+			DamagePerSkill = "1-14"
+		},
+		[70] = -- Harm
+		{
+			DamageBase = 15,
+			DamagePerSkill = "1-3"
+		},
+		[76] = -- Flying Fist
+		{
+			DamageBase = 40,
+			DamagePerSkill = "1-10"
+		},
+		[78] = -- Light Bolt
+		{
+			DamagePerSkill = "1-6"
+		},
+		[79] = -- Destroy Undead
+		{
+			DamageBase = 20,
+			DamagePerSkill = "1-20"
+		},
+		[84] = -- Prismatic Light
+		{
+			DamageBase = 25,
+			DamagePerSkill = "1-2"
+		},
+		[87] = -- Sunray
+		{
+			DamageBase = 40,
+			DamagePerSkill = "10-22"
+		},
+		[90] = -- Toxic Cloud
+		{
+			DamageBase = 35,
+			DamagePerSkill = "1-12"
+		},
+		[93] = -- Shrapmetal
+		{
+			DamagePerSkill = "1-7"
+		},
+		[97] = -- Dragon Breath
+		{
+			DamageBase = 25,
+			DamagePerSkill = "10-25"
+		},
+		[103] = -- Darkfire Bolt
+		{
+			DamagePerSkill = "5-19"
+		},
+		[111] = -- Life Drain
+		{
+			[const.GM] = {DamagePerSkill = "1-8", DamageBase = 15},
+			[const.Master] = {DamagePerSkill = "1-6", DamageBase = 10},
+			[const.Expert] = {DamagePerSkill = "1-4", DamageBase = 6},
+			[const.Novice] = {DamagePerSkill = "1-4", DamageBase = 6}
+		}
+	}
+
+	local function getSpellMasteryDamageData(spell, mastery)
+		local entry = spellsDamage[spell]
+		if not entry then return end
+		local masteryIndependentDamage = true
+		if not entry.DamagePerSkill then -- is split into mastery-dependent damage
+			masteryIndependentDamage = false
 			local entry2 = nil
 			while m <= const.GM and not entry2 do
 				entry2 = entry[m]
@@ -204,19 +204,62 @@ function events.CalcSpellDamage(t)
 			end
 			assert(entry2)
 			entry = entry2
-			local minVal, maxVal = _G.getRange(entry.DamagePerSkill)
-			t.Result = (entry.DamageBase or 0) + Randoms(minVal, maxVal, s)
+		end
+		local base, smin, smax = (entry.DamageBase or 0), _G.getRange(entry.DamagePerSkill)
+		smin, smax = smin or 0, smax or 0
+		return base, smin, smax, masteryIndependentDamage
+	end
+
+	function events.CalcSpellDamage(t)
+		local entry = spellsDamage[t.Spell]
+		if entry then
+			local s, m = SplitSkill(t.Skill)
+			local base, smin, smax = getSpellMasteryDamageData(t.Spell, m)
+			t.Result = base + Randoms(smin, smax, s)
+		end
+
+		-- stat damage bonus
+		local data = WhoHitMonster()
+		if data and data.Player then
+			t.Result = calcStatSpellEffectBonus(data.Player, t.Result)
 		end
 	end
 
-	-- stat damage bonus
-	local data = WhoHitMonster()
-	if data and data.Player then
-		t.Result = calcStatSpellEffectBonus(data.Player, t.Result)
+	local function spellMinimumMastery(spell)
+		local level = (spell - 1) % 11
+		for m, req in ipairs{1, 4, 7, 10} do
+			if level <= req then
+				return m
+			end
+		end
+		assert(false, format("Couldn't find which mastery is minimum for spell %d", spell))
+	end
+
+	local function tryReplace(str, base, smin, smax)
+		--[[
+			1-x points of damage -> x + 1-x points of damage
+			1-x -> y-z
+			x + 1-x points -> y + 1-z points
+			x + y points per skill -> z + y points per skill
+		]]
+		if base ~= 0 and (smin ~= 0 or smax ~= 0) then
+			local fullM, baseM, minM, maxM = str:match("((%d+)[%w%+ ]-(%d+)%-?(%d-))[%D]")
+
+		end
+	end
+
+	-- spell descriptions
+	function events.GameInitialized2()
+		for i, spell in Game.SpellsTxt do
+			for m = const.Novice, const.GM do
+				--tryReplace()
+				--spellMinimumMastery()
+			end
+		end
 	end
 end
 
--- HEALING HOOKS --
+-- MODIFIED HEALING --
 -- idea from MAW mod for MM6 --
 
 local function getSpellQueueData(spellQueuePtr, targetPtr)
@@ -431,7 +474,7 @@ else
 	end)
 end
 
-if MS.Rev4ForMergeChangeHealingSpells == 1 then
+if MS.Rev4ForMergeChangeSpellHealing == 1 then
 	local healingSpellPowers =
 	{
 		[const.Spells.CureInsanity] =

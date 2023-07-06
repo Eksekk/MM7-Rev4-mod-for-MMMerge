@@ -21,6 +21,7 @@ do
         unrelentingSoldier = p + 8,
         masterThiefAdvisor = p + 9,
         theOldestTitan = p + 10,
+        zokarrsGuardian = p + 11,
     }
 end
 rev4m.path = rev4m.path or {}

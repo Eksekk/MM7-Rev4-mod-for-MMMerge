@@ -14,7 +14,6 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* spawn something near tularean caverns
 * some chests (like in Tidewater Caverns) still have broken texture UV in editor???
 * and Temple of the Sun and Haunted Mansion have it broken even ingame
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
@@ -52,14 +51,12 @@ playthrough notes:
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
-* add option to disable removing monster immunity
 * some monsters having some resistance penetration (new special)?
 * probably lower reputation you get from troglodyte quest (but without that training would be very expensive)
 * if drain sp nerf is enabled, slightly buff monsters with it like with stealing removal
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * bolster in general, two todos are there, but not terribly important
-* priests near church of the moon fought with some mobs
 * buff resurrection
 * some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
@@ -1075,13 +1072,13 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 			if pl:IsConscious() then
 				-- TODO: make skill and mastery joined together?
 				local BS, BM = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
-				local FS, FM = SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster))
+				local FS, FM = SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster)) -- GetSkill counts in level/mastery bonuses
 				-- id monster bonus
 				local bonus = FS - BS
-				if s * 4 + bonus > maxS then
-					maxS = s * 4 + bonus
+				if BS * 4 + bonus * 2 > maxS then
+					maxS = BS * 4 + bonus * 2 -- let bonus count x2
 				end
-				maxM = max(maxM, m)
+				maxM = max(maxM, FM)
 			end
 		end
 		d.eax, d.ecx = maxS, maxM
@@ -1343,6 +1340,9 @@ Dark      %d]]
 		local res = mon.Resistances[damageType] or 0
 		--local initial = res
 		local immune = res == const.MonsterImmune
+		if immune and MS.Rev4ForMergeResistancePenetrationDontAffectImmunity == 1 then
+			return res
+		end
 		local bonus = damageTypeToPenetrationBonus[damageType]
 		if bonus then
 			bonus = bonus + 59

@@ -2,6 +2,7 @@ local MS, format = Merge.ModSettings, string.format
 if not _G.getQuestBit then
 	error("Data conversion functions are undefined")
 end
+
 if MS.Rev4ForMergeActivateExtraQuests == 1 then
 	local questID = "ClearFortRiverstride"
 	KillMonstersQuest {

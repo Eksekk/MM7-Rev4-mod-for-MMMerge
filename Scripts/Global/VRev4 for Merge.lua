@@ -1,5 +1,4 @@
 local MS = Merge.ModSettings
-local pseudoSpawnpoint, replaceMapEvent = _G.pseudoSpawnpoint, _G.replaceMapEvent
 local changeChestItem, addChestItem, removeChestItem, findAndRemoveChestItem = _G.changeChestItem, _G.addChestItem, _G.removeChestItem, _G.findAndRemoveChestItem
 
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet

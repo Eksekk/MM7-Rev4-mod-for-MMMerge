@@ -46,11 +46,13 @@ playthrough notes:
 * harmondale carnage bow was not removed - ??? works fine in new game
 * travelling to harmondale from EI (second time) breaks interface
 * monsters hostile after entering celeste for first time, fix in editor?
+* one half of upper fort riverstride door doesn't have event assigned
 
 -- those below are not needed for "first release" --
 
 * HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* rework meditation to give a bit of mana regenerated, based on character max mana and skill/mastery? (regen should start from expert or master only, and should stay low)
 * slightly boost loot in fort riverstride
 * some monsters having some resistance penetration (new special)?
 * probably lower reputation you get from troglodyte quest (but without that training would be very expensive)
@@ -74,6 +76,7 @@ playthrough notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* when selecting target for enchant item, show in item tooltip whether that item has enough quality to be enchanted
 * shared merchant skill for buying and selling (training, learning skills, healing in temple - nope)
 * scatter some items (thematical - a ring of dragon eyes, several low-tier rings, random spellbook etc.) near some monster spawns or empty areas (if latter, items should be weaker)
 * gm mind resist providing (near?)immunity to insane? same with earth res and stone etc.

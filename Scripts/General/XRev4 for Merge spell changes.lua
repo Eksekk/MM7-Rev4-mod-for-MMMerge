@@ -335,7 +335,7 @@ local castSuccessfulAddr = 0x42C200
 local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
 	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE,
 	castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity, gameTime = 0xB20EBC, erradOffset = 0x80, deadOffset = 0x70,
-	currentHpOffset = 0x1BF8}
+	currentHpOffset = 0x1BF8, ctrlPressed = 0x51930C}
 
 -- SHARED LIFE OVERFLOW FIX --
 
@@ -1012,6 +1012,63 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	spellHookManager.ref.condOffset = 0x18
 	addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
+
+	-- regeneration affects whole party with ctrl pressed
+
+	spellHookManager.ref.gmCheck = [[
+		test dword [0x51930C], 1 ; ctrl pressed, can't have recursive ref expansion in hook manager
+		pushfd
+		xor dword [esp], 0x40 ; toggle zero flag
+		popfd
+	]]
+
+	-- mana cost
+	spellHookManager.asmhook2(0x4273C5, [[
+		test dword [%ctrlPressed%], 1
+		je @F
+			mov eax, [esp]
+			imul eax, dword [%partySize%]
+			mov [esp], eax
+		@@:
+	]])
+
+	local buffPatch = [[
+		push esi
+		xor esi, esi
+		%gmCheck%
+		je @F
+		mov si, word [ebx + 4]
+		@@:
+
+		@buff:
+		push esi
+		mov ecx, %party%
+		call absolute %getPlayerPtr%
+		mov ecx, eax
+		add ecx, %buffOffset%
+		push dword [esp + 0x18] ; caster
+		push dword [esp + 0x18] ; overlay
+		push dword [esp + 0x18] ; power
+		push dword [esp + 0x18] ; skill
+		push dword [esp + 0x18] ; time high
+		push dword [esp + 0x18] ; time low
+		call absolute 0x455D97
+
+		%gmCheck%
+		jne @exit
+		inc esi
+		cmp esi, dword[%partySize%]
+		jb @buff
+
+		@exit:
+		pop esi
+		add esp, 6*4
+		jmp absolute %castSuccessful%
+	]]
+	
+	spellHookManager.asmpatch(0x4273D8, animationPatch, 0x1F)
+	spellHookManager.ref.buffOffset = 0x1AF4
+	spellHookManager.asmpatch(0x42742B, buffPatch)
 
 	function events.GameInitialized2()
 		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"

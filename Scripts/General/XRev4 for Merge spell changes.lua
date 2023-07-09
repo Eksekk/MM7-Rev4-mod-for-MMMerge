@@ -293,8 +293,9 @@ end
 mem.hookfunction(0x48FA06, 1, 3, function(d, def, targetPtr, cond, timeLow, timeHigh)
 	local t = getSpellQueueData(d.ebx, targetPtr)
 	events.call("RemoveConditionBySpell", t)
-	def(targetPtr, cond, timeLow, timeHigh)
+	local r = def(targetPtr, cond, timeLow, timeHigh)
 	events.call("AfterRemoveConditionBySpell", t)
+	return r
 end)
 
 function events.AfterRemoveConditionBySpell(t) -- after to allow to add hp when curing eradication/dead (before wouldn't work)
@@ -305,6 +306,8 @@ function events.AfterRemoveConditionBySpell(t) -- after to allow to add hp when 
 		t1.Target:AddHP(t1.Amount)
 	end
 end
+
+local NOP = string.char(0x90)
 
 -- call def or method
 -- use player ptr or target in queue
@@ -329,46 +332,12 @@ mem.hookcall(0x42B494, 1, 1, callHealingEvent)
 
 local castSuccessfulAddr = 0x42C200
 
--- don't skip cure insanity code and don't add weakness if char is not insane
--- also remaining resurrection and raise dead and maybe others
-do
-	local addWeakness = mem.StaticAlloc(1)
-	local hooks = HookManager{addWeakness = addWeakness, castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity}
-	
-	-- don't skip the code
-	hooks.asmpatch(0x42ABC1, [[
-		setne cl
-		mov byte [%addWeakness%], cl
-	]])
-
-	-- don't show animation if not needed
-	hooks.asmpatch(0x42ABD9, [[
-		test byte [%addWeakness%], 1
-		jz absolute 0x42ABF1
-		movsx eax,word ptr [ebx+4]
-	]], 6)
-
-	-- call healing event if mastery is GM
-	autohook(0x42ABF7, callHealingEvent)
-
-	-- don't add weakness if mastery is GM
-	hooks.asmhook2(0x42AC03, [[
-		test byte [%addWeakness%], 1
-		jz absolute %castSuccessful%
-	]])
-
-	-- don't add weakness if mastery is below GM (also check for right spell, because iirc resurrection also causes weakness and might also use this code)
-	hooks.asmhook(0x42A128, [[
-		cmp word [ebx + 2], %cureInsanity%
-		jne @notCureInsanity
-		test byte [%addWeakness%], 1
-		jz absolute %castSuccessful%
-		@notCureInsanity:
-	]])
-end
+local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
+	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE,
+	castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity, gameTime = 0xB20EBC, erradOffset = 0x80, deadOffset = 0x70,
+	currentHpOffset = 0x1BF8}
 
 -- SHARED LIFE OVERFLOW FIX --
--- TODO: replace original code with new function, also call healing event and modify total pool
 
 local function getPartyIndex(player)
 	for i, pl in Party do
@@ -475,6 +444,7 @@ else
 end
 
 if MS.Rev4ForMergeChangeSpellHealing == 1 then
+	-- TEST SCROLLS?
 	local healingSpellPowers =
 	{
 		[const.Spells.CureInsanity] =
@@ -528,21 +498,170 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 			{
 				FixedMin = 10, FixedMax = 15, VariableMin = 2, VariableMax = 3,
 			},
+		},
+		[const.Spells.Resurrection] =
+		{
+			[const.GM] = 
+			{
+				FixedMin = 50, FixedMax = 50, VariableMin = 10, VariableMax = 15,
+			},
 		}
 	}
 
-	-- stuff to make event work for GM status cures
-	-- cure paralysis
+	-- stuff to make event work for status cures
+
+	local addWeakness = mem.StaticAlloc(2)
+	local resurrectionRemoveUncon = addWeakness + 1
+	spellHookManager.ref.addWeakness = addWeakness
+	spellHookManager.ref.resurrectionRemoveUncon = resurrectionRemoveUncon
+
+	-- CURE INSANITY
+	
+	-- don't skip the code
+	spellHookManager.asmpatch(0x42ABC1, [[
+		setne cl
+		mov byte [%addWeakness%], cl
+	]])
+
+	-- don't show animation if not needed
+	spellHookManager.asmpatch(0x42ABD9, [[
+		test byte [%addWeakness%], 1
+		jz absolute 0x42ABF1
+		movsx eax,word ptr [ebx+4]
+	]], 6)
+
+	-- call healing event if mastery is GM
+	autohook(0x42ABF7, callHealingEvent)
+
+	-- don't add weakness if mastery is GM
+	spellHookManager.asmhook2(0x42AC03, [[
+		test byte [%addWeakness%], 1
+		jz absolute %castSuccessful%
+	]])
+
+	-- don't add weakness if mastery is below GM (also check for right spell, because iirc resurrection also causes weakness and might also use this code)
+	spellHookManager.asmhook(0x42A128, [[
+		cmp word [ebx + 2], %cureInsanity%
+		jne @notCureInsanity
+		test byte [%addWeakness%], 1
+		jz absolute %castSuccessful%
+		@notCureInsanity:
+	]])
+
+	-- RESURRECTION
+	-- if player is eradicated, add weakness, otherwise don't
+	-- if eradication will be cured, before healing event make hp at least 1 (for GM and less than GM)
+
+	-- don't skip code, but skip weakness animation
+	spellHookManager.asmpatch(0x42A2F4, [[
+		setne cl
+		mov byte [%addWeakness%], cl
+		mov edi, %party%
+		jmp absolute 0x42A338
+	]], 20)
+
+	-- call healing event for GM
+	local addr = spellHookManager.asmhook2(0x42A374, [[
+		; minimum HP is 1 (all conditions are cured unconditionally on GM)
+		mov ecx, dword [eax+%currentHpOffset%]
+		xor edx, edx
+		cmp ecx, edx
+		jg @skip
+		xor ecx, ecx
+		inc ecx
+		@skip:
+		mov dword [eax+%currentHpOffset%], ecx
+		nop
+		nop
+		nop
+		nop
+		nop
+	]])
+	hook(mem.findcode(addr, NOP), callHealingEvent)
+
+	-- make sure HP is at least 1 if errad is cured, and set flag deciding if unconsciousness should be removed
+	spellHookManager.asmhook(0x42A3B4, [[
+		; eax = player ptr
+		; check if condition will be removed (will be if game time - time limit <= condition affect time)
+		mov ecx, dword [%gameTime%]
+		mov edx, dword [%gameTime% + 4]
+		sub ecx, dword [esp + 0x4] ; time low
+		sbb edx, dword [esp + 0x8] ; time high
+		cmp edx, dword [eax + %erradOffset% + 4]
+		jl @minHp
+		jg @noMinHp
+		cmp ecx, dword [eax + %erradOffset%]
+		ja @noMinHp
+
+		@minHp:
+		mov byte [%resurrectionRemoveUncon%], 1
+		mov ecx, dword [eax+%currentHpOffset%]
+		xor edx, edx
+		cmp ecx, edx
+		jg @skip
+		xor ecx, ecx
+		inc ecx
+		@skip:
+		mov dword [eax+%currentHpOffset%], ecx
+		jmp @exit
+		@noMinHp:
+		mov byte [%resurrectionRemoveUncon%], 0
+		@exit:
+		mov ecx, eax
+	]])
+
+	-- unconditionally remove death, even below GM
+	spellHookManager.asmpatch(0x42A3C7, [[
+		movsx eax,word ptr [ebx+4]
+		push eax
+		mov ecx, edi
+		call absolute %getPlayerPtr% ; get player ptr
+
+		and dword [eax + %deadOffset%], 0
+		and dword [eax + %deadOffset% + 4], 0
+
+	]], 0x17)
+
+	-- don't unconditionally remove unconsciousness if errad is not removed
+	spellHookManager.asmhook(0x42A3EC, [[
+		test byte [%resurrectionRemoveUncon%], 1
+		jz absolute 0x42A403
+	]])
+
+	-- don't add weakness -- if not needed
+	spellHookManager.asmhook(0x42A40A, [[
+		test byte [%addWeakness%], 1
+		jmp absolute 0x42A42D ; jz absolute 0x42A42D - changed to eliminate weakness
+	]])
+
+	-- don't set HP to 1 (I take care of this myself)
+	spellHookManager.asmpatch(0x42A41B, "jmp short " .. 0x42A42D - 0x42A41B)
+
+	-- REMAINING: animation and maybe don't ever add weakness?
+
+	spellHookManager.ref.addWeakness = nil
+	spellHookManager.ref.resurrectionRemoveUncon = nil
+
+	function events.GameInitialized2()
+		local spell = Game.Spells[const.Spells.Resurrection]
+		for m = const.Novice, const.GM do
+			spell.Delay[m], spell.SpellPoints[m] = 400, 70 -- smaller recovery but higher cost
+		end
+	end
+
+	-- CURE PARALYSIS
 	mem.nop(0x42A4C2) -- always call the code
 	autohook(0x42A4CE, callHealingEvent) -- call healing event for GM
 
-	-- cure poison
-	asmpatch(0x42AFC8, "mov edi, 0xB20E90\njmp short " .. 0x42B00D - 0x42AFC8) -- always call the code
+	-- CURE POISON
+	spellHookManager.asmpatch(0x42AFC8, "mov edi, %party%\njmp short " .. 0x42B00D - 0x42AFC8) -- always call the code
 	autohook(0x42B013, callHealingEvent)
 
-	-- cure disease
-	asmpatch(0x42B342, "mov edi, 0xB20E90\njmp short " .. 0x42B387 - 0x42B342)
+	-- CURE DISEASE
+	spellHookManager.asmpatch(0x42B342, "mov edi, %party%\njmp short " .. 0x42B387 - 0x42B342)
 	autohook(0x42B38D, callHealingEvent)
+
+	-- SPELL DESCRIPTIONS
 
 	local function getSpellMasteryHealingData(spell, mastery)
 		local entry = healingSpellPowers[spell]
@@ -574,16 +693,20 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 					local fixedStr, fixedSingle = getRangeStr(fmin, fmax)
 
 					local finalStr = ""
+					local masteryName = select(mastery, "Normal", "Expert", "Master", "GM")
+					local hasSentenceEndMark = spellTxt[masteryName]:sub(-1):match("[%.%?%!]") and true
 					if fixedStr and variableStr then
-						finalStr = format(". Heals %s points + %s per skill", fixedStr, variableStr)
+						finalStr = format(" Heals %s points + %s per skill", fixedStr, variableStr)
 					elseif fixedStr then
-						finalStr = format(". Heals %s points", fixedStr)
+						finalStr = format(" Heals %s points", fixedStr)
 					elseif variableStr then
-						finalStr = format(". Heals %s points per skill", variableStr)
+						finalStr = format(" Heals %s points per skill", variableStr)
 					end
 					if finalStr then
-						local key = select(mastery, "Normal", "Expert", "Master", "GM")
-						spellTxt[key] = spellTxt[key] .. finalStr
+						if not hasSentenceEndMark then
+							finalStr = "." .. finalStr
+						end
+						spellTxt[masteryName] = spellTxt[masteryName] .. finalStr
 						addedAny = true
 					end
 				end
@@ -593,6 +716,8 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 			end
 		end
 	end
+	
+	-- actual event handler
 
 	local function calcHealingSpellPower(spell, caster, skill, mastery, amount)
 		local vmin, vmax, fmin, fmax = getSpellMasteryHealingData(spell, mastery)
@@ -779,8 +904,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	end
 
 	-- replace gm code with one that acts on all players
-	local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
-	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE}
 
 	-- show animation
 	local animationPatch = [[
@@ -840,8 +963,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		pop esi
 		pop edi
 	]]
-
-	local NOP = string.char(0x90)
 
 	-- animation
 	spellHookManager.ref.gmCheck = "cmp dword [ebp - 4], esi"

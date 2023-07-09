@@ -552,6 +552,35 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 	-- if player is eradicated, add weakness, otherwise don't
 	-- if eradication will be cured, before healing event make hp at least 1 (for GM and less than GM)
 
+	-- if character is eradicated or dead, normal spell cost
+	spellHookManager.asmhook2(0x42A2C4, [[
+		push ecx
+		movsx eax,word ptr [ebx+4]
+		mov edi, %party%
+		push eax
+		mov ecx, edi
+		call absolute %getPlayerPtr%
+		mov edx, dword [eax + %erradOffset%]
+		or edx, dword [eax + %erradOffset% + 4]
+		or edx, dword [eax + %deadOffset%]
+		or edx, dword [eax + %deadOffset% + 4]
+		pop ecx
+		je @normal
+		mov dword [esp], 30
+		@normal:
+	]])
+
+	-- show variable spell cost
+	autohook(0x41218B, function(d)
+		-- [ebp + 8] - spell index
+		local spellId = u4[d.ebp + 8] + Party[Game.CurrentPlayer].SpellBookPage * 11 + 1
+		if spellId == const.Spells.Resurrection then
+			local str = mem.string(d.esi)
+			local add = " or 30\0"
+			mem.copy(d.esi + str:len(), add)
+		end
+	end)
+
 	-- don't skip code, but skip weakness animation
 	spellHookManager.asmpatch(0x42A2F4, [[
 		setne cl
@@ -645,7 +674,7 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 	function events.GameInitialized2()
 		local spell = Game.Spells[const.Spells.Resurrection]
 		for m = const.Novice, const.GM do
-			spell.Delay[m], spell.SpellPoints[m] = 400, 70 -- smaller recovery but higher cost
+			spell.Delay[m], spell.SpellPoints[m] = 150, 80 -- smaller recovery but higher cost
 		end
 	end
 
@@ -685,34 +714,38 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 		local txt = Game.SpellsTxt
 		for spellId in Game.SpellsTxt do
 			local spellTxt = txt[spellId]
-			local addedAny
-			for mastery = const.Novice, const.GM do
-				local vmin, vmax, fmin, fmax = getSpellMasteryHealingData(spellId, mastery)
-				if vmin then
-					local variableStr, variableSingle = getRangeStr(vmin, vmax)
-					local fixedStr, fixedSingle = getRangeStr(fmin, fmax)
+			if spellId == const.Spells.Resurrection then
+				spellTxt.Description = "Resurrects a character whose body has been destroyed. Also heals him for 50 + 10-15 per point of skill in Spirit Magic. If character is in good condition, you'll need greater amount of magic energy to perform the heal."
+			else
+				local addedAny
+				for mastery = const.Novice, const.GM do
+					local vmin, vmax, fmin, fmax = getSpellMasteryHealingData(spellId, mastery)
+					if vmin then
+						local variableStr, variableSingle = getRangeStr(vmin, vmax)
+						local fixedStr, fixedSingle = getRangeStr(fmin, fmax)
 
-					local finalStr = ""
-					local masteryName = select(mastery, "Normal", "Expert", "Master", "GM")
-					local hasSentenceEndMark = spellTxt[masteryName]:sub(-1):match("[%.%?%!]") and true
-					if fixedStr and variableStr then
-						finalStr = format(" Heals %s points + %s per skill", fixedStr, variableStr)
-					elseif fixedStr then
-						finalStr = format(" Heals %s points", fixedStr)
-					elseif variableStr then
-						finalStr = format(" Heals %s points per skill", variableStr)
-					end
-					if finalStr then
-						if not hasSentenceEndMark then
-							finalStr = "." .. finalStr
+						local finalStr = ""
+						local masteryName = select(mastery, "Normal", "Expert", "Master", "GM")
+						local hasSentenceEndMark = spellTxt[masteryName]:sub(-1):match("[%.%?%!]") and true
+						if fixedStr and variableStr then
+							finalStr = format(" Heals %s points + %s per skill", fixedStr, variableStr)
+						elseif fixedStr then
+							finalStr = format(" Heals %s points", fixedStr)
+						elseif variableStr then
+							finalStr = format(" Heals %s points per skill", variableStr)
 						end
-						spellTxt[masteryName] = spellTxt[masteryName] .. finalStr
-						addedAny = true
+						if finalStr then
+							if not hasSentenceEndMark then
+								finalStr = "." .. finalStr
+							end
+							spellTxt[masteryName] = spellTxt[masteryName] .. finalStr
+							addedAny = true
+						end
 					end
 				end
-			end
-			if addedAny then
-				spellTxt.Description = spellTxt.Description .. " The spell also heals some hit points."
+				if addedAny then
+					spellTxt.Description = spellTxt.Description .. " The spell also heals some hit points."
+				end
 			end
 		end
 	end

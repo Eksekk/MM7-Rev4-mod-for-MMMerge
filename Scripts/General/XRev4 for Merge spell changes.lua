@@ -333,9 +333,11 @@ mem.hookcall(0x42B494, 1, 1, callHealingEvent)
 local castSuccessfulAddr = 0x42C200
 
 local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60, getPlayerPtr = 0x4026F4, removeCond = 0x48FA06,
-	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, cureWeakness = 0x43, party = 0xB20E90, showAnimation = 0x4A6FCE,
+	spell = 0x51D820, caster = 0x51D822, target = 0x51D824, getSkillMastery = 0x455B09, party = 0xB20E90, showAnimation = 0x4A6FCE,
 	castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity, gameTime = 0xB20EBC, erradOffset = 0x80, deadOffset = 0x70,
-	currentHpOffset = 0x1BF8, ctrlPressed = 0x51930C}
+	currentHpOffset = 0x1BF8, ctrlPressed = 0x51930C, skillBeforeFirstMagic = const.Skills.Plate, removeFear = const.Spells.RemoveFear,
+	cureWeakness = const.Spells.CureWeakness, getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F, regeneration = const.Spells.Regeneration,
+	checkAndSubtractMana = 0x425B1A, setBuff = 0x455D97}
 
 -- SHARED LIFE OVERFLOW FIX --
 
@@ -816,6 +818,7 @@ if MS.Rev4ForMergeReduceBuffsRecoveryOutOfCombat == 1 then
 		-- dragon flight skipped intentionally
 	}
 
+	-- NEED TO BE before regeneration ctrl-press mass casting handler to work correctly
 	function events.SpellCostRecovery(t)
 		--local t = {Spell = d.ecx, SkillMastery = d.edx, Caster = d.eax, Cost = d.esi, Recovery = d.edi}
 		if not Party.EnemyDetectorRed and not Party.EnemyDetectorYellow then
@@ -888,10 +891,9 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	mem.nop(0x42AE5B) -- disable skipping if target is not weak
 	mem.nop(0x42A57E) -- like above, but afraid
 
-	-- remove fear and cure weakness: skip select on GM
+	-- remove fear and cure weakness: skip select on GM, regeneration: skip select when ctrl-casting
 	-- TODO: if max time to cure is 0 from SpellsExtra.txt, spell will be treated as GM by code, but target selection will still be required
-	HookManager{skillBeforeFirstMagic = const.Skills.Plate, removeFear = const.Spells.RemoveFear, cureWeakness = const.Spells.CureWeakness,
-		getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F}.asmhook(0x425C5F, [[
+	spellHookManager.asmhook(0x425C5F, [[
 		push ebx
 		mov ebx, eax ; player ptr
 
@@ -904,6 +906,11 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		cmp eax, %cureWeakness%
 		sete cl
 		or dl, cl
+		cmp eax, %regeneration%
+		jne @F
+		or dl, byte [%ctrlPressed%]
+		@@:
+		test dl, dl
 		je @end ; not spell which affects whole party on GM
 
 		; just found out there's Merge.Offsets.GetSpellSkillId as well, but I'm gonna write my own version for fun
@@ -942,7 +949,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	local animationPatch = [[
 		push edi
 		xor edi, edi
-		%gmCheck%
+		%isMultiTargetCheck%
 		je @call
 		mov di, word [ebx + 4] ; if not GM, affect only actual target
 
@@ -957,7 +964,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		call absolute %showAnimation%
 
 		; exit conditions
-		%gmCheck%
+		%isMultiTargetCheck%
 		jne @exit ; not GM
 		inc edi
 		cmp edi, dword [%partySize%]
@@ -998,7 +1005,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	]]
 
 	-- animation
-	spellHookManager.ref.gmCheck = "cmp dword [ebp - 4], esi"
+	spellHookManager.ref.isMultiTargetCheck = "cmp dword [ebp - 4], esi"
 	spellHookManager.asmpatch(0x42AE25, animationPatch, 0x1F)
 
 	-- cure
@@ -1007,38 +1014,66 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
 	-- same for remove fear
-	spellHookManager.ref.gmCheck = "test dword [ebp - 4], 0xFFFFFFFF"
+	spellHookManager.ref.isMultiTargetCheck = "test dword [ebp - 4], 0xFFFFFFFF"
 	spellHookManager.asmpatch(0x42A54A, animationPatch, 0x1F)
 	spellHookManager.ref.condOffset = 0x18
 	addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
-	-- regeneration affects whole party with ctrl pressed
+	-- REGENERATION
+	-- affects whole party with ctrl pressed
 
-	spellHookManager.ref.gmCheck = [[
+	spellHookManager.ref.isMultiTargetCheck = [[
 		test dword [0x51930C], 1 ; ctrl pressed, can't have recursive ref expansion in hook manager
 		pushfd
 		xor dword [esp], 0x40 ; toggle zero flag
+		test byte [ebx + 8], 1 ; casted from scroll
+		jz @F
+			and dword [esp], 0xFFFFFFBF ; turn off zero flag
+		@@:
 		popfd
 	]]
 
+	-- recovery
+	-- need to be after reduced spell cost recovery handler
+	function events.SpellCostRecovery(t)
+		if t.Spell == const.Spells.Regeneration and Game.CtrlPressed then
+			t.Recovery = t.Recovery * Party.Count
+		end
+	end
+
+	spellHookManager.ref.showStatusText = 0x4496C5
+	spellHookManager.ref.notEnoughManaText = 0x601D70
+
 	-- mana cost
 	spellHookManager.asmhook2(0x4273C5, [[
-		test dword [%ctrlPressed%], 1
-		je @F
+		%isMultiTargetCheck%
+		jne @F
+			; multiply mana
 			mov eax, [esp]
 			imul eax, dword [%partySize%]
 			mov [esp], eax
 		@@:
+		; jump to mana check
+	]])
+
+	-- show status text if not enough mana
+	spellHookManager.asmpatch(0x4273D2, [[
+		jne @F
+		mov ecx, dword [%notEnoughManaText%]
+		mov edx, 2
+		call absolute %showStatusText%
+		jmp absolute 0x42D3AB ; spell cast failed?
+		@@:
+		; check successful
 	]])
 
 	local buffPatch = [[
 		push esi
 		xor esi, esi
-		%gmCheck%
-		je @F
+		%isMultiTargetCheck%
+		je @buff
 		mov si, word [ebx + 4]
-		@@:
 
 		@buff:
 		push esi
@@ -1046,15 +1081,17 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		call absolute %getPlayerPtr%
 		mov ecx, eax
 		add ecx, %buffOffset%
+		; push all arguments again
+		; same offset in all of them since push subtracts 4 from esp, so you still get arguments in order
 		push dword [esp + 0x18] ; caster
 		push dword [esp + 0x18] ; overlay
 		push dword [esp + 0x18] ; power
 		push dword [esp + 0x18] ; skill
 		push dword [esp + 0x18] ; time high
 		push dword [esp + 0x18] ; time low
-		call absolute 0x455D97
+		call absolute %setBuff%
 
-		%gmCheck%
+		%isMultiTargetCheck%
 		jne @exit
 		inc esi
 		cmp esi, dword[%partySize%]
@@ -1062,13 +1099,18 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 		@exit:
 		pop esi
-		add esp, 6*4
+		add esp, 6*4 ; pop original arguments from the stack
 		jmp absolute %castSuccessful%
 	]]
 	
+	-- animation
 	spellHookManager.asmpatch(0x4273D8, animationPatch, 0x1F)
+
+	-- buff
 	spellHookManager.ref.buffOffset = 0x1AF4
 	spellHookManager.asmpatch(0x42742B, buffPatch)
+
+	-- REMAINING TODO: description and add info to readme + add info about healing changes
 
 	function events.GameInitialized2()
 		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"

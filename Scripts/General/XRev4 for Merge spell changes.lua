@@ -337,7 +337,7 @@ local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60,
 	castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity, gameTime = 0xB20EBC, erradOffset = 0x80, deadOffset = 0x70,
 	currentHpOffset = 0x1BF8, ctrlPressed = 0x51930C, skillBeforeFirstMagic = const.Skills.Plate, removeFear = const.Spells.RemoveFear,
 	cureWeakness = const.Spells.CureWeakness, getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F, regeneration = const.Spells.Regeneration,
-	checkAndSubtractMana = 0x425B1A, setBuff = 0x455D97}
+	checkAndSubtractMana = 0x425B1A, setBuff = 0x455D97, resetTemporaryBonus = 0x455B25, itemCannotBeEnchanted = 0x45462F, itemsTxtPtr = Game.ItemsTxt["?ptr"]}
 
 -- SHARED LIFE OVERFLOW FIX --
 
@@ -597,6 +597,8 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 		mov ecx, dword [eax+%currentHpOffset%]
 		xor edx, edx
 		cmp ecx, edx
+		; cmovle ecx, 1 ; test
+		; lea ecx, [edx + 1] ; test
 		jg @skip
 		xor ecx, ecx
 		inc ecx
@@ -659,16 +661,16 @@ if MS.Rev4ForMergeChangeSpellHealing == 1 then
 		jz absolute 0x42A403
 	]])
 
-	-- don't add weakness -- if not needed
+	-- don't add weakness
 	spellHookManager.asmhook(0x42A40A, [[
 		test byte [%addWeakness%], 1
-		jmp absolute 0x42A42D ; jz absolute 0x42A42D - changed to eliminate weakness
+		jmp absolute 0x42A42D ; jz absolute 0x42A42D - changed to eliminate weakness completely
 	]])
 
 	-- don't set HP to 1 (I take care of this myself)
 	spellHookManager.asmpatch(0x42A41B, "jmp short " .. 0x42A42D - 0x42A41B)
 
-	-- REMAINING: animation and maybe don't ever add weakness?
+	-- REMAINING: animation
 
 	spellHookManager.ref.addWeakness = nil
 	spellHookManager.ref.resurrectionRemoveUncon = nil
@@ -891,29 +893,12 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	mem.nop(0x42AE5B) -- disable skipping if target is not weak
 	mem.nop(0x42A57E) -- like above, but afraid
 
-	-- remove fear and cure weakness: skip select on GM, regeneration: skip select when ctrl-casting
-	-- TODO: if max time to cure is 0 from SpellsExtra.txt, spell will be treated as GM by code, but target selection will still be required
-	spellHookManager.asmhook(0x425C5F, [[
-		push ebx
-		mov ebx, eax ; player ptr
-
-		; get school of currently casted spell
-		movzx eax, word [ebp - 0x14] ; id
-		xor edx, edx
-		cmp eax, %removeFear%
-		sete cl
-		or dl, cl
-		cmp eax, %cureWeakness%
-		sete cl
-		or dl, cl
-		cmp eax, %regeneration%
-		jne @F
-		or dl, byte [%ctrlPressed%]
-		@@:
-		test dl, dl
-		je @end ; not spell which affects whole party on GM
-
+	spellHookManager.ref.getSpellCastMastery = spellHookManager.asmproc([[
+		; ecx - player ptr, edx - spell id
 		; just found out there's Merge.Offsets.GetSpellSkillId as well, but I'm gonna write my own version for fun
+		push ebx
+		mov ebx, ecx
+		mov eax, edx
 		mov ecx, 11
 		cdq
 		idiv ecx
@@ -929,11 +914,48 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		call absolute %getSkill%
 		mov ecx, eax
 		call absolute %getSkillMastery0%
+		pop ebx
+		ret
+	]])
+
+	-- remove fear and cure weakness: skip select on GM, regeneration and fire aura: skip select when ctrl-casting
+	-- TODO: if max time to cure is 0 from SpellsExtra.txt, spell will be treated as GM by code, but target selection will still be required
+	spellHookManager.asmhook(0x425C5F, [[
+		push ebx
+		mov ebx, eax ; player ptr
+
+		movzx eax, word [ebp - 0x14] ; id
+		xor edx, edx
+		cmp eax, %removeFear%
+		sete cl
+		or dl, cl
+		cmp eax, %cureWeakness%
+		sete cl
+		or dl, cl
+		cmp eax, %regeneration%
+		je @ctrlMassCast
+		cmp eax, %fireAura%
+		je @ctrlMassCast
+		jmp @notCtrlMassCast
+
+		@ctrlMassCast:
+			test byte [%ctrlPressed%], 1
+			je @dontSelect
+		
+		@notCtrlMassCast:
+		test dl, dl
+		je @end ; not spell which affects whole party on GM
+
+		mov ecx, ebx
+		mov edx, eax
+		call absolute %getSpellCastMastery%
+
 		cmp eax, 4
 		jb @end
 
-		; disable select target flag
-		xor dword [ebp + 0xC], 2
+		@dontSelect:
+		; disable select target flags
+		and dword [ebp + 0xC], FFFFFC35
 
 		@end:
 		pop ebx
@@ -1019,6 +1041,164 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	spellHookManager.ref.condOffset = 0x18
 	addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
+
+	spellHookManager.ref.isItemEnchantableWithTmpBonus = spellHookManager.asmproc([[
+		; ecx = item, edx = txt item
+		test byte [ecx + 0x14], 2 ; item broken?
+		jne @no
+		cmp dword [ecx + 0xC], 0 ; has bonus 2?
+		jne @no
+		cmp dword [ecx + 4], 0 ; has bonus?
+		jne @no
+
+		mov al,byte ptr [edx+0x1C + 4] ; material?
+		test al,al
+		je @yes
+		cmp al,1
+		je @yes
+		cmp al,2
+		jne @no
+
+		push ecx
+		mov ecx, edx
+		call absolute %itemCannotBeEnchanted%
+		je @no
+
+		@yes:
+		xor eax, eax
+		inc eax
+		jmp @end
+
+		@no:
+		xor eax, eax
+
+		@end:
+		ret
+	]])
+
+	spellHookManager.ref.addTemporaryBonusAllWeapons = spellHookManager.asmproc([[
+		; ecx - bonus, edx - item slot, [esp] - time low, [esp + 4] - time high
+		sub esp, 12 ; +16 -> time high, +12 -> time low, +8 -> items txt ptr, +4 -> bonus, +0 -> item slot
+		push ebx ; -> player ptr
+		push esi ; -> loop counter
+		push edi ; -> player item ptr
+
+		xor esi, esi
+
+		@addForPlayer:
+		push esi
+		mov ecx, %party%
+		call absolute %getPlayerPtr%
+		mov ecx, eax
+		mov ebx, ecx
+		add eax, 0x1C04 ; equipped items offset
+		mov edx, dword [ecx]
+		test edx, edx
+		je @skip ; no equipped item in that slot
+
+		; get item ptr
+		mov eax, ecx
+		add eax, 0x4A8 ; item array offset
+		dec edx
+		imul edx, 0x24 ; item size
+		add edx, eax
+		mov edi, edx
+
+		; get items txt ptr for item
+		mov eax,dword ptr [edx]
+		lea eax,dword ptr [eax+eax*2]
+		shl eax,4
+		add eax,%itemsTxtPtr%
+		mov [esp + 8], eax
+
+		; reset temporary bonus
+		push dword [%gameTime% + 4] ; maxTimeHigh
+		push dword [%gameTime%] ; maxTimeLow
+		mov ecx, edx
+		call absolute %resetTemporaryBonus%
+
+		; check if item is enchantable
+		mov ecx, edi
+		mov edx, [esp + 8]
+		call absolute %isItemEnchantableWithTmpBonus%
+		test eax, eax
+		je @skip
+
+		@enchant:
+		mov eax, [esp + 4]
+		mov dword [edi + 0xC], eax ; bonus2
+
+		; compute time 1
+		push 0
+		push 0x80
+		push dword [esp + 0x10]
+		push dword [esp + 0x10]
+		call absolute 0x4DB1B0
+
+		; compute time 2
+		sub esp, 4
+		mov [esp], eax
+		fild dword [esp]
+		fmul dword [0x4E8480]
+		call absolute 0x4D967C ; store st0 in edx:eax (truncate)
+		cdq 
+		add eax, [%gameTime%]
+		adc edx, [%gameTime% + 4]
+
+		; fill out rest of item fields
+		mov dword [edi+0x1C],eax
+		mov dword [edi+0x20],edx
+		or dword [edi+0x14],8
+		or dword [edi+0x14],10 ; show fire aura animation flag
+
+		; start animation
+		mov dword [0x51E100],100
+
+		@skip:
+		cmp esi, [%partySize%]
+		jb @addForPlayer
+
+		pop edi
+		pop esi
+		pop ebx
+		add esp, 12
+		ret 8
+	]])
+
+	mem.asmhook(0x42C113, [[
+		test byte [%ctrlPressed%], 1
+		je @F
+		test byte [ebx + 8], 1
+		jne @F
+			; TODO: check if any melee weapon is enchanted, if so, enchant bows (as in elemental mod)
+			jmp @melee
+			@bow:
+
+			mov ecx, 0xC ; bonus
+			mov edx, 2 ; slot
+			push dword ptr [ebp-0x10] ; time high
+			push dword ptr [ebp-0x14] ; time low
+			call absolute %addTemporaryBonusAllWeapons%
+
+			jmp @exit
+			
+			mov ecx, 0xC ; bonus
+			mov edx, 0 ; slot
+			push dword ptr [ebp-0x10] ; time high
+			push dword ptr [ebp-0x14] ; time low
+			call absolute %addTemporaryBonusAllWeapons%
+
+			mov ecx, 0xC
+			mov edx, 1
+			push dword ptr [ebp-0x10]
+			push dword ptr [ebp-0x14]
+			call absolute %addTemporaryBonusAllWeapons%
+
+			@exit:
+
+			jmp absolute %castSuccessful%
+		@@:
+	]])
 
 	-- REGENERATION
 	-- affects whole party with ctrl pressed
@@ -1109,8 +1289,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	-- buff
 	spellHookManager.ref.buffOffset = 0x1AF4
 	spellHookManager.asmpatch(0x42742B, buffPatch)
-
-	-- REMAINING TODO: description and add info to readme + add info about healing changes
 
 	function events.GameInitialized2()
 		Game.SpellsTxt[const.Spells.CureWeakness].GM = Game.SpellsTxt[const.Spells.CureWeakness].GM .. ". Affects whole party with single cast"

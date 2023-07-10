@@ -60,7 +60,6 @@ playthrough notes:
 * turn undead is OP - maybe make 3/6/9/12 max targets per mastery? (skipping those that are affected, unless there are no other enemies in range)
 * bolster is surprising, mainly for bosses - they get boosted based on their id, not stats
 * bolster in general, two todos are there, but not terribly important
-* buff resurrection
 * some other spell changes from elemental mod (permanent GM wizard eye, bright GM torchlight)
 * optional extra requirements for learning masteries (like disarm trap requiring 40 accuracy)
 * avlee spawn two bosses: one on wyvern cliff, second on island where GM alchemy trainer is

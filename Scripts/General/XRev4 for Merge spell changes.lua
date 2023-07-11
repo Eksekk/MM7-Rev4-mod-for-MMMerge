@@ -941,7 +941,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 		@ctrlMassCast:
 			test byte [%ctrlPressed%], 1
-			je @dontSelect
+			jne @dontSelect
 		
 		@notCtrlMassCast:
 		test dl, dl
@@ -1185,7 +1185,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		mov dword [edi+0x1C],eax
 		mov dword [edi+0x20],edx
 		or dword [edi+0x14],8
-		or dword [edi+0x14],10 ; show fire aura animation flag
+		or dword [edi+0x14],0x10 ; show fire aura animation flag
 
 		; start animation
 		mov dword [0x51E100],100
@@ -1238,7 +1238,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	]])
 
 	-- mana cost
-	spellHookManager.asmhook2(0x42C100, [[
+	spellHookManager.asmhook2(0x42724C, [[
 		test byte [%ctrlPressed%], 1
 		je @exit
 
@@ -1259,9 +1259,9 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		add esi, eax
 
 		@calcManaCost:
-		mov eax, [esp]
+		mov eax, [esp + 4]
 		imul eax, esi
-		mov [esp], eax
+		mov [esp + 4], eax
 
 		pop esi
 		@exit:
@@ -1280,7 +1280,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	end
 
 	-- perform enchantment
-	spellHookManager.asmhook(0x42C113, [[
+	spellHookManager.asmhook(0x427262, [[
 		test byte [%ctrlPressed%], 1
 		je @exit
 		test byte [ebx + 8], 1

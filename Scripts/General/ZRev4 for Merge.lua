@@ -19,6 +19,7 @@ IMPORTANCE CATEGORIES:
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * test bdj quest if works correctly after tier function removal
 * move extra attributes text and button somewhere (above dismiss button?) - name can be 32 characters long
+* chest scroll in duplicated dungeon is rules of the gauntlet instead
 
 -- extemporary fix for huge spell skill:
 for i, mon in Map.Monsters do

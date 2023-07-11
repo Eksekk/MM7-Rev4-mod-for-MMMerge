@@ -537,29 +537,38 @@ function PrepareMapMon(mon)
 		local Skill, Mas
 		local BuffSpells = not (GetAvgLevel(mon.Id) >= PartyLevel and MapSettings.Type ~= BolsterTypes.AllToEqual)
 		local NeedSpells = BuffSpells and MapSettings.Spells and MonSettings.Spells
+		local requireTxtMonsterSpells = true
 		local function doSpell(isSecond)
 			local spellKey, chanceKey, skillKey = isSecond and "Spell2" or "Spell", isSecond and "Spell2Chance" or "SpellChance", isSecond and "Spell2Skill" or "SpellSkill"
 			if mon[spellKey] == 0 and NeedSpells then
 				-- add new spell
 				oldMonBackup[spellKey] = mon[spellKey]
+				oldMonBackup[chanceKey] = mon[chanceKey]
+				oldMonBackup[skillKey]  = mon[skillKey]
 				
-				mon[spellKey] = GenMonSpell(MonSettings, BolStep, isSecond and 1 or 0, isSecond and mon[spellKey])
-				local duplicatedSpell = isSecond and mon.Spell ~= 0 and mon.Spell == mon[SpellKey] -- don't add duplicated spells
-				if mon[spellKey] ~= 0 and not duplicatedSpell then
-
-					local SkillByMas = {1,4,7,10}
-					local Mas = MonSettings.Style == 3 and 2 or 1
-					local Skill = SkillByMas[Mas]
-					local chance = MonSettings.Style == 3 and (isSecond and 35 or 60) or (isSecond and 20 or 35)
-					-- override spell skill level & mastery (they need to be overridden)
-					local ov = {SpellSkill = Skill, SpellMastery = Mas}
-					-- alternatively, to add only when txt mon had spell generated, execute this code block only if TxtMon[skillKey] ~= 0
-					Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), Skill, mon.Id, ov)
-					Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), Mas, mon.Id, ov)
-					oldMonBackup[chanceKey] = mon[chanceKey]
-					oldMonBackup[skillKey]  = mon[skillKey]
-					mon[chanceKey]          = chance
-					mon[skillKey]           = JoinSkill(Skill, Mas)
+				if true then
+					-- add spell like in unmodified bolster
+					if TxtMon[spellKey] ~= 0 then
+						mon[spellKey] = GenMonSpell(MonSettings, BolStep, isSecond and 1 or 0, isSecond and mon[spellKey])
+						mon[skillKey], mon[chanceKey] = TxtMon[skillKey], TxtMon[chanceKey]
+					end
+				else
+					-- add spell regardless of txt monster
+					mon[spellKey] = GenMonSpell(MonSettings, BolStep, isSecond and 1 or 0, isSecond and mon[spellKey])
+					local duplicatedSpell = isSecond and mon.Spell ~= 0 and mon.Spell == mon[SpellKey] -- don't add duplicated spells
+					if mon[spellKey] ~= 0 and not duplicatedSpell then
+						local SkillByMas = {1,4,7,10}
+						local Mas = MonSettings.Style == 3 and 2 or 1
+						local Skill = SkillByMas[Mas]
+						local chance = MonSettings.Style == 3 and (isSecond and 35 or 60) or (isSecond and 20 or 35)
+						-- override spell skill level & mastery (they need to be overridden)
+						local ov = {SpellSkill = Skill, SpellMastery = Mas}
+						-- alternatively, to add only when txt mon had spell generated, execute this code block only if TxtMon[skillKey] ~= 0
+						Skill = ProcessFormula(getFormulaOrDefault("SpellSkill"), Skill, mon.Id, ov)
+						Mas   = ProcessFormula(getFormulaOrDefault("SpellMastery"), Mas, mon.Id, ov)
+						mon[chanceKey]          = chance
+						mon[skillKey]           = JoinSkill(Skill, Mas)
+					end
 				end
 			elseif mon[spellKey] ~= 0 and BuffSpells and MapSettings.Type ~= BolsterTypes.OriginalStats then
 				-- buff existing spell skill

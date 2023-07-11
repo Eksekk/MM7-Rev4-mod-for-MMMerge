@@ -1045,10 +1045,52 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 	-- FIRE AURA affects all weapons or all missile weapons (if no enchantable weapons) with ctrl click
 
+	-- don't break/freeze game when doing fire aura mass cast
+	-- for now shows inventory momentarily, need more reverse engineering to fix that
+	-- if this patch was removed and doing exit inventory action when casting fire aura was omitted, only failed mass cast would break
+	spellHookManager.asmpatch(0x425D78, [[
+		cmp word [0x51D820], %fireAura%
+		jne @std
+		test byte [%ctrlPressed%], 1
+		je @std
+
+		jmp @end
+
+		@std:
+		test al,al
+		jns absolute 0x425E0A ; don't do something with oo dialog (if spell didn't require selecting item target)
+		@end:
+		; do something with oo dialog (switch to inventory?)
+	]])
+
 	-- asmprocs
 
 	spellHookManager.ref.isItemEnchantableWithTmpBonus = spellHookManager.asmproc([[
 		; ecx = item, edx = txt item
+
+		; check if bonus has expired, but item still has "tmp enchant" flag
+		test byte [ecx + 0x14], 8 ; has temporary bonus?
+		je @noTmpBonus
+			push edx
+			push ebx
+			mov ebx, ecx
+			mov ecx, [ebx + 0x1C] ; expire time low
+			mov edx, [ebx + 0x20] ; expire time high
+			cmp edx, [%gameTime% + 4]
+			jl @removeTmpBonus
+			jg @tmpBonusCleanup
+			cmp ecx, [%gameTime%]
+			ja @tmpBonusCleanup
+
+			@removeTmpBonus:
+			and byte [ebx + 0x14], 0xF7 ; turn off tmp enchant flag
+			and dword [ebx + 0xC], 0 ; bonus2
+
+			@tmpBonusCleanup:
+			mov ecx, ebx
+			pop ebx
+			pop edx
+		@noTmpBonus:
 		test byte [ecx + 0x14], 2 ; item broken?
 		jne @no
 		cmp dword [ecx + 0xC], 0 ; has bonus 2?
@@ -1119,9 +1161,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		; ecx - bonus, edx - item slot, [esp] - time low, [esp + 4] - time high
 		push ebp
 		mov ebp, esp ; +0xC -> time high, +8 -> time low, -4 -> items txt ptr, -8 -> bonus, -0xC -> item slot
-
-		; copy
-		; mov ebp, esp ; +16 -> time high, +12 -> time low, +8 -> items txt ptr, +4 -> bonus, +0 -> item slot
 
 		sub esp, 12
 		mov [ebp - 0xC], edx
@@ -1280,11 +1319,12 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	end
 
 	-- perform enchantment
-	spellHookManager.asmhook(0x427262, [[
+	local code = spellHookManager.asmhook(0x427262, [[
 		test byte [%ctrlPressed%], 1
 		je @exit
 		test byte [ebx + 8], 1
 		jne @exit
+			; mov dword [0x4F37D8], 0x17 ; screen
 			xor ecx, ecx
 			call absolute %getEnchantablePartyItemsCount%
 			test eax, eax
@@ -1293,10 +1333,16 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 			call absolute %getEnchantablePartyItemsCount%
 			test eax, eax
 			jne @melee
-			
-			; bows
 
-			mov ecx, 0xC ; bonus
+			mov ecx, 2
+			call absolute %getEnchantablePartyItemsCount%
+			test eax, eax
+			jne @bows
+
+			jmp absolute 0x427341 ; "spell failed!"
+			
+			@bows:
+			mov ecx, [ebp - 4] ; bonus
 			mov edx, 2 ; slot
 			push dword ptr [ebp-0x10] ; time high
 			push dword ptr [ebp-0x14] ; time low
@@ -1305,13 +1351,13 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 			jmp @success
 			
 			@melee:
-			mov ecx, 0xC ; bonus
-			mov edx, 0 ; slot
+			mov ecx, [ebp - 4]
+			mov edx, 0
 			push dword ptr [ebp-0x10] ; time high
 			push dword ptr [ebp-0x14] ; time low
 			call absolute %addTemporaryBonusAllWeapons%
 
-			mov ecx, 0xC
+			mov ecx, [ebp - 4]
 			mov edx, 1
 			push dword ptr [ebp-0x10]
 			push dword ptr [ebp-0x14]
@@ -1319,9 +1365,17 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 			@success:
 
+			nop
+			nop
+			nop
+			nop
+			nop
+
 			jmp absolute %castSuccessful%
 		@exit:
 	]])
+
+	hook(mem.findcode(code, NOP), function() DoGameAction(const.Actions.ExitInventory) end)
 
 	-- UNTERMINATED hook manager refs regex: %\w+\b(?!%)
 

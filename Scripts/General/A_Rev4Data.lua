@@ -387,3 +387,19 @@ function updateMonsterIndexes(tbl, monsterTableKey, indexes)
         --debug.Message(string.format("Changed monster indexes: %d, Map.Monsters size: %d, file: %q", c, Map.Monsters.Count, debug.FunctionFile(debug.getinfo(2, "f").func)))
     end
 end
+
+-- try to write down which values correspond to which actions, probably fruitless if mmext didn't expose them (might be complicated),
+-- but I want to try anyways
+-- JUMPTABLE: 0x42EEAB
+const.Actions = {
+	SelectSpellTarget = 0x40, -- is not triggered by heal - maybe only spells which can be casted only on PCs?
+	ClickSpellbookSpell = 0x51,
+	MouseOverCharacter = 0x59,
+	OpenSpellbook = 0x64,
+	-- can be click, press 1-5, and can be on currently selected player
+	-- after clicking, game calls function to process casted spell (in case player was clicked on to cast on him)
+	SwitchCharacter = 0x69, -- param: player index from 1
+
+	SwitchScreenToTargetSelection = 0x89, -- ?
+    ExitInventory = 0xA8,
+}

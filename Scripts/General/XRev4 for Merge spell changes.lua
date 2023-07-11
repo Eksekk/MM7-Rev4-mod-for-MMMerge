@@ -1045,24 +1045,6 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 	-- FIRE AURA affects all weapons or all missile weapons (if no enchantable weapons) with ctrl click
 
-	-- don't break/freeze game when doing fire aura mass cast
-	-- for now shows inventory momentarily, need more reverse engineering to fix that
-	-- if this patch was removed and doing exit inventory action when casting fire aura was omitted, only failed mass cast would break
-	spellHookManager.asmpatch(0x425D78, [[
-		cmp word [0x51D820], %fireAura%
-		jne @std
-		test byte [%ctrlPressed%], 1
-		je @std
-
-		jmp @end
-
-		@std:
-		test al,al
-		jns absolute 0x425E0A ; don't do something with oo dialog (if spell didn't require selecting item target)
-		@end:
-		; do something with oo dialog (switch to inventory?)
-	]])
-
 	-- asmprocs
 
 	spellHookManager.ref.isItemEnchantableWithTmpBonus = spellHookManager.asmproc([[
@@ -1318,26 +1300,54 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		end
 	end
 
+	spellHookManager.ref.getMassEnchantableItemSlot = spellHookManager.asmproc([[
+		; returns: item slot which can be mass enchanted or -1 if none
+		xor ecx, ecx
+		call absolute %getEnchantablePartyItemsCount%
+		test eax, eax
+		je @F
+			xor eax, eax
+			ret
+		@@:
+		mov ecx, 1
+		call absolute %getEnchantablePartyItemsCount%
+		test eax, eax
+		je @F
+			xor eax, eax
+			inc eax
+			ret
+		@@:
+		mov ecx, 2
+		call absolute %getEnchantablePartyItemsCount%
+		test eax, eax
+		je @F
+			mov eax, 2
+			ret
+		@@:
+		or eax, 0xFFFFFFFF ; cannot enchant any
+		ret
+	]])
+
 	-- perform enchantment
 	local code = spellHookManager.asmhook(0x427262, [[
 		test byte [%ctrlPressed%], 1
 		je @exit
 		test byte [ebx + 8], 1
 		jne @exit
-			; mov dword [0x4F37D8], 0x17 ; screen
-			xor ecx, ecx
-			call absolute %getEnchantablePartyItemsCount%
-			test eax, eax
-			jne @melee
-			mov ecx, 1
-			call absolute %getEnchantablePartyItemsCount%
-			test eax, eax
-			jne @melee
+			call absolute %getMassEnchantableItemSlot%
+			cmp eax, 0
+			je @melee
+			cmp eax, 1
+			je @melee
+			cmp eax, 2
+			je @bows
 
-			mov ecx, 2
-			call absolute %getEnchantablePartyItemsCount%
-			test eax, eax
-			jne @bows
+			; exit inventory
+			nop
+			nop
+			nop
+			nop
+			nop
 
 			jmp absolute 0x427341 ; "spell failed!"
 			
@@ -1365,17 +1375,34 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 			@success:
 
-			nop
-			nop
-			nop
-			nop
-			nop
-
 			jmp absolute %castSuccessful%
 		@exit:
 	]])
 
 	hook(mem.findcode(code, NOP), function() DoGameAction(const.Actions.ExitInventory) end)
+
+	-- don't break/freeze game when doing fire aura mass cast
+	-- for now shows inventory momentarily, need more reverse engineering to fix that
+	-- if this patch was removed and doing exit inventory action when casting fire aura was omitted, only failed mass cast would break
+	spellHookManager.asmpatch(0x425D78, [[
+		cmp word [0x51D820], %fireAura%
+		jne @std
+		test byte [%ctrlPressed%], 1
+		je @std
+		push eax
+		call absolute %getMassEnchantableItemSlot%
+		test eax, eax
+		pop eax
+		jns @std
+
+		jmp @end
+
+		@std:
+		test al,al
+		jns absolute 0x425E0A ; don't do something with oo dialog (if spell didn't require selecting item target)
+		@end:
+		; do something with oo dialog (switch to inventory?)
+	]])
 
 	-- UNTERMINATED hook manager refs regex: %\w+\b(?!%)
 

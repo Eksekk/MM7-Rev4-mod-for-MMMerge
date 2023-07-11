@@ -337,7 +337,8 @@ local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60,
 	castSuccessful = castSuccessfulAddr, cureInsanity = const.Spells.CureInsanity, gameTime = 0xB20EBC, erradOffset = 0x80, deadOffset = 0x70,
 	currentHpOffset = 0x1BF8, ctrlPressed = 0x51930C, skillBeforeFirstMagic = const.Skills.Plate, removeFear = const.Spells.RemoveFear,
 	cureWeakness = const.Spells.CureWeakness, getSkillMastery0 = Merge.Offsets.GetSkillMastery0, getSkill = 0x48EF4F, regeneration = const.Spells.Regeneration,
-	checkAndSubtractMana = 0x425B1A, setBuff = 0x455D97, resetTemporaryBonus = 0x455B25, itemCannotBeEnchanted = 0x45462F, itemsTxtPtr = Game.ItemsTxt["?ptr"]}
+	checkAndSubtractMana = 0x425B1A, setBuff = 0x455D97, resetTemporaryBonus = 0x455B25, itemCannotBeEnchanted = 0x45462F, itemsTxtPtr = Game.ItemsTxt["?ptr"],
+	fireAura = const.Spells.FireAura}
 
 -- SHARED LIFE OVERFLOW FIX --
 
@@ -955,7 +956,7 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 		@dontSelect:
 		; disable select target flags
-		and dword [ebp + 0xC], FFFFFC35
+		and dword [ebp + 0xC], 0xFFFFFC35
 
 		@end:
 		pop ebx
@@ -1042,6 +1043,10 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 	addr = spellHookManager.asmpatch(0x42A58A, curePatch, 0x15)
 	hook(mem.findcode(addr, NOP), callHealingEventWrapper)
 
+	-- FIRE AURA affects all weapons or all missile weapons (if no enchantable weapons) with ctrl click
+
+	-- asmprocs
+
 	spellHookManager.ref.isItemEnchantableWithTmpBonus = spellHookManager.asmproc([[
 		; ecx = item, edx = txt item
 		test byte [ecx + 0x14], 2 ; item broken?
@@ -1076,9 +1081,51 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		ret
 	]])
 
+	spellHookManager.ref.getItemSlotData = spellHookManager.asmproc([[
+		; ecx - player ptr, edx - slot
+		; returns: eax = item ptr or 0 if item not equipped, edx = item txt ptr
+
+		push edi ; will contain item ptr
+
+		lea eax, [ecx + edx * 4 + 0x1C04] ; equipped items offset
+		mov edx, dword [eax]
+		test edx, edx
+		je @none ; no equipped item in that slot
+		
+		; get item ptr
+		dec edx
+		imul edx, 0x24 ; item size
+		lea edx, [ecx + edx + 0x4A8] ; item array offset
+		mov edi, edx
+
+		; get items txt ptr for item
+		mov eax,dword ptr [edx]
+		lea eax,dword ptr [eax+eax*2]
+		shl eax,4
+		add eax,%itemsTxtPtr%
+		mov edx, eax
+		mov eax, edi
+		jmp @exit
+
+		@none:
+		xor eax, eax
+		mov edx, eax
+		@exit:
+		pop edi
+		ret
+	]])
+
 	spellHookManager.ref.addTemporaryBonusAllWeapons = spellHookManager.asmproc([[
 		; ecx - bonus, edx - item slot, [esp] - time low, [esp + 4] - time high
-		sub esp, 12 ; +16 -> time high, +12 -> time low, +8 -> items txt ptr, +4 -> bonus, +0 -> item slot
+		push ebp
+		mov ebp, esp ; +0xC -> time high, +8 -> time low, -4 -> items txt ptr, -8 -> bonus, -0xC -> item slot
+
+		; copy
+		; mov ebp, esp ; +16 -> time high, +12 -> time low, +8 -> items txt ptr, +4 -> bonus, +0 -> item slot
+
+		sub esp, 12
+		mov [ebp - 0xC], edx
+		mov [ebp - 8], ecx
 		push ebx ; -> player ptr
 		push esi ; -> loop counter
 		push edi ; -> player item ptr
@@ -1089,27 +1136,15 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		push esi
 		mov ecx, %party%
 		call absolute %getPlayerPtr%
+		mov ebx, eax
 		mov ecx, eax
-		mov ebx, ecx
-		add eax, 0x1C04 ; equipped items offset
-		mov edx, dword [ecx]
-		test edx, edx
+		mov edx, [ebp - 0xC]
+
+		call absolute %getItemSlotData%
+		test eax, eax
 		je @skip ; no equipped item in that slot
-
-		; get item ptr
-		mov eax, ecx
-		add eax, 0x4A8 ; item array offset
-		dec edx
-		imul edx, 0x24 ; item size
-		add edx, eax
-		mov edi, edx
-
-		; get items txt ptr for item
-		mov eax,dword ptr [edx]
-		lea eax,dword ptr [eax+eax*2]
-		shl eax,4
-		add eax,%itemsTxtPtr%
-		mov [esp + 8], eax
+		mov edi, eax
+		mov [ebp - 4], edx
 
 		; reset temporary bonus
 		push dword [%gameTime% + 4] ; maxTimeHigh
@@ -1119,27 +1154,28 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 
 		; check if item is enchantable
 		mov ecx, edi
-		mov edx, [esp + 8]
+		mov edx, [ebp - 4]
 		call absolute %isItemEnchantableWithTmpBonus%
 		test eax, eax
 		je @skip
 
-		@enchant:
-		mov eax, [esp + 4]
+		; enchant
+		mov eax, [ebp - 8]
 		mov dword [edi + 0xC], eax ; bonus2
 
 		; compute time 1
 		push 0
 		push 0x80
-		push dword [esp + 0x10]
-		push dword [esp + 0x10]
+		push dword [ebp + 0xC]
+		push dword [ebp + 8]
 		call absolute 0x4DB1B0
 
 		; compute time 2
-		sub esp, 4
-		mov [esp], eax
+		push eax
 		fild dword [esp]
+		pop eax
 		fmul dword [0x4E8480]
+
 		call absolute 0x4D967C ; store st0 in edx:eax (truncate)
 		cdq 
 		add eax, [%gameTime%]
@@ -1155,24 +1191,110 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 		mov dword [0x51E100],100
 
 		@skip:
+		inc esi
 		cmp esi, [%partySize%]
 		jb @addForPlayer
 
 		pop edi
 		pop esi
 		pop ebx
-		add esp, 12
+		leave
 		ret 8
 	]])
 
-	mem.asmhook(0x42C113, [[
+	spellHookManager.ref.getEnchantablePartyItemsCount = spellHookManager.asmproc([[
+		; ecx = item slot
+		push esi ; loop counter
+		push edi ; enchantable item counter
+		push ebx
+		mov ebx, ecx
+
+		xor esi, esi
+		mov edi, esi
+
+		@loop:
+		push esi
+		mov ecx, %party%
+		call absolute %getPlayerPtr%
+		mov ecx, eax
+		mov edx, ebx
+		call absolute %getItemSlotData%
+		test eax, eax
+		je @continue
+		mov ecx, eax
+		call absolute %isItemEnchantableWithTmpBonus%
+		add edi, eax
+
+		@continue:
+		inc esi
+		cmp esi, dword [%partySize%]
+		jb @loop
+
+		mov eax, edi
+		pop ebx
+		pop edi
+		pop esi
+		ret
+	]])
+
+	-- mana cost
+	spellHookManager.asmhook2(0x42C100, [[
 		test byte [%ctrlPressed%], 1
-		je @F
+		je @exit
+
+		push esi
+		xor esi, esi
+
+		xor ecx, ecx
+		call absolute %getEnchantablePartyItemsCount%
+		add esi, eax
+
+		mov ecx, 1
+		call absolute %getEnchantablePartyItemsCount%
+		add esi, eax
+		jne @calcManaCost
+
+		mov ecx, 2
+		call absolute %getEnchantablePartyItemsCount%
+		add esi, eax
+
+		@calcManaCost:
+		mov eax, [esp]
+		imul eax, esi
+		mov [esp], eax
+
+		pop esi
+		@exit:
+	]])
+
+	-- recovery time
+	-- need to be after reduced buff recovery handler
+	function events.SpellCostRecovery(t)
+		if t.Spell == const.Spells.FireAura and Game.CtrlPressed then
+			local count = mem.call(spellHookManager.ref.getEnchantablePartyItemsCount, 1, 0) + mem.call(spellHookManager.ref.getEnchantablePartyItemsCount, 1, 1)
+			if count == 0 then
+				count = mem.call(spellHookManager.ref.getEnchantablePartyItemsCount, 1, 2)
+			end
+			t.Recovery = t.Recovery * count
+		end
+	end
+
+	-- perform enchantment
+	spellHookManager.asmhook(0x42C113, [[
+		test byte [%ctrlPressed%], 1
+		je @exit
 		test byte [ebx + 8], 1
-		jne @F
-			; TODO: check if any melee weapon is enchanted, if so, enchant bows (as in elemental mod)
-			jmp @melee
-			@bow:
+		jne @exit
+			xor ecx, ecx
+			call absolute %getEnchantablePartyItemsCount%
+			test eax, eax
+			jne @melee
+			mov ecx, 1
+			call absolute %getEnchantablePartyItemsCount%
+			test eax, eax
+			jne @melee
+			
+			; bows
 
 			mov ecx, 0xC ; bonus
 			mov edx, 2 ; slot
@@ -1180,8 +1302,9 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 			push dword ptr [ebp-0x14] ; time low
 			call absolute %addTemporaryBonusAllWeapons%
 
-			jmp @exit
+			jmp @success
 			
+			@melee:
 			mov ecx, 0xC ; bonus
 			mov edx, 0 ; slot
 			push dword ptr [ebp-0x10] ; time high
@@ -1194,11 +1317,13 @@ if MS.Rev4ForMergeMiscSpellChanges == 1 then
 			push dword ptr [ebp-0x14]
 			call absolute %addTemporaryBonusAllWeapons%
 
-			@exit:
+			@success:
 
 			jmp absolute %castSuccessful%
-		@@:
+		@exit:
 	]])
+
+	-- UNTERMINATED hook manager refs regex: %\w+\b(?!%)
 
 	-- REGENERATION
 	-- affects whole party with ctrl pressed

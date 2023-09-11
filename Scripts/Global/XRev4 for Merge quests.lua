@@ -610,7 +610,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 						table.insert(guards, mon:GetIndex())
 						mon.NameId = jailerNameId
 						monUtils.hpMul(mon, lev)
-						monUtils.rewards(mon, 3 + lev * 2, -4, lev)
+						monUtils.rewards(mon, 3 + lev * 2, {-4, 50}, lev)
 						mon.Attack1.DamageAdd = mon.Attack1.DamageAdd + lev * 3
 					end
 				end
@@ -628,7 +628,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 						table.insert(guards, mon:GetIndex())
 						mon.NameId = jailerNameId
 						monUtils.hpMul(mon, lev)
-						monUtils.rewards(mon, lev * 2, -4, lev)
+						monUtils.rewards(mon, lev * 2, {-4, 50}, lev)
 						mon.Attack1.DamageDiceSides = math.round(mon.Attack1.DamageDiceSides * (1 + 0.1 * lev))
 					end
 				end
@@ -644,7 +644,7 @@ Not only did you help me and my friend, but also dealt very heavy blow to the el
 					monUtils.hpMul(mon, 3)
 					monUtils.spells(mon, const.Spells.PoisonSpray, JoinSkill(10, const.GM), 40)
 					monUtils.resists(mon, 35)
-					monUtils.rewards(mon, 4, -4, 5)
+					monUtils.rewards(mon, 4, {-4, 50}, 5)
 				end
 
 				pseudoSpawnpoint{monster = 121, x = -6542, y = 10041, z = 648, count = 1, powerChances = {0, 100, 0}, transform = wyvern}

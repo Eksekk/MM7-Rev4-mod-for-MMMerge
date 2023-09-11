@@ -4,12 +4,61 @@ local max, min, floor, ceil, round, random = math.max, math.min, math.floor, mat
 local format = string.format
 local MS = Merge.ModSettings
 
+local mmver = offsets.MMVersion
+function mmv(...)
+	local r = select(mmver - 5, ...)
+	assert(r ~= nil)
+	return r
+end
+
 local function Randoms(min, max, count)
 	local r = 0
 	for i = 1, count do
 		r = r + random(min, max)
 	end
 	return r
+end
+
+local function getPartyIndex(player)
+	for i, pl in Party do
+		if pl == player then
+			return i
+		end
+	end
+end
+
+local function getSpellQueueData(spellQueuePtr, targetPtr)
+	local t = {Spell = i2[spellQueuePtr], Caster = Party.PlayersArray[i2[spellQueuePtr + 2]]}
+	t.SpellSchool = ceil(t.Spell / 11)
+	local flags = u2[spellQueuePtr + 8]
+	if flags:And(0x10) ~= 0 then -- caster is target
+		t.Caster = Party[i2[spellQueuePtr + 4]]
+	end
+    t.CasterIndex = getPartyIndex(t.Caster)
+
+	if flags:And(1) ~= 0 then
+		t.FromScroll = true
+		t.Skill, t.Mastery = SplitSkill(u2[spellQueuePtr + 0xA])
+	else
+		if mmver > 6 then
+			t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
+		else -- no GetSkill
+			t.Skill, t.Mastery = SplitSkill(t.Caster.Skills[const.Skills.Fire + t.SpellSchool - 1])
+		end
+	end
+
+	local targetIdKey = mmv("TargetIndex", "TargetIndex", "TargetRosterId")
+	if targetPtr then
+		if type(targetPtr) == "number" then
+			t[targetIdKey], t.Target = internal.GetPlayer(targetPtr)
+		else
+			t[targetIdKey], t.Target = targetPtr:GetIndex(), targetPtr
+		end
+	else
+		local pl = Party[i2[spellQueuePtr + 4]]
+		t[targetIdKey], t.Target = pl:GetIndex(), pl
+	end
+	return t
 end
 
 -- INTELLECT & PERSONALITY --
@@ -262,34 +311,6 @@ end
 -- MODIFIED HEALING --
 -- idea from MAW mod for MM6 --
 
-local function getSpellQueueData(spellQueuePtr, targetPtr)
-	local t = {Spell = i2[spellQueuePtr], Caster = Party.PlayersArray[i2[spellQueuePtr + 2]]}
-	t.SpellSchool = ceil(t.Spell / 11)
-	local flags = u2[spellQueuePtr + 8]
-	if flags:And(0x10) ~= 0 then -- caster is target
-		t.Caster = Party.PlayersArray[i2[spellQueuePtr + 4]]
-	end
-
-	if flags:And(1) ~= 0 then
-		t.FromScroll = true
-		t.Skill, t.Mastery = SplitSkill(u2[spellQueuePtr + 0xA])
-	else
-		t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
-	end
-
-	if targetPtr then
-		if type(targetPtr) == "number" then
-			t.TargetRosterId, t.Target = internal.GetPlayer(targetPtr)
-		else
-			t.TargetRosterId, t.Target = targetPtr:GetIndex(), targetPtr
-		end
-	else
-		local pl = Party[i2[spellQueuePtr + 4]]
-		t.TargetRosterId, t.Target = pl:GetIndex(), pl
-	end
-	return t
-end
-
 mem.hookfunction(0x48FA06, 1, 3, function(d, def, targetPtr, cond, timeLow, timeHigh)
 	local t = getSpellQueueData(d.ebx, targetPtr)
 	events.call("RemoveConditionBySpell", t)
@@ -341,14 +362,6 @@ local spellHookManager = HookManager{rosterIds = 0xB7CA4C, partySize = 0xB7CA60,
 	fireAura = const.Spells.FireAura}
 
 -- SHARED LIFE OVERFLOW FIX --
-
-local function getPartyIndex(player)
-	for i, pl in Party do
-		if pl == player then
-			return i
-		end
-	end
-end
 
 if MS.Rev4ForMergeFixSharedLifeOverflow == 1 then
 	function randomizeHP()

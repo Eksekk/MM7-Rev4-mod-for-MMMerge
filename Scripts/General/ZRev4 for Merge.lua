@@ -20,6 +20,7 @@ IMPORTANCE CATEGORIES:
 * test bdj quest if works correctly after tier function removal
 * move extra attributes text and button somewhere (above dismiss button?) - name can be 32 characters long
 * chest scroll in duplicated dungeon is rules of the gauntlet instead
+* NERF ERATHIA CHEST
 
 -- extemporary fix for huge spell skill:
 for i, mon in Map.Monsters do
@@ -51,8 +52,9 @@ playthrough notes:
 
 -- those below are not needed for "first release" --
 
-* HIRE MYSTIC - +3 to all spell skills
 ---- important ----
+* nerf armsmaster recovery bonus
+* boost celeste and the pit magic shops - they're weaker than bracada/deyja
 * rework meditation to give a bit of mana regenerated, based on character max mana and skill/mastery? (regen should start from expert or master only, and should stay low)
 * slightly boost loot in fort riverstride
 * some monsters having some resistance penetration (new special)?
@@ -76,6 +78,7 @@ playthrough notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* nerf artifact stacking with +magic items (1/2 of effect stacks)?
 * when selecting target for enchant item, show in item tooltip whether that item has enough quality to be enchanted
 * shared merchant skill for buying and selling (training, learning skills, healing in temple - nope)
 * scatter some items (thematical - a ring of dragon eyes, several low-tier rings, random spellbook etc.) near some monster spawns or empty areas (if latter, items should be weaker)
@@ -100,6 +103,7 @@ playthrough notes:
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 
 ---- minor ----
+* when you get teleported to the floor in celeste, you still fall
 * haunted mansion no transition text
 * show some animation when monster effect is avoided with perception?
 * allow GM merchant to get above maximum sell price due to difficulty??

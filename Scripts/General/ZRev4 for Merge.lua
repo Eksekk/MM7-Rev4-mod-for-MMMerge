@@ -33,7 +33,7 @@ for i, mon in Map.Monsters do
 	end
 end
 
-playthrough notes:
+playthrough bugs found:
 * map NPCs have wrong topic names (like "Credits" instead of "Emerald Island"), possible culprit - General/NPCNewsTopics.lua
 * rocs in tularean (obelisk) are not hostile - AFTER RELOAD, map script? or mm8 reload bug where attacking friendly monsters turns them friendly again after reload
 * mortie ottin has "courier delivery" topic even when courier quests aren't started
@@ -48,7 +48,14 @@ playthrough notes:
 * harmondale carnage bow was not removed - ??? works fine in new game
 * travelling to harmondale from EI (second time) breaks interface
 * monsters hostile after entering celeste for first time, fix in editor?
-* one half of upper fort riverstride door doesn't have event assigned
+* one half of fort riverstride outside upper door doesn't have event assigned
+* book of unmakings can be learned (not by everyone)
+
+playthrough balance notes:
+* fireballs are strong if multiple PCs have them
+* single-target magic spells are probably too weak. Sparks and Poison Spray work, but you need to be in melee range, losing main advantage of caster party
+* corollary to above, actual melee combat with weapons (and all buffs) is much stronger than most spells
+* the strange temple (archmage quest) is a bit too easy - boost monsters or more spawns?
 
 -- those below are not needed for "first release" --
 
@@ -124,6 +131,13 @@ playthrough notes:
 IF I WANNA REALLY CHALLENGE MYSELF:
 ###. New spells (additional weapon enhancements).
      freeze, feeblemind, turn to stone
+
+--- BIG REVAMP OF GAME MECHANICS ---
+* numeric skill level bonuses (+3 fire magic etc.)
+* two or three levels of mana/hp regen enchants
+* more healing spells
+* healing spells increase in cost when they increase in effectiveness (not as heavily; like GM 10 Heal would cost 10 mana)
+* item changes - three enchants, up to two special
 ]]
 
 monUtils = {}

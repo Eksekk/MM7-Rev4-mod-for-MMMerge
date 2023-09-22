@@ -242,9 +242,7 @@ local code = asmpatch(0x41D441, [[
     nop
     cmp [edi], bl
 ]])
---[[
-    function events.BuildItemInformationBox(t) t.Enchantment = "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" end
-]]
+
 hook(code, function(d)
     local rows = {
         Description = {
@@ -340,21 +338,3 @@ mem.hookfunction(addr, 1, 0, function(d, def, itemPtr)
     identifiedItemNameHooks.Switch(true)
     return r
 end)
-
--- test handlers, disable once you want to test your own
-
-function events.GetItemName(t)
-    t.Name = t.Name .. "myitem"
-end
-
-function events.BuildItemInformationBox(t)
-    if t.Type then
-        t.Type = t.Type .. randomStr("abc", 12)
-        t.BasicStat = t.BasicStat .. randomStr("190", 25)
-        t.Enchantment = t.Enchantment .. randomStr("tyu", 50)
-    elseif t.Name then
-        t.Name = t.Name .. t.Item.Number
-    elseif t.Description then
-        t.Description = t.Description .. "this is description lol"
-    end
-end

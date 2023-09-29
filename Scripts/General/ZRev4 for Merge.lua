@@ -41,7 +41,6 @@ playthrough bugs found:
 * hostile map npcs and crossbowmen in tatalia without doing anything
 * castle harmondale door at the top to upper level is opened - missing doors?, also shadow bugs
 * courier quests further bugged - some people you need to talk to behave as if you already visited objective giver. Perhaps lack of evt.Cmp("Inventory", ...)?
-* barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
 * other barrows as well, mainly those with literally hundreds of mobs in a small space due to mapstats boosts and of course bats
 * barrow VIII has wrong textures
 * too good items in chests in barrow II?
@@ -50,12 +49,18 @@ playthrough bugs found:
 * monsters hostile after entering celeste for first time, fix in editor?
 * one half of fort riverstride outside upper door doesn't have event assigned
 * book of unmakings can be learned (not by everyone)
+* found two enchanter rings in clanker's lab???
 
 playthrough balance notes:
+* barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
 * fireballs are strong if multiple PCs have them
 * single-target magic spells are probably too weak. Sparks and Poison Spray work, but you need to be in melee range, losing main advantage of caster party
 * corollary to above, actual melee combat with weapons (and all buffs) is much stronger than most spells
 * the strange temple (archmage quest) is a bit too easy - boost monsters or more spawns?
+* meteor shower/starburst/fireball/rock blast strategy seems to be balanced vs. nighon hydras (1 caster of shower and rock, 1 starburst, 3 fireball)
+* clanker's lab was too easy (save included)
+* heal is too OP in later stages of the game
+* NOTE: a lot of problems will be solved once nerfhammer hits "of X Magic" rings and stacking with artifacts
 
 -- those below are not needed for "first release" --
 
@@ -85,6 +90,7 @@ playthrough balance notes:
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text
 
 ---- good to have ----
+* emerald island teleport plate in bracada could ask if you really mean to teleport, and if no, disable the event for 4 minutes or so
 * nerf artifact stacking with +magic items (1/2 of effect stacks)?
 * when selecting target for enchant item, show in item tooltip whether that item has enough quality to be enchanted
 * shared merchant skill for buying and selling (training, learning skills, healing in temple - nope)
@@ -108,6 +114,7 @@ playthrough balance notes:
 	dry run it and see if I included all changes (almost everything was done manually)
 * Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
+* new "ultra" difficulty level?
 
 ---- minor ----
 * when you get teleported to the floor in celeste, you still fall
@@ -126,6 +133,7 @@ playthrough balance notes:
 * Character creation screen enhancements
 * Additional topics in service houses + USE THEM
 * Check if all fruit trees work (I recall BDJ said the had to cut some of them out due to event limit)
+* keyring item or functionality, to store multiple keys in small space?
 
 
 IF I WANNA REALLY CHALLENGE MYSELF:
@@ -138,6 +146,8 @@ IF I WANNA REALLY CHALLENGE MYSELF:
 * more healing spells
 * healing spells increase in cost when they increase in effectiveness (not as heavily; like GM 10 Heal would cost 10 mana)
 * item changes - three enchants, up to two special
+* weapons effects (mainly intended for some sort of simple aoe damage for melees)
+* "of X magic" effect scales with level and int/per?
 ]]
 
 monUtils = {}
@@ -1709,6 +1719,9 @@ if MS.Rev4ForMergeMiscBalanceChanges == 1 then
 		Game.SpcItemsTxt[41].BonusStat = "+3 to Seven Stats, HP, SP, Armor, Resistances." -- of doom
 	end
 end
+
+-- book of unmakings cannot be learned
+evt.UseItemEffects[1301] = function() return 3 end
   
 -- for testing
 --[[

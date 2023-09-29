@@ -320,7 +320,7 @@ We're afraid they're preparing an invasion into our world. Can you help us? If y
 		--Quest = REV4_FOR_MERGE_QUEST_INDEX + 2,
 		CheckDone = function()
 			for i = 1, 3 do
-				if not evt.Cmp("Inventory", itemIDs[i]) then
+				if not evt.All.Cmp("Inventory", itemIDs[i]) then
 					return false
 				end
 			end
@@ -379,7 +379,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			-- miniboss: Clanker's Puppet, mage
 			-- changing stats here works, because he is summoned before bolster happens
 			local wiz = pseudoSpawnpoint{monster = 292, x = 321, y = 1735, z = 385, count = 1, powerChances = {0, 100, 0}, radius = 32, group = 56, exactZ = true}[1]
-			monUtils.hpMul(wiz, diffsel(2.5, 3.5, 4.5))
+			monUtils.hpMul(wiz, diffsel(4, 5, 6))
 			monUtils.boostResistances(wiz, diffsel(20, 40, 60))
 			wiz.ArmorClass = wiz.ArmorClass * 2
 			wiz.Attack1.DamageDiceCount = wiz.Attack1.DamageDiceCount * 2
@@ -396,7 +396,8 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 			wiz.Spell2, wiz.Spell2Skill, wiz.Spell2Chance = const.Spells.PowerCure, JoinSkill(diffsel(20, 25, 30), const.GM), 30
 			
 			-- additional random items in chests
-			
+			-- disabled because of too good rewards
+			--[[
 			for chestID = 1, 14 do
 				local fifth, sixth = false, false
 				for i, item in Map.Chests[chestID].Items do
@@ -410,6 +411,7 @@ But beware, this place attracts magic like crazy. I wouldn't be surprised if Cla
 					end
 				end
 			end
+			]]
 			
 			-- put quest items
 			-- shelf near evil eye with clanker's amulet

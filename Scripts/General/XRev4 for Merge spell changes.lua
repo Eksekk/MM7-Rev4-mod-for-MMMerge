@@ -82,6 +82,109 @@ if MS.Rev4ForMergeIntellectPersonalityIncreaseSpellEffect == 1 then
 	end)
 end
 
+--[[
+Fire Bolt: "Launches a burst of fire at a single target.  Damage is 6 + 1-4 points of damage per point of skill in Fire Magic.   Firebolt is safe, effective and has a low casting cost."
+
+
+Fireball: "Fires a ball of fire at a single target. When it hits, the ball explodes damaging all those nearby, including your characters if they're too close.  Fireball does 1-7 points of damage per point of skill in Fire Magic."
+
+
+Fire Spike: "Drops a Fire Spike on the ground that waits for a creature to get near it before exploding.  Fire Spikes last until you leave the map or they are triggered."
+Normal: "n/a"
+Expert: "Causes 1-8 points of damage per point of skill, 5 spikes maximum"
+Master: "Causes 1-10 points of damage per point of skill, 7 spikes maximum"
+GM: "Causes 1-12 points of damage per point of skill, 9 spikes maximum"
+
+
+Immolation: "Surrounds your characters with a very hot fire that is only harmful to others.  The spell will deliver 1-7 points of damage per point of skill to all nearby monsters for as long as they remain in the area of effect. "
+
+
+Inferno: "Inferno burns all monsters in sight when cast, excluding your characters.  One or two castings can clear out a room of weak or moderately powerful creatures. Each monster takes 17 points of damage plus 2 per point of skill in Fire Magic.  This spell only works indoors."
+
+
+Incinerate: "Among the strongest direct damage spells available, Incinerate inflicts massive damage on a single target.  Only the strongest of monsters can expect to survive this spell.  Damage is 25 points plus 5-20 per point of skill in Fire Magic."
+
+
+Sparks: "Sparks fires small balls of lightning into the world that bounce around until they hit something or dissipate. It is hard to tell where they will go, so this spell is best used in a room crowded with small monsters. Each spark does 2 points plus 1-2 per point of skill in Air Magic."
+
+
+Lightning Bolt: "Lightning Bolt discharges electricity from the caster’s hand to a single target.  It always hits and does 1-10 points of damage per point of skill in Air Magic."
+
+
+Implosion: "Implosion is a nasty spell that affects a single target by destroying the air around it, causing a sudden inrush from the surrounding air, a thunderclap, and 20 points plus 1-13 points of damage per point of skill in Air Magic."
+
+
+Poison Spray: "Sprays poison at monsters directly in front of your characters.  Damage is low, but few monsters have resistance to Water Magic, so it usually works.  Each shot does 5 points of damage plus 1-3 per point of skill."
+
+
+Ice Bolt: "Fires a bolt of ice at a single target.  The missile does 10 + 1-5 points of damage per point of skill in Water Magic."
+
+
+Acid Burst: "Acid burst squirts a jet of extremely caustic acid at a single victim.  It always hits and does 12 points of damage plus 1-11 per point of skill.  "
+
+
+Ice Blast: "Fires a ball of ice in the direction the caster is facing.  The ball will shatter when it hits something, launching 7 shards of ice in all directions except the caster’s.  The shards will ricochet until they strike a creature or melt.  Each shard does 15 points of damage plus 1-8 per point of skill in Water Magic."
+
+
+Deadly Swarm: "Summons a swarm of biting, stinging insects to bedevil a single target.  The swarm does 10 points of damage plus 1-5 per point of skill in Earth Magic."
+
+
+Blades: "Fires a rotating, razor-thin metal blade at a single monster.  The blade does 1-10 points of damage per point of skill in Earth Magic."
+
+
+Rock Blast: "Releases a magical stone into the world that will explode when it comes into contact with a creature or enough time passes.  The rock will bounce and roll until it finds a resting spot, so be careful not to be caught in the blast.  The explosion causes 20 points of damage plus 1-10 points of damage per point of skill in Earth Magic."
+
+
+Death Blossom: "Launches a magical stone which bursts in air, sending shards of explosive earth raining to the ground.  The damage is 20 points plus 2-5 per point of skill in Earth Magic for each shard.  This spell can only be used outdoors."
+
+
+Spirit Lash: "This spell weakens the link between a target's body and soul, causing 15 + 3-10 points of damage per point of skill in Spirit Magic to all monsters near the caster."
+
+
+Mind Blast: "Fires a bolt of mental force which damages a single target's nervous system.  Mind Blast does 6 points of damage plus 1-4 per point of skill in Mind Magic."
+
+
+Psychic Shock: "Similar to Mind Blast, Psychic Shock targets a single creature with mind damaging magic--only it has a much greater effect.  Psychic Shock does 20 points of damage plus 1-14 per point of skill in Mind Magic."
+
+
+Harm: "Directly inflicts magical damage upon a single creature.  Harm does 15 points of damage plus 1-3 per point of skill in Body Magic."
+
+
+Flying Fist: "Flying Fist throws a heavy magical force at a single opponent that does 40 points of damage plus 1-10 per point of skill in Body Magic."
+
+
+Light Bolt: "Fires a bolt of light at a single target that does 1-6 points of damage per point of skill in light magic.  Damage vs. Undead is doubled."
+
+
+Destroy Undead: "Calls upon the power of heaven to undo the evil magic that extends the lives of the undead, inflicting 20 points of damage plus 1-20 per point of skill in Light Magic upon a single, unlucky target.  This spell only works on the undead."
+
+
+Prismatic Light: "Inflicts 25 points of damage plus 1-2 per point of skill in Light Magic on all creatures in sight.  This spell can only be cast indoors."
+
+
+Sunray: "Sunray is the second most devastating damage spell in the game. It does 40 points of damage plus 10-22 points per point of skill in Light Magic, by concentrating the light of the sun on one unfortunate creature. It only works outdoors during the day."
+
+
+Toxic Cloud: "A poisonous cloud of noxious gases is formed in front of the caster and moves slowly away from your characters.  The cloud does 35 points of damage plus 1-12 per point of skill in Dark Magic and lasts until something runs into it."
+
+
+Shrapmetal: "Fires a blast of hot, jagged metal in front of the caster, striking any creature that gets in the way.  Each piece inflicts 1-7 points of damage per point of skill in Dark Magic."
+
+
+Dragon Breath: "Dragon Breath empowers the caster to exhale a cloud of toxic vapors that targets a single monster and damage all creatures nearby, doing 25 + 10-25 points of damage per point of skill in Dark Magic."
+
+
+Darkfire Bolt: "This frightening ability grants the Dark Elf the power to wield Darkfire, a dangerous combination of the powers of Dark and Fire. Any target stricken by the Darkfire bolt resists with either its Fire or Dark resistance--whichever is lower. Damage is 5-19 per point of skill."
+
+
+Lifedrain: "Lifedrain allows the vampire to damage his or her target and simultaneously heal based on the damage done in the Lifedrain.  This ability does 6 points of damage plus 1-4 points of damage per skill."
+Normal: "Vampire heals 1/3 the damage done by Lifedrain"
+Expert: "Faster recovery rate"
+Master: "Damage 10 points plus 1-6 per point of skill"
+GM: "Damage 15 points plus 1-8 per point of skill"
+
+]]
+
 -- INCREASED DAMAGE --
 if MS.Rev4ForMergeChangeSpellDamage == 1 then
 	local spellsDamage =
@@ -89,18 +192,20 @@ if MS.Rev4ForMergeChangeSpellDamage == 1 then
 		[2] = -- Fire Bolt
 		{
 			DamageBase = 6,
-			DamagePerSkill = "1-4"
+			DamagePerSkill = "1-4",
+			Description = "Launches a burst of fire at a single target.  Damage is 6 + 1-4 points of damage per point of skill in Fire Magic.   Firebolt is safe, effective and has a low casting cost."
 		},
 		[6] = -- Fireball
 		{
-			DamagePerSkill = "1-7"
+			DamagePerSkill = "1-7",
+			Description = "Fires a ball of fire at a single target. When it hits, the ball explodes damaging all those nearby, including your characters if they're too close.  Fireball does 1-7 points of damage per point of skill in Fire Magic."
 		},
 		[7] = -- Fire Spike
 		{
-			[const.GM] = {DamagePerSkill = "1-12"},
-			[const.Master] = {DamagePerSkill = "1-10"},
-			[const.Expert] = {DamagePerSkill = "1-8"},
-			[const.Novice] = {DamagePerSkill = "1-8"}
+			[const.GM] = {DamagePerSkill = "1-12", Description = "Causes 1-12 points of damage per point of skill, 9 spikes maximum"},
+			[const.Master] = {DamagePerSkill = "1-10", Description = "Causes 1-10 points of damage per point of skill, 7 spikes maximum"},
+			[const.Expert] = {DamagePerSkill = "1-8", Description = "Causes 1-8 points of damage per point of skill, 5 spikes maximum"},
+			[const.Novice] = {DamagePerSkill = "1-8"},
 		},
 		[8] = -- Immolation
 		{

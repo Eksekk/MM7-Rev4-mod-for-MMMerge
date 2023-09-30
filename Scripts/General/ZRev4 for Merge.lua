@@ -14,11 +14,7 @@ end
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
-* some chests (like in Tidewater Caverns) still have broken texture UV in editor???
-* and Temple of the Sun and Haunted Mansion have it broken even ingame
-* warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * test bdj quest if works correctly after tier function removal
-* move extra attributes text and button somewhere (above dismiss button?) - name can be 32 characters long
 * NERF ERATHIA CHEST
 
 -- extemporary fix for huge spell skill:
@@ -48,7 +44,11 @@ playthrough bugs found:
 * monsters hostile after entering celeste for first time, fix in editor?
 * one half of fort riverstride outside upper door doesn't have event assigned
 * found two enchanter rings in clanker's lab (THEY GENERATE AT TREASURE LEVEL 6) - bug caused by ChanceByLevel offset shifted by 1 and treasure level 6 has Id/Rep/St value, already reported and fixed, need to update
-*
+
+map editor usage related bugs:
+* some chests (like in Tidewater Caverns) still have broken texture UV in editor???
+* and Temple of the Sun and Haunted Mansion have it broken even ingame
+* warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 
 playthrough balance notes:
 * barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
@@ -329,10 +329,12 @@ local strGreen = "\f02016" -- taken directly from debugger, I'm too dumb to unde
 local strRed = "\f63488"
 local strDefaultColor = "\f00000"
 
+rev4m.ui = rev4m.ui or {} -- store ui elements for easy ingame position adjusting
+
 local extraAttributesText = CustomUI.CreateText{
 	Text = "Extra attributes:",
-	X =	110,
-	Y =	33,
+	X =	478,
+	Y =	373,
 	--Width = 300,
 	Screen = const.Screens.Inventory,
 	Active = true,
@@ -340,8 +342,9 @@ local extraAttributesText = CustomUI.CreateText{
 		return Game.CurrentCharScreen == const.CharScreens.Stats
 	end
 }
+rev4m.ui.extraAttributesText = extraAttributesText
 
-local extraDataText = CustomUI.CreateText{
+local extraDataTooltipText = CustomUI.CreateText{
 	Text = "",
 	X = 110,
 	Y = 100,
@@ -358,6 +361,7 @@ local extraDataText = CustomUI.CreateText{
 		return false
 	end
 }
+rev4m.ui.extraDataTooltipText = extraDataTooltipText
 
 local btnExtraData = CustomUI.CreateButton{
 	IconUp = "TglXDataU",
@@ -365,8 +369,8 @@ local btnExtraData = CustomUI.CreateButton{
 	Screen = const.Screens.Inventory,
 	Layer = 1,
 	DynLoad = true,
-	X =	275,
-	Y =	33,
+	X =	545,
+	Y =	392,
 	Masked = true,
 	Condition = function(t)
 		local show = Game.CurrentCharScreen == const.CharScreens.Stats
@@ -376,25 +380,26 @@ local btnExtraData = CustomUI.CreateButton{
 			for i, v in ipairs(addTextFunctions) do
 				text = text .. v(pl) .. (i ~= #addTextFunctions and "\n\n" or "")
 			end
-			extraDataText.Text = text
+			extraDataTooltipText.Text = text
 			--debug.Message(format("%q", text))
 			--local LinesCount = table.maxn(string.split(text, "\n"))
 			--debug.Message(LinesCount)
 			--extraDataText.Ht = 16*LinesCount*2
 		else
-			extraDataText.Active = false
+			extraDataTooltipText.Active = false
 		end
 		return show
 	end,
 	Action = function()
-		extraDataText.Active = not extraDataText.Active
+		extraDataTooltipText.Active = not extraDataTooltipText.Active
 	end,
 }
+rev4m.ui.btnExtraData = btnExtraData
 
 function events.AfterLoadMap()
 	if #addTextFunctions == 0 then
 		extraAttributesText.Active = false
-		extraDataText.Active = false
+		extraDataTooltipText.Active = false
 		btnExtraData.Active = false
 	end
 end

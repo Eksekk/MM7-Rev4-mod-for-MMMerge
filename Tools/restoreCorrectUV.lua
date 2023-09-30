@@ -66,6 +66,7 @@ local function callback(state, map)
     end
 
     -- castle harmondale doors
+    -- doors are in Map.Doors, not state
     if map == "7d29.blv" then
         
     end
@@ -77,3 +78,8 @@ function restoreCorrectUv()
     rev4m.batchCompilingMaps = true -- needed to avoid crash from "monster flickering" fix from MiscTweaks.lua
     BatchLoad(rev4mMapsDir, outputDir, callback, function() rev4m.batchCompilingMaps = nil end)
 end
+
+-- r = select(2, nthNext(Editor.State.Rooms, 3))
+--------- these doors are different than Map.Doors
+-- for facet, id in pairs(r.Facets) do if facet.Door then print(id) end end
+-- local i = 0; for facet, id in pairs(r.Facets) do i = i + 1; if facet.Door then print(i) end end

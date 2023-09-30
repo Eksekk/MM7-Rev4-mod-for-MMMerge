@@ -486,6 +486,7 @@ three of the yellow reagents."	Body Resistance 772	Body Resistance Recipe
 1581			Empty Message Scroll
 1582			Empty Message Scroll
 1583			_quest/misc781
+1593	" Jailkeeper Faedril,  We have built a new addition to the caves here in the Tularean Forest; I'm sure you'll like it.  To gain access to the new section, you'll have to cross a bridge we've concealed with magic (who would think to try and walk on air?), then activate a set of teleporters.  One of the teleporters will take you to the prison section; the other two are traps.  To make garrison duty of the prison even more secure, we've managed to capture some wyverns from Avlee and a small tribe of troglodytes to guard the prison section of the caves.  Be sure to keep them well fed if you want to visit that section-- the wyverns can be quite hostile.  Of course, we take no responsibility for your life or the lives of your men-- our job was to supervise prison construction and to minimize the chance of rescue or escape.  Your safety is in your own hands.  Niles Stantley"	Tularean Caves	Letter from Mr. Stantley
 2120	III = 16 & IV = 4	D1	Name of Message
 2121	Die Intruder!	T6	Name of Message
 2122	"Silvertongue,

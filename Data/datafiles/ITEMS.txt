@@ -1593,7 +1593,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 1590	null	_quest/misc788	0	0	0	0	0	0	0	_quest/misc788	153	0	0	0	0	Description here.
 1591	null	_quest/misc789	0	0	0	0	0	0	0	_quest/misc789	153	0	0	0	0	Description here.
 1592	null	_quest/misc790	0	0	0	0	0	0	0	_quest/misc790	153	0	0	0	0	Description here.
-1593	null	_quest/misc791	0	0	0	0	0	0	0	_quest/misc791	153	0	0	0	0	Description here.
+1593	7item182	Letter from Mr. Stantley	0	Mscroll	Misc	M9	1	2	0	Message Scroll	230	0	0	0	0	"A message scroll.  To read this message, pick the scroll up and left-click over the character picture in the inventory screen."
 1594	null	_quest/misc792	0	0	0	0	0	0	0	_quest/misc792	153	0	0	0	0	Description here.
 1595	null	_quest/misc793	0	0	0	0	0	0	0	_quest/misc793	153	0	0	0	0	Description here.
 1596	null	_quest/misc794	0	0	0	0	0	0	0	_quest/misc794	153	0	0	0	0	Description here.

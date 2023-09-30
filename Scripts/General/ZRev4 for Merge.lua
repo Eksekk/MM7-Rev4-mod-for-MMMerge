@@ -19,7 +19,6 @@ IMPORTANCE CATEGORIES:
 * warlocks in nighon have 137N acid burst, ALSO CHECK ALL OTHER MAPS for similar bugs
 * test bdj quest if works correctly after tier function removal
 * move extra attributes text and button somewhere (above dismiss button?) - name can be 32 characters long
-* chest scroll in duplicated dungeon is rules of the gauntlet instead
 * NERF ERATHIA CHEST
 
 -- extemporary fix for huge spell skill:
@@ -1754,3 +1753,6 @@ end
 
 -- testing spc bonuses generation
 -- for i = 1, 100 do evt.GiveItem{Strength = 5, Type = const.ItemType.Ring} end; local count = 0; for i, item in Party[0].Items do if item.Bonus2 == rev4m.const.spcBonuses.permanence + 1 then count = count + 1 end end; print(count)
+
+-- fun trick, easily dump value of table entry
+-- dump(select(2, next(Editor.State.Rooms)), 1)

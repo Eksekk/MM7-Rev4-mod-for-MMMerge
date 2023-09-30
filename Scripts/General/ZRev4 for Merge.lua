@@ -69,7 +69,6 @@ playthrough balance notes:
 
 ---- important ----
 * nerf armsmaster recovery bonus
-* boost celeste and the pit magic shops - they're weaker than bracada/deyja
 * rework meditation to give a bit of mana regenerated, based on character max mana and skill/mastery? (regen should start from expert or master only, and should stay low)
 * slightly boost loot in fort riverstride
 * some monsters having some resistance penetration (new special)?
@@ -87,7 +86,6 @@ playthrough balance notes:
 * Bosses
 * Boost weapon boosting potions
 * Boost some of statistics' effects (if boosted breakpoints active, then less) - int/per done
-* spell damage opt-out
 * redo rev4 promotion quests to use Quest{} and be able to freely promote after quest completion like in default Merge quests
 * as above, but for free skill barrels and NPC free skills (dark master/fire expert)
 * technical: move merge scripts into their own file (make sure that they load after normal script) and directly patch them instead of replacing text

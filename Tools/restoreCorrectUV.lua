@@ -52,6 +52,23 @@ local function callback(state, map)
             end
         end
     end
+
+    -- fix 137N monster spell skill bug
+    for mon in Editor.State.Monsters do
+        for _, k in ipairs{"Spell", "Spell2"} do
+            local skillKey = k .. "Skill"
+            local s, m = SplitSkill(mon[skillKey])
+            if s > 63 and s < 512 then
+                mon[skillKey] = JoinSkill(mon[skillKey] % 64, math.min(4, mon[skillKey]:div(64) + 1))
+                printf("Fixing %s skill of monster %q: before %d %d, after %d %d", k, Game.MonstersTxt[mon.Id].Name, s, m, SplitSkill(mon[skillKey]))
+            end
+        end
+    end
+
+    -- castle harmondale doors
+    if map == "7d29.blv" then
+        
+    end
     -- needed when doing batch change???
     -- Editor.NeedStateSync()
 end

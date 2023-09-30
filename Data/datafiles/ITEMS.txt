@@ -985,7 +985,7 @@ Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	N
 982	item164	Pristine Phoenix Feather	0	N / A	Misc	0	0	0	0	Reagent	44	0	0	0	0	Quest Item: A Phoenix Feather of exceptional quality. Finding another one would be next to impossible.
 983	item168	Pristine Dragon Turtle Fang	0	N / A	Misc	0	0	0	0	Reagent	82	0	0	0	0	Quest Item: A very old but potent Dragon Turtle Fang. For each alchemist getting one would be basically his dream.
 984	item172	Pristine Unicorn Horn	0	N / A	Misc	0	0	0	0	Reagent	50	0	0	0	0	Quest Item: Unicorn Horn untouched by any corruption or harmful magic. If used as a reagent, it would produce potions of quality which is normally impossible.
-985	7item123	Enchanter's Ring of Mana Flows	10000	Ring	Misc	0	0	Special	30	Special Ring	185	0	0	0	0	(Rapid mana regeneration) A ring of immense power, one of greatest magic trinkets on Antagarich. Bestows the wearer with a powerful aura, which very quickly restores their spell points.
+985	7item123	Enchanter's Ring of Mana Flows	0	Ring	Misc	0	0	Special	30	Special Ring	185	0	0	0	0	(Rapid mana regeneration) A ring of immense power, one of greatest magic trinkets on Antagarich. Bestows the wearer with a powerful aura, which very quickly restores their spell points.
 986	null	_item184	0	0	0	0	0	0	0	_item184	153	0	0	0	0	Description here.
 987	null	_item185	0	0	0	0	0	0	0	_item185	153	0	0	0	0	Description here.
 988	7item199	Blue Quartz	250	Gem	Misc	0	0	0	0	Gemstone	232	0	0	0	0	"An Antagarich gemstone.  It has no magical benefit, so you may as well sell it."

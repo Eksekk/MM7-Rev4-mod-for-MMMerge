@@ -48,8 +48,8 @@ playthrough bugs found:
 * travelling to harmondale from EI (second time) breaks interface
 * monsters hostile after entering celeste for first time, fix in editor?
 * one half of fort riverstride outside upper door doesn't have event assigned
-* book of unmakings can be learned (not by everyone)
-* found two enchanter rings in clanker's lab???
+* found two enchanter rings in clanker's lab (THEY GENERATE AT TREASURE LEVEL 6) - bug caused by ChanceByLevel offset shifted by 1 and treasure level 6 has Id/Rep/St value, already reported and fixed, need to update
+*
 
 playthrough balance notes:
 * barrow IV was very hard - teleport to deepest part of dungeon, reluctance to use turn undead (which is OP), bolstered bats of doom, boosted mapstats spawns
@@ -61,6 +61,10 @@ playthrough balance notes:
 * clanker's lab was too easy (save included)
 * heal is too OP in later stages of the game
 * NOTE: a lot of problems will be solved once nerfhammer hits "of X Magic" rings and stacking with artifacts
+* you have money problems even after getting GM merchant (which is fine to me personally, but without GM you'd be totally screwed)
+* red dwarf mines medusas are very easy on 60 (no bolster???)
+* it's needed to boost bolster for high-level monsters, and also introduce more rewards for killing monsters
+* boost mana/healing potions slightly in endgame?
 
 -- those below are not needed for "first release" --
 
@@ -115,6 +119,7 @@ playthrough balance notes:
 * Make elemental/cleric totems affect dark/light resistances (possibly only cleric as it has only 2 res?)
 * talismans like in diablo? (those that provide effect when they're kept in inventory)
 * new "ultra" difficulty level?
+* spell haste spcbonus
 
 ---- minor ----
 * when you get teleported to the floor in celeste, you still fall

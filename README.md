@@ -56,7 +56,7 @@ Note: currently this usually means that these changes just affect balance, **not
 * Heroism, Bless and Stoneskin potions have been buffed. Now instead of 5 effect they provide 5 + ceil(power / 3). Hopefully this will make them more usable.
 
 **Spells**:
-* Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. Currently non-disableable, in future it will be.
+* Spells damage is slightly increased. This is done mainly because Rev4 boosted weapon users with higher base damage and higher armsmaster levels, but changing spell damage was probably too difficult at this time and they were boosted by adding guaranteed 4 elemental magic rings. ModSettings option to disable is Rev4ForMergeChangeSpellDamage.
 * Resistances are buffed from 1/2/3/4 per skill to 5 + 2/3/4/5 per skill. Hopefully this will make them usable even before you have expert and not fall off in the endgame. (Day of protection is not boosted currently).
 * Most buff spells and Enchant Item have reduced recovery values if you're out of combat (enemy detector is green). This is mainly a QoL feature to allow quickly buffing up before fight. Set Rev4ForMergeReduceBuffsRecoveryOutOfCombat to 0 to disable.
 * Similar to the above, regeneration can be cast on all party members with ctrl-click, and fire aura can be cast on all characters' equipped weapon type with ctrl-click. Mana cost and recovery will be adjusted appropriately.

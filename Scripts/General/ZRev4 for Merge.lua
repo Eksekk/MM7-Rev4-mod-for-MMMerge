@@ -4,13 +4,6 @@ local max, min, round, random = math.max, math.min, math.round, math.random
 local format = string.format
 local MS = Merge.ModSettings
 
--- Temple in a bottle
-evt.UseItemEffects[1452] = function(Target, Item, PlayerId)
-	ExitCurrentScreen(false, true)
-	evt.MoveToMap{0,0,0,0,0,0,0,0,"7nwcorig.blv"}
-	return 0
-end
-
 --[[ TODO
 IMPORTANCE CATEGORIES:
 ---- very important ----
@@ -151,6 +144,13 @@ IF I WANNA REALLY CHALLENGE MYSELF:
 * weapons effects (mainly intended for some sort of simple aoe damage for melees)
 * "of X magic" effect scales with level and int/per?
 ]]
+
+-- Temple in a bottle
+evt.UseItemEffects[1452] = function(Target, Item, PlayerId)
+	ExitCurrentScreen(false, true)
+	evt.MoveToMap{0,0,0,0,0,0,0,0,"7nwcorig.blv"}
+	return 0
+end
 
 monUtils = {}
 function monUtils.hpMul(mon, mul)
@@ -541,15 +541,22 @@ local function getSFTItem(p)
 end
 
 -- cosmetic change: some monsters (mainly bosses) can be larger
-local scaleHook = function(d)
-	local t = {Scale = d.eax, Frame = getSFTItem(d.ebx)}
-	t.MonsterIndex, t.Monster = internal.GetMonster(d.edi - 0x9A)
-	events.call("MonsterSpriteScale", t)
-	d.eax = t.Scale
+local scaleHook = function(indoor)
+	return function(d)
+		local t = {Scale = d.eax, Frame = getSFTItem(d.ebx)}
+		t.MonsterIndex, t.Monster = internal.GetMonster(indoor and d.edi or (d.edi - 0x9A))
+		events.call("MonsterSpriteScale", t)
+		d.eax = t.Scale
+	end
 end
 
-autohook2(0x47AC26, scaleHook)
-autohook2(0x47AC46, scaleHook)
+-- outdoor
+autohook2(0x47AC26, scaleHook())
+autohook2(0x47AC46, scaleHook())
+
+-- indoor
+autohook2(0x43D02E, scaleHook(true))
+autohook2(0x43D04D, scaleHook(true))
 
 -- dynamically change item bonuses frequency
 do
@@ -1103,27 +1110,39 @@ end
 
 -- always show full info if you have required skill, no matter the id monster mastery
 -- identify monster gives ability to do critical hits
+
 if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	mem.nop2(0x41E07A, 0x41E0EF)
+	local function masteryStr(mas)
+		return (select(mas, "Novice", "Expert", "Master", "GM"))
+	end
 	hook(0x41E07A, function(d)
-		local maxS, maxM = 0, 0
-		for _, pl in Party do
-			if pl:IsConscious() then
-				-- TODO: make skill and mastery joined together?
-				local BS, BM = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
-				local FS, FM = SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster)) -- GetSkill counts in level/mastery bonuses
-				-- id monster bonus
-				local bonus = FS - BS
-				if BS * 4 + bonus * 2 > maxS then
-					maxS = BS * 4 + bonus * 2 -- let bonus count x2
-				end
-				maxM = max(maxM, FM)
+		local t = {}
+		t.MonsterIndex, t.Monster = internal.GetMonster(u4[d.ebp - 0x10])
+		t.Player = Party[Game.CurrentPlayer]
+		t.PlayerIndex = Game.CurrentPlayer
+		t.Level, t.Mastery = SplitSkill(d.eax)
+		for mas = const.Novice, const.GM do
+			t["Allow" .. masteryStr(mas)] = t.Mastery == const.GM or t.Level * t.Mastery >= t.Monster.Level
+		end
+		local allowSpells
+		for i, pl in Party do
+			if select(2, SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster))) >= 3 then
+				allowSpells = true
+				break
 			end
 		end
-		d.eax, d.ecx = maxS, maxM
+		t.AllowSpells = allowSpells
+		events.call("CanIdentifyMonster", t)
+		local masteryOffsets = {d.ebp - 0x1C, d.ebp - 0x24, d.ebp - 0x14, d.ebp - 0x34}
+		for mas = const.Novice, const.GM do
+			u4[masteryOffsets[mas] ] = t["Allow" .. masteryStr(mas)] and 1 or 0
+		end
+		u4[d.ebp - 0x28] = t.AllowSpells and 1 or 0
 	end)
 
 	asmpatch(0x41E07F, [[
+		jmp @dontshow ; to test new id monster event
 		cmp ecx, 4
 		jae @show
 		mov ecx,dword [ss:ebp-0x10] ; monster
@@ -1144,6 +1163,25 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	
 	-- skip small chunk of code taken care of by our hook function
 	asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
+
+	function events.CanIdentifyMonster(t)
+		local maxS, maxM = 0, 0
+		for _, pl in Party do
+			if pl:IsConscious() then
+				-- TODO: make skill and mastery joined together?
+				local BS, BM = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
+				local FS, FM = SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster)) -- GetSkill counts in level/mastery bonuses
+				-- id monster bonus
+				local bonus = FS - BS
+				if BS * 4 + bonus * 2 > maxS then
+					maxS = BS * 4 + bonus * 2 -- let bonus count x2
+				end
+				maxM = max(maxM, FM)
+			end
+		end
+		local allow = maxS >= t.Monster.Level
+		t.AllowNovice, t.AllowExpert, t.AllowMaster, t.AllowGM, t.AllowSpells = allow, allow, allow, allow, allow
+	end
 	
 	local critAttackMsg = "%s critically hits %s for %lu damage!" .. string.char(0)
 	local critShootMsg = "%s critically shoots %s for %lu points!" .. string.char(0)

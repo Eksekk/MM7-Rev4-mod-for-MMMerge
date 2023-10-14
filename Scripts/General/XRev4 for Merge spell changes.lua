@@ -43,7 +43,7 @@ local function getSpellQueueData(spellQueuePtr, targetPtr)
 		if mmver > 6 then
 			t.Skill, t.Mastery = SplitSkill(t.Caster:GetSkill(const.Skills.Fire + t.SpellSchool - 1))
 		else -- no GetSkill
-			t.Skill, t.Mastery = SplitSkill(t.Caster.Skills[const.Skills.Fire + t.SpellSchool - 1])
+			t.Skill, t.Mastery = SplitSkill(t.Caster.Skills[const.Skills.Fire + t.SpellSchool - 1]) -- TODO: factor in "of X magic" rings
 		end
 	end
 

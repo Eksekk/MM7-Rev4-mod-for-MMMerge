@@ -96,6 +96,7 @@ Note: currently this usually means that these changes just affect balance, **not
 ## Other changes
 * Genie lamps have default behavior from MM7 in this mod. I found out that randomizing it meant, for me personally, that I need to savescum for skill points. Other rewards were just not interesting enough. If you prefer Merge behavior, change option "UseOriginalGenieLamps" to something other than 1.
 * Some dungeons are duplicated (Tularean Caves, Clanker's Lab, Wromthrax's Cave, Dragon Caves in Eofol). That is, the dungeon is used normally as in Rev4, and clicking on the door/entrance of these dungeons (which usually gives message like "it's blocked") will move you into vanilla Merge version of dungeon. They are the main vessel I base my custom quests on, due to (until recently) lack of 3D modeling skills and (still effective) low creativity.
+* Celeste and the Pit magic shops offer stronger items than Bracada/Deyja ones (by default, they offered **weaker**!)
 
 ## Quests
 I added five new quests:

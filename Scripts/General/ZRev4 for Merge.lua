@@ -1119,8 +1119,10 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 	hook(0x41E07A, function(d)
 		local t = {}
 		t.MonsterIndex, t.Monster = internal.GetMonster(u4[d.ebp - 0x10])
-		t.Player = Party[Game.CurrentPlayer]
-		t.PlayerIndex = Game.CurrentPlayer
+		if Game.CurrentPlayer ~= -1 then
+			t.Player = Party[Game.CurrentPlayer]
+			t.PlayerIndex = Game.CurrentPlayer
+		end
 		t.Level, t.Mastery = SplitSkill(d.eax)
 		for mas = const.Novice, const.GM do
 			t["Allow" .. masteryStr(mas)] = t.Mastery == const.GM or t.Level * t.Mastery >= t.Monster.Level

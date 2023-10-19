@@ -120,15 +120,15 @@ do
 end
 ]]
 
-local ROW_COUNT = 5
-local itemTextRowAddresses = mem.StaticAlloc(ROW_COUNT*4)
-local itemTextRowContentsByIndex = {}
+local ROW_COUNT = 5 + 5 -- items + monsters
+local dynamicTextRowAddresses = mem.StaticAlloc(ROW_COUNT*4)
+local dynamicTextRowContentsByIndex = {}
 
 local function getAddrByIndex(index)
-    return u4[itemTextRowAddresses + index * 4]
+    return u4[dynamicTextRowAddresses + index * 4]
 end
 
-local function prepareTable(d, rows)
+local function prepareTableItem(d, rows)
     local t = {}
     for _, row in pairs(rows) do
         t[row.name] = mem.string(row.addr)
@@ -138,26 +138,27 @@ local function prepareTable(d, rows)
     return t
 end
 
+-- content data has fields: buf, len (is len of text only, no null terminator)
 local function processNewTexts(t, rows)
     for _, rowData in pairs(rows) do
         assert(rowData.index < ROW_COUNT)
         local addr, name = rowData.addr, rowData.name
         if t[name] ~= rowData.text then
             local newLen = rowData.text:len()
-            local contentData = itemTextRowContentsByIndex[rowData.index]
+            local contentData = dynamicTextRowContentsByIndex[rowData.index]
             if not contentData or contentData.len < newLen + 1 then -- len is length of content (without null terminator)
                 if contentData then
                     free(contentData.buf)
                 end
                 local new = {}
                 new.buf, new.len = alloc(newLen + 1), newLen
-                itemTextRowContentsByIndex[rowData.index] = new
+                dynamicTextRowContentsByIndex[rowData.index] = new
                 contentData = new
             end
             mem.copy(contentData.buf, t[name] .. string.char(0))
             addr = contentData.buf
         end
-        u4[itemTextRowAddresses + rowData.index * 4] = addr
+        u4[dynamicTextRowAddresses + rowData.index * 4] = addr
     end
 end
 
@@ -190,12 +191,12 @@ autohook2(0x41D40E, function(d)
             name = "Enchantment",
         }
     }
-    local t = prepareTable(d, rows)
+    local t = prepareTableItem(d, rows)
     itemTooltipEvent(t)
     processNewTexts(t, rows)
 end)
 
-local hooks = HookManager{addresses = itemTextRowAddresses}
+local hooks = HookManager{addresses = dynamicTextRowAddresses}
 
 -- calc text height
 
@@ -251,7 +252,7 @@ hook(code, function(d)
             name = "Description",
         }
     }
-    local t = prepareTable(d, rows)
+    local t = prepareTableItem(d, rows)
     itemTooltipEvent(t)
     processNewTexts(t, rows)
     d.edi = getAddrByIndex(INDEX_DESCRIPTION)
@@ -265,7 +266,7 @@ autohook(0x41D4BD, function(d)
             name = "Name",
         }
     }
-    local t = prepareTable(d, rows)
+    local t = prepareTableItem(d, rows)
     itemTooltipEvent(t)
     processNewTexts(t, rows)
     d.eax = getAddrByIndex(INDEX_NAME)
@@ -338,3 +339,75 @@ mem.hookfunction(addr, 1, 0, function(d, def, itemPtr)
     identifiedItemNameHooks.Switch(true)
     return r
 end)
+
+-- IDENTIFY MONSTER TOOLTIP
+
+-- in monster rightclick function:
+-- u4[d.ebp - 8] = pointer to structs.Dlg that will be used
+-- u4[u4[d.ebp - 8] + 8] = dialog width!
+-- u4[u4[d.ebp - 8] + 12] = dialog height!
+
+-- ids
+local MON_TOOLTIP_NAME, MON_TOOLTIP_DAMAGE, MON_TOOLTIP_SPELLS, MON_TOOLTIP_RESISTANCES, MON_TOOLTIP_EFFECTS = 5, 6, 7, 8, 9
+
+local function prepareTableMonster(d, rows, identified)
+    local t = {}
+    for _, row in pairs(rows) do
+        t[row.name] = mem.string(row.addr)
+        row.text = t[row.name]
+    end
+    t.Monster = Game.DialogLogic.MonsterInfoMonster
+    t.Identified = identified
+    return t
+end
+
+--[[
+hook(code, function(d)
+    local rows = {
+        Description = {
+            addr = u4[d.edi + 0xC],
+            index = INDEX_DESCRIPTION,
+            name = "Description",
+        }
+    }
+    local t = prepareTableItem(d, rows)
+    itemTooltipEvent(t)
+    processNewTexts(t, rows)
+    d.edi = getAddrByIndex(INDEX_DESCRIPTION)
+end)
+]]
+
+local function monsterTooltipEvent(t)
+    events.cocall("BuildMonsterInformationBox", t)
+end
+
+local function genericMonsterTooltipHook(rows, identified)
+    return function(d)
+        -- recalc offset if possible, to allow both generic hooks and dynamic offsets at the same time
+        for name, row in pairs(rows) do
+            row.addr = row.calcOffset and row.calcOffset(d) or row.addr
+        end
+        local t = prepareTableMonster(d, rows, identified)
+        monsterTooltipEvent(t)
+        processNewTexts(t, rows)
+        -- allow setting registers to new buffer addresses etc.
+        for name, row in pairs(rows) do
+            if row.customAfter then
+                row.customAfter(d, t)
+            end
+        end
+    end
+end
+
+local textBufferPtr = 0x5DF0E0
+
+-- name
+-- can be from NPC_ID or monster id
+autohook(0x41E006, genericMonsterTooltipHook({
+    Name = {
+        calcOffset = function(d) return textBufferPtr end,
+        customAfter = function(d, t) d.esi = getAddrByIndex(MON_TOOLTIP_NAME) end,
+        name = "Name",
+        index = MON_TOOLTIP_NAME
+    }
+}, true))

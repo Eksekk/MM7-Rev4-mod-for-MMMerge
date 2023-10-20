@@ -96,30 +96,6 @@ mem.hookfunction(0x453CE7, 1, 0, function(d, def, itemPtr)
 	return t.Value
 end)
 
--- modify item tooltip
---[[
-do
-    local itemTypeBuf, itemTypeBufLen
-    mem.autohook2(0x41D220, function(d)
-        local text = mem.string(u4[d.esp + 4])
-        local t = {Item = structs.Item:new(u4[d.esp + 0x10]), TxtItem = structs.ItemsTxtItem:new(d.edi), Text = text}
-        events.call("GetItemTooltipType", t)
-        if text ~= t.Text then
-            local len = t.Text:len()
-            if not itemTypeBufLen or len + 1 > itemTypeBufLen then -- +1 for null terminator
-                if itemTypeBuf then
-                    mem.freeMM(itemTypeBuf)
-                end
-                itemTypeBufLen = len + 1
-                itemTypeBuf = mem.allocMM(itemTypeBufLen)
-            end
-            mem.copy(itemTypeBuf, t.Text)
-            u1[itemTypeBuf + len] = 0 -- null terminator
-        end
-    end, 7)
-end
-]]
-
 local ROW_COUNT = 5 + 5 -- items + monsters
 local dynamicTextRowAddresses = mem.StaticAlloc(ROW_COUNT*4)
 local dynamicTextRowContentsByIndex = {}
@@ -138,27 +114,42 @@ local function prepareTableItem(d, rows)
     return t
 end
 
--- content data has fields: buf, len (is len of text only, no null terminator)
+local reallocAndCopyIfNeeded
+do
+    local allocatedSizes = {}
+    -- returns address of buffer where text is stored and length of that buffer in bytes
+    function reallocAndCopyIfNeeded(addr, oldStr, newStr)
+        if addr and oldStr == newStr then -- have allocated buffer and text is same, just copy it (in case it was changed externally) and return
+            assert(allocatedSizes[addr] >= #newStr + 1, format("[realloc text] assertion failed! Text %q (length %d) is same as before, but allocated size is smaller (%d)", newStr, #newStr + 1, allocatedSizes[addr]))
+            mem.copy(addr, newStr .. string.char(0))
+            return addr, #newStr + 1
+        end
+        local newLen = #newStr + 1 -- +1 for null terminator
+        local allocatedSize = allocatedSizes[addr] or 0
+        local oldAddr = addr
+        if not addr or allocatedSize < newLen then -- len is length of content with null terminator
+            if addr then
+                free(addr)
+                allocatedSizes[addr] = nil
+            end
+            addr = alloc(newLen)
+            allocatedSizes[addr] = newLen
+        end
+        mem.copy(addr, newStr .. string.char(0))
+        return addr, newLen
+    end
+end
+
+-- content data has fields: buf, len (full buffer length)
 local function processNewTexts(t, rows)
     for _, rowData in pairs(rows) do
         assert(rowData.index < ROW_COUNT)
-        local addr, name = rowData.addr, rowData.name
-        if t[name] ~= rowData.text then
-            local newLen = rowData.text:len()
-            local contentData = dynamicTextRowContentsByIndex[rowData.index]
-            if not contentData or contentData.len < newLen + 1 then -- len is length of content (without null terminator)
-                if contentData then
-                    free(contentData.buf)
-                end
-                local new = {}
-                new.buf, new.len = alloc(newLen + 1), newLen
-                dynamicTextRowContentsByIndex[rowData.index] = new
-                contentData = new
-            end
-            mem.copy(contentData.buf, t[name] .. string.char(0))
-            addr = contentData.buf
-        end
-        u4[dynamicTextRowAddresses + rowData.index * 4] = addr
+        local contentData = tget(dynamicTextRowContentsByIndex, rowData.index)
+        local buf, name = contentData.buf, rowData.name
+        local current = (buf and mem.string(buf, contentData.len or nil, contentData.len and true or nil) or "")
+        local bufNew, newLen = reallocAndCopyIfNeeded(buf, current, t[name])
+        contentData.buf, rowData.addr, contentData.len = bufNew, bufNew, newLen
+        u4[dynamicTextRowAddresses + rowData.index * 4] = bufNew
     end
 end
 
@@ -166,7 +157,7 @@ local function itemTooltipEvent(t)
     events.cocall("BuildItemInformationBox", t)
 end
 local INDEX_DESCRIPTION, INDEX_NAME = 3, 4
-
+--function events.BuildItemInformationBox(t) for k, v in pairs(t) do t[k] = randomStr("abcde", 15) end end
 autohook2(0x41D40E, function(d)
     --[[
         0x270 - item type str
@@ -280,7 +271,7 @@ autohook(0x41D60C, function(d)
     d.eax = getAddrByIndex(INDEX_NAME)
 end)
 
-local function randomStr(chars, len)
+function randomStr(chars, len)
     local str = ""
     for i = 1, len do
         local idx = math.random(1, chars:len())
@@ -342,40 +333,26 @@ end)
 
 -- IDENTIFY MONSTER TOOLTIP
 
+do return end -- tmp
+
 -- in monster rightclick function:
 -- u4[d.ebp - 8] = pointer to structs.Dlg that will be used
 -- u4[u4[d.ebp - 8] + 8] = dialog width!
 -- u4[u4[d.ebp - 8] + 12] = dialog height!
 
 -- ids
-local MON_TOOLTIP_NAME, MON_TOOLTIP_DAMAGE, MON_TOOLTIP_SPELLS, MON_TOOLTIP_RESISTANCES, MON_TOOLTIP_EFFECTS = 5, 6, 7, 8, 9
+local MON_TOOLTIP_NAME, MON_TOOLTIP_DAMAGE, MON_TOOLTIP_SPELLS, MON_TOOLTIP_RESISTANCES, MON_TOOLTIP_EFFECTS_HEADER, MON_TOOLTIP_EFFECTS = 5, 6, 7, 8, 9, 10
 
 local function prepareTableMonster(d, rows, identified)
     local t = {}
     for _, row in pairs(rows) do
-        t[row.name] = mem.string(row.addr)
+        t[row.name] = mem.string(row.addr) -- actual field name, like "Resistances"
         row.text = t[row.name]
     end
     t.Monster = Game.DialogLogic.MonsterInfoMonster
     t.Identified = identified
     return t
 end
-
---[[
-hook(code, function(d)
-    local rows = {
-        Description = {
-            addr = u4[d.edi + 0xC],
-            index = INDEX_DESCRIPTION,
-            name = "Description",
-        }
-    }
-    local t = prepareTableItem(d, rows)
-    itemTooltipEvent(t)
-    processNewTexts(t, rows)
-    d.edi = getAddrByIndex(INDEX_DESCRIPTION)
-end)
-]]
 
 local function monsterTooltipEvent(t)
     events.cocall("BuildMonsterInformationBox", t)
@@ -400,14 +377,59 @@ local function genericMonsterTooltipHook(rows, identified)
 end
 
 local textBufferPtr = 0x5DF0E0
+local effectTextCallParams = {} -- effects are drawn one-by-one, and I want event to encompass all of them, so need to defer actual draw calls
+local CALL_PARAM_EFFECTS_FIRST = 1 -- index in above table
+local effectTextRows -- will hold number of rows for individual effects or header, which would be written to tooltip
 
 -- name
 -- can be from NPC_ID or monster id
 autohook(0x41E006, genericMonsterTooltipHook({
     Name = {
         calcOffset = function(d) return textBufferPtr end,
-        customAfter = function(d, t) d.esi = getAddrByIndex(MON_TOOLTIP_NAME) end,
+        customAfter = function(d, t)
+            d.esi = getAddrByIndex(MON_TOOLTIP_NAME)
+            for i, v in ipairs(effectTextCallParams) do
+                free(v[6]) -- free dynamic texts
+            end
+            table.clear(effectTextCallParams)
+            effectTextRows = 0
+        end,
         name = "Name",
         index = MON_TOOLTIP_NAME
     }
 }, true))
+
+-- Screen.Buffer
+-- single pixel in order: blue, red, green; 5 bits each (single pixel 2 bytes)
+
+-- HOOKCALL all draw text calls, increasing dialog size and drawing coordinates as needed (compare text height call of old text and new)
+
+local function insertDeferredCallParams(d)
+    effectTextRows = effectTextRows + 1
+    table.insert(effectTextCallParams, {d:getparams(2, 7)})
+    -- copy text, because it will be overwritten
+    local last = effectTextCallParams[#effectTextCallParams]
+    local str = mem.string(last[6])
+    local space = alloc(#str + 1)
+    mem.copy(space, str .. string.char(0))
+    last[6] = space
+end
+
+hook(0x41E1C5, insertDeferredCallParams) -- replace "Effects:" text draw call
+hook(0x41E345, insertDeferredCallParams) -- replace draw text call for all effects
+hook(0x41E393, insertDeferredCallParams) -- "None" text
+
+autohook(0x41E398, function(d)
+    -- this one will be different - will have table of strings for effect names
+    local t = {}
+    t.EffectsHeader = mem.string(effectTextCallParams[CALL_PARAM_EFFECTS_FIRST])
+    t.Effects = {}
+    for i = CALL_PARAM_EFFECTS_FIRST + 1, CALL_PARAM_EFFECTS_FIRST + effectTextRows - 1 do
+        table.insert(t.Effects, mem.string(effectTextCallParams[i][6]))
+    end
+    t.Monster = Game.DialogLogic.MonsterInfoMonster
+    t.Identified = identified
+    monsterTooltipEvent(t)
+
+    return t
+end)

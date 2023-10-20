@@ -1,5 +1,5 @@
 local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
-local hook, autohook, autohook2, asmpatch = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch
+local hook, autohook, autohook2, asmpatch, call = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch, mem.call
 local max, min, round, random = math.max, math.min, math.round, math.random
 local format = string.format
 
@@ -333,7 +333,7 @@ end)
 
 -- IDENTIFY MONSTER TOOLTIP
 
-do return end -- tmp
+--do return end -- tmp
 
 -- in monster rightclick function:
 -- u4[d.ebp - 8] = pointer to structs.Dlg that will be used
@@ -378,7 +378,7 @@ end
 
 local textBufferPtr = 0x5DF0E0
 local effectTextCallParams = {} -- effects are drawn one-by-one, and I want event to encompass all of them, so need to defer actual draw calls
-local CALL_PARAM_EFFECTS_FIRST = 1 -- index in above table
+local CALL_PARAM_EFFECTS_FIRST, CALL_PARAM_NAME -- index in above table
 local effectTextRows -- will hold number of rows for individual effects or header, which would be written to tooltip
 
 -- name
@@ -388,9 +388,7 @@ autohook(0x41E006, genericMonsterTooltipHook({
         calcOffset = function(d) return textBufferPtr end,
         customAfter = function(d, t)
             d.esi = getAddrByIndex(MON_TOOLTIP_NAME)
-            for i, v in ipairs(effectTextCallParams) do
-                free(v[6]) -- free dynamic texts
-            end
+            -- setup variables for effects part
             table.clear(effectTextCallParams)
             effectTextRows = 0
         end,
@@ -407,6 +405,7 @@ autohook(0x41E006, genericMonsterTooltipHook({
 local function insertDeferredCallParams(d)
     effectTextRows = effectTextRows + 1
     table.insert(effectTextCallParams, {d:getparams(2, 7)})
+    d:ret(7*4) -- pop 7 arguments
     -- copy text, because it will be overwritten
     local last = effectTextCallParams[#effectTextCallParams]
     local str = mem.string(last[6])
@@ -415,21 +414,44 @@ local function insertDeferredCallParams(d)
     last[6] = space
 end
 
-hook(0x41E1C5, insertDeferredCallParams) -- replace "Effects:" text draw call
+hook(0x41E1C5, function(d)
+    insertDeferredCallParams(d)
+    CALL_PARAM_EFFECTS_FIRST = #effectTextCallParams
+end) -- replace "Effects:" text draw call
 hook(0x41E345, insertDeferredCallParams) -- replace draw text call for all effects
 hook(0x41E393, insertDeferredCallParams) -- "None" text
+
+local function writeTextInTooltip(dlg, buf, x, y, unk1, text, unk2, unk3, unk4)
+    return call(0x44A50F, 2, dlg, buf, x, y, unk1, text, unk2, unk3, unk4)
+end
 
 autohook(0x41E398, function(d)
     -- this one will be different - will have table of strings for effect names
     local t = {}
-    t.EffectsHeader = mem.string(effectTextCallParams[CALL_PARAM_EFFECTS_FIRST])
+    t.EffectsHeader = mem.string(effectTextCallParams[CALL_PARAM_EFFECTS_FIRST][6])
     t.Effects = {}
     for i = CALL_PARAM_EFFECTS_FIRST + 1, CALL_PARAM_EFFECTS_FIRST + effectTextRows - 1 do
         table.insert(t.Effects, mem.string(effectTextCallParams[i][6]))
     end
     t.Monster = Game.DialogLogic.MonsterInfoMonster
-    t.Identified = identified
+    t.Identified = true
     monsterTooltipEvent(t)
 
-    return t
+    local header = effectTextCallParams[CALL_PARAM_EFFECTS_FIRST]
+    local dlg, buf, x, y, unk1, text, unk2, unk3, unk4 = unpack(header)
+    if t.EffectsHeader then
+        writeTextInTooltip(dlg, buf, x, y, unk1, mem.topointer(t.EffectsHeader), unk2, unk3, unk4)
+        y = y + 20 -- todo
+    end
+
+    for i, effectStr in ipairs(t.Effects) do
+        writeTextInTooltip(dlg, buf, x + 10, y, unk1, mem.topointer(effectStr), unk2, unk3, unk4)
+        y = y + 20
+    end
+
+    -- free dynamically relocated texts
+    for i, v in ipairs(effectTextCallParams) do
+        free(v[6])
+    end
 end)
+--function events.BuildMonsterInformationBox(t) if t.EffectsHeader then t.EffectsHeader = "lol"; table.insert(t.Effects, 1, "first"); table.insert(t.Effects, "second") end end

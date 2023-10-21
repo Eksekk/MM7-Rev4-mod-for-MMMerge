@@ -351,8 +351,10 @@ local function setupVariables()
     effectTextRows = 0
 end
 
-local function writeTextInTooltip(dlg, fontPtr, x, y, unk1, text, unk2, unk3, unk4)
-    return call(0x44A50F, 2, dlg, fontPtr, x, y, unk1, text, unk2, unk3, unk4)
+-- structs.Fnt.Draw()
+--cl, str['?ptr'] or tostring(str), opaque, bottom, clShadow)
+local function writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
+    return call(0x44A50F, 2, dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
 end
 
 local function insertDeferredCallParams(d, identified)
@@ -440,7 +442,7 @@ autohook(0x41E398, function(d)
     -- this one will be different - will have table of strings for effect names
     local effectsHeaderEntry = deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST]
     local nameEntry = deferredTextCallParams[CALL_PARAM_NAME]
-    local dlg, fontPtr, x, y, unk1, _, unk2, unk3, unk4, identifiedHeader = unpack(effectsHeaderEntry)
+    local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor, identifiedHeader = unpack(effectsHeaderEntry)
 
     local t = {}
     t.Name = mem.string(nameEntry[6])
@@ -452,8 +454,8 @@ autohook(0x41E398, function(d)
     t.Monster = Game.DialogLogic.MonsterInfoMonster
     t.IdentifiedEffects = identifiedHeader -- effects identify result is stored in header field
 
-    function t.drawCustomText(text, x, y)
-        writeTextInTooltip(dlg, fontPtr, x, y, unk1, text, unk2, unk3, unk4)
+    function t.drawCustomText(fontPtr, text, x, y)
+        writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
     end
 
     monsterTooltipEvent(t)
@@ -465,19 +467,28 @@ autohook(0x41E398, function(d)
 
     -- draw text
 
+    local function drawFromEntry(entry, text, x, y)
+        local dlg, fontPtr, xx, yy, color, _, opaque, bottom, shadowColor = unpack(entry)
+        x, y = x or xx, y or yy
+        writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(text), opaque, bottom, shadowColor)
+    end
+
     -- name
-    x, y = getCoordsFromDeferredCall(nameEntry)
-    writeTextInTooltip(dlg, fontPtr, x, y, unk1, mem.topointer(t.Name), unk2, unk3, unk4)
+    drawFromEntry(nameEntry, t.Name)
+    --x, y = getCoordsFromDeferredCall(nameEntry)
+    --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.Name), opaque, bottom, shadowColor)
 
     -- effects
     x, y = getCoordsFromDeferredCall(effectsHeaderEntry)
     if t.EffectsHeader then
-        writeTextInTooltip(dlg, fontPtr, x, y, unk1, mem.topointer(t.EffectsHeader), unk2, unk3, unk4)
+        drawFromEntry(effectsHeaderEntry, t.EffectsHeader, x, y)
+        --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.EffectsHeader), opaque, bottom, shadowColor)
     end
     y = y + 12 -- todo
 
     for i, effectStr in ipairs(t.Effects) do
-        writeTextInTooltip(dlg, fontPtr, x + 13, y, unk1, mem.topointer(effectStr), unk2, unk3, unk4)
+        drawFromEntry(effectsHeaderEntry, effectStr, x + 13, y)
+        --writeTextInTooltip(dlg, fontPtr, x + 13, y, color, mem.topointer(effectStr), opaque, bottom, shadowColor)
         y = y + 12
     end
 end)

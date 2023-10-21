@@ -357,10 +357,13 @@ local function writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, botto
     return call(0x44A50F, 2, dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
 end
 
-local function insertDeferredCallParams(d, identified)
+local function insertDeferredCallParams(d, identified, ...)
     identified = identified == nil and true or identified -- default true if not specified
     local par = {d:getparams(2, 7)}
     table.insert(par, identified)
+    for i = 1, select("#", ...) do
+        table.insert(par, (select(i, ...)))
+    end
     table.insert(deferredTextCallParams, par)
     d:ret(7*4) -- pop 7 arguments
     -- copy text, because it will be overwritten
@@ -430,11 +433,11 @@ hook(0x41E1C5, function(d) -- replace "Effects:" text draw call; is always calle
     CALL_PARAM_EFFECTS_FIRST = #deferredTextCallParams
 end)
 hook(0x41E345, function(d) -- replace draw text call for all effects
-    insertDeferredCallParams(d)
+    insertDeferredCallParams(d, nil, u4[d.ebp - 0x2C]) -- last arg is effect id
     effectTextRows = effectTextRows + 1
 end)
 hook(0x41E393, function(d) -- "None" text
-    insertDeferredCallParams(d)
+    insertDeferredCallParams(d, nil, -1)
     effectTextRows = effectTextRows + 1
 end)
 
@@ -467,7 +470,7 @@ end)
 hook(0x0041E60D, function(d) -- Damage text, both identified and not
     insertDeferredCallParams(d, u4[d.ebp - 0x24] ~= 0)
     CALL_PARAM_DAMAGE = #deferredTextCallParams
-    -- set spell variables
+    -- set spell variables (always called before drawing spell text)
     CALL_PARAM_SPELL1, CALL_PARAM_SPELL2 = -1, -1
 end)
 
@@ -486,36 +489,78 @@ hook(0x41E73B, function(d) -- "None" spell
     CALL_PARAM_SPELL1 = #deferredTextCallParams
 end)
 
-hook(0x41E73B, function(d) -- "Resistances" header
+hook(0x41E76F, function(d) -- "Resistances" header
     insertDeferredCallParams(d, true)
     CALL_PARAM_RESISTANCES = #deferredTextCallParams
 end)
 
-hook(0x41E73B, function(d) -- every resistance text, identified
+hook(0x41E8B7, function(d) -- every resistance text, identified
     insertDeferredCallParams(d, true)
 end)
 
 hook(0x41E90C, function(d) -- every resistance text, not identified
-    insertDeferredCallParams(d, false)
+    insertDeferredCallParams(d, false, u4[d.ebp - 0x20])
 end)
 
 autohook(0x41E398, function(d)
     -- this one will be different - will have table of strings for effect names
     local effectsHeaderEntry = deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST]
     local nameEntry = deferredTextCallParams[CALL_PARAM_NAME]
-    local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor, identifiedHeader = unpack(effectsHeaderEntry)
+    local attackEntry = deferredTextCallParams[CALL_PARAM_ATTACK]
+    local damageEntry = deferredTextCallParams[CALL_PARAM_DAMAGE]
+    local armorClassEntry = deferredTextCallParams[CALL_PARAM_AC]
+    local hitPointsEntry = deferredTextCallParams[CALL_PARAM_HP]
+    local spellFirstEntry = deferredTextCallParams[CALL_PARAM_SPELL1]
+    local spellSecondEntry = deferredTextCallParams[CALL_PARAM_SPELL2]
+    local resistancesEntry = deferredTextCallParams[CALL_PARAM_RESISTANCES]
+    local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor, identifiedHeader = unpack(effectsHeaderEntry) -- TMP, remove later, use stored arguments
 
     local t = {}
-    t.Name = mem.string(nameEntry[6])
-    t.EffectsHeader = mem.string(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST][6])
-    t.Effects = {}
-    for i = CALL_PARAM_EFFECTS_FIRST + 1, CALL_PARAM_EFFECTS_FIRST + effectTextRows do
-        table.insert(t.Effects, mem.string(deferredTextCallParams[i][6]))
-    end
     t.Monster = Game.DialogLogic.MonsterInfoMonster
-    t.IdentifiedEffects = identifiedHeader -- effects identify result is stored in header field
+    local function simpleParam(name, entry)
+        t[name] = mem.string(entry[6])
+        t["Identified" .. name] = entry[10]
+    end
+    simpleParam("Name", nameEntry)
+    simpleParam("Attack", attackEntry)
+    simpleParam("Damage", damageEntry)
+    simpleParam("ArmorClass", armorClassEntry)
+    simpleParam("HitPoints", hitPointsEntry)
+    if spellFirstEntry then
+        simpleParam("SpellFirst", spellFirstEntry)
+    end
+    if spellSecondEntry then
+        simpleParam("SpellSecond", spellSecondEntry)
+    end
 
-    function t.drawCustomText(fontPtr, text, x, y)
+    -- header and multiple lines, numRows excludes header
+    local function complexParam(headerField, itemsField, identifiedField, firstEntryIndex, numRows)
+        local entryHeader = deferredTextCallParams[firstEntryIndex]
+        t[headerField] = mem.string(entryHeader[6])
+        t[itemsField] = {}
+        for i = firstEntryIndex + 1, firstEntryIndex + numRows do
+            local entry = deferredTextCallParams[i]
+            -- effects and resistances are in form of table {Text = "Fire", Id = 0} in original order, but finally only text is used
+            -- Id is not present in case of effects "None" text entry
+            table.insert(t[itemsField], {Text = mem.string(entry[6]), Id = entry[11] > -1 and entry[11] or nil}) -- extra param
+        end
+        t[identifiedField] = entryHeader[10] -- effects identify result is stored in header field
+    end
+    -- effects
+    complexParam("EffectsHeader", "Effects", "IdentifiedEffects", CALL_PARAM_EFFECTS_FIRST, effectTextRows)
+    -- t.EffectsHeader = mem.string(effectsHeaderEntry[6])
+    -- t.Effects = {}
+    -- for i = CALL_PARAM_EFFECTS_FIRST + 1, CALL_PARAM_EFFECTS_FIRST + effectTextRows do
+    --     local entry = deferredTextCallParams[i]
+    --     -- effects and resistances are in form of table {Text = "Fire", Id = 0} in original order, but finally only text is used
+    --     table.insert(t.Effects, {Text = mem.string(entry[6]), Id = assert(entry[11])})) -- extra param
+    -- end
+    -- t.IdentifiedEffects = effectsHeaderEntry[10] -- effects identify result is stored in header field
+
+    -- resistances
+    complexParam("ResistancesHeader", "Resistances", "IdentifiedResistances", CALL_PARAM_RESISTANCES, 10)
+
+    function t.drawCustomText(fontPtr, text, x, y) -- TODO: add font args etc.
         writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
     end
 
@@ -539,18 +584,28 @@ autohook(0x41E398, function(d)
     --x, y = getCoordsFromDeferredCall(nameEntry)
     --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.Name), opaque, bottom, shadowColor)
 
+    local function drawMultipleTexts(textEntries, deferredEntry, xadd, yadd)
+        local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor = unpack(deferredEntry)
+        for i = 1, #textEntries do
+            local mul = i - 1
+            writeTextInTooltip(dlg, fontPtr, x + xadd * mul, y + yadd * mul, color, textEntries[i].Text, opaque, bottom, shadowColor)
+        end
+    end
     -- effects
-    x, y = getCoordsFromDeferredCall(effectsHeaderEntry)
-    if t.EffectsHeader then
-        drawFromEntry(effectsHeaderEntry, t.EffectsHeader, x, y)
-        --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.EffectsHeader), opaque, bottom, shadowColor)
-    end
-    y = y + 12 -- todo
+    drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, 12)
+    -- resistances
+    drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, 12)
+    -- x, y = getCoordsFromDeferredCall(effectsHeaderEntry)
+    -- if t.EffectsHeader then
+    --     drawFromEntry(effectsHeaderEntry, t.EffectsHeader, x, y)
+    --     --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.EffectsHeader), opaque, bottom, shadowColor)
+    -- end
+    -- y = y + 12 -- todo
 
-    for i, effectStr in ipairs(t.Effects) do
-        drawFromEntry(effectsHeaderEntry, effectStr, x + 13, y)
-        --writeTextInTooltip(dlg, fontPtr, x + 13, y, color, mem.topointer(effectStr), opaque, bottom, shadowColor)
-        y = y + 12
-    end
+    -- for i, effectStr in ipairs(t.Effects) do
+    --     drawFromEntry(effectsHeaderEntry, effectStr, x + 13, y)
+    --     --writeTextInTooltip(dlg, fontPtr, x + 13, y, color, mem.topointer(effectStr), opaque, bottom, shadowColor)
+    --     y = y + 12
+    -- end
 end)
 --function events.BuildMonsterInformationBox(t) if t.EffectsHeader then t.EffectsHeader = "lol"; table.insert(t.Effects, 1, "first"); table.insert(t.Effects, "second") end end

@@ -6,6 +6,12 @@ local format = string.format
 -- malloc always returns 0 (not enough memory) in mm8 multiplayer if no win xp compatibility?
 local alloc, free = mem.allocMM, mem.freeMM
 
+local formatBuffer = mem.StaticAlloc(2500)
+function StrFormatGame(str, ...)
+    call(0x4D9F10, 0, formatBuffer, str, ...)
+    return mem.string(formatBuffer)
+end
+
 --[[
 function events.BuildItemInformationBox(t)
     parameters:
@@ -467,7 +473,7 @@ hook(0x41E5CB, function(d) -- Attack text, not identified
     CALL_PARAM_ATTACK = #deferredTextCallParams
 end)
 
-hook(0x0041E60D, function(d) -- Damage text, both identified and not
+hook(0x41E60D, function(d) -- Damage text, both identified and not
     insertDeferredCallParams(d, u4[d.ebp - 0x24] ~= 0)
     CALL_PARAM_DAMAGE = #deferredTextCallParams
     -- set spell variables (always called before drawing spell text)
@@ -495,14 +501,15 @@ hook(0x41E76F, function(d) -- "Resistances" header
 end)
 
 hook(0x41E8B7, function(d) -- every resistance text, identified
-    insertDeferredCallParams(d, true)
+    insertDeferredCallParams(d, true, u4[d.ebp - 0x14]:div(4))
 end)
 
 hook(0x41E90C, function(d) -- every resistance text, not identified
     insertDeferredCallParams(d, false, u4[d.ebp - 0x20])
 end)
 
-autohook(0x41E398, function(d)
+-- final hook, does all drawing
+autohook(0x41E928, function(d)
     -- this one will be different - will have table of strings for effect names
     local effectsHeaderEntry = deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST]
     local nameEntry = deferredTextCallParams[CALL_PARAM_NAME]
@@ -517,6 +524,7 @@ autohook(0x41E398, function(d)
 
     local t = {}
     t.Monster = Game.DialogLogic.MonsterInfoMonster
+    t.Tooltip = structs.Dlg:new(u4[d.ebp - 8])
     local function simpleParam(name, entry)
         t[name] = mem.string(entry[6])
         t["Identified" .. name] = entry[10]
@@ -542,7 +550,8 @@ autohook(0x41E398, function(d)
             local entry = deferredTextCallParams[i]
             -- effects and resistances are in form of table {Text = "Fire", Id = 0} in original order, but finally only text is used
             -- Id is not present in case of effects "None" text entry
-            table.insert(t[itemsField], {Text = mem.string(entry[6]), Id = entry[11] > -1 and entry[11] or nil}) -- extra param
+            local extra = entry[11] or -1
+            table.insert(t[itemsField], {Text = mem.string(entry[6]), Id = extra > -1 and extra or nil}) -- extra param
         end
         t[identifiedField] = entryHeader[10] -- effects identify result is stored in header field
     end
@@ -561,7 +570,7 @@ autohook(0x41E398, function(d)
     complexParam("ResistancesHeader", "Resistances", "IdentifiedResistances", CALL_PARAM_RESISTANCES, 10)
 
     function t.drawCustomText(fontPtr, text, x, y) -- TODO: add font args etc.
-        writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
+        --writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
     end
 
     monsterTooltipEvent(t)
@@ -579,10 +588,35 @@ autohook(0x41E398, function(d)
         writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(text), opaque, bottom, shadowColor)
     end
 
+    -- if nil or false, drawing is skipped for particular line
+    local function drawOptional(entry, str)
+        if entry and str then -- spells entry can be nil
+            drawFromEntry(entry, str)
+        end
+    end
     -- name
-    drawFromEntry(nameEntry, t.Name)
-    --x, y = getCoordsFromDeferredCall(nameEntry)
-    --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.Name), opaque, bottom, shadowColor)
+    drawOptional(nameEntry, t.Name)
+    drawOptional(damageEntry, t.Damage)
+    drawOptional(armorClassEntry, t.ArmorClass)
+    drawOptional(hitPointsEntry, t.HitPoints)
+    drawOptional(spellFirstEntry, t.SpellFirst)
+    drawOptional(spellSecondEntry, t.SpellSecond)
+
+    drawOptional(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST], t.EffectsHeader)
+    drawOptional(deferredTextCallParams[CALL_PARAM_RESISTANCES], t.ResistancesHeader)
+
+    --[[
+        simpleParam("Attack", attackEntry)
+    simpleParam("Damage", damageEntry)
+    simpleParam("ArmorClass", armorClassEntry)
+    simpleParam("HitPoints", hitPointsEntry)
+    if spellFirstEntry then
+        simpleParam("SpellFirst", spellFirstEntry)
+    end
+    if spellSecondEntry then
+        simpleParam("SpellSecond", spellSecondEntry)
+    end
+    ]]
 
     local function drawMultipleTexts(textEntries, deferredEntry, xadd, yadd)
         local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor = unpack(deferredEntry)
@@ -592,9 +626,13 @@ autohook(0x41E398, function(d)
         end
     end
     -- effects
-    drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, 12)
+    if t.Effects then
+        drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, 10)
+    end
     -- resistances
-    drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, 12)
+    if t.Resistances then
+        drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, 10)
+    end
     -- x, y = getCoordsFromDeferredCall(effectsHeaderEntry)
     -- if t.EffectsHeader then
     --     drawFromEntry(effectsHeaderEntry, t.EffectsHeader, x, y)
@@ -609,3 +647,10 @@ autohook(0x41E398, function(d)
     -- end
 end)
 --function events.BuildMonsterInformationBox(t) if t.EffectsHeader then t.EffectsHeader = "lol"; table.insert(t.Effects, 1, "first"); table.insert(t.Effects, "second") end end
+
+-- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
+function events.BuildMonsterInformationBox(t)
+    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", "Damage:", "500-1000 (phys)")
+    t.SpellSecond = nil
+    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", "Spell:", "Fireball (100-200)")
+end

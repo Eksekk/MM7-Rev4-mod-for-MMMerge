@@ -340,7 +340,7 @@ end)
 
 local textBufferPtr = 0x5DF0E0
 local deferredTextCallParams = {} -- effects are drawn one-by-one, and I want event to encompass all of them, so need to defer actual draw calls
-local CALL_PARAM_EFFECTS_FIRST, CALL_PARAM_NAME -- index in above table
+local CALL_PARAM_EFFECTS_FIRST, CALL_PARAM_NAME, CALL_PARAM_HP, CALL_PARAM_AC, CALL_PARAM_ATTACK, CALL_PARAM_DAMAGE, CALL_PARAM_SPELLS, CALL_PARAM_SPELL1, CALL_PARAM_SPELL2, CALL_PARAM_RESISTANCES -- index in above table
 local effectTextRows -- will hold number of rows for individual effects or header, which would be written to tooltip
 
 -- index ids
@@ -413,7 +413,7 @@ end
 -- name
 -- can be from NPC_ID or monster id
 hook(0x41E027, function(d)
-    -- setup variables
+    -- setup variables, because it's first and always called
     setupVariables()
     -- insert name
     insertDeferredCallParams(d, true)
@@ -436,6 +436,67 @@ end)
 hook(0x41E393, function(d) -- "None" text
     insertDeferredCallParams(d)
     effectTextRows = effectTextRows + 1
+end)
+
+hook(0x41E3D1, function(d) -- HP text
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_HP = #deferredTextCallParams
+end)
+
+hook(0x41E422, function(d) -- HP text, not identified
+    insertDeferredCallParams(d, false)
+    CALL_PARAM_HP = #deferredTextCallParams
+end)
+
+hook(0x41E460, function(d) -- AC, both identified and not (different params are passed)
+    local identified = u4[d.ebp - 0x1C] ~= 0
+    insertDeferredCallParams(d, identified)
+    CALL_PARAM_AC = #deferredTextCallParams
+end)
+
+hook(0x41E530, function(d) -- Attack text
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_ATTACK = #deferredTextCallParams
+end)
+
+hook(0x41E5CB, function(d) -- Attack text, not identified
+    insertDeferredCallParams(d, false)
+    CALL_PARAM_ATTACK = #deferredTextCallParams
+end)
+
+hook(0x0041E60D, function(d) -- Damage text, both identified and not
+    insertDeferredCallParams(d, u4[d.ebp - 0x24] ~= 0)
+    CALL_PARAM_DAMAGE = #deferredTextCallParams
+    -- set spell variables
+    CALL_PARAM_SPELL1, CALL_PARAM_SPELL2 = -1, -1
+end)
+
+hook(0x41E68A, function(d) -- first spell
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_SPELL1 = #deferredTextCallParams
+end)
+
+hook(0x41E6D8, function(d) -- second spell
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_SPELL2 = #deferredTextCallParams
+end)
+
+hook(0x41E73B, function(d) -- "None" spell
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_SPELL1 = #deferredTextCallParams
+end)
+
+hook(0x41E73B, function(d) -- "Resistances" header
+    insertDeferredCallParams(d, true)
+    CALL_PARAM_RESISTANCES = #deferredTextCallParams
+end)
+
+hook(0x41E73B, function(d) -- every resistance text, identified
+    insertDeferredCallParams(d, true)
+end)
+
+hook(0x41E90C, function(d) -- every resistance text, not identified
+    insertDeferredCallParams(d, false)
 end)
 
 autohook(0x41E398, function(d)

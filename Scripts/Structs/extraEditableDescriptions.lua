@@ -7,8 +7,9 @@ local format = string.format
 local alloc, free = mem.allocMM, mem.freeMM
 
 local formatBuffer = mem.StaticAlloc(2500)
-function StrFormatGame(str, ...)
-    call(0x4D9F10, 0, formatBuffer, str, ...)
+-- calls internal formatting function used by the game
+function StrFormatGame(fmt, ...)
+    call(0x4D9F10, 0, formatBuffer, fmt, ...)
     return mem.string(formatBuffer)
 end
 
@@ -650,7 +651,19 @@ end)
 
 -- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
 function events.BuildMonsterInformationBox(t)
-    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", "Damage:", "500-1000 (phys)")
+    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", "Damage:", 0, "500-1000 (phys)")
     t.SpellSecond = nil
-    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", "Spell:", "Fireball (100-200)")
+    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", "Spell:", 0, "Fireball (100-200)")
+    t.Tooltip.Width = t.Tooltip.Width + 20
+    t.Tooltip.Right_ = t.Tooltip.Right_ + 20
 end
+
+--mem.autohook(0x0041D912, function(d) local tooltip = structs.Dlg:new(d.edx); tooltip.Width = tooltip.Width + 20; tooltip.Right_ = tooltip.Right_ + 20 end)
+
+-- change monster tooltip size
+-- TODO: dialog is expanded in both directions, which causes it to look weird. Adjust position as well?
+asmpatch(0x41689C, [[
+    mov eax,0x140 ; default size for both
+    mov dword ptr [ebp-0x64], 0x160 ; width
+    mov dword ptr [ebp-0x60], eax; height
+]], 0xB)

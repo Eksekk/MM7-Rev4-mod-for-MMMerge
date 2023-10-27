@@ -496,45 +496,6 @@ asmpatch(0x41E6B6, [[
 	mov ecx,dword [ebp-0x8]
 ]], 0x11)
 
--- show level in monster right click info (requires novice ID monster)
-autohook(0x41E3A3, function(d)
-	local monsterData = u4[d.ebp - 0x10]
-	local level = u1[monsterData + 0x34]
-	local str = "Level\f00000\t046" .. level
-	
-	-- writeTextInTooltip, fastcall, args: ?, tooltip, x, y, ?, text, ?, ?, ?
-	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 86, 0xC4, u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
-end)
-
--- if you don't have required skill
-autohook(0x41E40C, function(d)
-	local str = "Level\f00000\t046?"
-	
-	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 86, 0xC4, u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
-end)
-
--- show bonus in monster right click info (requires master ID monster)
-local shift = tostring(MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
-shift = string.rep("0", 3 - shift:len()) .. shift
-local invBonus = table.invert(const.MonsterBonus)
-autohook(0x41E62D, function(d)
-	local monsterData = u4[d.ebp - 0x10]
-	local hasBothSpells = u2[monsterData + 0x6E] > 0 and u2[monsterData + 0x70] > 0
-	local bonus, mul = u1[monsterData + 0x3F], u1[monsterData + 0x40]
-	local str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
-	
-	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
-end)
-
--- if you don't have required skill
-autohook(0x41E70C, function(d)
-	local monsterData = u4[d.ebp - 0x10]
-	local hasBothSpells = u2[monsterData + 0x6E] > 0 and u2[monsterData + 0x70] > 0
-	local str = "Bonus\f00000\t" .. shift .. "?"
-	
-	mem.call(0x44A50F, 2, u4[d.ebp - 0x8], d.edi, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), u4[d.ebp - 0xC], mem.topointer(str), d.ebx, d.ebx, d.ebx)
-end)
-
 local function getSFTItem(p)
 	local i = (p - Game.SFTBin.Frames["?ptr"]) / Game.SFTBin.Frames[0]["?size"]
 	return Game.SFTBin.Frames[i]

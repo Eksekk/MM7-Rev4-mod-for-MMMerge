@@ -2,6 +2,7 @@ local u1, u2, u4, i1, i2, i4 = mem.u1, mem.u2, mem.u4, mem.i1, mem.i2, mem.i4
 local hook, autohook, autohook2, asmpatch, call = mem.hook, mem.autohook, mem.autohook2, mem.asmpatch, mem.call
 local max, min, round, random = math.max, math.min, math.round, math.random
 local format = string.format
+local MS = Merge and Merge.ModSettings or nil
 
 -- malloc always returns 0 (not enough memory) in mm8 multiplayer if no win xp compatibility?
 local alloc, free = mem.allocMM, mem.freeMM
@@ -359,7 +360,6 @@ local function setupVariables()
 end
 
 -- structs.Fnt.Draw()
---cl, str['?ptr'] or tostring(str), opaque, bottom, clShadow)
 local function writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
     return call(0x44A50F, 2, dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
 end
@@ -435,7 +435,7 @@ end)
 
 -- HOOKCALL all draw text calls, increasing dialog size and drawing coordinates as needed (compare text height call of old text and new)
 
-hook(0x41E1C5, function(d) -- replace "Effects:" text draw call; is always called, so setting variables here
+hook(0x41E1C5, function(d) -- replace "Effects:" text draw call
     insertDeferredCallParams(d, u4[d.ebp - 0x28] ~= 0)
     CALL_PARAM_EFFECTS_FIRST = #deferredTextCallParams
 end)
@@ -511,7 +511,6 @@ end)
 
 -- final hook, does all drawing
 autohook(0x41E928, function(d)
-    -- this one will be different - will have table of strings for effect names
     local effectsHeaderEntry = deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST]
     local nameEntry = deferredTextCallParams[CALL_PARAM_NAME]
     local attackEntry = deferredTextCallParams[CALL_PARAM_ATTACK]
@@ -521,7 +520,6 @@ autohook(0x41E928, function(d)
     local spellFirstEntry = deferredTextCallParams[CALL_PARAM_SPELL1]
     local spellSecondEntry = deferredTextCallParams[CALL_PARAM_SPELL2]
     local resistancesEntry = deferredTextCallParams[CALL_PARAM_RESISTANCES]
-    local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor, identifiedHeader = unpack(effectsHeaderEntry) -- TMP, remove later, use stored arguments
 
     local t = {}
     t.Monster = Game.DialogLogic.MonsterInfoMonster
@@ -558,21 +556,14 @@ autohook(0x41E928, function(d)
     end
     -- effects
     complexParam("EffectsHeader", "Effects", "IdentifiedEffects", CALL_PARAM_EFFECTS_FIRST, effectTextRows)
-    -- t.EffectsHeader = mem.string(effectsHeaderEntry[6])
-    -- t.Effects = {}
-    -- for i = CALL_PARAM_EFFECTS_FIRST + 1, CALL_PARAM_EFFECTS_FIRST + effectTextRows do
-    --     local entry = deferredTextCallParams[i]
-    --     -- effects and resistances are in form of table {Text = "Fire", Id = 0} in original order, but finally only text is used
-    --     table.insert(t.Effects, {Text = mem.string(entry[6]), Id = assert(entry[11])})) -- extra param
-    -- end
-    -- t.IdentifiedEffects = effectsHeaderEntry[10] -- effects identify result is stored in header field
 
     -- resistances
     complexParam("ResistancesHeader", "Resistances", "IdentifiedResistances", CALL_PARAM_RESISTANCES, 10)
 
-    function t.drawCustomText(fontPtr, text, x, y) -- TODO: add font args etc.
-        --writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
+    function t.DrawCustomText(text, font, x, y, color, shadowColor, bottom, opaque) -- TODO: add font args etc.
+        writeTextInTooltip(t.Tooltip, font, x, y, color, text, opaque, bottom, shadowColor)
     end
+    t.COLOR_LABEL = 0xE7F3 -- "Hit Points", "Armor Class" etc.
 
     monsterTooltipEvent(t)
 
@@ -596,7 +587,11 @@ autohook(0x41E928, function(d)
         end
     end
     -- name
-    drawOptional(nameEntry, t.Name)
+    --call(0x40F247, 2, 0xFF, 0xFF, 0x9B) -- set text formatting?
+    if nameEntry and t.Name then
+        -- draw centered
+        call(0x44AAE3, 2, nameEntry[1], nameEntry[2], nameEntry[3], nameEntry[4], nameEntry[5], t.Name, 3)
+    end
     drawOptional(damageEntry, t.Damage)
     drawOptional(armorClassEntry, t.ArmorClass)
     drawOptional(hitPointsEntry, t.HitPoints)
@@ -605,19 +600,6 @@ autohook(0x41E928, function(d)
 
     drawOptional(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST], t.EffectsHeader)
     drawOptional(deferredTextCallParams[CALL_PARAM_RESISTANCES], t.ResistancesHeader)
-
-    --[[
-        simpleParam("Attack", attackEntry)
-    simpleParam("Damage", damageEntry)
-    simpleParam("ArmorClass", armorClassEntry)
-    simpleParam("HitPoints", hitPointsEntry)
-    if spellFirstEntry then
-        simpleParam("SpellFirst", spellFirstEntry)
-    end
-    if spellSecondEntry then
-        simpleParam("SpellSecond", spellSecondEntry)
-    end
-    ]]
 
     local function drawMultipleTexts(textEntries, deferredEntry, xadd, yadd)
         local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor = unpack(deferredEntry)
@@ -628,42 +610,70 @@ autohook(0x41E928, function(d)
     end
     -- effects
     if t.Effects then
-        drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, 10)
+        local lineHeight = u1[effectsHeaderEntry[2] + 5]
+        drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, lineHeight - 3)
     end
     -- resistances
     if t.Resistances then
-        drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, 10)
+        local lineHeight = u1[resistancesEntry[2] + 5]
+        drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, lineHeight - 3)
     end
-    -- x, y = getCoordsFromDeferredCall(effectsHeaderEntry)
-    -- if t.EffectsHeader then
-    --     drawFromEntry(effectsHeaderEntry, t.EffectsHeader, x, y)
-    --     --writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(t.EffectsHeader), opaque, bottom, shadowColor)
-    -- end
-    -- y = y + 12 -- todo
-
-    -- for i, effectStr in ipairs(t.Effects) do
-    --     drawFromEntry(effectsHeaderEntry, effectStr, x + 13, y)
-    --     --writeTextInTooltip(dlg, fontPtr, x + 13, y, color, mem.topointer(effectStr), opaque, bottom, shadowColor)
-    --     y = y + 12
-    -- end
 end)
---function events.BuildMonsterInformationBox(t) if t.EffectsHeader then t.EffectsHeader = "lol"; table.insert(t.Effects, 1, "first"); table.insert(t.Effects, "second") end end
 
 -- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
 function events.BuildMonsterInformationBox(t)
-    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", "Damage:", 0, "500-1000 (phys)")
+    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
     t.SpellSecond = nil
-    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", "Spell:", 0, "Fireball (100-200)")
-    t.Tooltip.Width = t.Tooltip.Width + 20
-    t.Tooltip.Right_ = t.Tooltip.Right_ + 20
+    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
+    --t.Tooltip.Width = t.Tooltip.Width + 20
+    --t.Tooltip.Right_ = t.Tooltip.Right_ + 20
+    -- note: in 2.3 MMExt and above, you can use Game.FontSmallnum:Draw(...) font methods to draw text
+    --t.DrawCustomText("Level: " .. StrColor(0, 0, 0, t.Monster.Level), Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
+
+    local mon = t.Monster
+    local function canIdentify(what)
+        local tt = {Monster = mon}
+        -- note: missing t.Player, t.PlayerIndex, t.Level, t.Mastery, and all 5 AllowXXX parameters - will error if event handler uses them
+        events.call("CanIdentifyMonster", t)
+        return tt[what] and 1 or 0
+    end
+    local str
+
+    -- show level in monster right click info (requires novice ID monster)
+    if canIdentify("Novice") then
+        str = "Level\f00000\t046" .. mon.Level
+    else
+        str = "Level\f00000\t046?"
+    end
+    t.DrawCustomText(str, Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
+
+    -- show bonus in monster right click info (requires master ID monster)
+    local shift = tostring(MS and MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
+    shift = string.rep("0", 3 - shift:len()) .. shift
+    local invBonus = table.invert(const.MonsterBonus)
+
+    local hasBothSpells = mon.Spell > 0 and mon.Spell2 > 0
+    if canIdentify("Master") then
+        local bonus, mul = mon.Bonus, mon.BonusMul
+        str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
+    else
+        str = "Bonus\f00000\t" .. shift .. "?"
+    end
+    t.DrawCustomText(str, Game.Smallnum_fnt, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), t.COLOR_LABEL, 0, 0, 0)
 end
 
 --mem.autohook(0x0041D912, function(d) local tooltip = structs.Dlg:new(d.edx); tooltip.Width = tooltip.Width + 20; tooltip.Right_ = tooltip.Right_ + 20 end)
 
 -- change monster tooltip size
--- TODO: dialog is expanded in both directions, which causes it to look weird. Adjust position as well?
 asmpatch(0x41689C, [[
+    push ecx
+    mov ecx, 0x160
     mov eax,0x140 ; default size for both
-    mov dword ptr [ebp-0x64], 0x160 ; width
+    mov dword ptr [ebp-0x64], ecx ; width
     mov dword ptr [ebp-0x60], eax; height
+
+    ; fix right pixel
+    add [ebp - 0x5C], ecx
+
+    pop ecx
 ]], 0xB)

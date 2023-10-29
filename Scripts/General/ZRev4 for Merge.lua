@@ -1073,37 +1073,7 @@ end
 -- identify monster gives ability to do critical hits
 
 if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
-	mem.nop2(0x41E07A, 0x41E0EF)
-	local function masteryStr(mas)
-		return (select(mas, "Novice", "Expert", "Master", "GM"))
-	end
-	hook(0x41E07A, function(d)
-		local t = {}
-		t.MonsterIndex, t.Monster = internal.GetMonster(u4[d.ebp - 0x10])
-		if Game.CurrentPlayer ~= -1 then
-			t.Player = Party[Game.CurrentPlayer]
-			t.PlayerIndex = Game.CurrentPlayer
-		end
-		t.Level, t.Mastery = SplitSkill(d.eax)
-		for mas = const.Novice, const.GM do
-			t["Allow" .. masteryStr(mas)] = t.Mastery == const.GM or t.Level * t.Mastery >= t.Monster.Level
-		end
-		local allowSpells
-		for i, pl in Party do
-			if select(2, SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster))) >= 3 then
-				allowSpells = true
-				break
-			end
-		end
-		t.AllowSpells = allowSpells
-		events.call("CanIdentifyMonster", t)
-		local masteryOffsets = {d.ebp - 0x1C, d.ebp - 0x24, d.ebp - 0x14, d.ebp - 0x34}
-		for mas = const.Novice, const.GM do
-			u4[masteryOffsets[mas] ] = t["Allow" .. masteryStr(mas)] and 1 or 0
-		end
-		u4[d.ebp - 0x28] = t.AllowSpells and 1 or 0
-	end)
-
+	--[=[
 	asmpatch(0x41E07F, [[
 		jmp @dontshow ; to test new id monster event
 		cmp ecx, 4
@@ -1123,9 +1093,7 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 		@dontshow: 
 		jmp absolute 0x41E0EF
 	]], 0x70)
-	
-	-- skip small chunk of code taken care of by our hook function
-	asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
+	--]=]
 
 	function events.CanIdentifyMonster(t)
 		local maxS, maxM = 0, 0
@@ -1213,28 +1181,29 @@ if MS.Rev4ForMergeRemakeIdentifyMonster == 1 then
 			Game[descKey][const.Skills.IdentifyMonster] = IdMonsterDescriptions[i]
 		end
 	end
-else -- only makes identify monster shared skill, no other changes
-	mem.nop2(0x41E07A, 0x41E086)
-	hook(0x41E07A, function(d)
-		local maxS, maxM = 0, 0
-		for _, pl in Party do
-			if pl:IsConscious() then
-				local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
-				-- id monster bonus
-				local maxBonus = 0
-				for item, slot in pl:EnumActiveItems(false) do
-					if item.Bonus == 21 then
-						maxBonus = max(maxBonus, item.BonusStrength)
-					end
-				end
-				if s + maxBonus > maxS then
-					maxS = s + maxBonus
-				end
-				maxM = max(maxM, m)
-			end
-		end
-		d.edi, d.eax = maxS, maxM
-	end)
+else -- only makes identify monster shared skill, no other changes 
+	-- TODO: fix!!!
+	-- mem.nop2(0x41E07A, 0x41E086)
+	-- hook(0x41E07A, function(d)
+	-- 	local maxS, maxM = 0, 0
+	-- 	for _, pl in Party do
+	-- 		if pl:IsConscious() then
+	-- 			local s, m = SplitSkill(pl.Skills[const.Skills.IdentifyMonster])
+	-- 			-- id monster bonus
+	-- 			local maxBonus = 0
+	-- 			for item, slot in pl:EnumActiveItems(false) do
+	-- 				if item.Bonus == 21 then
+	-- 					maxBonus = max(maxBonus, item.BonusStrength)
+	-- 				end
+	-- 			end
+	-- 			if s + maxBonus > maxS then
+	-- 				maxS = s + maxBonus
+	-- 			end
+	-- 			maxM = max(maxM, m)
+	-- 		end
+	-- 	end
+	-- 	d.edi, d.eax = maxS, maxM
+	-- end)
 end
 
 -- remove stealing and buff monster stats to compensate

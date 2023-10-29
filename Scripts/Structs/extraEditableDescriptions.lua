@@ -524,11 +524,20 @@ autohook(0x41E928, function(d)
     local t = {}
     t.Monster = Game.DialogLogic.MonsterInfoMonster
     t.Tooltip = structs.Dlg:new(u4[d.ebp - 8])
-    local function simpleParam(name, entry)
-        t[name] = mem.string(entry[6])
-        t["Identified" .. name] = entry[10]
+    local function addFormattingArgs(t, entry, centered)
+        if centered then
+            t.Color, t.ReduceLineHeight = entry[5], entry[7]
+        else
+            t.Font, t.Color, t.ShadowColor, t.Bottom, t.Opaque = entry[2], entry[5], entry[7], entry[8], entry[9]
+            t.X, t.Y = entry[3], entry[4]
+        end
     end
-    simpleParam("Name", nameEntry)
+    local function simpleParam(name, entry, centered)
+        t[name] = {Text = mem.string(entry[6])}
+        t["Identified" .. name] = entry[10]
+        addFormattingArgs(t[name], entry, centered)
+    end
+    simpleParam("Name", nameEntry, true)
     simpleParam("Attack", attackEntry)
     simpleParam("Damage", damageEntry)
     simpleParam("ArmorClass", armorClassEntry)
@@ -543,16 +552,20 @@ autohook(0x41E928, function(d)
     -- header and multiple lines, numRows excludes header
     local function complexParam(headerField, itemsField, identifiedField, firstEntryIndex, numRows)
         local entryHeader = deferredTextCallParams[firstEntryIndex]
-        t[headerField] = mem.string(entryHeader[6])
+        t[headerField] = {Text = mem.string(entryHeader[6])}
+        addFormattingArgs(t[headerField], entryHeader)
         t[itemsField] = {}
         for i = firstEntryIndex + 1, firstEntryIndex + numRows do
             local entry = deferredTextCallParams[i]
             -- effects and resistances are in form of table {Text = "Fire", Id = 0} in original order, but finally only text is used
             -- Id is not present in case of effects "None" text entry
             local extra = entry[11] or -1
-            table.insert(t[itemsField], {Text = mem.string(entry[6]), Id = extra > -1 and extra or nil}) -- extra param
+            local e = {Text = mem.string(entry[6]), Id = extra > -1 and extra or nil}
+            table.insert(t[itemsField], e) -- extra param
+            addFormattingArgs(e, entry)
         end
         t[identifiedField] = entryHeader[10] -- effects identify result is stored in header field
+        entryHeader.UseIndividualTextCoordinates = false
     end
     -- effects
     complexParam("EffectsHeader", "Effects", "IdentifiedEffects", CALL_PARAM_EFFECTS_FIRST, effectTextRows)
@@ -574,23 +587,28 @@ autohook(0x41E928, function(d)
 
     -- draw text
 
-    local function drawFromEntry(entry, text, x, y)
-        local dlg, fontPtr, xx, yy, color, _, opaque, bottom, shadowColor = unpack(entry)
-        x, y = x or xx, y or yy
-        writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(text), opaque, bottom, shadowColor)
+    local function drawFromEntry(entry, params, x, y, centered)
+        if centered then
+            call(0x44AAE3, 2, entry[1], entry[2], entry[3], entry[4], params.Color or entry[5], assert(params.Text, "Missing text"), params.ReduceLineHeight or 3)
+        else
+            local dlg, fontPtr, xx, yy, color, _, opaque, bottom, shadowColor = unpack(entry)
+            fontPtr, color, opaque, bottom, shadowColor = params.Font or fontPtr, params.Color or color, params.Opaque or opaque, params.Bottom or bottom, params.ShadowColor or shadowColor
+            x, y = params.X or x or xx, params.Y or y or yy
+            writeTextInTooltip(dlg, fontPtr, x, y, color, mem.topointer(assert(params.Text, "Missing text")), opaque, bottom, shadowColor)
+        end
     end
 
     -- if nil or false, drawing is skipped for particular line
-    local function drawOptional(entry, str)
-        if entry and str then -- spells entry can be nil
-            drawFromEntry(entry, str)
+    local function drawOptional(entry, params, centered)
+        if entry and params then -- spells entry can be nil
+            drawFromEntry(entry, params, nil, nil, centered)
         end
     end
     -- name
     --call(0x40F247, 2, 0xFF, 0xFF, 0x9B) -- set text formatting?
     if nameEntry and t.Name then
         -- draw centered
-        call(0x44AAE3, 2, nameEntry[1], nameEntry[2], nameEntry[3], nameEntry[4], nameEntry[5], t.Name, 3)
+        drawOptional(nameEntry, t.Name, true)
     end
     drawOptional(damageEntry, t.Damage)
     drawOptional(armorClassEntry, t.ArmorClass)
@@ -601,32 +619,39 @@ autohook(0x41E928, function(d)
     drawOptional(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST], t.EffectsHeader)
     drawOptional(deferredTextCallParams[CALL_PARAM_RESISTANCES], t.ResistancesHeader)
 
-    local function drawMultipleTexts(textEntries, deferredEntry, xadd, yadd)
+    local function drawMultipleTexts(headerEntry, textEntries, deferredEntry, xadd, yadd)
         local dlg, fontPtr, x, y, color, _, opaque, bottom, shadowColor = unpack(deferredEntry)
+        xadd, yadd = headerEntry.XAdd or xadd, headerEntry.YAdd or yadd
         for i = 1, #textEntries do
             local mul = i - 1
-            writeTextInTooltip(dlg, fontPtr, x + xadd * mul, y + yadd * mul, color, textEntries[i].Text, opaque, bottom, shadowColor)
+            local params = textEntries[i]
+            local fontPtr, color, opaque, bottom, shadowColor = params.Font or fontPtr, params.Color or color, params.Opaque or opaque, params.Bottom or bottom, params.ShadowColor or shadowColor
+            local xx, yy = x + xadd * mul, y + yadd * mul
+            if headerEntry.UseIndividualTextCoordinates then
+                xx, yy = params.X or xx, params.Y or yy
+            end
+            writeTextInTooltip(dlg, fontPtr, xx, yy, color, params.Text, opaque, bottom, shadowColor)
         end
     end
     -- effects
     if t.Effects then
         local lineHeight = u1[effectsHeaderEntry[2] + 5]
-        drawMultipleTexts(t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, lineHeight - 3)
+        drawMultipleTexts(t.EffectsHeader, t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, lineHeight - 3)
     end
     -- resistances
     if t.Resistances then
         local lineHeight = u1[resistancesEntry[2] + 5]
-        drawMultipleTexts(t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, lineHeight - 3)
+        drawMultipleTexts(t.ResistancesHeader, t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, lineHeight - 3)
     end
 end)
 
 -- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
 function events.BuildMonsterInformationBox(t)
-    t.Damage = StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
+    t.Damage.Text = StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
     t.SpellSecond = nil
-    t.SpellFirst = StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
-    --t.Tooltip.Width = t.Tooltip.Width + 20
-    --t.Tooltip.Right_ = t.Tooltip.Right_ + 20
+    t.SpellFirst.Text = StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
+    t.EffectsHeader.X = t.EffectsHeader.X + 20
+
     -- note: in 2.3 MMExt and above, you can use Game.FontSmallnum:Draw(...) font methods to draw text
     --t.DrawCustomText("Level: " .. StrColor(0, 0, 0, t.Monster.Level), Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
 
@@ -677,3 +702,44 @@ asmpatch(0x41689C, [[
 
     pop ecx
 ]], 0xB)
+
+-- defer placing hook, because it conflicts with "RemoveSkillValueLimits.lua" in Revamp
+function events.GameInitialized1()
+    -- "can identify monster" event
+    mem.nop2(0x41E07A, 0x41E0EF)
+    local function masteryStr(mas)
+        return (select(mas, "Novice", "Expert", "Master", "GM"))
+    end
+    hook(0x41E07A, function(d)
+        local t = {}
+        t.MonsterIndex, t.Monster = internal.GetMonster(u4[d.ebp - 0x10])
+        if Game.CurrentPlayer ~= -1 then
+            t.Player = Party[Game.CurrentPlayer]
+            t.PlayerIndex = Game.CurrentPlayer
+        end
+        t.Level, t.Mastery = SplitSkill(d.eax)
+        for mas = const.Novice, const.GM do
+            t["Allow" .. masteryStr(mas)] = t.Mastery == const.GM or t.Level * t.Mastery >= t.Monster.Level
+        end
+        local allowSpells
+        for i, pl in Party do
+            if select(2, SplitSkill(pl:GetSkill(const.Skills.IdentifyMonster))) >= 3 then
+                allowSpells = true
+                break
+            end
+        end
+        t.AllowSpells = allowSpells
+        events.call("CanIdentifyMonster", t)
+        local masteryOffsets = {d.ebp - 0x1C, d.ebp - 0x24, d.ebp - 0x14, d.ebp - 0x34}
+        for mas = const.Novice, const.GM do
+            u4[masteryOffsets[mas] ] = t["Allow" .. masteryStr(mas)] and 1 or 0
+        end
+        u4[d.ebp - 0x28] = t.AllowSpells and 1 or 0
+    end)
+
+    -- skip a big batch of NOPs
+    asmpatch(0x41E07F, "jmp absolute 0x41E0EF")
+        
+    -- skip small chunk of code taken care of by our hook function
+    asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
+end

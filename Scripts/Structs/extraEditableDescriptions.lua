@@ -426,7 +426,7 @@ hook(0x41E027, function(d)
     -- setup variables, because it's first and always called
     setupVariables()
     -- insert name
-    insertDeferredCallParams(d, true)
+    insertDeferredCallParams(d, true)!!! ret pop count
     CALL_PARAM_NAME = #deferredTextCallParams
 end)
 
@@ -573,7 +573,7 @@ autohook(0x41E928, function(d)
     -- resistances
     complexParam("ResistancesHeader", "Resistances", "IdentifiedResistances", CALL_PARAM_RESISTANCES, 10)
 
-    function t.DrawCustomText(text, font, x, y, color, shadowColor, bottom, opaque) -- TODO: add font args etc.
+    function t.DrawCustomText(text, font, x, y, color, shadowColor, bottom, opaque)
         writeTextInTooltip(t.Tooltip, font, x, y, color, text, opaque, bottom, shadowColor)
     end
     t.COLOR_LABEL = 0xE7F3 -- "Hit Points", "Armor Class" etc.
@@ -606,6 +606,7 @@ autohook(0x41E928, function(d)
     end
     -- name
     --call(0x40F247, 2, 0xFF, 0xFF, 0x9B) -- set text formatting?
+    -- not those break
     if nameEntry and t.Name then
         -- draw centered
         drawOptional(nameEntry, t.Name, true)
@@ -634,6 +635,7 @@ autohook(0x41E928, function(d)
         end
     end
     -- effects
+    -- not those break
     if t.Effects then
         local lineHeight = u1[effectsHeaderEntry[2] + 5]
         drawMultipleTexts(t.EffectsHeader, t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, lineHeight - 3)
@@ -653,7 +655,6 @@ function events.BuildMonsterInformationBox(t)
     t.EffectsHeader.X = t.EffectsHeader.X + 20
 
     -- note: in 2.3 MMExt and above, you can use Game.FontSmallnum:Draw(...) font methods to draw text
-    --t.DrawCustomText("Level: " .. StrColor(0, 0, 0, t.Monster.Level), Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
 
     local mon = t.Monster
     local function canIdentify(what)
@@ -687,21 +688,31 @@ function events.BuildMonsterInformationBox(t)
     t.DrawCustomText(str, Game.Smallnum_fnt, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), t.COLOR_LABEL, 0, 0, 0)
 end
 
---mem.autohook(0x0041D912, function(d) local tooltip = structs.Dlg:new(d.edx); tooltip.Width = tooltip.Width + 20; tooltip.Right_ = tooltip.Right_ + 20 end)
-
 -- change monster tooltip size
-asmpatch(0x41689C, [[
-    push ecx
-    mov ecx, 0x160
-    mov eax,0x140 ; default size for both
-    mov dword ptr [ebp-0x64], ecx ; width
-    mov dword ptr [ebp-0x60], eax; height
+local prev
+function ChangeMonsterTooltipSize(width, height)
+    if prev then
+        mem.hookfree(prev) -- free previous code memory
+    end
+    prev = HookManager{width = width or 0x140, height = height or 0x140}.asmpatch(0x41689C, [[
+        push ecx
+        mov ecx, %width%;0x160
+        mov eax, %height%;0x140 ; default size for both
+        mov dword ptr [ebp-0x64], ecx ; width
+        mov dword ptr [ebp-0x60], eax; height
 
-    ; fix right pixel
-    add [ebp - 0x5C], ecx
+        ; fix right pixel
+        add [ebp - 0x5C], ecx
+        ; fix bottom pixel
+        add [ebp - 0x58], eax
 
-    pop ecx
-]], 0xB)
+        pop ecx
+    ]], 0xB)
+end
+
+function events.GameInitialized1()
+    ChangeMonsterTooltipSize(0x160, nil)
+end
 
 -- defer placing hook, because it conflicts with "RemoveSkillValueLimits.lua" in Revamp
 function events.GameInitialized1()

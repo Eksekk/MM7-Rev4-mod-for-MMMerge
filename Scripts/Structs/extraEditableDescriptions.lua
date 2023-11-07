@@ -364,25 +364,29 @@ local function writeTextInTooltip(dlg, fontPtr, x, y, color, text, opaque, botto
     return call(0x44A50F, 2, dlg, fontPtr, x, y, color, text, opaque, bottom, shadowColor)
 end
 
-local function insertDeferredCallParams(d, identified, ...)
+local function insertDeferredCallParamsInternal(d, stackNum, textParamIndex, identified, ...)
     identified = identified == nil and true or identified -- default true if not specified
-    local par = {d:getparams(2, 7)}
+    local par = {d:getparams(2, stackNum)}
     table.insert(par, identified)
     for i = 1, select("#", ...) do
         table.insert(par, (select(i, ...)))
     end
     table.insert(deferredTextCallParams, par)
-    d:ret(7*4) -- pop 7 arguments
+    d:ret(stackNum*4) -- pop arguments
     -- copy text, because it will be overwritten
     local last = deferredTextCallParams[#deferredTextCallParams]
-    local str = mem.string(last[6])
+    local str = mem.string(last[textParamIndex])
     local space = alloc(#str + 1)
     mem.copy(space, str .. string.char(0))
-    last[6] = space
+    last[textParamIndex] = space
 end
 
-local function getCoordsFromDeferredCall(def)
-    return def[3], def[4]
+local function insertDeferredCallParams(d, identified, ...)
+    insertDeferredCallParamsInternal(d, 7, 6, identified, ...)
+end
+
+local function insertDeferredCallParamsCentered(d, identified, ...)
+    insertDeferredCallParamsInternal(d, 5, 6, identified, ...)
 end
 
 local function monsterTooltipEvent(t)
@@ -426,7 +430,7 @@ hook(0x41E027, function(d)
     -- setup variables, because it's first and always called
     setupVariables()
     -- insert name
-    insertDeferredCallParams(d, true)!!! ret pop count
+    insertDeferredCallParamsCentered(d, true)
     CALL_PARAM_NAME = #deferredTextCallParams
 end)
 
@@ -534,7 +538,7 @@ autohook(0x41E928, function(d)
     end
     local function simpleParam(name, entry, centered)
         t[name] = {Text = mem.string(entry[6])}
-        t["Identified" .. name] = entry[10]
+        t["Identified" .. name] = entry[centered and 8 or 10]
         addFormattingArgs(t[name], entry, centered)
     end
     simpleParam("Name", nameEntry, true)

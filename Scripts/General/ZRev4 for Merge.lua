@@ -429,6 +429,48 @@ end)
 
 -- Celeste location near Walls of the Mist door can be used for another dungeon entrance (explained with "it's a portal")
 
+-- monster tooltip changes
+function events.BuildMonsterInformationBox(t)
+	-- for testing
+    -- t.Damage.Text = StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
+    -- t.SpellSecond = nil
+    -- t.SpellFirst.Text = StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
+    -- t.EffectsHeader.X = t.EffectsHeader.X + 20
+
+    -- note: in 2.3 MMExt and above, you can use Game.FontSmallnum:Draw(...) font methods to draw text
+
+    local mon = t.Monster
+    local function canIdentify(what)
+        local tt = {Monster = mon}
+        -- note: missing t.Player, t.PlayerIndex, t.Level, t.Mastery, and all 5 AllowXXX parameters - will error if event handler uses them
+        events.call("CanIdentifyMonster", t)
+        return tt[what] and 1 or 0
+    end
+    local str
+
+    -- show level in monster right click info (requires novice ID monster)
+    if canIdentify("Novice") then
+        str = "Level\f00000\t046" .. mon.Level
+    else
+        str = "Level\f00000\t046?"
+    end
+    t.DrawCustomText(str, Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
+
+    -- show bonus in monster right click info (requires master ID monster)
+    local shift = tostring(MS and MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
+    shift = string.rep("0", 3 - shift:len()) .. shift
+    local invBonus = table.invert(const.MonsterBonus)
+
+    local hasBothSpells = mon.Spell > 0 and mon.Spell2 > 0
+    if canIdentify("Master") then
+        local bonus, mul = mon.Bonus, mon.BonusMul
+        str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
+    else
+        str = "Bonus\f00000\t" .. shift .. "?"
+    end
+    t.DrawCustomText(str, Game.Smallnum_fnt, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), t.COLOR_LABEL, 0, 0, 0)
+end
+
 local monsterRightclickDataBuf = 0x5DF0E0
 
 local function moveLeft(amount)

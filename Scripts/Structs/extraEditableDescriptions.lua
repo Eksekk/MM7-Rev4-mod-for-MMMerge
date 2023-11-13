@@ -610,7 +610,6 @@ autohook(0x41E928, function(d)
     end
     -- name
     --call(0x40F247, 2, 0xFF, 0xFF, 0x9B) -- set text formatting?
-    -- not those break
     if nameEntry and t.Name then
         -- draw centered
         drawOptional(nameEntry, t.Name, true)
@@ -639,7 +638,6 @@ autohook(0x41E928, function(d)
         end
     end
     -- effects
-    -- not those break
     if t.Effects then
         local lineHeight = u1[effectsHeaderEntry[2] + 5]
         drawMultipleTexts(t.EffectsHeader, t.Effects, assert(deferredTextCallParams[CALL_PARAM_EFFECTS_FIRST + 1]), 0, lineHeight - 3)
@@ -650,47 +648,6 @@ autohook(0x41E928, function(d)
         drawMultipleTexts(t.ResistancesHeader, t.Resistances, assert(deferredTextCallParams[CALL_PARAM_RESISTANCES + 1]), 0, lineHeight - 3)
     end
 end)
-
--- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
-function events.BuildMonsterInformationBox(t)
-    t.Damage.Text = StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
-    t.SpellSecond = nil
-    t.SpellFirst.Text = StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
-    t.EffectsHeader.X = t.EffectsHeader.X + 20
-
-    -- note: in 2.3 MMExt and above, you can use Game.FontSmallnum:Draw(...) font methods to draw text
-
-    local mon = t.Monster
-    local function canIdentify(what)
-        local tt = {Monster = mon}
-        -- note: missing t.Player, t.PlayerIndex, t.Level, t.Mastery, and all 5 AllowXXX parameters - will error if event handler uses them
-        events.call("CanIdentifyMonster", t)
-        return tt[what] and 1 or 0
-    end
-    local str
-
-    -- show level in monster right click info (requires novice ID monster)
-    if canIdentify("Novice") then
-        str = "Level\f00000\t046" .. mon.Level
-    else
-        str = "Level\f00000\t046?"
-    end
-    t.DrawCustomText(str, Game.Smallnum_fnt, 86, 0xC4, t.COLOR_LABEL, 0, 0, 0)
-
-    -- show bonus in monster right click info (requires master ID monster)
-    local shift = tostring(MS and MS.Rev4ForMergeAddResistancePenetration == 1 and 50 or 70)
-    shift = string.rep("0", 3 - shift:len()) .. shift
-    local invBonus = table.invert(const.MonsterBonus)
-
-    local hasBothSpells = mon.Spell > 0 and mon.Spell2 > 0
-    if canIdentify("Master") then
-        local bonus, mul = mon.Bonus, mon.BonusMul
-        str = "Bonus\f00000\t" .. shift .. (bonus > 0 and (invBonus[bonus] .. "x" .. mul) or "None")
-    else
-        str = "Bonus\f00000\t" .. shift .. "?"
-    end
-    t.DrawCustomText(str, Game.Smallnum_fnt, 0xAA, 0x110 + (hasBothSpells and 0xB or 0), t.COLOR_LABEL, 0, 0, 0)
-end
 
 -- change monster tooltip size
 local prev
@@ -757,4 +714,27 @@ function events.GameInitialized1()
         
     -- skip small chunk of code taken care of by our hook function
     asmpatch(0x41E164, "jmp " .. 0x41E1A4 - 0x41E164)
+end
+
+-- TESTS, feel free to remove
+-- function events.BuildMonsterInformationBox(t) debug.Message(dump(t)) end
+function events.BuildMonsterInformationBox(t)
+    test1(t)
+end
+
+function test1(t)
+    t.EffectsHeader.Text = "abc-" .. t.EffectsHeader.Text .. "-cba" -- abc-Effects-cba
+    t.EffectsHeader.X = t.EffectsHeader.X + 30 -- moved right
+    t.Damage = false -- don't draw
+    t.SpellFirst.Text = "frieblla"
+    t.Resistances[2].Color = RGB(111, 111, 111)
+    for i, res in ipairs(t.Resistances) do
+        if i % 2 == 1 then
+            res.X = res.X - 20
+        else
+            res.X = res.X + 20
+        end
+    end
+    t.ResistancesHeader.UseIndividualTextCoordinates = true
+    t.HitPoints.Color = RGB(111, 111, 111)
 end

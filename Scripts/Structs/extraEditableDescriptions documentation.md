@@ -33,13 +33,13 @@ A basic table for single tooltip element looks like this:
 }
 ```
 
-Identified arguments allow you to check whether the real value of field is drawn, or that "?" placeholder. Setting them to different values won't do anything ATM.
+Identified arguments allow you to check whether the real value of field would be drawn, or that "?" placeholder. Setting them to different values won't do anything ATM.
 
 Advanced table argument (`Effects` and `Resistances`) is an array of basic tables with one extra parameter and looks like this:
 ```lua
 {
     {Text = "test", Font = Game.Comic_fnt, Color = 0x57AA, ShadowColor = 0, Bottom = 0, Opaque = 0, X = 157, Y = 123, Id = 5},
-    -- "Id" parameter is id of current item (for effects it is const.MonsterBuff id, and for resistances <TODO>)
+    -- "Id" parameter is id of current item (for effects it is const.MonsterBuff id, and for resistances its index in tooltip)
     -- more elements...
 }
 ```
@@ -57,5 +57,13 @@ ChangeMonsterTooltipSize(0x200, nil) -- passing nil for any argument restores de
 ```lua
 local x = StrColor(t.COLOR_LABEL, "Damage")
 ```
+If you want to change just a single entry color, do something like:
+```lua
+t.Resistances[2].Color = RGB(111, 111, 111) -- RGB() packs rgb values into single game-readable value
+```
 
-There is also new freestanding (global) function called `StrFormatGame()`. TODO (also copy paste examples)..................
+There is also new freestanding (global) function called `StrFormatGame()`. You can use it to format original game format strings with different values. Those strings are not provided yet, so best is probably using other `Str*` functions.
+```lua
+StrFormatGame("%s\f%05u\t080%s\n", StrColor(t.COLOR_LABEL, "Damage"), 0, "500-1000 (phys)")
+StrFormatGame("%s\f%05u\t060%s\n", StrColor(t.COLOR_LABEL, "Spell"), 0, "Fireball (100-200)")
+```

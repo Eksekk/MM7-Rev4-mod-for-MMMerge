@@ -1,11 +1,18 @@
 Note bit	Autonote Text	Category		
-1	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ?  Riddle Three: ?  Prison + ? + ?"	Misc		
-2	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ""Inside.""  Riddle Three: ?  Prison + Inside + ?"	Misc		
-3	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ?  Riddle Three: ""Egg.""  Prison + ? + Egg"	Misc		
-4	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ""Inside.""  Riddle Three: ""Egg.""  Prison + Inside + Egg"	Misc		
-5	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ""Inside.""  Riddle Three: ?  ? + Inside + ?"	Misc		
-6	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ""Inside.""  Riddle Three: ""Egg.""  ? + Inside + Egg"	Misc		
-7	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ?  Riddle Three: ""Egg.""  ? + ? + Egg"	Misc		
+1	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ?  Riddle Three: ?
+Prison + ? + ?"	Misc		
+2	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ""Inside.""  Riddle Three: ?
+Prison + Inside + ?"	Misc		
+3	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ?  Riddle Three: ""Egg.""
+Prison + ? + Egg"	Misc		
+4	"Destroyer's Riddles. Riddle One: ""Prison.""  Riddle Two: ""Inside.""  Riddle Three: ""Egg.""
+Prison + Inside + Egg"	Misc		
+5	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ""Inside.""  Riddle Three: ?
+? + Inside + ?"	Misc		
+6	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ""Inside.""  Riddle Three: ""Egg.""
+? + Inside + Egg"	Misc		
+7	"Destroyer's Riddles. Riddle One: ?  Riddle Two: ?  Riddle Three: ""Egg.""
+? + ? + Egg"	Misc		
 8	Obelisk message #1: theunicornkin	Obelisk		
 9	Obelisk message #2: gholdsold	Obelisk		
 10	Obelisk message #3: thornskey	Obelisk		
@@ -562,17 +569,17 @@ Note bit	Autonote Text	Category
 561	Promoted to Honorary Hero	Misc		
 562	Promoted to Villain	Misc		
 563	Promoted to Honorary Villain	Misc		
-564	Joined the Elemental Guild	Misc		
-565	Joined the Self Guild	Misc		
-566	Joined the Air Guild	Misc		
-567	Joined the Earth Guild	Misc		
-568	Joined the Fire Guild	Misc		
-569	Joined the Water Guild	Misc		
-570	Joined the Body Guild	Misc		
-571	Joined the Mind Guild	Misc		
-572	Joined the Spirit Guild	Misc		
-573	Joined the Light Guild	Misc		
-574	Joined the Dark Guild	Misc		
+564	Joined the Elemental Guild in Antagarich	Misc		
+565	Joined the Self Guild in Antagarich	Misc		
+566	Joined the Air Guild in Antagarich	Misc		
+567	Joined the Earth Guild in Antagarich	Misc		
+568	Joined the Fire Guild in Antagarich	Misc		
+569	Joined the Water Guild in Antagarich	Misc		
+570	Joined the Body Guild in Antagarich	Misc		
+571	Joined the Mind Guild in Antagarich	Misc		
+572	Joined the Spirit Guild in Antagarich	Misc		
+573	Joined the Light Guild in Antagarich	Misc		
+574	Joined the Dark Guild in Antagarich	Misc		
 575	Promoted to Priest	Misc		
 576	Promoted to Honorary Priest	Misc		
 577	Promoted to Priest of the Light	Misc		
@@ -625,41 +632,41 @@ Note bit	Autonote Text	Category
 624	Received Promotion to Honorary Battle Mage	Misc		
 625	Received Promotion to Warrior Mage	Misc		
 626	Received Promotion to Honorary Warrior Mage	Misc		
-627	Joined the Elemental Guild	Misc		
-628	Joined the Self Guild	Misc		
+627	Joined the Elemental Guild in Enroth	Misc		
+628	Joined the Self Guild in Enroth	Misc		
 629	Joined the Buccaneer's Lair Guild	Misc		
 630	Joined the Protection Services Guild	Misc		
 631	Joined the Smugglers' Guild	Misc		
 632	Joined the Blade's End Guild	Misc		
 633	Joined the Duelists' Edge Guild	Misc		
 634	Joined the Berserker's Fury Guild	Misc		
-635	Joined the Air Guild	Misc		
-636	Joined the Earth Guild	Misc		
-637	Joined the Fire Guild	Misc		
-638	Joined the Water Guild	Misc		
-639	Joined the Body Guild	Misc		
-640	Joined the Mind Guild	Misc		
-641	Joined the Spirit Guild	Misc		
-642	Joined the Light Guild	Misc		
-643	Joined the Dark Guild	Misc		
+635	Joined the Air Guild in Enroth	Misc		
+636	Joined the Earth Guild in Enroth	Misc		
+637	Joined the Fire Guild in Enroth	Misc		
+638	Joined the Water Guild in Enroth	Misc		
+639	Joined the Body Guild in Enroth	Misc		
+640	Joined the Mind Guild in Enroth	Misc		
+641	Joined the Spirit Guild in Enroth	Misc		
+642	Joined the Light Guild in Enroth	Misc		
+643	Joined the Dark Guild in Enroth	Misc		
 644	Collected %u bounties	Misc		
 645	%u Deaths	Misc		
-646	Served %u Prison Terms	Misc		
-647	%u Page Arena Victories	Misc		
-648	%u Squire Arena Victories	Misc		
-649	%u Knight Arena Victories	Misc		
-650	%u Lord Arena Victories	Misc		
-651	Won Arcomage at The Grog and Grub in the Dagger Wound Islands.	Misc		
-652	Won Arcomage at Kessel's Kantina in Ravenshore.	Misc		
-653	Won Arcomage at the Profit House in Alvar.	Misc		
-654	Won Arcomage at the Parched Throat in the Ironsand Desert.	Misc		
-655	Won Arcomage at the Dragon's Blood Inn in Garrote Gorge.	Misc		
-656	Won Arcomage at the Black Company in Shadowspire.	Misc		
-657	Won Arcomage at the Traveler's Rest in Murmurwoods.	Misc		
-658	Won Arcomage at the Bull's Eye Inn in Ravage Roaming.	Misc		
-659	Won Arcomage at the Pirate's Rest in Regna.	Misc		
-660	Won Arcomage at The Dancing Ogre in Ravenshore.	Misc		
-661	Won Arcomage at Miho's Roadhouse in Alvar.	Misc		
+646	Won Arcomage at The Grog and Grub in the Dagger Wound Islands.	Misc		
+647	Won Arcomage at Kessel's Kantina in Ravenshore.	Misc		
+648	Won Arcomage at the Profit House in Alvar.	Misc		
+649	Won Arcomage at the Parched Throat in the Ironsand Desert.	Misc		
+650	Won Arcomage at the Dragon's Blood Inn in Garrote Gorge.	Misc		
+651	Won Arcomage at the Black Company in Shadowspire.	Misc		
+652	Won Arcomage at the Traveler's Rest in Murmurwoods.	Misc		
+653	Won Arcomage at the Bull's Eye Inn in Ravage Roaming.	Misc		
+654	Won Arcomage at the Pirate's Rest in Regna.	Misc		
+655	Won Arcomage at The Dancing Ogre in Ravenshore.	Misc		
+656	Won Arcomage at Miho's Roadhouse in Alvar.	Misc		
+657	%u Page Arena Victories	Misc		
+658	%u Squire Arena Victories	Misc		
+659	%u Knight Arena Victories	Misc		
+660	%u Lord Arena Victories	Misc		
+661	Won Arcomage at Two Palms Tavern in Emerald Island.	Misc		
 662	Won Arcomage at the On the House in Harmondale.	Misc		
 663	Won Arcomage at the Griffin's Rest in the City of Steadwick.	Misc		
 664	Won Arcomage at the Emerald Inn in The Tularian Forest.	Misc		
@@ -695,4 +702,25 @@ Note bit	Autonote Text	Category
 694	Protection from Magic = Remove Curse + Water Breathing	potion		
 695	Protection from Magic = Cure Insanity + Bless	potion		
 696	Killed all of the Basilisks in the Ancient Troll Home.	Misc		
-697	0	Misc		
+697	Won Arcomage at A Lonely Knight in New Sorpigal.	Misc		
+698	Won Arcomage at The Imp Slapper in Misty Islands.	Misc
+699	Won Arcomage at An Arrow's Flight in Eel Infested Waters.	Misc
+700	Won Arcomage at A Stone's Throw in Eel Infested Waters.	Misc
+701	Won Arcomage at The King's Crown in Castle Ironfist.	Misc
+702	Won Arcomage at The Will o' Wisp in Castle Ironfist.	Misc
+703	Won Arcomage at The Goblin's Tooth in Bootleg Bay.	Misc
+704	Won Arcomage at The Broken Cutlass in Bootleg Bay.	Misc
+705	Won Arcomage at Anchors Away in Silver Cove.	Misc
+706	Won Arcomage at The Grove in Silver Cove.	Misc
+707	Won Arcomage at The Haunt in Mire of the Damned.	Misc
+708	Won Arcomage at The Rusted Shield in Mire of the Damned.	Misc
+709	Won Arcomage at Viktor's Hall in Free Haven.	Misc
+710	Won Arcomage at The Echoing Whisper in Free Haven.	Misc
+711	Won Arcomage at Rockham's Pride in Free Haven.	Misc
+712	Won Arcomage at Rime and Reason in Frozen Highlands.	Misc
+713	Won Arcomage at The Frosty Tankard in Frozen Highlands.	Misc
+714	Won Arcomage at The Oasis in Blackshire.	Misc
+715	Won Arcomage at The Howling Moon in Blackshire.	Misc
+716	Won Arcomage at The Broken Promise in Kriegspire.	Misc
+717	Won Arcomage at The Last Chance in Paradise Valley.	Misc
+718	0	Misc

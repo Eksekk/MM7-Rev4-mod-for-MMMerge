@@ -1,0 +1,31 @@
+	Placed Monster Names
+1	guard
+2	Cleric of Baa
+3	High Priest of Baa
+4	Morcarack
+5	Super Vampire
+6	Xenofex
+7	William Setag
+8	Blue Guardian
+9	Jester's Folly
+10	Robert the Wise
+11	Judas the Geek
+12	Grognard
+13	Hairbaugh
+14	Coding Wizard
+15	Lord Godwinson
+16	Map Giver
+17	Count ZERO
+18	Wandering Peddler
+19	Messenger of the Saints
+20	Titan Czar
+21	Titan Mage
+22	Titan Raider
+23	Duke Bimbasto
+24	Sir Vilx of Stone City
+25	Zedd True Shot
+26	Pascal the Mad Mage
+27	Baron BunGleau
+28	Jester's Spawn
+29	Pascal's Minions
+30	0

@@ -43,4 +43,5 @@ end
 mappingTable[102] = 50 -- arcomage champion -> arcomage champion of antagarich
 oldToNew[41] = 50 -- arcomage champion
 
+-- returns mapping table from rev4 awards to newest merge awards and mapping table from rev4m pre-2024-03-21 awards to newest merge awards
 return mappingTable, oldToNew

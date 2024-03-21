@@ -986,3 +986,58 @@ do
 	assert(tlen(ArtifactBonuses[1348].SpellBonus) == 1) -- Faerie ring
 	ArtifactBonuses[1348].SpellBonus = nil
 end
+
+do
+	-- savegame conversion system
+	-- update savegame if older version is opened in newer, and for example some ids changed
+	-- very similar to merge's system, but here I will only update my stuff
+	-- FIXME: newer merge updates may mess up some of rev4m ids during their remapping! (because they assume there are merge versions of awards there, not rev4)
+
+	local function convert_oldest_2024_03_21()
+		local awardsOldToNew = assert(rev4m.misc.oldToNewTableAwards, "Old to new awards table not found")
+
+		for i, pl in Game.PlayersArray do -- convert all players
+			-- two-pass system, to ensure that exchanged indexes will be converted correctly
+			local newValues = {}
+			for old, new in pairs(awardsOldToNew) do
+				newValues[new] = pl.Awards[old]
+			end
+			for k, v in pairs(newValues) do
+				pl.Awards[k] = v
+			end
+		end
+	end
+
+	-- a table of conversions containing subtables with version into which we're converting and conversion function. Order is important!
+	local conversions = {
+		{ver = "2024-03-21", func = convert_oldest_2024_03_21},
+	}
+	local versionKey = "Rev4ForMergeSavegameVersion"
+	local currentVersion = "2024-03-21" -- new games will have this version in vars
+	local currentVersionIndex = table.findIf(conversions, function(v) return v.ver == currentVersion end)
+	if not currentVersionIndex then -- invalid value
+		debug.Message(format("Savegame version %s is not supported by this version of the mod", currentVersion))
+		currentVersion = nil
+	end
+	function events.AfterNewGameAutosave()
+		vars[versionKey] = currentVersion
+	end
+
+	events.AddFirst("LoadMap", function()
+		local ver = vars[versionKey]
+		local index
+		if ver then
+			index = table.findIf(conversions, function(v) return v.ver == ver end)
+			if not index then
+				debug.Message(format("Savegame version %s is not supported by this version of the mod", ver))
+			end
+		else
+			index = 0
+		end
+		for i = index + 1, #conversions do
+			debug.Message(format("Converting savegame to version %s", conversions[i].ver))
+			pcall2(conversions[i].func)
+		end
+		vars[versionKey] = conversions[#conversions].ver
+	end)
+end

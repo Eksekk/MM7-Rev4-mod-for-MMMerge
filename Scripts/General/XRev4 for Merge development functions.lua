@@ -70,9 +70,11 @@ function getGlobalEvent(event)
 end
 
 do
-	local translationTableFromRev4ToMerge, oldToNewTable = require(rev4m.modulePaths.awardsTranslationTable)
+	local getDataFunc = require(rev4m.modulePaths.awardsTranslationTable)
+	local translationTableFromRev4ToMerge, oldToNewTable = getDataFunc()
+	assert(oldToNewTable ~= nil)
 	-- once I "release" a first version, I will be able to hardcode award conversions before that version and won't require second table anymore
-	tget(rev4m, "misc").oldToNewTableAwards = oldToNewTable
+	tget(_G, "rev4m", "misc").oldToNewTableAwards = oldToNewTable
 	-- awards.txt in merge is a shitshow (interspersed MM7/MM8 awards), that's why I'm using a translation table
 	function getAward(award)
 		if translationTableFromRev4ToMerge[award] ~= nil then

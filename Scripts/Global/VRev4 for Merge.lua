@@ -1,5 +1,6 @@
 local MS = Merge.ModSettings
 local changeChestItem, addChestItem, removeChestItem, findAndRemoveChestItem = _G.changeChestItem, _G.addChestItem, _G.removeChestItem, _G.findAndRemoveChestItem
+local format = string.format
 
 -- disable town portal on antagarich when not completed archmage quest or in The Gauntlet
 function events.CanCastTownPortal(t)
@@ -996,7 +997,7 @@ do
 	local function convert_oldest_2024_03_21()
 		local awardsOldToNew = assert(rev4m.misc.oldToNewTableAwards, "Old to new awards table not found")
 
-		for i, pl in Game.PlayersArray do -- convert all players
+		for i, pl in Party.PlayersArray do -- convert all players
 			-- two-pass system, to ensure that exchanged indexes will be converted correctly
 			local newValues = {}
 			for old, new in pairs(awardsOldToNew) do
@@ -1017,7 +1018,6 @@ do
 	local currentVersionIndex = table.findIf(conversions, function(v) return v.ver == currentVersion end)
 	if not currentVersionIndex then -- invalid value
 		debug.Message(format("Savegame version %s is not supported by this version of the mod", currentVersion))
-		currentVersion = nil
 	end
 	function events.AfterNewGameAutosave()
 		vars[versionKey] = currentVersion

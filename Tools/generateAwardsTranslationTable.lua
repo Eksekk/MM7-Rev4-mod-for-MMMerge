@@ -27,7 +27,6 @@ local function getMappings(rev4file, mergefile)
 end
 
 
-
 local mappingTable, _, newMergeTable = getMappings("tab\\AWARDS rev4.txt", "tab\\Awards merge.txt")
 
 local mappingTableOld, _, oldMergeTable = getMappings("tab\\AWARDS rev4.txt", "tab\\Awards merge 2022.08.02.txt")
@@ -44,4 +43,8 @@ mappingTable[102] = 50 -- arcomage champion -> arcomage champion of antagarich
 oldToNew[41] = 50 -- arcomage champion
 
 -- returns mapping table from rev4 awards to newest merge awards and mapping table from rev4m pre-2024-03-21 awards to newest merge awards
-return mappingTable, oldToNew
+
+-- workaround for require() being unable to return multiple values
+return function()
+	return mappingTable, oldToNew
+end
